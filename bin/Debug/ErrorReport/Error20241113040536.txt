@@ -1,0 +1,1 @@
+	The parameterized query '(@Sn nvarchar(13),@Ft int,@Lc nvarchar(4),@Pn nvarchar(4000),@Rm' expects the parameter '@Rb', which was not supplied.

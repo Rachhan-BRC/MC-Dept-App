@@ -1,0 +1,2 @@
+PosNo		BoxNo	ErrorDetails
+24-1101715	1	Stock not enough ( 0229 )

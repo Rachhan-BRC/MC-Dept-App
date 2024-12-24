@@ -1,0 +1,1010 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{520C53BB-80DF-427D-8866-DFA5BCC6F4D6}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>MachineDeptApp</RootNamespace>
+    <AssemblyName>MachineDeptApp</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Boeun Rachhan System_logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Office.Interop.Excel.15.0.4795.1001\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Admin\MachineTypeMasterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin\MachineTypeMasterForm.Designer.cs">
+      <DependentUpon>MachineTypeMasterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\MasterItemCheckForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin\MasterItemCheckForm.Designer.cs">
+      <DependentUpon>MasterItemCheckForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\MasterItemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin\MasterItemForm.Designer.cs">
+      <DependentUpon>MasterItemForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\SLOTMasterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin\SLOTMasterForm.Designer.cs">
+      <DependentUpon>SLOTMasterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\UncountableRMMasterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin\UncountableRMMasterForm.Designer.cs">
+      <DependentUpon>UncountableRMMasterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\UserAddForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin\UserAddForm.Designer.cs">
+      <DependentUpon>UserAddForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\UserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin\UserForm.Designer.cs">
+      <DependentUpon>UserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\UserUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin\UserUpdateForm.Designer.cs">
+      <DependentUpon>UserUpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AllSection\AllSectionMCOverviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AllSection\AllSectionMCOverviewForm.Designer.cs">
+      <DependentUpon>AllSectionMCOverviewForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AllSection\AllSectionMCOverviewFormStock.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AllSection\AllSectionMCOverviewFormStock.Designer.cs">
+      <DependentUpon>AllSectionMCOverviewFormStock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AllSection\AllSectionMCReceiveForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AllSection\AllSectionMCReceiveForm.Designer.cs">
+      <DependentUpon>AllSectionMCReceiveForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AllSection\AllSectionMCTransactionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AllSection\AllSectionMCTransactionForm.Designer.cs">
+      <DependentUpon>AllSectionMCTransactionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AllSection\AllSectionMCTransferForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AllSection\AllSectionMCTransferForm.Designer.cs">
+      <DependentUpon>AllSectionMCTransferForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreditForm.Designer.cs">
+      <DependentUpon>CreditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorReportAsTxt.cs" />
+    <Compile Include="InputTransferSemi\InputTransferSemiConfirmForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InputTransferSemi\InputTransferSemiConfirmForm.Designer.cs">
+      <DependentUpon>InputTransferSemiConfirmForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InputTransferSemi\InputTransferSemiForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InputTransferSemi\InputTransferSemiForm.Designer.cs">
+      <DependentUpon>InputTransferSemiForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\Inprocess\InprocessCountingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\Inprocess\InprocessCountingForm.Designer.cs">
+      <DependentUpon>InprocessCountingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\Inprocess\InprocessCountingTypeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\Inprocess\InprocessCountingTypeForm.Designer.cs">
+      <DependentUpon>InprocessCountingTypeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\Inprocess\InprocessDeleteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\Inprocess\InprocessDeleteForm.Designer.cs">
+      <DependentUpon>InprocessDeleteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\Inprocess\InprocessInventoryDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\Inprocess\InprocessInventoryDataForm.Designer.cs">
+      <DependentUpon>InprocessInventoryDataForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\Inprocess\InprocessUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\Inprocess\InprocessUpdateForm.Designer.cs">
+      <DependentUpon>InprocessUpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\InventoryCombineDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\InventoryCombineDetailsForm.Designer.cs">
+      <DependentUpon>InventoryCombineDetailsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\InventoryCombineForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\InventoryCombineForm.Designer.cs">
+      <DependentUpon>InventoryCombineForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\KIT\KITCountingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\KIT\KITCountingForm.Designer.cs">
+      <DependentUpon>KITCountingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\KIT\KITDeleteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\KIT\KITDeleteForm.Designer.cs">
+      <DependentUpon>KITDeleteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\KIT\KITInventoryDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\KIT\KITInventoryDataForm.Designer.cs">
+      <DependentUpon>KITInventoryDataForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\KIT\KITUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\KIT\KITUpdateForm.Designer.cs">
+      <DependentUpon>KITUpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\MC_SD\MCSDCountingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\MC_SD\MCSDCountingForm.Designer.cs">
+      <DependentUpon>MCSDCountingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\MC_SD\MCSDDeleteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\MC_SD\MCSDDeleteForm.Designer.cs">
+      <DependentUpon>MCSDDeleteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\MC_SD\MCSDInventoryDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\MC_SD\MCSDInventoryDataForm.Designer.cs">
+      <DependentUpon>MCSDInventoryDataForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\MC_SD\MCSDUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\MC_SD\MCSDUpdateForm.Designer.cs">
+      <DependentUpon>MCSDUpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCPlans\1InputMCStatusForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCPlans\1InputMCStatusForm.Designer.cs">
+      <DependentUpon>1InputMCStatusForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCPlans\2InputMQCStatusForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCPlans\2InputMQCStatusForm.Designer.cs">
+      <DependentUpon>2InputMQCStatusForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCPlans\3EditPOSMCDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCPlans\3EditPOSMCDetailForm.Designer.cs">
+      <DependentUpon>3EditPOSMCDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCPlans\GenerateMCPlansForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCPlans\GenerateMCPlansForm.Designer.cs">
+      <DependentUpon>GenerateMCPlansForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCPlans\MCPlanStatusSearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCPlans\MCPlanStatusSearchForm.Designer.cs">
+      <DependentUpon>MCPlanStatusSearchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCPlans\MCPlanStatusSearchFormExport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCPlans\MCPlanStatusSearchFormExport.Designer.cs">
+      <DependentUpon>MCPlanStatusSearchFormExport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCPlans\POSDataCheckAmountForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCPlans\POSDataCheckAmountForm.Designer.cs">
+      <DependentUpon>POSDataCheckAmountForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCPlans\RMStatusForPlanForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCPlans\RMStatusForPlanForm.Designer.cs">
+      <DependentUpon>RMStatusForPlanForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\MCStockSearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\MCStockSearchForm.Designer.cs">
+      <DependentUpon>MCStockSearchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\MCStockTransactionSearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\MCStockTransactionSearchForm.Designer.cs">
+      <DependentUpon>MCStockTransactionSearchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\KITStockINForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\KITStockINForm.Designer.cs">
+      <DependentUpon>KITStockINForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\KITStockINFormAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\KITStockINFormAdd.Designer.cs">
+      <DependentUpon>KITStockINFormAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\MCPOSDetailsBySetForm.cs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\MCPOSDetailsBySetForm.cs.Designer.cs">
+      <DependentUpon>MCPOSDetailsBySetForm.cs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\MCPOSDetailsSearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\MCPOSDetailsSearchForm.Designer.cs">
+      <DependentUpon>MCPOSDetailsSearchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\MCStockSearchDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\MCStockSearchDetailForm.Designer.cs">
+      <DependentUpon>MCStockSearchDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\NGRatePrintLabelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\NGRatePrintLabelForm.Designer.cs">
+      <DependentUpon>NGRatePrintLabelForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\SDBorrowForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\SDBorrowForm.Designer.cs">
+      <DependentUpon>SDBorrowForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\SDPayBackForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\SDPayBackForm.Designer.cs">
+      <DependentUpon>SDPayBackForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\SDReceiveForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\SDReceiveForm.Designer.cs">
+      <DependentUpon>SDReceiveForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\SDReceiveFormConfirm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\SDReceiveFormConfirm.Designer.cs">
+      <DependentUpon>SDReceiveFormConfirm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\SDReceiveFormConfirmUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\SDReceiveFormConfirmUser.Designer.cs">
+      <DependentUpon>SDReceiveFormConfirmUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\SDTransferForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\SDTransferForm.Designer.cs">
+      <DependentUpon>SDTransferForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\NGRatePrintLabelSDWireForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\NGRatePrintLabelSDWireForm.Designer.cs">
+      <DependentUpon>NGRatePrintLabelSDWireForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\StockCardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\StockCardForm.Designer.cs">
+      <DependentUpon>StockCardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireCalcForProduction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireCalcForProduction.Designer.cs">
+      <DependentUpon>WireCalcForProduction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireCalcForProductionAddForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireCalcForProductionAddForm.Designer.cs">
+      <DependentUpon>WireCalcForProductionAddForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\KITandSDForProductionSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\KITandSDForProductionSearch.Designer.cs">
+      <DependentUpon>KITandSDForProductionSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireRemainingCalcAndPrintTag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireRemainingCalcAndPrintTag.Designer.cs">
+      <DependentUpon>WireRemainingCalcAndPrintTag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireRemainingCalcAndPrintTagAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireRemainingCalcAndPrintTagAdd.Designer.cs">
+      <DependentUpon>WireRemainingCalcAndPrintTagAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireStockINFormAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireStockINFormAdd.Designer.cs">
+      <DependentUpon>WireStockINFormAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireStockReturnForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireStockReturnForm.Designer.cs">
+      <DependentUpon>WireStockReturnForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\WireReceiveAndIssueForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\WireReceiveAndIssueForm.Designer.cs">
+      <DependentUpon>WireReceiveAndIssueForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireStockINForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireStockINForm.Designer.cs">
+      <DependentUpon>WireStockINForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\WireTransferForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\WireTransferForm.Designer.cs">
+      <DependentUpon>WireTransferForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MenuFormV2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MenuFormV2.Designer.cs">
+      <DependentUpon>MenuFormV2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MsgClass\ErrorMsgClass.cs" />
+    <Compile Include="MsgClass\InformationMsgClass.cs" />
+    <Compile Include="MsgClass\QuestionMsgClass.cs" />
+    <Compile Include="MsgClass\WarningMsgClass.cs" />
+    <Compile Include="NG Input\MstBOMForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NG Input\MstBOMForm.Designer.cs">
+      <DependentUpon>MstBOMForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NG Input\MstUncountMatForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NG Input\MstUncountMatForm.Designer.cs">
+      <DependentUpon>MstUncountMatForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NG Input\MstUncountMatFormAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NG Input\MstUncountMatFormAdd.Designer.cs">
+      <DependentUpon>MstUncountMatFormAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NG Input\MstUncountMatFormUpdate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NG Input\MstUncountMatFormUpdate.Designer.cs">
+      <DependentUpon>MstUncountMatFormUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NG Input\NGHistoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NG Input\NGHistoryForm.Designer.cs">
+      <DependentUpon>NGHistoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NG Input\NGInprocessSearchDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NG Input\NGInprocessSearchDetailsForm.Designer.cs">
+      <DependentUpon>NGInprocessSearchDetailsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NG Input\NGInprocessSearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NG Input\NGInprocessSearchForm.Designer.cs">
+      <DependentUpon>NGInprocessSearchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NG Input\NGInprocessShortageStockDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NG Input\NGInprocessShortageStockDetailsForm.Designer.cs">
+      <DependentUpon>NGInprocessShortageStockDetailsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NG Input\NGInputByCountForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NG Input\NGInputByCountForm.Designer.cs">
+      <DependentUpon>NGInputByCountForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NG Input\NGInputBySetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NG Input\NGInputBySetForm.Designer.cs">
+      <DependentUpon>NGInputBySetForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NG Input\NGInputByUncountForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NG Input\NGInputByUncountForm.Designer.cs">
+      <DependentUpon>NGInputByUncountForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NG Input\NGInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NG Input\NGInputForm.Designer.cs">
+      <DependentUpon>NGInputForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NG Input\NGRatioCalcForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NG Input\NGRatioCalcForm.Designer.cs">
+      <DependentUpon>NGRatioCalcForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OBS\OBSStockForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OBS\OBSStockForm.Designer.cs">
+      <DependentUpon>OBSStockForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OBS\OBSTransactionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OBS\OBSTransactionForm.Designer.cs">
+      <DependentUpon>OBSTransactionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OBS\OBSTransactionWIPResultForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OBS\OBSTransactionWIPResultForm.Designer.cs">
+      <DependentUpon>OBSTransactionWIPResultForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SemiNGReq\SemiNGReqInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SemiNGReq\SemiNGReqInputForm.Designer.cs">
+      <DependentUpon>SemiNGReqInputForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SemiNGReq\SemiNGReqInputFormConfirm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SemiNGReq\SemiNGReqInputFormConfirm.Designer.cs">
+      <DependentUpon>SemiNGReqInputFormConfirm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SemiNGReq\SemiNGReqSearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SemiNGReq\SemiNGReqSearchForm.Designer.cs">
+      <DependentUpon>SemiNGReqSearchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SemiNGReq\SemiNGReqUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SemiNGReq\SemiNGReqUpdateForm.Designer.cs">
+      <DependentUpon>SemiNGReqUpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SemiPress\SemiPress1\SemiPress1SearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SemiPress\SemiPress1\SemiPress1SearchForm.Designer.cs">
+      <DependentUpon>SemiPress1SearchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SemiPress\SemiPress2\SemiPress2InputConfirmForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SemiPress\SemiPress2\SemiPress2InputConfirmForm.Designer.cs">
+      <DependentUpon>SemiPress2InputConfirmForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SemiPress\SemiPress2\SemiPress2InputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SemiPress\SemiPress2\SemiPress2InputForm.Designer.cs">
+      <DependentUpon>SemiPress2InputForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SemiPress\SemiPress1\SemiPressInputByManualConfirmForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SemiPress\SemiPress1\SemiPressInputByManualConfirmForm.Designer.cs">
+      <DependentUpon>SemiPressInputByManualConfirmForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SemiPress\SemiPress1\SemiPressInputByManualForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SemiPress\SemiPress1\SemiPressInputByManualForm.Designer.cs">
+      <DependentUpon>SemiPressInputByManualForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SemiPress\SemiPress1\SemiPressInputConfirmForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SemiPress\SemiPress1\SemiPressInputConfirmForm.Designer.cs">
+      <DependentUpon>SemiPressInputConfirmForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SemiPress\SemiPress1\SemiPressInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SemiPress\SemiPress1\SemiPressInputForm.Designer.cs">
+      <DependentUpon>SemiPressInputForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SemiPress\SemiPress2\SemiPress2SearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SemiPress\SemiPress2\SemiPress2SearchForm.Designer.cs">
+      <DependentUpon>SemiPress2SearchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SemiPress\SemiPressSearchDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SemiPress\SemiPressSearchDetailsForm.Designer.cs">
+      <DependentUpon>SemiPressSearchDetailsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SemiPress\SemiPressSearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SemiPress\SemiPressSearchForm.Designer.cs">
+      <DependentUpon>SemiPressSearchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SQLConnect.cs" />
+    <Compile Include="SQLConnectAllSection.cs" />
+    <Compile Include="SQLConnectOBS.cs" />
+    <Compile Include="TrackingPOS\POSTrackingSearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TrackingPOS\POSTrackingSearchForm.Designer.cs">
+      <DependentUpon>POSTrackingSearchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TrackingPOS\RetriveDataFromOBSForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TrackingPOS\RetriveDataFromOBSForm.Designer.cs">
+      <DependentUpon>RetriveDataFromOBSForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TransferData\TransferDataEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TransferData\TransferDataEditForm.Designer.cs">
+      <DependentUpon>TransferDataEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TransferData\TransferDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TransferData\TransferDataForm.Designer.cs">
+      <DependentUpon>TransferDataForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Admin\MachineTypeMasterForm.resx">
+      <DependentUpon>MachineTypeMasterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Admin\MasterItemCheckForm.resx">
+      <DependentUpon>MasterItemCheckForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Admin\MasterItemForm.resx">
+      <DependentUpon>MasterItemForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Admin\SLOTMasterForm.resx">
+      <DependentUpon>SLOTMasterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Admin\UncountableRMMasterForm.resx">
+      <DependentUpon>UncountableRMMasterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Admin\UserAddForm.resx">
+      <DependentUpon>UserAddForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Admin\UserForm.resx">
+      <DependentUpon>UserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Admin\UserUpdateForm.resx">
+      <DependentUpon>UserUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AllSection\AllSectionMCOverviewForm.resx">
+      <DependentUpon>AllSectionMCOverviewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AllSection\AllSectionMCOverviewFormStock.resx">
+      <DependentUpon>AllSectionMCOverviewFormStock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AllSection\AllSectionMCReceiveForm.resx">
+      <DependentUpon>AllSectionMCReceiveForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AllSection\AllSectionMCTransactionForm.resx">
+      <DependentUpon>AllSectionMCTransactionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AllSection\AllSectionMCTransferForm.resx">
+      <DependentUpon>AllSectionMCTransferForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreditForm.resx">
+      <DependentUpon>CreditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputTransferSemi\InputTransferSemiConfirmForm.resx">
+      <DependentUpon>InputTransferSemiConfirmForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputTransferSemi\InputTransferSemiForm.resx">
+      <DependentUpon>InputTransferSemiForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\Inprocess\InprocessCountingForm.resx">
+      <DependentUpon>InprocessCountingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\Inprocess\InprocessCountingTypeForm.resx">
+      <DependentUpon>InprocessCountingTypeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\Inprocess\InprocessDeleteForm.resx">
+      <DependentUpon>InprocessDeleteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\Inprocess\InprocessInventoryDataForm.resx">
+      <DependentUpon>InprocessInventoryDataForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\Inprocess\InprocessUpdateForm.resx">
+      <DependentUpon>InprocessUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\InventoryCombineDetailsForm.resx">
+      <DependentUpon>InventoryCombineDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\InventoryCombineForm.resx">
+      <DependentUpon>InventoryCombineForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\KIT\KITCountingForm.resx">
+      <DependentUpon>KITCountingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\KIT\KITDeleteForm.resx">
+      <DependentUpon>KITDeleteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\KIT\KITInventoryDataForm.resx">
+      <DependentUpon>KITInventoryDataForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\KIT\KITUpdateForm.resx">
+      <DependentUpon>KITUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\MC_SD\MCSDCountingForm.resx">
+      <DependentUpon>MCSDCountingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\MC_SD\MCSDDeleteForm.resx">
+      <DependentUpon>MCSDDeleteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\MC_SD\MCSDInventoryDataForm.resx">
+      <DependentUpon>MCSDInventoryDataForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\MC_SD\MCSDUpdateForm.resx">
+      <DependentUpon>MCSDUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCPlans\1InputMCStatusForm.resx">
+      <DependentUpon>1InputMCStatusForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCPlans\2InputMQCStatusForm.resx">
+      <DependentUpon>2InputMQCStatusForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCPlans\3EditPOSMCDetailForm.resx">
+      <DependentUpon>3EditPOSMCDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCPlans\GenerateMCPlansForm.resx">
+      <DependentUpon>GenerateMCPlansForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCPlans\MCPlanStatusSearchForm.resx">
+      <DependentUpon>MCPlanStatusSearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCPlans\MCPlanStatusSearchFormExport.resx">
+      <DependentUpon>MCPlanStatusSearchFormExport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCPlans\POSDataCheckAmountForm.resx">
+      <DependentUpon>POSDataCheckAmountForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCPlans\RMStatusForPlanForm.resx">
+      <DependentUpon>RMStatusForPlanForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\MCStockSearchForm.resx">
+      <DependentUpon>MCStockSearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\MCStockTransactionSearchForm.resx">
+      <DependentUpon>MCStockTransactionSearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\SDRec\KITStockINForm.resx">
+      <DependentUpon>KITStockINForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\SDRec\KITStockINFormAdd.resx">
+      <DependentUpon>KITStockINFormAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\SDRec\MCPOSDetailsBySetForm.cs.resx">
+      <DependentUpon>MCPOSDetailsBySetForm.cs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\SDRec\MCPOSDetailsSearchForm.resx">
+      <DependentUpon>MCPOSDetailsSearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\MCStockSearchDetailForm.resx">
+      <DependentUpon>MCStockSearchDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\SDRec\NGRatePrintLabelForm.resx">
+      <DependentUpon>NGRatePrintLabelForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\SDRec\SDBorrowForm.resx">
+      <DependentUpon>SDBorrowForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\SDRec\SDPayBackForm.resx">
+      <DependentUpon>SDPayBackForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\SDRec\SDReceiveForm.resx">
+      <DependentUpon>SDReceiveForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\SDRec\SDReceiveFormConfirm.resx">
+      <DependentUpon>SDReceiveFormConfirm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\SDRec\SDReceiveFormConfirmUser.resx">
+      <DependentUpon>SDReceiveFormConfirmUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\SDRec\SDTransferForm.resx">
+      <DependentUpon>SDTransferForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\WIR1 %28Wire Stock%29\NGRatePrintLabelSDWireForm.resx">
+      <DependentUpon>NGRatePrintLabelSDWireForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\StockCardForm.resx">
+      <DependentUpon>StockCardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\WIR1 %28Wire Stock%29\WireCalcForProduction.resx">
+      <DependentUpon>WireCalcForProduction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\WIR1 %28Wire Stock%29\WireCalcForProductionAddForm.resx">
+      <DependentUpon>WireCalcForProductionAddForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\KITandSDForProductionSearch.resx">
+      <DependentUpon>KITandSDForProductionSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\WIR1 %28Wire Stock%29\WireRemainingCalcAndPrintTag.resx">
+      <DependentUpon>WireRemainingCalcAndPrintTag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\WIR1 %28Wire Stock%29\WireRemainingCalcAndPrintTagAdd.resx">
+      <DependentUpon>WireRemainingCalcAndPrintTagAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\WIR1 %28Wire Stock%29\WireStockINFormAdd.resx">
+      <DependentUpon>WireStockINFormAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\WIR1 %28Wire Stock%29\WireStockReturnForm.resx">
+      <DependentUpon>WireStockReturnForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\WireReceiveAndIssueForm.resx">
+      <DependentUpon>WireReceiveAndIssueForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\WIR1 %28Wire Stock%29\WireStockINForm.resx">
+      <DependentUpon>WireStockINForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\WireTransferForm.resx">
+      <DependentUpon>WireTransferForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MenuFormV2.resx">
+      <DependentUpon>MenuFormV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NG Input\MstBOMForm.resx">
+      <DependentUpon>MstBOMForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NG Input\MstUncountMatForm.resx">
+      <DependentUpon>MstUncountMatForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NG Input\MstUncountMatFormAdd.resx">
+      <DependentUpon>MstUncountMatFormAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NG Input\MstUncountMatFormUpdate.resx">
+      <DependentUpon>MstUncountMatFormUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NG Input\NGHistoryForm.resx">
+      <DependentUpon>NGHistoryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NG Input\NGInprocessSearchDetailsForm.resx">
+      <DependentUpon>NGInprocessSearchDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NG Input\NGInprocessSearchForm.resx">
+      <DependentUpon>NGInprocessSearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NG Input\NGInprocessShortageStockDetailsForm.resx">
+      <DependentUpon>NGInprocessShortageStockDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NG Input\NGInputByCountForm.resx">
+      <DependentUpon>NGInputByCountForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NG Input\NGInputBySetForm.resx">
+      <DependentUpon>NGInputBySetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NG Input\NGInputByUncountForm.resx">
+      <DependentUpon>NGInputByUncountForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NG Input\NGInputForm.resx">
+      <DependentUpon>NGInputForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NG Input\NGRatioCalcForm.resx">
+      <DependentUpon>NGRatioCalcForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OBS\OBSStockForm.resx">
+      <DependentUpon>OBSStockForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OBS\OBSTransactionForm.resx">
+      <DependentUpon>OBSTransactionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OBS\OBSTransactionWIPResultForm.resx">
+      <DependentUpon>OBSTransactionWIPResultForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="SemiNGReq\SemiNGReqInputForm.resx">
+      <DependentUpon>SemiNGReqInputForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SemiNGReq\SemiNGReqInputFormConfirm.resx">
+      <DependentUpon>SemiNGReqInputFormConfirm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SemiNGReq\SemiNGReqSearchForm.resx">
+      <DependentUpon>SemiNGReqSearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SemiNGReq\SemiNGReqUpdateForm.resx">
+      <DependentUpon>SemiNGReqUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SemiPress\SemiPress1\SemiPress1SearchForm.resx">
+      <DependentUpon>SemiPress1SearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SemiPress\SemiPress2\SemiPress2InputConfirmForm.resx">
+      <DependentUpon>SemiPress2InputConfirmForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SemiPress\SemiPress2\SemiPress2InputForm.resx">
+      <DependentUpon>SemiPress2InputForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SemiPress\SemiPress1\SemiPressInputByManualConfirmForm.resx">
+      <DependentUpon>SemiPressInputByManualConfirmForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SemiPress\SemiPress1\SemiPressInputByManualForm.resx">
+      <DependentUpon>SemiPressInputByManualForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SemiPress\SemiPress1\SemiPressInputConfirmForm.resx">
+      <DependentUpon>SemiPressInputConfirmForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SemiPress\SemiPress1\SemiPressInputForm.resx">
+      <DependentUpon>SemiPressInputForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SemiPress\SemiPress2\SemiPress2SearchForm.resx">
+      <DependentUpon>SemiPress2SearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SemiPress\SemiPressSearchDetailsForm.resx">
+      <DependentUpon>SemiPressSearchDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SemiPress\SemiPressSearchForm.resx">
+      <DependentUpon>SemiPressSearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrackingPOS\POSTrackingSearchForm.resx">
+      <DependentUpon>POSTrackingSearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrackingPOS\RetriveDataFromOBSForm.resx">
+      <DependentUpon>RetriveDataFromOBSForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransferData\TransferDataEditForm.resx">
+      <DependentUpon>TransferDataEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransferData\TransferDataForm.resx">
+      <DependentUpon>TransferDataForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Boeun Rachhan System_logo.ico" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

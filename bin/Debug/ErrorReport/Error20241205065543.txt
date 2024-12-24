@@ -1,0 +1,3 @@
+ - 24-1003082 : Column 'RMCode' does not belong to table .
+ - 24-1101364 : Stock not enough : 0095|173977-3, 0097|173977-4
+ - 24-1101695 : Column 'RMCode' does not belong to table .
