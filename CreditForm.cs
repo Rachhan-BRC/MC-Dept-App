@@ -16,6 +16,12 @@ namespace MachineDeptApp
         public CreditForm()
         {
             InitializeComponent();
+            this.Shown += CreditForm_Shown;
+        }
+
+        private void CreditForm_Shown(object sender, EventArgs e)
+        {
+            
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)

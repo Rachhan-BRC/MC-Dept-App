@@ -883,7 +883,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                             CboBobbinWWireTerminal.Items.Add(QtyD2[0].ToString());
                             CboBobbinWWireTerminal.SelectedIndex = 0;
 
-                            if (dt.Rows[0]["BobbinsOrReil"].ToString() == "Bobbins")
+                            if (dt.Rows[0]["BobbinsOrReil"].ToString() == "Bobbin")
                             {
                                 LbBobbinsWTitleWireTerminal.Text = "ទម្ងន់ប៊ូប៊ីន (KG)";
                                 LbNetWTitleWireTerminal.Text = "ទម្ងន់សាច់សុទ្ធ (KG)";
@@ -893,9 +893,9 @@ namespace MachineDeptApp.Inventory.Inprocess
                             }
                             else
                             {
-                                LbBobbinsWTitleWireTerminal.Text = "ប្រវែងគ្មានធើមីណល R2 (cm)";
+                                LbBobbinsWTitleWireTerminal.Text = "ប្រវែងគ្មានធើមីណល R2 (mm)";
                                 LbBobbinsWTitleWireTerminal.Font = new Font("Khmer OS Battambang", 11, FontStyle.Regular);
-                                LbNetWTitleWireTerminal.Text = "ប្រវែងពេញ R1 (cm)";
+                                LbNetWTitleWireTerminal.Text = "ប្រវែងពេញ R1 (mm)";
                                 LbQtyTitleWireTerminal.Text = "ប្រវែងសរុប";
                                 //CboBobbinWWireTerminal.Items.Add(dt.Rows[0]["R2OrBobbinsW"].ToString());
                                 //CboBobbinWWireTerminal.Text = dt.Rows[0]["R2OrBobbinsW"].ToString();
@@ -911,7 +911,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                             CboBobbinWWireTerminal.Items.Clear();
                             CboBobbinWWireTerminal.Items.Add(dt.Rows[0]["R2OrBobbinsW"].ToString());
                             CboBobbinWWireTerminal.Text = dt.Rows[0]["R2OrBobbinsW"].ToString();
-                            if (dt.Rows[0]["BobbinsOrReil"].ToString() == "Bobbins")
+                            if (dt.Rows[0]["BobbinsOrReil"].ToString() == "Bobbin")
                             {
                                 LbBobbinsWTitleWireTerminal.Text = "ទម្ងន់ប៊ូប៊ីន (KG)";
                                 LbNetWTitleWireTerminal.Text = "ទម្ងន់សាច់សុទ្ធ (KG)";
@@ -921,9 +921,9 @@ namespace MachineDeptApp.Inventory.Inprocess
                             }
                             else
                             {
-                                LbBobbinsWTitleWireTerminal.Text = "ប្រវែងគ្មានធើមីណល R2 (cm)";
+                                LbBobbinsWTitleWireTerminal.Text = "ប្រវែងគ្មានធើមីណល R2 (mm)";
                                 LbBobbinsWTitleWireTerminal.Font = new Font("Khmer OS Battambang", 11, FontStyle.Regular);
-                                LbNetWTitleWireTerminal.Text = "ប្រវែងពេញ R1 (cm)";
+                                LbNetWTitleWireTerminal.Text = "ប្រវែងពេញ R1 (mm)";
                                 LbQtyTitleWireTerminal.Text = "សម្រាយចំនួន";
                             }
                             NetWSelected = Convert.ToDouble(dt.Rows[0]["R1OrNetW"].ToString());

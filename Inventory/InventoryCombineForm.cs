@@ -679,5 +679,6 @@ namespace MachineDeptApp.Inventory
                 btnPrint.BackColor = Color.FromKnownColor(KnownColor.ControlDark);
             }
         }
+
     }
 }
