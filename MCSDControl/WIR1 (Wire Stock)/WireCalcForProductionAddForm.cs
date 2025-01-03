@@ -233,6 +233,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             dgvSearchResult.Rows.Clear();
             Cursor = Cursors.WaitCursor;
             DataTable dtPlansSearch = new DataTable();
+            DataTable dtAlreadyTransfer = new DataTable();
             try
             {
                 cnn.con.Open();
@@ -300,12 +301,31 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                                                         "\n\tLEFT JOIN (SELECT POSNo FROM tbSDMCAllTransaction WHERE CancelStatus=0 AND LocCode='KIT3' AND Funct=2) T4 " +
                                                         "\n\tON T1.PosCNo=T4.POSNo ) X " + WhereSelect +
                                                         "\n\tORDER BY PlanSeqNo ASC";
-
                 //Console.WriteLine(FinalSQLQuery);
-
                 SqlDataAdapter sda = new SqlDataAdapter(FinalSQLQuery, cnn.con);
                 sda.Fill(dtPlansSearch);
 
+
+                string POSNoIN = "";
+                foreach (DataRow row in dtPlansSearch.Rows)
+                {
+                    if (POSNoIN.Contains(row["PosCNo"].ToString()) == false)
+                    {
+                        if (POSNoIN.Trim() == "")
+                        {
+                            POSNoIN = "'" + row["PosCNo"].ToString() + "'";
+                        }
+                        else
+                        {
+                            POSNoIN += ", '" + row["PosCNo"].ToString() + "'";
+                        }
+                    }
+                }
+                FinalSQLQuery = "SELECT * FROM tbSDAllocateStock " +
+                    "\nWHERE POSNo IN (" + POSNoIN + ")";
+                //Console.WriteLine(FinalSQLQuery);
+                sda = new SqlDataAdapter(FinalSQLQuery, cnn.con);
+                sda.Fill(dtAlreadyTransfer);
             }
             catch (Exception ex)
             {
@@ -366,8 +386,17 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                     dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["Qty"].Value = Convert.ToInt32(row["PosCQty"].ToString());
                     dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["Remarks"].Value = row["Remarks"].ToString();
                     dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["Status"].Value = row[CboMCNo.Text + "Stat"].ToString();
+                    bool Transfered = false;
+                    foreach (DataRow rowTrans in dtAlreadyTransfer.Rows)
+                    {
+                        if (row["PosCNo"].ToString() == rowTrans["POSNo"].ToString())
+                        {
+                            Transfered = true;
+                            break;
+                        }
+                    }
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["AlreadyTransfer"].Value = Transfered;
                 }
-
             }
 
             //Set Color to Dgv

@@ -783,14 +783,12 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             //Header
             worksheet.Cells[2 , 1] = DateTime.Now;
             worksheet.Cells[3, 1] = SysNo;
-
             //Insert if more than 1
             if (InsertRow > 1)
             {
                 worksheet.Range["7:" + (InsertRow+5)].Insert();
                 worksheet.Range["A7:C" + (InsertRow+5)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
             }
-
             //Add data
             int RowIndex = 6;
             foreach (DataGridViewRow dgvRow in dgvRMUsage.Rows)
@@ -804,6 +802,25 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 }
             }
 
+            //POS List
+            Excel.Worksheet worksheetPOS = (Excel.Worksheet)xlWorkBook.Sheets["POSList"];
+            if (dgvPOS.Rows.Count > 1)
+            {
+                worksheetPOS.Range["5:" + (4+dgvPOS.Rows.Count-1)].Insert();
+                worksheetPOS.Range["A5:G" + (4 + dgvPOS.Rows.Count - 1)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+            }
+            foreach (DataGridViewRow row in dgvPOS.Rows)
+            {
+                worksheetPOS.Cells[row.Index+4, 1] = row.Cells["WIPCode"].Value.ToString();
+                worksheetPOS.Cells[row.Index+4, 2] = row.Cells["WIPName"].Value.ToString();
+                worksheetPOS.Cells[row.Index+4, 3] = row.Cells["POSNo"].Value.ToString();
+                worksheetPOS.Cells[row.Index+4, 4] = row.Cells["PIN"].Value.ToString();
+                worksheetPOS.Cells[row.Index+4, 5] = row.Cells["Wire"].Value.ToString();
+                worksheetPOS.Cells[row.Index+4, 6] = row.Cells["Length"].Value.ToString();
+                worksheetPOS.Cells[row.Index+4, 7] = row.Cells["Qty"].Value.ToString();
+            }
+
+
             //ឆែករកមើល Folder បើគ្មាន => បង្កើត
             string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\SDCalcForProduction";
             if (!Directory.Exists(SavePath))
@@ -811,7 +828,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 Directory.CreateDirectory(SavePath);
             }
 
-            // Saving the modified Excel file                        
+            // Saving the modified Excel file
             string date = DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss");
             string file = "SD_Calc ";
             fName = file + "( " + date + " )";
