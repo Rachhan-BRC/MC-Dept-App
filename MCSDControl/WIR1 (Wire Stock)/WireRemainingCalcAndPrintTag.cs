@@ -1,4 +1,5 @@
-﻿using Microsoft.Office.Interop.Excel;
+﻿using MachineDeptApp.MsgClass;
+using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,10 +19,14 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
 {
     public partial class WireRemainingCalcAndPrintTag : Form
     {
+        ErrorMsgClass EMsg = new ErrorMsgClass();
         SQLConnect cnn = new SQLConnect();
         DataTable dtTotal;
         double BeforeEditng;
+        string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\Remain Tag";
         string fName;
+
+        string ErrorText;
         
         public WireRemainingCalcAndPrintTag()
         {
@@ -321,112 +326,124 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
         }
         private void PrintOut()
         {
+            ErrorText = "";
             Cursor = Cursors.WaitCursor;
             LbStatus.Text = "កំពុងព្រីន . . .";
             LbStatus.Refresh();
-            var CDirectory = Environment.CurrentDirectory;
+
             Excel.Application excelApp = new Excel.Application();
-            Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(Filename: CDirectory.ToString() + @"\Template\RemainingTagTemplate.xlsx", Editable: true);
+            Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(Filename: Environment.CurrentDirectory.ToString() + @"\Template\RemainingTagTemplate.xlsx", Editable: true);
             Excel.Worksheet worksheet = (Excel.Worksheet)xlWorkBook.Sheets["RachhanSystem"];
 
-            //Count and Insert new Rows
-            int paper = dgvInput.Rows.Count;
-            worksheet.Range["A1:A7"].EntireRow.Copy();
-            for (int i = 1; i < paper; i++)
+            try
             {
-                int indexExcel = 7 * i + 1;
-                worksheet.Range["A" + indexExcel].EntireRow.PasteSpecial(XlPasteType.xlPasteAll, XlPasteSpecialOperation.xlPasteSpecialOperationNone, Type.Missing, Type.Missing);
-
-            }
-
-            //Write data to the excel
-            foreach (DataGridViewRow DgvRow in dgvInput.Rows)
-            {
-                //Bobbins
-                if (DgvRow.Cells[4].Value.ToString() == "Bobbin")
+                //Count and Insert new Rows
+                int paper = dgvInput.Rows.Count;
+                worksheet.Range["A1:A7"].EntireRow.Copy();
+                for (int i = 1; i < paper; i++)
                 {
-                    string Code = DgvRow.Cells[0].Value.ToString();
-                    string Name = DgvRow.Cells[1].Value.ToString();
-                    string RemainUnit = " Pcs";
-                    if (DgvRow.Cells[2].Value.ToString() != "Terminal")
+                    int indexExcel = 7 * i + 1;
+                    worksheet.Range["A" + indexExcel].EntireRow.PasteSpecial(XlPasteType.xlPasteAll, XlPasteSpecialOperation.xlPasteSpecialOperationNone, Type.Missing, Type.Missing);
+
+                }
+
+                //Write data to the excel
+                foreach (DataGridViewRow DgvRow in dgvInput.Rows)
+                {
+                    //Bobbins
+                    if (DgvRow.Cells[4].Value.ToString() == "Bobbin")
                     {
-                        RemainUnit = " m";
+                        string Code = DgvRow.Cells[0].Value.ToString();
+                        string Name = DgvRow.Cells[1].Value.ToString();
+                        string RemainUnit = " Pcs";
+                        if (DgvRow.Cells[2].Value.ToString() != "Terminal")
+                        {
+                            RemainUnit = " m";
+                        }
+                        string Maker = DgvRow.Cells[3].Value.ToString();
+                        string MOQ = Convert.ToDouble(DgvRow.Cells[5].Value.ToString()).ToString("N0");
+                        string RemainQty = Convert.ToDouble(DgvRow.Cells[9].Value.ToString()).ToString("N0");
+                        string R3OrWeigth = Convert.ToDouble(DgvRow.Cells[8].Value.ToString()).ToString();
+                        string LotNo = DgvRow.Cells[10].Value.ToString();
+
+                        worksheet.Cells[7 * DgvRow.Index + 1, 3] = Code;
+                        worksheet.Cells[7 * DgvRow.Index + 2, 3] = Name;
+                        worksheet.Cells[7 * DgvRow.Index + 3, 3] = Maker;
+                        worksheet.Cells[7 * DgvRow.Index + 4, 3] = MOQ + RemainUnit;
+                        worksheet.Cells[7 * DgvRow.Index + 5, 3] = RemainQty + RemainUnit + " ( " + R3OrWeigth + " KG )";
+                        worksheet.Cells[7 * DgvRow.Index + 6, 3] = LotNo;
+                        worksheet.Cells[7 * DgvRow.Index + 7, 3] = DateTime.Now;
+
                     }
-                    string Maker = DgvRow.Cells[3].Value.ToString();
-                    string MOQ = Convert.ToDouble(DgvRow.Cells[5].Value.ToString()).ToString("N0");
-                    string RemainQty = Convert.ToDouble(DgvRow.Cells[9].Value.ToString()).ToString("N0");
-                    string R3OrWeigth = Convert.ToDouble(DgvRow.Cells[8].Value.ToString()).ToString();
-                    string LotNo = DgvRow.Cells[10].Value.ToString();
-
-                    worksheet.Cells[7*DgvRow.Index+1, 3] = Code;
-                    worksheet.Cells[7 * DgvRow.Index + 2, 3] = Name;
-                    worksheet.Cells[7 * DgvRow.Index + 3, 3] = Maker;
-                    worksheet.Cells[7 * DgvRow.Index + 4, 3] = MOQ + RemainUnit;
-                    worksheet.Cells[7 * DgvRow.Index + 5, 3] = RemainQty +RemainUnit+" ( "+R3OrWeigth+" KG )";
-                    worksheet.Cells[7 * DgvRow.Index + 6, 3] = LotNo;
-                    worksheet.Cells[7 * DgvRow.Index + 7, 3] = DateTime.Now;
-
-                }
-                //Reil
-                else
-                {
-                    string Code = DgvRow.Cells[0].Value.ToString();
-                    string Name = DgvRow.Cells[1].Value.ToString();
-                    string RemainUnit = " Pcs";
-                    if (DgvRow.Cells[2].Value.ToString() != "Terminal")
+                    //Reil
+                    else
                     {
-                        RemainUnit = " m";
+                        string Code = DgvRow.Cells[0].Value.ToString();
+                        string Name = DgvRow.Cells[1].Value.ToString();
+                        string RemainUnit = " Pcs";
+                        if (DgvRow.Cells[2].Value.ToString() != "Terminal")
+                        {
+                            RemainUnit = " m";
+                        }
+                        string Maker = DgvRow.Cells[3].Value.ToString();
+                        string MOQ = Convert.ToDouble(DgvRow.Cells[5].Value.ToString()).ToString("N0");
+                        string RemainQty = Convert.ToDouble(DgvRow.Cells[9].Value.ToString()).ToString("N0");
+                        string R3OrWeigth = Convert.ToDouble(DgvRow.Cells[8].Value.ToString()).ToString();
+                        string LotNo = DgvRow.Cells[10].Value.ToString();
+
+                        worksheet.Cells[7 * DgvRow.Index + 1, 3] = Code;
+                        worksheet.Cells[7 * DgvRow.Index + 2, 3] = Name;
+                        worksheet.Cells[7 * DgvRow.Index + 3, 3] = Maker;
+                        worksheet.Cells[7 * DgvRow.Index + 4, 3] = MOQ + RemainUnit;
+                        worksheet.Cells[7 * DgvRow.Index + 5, 3] = RemainQty + RemainUnit + " ( " + R3OrWeigth + " mm )";
+                        worksheet.Cells[7 * DgvRow.Index + 6, 3] = LotNo;
+                        worksheet.Cells[7 * DgvRow.Index + 7, 3] = DateTime.Now;
                     }
-                    string Maker = DgvRow.Cells[3].Value.ToString();
-                    string MOQ = Convert.ToDouble(DgvRow.Cells[5].Value.ToString()).ToString("N0");
-                    string RemainQty = Convert.ToDouble(DgvRow.Cells[9].Value.ToString()).ToString("N0");
-                    string R3OrWeigth = Convert.ToDouble(DgvRow.Cells[8].Value.ToString()).ToString();
-                    string LotNo = DgvRow.Cells[10].Value.ToString();
-
-                    worksheet.Cells[7 * DgvRow.Index + 1, 3] = Code;
-                    worksheet.Cells[7 * DgvRow.Index + 2, 3] = Name;
-                    worksheet.Cells[7 * DgvRow.Index + 3, 3] = Maker;
-                    worksheet.Cells[7 * DgvRow.Index + 4, 3] = MOQ + RemainUnit;
-                    worksheet.Cells[7 * DgvRow.Index + 5, 3] = RemainQty + RemainUnit + " ( " + R3OrWeigth + " mm )";
-                    worksheet.Cells[7 * DgvRow.Index + 6, 3] = LotNo;
-                    worksheet.Cells[7 * DgvRow.Index + 7, 3] = DateTime.Now;
                 }
-            }
 
-            //Calc Total By each Items
-            CalcTotal();
-            //Insert if more than 1
-            Excel.Worksheet worksheetTotal = (Excel.Worksheet)xlWorkBook.Sheets["Total"];
-            if (dtTotal.Rows.Count > 1)
-            {
-                worksheetTotal.Range["3:" + (dtTotal.Rows.Count + 1)].Insert(); 
-                worksheetTotal.Range["A3:D" + (dtTotal.Rows.Count + 1)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
-            }
-            //Write data to the excel
-            for (int i = 0; i < dtTotal.Rows.Count; i++)
-            {
-                for (int j = 0; j < dtTotal.Columns.Count; j++)
+                //Calc Total By each Items
+                CalcTotal();
+                //Insert if more than 1
+                Excel.Worksheet worksheetTotal = (Excel.Worksheet)xlWorkBook.Sheets["Total"];
+                if (dtTotal.Rows.Count > 1)
                 {
-                    worksheetTotal.Cells[i + 2, j + 1] = dtTotal.Rows[i][j].ToString();
+                    worksheetTotal.Range["3:" + (dtTotal.Rows.Count + 1)].Insert();
+                    worksheetTotal.Range["A3:D" + (dtTotal.Rows.Count + 1)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
                 }
-            }
-            
+                //Write data to the excel
+                for (int i = 0; i < dtTotal.Rows.Count; i++)
+                {
+                    for (int j = 0; j < dtTotal.Columns.Count; j++)
+                    {
+                        worksheetTotal.Cells[i + 2, j + 1] = dtTotal.Rows[i][j].ToString();
+                    }
+                }
 
-            //ឆែករកមើល Folder បើគ្មាន => បង្កើត
-            string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\Remain Tag";
-            if (!Directory.Exists(SavePath))
+
+                //ឆែករកមើល Folder បើគ្មាន => បង្កើត
+                if (!Directory.Exists(SavePath))
+                {
+                    Directory.CreateDirectory(SavePath);
+                }
+
+                // Saving the modified Excel file                        
+                string date = DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss");
+                string file = "Remain Tag ";
+                fName = file + "( " + date + " )";
+                worksheet.SaveAs(SavePath + @"\" + fName + ".xlsx");
+                xlWorkBook.Save();
+                xlWorkBook.Close();
+                excelApp.Quit();
+            }
+            catch (Exception ex)
             {
-                Directory.CreateDirectory(SavePath);
+                excelApp.DisplayAlerts = false;
+                xlWorkBook.Save();
+                xlWorkBook.Close();
+                excelApp.Quit();
+                excelApp.DisplayAlerts = true;
+                ErrorText = ex.Message;
             }
-
-            // Saving the modified Excel file                        
-            string date = DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss");
-            string file = "Remain Tag ";
-            fName = file + "( " + date + " )";
-            worksheet.SaveAs(CDirectory.ToString() + @"\Report\Remain Tag\" + fName + ".xlsx");
-            xlWorkBook.Save();
-            xlWorkBook.Close();
-            excelApp.Quit();
 
             //Kill all Excel background process
             var processes = from p in Process.GetProcessesByName("EXCEL")
@@ -438,15 +455,25 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             }
 
             Cursor = Cursors.Default;
-            LbStatus.Text = "ឯកសារ Excel រួចរាល់!";
-            LbStatus.Refresh();
-            MessageBox.Show("ឯកសារ Excel រួចរាល់!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            LbStatus.Text = "";
-            LbStatus.Refresh();
-            btnNew.PerformClick();
-            System.Diagnostics.Process.Start(CDirectory.ToString() + @"\\Report\Remain Tag\" + fName + ".xlsx");
-            fName = "";
 
+            if (ErrorText.Trim() == "")
+            {
+                LbStatus.Text = "ឯកសារ Excel រួចរាល់!";
+                LbStatus.Refresh();
+                MessageBox.Show("ឯកសារ Excel រួចរាល់!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LbStatus.Text = "";
+                LbStatus.Refresh();
+                btnNew.PerformClick();
+                System.Diagnostics.Process.Start(SavePath + @"\" + fName + ".xlsx");
+                fName = "";
+            }
+            else
+            {
+                LbStatus.Text = "មានបញ្ហា!";
+                LbStatus.Refresh();
+                EMsg.AlertText = "មានបញ្ហា!\n" + ErrorText;
+                EMsg.ShowingMsg();
+            }
         }
         private void CalcTotal()
         {
