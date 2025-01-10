@@ -59,34 +59,6 @@
             this.panelBody = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvSearchResult = new System.Windows.Forms.DataGridView();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.CboMCName = new System.Windows.Forms.ComboBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.txtDocNo = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.CboPrintStatus = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtWire = new System.Windows.Forms.TextBox();
-            this.txtPin = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.CboMC1 = new System.Windows.Forms.ComboBox();
-            this.CboStatus = new System.Windows.Forms.ComboBox();
-            this.dtpToo = new System.Windows.Forms.DateTimePicker();
-            this.dtpPrintDate = new System.Windows.Forms.DateTimePicker();
-            this.dtpFrom = new System.Windows.Forms.DateTimePicker();
-            this.ChkPrintDate = new System.Windows.Forms.CheckBox();
-            this.ChkDate = new System.Windows.Forms.CheckBox();
-            this.txtWIPName = new System.Windows.Forms.TextBox();
-            this.txtPOSC = new System.Windows.Forms.TextBox();
-            this.txtPOSP = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.Customer = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Model = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LineCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -130,6 +102,34 @@
             this.LastMQCDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.POSStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LastRegDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CboMCName = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtDocNo = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.CboPrintStatus = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtWire = new System.Windows.Forms.TextBox();
+            this.txtPin = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.CboMC1 = new System.Windows.Forms.ComboBox();
+            this.CboStatus = new System.Windows.Forms.ComboBox();
+            this.dtpToo = new System.Windows.Forms.DateTimePicker();
+            this.dtpPrintDate = new System.Windows.Forms.DateTimePicker();
+            this.dtpFrom = new System.Windows.Forms.DateTimePicker();
+            this.ChkPrintDate = new System.Windows.Forms.CheckBox();
+            this.ChkDate = new System.Windows.Forms.CheckBox();
+            this.txtWIPName = new System.Windows.Forms.TextBox();
+            this.txtPOSC = new System.Windows.Forms.TextBox();
+            this.txtPOSP = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panelHeader.SuspendLayout();
             this.panelFooter.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -237,6 +237,7 @@
             // 
             this.dgvSearchResult.AllowUserToAddRows = false;
             this.dgvSearchResult.AllowUserToDeleteRows = false;
+            this.dgvSearchResult.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.Lavender;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Blue;
@@ -314,303 +315,6 @@
             this.dgvSearchResult.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvSearchResult.Size = new System.Drawing.Size(1158, 314);
             this.dgvSearchResult.TabIndex = 11;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.CboMCName);
-            this.groupBox1.Controls.Add(this.label11);
-            this.groupBox1.Controls.Add(this.txtDocNo);
-            this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.CboPrintStatus);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.txtWire);
-            this.groupBox1.Controls.Add(this.txtPin);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.CboMC1);
-            this.groupBox1.Controls.Add(this.CboStatus);
-            this.groupBox1.Controls.Add(this.dtpToo);
-            this.groupBox1.Controls.Add(this.dtpPrintDate);
-            this.groupBox1.Controls.Add(this.dtpFrom);
-            this.groupBox1.Controls.Add(this.ChkPrintDate);
-            this.groupBox1.Controls.Add(this.ChkDate);
-            this.groupBox1.Controls.Add(this.txtWIPName);
-            this.groupBox1.Controls.Add(this.txtPOSC);
-            this.groupBox1.Controls.Add(this.txtPOSP);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(5, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1164, 125);
-            this.groupBox1.TabIndex = 18;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "លក្ខខ័ណ្ឌស្វែងរក";
-            // 
-            // CboMCName
-            // 
-            this.CboMCName.BackColor = System.Drawing.Color.White;
-            this.CboMCName.DropDownHeight = 250;
-            this.CboMCName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CboMCName.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CboMCName.FormattingEnabled = true;
-            this.CboMCName.IntegralHeight = false;
-            this.CboMCName.Location = new System.Drawing.Point(83, 86);
-            this.CboMCName.Name = "CboMCName";
-            this.CboMCName.Size = new System.Drawing.Size(93, 27);
-            this.CboMCName.TabIndex = 20;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(10, 91);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(66, 19);
-            this.label11.TabIndex = 19;
-            this.label11.Text = "MC1 Name";
-            // 
-            // txtDocNo
-            // 
-            this.txtDocNo.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDocNo.Location = new System.Drawing.Point(261, 86);
-            this.txtDocNo.Name = "txtDocNo";
-            this.txtDocNo.Size = new System.Drawing.Size(362, 28);
-            this.txtDocNo.TabIndex = 18;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(184, 90);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(65, 19);
-            this.label10.TabIndex = 17;
-            this.label10.Text = "IT Doc No.";
-            // 
-            // CboPrintStatus
-            // 
-            this.CboPrintStatus.BackColor = System.Drawing.Color.White;
-            this.CboPrintStatus.DropDownHeight = 250;
-            this.CboPrintStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CboPrintStatus.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CboPrintStatus.FormattingEnabled = true;
-            this.CboPrintStatus.IntegralHeight = false;
-            this.CboPrintStatus.Location = new System.Drawing.Point(1045, 21);
-            this.CboPrintStatus.Name = "CboPrintStatus";
-            this.CboPrintStatus.Size = new System.Drawing.Size(99, 27);
-            this.CboPrintStatus.TabIndex = 16;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(963, 26);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(72, 19);
-            this.label9.TabIndex = 15;
-            this.label9.Text = "Print Status";
-            // 
-            // txtWire
-            // 
-            this.txtWire.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtWire.Location = new System.Drawing.Point(744, 54);
-            this.txtWire.Name = "txtWire";
-            this.txtWire.Size = new System.Drawing.Size(213, 28);
-            this.txtWire.TabIndex = 6;
-            // 
-            // txtPin
-            // 
-            this.txtPin.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPin.Location = new System.Drawing.Point(448, 53);
-            this.txtPin.Name = "txtPin";
-            this.txtPin.Size = new System.Drawing.Size(175, 28);
-            this.txtPin.TabIndex = 6;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(645, 58);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(65, 19);
-            this.label8.TabIndex = 5;
-            this.label8.Text = "ព៌ណខ្សែភ្លើង";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(362, 59);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(24, 19);
-            this.label7.TabIndex = 5;
-            this.label7.Text = "ភីន";
-            // 
-            // CboMC1
-            // 
-            this.CboMC1.BackColor = System.Drawing.Color.White;
-            this.CboMC1.DropDownHeight = 250;
-            this.CboMC1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CboMC1.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CboMC1.FormattingEnabled = true;
-            this.CboMC1.IntegralHeight = false;
-            this.CboMC1.Location = new System.Drawing.Point(261, 54);
-            this.CboMC1.Name = "CboMC1";
-            this.CboMC1.Size = new System.Drawing.Size(93, 27);
-            this.CboMC1.TabIndex = 4;
-            // 
-            // CboStatus
-            // 
-            this.CboStatus.BackColor = System.Drawing.Color.White;
-            this.CboStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CboStatus.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CboStatus.FormattingEnabled = true;
-            this.CboStatus.Location = new System.Drawing.Point(83, 54);
-            this.CboStatus.Name = "CboStatus";
-            this.CboStatus.Size = new System.Drawing.Size(93, 27);
-            this.CboStatus.TabIndex = 4;
-            // 
-            // dtpToo
-            // 
-            this.dtpToo.CustomFormat = "dd-MM-yyyy";
-            this.dtpToo.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpToo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpToo.Location = new System.Drawing.Point(859, 21);
-            this.dtpToo.Name = "dtpToo";
-            this.dtpToo.Size = new System.Drawing.Size(98, 28);
-            this.dtpToo.TabIndex = 1;
-            // 
-            // dtpPrintDate
-            // 
-            this.dtpPrintDate.CustomFormat = "dd-MM-yyyy";
-            this.dtpPrintDate.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpPrintDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpPrintDate.Location = new System.Drawing.Point(1045, 54);
-            this.dtpPrintDate.Name = "dtpPrintDate";
-            this.dtpPrintDate.Size = new System.Drawing.Size(99, 28);
-            this.dtpPrintDate.TabIndex = 1;
-            // 
-            // dtpFrom
-            // 
-            this.dtpFrom.CustomFormat = "dd-MM-yyyy";
-            this.dtpFrom.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpFrom.Location = new System.Drawing.Point(744, 21);
-            this.dtpFrom.Name = "dtpFrom";
-            this.dtpFrom.Size = new System.Drawing.Size(99, 28);
-            this.dtpFrom.TabIndex = 1;
-            // 
-            // ChkPrintDate
-            // 
-            this.ChkPrintDate.AutoSize = true;
-            this.ChkPrintDate.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ChkPrintDate.Location = new System.Drawing.Point(967, 57);
-            this.ChkPrintDate.Name = "ChkPrintDate";
-            this.ChkPrintDate.Size = new System.Drawing.Size(81, 23);
-            this.ChkPrintDate.TabIndex = 3;
-            this.ChkPrintDate.Text = "ថ្ងៃខែឆ្នាំព្រីន";
-            this.ChkPrintDate.UseVisualStyleBackColor = true;
-            // 
-            // ChkDate
-            // 
-            this.ChkDate.AutoSize = true;
-            this.ChkDate.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ChkDate.Location = new System.Drawing.Point(629, 24);
-            this.ChkDate.Name = "ChkDate";
-            this.ChkDate.Size = new System.Drawing.Size(112, 23);
-            this.ChkDate.TabIndex = 3;
-            this.ChkDate.Text = "ថ្ងៃខែឆ្នាំចេញទំនិញ";
-            this.ChkDate.UseVisualStyleBackColor = true;
-            // 
-            // txtWIPName
-            // 
-            this.txtWIPName.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtWIPName.Location = new System.Drawing.Point(448, 21);
-            this.txtWIPName.Name = "txtWIPName";
-            this.txtWIPName.Size = new System.Drawing.Size(175, 28);
-            this.txtWIPName.TabIndex = 2;
-            // 
-            // txtPOSC
-            // 
-            this.txtPOSC.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPOSC.Location = new System.Drawing.Point(261, 21);
-            this.txtPOSC.Name = "txtPOSC";
-            this.txtPOSC.Size = new System.Drawing.Size(93, 28);
-            this.txtPOSC.TabIndex = 2;
-            // 
-            // txtPOSP
-            // 
-            this.txtPOSP.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPOSP.Location = new System.Drawing.Point(83, 21);
-            this.txtPOSP.Name = "txtPOSP";
-            this.txtPOSP.Size = new System.Drawing.Size(93, 28);
-            this.txtPOSP.TabIndex = 2;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(185, 59);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(32, 19);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "MC1";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(7, 59);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(50, 19);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "ស្ថានភាព";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(360, 25);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(82, 19);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "ឈ្មោះផលិតផល";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(184, 25);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(69, 19);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "POS(C) No.";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(7, 25);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(68, 19);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "POS(P) No.";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(842, 26);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(19, 19);
-            this.label1.TabIndex = 0;
-            this.label1.Text = " - ";
             // 
             // Customer
             // 
@@ -992,6 +696,303 @@
             this.LastRegDate.Name = "LastRegDate";
             this.LastRegDate.ReadOnly = true;
             this.LastRegDate.Width = 120;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.CboMCName);
+            this.groupBox1.Controls.Add(this.label11);
+            this.groupBox1.Controls.Add(this.txtDocNo);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.CboPrintStatus);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.txtWire);
+            this.groupBox1.Controls.Add(this.txtPin);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.CboMC1);
+            this.groupBox1.Controls.Add(this.CboStatus);
+            this.groupBox1.Controls.Add(this.dtpToo);
+            this.groupBox1.Controls.Add(this.dtpPrintDate);
+            this.groupBox1.Controls.Add(this.dtpFrom);
+            this.groupBox1.Controls.Add(this.ChkPrintDate);
+            this.groupBox1.Controls.Add(this.ChkDate);
+            this.groupBox1.Controls.Add(this.txtWIPName);
+            this.groupBox1.Controls.Add(this.txtPOSC);
+            this.groupBox1.Controls.Add(this.txtPOSP);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(5, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(1164, 125);
+            this.groupBox1.TabIndex = 18;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "លក្ខខ័ណ្ឌស្វែងរក";
+            // 
+            // CboMCName
+            // 
+            this.CboMCName.BackColor = System.Drawing.Color.White;
+            this.CboMCName.DropDownHeight = 250;
+            this.CboMCName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CboMCName.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CboMCName.FormattingEnabled = true;
+            this.CboMCName.IntegralHeight = false;
+            this.CboMCName.Location = new System.Drawing.Point(83, 86);
+            this.CboMCName.Name = "CboMCName";
+            this.CboMCName.Size = new System.Drawing.Size(93, 27);
+            this.CboMCName.TabIndex = 20;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(10, 91);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(66, 19);
+            this.label11.TabIndex = 19;
+            this.label11.Text = "MC1 Name";
+            // 
+            // txtDocNo
+            // 
+            this.txtDocNo.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDocNo.Location = new System.Drawing.Point(261, 86);
+            this.txtDocNo.Name = "txtDocNo";
+            this.txtDocNo.Size = new System.Drawing.Size(362, 28);
+            this.txtDocNo.TabIndex = 18;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(184, 90);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(65, 19);
+            this.label10.TabIndex = 17;
+            this.label10.Text = "IT Doc No.";
+            // 
+            // CboPrintStatus
+            // 
+            this.CboPrintStatus.BackColor = System.Drawing.Color.White;
+            this.CboPrintStatus.DropDownHeight = 250;
+            this.CboPrintStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CboPrintStatus.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CboPrintStatus.FormattingEnabled = true;
+            this.CboPrintStatus.IntegralHeight = false;
+            this.CboPrintStatus.Location = new System.Drawing.Point(1045, 21);
+            this.CboPrintStatus.Name = "CboPrintStatus";
+            this.CboPrintStatus.Size = new System.Drawing.Size(99, 27);
+            this.CboPrintStatus.TabIndex = 16;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(963, 26);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(72, 19);
+            this.label9.TabIndex = 15;
+            this.label9.Text = "Print Status";
+            // 
+            // txtWire
+            // 
+            this.txtWire.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtWire.Location = new System.Drawing.Point(744, 54);
+            this.txtWire.Name = "txtWire";
+            this.txtWire.Size = new System.Drawing.Size(213, 28);
+            this.txtWire.TabIndex = 6;
+            // 
+            // txtPin
+            // 
+            this.txtPin.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPin.Location = new System.Drawing.Point(448, 53);
+            this.txtPin.Name = "txtPin";
+            this.txtPin.Size = new System.Drawing.Size(175, 28);
+            this.txtPin.TabIndex = 6;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(645, 58);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(65, 19);
+            this.label8.TabIndex = 5;
+            this.label8.Text = "ព៌ណខ្សែភ្លើង";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(362, 59);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(24, 19);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "ភីន";
+            // 
+            // CboMC1
+            // 
+            this.CboMC1.BackColor = System.Drawing.Color.White;
+            this.CboMC1.DropDownHeight = 250;
+            this.CboMC1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CboMC1.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CboMC1.FormattingEnabled = true;
+            this.CboMC1.IntegralHeight = false;
+            this.CboMC1.Location = new System.Drawing.Point(261, 54);
+            this.CboMC1.Name = "CboMC1";
+            this.CboMC1.Size = new System.Drawing.Size(93, 27);
+            this.CboMC1.TabIndex = 4;
+            // 
+            // CboStatus
+            // 
+            this.CboStatus.BackColor = System.Drawing.Color.White;
+            this.CboStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CboStatus.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CboStatus.FormattingEnabled = true;
+            this.CboStatus.Location = new System.Drawing.Point(83, 54);
+            this.CboStatus.Name = "CboStatus";
+            this.CboStatus.Size = new System.Drawing.Size(93, 27);
+            this.CboStatus.TabIndex = 4;
+            // 
+            // dtpToo
+            // 
+            this.dtpToo.CustomFormat = "dd-MM-yyyy";
+            this.dtpToo.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpToo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpToo.Location = new System.Drawing.Point(859, 21);
+            this.dtpToo.Name = "dtpToo";
+            this.dtpToo.Size = new System.Drawing.Size(98, 28);
+            this.dtpToo.TabIndex = 1;
+            // 
+            // dtpPrintDate
+            // 
+            this.dtpPrintDate.CustomFormat = "dd-MM-yyyy";
+            this.dtpPrintDate.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpPrintDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpPrintDate.Location = new System.Drawing.Point(1045, 54);
+            this.dtpPrintDate.Name = "dtpPrintDate";
+            this.dtpPrintDate.Size = new System.Drawing.Size(99, 28);
+            this.dtpPrintDate.TabIndex = 1;
+            // 
+            // dtpFrom
+            // 
+            this.dtpFrom.CustomFormat = "dd-MM-yyyy";
+            this.dtpFrom.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpFrom.Location = new System.Drawing.Point(744, 21);
+            this.dtpFrom.Name = "dtpFrom";
+            this.dtpFrom.Size = new System.Drawing.Size(99, 28);
+            this.dtpFrom.TabIndex = 1;
+            // 
+            // ChkPrintDate
+            // 
+            this.ChkPrintDate.AutoSize = true;
+            this.ChkPrintDate.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ChkPrintDate.Location = new System.Drawing.Point(967, 57);
+            this.ChkPrintDate.Name = "ChkPrintDate";
+            this.ChkPrintDate.Size = new System.Drawing.Size(81, 23);
+            this.ChkPrintDate.TabIndex = 3;
+            this.ChkPrintDate.Text = "ថ្ងៃខែឆ្នាំព្រីន";
+            this.ChkPrintDate.UseVisualStyleBackColor = true;
+            // 
+            // ChkDate
+            // 
+            this.ChkDate.AutoSize = true;
+            this.ChkDate.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ChkDate.Location = new System.Drawing.Point(629, 24);
+            this.ChkDate.Name = "ChkDate";
+            this.ChkDate.Size = new System.Drawing.Size(112, 23);
+            this.ChkDate.TabIndex = 3;
+            this.ChkDate.Text = "ថ្ងៃខែឆ្នាំចេញទំនិញ";
+            this.ChkDate.UseVisualStyleBackColor = true;
+            // 
+            // txtWIPName
+            // 
+            this.txtWIPName.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtWIPName.Location = new System.Drawing.Point(448, 21);
+            this.txtWIPName.Name = "txtWIPName";
+            this.txtWIPName.Size = new System.Drawing.Size(175, 28);
+            this.txtWIPName.TabIndex = 2;
+            // 
+            // txtPOSC
+            // 
+            this.txtPOSC.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPOSC.Location = new System.Drawing.Point(261, 21);
+            this.txtPOSC.Name = "txtPOSC";
+            this.txtPOSC.Size = new System.Drawing.Size(93, 28);
+            this.txtPOSC.TabIndex = 2;
+            // 
+            // txtPOSP
+            // 
+            this.txtPOSP.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPOSP.Location = new System.Drawing.Point(83, 21);
+            this.txtPOSP.Name = "txtPOSP";
+            this.txtPOSP.Size = new System.Drawing.Size(93, 28);
+            this.txtPOSP.TabIndex = 2;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(185, 59);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(32, 19);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "MC1";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(7, 59);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(50, 19);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "ស្ថានភាព";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(360, 25);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(82, 19);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "ឈ្មោះផលិតផល";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(184, 25);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(69, 19);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "POS(C) No.";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(7, 25);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(68, 19);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "POS(P) No.";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(842, 26);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(19, 19);
+            this.label1.TabIndex = 0;
+            this.label1.Text = " - ";
             // 
             // MCPlanStatusSearchForm
             // 

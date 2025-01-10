@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
-using Microsoft.VisualBasic.Devices;
+using System.IO;
 
 namespace MachineDeptApp.TransferData
 {
@@ -29,7 +29,72 @@ namespace MachineDeptApp.TransferData
             InitializeComponent();
             cnn.Connection();
             this.dgvAllData.CellClick += DgvAllData_CellClick;
+            this.btnExport.Click += BtnExport_Click;
 
+        }
+
+        private void BtnExport_Click(object sender, EventArgs e)
+        {
+            if (dgvAllData.Rows.Count > 0)
+            {
+                DialogResult DLS = MessageBox.Show("តើអ្នកចង់ទាញទិន្នន័យចេញមែន ឬទេ?", "Rachhan System", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (DLS == DialogResult.Yes)
+                {
+                    SaveFileDialog saveDialog = new SaveFileDialog();
+                    saveDialog.Filter = "CSV file (*.csv)|*.csv";
+                    saveDialog.FileName = "WIP_Transfer.csv";
+                    if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        Cursor = Cursors.WaitCursor;
+                        try
+                        {
+                            //String array for Csv
+                            string[] outputCsv;
+                            outputCsv = new string[dgvAllData.Rows.Count + 1];
+
+                            //Write Column name
+                            string columnNames = "";
+                            //Set Column Name
+                            foreach (DataGridViewColumn col in dgvAllData.Columns)
+                            {
+                                if (col.Visible == true)
+                                {
+                                    columnNames += col.HeaderText.ToString() + ",";
+                                }
+                            }
+                            outputCsv[0] += columnNames;
+
+                            //Row of data 
+                            foreach (DataGridViewRow row in dgvAllData.Rows)
+                            {
+                                foreach (DataGridViewColumn col in dgvAllData.Columns)
+                                {
+                                    if (col.Visible == true)
+                                    {
+                                        string Value = "";
+                                        if (row.Cells[col.Index].Value != null)
+                                        {
+                                            Value = row.Cells[col.Index].Value.ToString();
+                                        }
+                                        //Fix don't separate if it contain '\n' or ','
+                                        Value = "\"" + Value.Replace("\"", "\"\"") + "\"";
+                                        outputCsv[row.Index + 1] += Value + ",";
+                                    }
+                                }
+                            }
+
+                            File.WriteAllLines(saveDialog.FileName, outputCsv, Encoding.UTF8);
+                            Cursor = Cursors.Default;
+                            MessageBox.Show("ទាញទិន្នន័យចេញរួចរាល់!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (Exception ex)
+                        {
+                            Cursor = Cursors.Default;
+                            MessageBox.Show("មានបញ្ហា!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
         }
 
         private void DgvAllData_CellClick(object sender, DataGridViewCellEventArgs e)

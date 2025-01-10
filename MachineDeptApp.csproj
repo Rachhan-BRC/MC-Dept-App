@@ -491,6 +491,12 @@
     <Compile Include="NG Input\MstUncountMatFormUpdate.Designer.cs">
       <DependentUpon>MstUncountMatFormUpdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="NG Input\NGAdjustSearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NG Input\NGAdjustSearchForm.Designer.cs">
+      <DependentUpon>NGAdjustSearchForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="NG Input\NGHistoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -888,6 +894,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NG Input\MstUncountMatFormUpdate.resx">
       <DependentUpon>MstUncountMatFormUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NG Input\NGAdjustSearchForm.resx">
+      <DependentUpon>NGAdjustSearchForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NG Input\NGHistoryForm.resx">
       <DependentUpon>NGHistoryForm.cs</DependentUpon>

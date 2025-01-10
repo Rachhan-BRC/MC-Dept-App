@@ -341,7 +341,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 string SQLQuery = "";
                 if (SelectedLocCode.Trim() == "WIR1")
                 {
-                    SQLQuery = "SELECT SysNo, WIPCode, MCName, POSNo, ItemName, PosCQty, (PosCQty * LowQty* SemiQtyOfFG) AS ActaulUseQty, TransferQty FROM " +
+                    SQLQuery = "SELECT SysNo, WIPCode, MCName, POSNo, ItemName, PosCQty, (PosCQty * LowQty) AS ActaulUseQty, TransferQty FROM " +
                         "\n(SELECT Code, SUM(TransferQty) AS TransferQty, Remarks FROM tbSDMCAllTransaction " +
                         "\nWHERE CancelStatus=0 AND Funct=2 AND LocCode='WIR1' AND Remarks='"+SelectedDocNo+"' AND Code='"+SelectedRMCode+"' " +
                         "\nGROUP BY LocCode, Code, RegDate, POSNo, Remarks) TbTst " +
@@ -365,7 +365,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 else
                 {
                     SQLQuery = "SELECT '' AS SysNo, WIPCode, MCName, POSNo , ItemName, PosCQty, ActaulUseQty, SUM(TransferQty) AS TransferQty FROM " +
-                        "\n (SELECT WIPCode, MCName, TbTst.Remarks AS POSNo, ItemName, PosCQty, (PosCQty * LowQty* SemiQtyOfFG) AS ActaulUseQty, TransferQty FROM " +
+                        "\n (SELECT WIPCode, MCName, TbTst.Remarks AS POSNo, ItemName, PosCQty, (PosCQty * LowQty) AS ActaulUseQty, TransferQty FROM " +
                         "\n (SELECT Code, SUM(TransferQty) AS TransferQty, LEFT(Remarks, 10) AS Remarks FROM tbSDMCAllTransaction WHERE CancelStatus = 0 AND LocCode = 'KIT3' AND Funct=2 AND Code = '"+SelectedRMCode+"' AND Remarks LIKE '"+SelectedDocNo.Substring(0,10).ToString()+"%' GROUP BY LocCode, Code, RegDate, Remarks) TbTst " +
                         "\n INNER JOIN (SELECT WIPCode, PosCNo, PosCQty, " +
                         "\n\t NULLIF(CONCAT(MC1Name, " +
@@ -381,7 +381,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                         "\nGROUP BY WIPCode, MCName, POSNo, ItemName, PosCQty, ActaulUseQty";
                 }
 
-                Console.WriteLine(SQLQuery);
+                //Console.WriteLine(SQLQuery);
 
                 try
                 {

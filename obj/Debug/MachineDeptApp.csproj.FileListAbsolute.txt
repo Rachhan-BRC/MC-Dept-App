@@ -1449,3 +1449,4 @@ D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.GenerateResource.ca
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.CoreCompileInputs.cache
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.exe
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.pdb
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.NGAdjustSearchForm.resources

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TransferDataEditForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -39,6 +38,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TransferDataEditForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
@@ -59,6 +59,8 @@
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtSysNo = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.DtEndInput = new System.Windows.Forms.DateTimePicker();
             this.DtInput = new System.Windows.Forms.DateTimePicker();
             this.chkDate = new System.Windows.Forms.CheckBox();
@@ -69,8 +71,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.txtSysNo = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.btnExport = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panelFooter.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -81,6 +82,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnExport);
             this.panel1.Controls.Add(this.btnDelete);
             this.panel1.Controls.Add(this.btnSearch);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -338,6 +340,24 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "លក្ខខ័ណ្ឌស្វែងរក";
             // 
+            // txtSysNo
+            // 
+            this.txtSysNo.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSysNo.Location = new System.Drawing.Point(1030, 22);
+            this.txtSysNo.Name = "txtSysNo";
+            this.txtSysNo.Size = new System.Drawing.Size(119, 30);
+            this.txtSysNo.TabIndex = 14;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(981, 25);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(45, 22);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "SysNo";
+            // 
             // DtEndInput
             // 
             this.DtEndInput.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -431,23 +451,18 @@
             this.label4.TabIndex = 7;
             this.label4.Text = "ឈ្មោះ";
             // 
-            // txtSysNo
+            // btnExport
             // 
-            this.txtSysNo.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSysNo.Location = new System.Drawing.Point(1030, 22);
-            this.txtSysNo.Name = "txtSysNo";
-            this.txtSysNo.Size = new System.Drawing.Size(119, 30);
-            this.txtSysNo.TabIndex = 14;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(981, 25);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(45, 22);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "SysNo";
+            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExport.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnExport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnExport.BackgroundImage")));
+            this.btnExport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnExport.Location = new System.Drawing.Point(1221, 4);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(48, 51);
+            this.btnExport.TabIndex = 32;
+            this.btnExport.UseVisualStyleBackColor = false;
             // 
             // TransferDataEditForm
             // 
@@ -511,5 +526,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.TextBox txtSysNo;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnExport;
     }
 }

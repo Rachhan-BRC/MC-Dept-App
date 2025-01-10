@@ -16,6 +16,7 @@ using static System.Runtime.CompilerServices.RuntimeHelpers;
 using System.Windows.Forms.VisualStyles;
 using DataTable = System.Data.DataTable;
 using System.Diagnostics;
+using System.IO;
 
 namespace MachineDeptApp.TransferData
 {
@@ -25,6 +26,8 @@ namespace MachineDeptApp.TransferData
         SQLConnect cnn = new SQLConnect();
         string fName = "";
         DataTable tubeCut;
+
+        string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\WIP_Transaction";
 
         public TransferDataForm()
         {
@@ -598,6 +601,13 @@ namespace MachineDeptApp.TransferData
                     int row = dgvInventoryData.Rows.Count;
                     int RowFormodify = row + 5;
 
+                    //ឆែករកមើល Folder បើគ្មាន => បង្កើត
+                    if (!Directory.Exists(SavePath))
+                    {
+                        Directory.CreateDirectory(SavePath);
+                    }
+
+
                     var CDirectory = Environment.CurrentDirectory;
                     Excel.Application excelApp = new Excel.Application();
                     Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(Filename: CDirectory.ToString() + @"\Template\WIP_Transaction.xlsx", Editable: true);
@@ -618,10 +628,6 @@ namespace MachineDeptApp.TransferData
                                         worksheet.Cells[i + 6, j + 1] = dgvInventoryData.Rows[i].Cells[j].Value.ToString();
 
                                     }
-                                    else
-                                    {
-                                        //worksheet1.Cells[i + 5, j + 1] = "";
-                                    }
                                 }
                             }
 
@@ -640,10 +646,6 @@ namespace MachineDeptApp.TransferData
                                             worksheetAllData.Cells[i + 1, j + 1] = dgvAllData.Rows[i].Cells[j].Value.ToString();
 
                                         }
-                                        else
-                                        {
-                                            //worksheet1.Cells[i + 5, j + 1] = "";
-                                        }
                                     }
                                 }
                             }
@@ -661,29 +663,20 @@ namespace MachineDeptApp.TransferData
                                             worksheetAllData.Cells[i + 1, j + 1] = dgvAllData.Rows[i].Cells[j].Value.ToString();
 
                                         }
-                                        else
-                                        {
-                                            //worksheet1.Cells[i + 5, j + 1] = "";
-                                        }
                                     }
                                 }
                             }
-                            else
-                            {
-
-                            }
+                            
                             worksheetAllData.Range["A2:K" + RowFormodify1].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
                             worksheetAllData.Range["A2:K" + RowFormodify1].Font.Name = "Khmer OS Battambang";
                             worksheetAllData.Range["A2:K" + RowFormodify1].Font.Size = 10;
                             worksheetAllData.Range["A2:K" + RowFormodify1].Font.Bold = false;
 
-
-
                             // Saving the modified Excel file                        
                             string date = DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss");
                             string file = "WIP_Transact ";
                             fName = file + "( " + date + " )";
-                            worksheet.SaveAs(CDirectory.ToString() + @"\Report\WIP_Transaction\" + fName + ".xlsx");
+                            worksheet.SaveAs(SavePath + @"\" + fName + ".xlsx");
                             xlWorkBook.Save();
                             xlWorkBook.Close();
                             excelApp.Quit();
@@ -702,10 +695,6 @@ namespace MachineDeptApp.TransferData
                                     {
                                         worksheet.Cells[i + 6, j + 1] = dgvInventoryData.Rows[i].Cells[j].Value.ToString();
 
-                                    }
-                                    else
-                                    {
-                                        //worksheet1.Cells[i + 5, j + 1] = "";
                                     }
                                 }
                             }
@@ -734,10 +723,6 @@ namespace MachineDeptApp.TransferData
                                             worksheetAllData.Cells[i + 2, j + 1] = dgvAllData.Rows[i].Cells[j].Value.ToString();
 
                                         }
-                                        else
-                                        {
-                                            //worksheet1.Cells[i + 5, j + 1] = "";
-                                        }
                                     }
                                 }
                             }
@@ -755,16 +740,8 @@ namespace MachineDeptApp.TransferData
                                             worksheetAllData.Cells[i + 2, j + 1] = dgvAllData.Rows[i].Cells[j].Value.ToString();
 
                                         }
-                                        else
-                                        {
-                                            //worksheet1.Cells[i + 5, j + 1] = "";
-                                        }
                                     }
                                 }
-                            }
-                            else
-                            {
-
                             }
                             worksheetAllData.Range["A2:K" + RowFormodify1].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
                             worksheetAllData.Range["A2:K" + RowFormodify1].Font.Name = "Khmer OS Battambang";
@@ -776,14 +753,10 @@ namespace MachineDeptApp.TransferData
                             string date = DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss");
                             string file = "WIP_Transact ";
                             fName = file + "( " + date + " )";
-                            worksheet.SaveAs(CDirectory.ToString() + @"\Report\WIP_Transaction\" + fName + ".xlsx");
+                            worksheet.SaveAs(SavePath + @"\" + fName + ".xlsx");
                             xlWorkBook.Save();
                             xlWorkBook.Close();
                             excelApp.Quit();
-                        }
-                        else
-                        {
-
                         }
                     }
                     catch (System.Exception ex)
@@ -806,14 +779,10 @@ namespace MachineDeptApp.TransferData
 
                     LbExportStatus.Text = "ព្រីនបានជោគជ័យ​ !";
                     MessageBox.Show("ការព្រីនបានជោគជ័យ​ !", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    System.Diagnostics.Process.Start(CDirectory.ToString() + @"\\Report\WIP_Transaction\" + fName + ".xlsx");
+                    System.Diagnostics.Process.Start(SavePath + @"\" + fName + ".xlsx");
                     fName = "";
                     LbExportStatus.Visible = false;
 
-                }
-                else
-                {
-                    
                 }
             }
         }
