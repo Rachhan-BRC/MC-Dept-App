@@ -1,2 +1,0 @@
-	Cannot insert the value NULL into column 'POSNo', table 'MachineDB.dbo.tbSDMCAllTransaction'; column does not allow nulls. INSERT fails.
-The statement has been terminated.

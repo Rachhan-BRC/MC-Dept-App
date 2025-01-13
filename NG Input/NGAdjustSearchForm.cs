@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Diagnostics;
 
 namespace MachineDeptApp.NG_Input
 {
@@ -45,7 +47,6 @@ namespace MachineDeptApp.NG_Input
 
         }
 
-        
         private void DgvSearchResult_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (dgvSearchResult.Columns[e.ColumnIndex].Name == "ChkForPrint")
@@ -68,6 +69,9 @@ namespace MachineDeptApp.NG_Input
                     }
                     else
                     {
+                        dgvSearchResult.ClearSelection();
+                        dgvSearchResult.CurrentCell = null;
+                        dgvSearchResult.Refresh();
                         WMsg.WarningText = "ទិន្នន័យនេះព្រីនចេញរួចរាល់ហើយ!";
                         WMsg.ShowingMsg();
                     }
@@ -218,14 +222,13 @@ namespace MachineDeptApp.NG_Input
                 try
                 {
                     cnnOBS.conOBS.Open();
-                    string SQLQuery = "SELECT T1.ItemCode, ItemName, T3.EffDate , COALESCE(T2.UnitPrice,0) AS UnitPrice FROM " +
-                        "\n(SELECT ItemCode, ItemName FROM mstitem WHERE DelFlag=0 AND ItemType=2) T1 " +
-                        "\nLEFT JOIN (SELECT ItemCode, UnitPrice, EffDate FROM mstpurchaseprice WHERE DelFlag=0) T2 " +
-                        "\nON T1.ItemCode=T2.ItemCode " +
-                        "\nINNER JOIN (SELECT ItemCode, MAX(EffDate) AS EffDate FROM mstpurchaseprice GROUP BY ItemCode) T3 " +
-                        "\nON T2.ItemCode=T3.ItemCode AND T2.EffDate=T3.EffDate " +
-                        "\nWHERE T1.ItemCode IN (" + CodeIN + ") " +
-                        "\nORDER BY ItemCode ASC ";
+                    string SQLQuery = "SELECT T1.ItemCode, ItemName, MatCalcFlag, Resv1 AS Maker, MatTypeName, COALESCE(T2.UnitPrice,0) AS UnitPrice FROM " +
+                        "\n(SELECT * FROM mstitem WHERE DelFlag=0 AND ItemType=2) T1 " +
+                        "\nLEFT JOIN (SELECT ItemCode, UnitPrice, EffDate FROM mstpurchaseprice WHERE DelFlag=0) T2 ON T1.ItemCode=T2.ItemCode " +
+                        "\nINNER JOIN (SELECT ItemCode, MAX(EffDate) AS EffDate FROM mstpurchaseprice GROUP BY ItemCode) T3 ON T2.ItemCode=T3.ItemCode AND T2.EffDate=T3.EffDate " +
+                        "\nINNER JOIN (SELECT * FROM MstMatType WHERE DelFlag=0) T4 ON T1.MatTypeCode=T4.MatTypeCode " +
+                        "\nWHERE T1.ItemCode IN ("+CodeIN+") " +
+                        "\nORDER BY ItemCode ASC";
                     //Console.WriteLine(SQLQuery);
                     dtOBSUnitPrice = new DataTable();
                     SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnnOBS.conOBS);
@@ -239,18 +242,20 @@ namespace MachineDeptApp.NG_Input
             }
 
             //Add to Dgv
-            foreach (DataRow row in dtSearchResult.Rows)
+            if (ErrorText.Trim() == "")
             {
-                dgvSearchResult.Rows.Add();
-                dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["ChkForPrint"].Value = false;
-                dgvSearchResult.Rows[dgvSearchResult.Rows.Count-1].Cells["SysNo"].Value = row["SysNo"];
-                dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["POSNo"].Value = row["POSNo"];
-                dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["Code"].Value = row["Code"];
-                dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["ItemName"].Value = row["ItemName"];
-                dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["Qty"].Value = Convert.ToDouble(row["Qty"]);
-                dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["PrintStatus"].Value = row["ReqStatus"];
-                dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["RegDate"].Value = Convert.ToDateTime(row["RegDate"]);
-
+                foreach (DataRow row in dtSearchResult.Rows)
+                {
+                    dgvSearchResult.Rows.Add();
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["ChkForPrint"].Value = false;
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["SysNo"].Value = row["SysNo"];
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["POSNo"].Value = row["POSNo"];
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["Code"].Value = row["Code"];
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["ItemName"].Value = row["ItemName"];
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["Qty"].Value = Convert.ToDouble(row["Qty"]);
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["PrintStatus"].Value = row["ReqStatus"];
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["RegDate"].Value = Convert.ToDateTime(row["RegDate"]);
+                }
             }
 
             Cursor = Cursors.Default;
@@ -341,7 +346,7 @@ namespace MachineDeptApp.NG_Input
             int FoundTobePrint = 0;
             foreach (DataGridViewRow dgvRow in dgvSearchResult.Rows)
             {
-                if (dgvRow.Cells["ChkForPrint"].Value.ToString().ToLower() == "true" && dgvRow.Cells["ChkForPrint"].Value.ToString().ToLower() != "ok")
+                if (dgvRow.Cells["ChkForPrint"].Value.ToString().ToLower() == "true" && dgvRow.Cells["PrintStatus"].Value.ToString().ToLower() != "ok")
                 {
                     FoundTobePrint++;
                     break;
@@ -363,25 +368,33 @@ namespace MachineDeptApp.NG_Input
             }
         }
 
-
-
         //Function
         private void PrintExcelOut()
         {
             ErrorText = "";
             Cursor = Cursors.WaitCursor;
             string fName = "";
-            string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\NGRequest";
+            DateTime PrintingDate = DateTime.Now;
+            string PrintingBy = MenuFormV2.UserForNextForm;
+            string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\NGAdjust";
+            //ឆែករកមើល Folder បើគ្មាន => បង្កើត
+            if (!Directory.Exists(SavePath))
+            {
+                Directory.CreateDirectory(SavePath);
+            }
             ClearDtForPrintExcel();
 
             //Double Check Document is already print or not
             string SysNoIN = "";
+            DataTable dtTotalQty = new DataTable();
             try
             {
                 cnn.con.Open();
+
+                //Taking SysNo
                 foreach (DataGridViewRow dgvRow in dgvSearchResult.Rows)
                 {
-                    if (dgvRow.Cells["ChkForPrint"].Value.ToString().ToLower() == "true" && dgvRow.Cells["ChkForPrint"].Value.ToString().ToLower() != "ok")
+                    if (dgvRow.Cells["ChkForPrint"].Value.ToString().ToLower() == "true" && dgvRow.Cells["PrintStatus"].Value.ToString().ToLower() != "ok")
                     {
                         string SysNoCheck = dgvRow.Cells["SysNo"].Value.ToString();
                         string SQLQuery = "SELECT * FROM tbNGReqAdj WHERE ReqStatus = 0 AND SysNo='"+SysNoCheck+"'";
@@ -401,35 +414,196 @@ namespace MachineDeptApp.NG_Input
                         }
                     }
                 }
+
+                //Calculate Total
+                //Console.WriteLine(SysNoIN);
+                if (SysNoIN.Trim() != "")
+                {
+                    string SQLQuery = "SELECT Code, SUM(Qty) AS TotalQty FROM tbNGReqAdj WHERE ReqStatus = 0 AND SysNo IN (" + SysNoIN + ") " +
+                        "\nGROUP BY Code " +
+                        "\nORDER BY Code ASC";
+                    SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                    sda.Fill(dtTotalQty);
+                }
             }
             catch (Exception ex)
             {
-                ErrorText = ex.Message;
+                ErrorText = "Calculate Total : " + ex.Message;
             }
             cnn.con.Close();
 
-            //Calculate Total
-            Console.WriteLine(SysNoIN);
-            if (ErrorText.Trim() == "" && SysNoIN.Trim()!="")
+            //Add to dtForPrintExcel
+            if (ErrorText.Trim() == "" && dtTotalQty.Rows.Count > 0)
+            {
+                try
+                {
+                    foreach (DataRow row in dtTotalQty.Rows)
+                    {
+                        string Code = row["Code"].ToString();
+                        double Qty = Convert.ToDouble(row["TotalQty"].ToString());
+                        string ItemName = "";
+                        int MatCalcFlag = 0;
+                        string Maker = "";
+                        string MatTypeName = "";
+                        double UP = 0;
+                        foreach (DataRow rowOBS in dtOBSUnitPrice.Rows)
+                        {
+                            if (Code == rowOBS["ItemCode"].ToString())
+                            {
+                                ItemName = rowOBS["ItemName"].ToString();
+                                MatCalcFlag = Convert.ToInt32(rowOBS["MatCalcFlag"].ToString());
+                                Maker = rowOBS["Maker"].ToString();
+                                MatTypeName = rowOBS["MatTypeName"].ToString();
+                                UP = Convert.ToDouble(rowOBS["UnitPrice"].ToString());
+                                break;
+                            }
+                        }
+
+                        dtForPrintExcel.Rows.Add();
+                        dtForPrintExcel.Rows[dtForPrintExcel.Rows.Count - 1]["RMCode"] = Code;
+                        dtForPrintExcel.Rows[dtForPrintExcel.Rows.Count - 1]["ItemName"] = ItemName;
+                        dtForPrintExcel.Rows[dtForPrintExcel.Rows.Count - 1]["MatCalcFlag"] = MatCalcFlag;
+                        dtForPrintExcel.Rows[dtForPrintExcel.Rows.Count - 1]["Maker"] = Maker;
+                        dtForPrintExcel.Rows[dtForPrintExcel.Rows.Count - 1]["MatTypeName"] = MatTypeName;
+                        dtForPrintExcel.Rows[dtForPrintExcel.Rows.Count - 1]["Qty"] = Qty;
+                        dtForPrintExcel.Rows[dtForPrintExcel.Rows.Count - 1]["UnitPrice"] = UP;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ErrorText = "Add to dtForPrintExcel : " + ex.Message;
+                }
+            }
+
+            //Update Status
+            if (ErrorText.Trim() == "")
             {
                 try
                 {
                     cnn.con.Open();
-
+                    string query = "UPDATE tbNGReqAdj SET " +
+                                            "ReqStatus=1," +
+                                            "UpdateDate='" + PrintingDate.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                                            "WHERE SysNo IN ("+SysNoIN+") ";
+                    SqlCommand cmd = new SqlCommand(query, cnn.con);
+                    cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
                 {
-                    ErrorText = ex.Message;
+                    ErrorText = "Update Status : " + ex.Message;
                 }
                 cnn.con.Close();
             }
 
+            //Print Out 
+            if (ErrorText.Trim() == "" && dtForPrintExcel.Rows.Count > 0)
+            {
+                Excel.Application excelApp = new Excel.Application();
+                Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(Filename: Environment.CurrentDirectory.ToString() + @"\Template\NGReq_Template.xlsx", Editable: true);
+                try
+                {
+                    //Write to Countable
+                    Excel.Worksheet worksheetCountable = (Excel.Worksheet)xlWorkBook.Sheets["Countable"];
+                    //Rename
+                    worksheetCountable.Name = "Rachhan System";
+                    //Header
+                    worksheetCountable.Cells[4, 10] = PrintingDate;
+                    worksheetCountable.Cells[1, 9] = "";
+                    worksheetCountable.Cells[5, 10] = PrintingBy;
+
+                    worksheetCountable.Cells[8, 3] = "Adjust OBS Stock";
+                    worksheetCountable.Cells[14, 12] = "Add to OBS";
+
+                    worksheetCountable.Cells[11, 2] = "MC1";
+                    worksheetCountable.Cells[11, 3] = "MC";
+                    worksheetCountable.Cells[11, 7] = "IT";
+                    worksheetCountable.Cells[11, 8] = "IT";
+
+
+                    if (dtForPrintExcel.Rows.Count > 1)
+                    {
+                        //Insert More Rows
+                        // Define the range that you want to copy.
+                        Excel.Range sourceRange = worksheetCountable.Range["A14:M14"];
+                        // Perform the copy operation.
+                        sourceRange.Copy(Type.Missing);
+                        // Specify the range where you want to insert the copied rows.
+                        Excel.Range destinationRange = worksheetCountable.Range["A15:A" + (14 + dtForPrintExcel.Rows.Count - 1)];
+                        // Insert the copied cells and shift the existing cells down.
+                        destinationRange.Insert(Excel.XlInsertShiftDirection.xlShiftDown, sourceRange.Copy());
+                        worksheetCountable.Range["15:" + (14 + dtForPrintExcel.Rows.Count - 1)].RowHeight = 18;
+                    }
+
+                    //Write Data to cells
+                    int WriteCellsIndex = 14;
+                    foreach (DataRow row in dtForPrintExcel.Rows)
+                    {
+                        worksheetCountable.Cells[WriteCellsIndex, 1] = (WriteCellsIndex - 14) + 1;
+                        worksheetCountable.Cells[WriteCellsIndex, 4] = row["RMCode"].ToString();
+                        worksheetCountable.Cells[WriteCellsIndex, 5] = row["ItemName"].ToString();
+                        worksheetCountable.Cells[WriteCellsIndex, 7] = row["Maker"].ToString();
+                        worksheetCountable.Cells[WriteCellsIndex, 8] = row["MatTypeName"].ToString();
+                        worksheetCountable.Cells[WriteCellsIndex, 9] = row["Qty"].ToString();
+                        worksheetCountable.Cells[WriteCellsIndex, 10] = row["UnitPrice"].ToString();
+                        worksheetCountable.Cells[WriteCellsIndex, 11] = "=I" + WriteCellsIndex + "*J" + WriteCellsIndex;
+
+                        WriteCellsIndex = WriteCellsIndex + 1;
+                    }
+                    //Subtotal
+                    worksheetCountable.Cells[WriteCellsIndex, 11] = "=SUM(K14:K" + (WriteCellsIndex - 1) + ")";
+                    worksheetCountable.Range[WriteCellsIndex + ":" + WriteCellsIndex].RowHeight = 30;
+
+                    //Delete Uncountable sheet
+                    Excel.Worksheet worksheetDeleted = (Excel.Worksheet)xlWorkBook.Sheets["Uncountable"];
+                    excelApp.DisplayAlerts = false;
+                    worksheetDeleted.Delete();
+                    excelApp.DisplayAlerts = true;
+
+                    // Saving the modified Excel file                 
+                    string file = "NG Adjust ";
+                    fName = file + " ( " + PrintingDate.ToString("dd-MM-yyyy HH_mm_ss") + " )";
+                    worksheetCountable.SaveAs(SavePath + @"\" + fName + ".xlsx");
+                }
+                catch (Exception ex)
+                {
+                    
+                    ErrorText += "\n" + ex.Message;
+                }
+
+                excelApp.DisplayAlerts = false;
+                xlWorkBook.Close();
+                excelApp.DisplayAlerts = true;
+                excelApp.Quit();
+
+                //Kill all Excel background process
+                var processes = from p in Process.GetProcessesByName("EXCEL")
+                                select p;
+                foreach (var process in processes)
+                {
+                    if (process.MainWindowTitle.ToString().Trim() == "")
+                        process.Kill();
+                }
+
+            }
+
+            //Update Dgv 
+            foreach (DataGridViewRow dgvRow in dgvSearchResult.Rows)
+            {
+                if (dgvRow.Cells["ChkForPrint"].Value.ToString().ToLower() == "true" && dgvRow.Cells["PrintStatus"].Value.ToString().ToLower() != "ok")
+                {
+                    dgvRow.Cells["ChkForPrint"].Value = false;
+                    dgvRow.Cells["PrintStatus"].Value = "OK";
+                }
+            }
 
             Cursor = Cursors.Default;
 
             if (ErrorText.Trim() == "")
             {
-
+                InfoMsg.InfoText = "ព្រីនរួចរាល់!";
+                InfoMsg.ShowingMsg();
+                System.Diagnostics.Process.Start(SavePath + @"\" + fName + ".xlsx");
+                fName = "";
             }
             else
             {
@@ -437,7 +611,6 @@ namespace MachineDeptApp.NG_Input
                 EMsg.ShowingMsg();
             }
         }
-
         private void ClearDtForPrintExcel()
         {
             dtForPrintExcel = new DataTable();

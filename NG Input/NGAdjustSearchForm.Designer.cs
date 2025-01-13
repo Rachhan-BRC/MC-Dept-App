@@ -402,6 +402,7 @@
             this.SysNo.HeaderText = "SysNo";
             this.SysNo.Name = "SysNo";
             this.SysNo.ReadOnly = true;
+            this.SysNo.Visible = false;
             // 
             // POSNo
             // 

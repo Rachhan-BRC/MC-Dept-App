@@ -1832,6 +1832,30 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("WireStockReturnForm", "ទទួលស្តុកពី MC Inprocess");
                 }
             }
+            if (currentClkNode.Text == "NG Adjust Search")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    NGAdjustSearchForm Uf = new NGAdjustSearchForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("NG Adjust Search");
+                    dtOpenForm.Rows.Add("NGAdjustSearchForm", "NG Adjust Search");
+                }
+            }
+
 
             int After = dtOpenForm.Rows.Count;
 
@@ -1892,6 +1916,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(3, "បញ្ចូល NG", "NGInputForm");
             dtChildRoot.Rows.Add(3, "NG Records", "NGHistoryForm");
             dtChildRoot.Rows.Add(3, "NG Search", "NGInprocessSearchForm");
+            dtChildRoot.Rows.Add(3, "NG Adjust Search", "NGAdjustSearchForm");
             dtChildRoot.Rows.Add(3, "Semi MstBOM", "MstBOMForm");
             dtChildRoot.Rows.Add(3, "MstUncountable Material", "MstUncountMatForm");
             dtChildRoot.Rows.Add(3, "គណនា NG Ratio បន្ថែម", "NGRatioCalcForm");
@@ -2149,7 +2174,6 @@ namespace MachineDeptApp
             btnUnhideHeader.Visible=false;
             panelHeader.Size = new Size(1184, 52);
         }
-
 
     }
 }

@@ -16,15 +16,22 @@ using DataTable = System.Data.DataTable;
 using System.Diagnostics;
 using System.Reflection.Emit;
 using System.Reflection;
+using MachineDeptApp.MsgClass;
+using System.IO;
 
 namespace MachineDeptApp.TrackingPOS
 {
     public partial class POSTrackingSearchForm : Form
     {
+        ErrorMsgClass EMsg = new ErrorMsgClass();
+        WarningMsgClass WMsg = new WarningMsgClass();
+        QuestionMsgClass QMsg = new QuestionMsgClass();
+        InformationMsgClass InfoMsg = new InformationMsgClass();
         SQLConnect cnn = new SQLConnect();
-        string fName = "";
         DataTable dtPosDetails;
         DataTable dtPosPQty;
+
+        string ErrorText;
 
         public POSTrackingSearchForm()
         {
@@ -38,12 +45,10 @@ namespace MachineDeptApp.TrackingPOS
         {
             chkDate.Checked = true;
         }
-
         private void DtInput_ValueChanged(object sender, EventArgs e)
         {
             chkDate.Checked = true;
         }
-
         private void btnSearch_Click(object sender, EventArgs e)
         {
             dgvPOSData.Rows.Clear();
@@ -106,7 +111,6 @@ namespace MachineDeptApp.TrackingPOS
             }
             dgvPOSData.ClearSelection();
         }
-
         private void POSTrackingSearchForm_Load(object sender, EventArgs e)
         {
             ToolTip toolTip1 = new ToolTip();
@@ -121,7 +125,6 @@ namespace MachineDeptApp.TrackingPOS
             toolTip1.SetToolTip(this.btnReprint, "ព្រីនចេញជា Excel");
 
         }
-
         private void dgvPOSData_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.ColumnIndex == 6 && e.Value.ToString() == "មិនទាន់ផលិត")
@@ -154,13 +157,27 @@ namespace MachineDeptApp.TrackingPOS
         {            
             if (dgvPOSData.Rows.Count > 0)
             {
-                DialogResult DLS = MessageBox.Show("តើអ្នកចង់​ព្រីនមែន​ ឬទេ?", "Rachhan System", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (DLS == DialogResult.Yes)
+                QMsg.QAText = "តើអ្នកចង់​ព្រីនមែន​ ឬទេ?";
+                QMsg.UserClickedYes = false;
+                QMsg.ShowingMsg();
+                if (QMsg.UserClickedYes == true)
                 {
+                    Cursor = Cursors.WaitCursor;
+                    ErrorText = "";
+                    string fName = "";
+                    string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\POS_Checking";
                     LbExportStatus.Visible = true;
                     LbExportStatus.Text = "កំពុងបង្កើត File​ . . . .";
-                    int row = dgvPOSData.Rows.Count+dtPosPQty.Rows.Count-1;
+                    LbExportStatus.Refresh();
 
+                    //ឆែករកមើល Folder បើគ្មាន => បង្កើត                
+                    if (!Directory.Exists(SavePath))
+                    {
+                        Directory.CreateDirectory(SavePath);
+                    }
+
+                    DateTime date = DateTime.Now;
+                    int row = dgvPOSData.Rows.Count + dtPosPQty.Rows.Count - 1;
                     var CDirectory = Environment.CurrentDirectory;
                     Excel.Application excelApp = new Excel.Application();
                     Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(Filename: CDirectory.ToString() + @"\Template\POS_Checking.xlsx", Editable: true);
@@ -168,6 +185,73 @@ namespace MachineDeptApp.TrackingPOS
                     //add to All Data
                     try
                     {
+                        //Insert more Rows
+                        if (dgvPOSData.Rows.Count > 1)
+                        {
+                            worksheet.Range["7:" + (row + 5)].Insert();
+                        }
+
+                        //Write data
+                        worksheet.Cells[2, 16] = date;
+                        int increase = 0;
+                        for (int i = 0; i < dgvPOSData.Rows.Count; i++)
+                        {
+                            if (i > 0)
+                            {
+                                double LastWIPCode = Convert.ToDouble(dgvPOSData.Rows[i - 1].Cells[0].Value.ToString());
+                                double CurrentWIPCode = Convert.ToDouble(dgvPOSData.Rows[i].Cells[0].Value.ToString());
+                                if (CurrentWIPCode - 1 == LastWIPCode)
+                                {
+                                    worksheet.Range["K" + (i + increase + 6) + ":Q" + (i + increase + 6)].Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDot;
+                                    for (int j = 0; j < dgvPOSData.Columns.Count; j++)
+                                    {
+                                        if (dgvPOSData.Rows[i].Cells[j].Value != null)
+                                        {
+                                            worksheet.Cells[i + increase + 6, j + 11] = dgvPOSData.Rows[i].Cells[j].Value.ToString();
+
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    worksheet.Range["K" + (i + increase + 6) + ":Q" + (i + increase + 6)].Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+                                    increase = increase + 1;
+                                    worksheet.Range["K" + (i + increase + 6) + ":Q" + (i + increase + 6)].Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDot;
+                                    for (int j = 0; j < dgvPOSData.Columns.Count; j++)
+                                    {
+                                        if (dgvPOSData.Rows[i].Cells[j].Value != null)
+                                        {
+                                            worksheet.Cells[i + increase + 6, j + 11] = dgvPOSData.Rows[i].Cells[j].Value.ToString();
+
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                worksheet.Range["K" + (i + 6) + ":Q" + (i + 6)].Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDot;
+                                for (int j = 0; j < dgvPOSData.Columns.Count; j++)
+                                {
+                                    if (dgvPOSData.Rows[i].Cells[j].Value != null)
+                                    {
+                                        worksheet.Cells[i + 6, j + 11] = dgvPOSData.Rows[i].Cells[j].Value.ToString();
+
+                                    }
+                                }
+                            }
+                        }
+
+                        // Saving the modified Excel file
+                        string file = "POS_Checking ";
+                        fName = file + "( " + date.ToString("dd-MM-yyyy HH_mm_ss") + " )";
+                        worksheet.SaveAs(SavePath + @"\" + fName + ".xlsx");
+                        xlWorkBook.Save();
+                        xlWorkBook.Close();
+                        excelApp.Quit();
+
+
+                        /*
+
                         if (dgvPOSData.Rows.Count == 1)
                         {
                             worksheet.Cells[2, 16] = DateTime.Now;
@@ -186,8 +270,8 @@ namespace MachineDeptApp.TrackingPOS
                                         //worksheet1.Cells[i + 5, j + 1] = "";
                                     }
                                 }
-                            }  
-                            
+                            }
+
                             // Saving the modified Excel file                        
                             string date = DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss");
                             string file = "POS_Checking ";
@@ -197,7 +281,8 @@ namespace MachineDeptApp.TrackingPOS
                             xlWorkBook.Close();
                             excelApp.Quit();
                         }
-                        
+
+
                         else if (dgvPOSData.Rows.Count > 1)
                         {
                             worksheet.Cells[2, 16] = DateTime.Now;
@@ -207,11 +292,11 @@ namespace MachineDeptApp.TrackingPOS
                             {
                                 if (i > 0)
                                 {
-                                    double LastWIPCode = Convert.ToDouble(dgvPOSData.Rows[i-1].Cells[0].Value.ToString());
+                                    double LastWIPCode = Convert.ToDouble(dgvPOSData.Rows[i - 1].Cells[0].Value.ToString());
                                     double CurrentWIPCode = Convert.ToDouble(dgvPOSData.Rows[i].Cells[0].Value.ToString());
                                     if (CurrentWIPCode - 1 == LastWIPCode)
                                     {
-                                        worksheet.Range["K" + (i + increase +6) + ":Q" + (i + increase + 6)].Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDot;
+                                        worksheet.Range["K" + (i + increase + 6) + ":Q" + (i + increase + 6)].Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDot;
                                         for (int j = 0; j < dgvPOSData.Columns.Count; j++)
                                         {
                                             if (dgvPOSData.Rows[i].Cells[j].Value != null)
@@ -227,8 +312,8 @@ namespace MachineDeptApp.TrackingPOS
                                     }
                                     else
                                     {
-                                        worksheet.Range["K" + (i + increase + 6) + ":Q" + (i + increase + 6)].Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;                                        
-                                        increase =increase+1;
+                                        worksheet.Range["K" + (i + increase + 6) + ":Q" + (i + increase + 6)].Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+                                        increase = increase + 1;
                                         worksheet.Range["K" + (i + increase + 6) + ":Q" + (i + increase + 6)].Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDot;
                                         for (int j = 0; j < dgvPOSData.Columns.Count; j++)
                                         {
@@ -246,7 +331,7 @@ namespace MachineDeptApp.TrackingPOS
                                 }
                                 else
                                 {
-                                    worksheet.Range["K" + (i+6) + ":Q" + (i + 6)].Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDot;
+                                    worksheet.Range["K" + (i + 6) + ":Q" + (i + 6)].Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDot;
                                     for (int j = 0; j < dgvPOSData.Columns.Count; j++)
                                     {
                                         if (dgvPOSData.Rows[i].Cells[j].Value != null)
@@ -270,10 +355,13 @@ namespace MachineDeptApp.TrackingPOS
                             xlWorkBook.Save();
                             xlWorkBook.Close();
                             excelApp.Quit();
-                        }    
+                        }
+                        */
+
                     }
                     catch (System.Exception ex)
                     {
+                        ErrorText = ex.Message;
                         excelApp.DisplayAlerts = false;
                         xlWorkBook.Close();
                         excelApp.DisplayAlerts = true;
@@ -290,14 +378,28 @@ namespace MachineDeptApp.TrackingPOS
                             process.Kill();
                     }
 
+                    Cursor = Cursors.Default;
 
-                    LbExportStatus.Text = "ព្រីនបានជោគជ័យ​ !";
-                    MessageBox.Show("ការព្រីនបានជោគជ័យ​ !", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    System.Diagnostics.Process.Start(CDirectory.ToString() + @"\\Report\POS_Checking\" + fName + ".xlsx");
-                    fName = "";
-                    LbExportStatus.Visible = false;
+                    if (ErrorText.Trim() == "")
+                    {
+                        LbExportStatus.Text = "ព្រីនបានជោគជ័យ​ !";
+                        LbExportStatus.Refresh();
+                        InfoMsg.InfoText = "ការព្រីនបានជោគជ័យ​ !";
+                        InfoMsg.ShowingMsg();
+                        System.Diagnostics.Process.Start(SavePath.ToString() + @"\" + fName + ".xlsx");
+                        fName = "";
+                        LbExportStatus.Visible = false;
+                    }
+                    else
+                    {
+                        LbExportStatus.Text = "មានបញ្ហា!";
+                        LbExportStatus.Refresh();
+                        EMsg.AlertText = "មានបញ្ហា!\n" + ErrorText;
+                        EMsg.ShowingMsg();
+                    }
                 }
             }
         }
+
     }
 }

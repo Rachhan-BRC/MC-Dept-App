@@ -65,9 +65,9 @@ namespace MachineDeptApp
                 }
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                //Application.Run(new LoginForm());
+                Application.Run(new LoginForm());
                 //For Design test
-                Application.Run(new NGAdjustSearchForm());
+                //Application.Run(new NGAdjustSearchForm());
             }
         }
     }
