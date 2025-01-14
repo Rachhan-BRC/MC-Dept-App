@@ -1047,19 +1047,71 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                                     cmd.Parameters.AddWithValue("@Sn", TransNo);
                                     cmd.Parameters.AddWithValue("@Ft", 2);
                                     cmd.Parameters.AddWithValue("@Lc", InLocCode);
-                                    if (InLocCode == "WIR1")
+                                    //For SD Additional Transfer Stock
+                                    if (OutLocCode == "WIR1" && InLocCode == "MC1")
                                     {
-                                        cmd.Parameters.AddWithValue("@Pn", "");
-                                    }
-                                    else
-                                    {
-                                        if (Remark.Contains("NGRate") == true)
+                                        if (Remark.Substring(0,2).ToString() == "SD")
                                         {
-                                            cmd.Parameters.AddWithValue("@Pn", Remark.Replace("_NGRate", ""));
+                                            int NotSDFormatFound = 0;
+                                            //Check Date
+                                            try
+                                            {
+                                                string StringDate = Remark.Replace("SD","");
+                                                StringDate = StringDate.Substring(0,StringDate.Length-3);
+                                                string yyyy = "20" + StringDate.Substring(0,2);
+                                                string mm = StringDate.Substring(2, 2);
+                                                string dd = StringDate.Substring(4, 2);
+                                                DateTime SDDate = Convert.ToDateTime(yyyy+"-"+mm+"-"+dd);
+                                                Console.WriteLine(SDDate);
+                                            }
+                                            catch
+                                            {
+                                                NotSDFormatFound++;
+                                            }
+
+                                            //Check Last 3 digit
+                                            try
+                                            {
+                                                string StringNo = Remark.Replace("SD", "");
+                                                double No = Convert.ToDouble(Remark.Substring(StringNo.Length - 3,3));
+                                                Console.WriteLine(No);
+                                            }
+                                            catch
+                                            {
+                                                NotSDFormatFound++;
+                                            }
+
+                                            if (NotSDFormatFound == 0)
+                                            {
+                                                cmd.Parameters.AddWithValue("@Pn", Remark);
+                                            }
+                                            else
+                                            {
+                                                cmd.Parameters.AddWithValue("@Pn", POSNo);
+                                            }
                                         }
                                         else
                                         {
                                             cmd.Parameters.AddWithValue("@Pn", POSNo);
+                                        }
+                                    }
+                                    //Other
+                                    else 
+                                    {
+                                        if (InLocCode == "WIR1")
+                                        {
+                                            cmd.Parameters.AddWithValue("@Pn", "");
+                                        }
+                                        else
+                                        {
+                                            if (Remark.Contains("NGRate") == true)
+                                            {
+                                                cmd.Parameters.AddWithValue("@Pn", Remark.Replace("_NGRate", ""));
+                                            }
+                                            else
+                                            {
+                                                cmd.Parameters.AddWithValue("@Pn", POSNo);
+                                            }
                                         }
                                     }
                                     cmd.Parameters.AddWithValue("@Cd", Code);
