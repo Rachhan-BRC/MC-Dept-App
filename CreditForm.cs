@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace MachineDeptApp
 
         private void CreditForm_Shown(object sender, EventArgs e)
         {
-            
+            LbAppNameAndVersion.Text = Assembly.GetExecutingAssembly().GetName().Name + " V" + Assembly.GetExecutingAssembly().GetName().Version;
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)

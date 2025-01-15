@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MachineDeptApp.MsgClass;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,171 +15,180 @@ namespace MachineDeptApp.NG_Input
 {
     public partial class MstBOMForm : Form
     {
-        SQLConnectOBS cnnOBS = new SQLConnectOBS();
+        ErrorMsgClass EMsg = new ErrorMsgClass();
+        WarningMsgClass WMsg = new WarningMsgClass();
+        QuestionMsgClass QMsg = new QuestionMsgClass();
+        InformationMsgClass InfoMsg = new InformationMsgClass();
         SQLConnect cnn = new SQLConnect();
-        DataTable SemiInforSearch;
-        DataTable SemiConsumpSearch;
-        DataTable CurrentBOM;
-        DataTable NewBOM;
-        DataTable MaxUpdateSemi;
-        SqlCommand cmd;
-        string ErrorStat;
+        string ErrorText;
 
         public MstBOMForm()
         {
             InitializeComponent();
-            progressBar1.Visible = false;
-            cnn.Connection();
-            cnnOBS.Connection();
-            this.dgvSemi.CellClick += DgvSemi_CellClick;
+            this.cnn.Connection();
+            this.Shown += MstBOMForm_Shown;
             this.btnSearch.Click += BtnSearch_Click;
-            this.Load += MstBOMForm_Load;
+            this.dgvSemi.CurrentCellChanged += DgvSemi_CurrentCellChanged;
 
         }
 
+        private void DgvSemi_CurrentCellChanged(object sender, EventArgs e)
+        {
+            dgvConsump.Rows.Clear();
+            if (dgvSemi.SelectedCells.Count > 0 && dgvSemi.CurrentCell != null && dgvSemi.CurrentCell.RowIndex > -1)
+            {
+                TakingConsumption();
+            }
+        }
+        private void MstBOMForm_Shown(object sender, EventArgs e)
+        {
+            foreach (DataGridViewColumn col in dgvSemi.Columns)
+            {
+                //Console.WriteLine(col.Name);
+            }
+        }
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            LbExportStatus.Visible = true;
-            LbExportStatus.Text = "កំពុងស្វែងរក​ . . . .";
-            LbExportStatus.Refresh();
+            Cursor = Cursors.WaitCursor;
+            ErrorText = "";
+            LbStatus.Text = "កំពុងស្វែងរក​ . . . .";
+            LbStatus.Refresh();
             dgvSemi.Rows.Clear();
             dgvConsump.Rows.Clear();
+
+            DataTable dtSQLCond = new DataTable();
+            dtSQLCond.Columns.Add("Col");
+            dtSQLCond.Columns.Add("Val");
+            if (txtCode.Text.Trim() != "")
+            {
+                string SearchValue = txtCode.Text;
+                if (SearchValue.Contains("*") == true)
+                {
+                    SearchValue = SearchValue.Replace("*","%");
+                    dtSQLCond.Rows.Add("ItemCode LIKE ", "'"+SearchValue+"'");
+                }
+                else
+                {
+                    dtSQLCond.Rows.Add("ItemCode = ", "'" + SearchValue + "'");
+                }
+            }
             if (txtItemname.Text.Trim() != "")
             {
-                //Take Semi Inform
-                try
+                string SearchValue = txtItemname.Text;
+                if (SearchValue.Contains("*") == true)
                 {
-                    cnn.con.Open();
-                    //SqlDataAdapter da = new SqlDataAdapter("Select * From (Select UpItemCode, Max(UpdateDate) as LastUpdate From MstBOM Group By UpItemCode)t1 INNER JOIN (Select * From tbMasterItem Where LEN(ItemCode)>4  AND ItemName Like '%" + txtItemname.Text.ToString()+"%') t2 ON t1.UpItemCode=t2.ItemCode", cnn.con);
-                    SqlDataAdapter da = new SqlDataAdapter("Select UpItemCode, ItemName, Remarks1, Remarks2, Remarks3, LastUpdate From " +
-                                                                                    "(Select UpItemCode, Max(UpdateDate) as LastUpdate From MstBOM Group By UpItemCode) t1 " +
-                                                                                    "INNER JOIN(Select ItemCode, ItemName, Remarks1, Remarks2, Remarks3 From tbMasterItem Where LEN(ItemCode) > 4  AND ItemName Like '%" + txtItemname.Text.ToString() + "%') t2 " +
-                                                                                    "ON t1.UpItemCode = t2.ItemCode", cnn.con);
-                    SemiInforSearch = new DataTable();
-                    da.Fill(SemiInforSearch);
-                    SqlDataAdapter da1 = new SqlDataAdapter("Select * From (Select UpItemCode, LowItemCode, (LowQty*SemiQtyOfFG) as TotalUse, Yield From MstBOM) t1 INNER JOIN (Select ItemCode, ItemName From tbMasterItem Where LEN(ItemCode)<5) t2 ON t1.LowItemCode=t2.ItemCode", cnn.con);
-                    SemiConsumpSearch = new DataTable();
-                    da1.Fill(SemiConsumpSearch);
-
+                    SearchValue = SearchValue.Replace("*", "%");
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("មានបញ្ហាអ្វីមួយ ! សូមពិនិត្យមលើការភ្ជាប់បណ្ដាញ \nឬ​ក៏សួរទៅកាន់រ៉ាឆាន់!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    SearchValue = "%" + SearchValue + "%";
                 }
-                cnn.con.Close();
-
-                //Add to dgv
-                if (SemiInforSearch.Rows.Count > 0)
-                {
-                    for (int i = 0; i < SemiInforSearch.Rows.Count; i++)
-                    {
-                        dgvSemi.Rows.Add(SemiInforSearch.Rows[i][0].ToString(), SemiInforSearch.Rows[i][1].ToString(), SemiInforSearch.Rows[i][2].ToString(), SemiInforSearch.Rows[i][3].ToString(), SemiInforSearch.Rows[i][4].ToString(), Convert.ToDateTime(SemiInforSearch.Rows[i][5].ToString()));
-
-                    }
-                    dgvSemi.ClearSelection();
-                }
-
+                dtSQLCond.Rows.Add("ItemName LIKE ", "'" + SearchValue + "'");
             }
-            else
+            string SQLConds = "";
+            foreach (DataRow row in dtSQLCond.Rows)
             {
-                //Take Semi Inform
-                try
-                {
-                    cnn.con.Open();
-                    SqlDataAdapter da = new SqlDataAdapter("Select UpItemCode, ItemName, Remarks1, Remarks2, Remarks3, LastUpdate From (Select UpItemCode, Max(UpdateDate) as LastUpdate From MstBOM Group By UpItemCode) t1 " +
-                                                                                "INNER JOIN (Select ItemCode, ItemName,Remarks1, Remarks2, Remarks3 From tbMasterItem Where LEN(ItemCode)>4) t2 " +
-                                                                                "ON t1.UpItemCode=t2.ItemCode", cnn.con);
-                    SemiInforSearch = new DataTable();
-                    da.Fill(SemiInforSearch);
-                    SqlDataAdapter da1 = new SqlDataAdapter("Select * From (Select UpItemCode, LowItemCode, (LowQty*SemiQtyOfFG) as TotalUse, Yield From MstBOM) t1 INNER JOIN (Select ItemCode, ItemName From tbMasterItem Where LEN(ItemCode)<5) t2 ON t1.LowItemCode=t2.ItemCode", cnn.con);
-                    SemiConsumpSearch = new DataTable();
-                    da1.Fill(SemiConsumpSearch);
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("មានបញ្ហាអ្វីមួយ ! សូមពិនិត្យមលើការភ្ជាប់បណ្ដាញ \nឬ​ក៏សួរទៅកាន់រ៉ាឆាន់!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                cnn.con.Close();
-
-                //Add to dgv
-                if (SemiInforSearch.Rows.Count > 0)
-                {
-                    for (int i = 0; i < SemiInforSearch.Rows.Count; i++)
-                    {
-                        dgvSemi.Rows.Add(SemiInforSearch.Rows[i][0].ToString(), SemiInforSearch.Rows[i][1].ToString(), SemiInforSearch.Rows[i][2].ToString(), SemiInforSearch.Rows[i][3].ToString(), SemiInforSearch.Rows[i][4].ToString(), Convert.ToDateTime(SemiInforSearch.Rows[i][5].ToString()));
-
-                    }
-                    dgvSemi.ClearSelection();
-                }
+                SQLConds += " AND " + row["Col"] + row["Val"];
             }
 
-            LbExportStatus.Text = "រកឃើញ " + String.Format("{0:N0}", dgvSemi.Rows.Count);
-        }
-
-        private void DgvSemi_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            string SemiSelected = "";
-            dgvConsump.Rows.Clear();
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = this.dgvSemi.Rows[e.RowIndex];
-                SemiSelected = row.Cells[0].Value.ToString();
-                for (int i = 0; i < SemiConsumpSearch.Rows.Count; i++)
-                {
-                    if (SemiConsumpSearch.Rows[i][0].ToString() == SemiSelected)
-                    {
-                        dgvConsump.Rows.Add(SemiConsumpSearch.Rows[i][1].ToString(), SemiConsumpSearch.Rows[i][5].ToString(), Convert.ToDouble(SemiConsumpSearch.Rows[i][2].ToString()), Convert.ToDouble("100") - Convert.ToDouble(SemiConsumpSearch.Rows[i][3]));
-                    }
-
-                }
-                dgvConsump.ClearSelection();
-
-            }
-            else
-            {
-
-            }
-        }
-
-        private void MstBOMForm_Load(object sender, EventArgs e)
-        {
-            //Retrive Current BOM
+            //Taking Data
+            DataTable dtSearchResult = new DataTable();
             try
             {
                 cnn.con.Open();
-                SqlDataAdapter da = new SqlDataAdapter("Select UpItemCode From MstBOM Group By UpItemCode;", cnn.con);
-                CurrentBOM = new DataTable();
-                da.Fill(CurrentBOM);
-                SqlDataAdapter da1 = new SqlDataAdapter("Select MAX(UpdateDate) As Udate From MstBOM;", cnn.con);
-                MaxUpdateSemi = new DataTable();
-                da1.Fill(MaxUpdateSemi);
+                string SQLQuery = "SELECT UpItemCode, ItemName, Remarks1, Remarks2, Remarks3, LastUpdate FROM " +
+                    "\n(SELECT UpItemCode, Max(UpdateDate) AS LastUpdate FROM MstBOM GROUP BY UpItemCode) T1 " +
+                    "\nINNER JOIN(SELECT ItemCode, ItemName, Remarks1, Remarks2, Remarks3, ItemType FROM tbMasterItem) T2 ON T1.UpItemCode = T2.ItemCode " +
+                    "\nWHERE ItemType ='Work In Process' "+SQLConds+" " +
+                    "\nORDER BY UpItemCode ASC";
+                SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                sda.Fill(dtSearchResult);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("មានបញ្ហាអ្វីមួយ ! សូមពិនិត្យមលើការភ្ជាប់បណ្ដាញ \nឬ​ក៏សួរទៅកាន់រ៉ាឆាន់!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorText = ex.Message;
             }
             cnn.con.Close();
 
-        }
-
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-        {
-            for (int i = 1; i <= 100; i++)
+            //Add to Dgv
+            if (ErrorText.Trim() == "")
             {
-                Thread.Sleep(10);
-                backgroundWorker1.WorkerReportsProgress = true;
-                backgroundWorker1.ReportProgress(i);
+                foreach (DataRow row in dtSearchResult.Rows)
+                {
+                    dgvSemi.Rows.Add();
+                    dgvSemi.Rows[dgvSemi.Rows.Count - 1].Cells["WIPCode"].Value = row["UpItemCode"].ToString();
+                    dgvSemi.Rows[dgvSemi.Rows.Count - 1].Cells["WIPName"].Value = row["ItemName"].ToString();
+                    dgvSemi.Rows[dgvSemi.Rows.Count - 1].Cells["PIN"].Value = row["Remarks1"].ToString();
+                    dgvSemi.Rows[dgvSemi.Rows.Count - 1].Cells["Wire"].Value = row["Remarks2"].ToString();
+                    dgvSemi.Rows[dgvSemi.Rows.Count - 1].Cells["Length"].Value = row["Remarks3"].ToString();
+                    dgvSemi.Rows[dgvSemi.Rows.Count - 1].Cells["LastUpdate"].Value = Convert.ToDateTime(row["LastUpdate"].ToString());
+                }
+            }
+            
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim() == "")
+            {
+                dgvSemi.ClearSelection();
+                dgvSemi.CurrentCell = null;
+                LbStatus.Text = "រកឃើញទិន្នន័យ " + dgvSemi.Rows.Count.ToString("N0");
+                LbStatus.Refresh();
+            }
+            else
+            {
+                EMsg.AlertText = "មានបញ្ហា!\n" + ErrorText;
+                EMsg.ShowingMsg();
             }
         }
 
-        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        //Function
+        private void TakingConsumption()
         {
-            progressBar1.Show();
-            progressBar1.Value = e.ProgressPercentage;
-            LbPercent.Text = e.ProgressPercentage.ToString() + " % ";
-        }
+            Cursor = Cursors.WaitCursor;
+            ErrorText = "";
 
+            //Taking Data
+            DataTable dtConsumption = new DataTable();
+            try
+            {
+                cnn.con.Open();
+                string SQLQuery = "SELECT UpItemCode, LowItemCode, ItemName, LowQty, Yield FROM " +
+                    "\n(SELECT * FROM MstBOM) T1 " +
+                    "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T2 ON T1.LowItemCode = T2.ItemCode " +
+                    "\nWHERE UpItemCode = '" + dgvSemi.Rows[dgvSemi.CurrentCell.RowIndex].Cells["WIPCode"].Value.ToString() +"' " +
+                    "\nORDER BY UpItemCode ASC, LowItemCode ASC";
+                SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                sda.Fill(dtConsumption);
+            }
+            catch (Exception ex)
+            {
+                ErrorText = ex.Message;
+            }
+            cnn.con.Close();
+
+            //Add to Dgv
+            if (ErrorText.Trim() == "")
+            {
+                foreach (DataRow row in dtConsumption.Rows)
+                {
+                    dgvConsump.Rows.Add();
+                    dgvConsump.Rows[dgvConsump.Rows.Count - 1].HeaderCell.Value = dgvConsump.Rows.Count.ToString();
+                    dgvConsump.Rows[dgvConsump.Rows.Count - 1].Cells["RMCode"].Value = row["LowItemCode"].ToString();
+                    dgvConsump.Rows[dgvConsump.Rows.Count - 1].Cells["RMName"].Value = row["ItemName"].ToString();
+                    dgvConsump.Rows[dgvConsump.Rows.Count - 1].Cells["Qty"].Value = Convert.ToDouble(row["LowQty"].ToString());
+                    dgvConsump.Rows[dgvConsump.Rows.Count - 1].Cells["Rate"].Value = Convert.ToDouble(row["Yield"].ToString()) / 100;
+                }
+                dgvConsump.ClearSelection();
+            }
+
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim() != "")
+            {
+                EMsg.AlertText = "មានបញ្ហា!\n" + ErrorText;
+                EMsg.ShowingMsg();
+            }
+        }
 
     }
 }

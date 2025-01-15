@@ -27,6 +27,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace MachineDeptApp
 {
@@ -1873,6 +1874,7 @@ namespace MachineDeptApp
 
         private void MenuFormV2_Load(object sender, EventArgs e)
         {
+            this.Text = Assembly.GetExecutingAssembly().GetName().Name + " by Rachhan";
             treeViewMenu.Nodes.Clear();
             //Add root Node
             dtRoot = new DataTable();

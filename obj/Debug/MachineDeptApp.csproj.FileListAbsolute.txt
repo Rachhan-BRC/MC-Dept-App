@@ -1339,9 +1339,6 @@ D:\My Project\My C# project\MachineDeptApp\MachineDeptApp v1.0.0.8\obj\Debug\Mac
 D:\My Project\My C# project\MachineDeptApp\MachineDeptApp v1.0.0.8\obj\Debug\MachineDeptApp.csproj.CoreCompileInputs.cache
 D:\My Project\My C# project\MachineDeptApp\MachineDeptApp v1.0.0.8\obj\Debug\MachineDeptApp.exe
 D:\My Project\My C# project\MachineDeptApp\MachineDeptApp v1.0.0.8\obj\Debug\MachineDeptApp.pdb
-D:\Current Works\MC-Dept-App\bin\Debug\MachineDeptApp.exe.config
-D:\Current Works\MC-Dept-App\bin\Debug\MachineDeptApp.exe
-D:\Current Works\MC-Dept-App\bin\Debug\MachineDeptApp.pdb
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.AssemblyReference.cache
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.MachineTypeMasterForm.resources
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.MasterItemCheckForm.resources
@@ -1447,6 +1444,9 @@ D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.TransferData.TransferDataE
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.TransferData.TransferDataForm.resources
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.GenerateResource.cache
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.CoreCompileInputs.cache
-D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.exe
-D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.pdb
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.NGAdjustSearchForm.resources
+D:\Current Works\MC-Dept-App\bin\Debug\Machine Dept App.exe.config
+D:\Current Works\MC-Dept-App\bin\Debug\Machine Dept App.exe
+D:\Current Works\MC-Dept-App\bin\Debug\Machine Dept App.pdb
+D:\Current Works\MC-Dept-App\obj\Debug\Machine Dept App.exe
+D:\Current Works\MC-Dept-App\obj\Debug\Machine Dept App.pdb
