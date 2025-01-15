@@ -1445,8 +1445,8 @@ D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.TransferData.TransferDataF
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.GenerateResource.cache
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.CoreCompileInputs.cache
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.NGAdjustSearchForm.resources
-D:\Current Works\MC-Dept-App\bin\Debug\Machine Dept App.exe.config
-D:\Current Works\MC-Dept-App\bin\Debug\Machine Dept App.exe
-D:\Current Works\MC-Dept-App\bin\Debug\Machine Dept App.pdb
-D:\Current Works\MC-Dept-App\obj\Debug\Machine Dept App.exe
-D:\Current Works\MC-Dept-App\obj\Debug\Machine Dept App.pdb
+D:\Current Works\MC-Dept-App\bin\Debug\MC Dept App.exe.config
+D:\Current Works\MC-Dept-App\bin\Debug\MC Dept App.exe
+D:\Current Works\MC-Dept-App\bin\Debug\MC Dept App.pdb
+D:\Current Works\MC-Dept-App\obj\Debug\MC Dept App.exe
+D:\Current Works\MC-Dept-App\obj\Debug\MC Dept App.pdb
