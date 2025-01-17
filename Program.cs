@@ -3,6 +3,7 @@ using MachineDeptApp.Inventory.Inprocess;
 using MachineDeptApp.Inventory.KIT;
 using MachineDeptApp.Inventory.MC_SD;
 using MachineDeptApp.MCPlans;
+using MachineDeptApp.MCSDControl;
 using MachineDeptApp.MCSDControl.SDRec;
 using MachineDeptApp.MCSDControl.WIR1__Wire_Stock_;
 using MachineDeptApp.NG_Input;
@@ -65,9 +66,9 @@ namespace MachineDeptApp
                 }
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new LoginForm());
+                //Application.Run(new LoginForm());
                 //For Design test
-                //Application.Run(new MstBOMForm());
+                Application.Run(new MCInprocessStockSearchForm());
             }
         }
     }
