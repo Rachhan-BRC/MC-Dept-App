@@ -65,8 +65,8 @@ namespace MachineDeptApp
             }
             else
             {
-                try
-                {
+                //try
+                //{
                     cnn.con.Open();
                     SqlDataAdapter sda = new SqlDataAdapter("SELECT COUNT(*) FROM tbUser WHERE ID ='" + txtID.Text + "' AND Password='" + txtPassword.Text + "'", cnn.con);
                     DataTable dt = new DataTable();
@@ -83,11 +83,11 @@ namespace MachineDeptApp
                     {
                         MessageBox.Show("មិនមានគណនីនេះនៅក្នុងប្រព័ន្ធទេ!", "Login Fail", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("ការភ្ជាប់បណ្ដាញមានបញ្ហា!\nសូមឆែកមើលការកំណត់របស់កម្មវិធី!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                //}
+                //catch (Exception ex)
+                //{
+                //    MessageBox.Show("ការភ្ជាប់បណ្ដាញមានបញ្ហា!\nសូមឆែកមើលការកំណត់របស់កម្មវិធី!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //}
                 cnn.con.Close();
             }
         }

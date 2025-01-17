@@ -953,11 +953,11 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
         }
 
         private void SaveToDB()
-        {            
-            try
-            {
-                //Dt for error
-                DataTable dtError = new DataTable();
+        {
+            //try
+            //{
+            //Dt for error
+            DataTable dtError = new DataTable();
                 dtError.Columns.Add("Code");
                 dtError.Columns.Add("Items");
                 dtError.Columns.Add("OutLoc");
@@ -1050,7 +1050,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                                     //For SD Additional Transfer Stock
                                     if (OutLocCode == "WIR1" && InLocCode == "MC1")
                                     {
-                                        if (Remark.Substring(0,2).ToString() == "SD")
+                                        if (Remark.Trim()!="" && Remark.Substring(0,2).ToString() == "SD")
                                         {
                                             int NotSDFormatFound = 0;
                                             //Check Date
@@ -1191,11 +1191,11 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                     }
                     MessageBox.Show(MsgBox, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("មានបញ្ហា!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("មានបញ្ហា!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
             cnn.con.Close();
         }
 

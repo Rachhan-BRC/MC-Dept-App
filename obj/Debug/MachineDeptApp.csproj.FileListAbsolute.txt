@@ -1450,3 +1450,4 @@ D:\Current Works\MC-Dept-App\bin\Debug\MC Dept App.exe
 D:\Current Works\MC-Dept-App\bin\Debug\MC Dept App.pdb
 D:\Current Works\MC-Dept-App\obj\Debug\MC Dept App.exe
 D:\Current Works\MC-Dept-App\obj\Debug\MC Dept App.pdb
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.MCInprocessStockSearchForm.resources

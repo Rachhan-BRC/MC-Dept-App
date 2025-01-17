@@ -301,6 +301,12 @@
     <Compile Include="MCPlans\RMStatusForPlanForm.Designer.cs">
       <DependentUpon>RMStatusForPlanForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MCSDControl\MCInprocessStockSearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\MCInprocessStockSearchForm.Designer.cs">
+      <DependentUpon>MCInprocessStockSearchForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MCSDControl\MCStockSearchForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -801,6 +807,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MCPlans\RMStatusForPlanForm.resx">
       <DependentUpon>RMStatusForPlanForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\MCInprocessStockSearchForm.resx">
+      <DependentUpon>MCInprocessStockSearchForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MCSDControl\MCStockSearchForm.resx">
       <DependentUpon>MCStockSearchForm.cs</DependentUpon>
