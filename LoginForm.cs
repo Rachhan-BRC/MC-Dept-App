@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MachineDeptApp.MsgClass;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,8 +14,16 @@ namespace MachineDeptApp
 {
     public partial class LoginForm : Form
     {
+        ErrorMsgClass EMsg = new ErrorMsgClass();
+        InformationMsgClass InfoMsg = new InformationMsgClass();
+        QuestionMsgClass QMsg = new QuestionMsgClass();
+        WarningMsgClass WMsg = new WarningMsgClass();
         SQLConnect cnn = new SQLConnect();
         public static string IDValueForNextForm = "";
+        public static string NameForNextForm = "";
+        public static string RoleForNextForm = "";
+
+        string ErrorText;
 
         public LoginForm()
         {
@@ -61,19 +70,37 @@ namespace MachineDeptApp
         {
             if (txtID.Text.Trim() == "" || txtPassword.Text.Trim() == "")
             {
-                MessageBox.Show("ការចូលប្រើបរាជ័យ!", "Login Fail", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                WMsg.WarningText = "ការចូលប្រើបរាជ័យ!";
+                WMsg.ShowingMsg();
             }
             else
             {
-                //try
-                //{
+                Cursor = Cursors.WaitCursor;
+                ErrorText = "";
+
+                //Taking Data
+                DataTable dt = new DataTable();                
+                try
+                {
                     cnn.con.Open();
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT COUNT(*) FROM tbUser WHERE ID ='" + txtID.Text + "' AND Password='" + txtPassword.Text + "'", cnn.con);
-                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM tbUser WHERE ID ='" + txtID.Text + "' AND Password='" + txtPassword.Text + "'", cnn.con);
                     sda.Fill(dt);
-                    if (dt.Rows[0][0].ToString() == "1")
+                }
+                catch (Exception ex)
+                {
+                    ErrorText = "ការភ្ជាប់បណ្ដាញមានបញ្ហា!\nសូមឆែកមើលការកំណត់របស់កម្មវិធី!\n" + ex.Message;
+                }
+                cnn.con.Close();
+
+                Cursor = Cursors.Default;
+
+                if (ErrorText.Trim() == "")
+                {
+                    if (dt.Rows.Count>0)
                     {
-                        IDValueForNextForm = txtID.Text;
+                        IDValueForNextForm = dt.Rows[0]["ID"].ToString();
+                        NameForNextForm = dt.Rows[0]["Username"].ToString();
+                        RoleForNextForm = dt.Rows[0]["Role"].ToString();
                         this.Hide();
                         MenuFormV2 uaf = new MenuFormV2();
                         uaf.ShowDialog();
@@ -81,14 +108,15 @@ namespace MachineDeptApp
                     }
                     else
                     {
-                        MessageBox.Show("មិនមានគណនីនេះនៅក្នុងប្រព័ន្ធទេ!", "Login Fail", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        WMsg.WarningText = "មិនមានគណនីនេះនៅក្នុងប្រព័ន្ធទេ!";
+                        WMsg.ShowingMsg();
                     }
-                //}
-                //catch (Exception ex)
-                //{
-                //    MessageBox.Show("ការភ្ជាប់បណ្ដាញមានបញ្ហា!\nសូមឆែកមើលការកំណត់របស់កម្មវិធី!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //}
-                cnn.con.Close();
+                }
+                else
+                {
+                    EMsg.AlertText = ErrorText;
+                    EMsg.ShowingMsg();
+                }
             }
         }
     }

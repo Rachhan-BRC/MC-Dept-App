@@ -1856,7 +1856,29 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("NGAdjustSearchForm", "NG Adjust Search");
                 }
             }
+            if (currentClkNode.Text == "MC Inprocess - Total View")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
 
+                if (FoundOpened == 0)
+                {
+                    MCInprocessStockSearchForm Uf = new MCInprocessStockSearchForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("MC Inprocess - Total View");
+                    dtOpenForm.Rows.Add("MCInprocessStockSearchForm", "MC Inprocess - Total View");
+                }
+            }
 
             int After = dtOpenForm.Rows.Count;
 
@@ -1933,6 +1955,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(5, "វេរចេញ", "WireTransferForm");
             dtChildRoot.Rows.Add(5, "បញ្ចូលស្តុក/ដកចេញ", "WireReceiveAndIssueForm");
             dtChildRoot.Rows.Add(5, "ស្វែងរកទិន្នន័យវេរស្តុកសម្រាប់គម្រោង", "KITandSDForProductionSearch");
+            dtChildRoot.Rows.Add(5, "MC Inprocess - Total View", "MCInprocessStockSearchForm");
             dtChildRoot.Rows.Add(5, "ស្តុកកាត", "StockCardForm");
             dtChildRoot.Rows.Add(5, "ទិន្នន័យវេរចេញ/ចូល", "MCStockTransactionSearchForm");
             dtChildRoot.Rows.Add(5, "ទិន្នន័យស្តុក MC", "MCStockSearchForm");
@@ -2047,92 +2070,76 @@ namespace MachineDeptApp
                 MessageBox.Show("សូមកំណត់ម៉ោងឱ្យបានត្រឹមត្រូវមុនប្រើប្រាស់ !", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.treeViewMenu.Enabled = false;
             }
-            else if (Convert.ToInt64(Year) > 2027)
+            else if (Convert.ToInt64(Year) > 2028)
             {
                 MessageBox.Show("កម្មវិធីនេះត្រូវបានផុតកំណត់ហើយ!​ \nសូមទាក់ទងទៅកាន់​ រ៉ាឆាន់ !", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.treeViewMenu.Enabled = false;
             }
             else
             {                
-                LbLoginID.Text = LoginForm.IDValueForNextForm;                
-                try
+                LbLoginID.Text = LoginForm.NameForNextForm;         
+                UserForNextForm = LoginForm.NameForNextForm;
+                if (LoginForm.RoleForNextForm != "Admin")
                 {
-                    cnn.con.Open();
-                    string id = LbLoginID.Text.ToString();
-                    SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM tbUser WHERE ID = '" + id + "';", cnn.con);
-                    DataSet ds = new DataSet();
-                    da.Fill(ds, "Role");
-                    LogRole = ds.Tables["Role"].Rows[0][2].ToString();
-                    name = ds.Tables["Role"].Rows[0][1].ToString();
-                    LbLoginID.Text = name;
-                    UserForNextForm = name;
-                    if (LogRole != "Admin")
+                    int AdminFuncCount = treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes.Count;
+                    for (int i = AdminFuncCount - 1; i > -1; i--)
                     {
-                        int AdminFuncCount = treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes.Count;
-                        for (int i = AdminFuncCount - 1; i > -1; i--)
+                        if (i == 0)
                         {
-                            if (i == 0)
-                            {
-                                treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes[i].Remove();
-                            }
-                        }                        
-                    }
-
-                    //Add image Form to all child 
-                    int parentRoot = treeViewMenu.Nodes.Count;
-                    for (int i = 0; i < parentRoot; i++)
-                    {
-                        int ChildRoot = treeViewMenu.Nodes[i].Nodes.Count;
-                        for (int j = 0; j < ChildRoot; j++)
-                        {
-                            treeViewMenu.Nodes[i].Nodes[j].ImageIndex = 2;
-                        }
-
-                    }
-
-                    //Special case for root index 3
-                    int SepecialparentRoot = treeViewMenu.Nodes[2].Nodes.Count-1;
-                    for (int i = 0; i < SepecialparentRoot; i++)
-                    {
-                        treeViewMenu.Nodes[2].Nodes[i].ImageIndex = 1;
-                        int ChildRoot = treeViewMenu.Nodes[2].Nodes[i].Nodes.Count;
-                        for (int j = 0; j < ChildRoot; j++)
-                        {
-                            treeViewMenu.Nodes[2].Nodes[i].Nodes[j].ImageIndex = 2;
-                        }
-
-                    }
-
-                    //Special case for root index 6
-                    int SepecialparentRoot6 = treeViewMenu.Nodes[5].Nodes.Count - 1;
-                    for (int i = 0; i < SepecialparentRoot6-5; i++)
-                    {
-                        treeViewMenu.Nodes[5].Nodes[i].ImageIndex = 1;
-                        int ChildRoot = treeViewMenu.Nodes[5].Nodes[i].Nodes.Count;
-                        for (int j = 0; j < ChildRoot; j++)
-                        {
-                            treeViewMenu.Nodes[5].Nodes[i].Nodes[j].ImageIndex = 2;
-
-                        }
-                    }
-
-                    //Special case for root index 8
-                    int SepecialparentRoot7 = treeViewMenu.Nodes[treeViewMenu.Nodes.Count-2].Nodes.Count - 1;
-                    for (int i = 0; i < SepecialparentRoot6 - 4; i++)
-                    {
-                        treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 2].Nodes[i].ImageIndex = 1;
-                        int ChildRoot = treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 2].Nodes[i].Nodes.Count;
-                        for (int j = 0; j < ChildRoot; j++)
-                        {
-                            treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 2].Nodes[i].Nodes[j].ImageIndex = 2;
+                            treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes[i].Remove();
                         }
                     }
                 }
-                catch
+
+                //Add image Form to all child 
+                int parentRoot = treeViewMenu.Nodes.Count;
+                for (int i = 0; i < parentRoot; i++)
                 {
-                    MessageBox.Show("មានបញ្ហាអ្វីមួយ ! សូមពិនិត្យមលើការភ្ជាប់បណ្ដាញ \nឬ​ក៏សួរទៅកាន់រ៉ាឆាន់!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    int ChildRoot = treeViewMenu.Nodes[i].Nodes.Count;
+                    for (int j = 0; j < ChildRoot; j++)
+                    {
+                        treeViewMenu.Nodes[i].Nodes[j].ImageIndex = 2;
+                    }
+
                 }
-                cnn.con.Close();
+
+                //Special case for root index 3
+                int SepecialparentRoot = treeViewMenu.Nodes[2].Nodes.Count - 1;
+                for (int i = 0; i < SepecialparentRoot; i++)
+                {
+                    treeViewMenu.Nodes[2].Nodes[i].ImageIndex = 1;
+                    int ChildRoot = treeViewMenu.Nodes[2].Nodes[i].Nodes.Count;
+                    for (int j = 0; j < ChildRoot; j++)
+                    {
+                        treeViewMenu.Nodes[2].Nodes[i].Nodes[j].ImageIndex = 2;
+                    }
+
+                }
+
+                //Special case for root index 6
+                int SepecialparentRoot6 = treeViewMenu.Nodes[5].Nodes.Count - 1;
+                for (int i = 0; i < SepecialparentRoot6 - 5; i++)
+                {
+                    treeViewMenu.Nodes[5].Nodes[i].ImageIndex = 1;
+                    int ChildRoot = treeViewMenu.Nodes[5].Nodes[i].Nodes.Count;
+                    for (int j = 0; j < ChildRoot; j++)
+                    {
+                        treeViewMenu.Nodes[5].Nodes[i].Nodes[j].ImageIndex = 2;
+
+                    }
+                }
+
+                //Special case for root index 8
+                int SepecialparentRoot7 = treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 2].Nodes.Count - 1;
+                for (int i = 0; i < SepecialparentRoot6 - 4; i++)
+                {
+                    treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 2].Nodes[i].ImageIndex = 1;
+                    int ChildRoot = treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 2].Nodes[i].Nodes.Count;
+                    for (int j = 0; j < ChildRoot; j++)
+                    {
+                        treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 2].Nodes[i].Nodes[j].ImageIndex = 2;
+                    }
+                }
             }
         }
 

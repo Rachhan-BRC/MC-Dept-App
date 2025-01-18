@@ -29,7 +29,42 @@ namespace MachineDeptApp.MCSDControl
             InitializeComponent();
             this.cnn.Connection();
             this.btnSearch.Click += BtnSearch_Click;
+            this.dgvStock.CurrentCellChanged += DgvStock_CurrentCellChanged;
 
+        }
+
+        private void DgvStock_CurrentCellChanged(object sender, EventArgs e)
+        {
+            dgvDetails.Rows.Clear();
+            if (dgvStock.SelectedCells.Count > 0 && dgvStock.CurrentCell != null && dgvStock.CurrentCell.RowIndex > -1)
+            {
+                string Code = dgvStock.Rows[dgvStock.CurrentCell.RowIndex].Cells["RMCode"].Value.ToString();
+                foreach (DataRow row in dtStockDetails.Rows)
+                {
+                    if (row["Code"].ToString() == Code)
+                    {
+                        string DocNo = row["POSNo"].ToString();
+                        string Location = "ទិន្នន័យនៅសល់";
+                        if (DocNo.Trim() != "")
+                        {
+                            if (row["MCName1"].ToString().Trim() != "")
+                            {
+                                Location = row["MCName1"].ToString();
+                            }
+                            else
+                            {
+                                Location = row["MCName2"].ToString();
+                            }
+                        }
+                        dgvDetails.Rows.Add();
+                        dgvDetails.Rows[dgvDetails.Rows.Count - 1].HeaderCell.Value = dgvDetails.Rows.Count.ToString();
+                        dgvDetails.Rows[dgvDetails.Rows.Count - 1].Cells["Location"].Value = Location;
+                        dgvDetails.Rows[dgvDetails.Rows.Count - 1].Cells["DocNo"].Value = DocNo;
+                        dgvDetails.Rows[dgvDetails.Rows.Count-1].Cells["Qty"].Value = Convert.ToDouble(row["TotalQty"].ToString());
+                    }
+                }
+                dgvDetails.ClearSelection();
+            }
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)
@@ -58,15 +93,14 @@ namespace MachineDeptApp.MCSDControl
             if (txtItem.Text.Trim() == "")
             {
                 string SearchValue = txtItem.Text;
-                SearchValue = SearchValue.Replace("*", "%");
-                dtSQLCond.Rows.Add("ItemName LIKE ", "'" + SearchValue + "'");
+                dtSQLCond.Rows.Add("ItemName LIKE ", "'%" + SearchValue + "%'");
             }
             string SQLConds = "";
             foreach (DataRow row in dtSQLCond.Rows)
             {
                 if (SQLConds.Trim() == "")
                 {
-                    SQLConds = "WHERE " + row["Col"] + row["Val"];
+                    SQLConds = "AND " + row["Col"] + row["Val"];
                 }
                 else
                 {
@@ -94,11 +128,13 @@ namespace MachineDeptApp.MCSDControl
                     "\n\tELSE '' " +
                     "\nEND, MC3Name),'') AS MCName2 FROM tbPOSDetailofMC) T3 ON T1.POSNo = T3.PosCNo " +
                     "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T4 ON T1.Code=T4.ItemCode" +
-                    "\nWHERE NOT TotalQty=0 ";
+                    "\nWHERE NOT TotalQty=0 "+ SQLConds;
+                //Console.WriteLine(SQLQueryDetails + "\nORDER BY Code ASC, POSNo ASC");
 
                 string SQLQueryTotal = "SELECT Code, ItemName, SUM(TotalQty) AS TotalQty FROM (\n"+SQLQueryDetails+"\n) TbDetails " +
                     "\nGROUP BY Code, ItemName " +
                     "\nORDER BY Code ASC";
+                //Console.WriteLine(SQLQueryTotal);
 
                 SqlDataAdapter sda = new SqlDataAdapter(SQLQueryDetails + "\nORDER BY Code ASC, POSNo ASC", cnn.con);
                 sda.Fill(dtStockDetails);
@@ -140,5 +176,6 @@ namespace MachineDeptApp.MCSDControl
                 EMsg.ShowingMsg();
             }
         }
+
     }
 }
