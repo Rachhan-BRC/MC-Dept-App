@@ -95,8 +95,8 @@
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(53, 54);
             this.btnExport.TabIndex = 32;
+            this.toolTip1.SetToolTip(this.btnExport, "ទាញជាឯកសារ Excel");
             this.btnExport.UseVisualStyleBackColor = false;
-            this.btnExport.Visible = false;
             // 
             // btnSearch
             // 
@@ -283,7 +283,7 @@
             this.dgvDetails.ReadOnly = true;
             dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Khmer OS Battambang", 9F);
             dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
             dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.Black;

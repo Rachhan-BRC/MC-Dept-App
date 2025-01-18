@@ -3,12 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Forms;
+using System.IO;
 
 namespace MachineDeptApp.MCSDControl
 {
@@ -29,8 +32,105 @@ namespace MachineDeptApp.MCSDControl
             InitializeComponent();
             this.cnn.Connection();
             this.btnSearch.Click += BtnSearch_Click;
+            this.btnExport.Click += BtnExport_Click;
             this.dgvStock.CurrentCellChanged += DgvStock_CurrentCellChanged;
 
+        }
+
+        private void BtnExport_Click(object sender, EventArgs e)
+        {
+            if (dtStockQty.Rows.Count > 0 && dtStockDetails.Rows.Count > 0)
+            {
+                DataTable dtClone = dtStockDetails.Copy();
+                dtClone.Columns.Add("Location", typeof(string));
+                foreach (DataRow row in dtClone.Rows)
+                {
+                    if (row["POSNo"].ToString().Trim() == "")
+                    {
+                        row["Location"] = "ទិន្នន័យ​ស្តុកនៅសល់";
+                    }
+                    else
+                    {
+                        if (row["MCName1"].ToString().Trim() != "")
+                        {
+                            row["Location"] = row["MCName1"].ToString();
+                        }
+                        else
+                        {
+                            row["Location"] = row["MCName2"].ToString();
+                        }
+                    }
+                }
+                dtClone.Columns.Remove("MCName1");
+                dtClone.Columns.Remove("MCName2");
+                dtClone.AcceptChanges();
+
+                SaveFileDialog saveDialog = new SaveFileDialog();
+                saveDialog.Filter = "CSV file (*.csv)|*.csv";
+                saveDialog.FileName = "MC Inprocess Details.csv";
+                if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    Cursor = Cursors.WaitCursor;
+                    try
+                    {
+                        //String array for Csv
+                        string[] outputCsv;
+                        outputCsv = new string[dtClone.Rows.Count + 1];
+
+                        //Write Column name
+                        string columnNames = "";
+                        //Set Column Name
+                        foreach (DataColumn col in dtClone.Columns)
+                        {
+                            columnNames += col.ColumnName.ToString() + ",";
+                        }
+                        outputCsv[0] += columnNames;
+
+                        //Row of data 
+                        foreach (DataRow row in dtClone.Rows)
+                        {
+                            foreach (DataColumn col in dtClone.Columns)
+                            {
+                                string Value = "";
+                                if (row[col.ColumnName].ToString().Trim() != "")
+                                {
+                                    Value = row[col.ColumnName].ToString();
+                                }
+                                //Fix don't separate if it contain '\n' or ','
+                                Value = "\"" + Value.Replace("\"", "\"\"") + "\"";
+                                
+                                outputCsv[dtClone.Rows.IndexOf(row) + 1] += Value + ",";
+                            }
+                        }
+
+                        File.WriteAllLines(saveDialog.FileName, outputCsv, Encoding.UTF8);
+                        Cursor = Cursors.Default;
+                        MessageBox.Show("ទាញទិន្នន័យចេញរួចរាល់!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        Cursor = Cursors.Default;
+                        MessageBox.Show("មានបញ្ហា!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                /*
+                string ConsoleText = "";
+                foreach (DataColumn col in dtClone.Columns)
+                {
+                    ConsoleText +=col.ColumnName +"\t";
+                }
+                Console.WriteLine(ConsoleText);
+                foreach (DataRow row in dtClone.Rows)
+                {
+                    ConsoleText = "";
+                    foreach (DataColumn col in dtClone.Columns)
+                    {
+                        ConsoleText += row[col.ColumnName].ToString() + "\t";
+                    }
+                    Console.WriteLine(ConsoleText);
+                }
+                */
+            }
         }
 
         private void DgvStock_CurrentCellChanged(object sender, EventArgs e)
@@ -114,7 +214,7 @@ namespace MachineDeptApp.MCSDControl
             try
             {
                 cnn.con.Open();
-                string SQLQueryDetails = "SELECT T1.*, T4.ItemName, MCName1, MCName2 FROM " +
+                string SQLQueryDetails = "SELECT Code, ItemName, POSNo, TotalQty, MCName1, MCName2 FROM " +
                     "\n(SELECT Code, POSNo, SUM(StockValue) AS TotalQty FROM tbSDMCAllTransaction WHERE CancelStatus=0 AND LocCode='MC1' GROUP BY Code, POSNo) T1 " +
                     "\nLEFT JOIN (SELECT SysNo, MCName AS MCName1 FROM tbSDAllocateStock GROUP BY SysNo, MCName) T2 ON T1.POSNo=T2.SysNo " +
                     "\nLEFT JOIN (SELECT PosCNo," +
