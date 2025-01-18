@@ -177,7 +177,7 @@ namespace MachineDeptApp.MCSDControl
             DataTable dtSQLCond = new DataTable();
             dtSQLCond.Columns.Add("Col");
             dtSQLCond.Columns.Add("Val");
-            if (txtCode.Text.Trim() == "")
+            if (txtCode.Text.Trim() != "")
             {
                 string SearchValue = txtCode.Text;
                 if (SearchValue.Contains("*") == true)
@@ -190,7 +190,7 @@ namespace MachineDeptApp.MCSDControl
                     dtSQLCond.Rows.Add("Code = ", "'" + SearchValue + "'");
                 }
             }
-            if (txtItem.Text.Trim() == "")
+            if (txtItem.Text.Trim() != "")
             {
                 string SearchValue = txtItem.Text;
                 dtSQLCond.Rows.Add("ItemName LIKE ", "'%" + SearchValue + "%'");
