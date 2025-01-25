@@ -170,7 +170,6 @@
             this.btnCheckForUpdate.Name = "btnCheckForUpdate";
             this.btnCheckForUpdate.Size = new System.Drawing.Size(44, 40);
             this.btnCheckForUpdate.TabIndex = 35;
-            this.btnCheckForUpdate.Text = "Update";
             this.btnCheckForUpdate.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.toolTip1.SetToolTip(this.btnCheckForUpdate, "Check for the new update");
             this.btnCheckForUpdate.UseVisualStyleBackColor = true;

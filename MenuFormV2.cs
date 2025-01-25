@@ -2118,9 +2118,12 @@ namespace MachineDeptApp
 
                 //Special case for root index 6
                 int SepecialparentRoot6 = treeViewMenu.Nodes[5].Nodes.Count - 1;
-                for (int i = 0; i < SepecialparentRoot6 - 5; i++)
+                for (int i = 0; i < SepecialparentRoot6; i++)
                 {
-                    treeViewMenu.Nodes[5].Nodes[i].ImageIndex = 1;
+                    if (i < 2)
+                    {
+                        treeViewMenu.Nodes[5].Nodes[i].ImageIndex = 1;
+                    }
                     int ChildRoot = treeViewMenu.Nodes[5].Nodes[i].Nodes.Count;
                     for (int j = 0; j < ChildRoot; j++)
                     {
@@ -2131,9 +2134,12 @@ namespace MachineDeptApp
 
                 //Special case for root index 8
                 int SepecialparentRoot7 = treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 2].Nodes.Count - 1;
-                for (int i = 0; i < SepecialparentRoot6 - 4; i++)
+                for (int i = 0; i < SepecialparentRoot7; i++)
                 {
-                    treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 2].Nodes[i].ImageIndex = 1;
+                    if (i < 3)
+                    {
+                        treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 2].Nodes[i].ImageIndex = 1;
+                    }
                     int ChildRoot = treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 2].Nodes[i].Nodes.Count;
                     for (int j = 0; j < ChildRoot; j++)
                     {
