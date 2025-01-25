@@ -19,12 +19,14 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
 {
     public partial class WireRemainingCalcAndPrintTag : Form
     {
+        QuestionMsgClass QMsg = new QuestionMsgClass();
         ErrorMsgClass EMsg = new ErrorMsgClass();
+        WarningMsgClass WMsg = new WarningMsgClass();
+        InformationMsgClass InfoMsg = new InformationMsgClass();
+
         SQLConnect cnn = new SQLConnect();
         DataTable dtTotal;
         double BeforeEditng;
-        string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\Remain Tag";
-        string fName;
 
         string ErrorText;
         
@@ -54,22 +56,14 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
 
         }
 
-        //Dgv
-        private void DgvInput_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
-        {
-            CheckBtnPrintOrDelete();
-        }
-        private void DgvInput_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            CheckBtnPrintOrDelete();
-        }
+        //dgvInput
         private void DgvInput_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.ColumnIndex == 6 || e.ColumnIndex == 8 || e.ColumnIndex == 10)
+            if (dgvInput.Columns[e.ColumnIndex].Name == "BobbinW" || dgvInput.Columns[e.ColumnIndex].Name == "TototalW" || dgvInput.Columns[e.ColumnIndex].Name == "LotNo")
             {
-                if (e.ColumnIndex == 6)
+                if (dgvInput.Columns[e.ColumnIndex].Name == "BobbinW")
                 {
-                    if (dgvInput.Rows[e.RowIndex].Cells[4].Value.ToString() == "Bobbins")
+                    if (dgvInput.Rows[e.RowIndex].Cells["BobbinOrReel"].Value.ToString() == "Bobbin")
                     {
                         e.CellStyle.ForeColor = Color.Black;
                         e.CellStyle.Font = new System.Drawing.Font("Khmer OS Battambang", 9, FontStyle.Bold);
@@ -82,46 +76,38 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 }
             }
         }
-        private void DgvInput_SelectionChanged(object sender, EventArgs e)
+        private void DgvInput_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
             CheckBtnPrintOrDelete();
         }
-        private void DgvBobbinsW_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void DgvInput_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            if (e.RowIndex > -1)
-            {
-                dgvInput.Rows[dgvInput.CurrentCell.RowIndex].Cells[6].Value = Convert.ToDouble(dgvBobbinsW.Rows[e.RowIndex].Cells[0].Value.ToString());
-                dgvInput.Focus();
-            }
+            CheckBtnPrintOrDelete();
         }
-        private void DgvBobbinsW_GotFocus(object sender, EventArgs e)
+        private void DgvInput_SelectionChanged(object sender, EventArgs e)
         {
-            dgvBobbinsW.BringToFront();
-        }
-        private void DgvBobbinsW_LostFocus(object sender, EventArgs e)
-        {
-            dgvBobbinsW.SendToBack();
+            CheckBtnPrintOrDelete();
         }
         private void DgvInput_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex > -1)
             {
-                if (e.ColumnIndex == 6)
+                if (dgvInput.Columns[e.ColumnIndex].Name == "BobbinW")
                 {
-                    if (dgvInput.Rows[e.RowIndex].Cells[4].Value.ToString() == "Bobbins")
+                    if (dgvInput.Rows[e.RowIndex].Cells["BobbinOrReel"].Value.ToString() == "Bobbin")
                     {
                         try
                         {
                             cnn.con.Open();
                             DataTable dtBobbinsW = new DataTable();
                             SqlDataAdapter sda = new SqlDataAdapter("SELECT RMType, BobbinsW FROM tbSDMstBobbinsWeight " +
-                                            "WHERE RMType ='" + dgvInput.Rows[e.RowIndex].Cells[2].Value.ToString() + "' ORDER BY BobbinsW ASC", cnn.con);
+                                            "WHERE RMType ='" + dgvInput.Rows[e.RowIndex].Cells["RMType"].Value.ToString() + "' ORDER BY BobbinsW ASC", cnn.con);
                             sda.Fill(dtBobbinsW);
 
                             dgvBobbinsW.Rows.Clear();
                             foreach (DataRow row in dtBobbinsW.Rows)
                             {
-                                dgvBobbinsW.Rows.Add(row[1]);
+                                dgvBobbinsW.Rows.Add(row["BobbinsW"]);
                             }
                             dgvBobbinsW.CurrentCell = dgvBobbinsW.Rows[0].Cells[0];
                             dgvBobbinsW.ClearSelection();
@@ -163,75 +149,108 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
         }
         private void DgvInput_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            if (e.ColumnIndex == 8)
+            if (dgvInput.Columns[e.ColumnIndex].Name == "TototalW")
             {
-                BeforeEditng = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells[8].Value.ToString());
+                BeforeEditng = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells["TototalW"].Value.ToString());
             }
         }
         private void DgvInput_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (dgvInput.Rows.Count > 0)
+            if (dgvInput.Rows.Count > 0 && e.RowIndex>-1 && e.ColumnIndex>-1)
             {
                 //BobbinsW Changed
-                if (e.ColumnIndex == 6)
+                if (dgvInput.Columns[e.ColumnIndex].Name == "BobbinW")
                 {
                     double BobbinsW = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
-                    double NetW = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells[7].Value.ToString());
-                    double MOQ = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells[5].Value.ToString());
-                    double InputTotalW = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells[8].Value.ToString());
+                    double NetW = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells["NetW"].Value.ToString());
+                    double MOQ = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells["MOQ"].Value.ToString());
+                    double InputTotalW = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells["TototalW"].Value.ToString());
                     double TotalRemainingQty = Math.Round((InputTotalW - BobbinsW) / NetW * MOQ, 2);
-                    dgvInput.Rows[e.RowIndex].Cells[9].Value = TotalRemainingQty.ToString("N0");
+                    dgvInput.Rows[e.RowIndex].Cells["RemainQty"].Value = TotalRemainingQty.ToString("N0");
                 }
                 //Weigth Changed
-                if (e.ColumnIndex == 8)
+                if (dgvInput.Columns[e.ColumnIndex].Name == "TototalW")
                 {
-                    try
+                    if (dgvInput.Rows[e.RowIndex].Cells["TototalW"].Value != null)
                     {
-                        double R3OrWeight = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells[8].Value.ToString());
-                        if (R3OrWeight > 0)
+                        try
                         {
-                            //Bobbins
-                            if (dgvInput.Rows[e.RowIndex].Cells[4].Value.ToString() == "Bobbins")
+                            double R3OrWeight = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells["TototalW"].Value.ToString());
+                            if (R3OrWeight > 0)
                             {
-                                double BobbinsW = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells[6].Value.ToString());
-                                double MOQ = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells[5].Value.ToString());
-                                double NetW = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells[7].Value.ToString());
-                                double TotalRemainingQty = Math.Round((R3OrWeight - BobbinsW) / NetW * MOQ, 2);
-                                dgvInput.Rows[e.RowIndex].Cells[9].Value = TotalRemainingQty.ToString("N0");
+                                //Bobbins
+                                if (dgvInput.Rows[e.RowIndex].Cells["BobbinOrReel"].Value.ToString() == "Bobbin")
+                                {
+                                    double BobbinsW = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells["BobbinW"].Value.ToString());
+                                    double MOQ = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells["MOQ"].Value.ToString());
+                                    double NetW = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells["NetW"].Value.ToString());
+                                    double TotalRemainingQty = Math.Round((R3OrWeight - BobbinsW) / NetW * MOQ, 2);
+                                    dgvInput.Rows[e.RowIndex].Cells["RemainQty"].Value = TotalRemainingQty.ToString("N0");
+                                }
+                                //Reil
+                                else
+                                {
+                                    double R2 = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells["BobbinW"].Value.ToString());
+                                    double MOQ = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells["MOQ"].Value.ToString());
+                                    double R1 = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells["NetW"].Value.ToString());
+                                    double TotalRemainingQty = Math.Round(MOQ * (R3OrWeight * R3OrWeight - R2 * R2) / (R1 * R1 - R2 * R2), 2);
+                                    dgvInput.Rows[e.RowIndex].Cells["RemainQty"].Value = TotalRemainingQty.ToString("N0");
+                                }
                             }
-                            //Reil
                             else
                             {
-                                double R2 = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells[6].Value.ToString());
-                                double MOQ = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells[5].Value.ToString());
-                                double R1 = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells[7].Value.ToString());
-                                double TotalRemainingQty = Math.Round(MOQ * (R3OrWeight * R3OrWeight - R2 * R2) / (R1 * R1 - R2 * R2), 2);
-                                dgvInput.Rows[e.RowIndex].Cells[9].Value = TotalRemainingQty.ToString("N0");
+                                WMsg.WarningText = "ចំនួននេះត្រូវតែជាចំនួនដែលធំជាង ០ ដាច់ខាត!";
+                                WMsg.ShowingMsg();
+                                dgvInput.Rows[e.RowIndex].Cells["TototalW"].Value = BeforeEditng;
                             }
                         }
-                        else
+                        catch
                         {
-                            MessageBox.Show("ចំនួននេះត្រូវតែជាចំនួនដែលធំជាង ០ ដាច់ខាត!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            dgvInput.Rows[e.RowIndex].Cells[8].Value = BeforeEditng;
+                            EMsg.AlertText = "អ្នកបញ្ចូលខុសទម្រង់ហើយ!";
+                            EMsg.ShowingMsg();
+                            dgvInput.Rows[e.RowIndex].Cells["TototalW"].Value = BeforeEditng;
                         }
                     }
-                    catch
+                    else
                     {
-                        MessageBox.Show("អ្នកបញ្ចូលខុសទម្រង់ហើយ!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        dgvInput.Rows[e.RowIndex].Cells[8].Value = BeforeEditng;
+                        WMsg.WarningText = "សូមបញ្ចូលចំនួន! មិនអាចទទេបានទេ!";
+                        WMsg.ShowingMsg();
+                        dgvInput.Rows[e.RowIndex].Cells["TototalW"].Value = BeforeEditng;
                     }
                 }
-            }            
+            }
+        }
+        //dgvBobbinsW
+        private void DgvBobbinsW_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex > -1)
+            {
+                dgvInput.Rows[dgvInput.CurrentCell.RowIndex].Cells["BobbinW"].Value = Convert.ToDouble(dgvBobbinsW.Rows[e.RowIndex].Cells[0].Value.ToString());
+                dgvInput.Focus();
+            }
+        }
+        private void DgvBobbinsW_GotFocus(object sender, EventArgs e)
+        {
+            dgvBobbinsW.BringToFront();
+        }
+        private void DgvBobbinsW_LostFocus(object sender, EventArgs e)
+        {
+            dgvBobbinsW.SendToBack();
         }
 
         //Button
+        private void BtnAdd_Click(object sender, EventArgs e)
+        {
+            WireRemainingCalcAndPrintTagAdd Wrcapta = new WireRemainingCalcAndPrintTagAdd(this);
+            Wrcapta.ShowDialog();
+        }
         private void BtnPrint_Click(object sender, EventArgs e)
         {
             //Check RemainQty under or Equal 0
             int UnderOrEqual0 = 0;
             foreach (DataGridViewRow DgvRow in dgvInput.Rows)
             {
-                if (Convert.ToDouble(DgvRow.Cells[9].Value.ToString()) <= 0)
+                if (Convert.ToDouble(DgvRow.Cells["RemainQty"].Value.ToString()) <= 0)
                 {
                     UnderOrEqual0 = UnderOrEqual0 + 1;
                 }
@@ -242,8 +261,10 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             }
             else
             {
-                DialogResult DSL = MessageBox.Show("ទិន្នន័យខ្លះមាន <ប្រវែង/ចំនួននៅសល់> តូចជាងឬស្មើ ០!\nតើអ្នកចង់បន្ដព្រីនទិន្នន័យទាំងនេះទៀតមែនឬទេ?", "Rachhan System", MessageBoxButtons.YesNoCancel,MessageBoxIcon.Exclamation);
-                if (DSL == DialogResult.Yes)
+                QMsg.QAText = "ទិន្នន័យខ្លះមាន <ប្រវែង/ចំនួននៅសល់> តូចជាងឬស្មើ ០!\nតើអ្នកចង់បន្ដព្រីនទិន្នន័យទាំងនេះទៀតមែនឬទេ?";
+                QMsg.UserClickedYes = false;
+                QMsg.ShowingMsg();
+                if (QMsg.UserClickedYes == true)
                 {
                     PrintOut();
                 }
@@ -255,14 +276,16 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             {
                 if (dgvInput.CurrentCell.RowIndex > -1)
                 {
-                    DialogResult DSL = MessageBox.Show("តើអ្នកចង់លុបទិន្នន័យនេះមែនឬទេ?","Rachhan System",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
-                    if (DSL == DialogResult.Yes)
+                    QMsg.QAText = "តើអ្នកចង់លុបទិន្នន័យនេះមែនឬទេ?";
+                    QMsg.UserClickedYes = false;
+                    QMsg.ShowingMsg();
+                    if (QMsg.UserClickedYes == true)
                     {
-                        dgvInput.Rows.RemoveAt(dgvInput.CurrentCell.RowIndex);                        
+                        dgvInput.Rows.RemoveAt(dgvInput.CurrentCell.RowIndex);
                         //Assign new No.
                         foreach (DataGridViewRow DgvRow in dgvInput.Rows)
                         {
-                            DgvRow.HeaderCell.Value = (Convert.ToInt32(DgvRow.Index)+1).ToString();
+                            DgvRow.HeaderCell.Value = (Convert.ToInt32(DgvRow.Index) + 1).ToString();
                         }
                         dgvInput.Refresh();
                         dgvInput.ClearSelection();
@@ -270,11 +293,6 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                     }
                 }
             }
-        }
-        private void BtnAdd_Click(object sender, EventArgs e)
-        {
-            WireRemainingCalcAndPrintTagAdd Wrcapta = new WireRemainingCalcAndPrintTagAdd(this);   
-            Wrcapta.ShowDialog();
         }
         private void BtnNew_Click(object sender, EventArgs e)
         {
@@ -288,10 +306,11 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 string Text = DgvCol.HeaderText.ToString();
                 Text = Text.Replace("/", "\n");
                 DgvCol.HeaderText = Text;
-                if (DgvCol.Index != 8 && DgvCol.Index != 10)
+                if (DgvCol.Name != "TototalW" && DgvCol.Name != "LotNo")
                 {
                     DgvCol.ReadOnly = true;
                 }
+                //Console.WriteLine(DgvCol.Name);
             }
         }
 
@@ -306,23 +325,68 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             if (dgvInput.Rows.Count > 0)
             {
                 btnPrint.Enabled = true;
-                btnPrint.BackColor=Color.White;
+                btnPrintGRAY.SendToBack();
             }
             else
             {
                 btnPrint.Enabled = false;
-                btnPrint.BackColor = Color.DarkGray;
+                btnPrintGRAY.BringToFront();
             }
+
             if (dgvInput.SelectedCells.Count > 0)
             {
                 btnDelete.Enabled = true;
-                btnDelete.BackColor = Color.White;
+                btnDeleteGRAY.SendToBack();
             }
             else
             {
                 btnDelete.Enabled = false;
-                btnDelete.BackColor = Color.DarkGray;
+                btnDeleteGRAY.BringToFront();
             }
+        }
+        private void CalcTotal()
+        {
+            dtTotal = new DataTable();
+            dtTotal.Columns.Add("Code");
+            dtTotal.Columns.Add("Name");
+            dtTotal.Columns.Add("BobbinQty");
+            dtTotal.Columns.Add("TotalQty");
+
+            foreach (DataGridViewRow DgvRow in dgvInput.Rows)
+            {
+                int Found = 0;
+                string Code = DgvRow.Cells["RMCode"].Value.ToString();
+                string ItemName = DgvRow.Cells["RMName"].Value.ToString();
+                foreach (DataRow row in dtTotal.Rows)
+                {
+                    if (row[0].ToString() == DgvRow.Cells["RMCode"].Value.ToString())
+                    {
+                        Found = Found + 1;
+                        break;
+                    }
+                }
+
+                if (Found == 0)
+                {
+                    int BobbinsQty = 0;
+                    int TotalQty = 0;
+                    foreach (DataGridViewRow DgvRow1 in dgvInput.Rows)
+                    {
+                        if (Code == DgvRow1.Cells["RMCode"].Value.ToString())
+                        {
+                            BobbinsQty = BobbinsQty + 1;
+                            TotalQty = TotalQty + Convert.ToInt32(DgvRow1.Cells["RemainQty"].Value.ToString());
+                        }
+                    }
+                    dtTotal.Rows.Add(Code, ItemName, BobbinsQty, TotalQty);
+                }
+
+            }
+
+            //Sort By Code ASC
+            DataView dv = dtTotal.DefaultView;
+            dv.Sort = "Code ASC";
+            dtTotal = dv.ToTable();
         }
         private void PrintOut()
         {
@@ -330,6 +394,13 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             Cursor = Cursors.WaitCursor;
             LbStatus.Text = "កំពុងព្រីន . . .";
             LbStatus.Refresh();
+            string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\Remain Tag";
+            string fName = "";
+            //ឆែករកមើល Folder បើគ្មាន => បង្កើត
+            if (!Directory.Exists(SavePath))
+            {
+                Directory.CreateDirectory(SavePath);
+            }
 
             Excel.Application excelApp = new Excel.Application();
             Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(Filename: Environment.CurrentDirectory.ToString() + @"\Template\RemainingTagTemplate.xlsx", Editable: true);
@@ -351,26 +422,27 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 foreach (DataGridViewRow DgvRow in dgvInput.Rows)
                 {
                     //Bobbins
-                    if (DgvRow.Cells[4].Value.ToString() == "Bobbin")
+                    if (DgvRow.Cells["BobbinOrReel"].Value.ToString() == "Bobbin")
                     {
-                        string Code = DgvRow.Cells[0].Value.ToString();
-                        string Name = DgvRow.Cells[1].Value.ToString();
+                        string Code = DgvRow.Cells["RMCode"].Value.ToString();
+                        string Name = DgvRow.Cells["RMName"].Value.ToString();
                         string RemainUnit = " Pcs";
-                        if (DgvRow.Cells[2].Value.ToString() != "Terminal")
+                        if (DgvRow.Cells["RMType"].Value.ToString() != "Terminal")
                         {
                             RemainUnit = " m";
                         }
-                        string Maker = DgvRow.Cells[3].Value.ToString();
-                        string MOQ = Convert.ToDouble(DgvRow.Cells[5].Value.ToString()).ToString("N0");
-                        string RemainQty = Convert.ToDouble(DgvRow.Cells[9].Value.ToString()).ToString("N0");
-                        string R3OrWeigth = Convert.ToDouble(DgvRow.Cells[8].Value.ToString()).ToString();
-                        string LotNo = DgvRow.Cells[10].Value.ToString();
+                        string Maker = DgvRow.Cells["Maker"].Value.ToString();
+                        string MOQ = Convert.ToDouble(DgvRow.Cells["MOQ"].Value.ToString()).ToString("N0");
+                        string RemainQty = Convert.ToDouble(DgvRow.Cells["RemainQty"].Value.ToString()).ToString("N0");
+                        double R3OrWeigth = Convert.ToDouble(DgvRow.Cells["TototalW"].Value.ToString());
+                        double BobbinWeigth = Convert.ToDouble(DgvRow.Cells["BobbinW"].Value.ToString());
+                        string LotNo = DgvRow.Cells["LotNo"].Value.ToString();
 
                         worksheet.Cells[7 * DgvRow.Index + 1, 3] = Code;
                         worksheet.Cells[7 * DgvRow.Index + 2, 3] = Name;
                         worksheet.Cells[7 * DgvRow.Index + 3, 3] = Maker;
                         worksheet.Cells[7 * DgvRow.Index + 4, 3] = MOQ + RemainUnit;
-                        worksheet.Cells[7 * DgvRow.Index + 5, 3] = RemainQty + RemainUnit + " ( " + R3OrWeigth + " KG )";
+                        worksheet.Cells[7 * DgvRow.Index + 5, 3] = RemainQty + RemainUnit + " ( " + R3OrWeigth + " KG = "+ (R3OrWeigth-BobbinWeigth).ToString() + "+"+BobbinWeigth.ToString() +" )";
                         worksheet.Cells[7 * DgvRow.Index + 6, 3] = LotNo;
                         worksheet.Cells[7 * DgvRow.Index + 7, 3] = DateTime.Now;
 
@@ -378,24 +450,27 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                     //Reil
                     else
                     {
-                        string Code = DgvRow.Cells[0].Value.ToString();
-                        string Name = DgvRow.Cells[1].Value.ToString();
+                        string Code = DgvRow.Cells["RMCode"].Value.ToString();
+                        string Name = DgvRow.Cells["RMName"].Value.ToString();
                         string RemainUnit = " Pcs";
-                        if (DgvRow.Cells[2].Value.ToString() != "Terminal")
+                        if (DgvRow.Cells["RMType"].Value.ToString() != "Terminal")
                         {
                             RemainUnit = " m";
                         }
-                        string Maker = DgvRow.Cells[3].Value.ToString();
-                        string MOQ = Convert.ToDouble(DgvRow.Cells[5].Value.ToString()).ToString("N0");
-                        string RemainQty = Convert.ToDouble(DgvRow.Cells[9].Value.ToString()).ToString("N0");
-                        string R3OrWeigth = Convert.ToDouble(DgvRow.Cells[8].Value.ToString()).ToString();
+                        string Maker = DgvRow.Cells["Maker"].Value.ToString();
+                        string MOQ = Convert.ToDouble(DgvRow.Cells["MOQ"].Value.ToString()).ToString("N0");
+                        string RemainQty = Convert.ToDouble(DgvRow.Cells["RemainQty"].Value.ToString()).ToString("N0");
+                        double R3OrWeigth = Convert.ToDouble(DgvRow.Cells["TototalW"].Value.ToString());
+                        double BobbinWeigth = Convert.ToDouble(DgvRow.Cells["BobbinW"].Value.ToString());
+
+
                         string LotNo = DgvRow.Cells[10].Value.ToString();
 
                         worksheet.Cells[7 * DgvRow.Index + 1, 3] = Code;
                         worksheet.Cells[7 * DgvRow.Index + 2, 3] = Name;
                         worksheet.Cells[7 * DgvRow.Index + 3, 3] = Maker;
                         worksheet.Cells[7 * DgvRow.Index + 4, 3] = MOQ + RemainUnit;
-                        worksheet.Cells[7 * DgvRow.Index + 5, 3] = RemainQty + RemainUnit + " ( " + R3OrWeigth + " mm )";
+                        worksheet.Cells[7 * DgvRow.Index + 5, 3] = RemainQty + RemainUnit + " ( " + R3OrWeigth + " mm = " + (R3OrWeigth - BobbinWeigth).ToString() + "+" + BobbinWeigth.ToString() + " )";
                         worksheet.Cells[7 * DgvRow.Index + 6, 3] = LotNo;
                         worksheet.Cells[7 * DgvRow.Index + 7, 3] = DateTime.Now;
                     }
@@ -419,31 +494,23 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                     }
                 }
 
-
-                //ឆែករកមើល Folder បើគ្មាន => បង្កើត
-                if (!Directory.Exists(SavePath))
-                {
-                    Directory.CreateDirectory(SavePath);
-                }
-
                 // Saving the modified Excel file                        
                 string date = DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss");
                 string file = "Remain Tag ";
                 fName = file + "( " + date + " )";
                 worksheet.SaveAs(SavePath + @"\" + fName + ".xlsx");
-                xlWorkBook.Save();
-                xlWorkBook.Close();
-                excelApp.Quit();
+
             }
             catch (Exception ex)
             {
-                excelApp.DisplayAlerts = false;
-                xlWorkBook.Save();
-                xlWorkBook.Close();
-                excelApp.Quit();
-                excelApp.DisplayAlerts = true;
                 ErrorText = ex.Message;
             }
+
+            //Close Worksbook
+            excelApp.DisplayAlerts = false;
+            xlWorkBook.Close();
+            excelApp.DisplayAlerts = true;
+            excelApp.Quit();
 
             //Kill all Excel background process
             var processes = from p in Process.GetProcessesByName("EXCEL")
@@ -460,12 +527,12 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             {
                 LbStatus.Text = "ឯកសារ Excel រួចរាល់!";
                 LbStatus.Refresh();
-                MessageBox.Show("ឯកសារ Excel រួចរាល់!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LbStatus.Text = "";
-                LbStatus.Refresh();
+                InfoMsg.InfoText = "ឯកសារ Excel រួចរាល់!";
+                InfoMsg.ShowingMsg();
                 btnNew.PerformClick();
                 System.Diagnostics.Process.Start(SavePath + @"\" + fName + ".xlsx");
-                fName = "";
+                LbStatus.Text = "";
+                LbStatus.Refresh();
             }
             else
             {
@@ -474,49 +541,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 EMsg.AlertText = "មានបញ្ហា!\n" + ErrorText;
                 EMsg.ShowingMsg();
             }
-        }
-        private void CalcTotal()
-        {
-            dtTotal = new DataTable();
-            dtTotal.Columns.Add("Code");
-            dtTotal.Columns.Add("Name");
-            dtTotal.Columns.Add("BobbinQty");
-            dtTotal.Columns.Add("TotalQty");
 
-            foreach (DataGridViewRow DgvRow in dgvInput.Rows)
-            {
-                int Found = 0;
-                string Code = DgvRow.Cells[0].Value.ToString();
-                string ItemName = DgvRow.Cells[1].Value.ToString();
-                foreach (DataRow row in dtTotal.Rows)
-                {
-                    if (row[0].ToString() == DgvRow.Cells[0].Value.ToString())
-                    {
-                        Found = Found + 1;
-                        break;
-                    }
-                }
-
-                if (Found == 0)
-                {
-                    int BobbinsQty = 0;
-                    int TotalQty = 0;
-                    foreach (DataGridViewRow DgvRow1 in dgvInput.Rows)
-                    {
-                        if (Code == DgvRow1.Cells[0].Value.ToString())
-                        {
-                            BobbinsQty = BobbinsQty + 1;
-                            TotalQty = TotalQty + Convert.ToInt32(DgvRow1.Cells[9].Value.ToString());
-                        }
-                    }
-                    dtTotal.Rows.Add(Code, ItemName, BobbinsQty, TotalQty);
-                }
-            }
-
-            //Sort By Code ASC
-            DataView dv = dtTotal.DefaultView;
-            dv.Sort = "Code ASC";
-            dtTotal = dv.ToTable();
         }
     }
 }

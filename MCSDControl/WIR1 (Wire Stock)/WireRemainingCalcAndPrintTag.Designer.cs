@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WireRemainingCalcAndPrintTag));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -43,6 +42,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WireRemainingCalcAndPrintTag));
             this.panelHeader = new System.Windows.Forms.Panel();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
@@ -56,27 +56,33 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.dgvBobbinsW = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RMCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RMName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RMType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Maker = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BobbinOrReel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MOQ = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BobbinW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NetW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TototalW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RemainQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LotNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnPrintGRAY = new System.Windows.Forms.PictureBox();
+            this.btnDeleteGRAY = new System.Windows.Forms.PictureBox();
             this.panelHeader.SuspendLayout();
             this.panelFooter.SuspendLayout();
             this.panelBody.SuspendLayout();
             this.GroupBoxResult.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBobbinsW)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnPrintGRAY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGRAY)).BeginInit();
             this.SuspendLayout();
             // 
             // panelHeader
             // 
+            this.panelHeader.Controls.Add(this.btnDeleteGRAY);
+            this.panelHeader.Controls.Add(this.btnPrintGRAY);
             this.panelHeader.Controls.Add(this.btnAdd);
             this.panelHeader.Controls.Add(this.btnPrint);
             this.panelHeader.Controls.Add(this.btnNew);
@@ -101,7 +107,6 @@
             // 
             // btnPrint
             // 
-            this.btnPrint.BackColor = System.Drawing.Color.DarkGray;
             this.btnPrint.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnPrint.BackgroundImage")));
             this.btnPrint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnPrint.Enabled = false;
@@ -126,7 +131,6 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.BackColor = System.Drawing.Color.DarkGray;
             this.btnDelete.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDelete.BackgroundImage")));
             this.btnDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnDelete.Enabled = false;
@@ -204,17 +208,17 @@
             this.dgvInput.ColumnHeadersHeight = 70;
             this.dgvInput.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvInput.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn11,
-            this.dataGridViewTextBoxColumn12,
-            this.Column1,
-            this.Column6,
-            this.Column5,
-            this.Column7,
-            this.Column2,
-            this.Column3,
-            this.Column4,
-            this.Column8,
-            this.dataGridViewTextBoxColumn20});
+            this.RMCode,
+            this.RMName,
+            this.RMType,
+            this.Maker,
+            this.BobbinOrReel,
+            this.MOQ,
+            this.BobbinW,
+            this.NetW,
+            this.TototalW,
+            this.RemainQty,
+            this.LotNo});
             this.dgvInput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvInput.EnableHeadersVisualStyles = false;
             this.dgvInput.Location = new System.Drawing.Point(3, 26);
@@ -274,105 +278,125 @@
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
             this.dataGridViewTextBoxColumn2.Width = 102;
             // 
-            // dataGridViewTextBoxColumn11
+            // RMCode
             // 
-            this.dataGridViewTextBoxColumn11.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.RMCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle3.NullValue = null;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn11.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dataGridViewTextBoxColumn11.FillWeight = 160F;
-            this.dataGridViewTextBoxColumn11.HeaderText = "លេខកូដ";
-            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
-            this.dataGridViewTextBoxColumn11.Width = 90;
+            this.RMCode.DefaultCellStyle = dataGridViewCellStyle3;
+            this.RMCode.FillWeight = 160F;
+            this.RMCode.HeaderText = "លេខកូដ";
+            this.RMCode.Name = "RMCode";
+            this.RMCode.Width = 90;
             // 
-            // dataGridViewTextBoxColumn12
+            // RMName
             // 
-            this.dataGridViewTextBoxColumn12.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.RMName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn12.DefaultCellStyle = dataGridViewCellStyle4;
-            this.dataGridViewTextBoxColumn12.FillWeight = 190F;
-            this.dataGridViewTextBoxColumn12.HeaderText = "ឈ្មោះវត្ថុធាតុដើម";
-            this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
-            this.dataGridViewTextBoxColumn12.Width = 250;
+            this.RMName.DefaultCellStyle = dataGridViewCellStyle4;
+            this.RMName.FillWeight = 190F;
+            this.RMName.HeaderText = "ឈ្មោះវត្ថុធាតុដើម";
+            this.RMName.Name = "RMName";
+            this.RMName.Width = 250;
             // 
-            // Column1
+            // RMType
             // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Column1.HeaderText = "ប្រភេទវត្ថុធាតុដើម";
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 130;
+            this.RMType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.RMType.HeaderText = "ប្រភេទវត្ថុធាតុដើម";
+            this.RMType.Name = "RMType";
+            this.RMType.Width = 130;
             // 
-            // Column6
+            // Maker
             // 
-            this.Column6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Column6.HeaderText = "អ្នកផលិត";
-            this.Column6.Name = "Column6";
-            this.Column6.Width = 120;
+            this.Maker.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Maker.HeaderText = "អ្នកផលិត";
+            this.Maker.Name = "Maker";
+            this.Maker.Width = 120;
             // 
-            // Column5
+            // BobbinOrReel
             // 
-            this.Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Column5.HeaderText = "ប្រភេទ";
-            this.Column5.Name = "Column5";
-            this.Column5.Width = 130;
+            this.BobbinOrReel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.BobbinOrReel.HeaderText = "ប្រភេទ";
+            this.BobbinOrReel.Name = "BobbinOrReel";
+            this.BobbinOrReel.Width = 130;
             // 
-            // Column7
+            // MOQ
             // 
-            this.Column7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.MOQ.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle5.Format = "N0";
-            this.Column7.DefaultCellStyle = dataGridViewCellStyle5;
-            this.Column7.HeaderText = "MOQ";
-            this.Column7.Name = "Column7";
+            this.MOQ.DefaultCellStyle = dataGridViewCellStyle5;
+            this.MOQ.HeaderText = "MOQ";
+            this.MOQ.Name = "MOQ";
             // 
-            // Column2
+            // BobbinW
             // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.BobbinW.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle6.Format = "N2";
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle6;
-            this.Column2.HeaderText = "រង្វង់តូច​​ mm/ទម្ងន់សំបកបូប៊ីន kg";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 150;
+            this.BobbinW.DefaultCellStyle = dataGridViewCellStyle6;
+            this.BobbinW.HeaderText = "រង្វង់តូច​​ mm/ទម្ងន់សំបកបូប៊ីន kg";
+            this.BobbinW.Name = "BobbinW";
+            this.BobbinW.Width = 150;
             // 
-            // Column3
+            // NetW
             // 
-            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.NetW.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle7.Format = "N2";
-            this.Column3.DefaultCellStyle = dataGridViewCellStyle7;
-            this.Column3.HeaderText = "រង្វង់ធំ mm/ទម្ងន់សុទ្ធ(គ្មានសំបក) kg";
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 150;
+            this.NetW.DefaultCellStyle = dataGridViewCellStyle7;
+            this.NetW.HeaderText = "រង្វង់ធំ mm/ទម្ងន់សុទ្ធ(គ្មានសំបក) kg";
+            this.NetW.Name = "NetW";
+            this.NetW.Width = 150;
             // 
-            // Column4
+            // TototalW
             // 
-            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.TototalW.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle8.Format = "N2";
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle8;
-            this.Column4.HeaderText = "ប្រវែងសរុប mm/ទម្ងន់សរុប kg";
-            this.Column4.Name = "Column4";
-            this.Column4.Width = 150;
+            this.TototalW.DefaultCellStyle = dataGridViewCellStyle8;
+            this.TototalW.HeaderText = "ប្រវែងសរុប mm/ទម្ងន់សរុប kg";
+            this.TototalW.Name = "TototalW";
+            this.TototalW.Width = 150;
             // 
-            // Column8
+            // RemainQty
             // 
-            this.Column8.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.RemainQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle9.Format = "N0";
-            this.Column8.DefaultCellStyle = dataGridViewCellStyle9;
-            this.Column8.HeaderText = "ប្រវែង/ចំនួននៅសល់";
-            this.Column8.Name = "Column8";
-            this.Column8.Width = 140;
+            this.RemainQty.DefaultCellStyle = dataGridViewCellStyle9;
+            this.RemainQty.HeaderText = "ប្រវែង/ចំនួននៅសល់";
+            this.RemainQty.Name = "RemainQty";
+            this.RemainQty.Width = 140;
             // 
-            // dataGridViewTextBoxColumn20
+            // LotNo
             // 
-            this.dataGridViewTextBoxColumn20.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dataGridViewTextBoxColumn20.HeaderText = "លេខឡត";
-            this.dataGridViewTextBoxColumn20.Name = "dataGridViewTextBoxColumn20";
-            this.dataGridViewTextBoxColumn20.Width = 150;
+            this.LotNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.LotNo.HeaderText = "លេខឡត";
+            this.LotNo.Name = "LotNo";
+            this.LotNo.Width = 150;
+            // 
+            // btnPrintGRAY
+            // 
+            this.btnPrintGRAY.Image = ((System.Drawing.Image)(resources.GetObject("btnPrintGRAY.Image")));
+            this.btnPrintGRAY.Location = new System.Drawing.Point(113, 8);
+            this.btnPrintGRAY.Name = "btnPrintGRAY";
+            this.btnPrintGRAY.Size = new System.Drawing.Size(42, 42);
+            this.btnPrintGRAY.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnPrintGRAY.TabIndex = 36;
+            this.btnPrintGRAY.TabStop = false;
+            // 
+            // btnDeleteGRAY
+            // 
+            this.btnDeleteGRAY.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteGRAY.Image")));
+            this.btnDeleteGRAY.Location = new System.Drawing.Point(168, 9);
+            this.btnDeleteGRAY.Name = "btnDeleteGRAY";
+            this.btnDeleteGRAY.Size = new System.Drawing.Size(37, 41);
+            this.btnDeleteGRAY.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnDeleteGRAY.TabIndex = 36;
+            this.btnDeleteGRAY.TabStop = false;
             // 
             // WireRemainingCalcAndPrintTag
             // 
@@ -394,6 +418,8 @@
             this.GroupBoxResult.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvInput)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBobbinsW)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnPrintGRAY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGRAY)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -412,16 +438,18 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.DataGridView dgvBobbinsW;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn20;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RMCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RMName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RMType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Maker;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BobbinOrReel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MOQ;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BobbinW;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NetW;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TototalW;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RemainQty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LotNo;
+        private System.Windows.Forms.PictureBox btnPrintGRAY;
+        private System.Windows.Forms.PictureBox btnDeleteGRAY;
     }
 }

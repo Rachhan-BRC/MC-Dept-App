@@ -324,8 +324,11 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 FinalSQLQuery = "SELECT * FROM tbSDAllocateStock " +
                     "\nWHERE POSNo IN (" + POSNoIN + ")";
                 //Console.WriteLine(FinalSQLQuery);
-                sda = new SqlDataAdapter(FinalSQLQuery, cnn.con);
-                sda.Fill(dtAlreadyTransfer);
+                if (POSNoIN.Trim() != "")
+                {
+                    sda = new SqlDataAdapter(FinalSQLQuery, cnn.con);
+                    sda.Fill(dtAlreadyTransfer);
+                }
             }
             catch (Exception ex)
             {
