@@ -14,25 +14,31 @@ namespace MachineDeptApp
 {
     public partial class CreditForm : Form
     {
+        SQLConnect cnn = new SQLConnect();
         public CreditForm()
         {
             InitializeComponent();
+            this.cnn.Connection();
             this.Shown += CreditForm_Shown;
+            this.PicMessenger.Click += PicMessenger_Click;
+            this.PicTelegram.Click += PicTelegram_Click;
         }
 
-        private void CreditForm_Shown(object sender, EventArgs e)
-        {
-            LbAppNameAndVersion.Text = Assembly.GetExecutingAssembly().GetName().Name + " V" + Assembly.GetExecutingAssembly().GetName().Version;
-        }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
+        private void PicTelegram_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://t.me/Boeun_Rachhan");
         }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void PicMessenger_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("http://m.me/dara.vechhan.1");
         }
+        private void CreditForm_Shown(object sender, EventArgs e)
+        {
+            LbAppNameAndVersion.Text = Assembly.GetExecutingAssembly().GetName().Name;
+            LbVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            LbServer.Text = cnn.server.ToString();
+            LbDatabase.Text = cnn.db.ToString();
+        }
+
     }
 }
