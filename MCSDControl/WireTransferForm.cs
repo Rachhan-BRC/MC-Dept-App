@@ -52,6 +52,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
 
             //DgvScanned
             this.dgvScanned.CellClick += DgvScanned_CellClick;
+            this.dgvScanned.CurrentCellChanged += DgvScanned_CurrentCellChanged;
 
             //txtCode
             this.txtCode.Leave += TxtCode_Leave;
@@ -78,6 +79,10 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 ShowStockAvailableAndSelected();
                 CheckBtnSaveAndDelete();
             }
+        }
+        private void DgvScanned_CurrentCellChanged(object sender, EventArgs e)
+        {
+            CheckBtnSaveAndDelete();
         }
 
         //Button
@@ -342,6 +347,8 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                     dgvScanned.Update();
                     dgvScanned.ClearSelection();
 
+                    /*
+                     
                     Console.WriteLine("WTF:");
                     foreach (DataRow row in dtTransferSelected.Rows)
                     {
@@ -352,9 +359,11 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                         }
                         Console.Write("\n");
                     }
+                    
+                    */
 
                     ClearText();
-
+                    CheckBtnSaveAndDelete();
                 }
             }
         }
@@ -547,7 +556,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                     }
                     else
                     {
-                        RetrivePOSConsump();
+                        //RetrivePOSConsump();
                     }
                 }
             }
@@ -706,11 +715,48 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
 
             foreach (DataRow row in dtLocStock.Rows)
             {
-                if (txtCode.Text == row[0].ToString() && Convert.ToDouble(row[3].ToString()) > 0)
+                if (txtCode.Text == row["Code"].ToString() && Convert.ToDouble(row["StockValue"].ToString()) > 0)
                 {
-                    dgvStockAvailable.Rows.Add(row[2].ToString(), Convert.ToDouble(row[3].ToString()));
+                    int OK = 0;
+                    if (txtRemark.Text.ToString().Contains("_NGRate") == true)
+                    {
+                        if (row["POSNo"].ToString().Trim() == "")
+                        {
+                            OK++;
+                        }
+                    }
+                    else
+                    {
+                        OK++;
+                    }
+
+                    if (OK > 0)
+                    {
+                        dgvStockAvailable.Rows.Add();
+                        dgvStockAvailable.Rows[dgvStockAvailable.Rows.Count - 1].Cells["POSNoAvailable"].Value = row["POSNo"].ToString();
+                        dgvStockAvailable.Rows[dgvStockAvailable.Rows.Count - 1].Cells["QtyAvailable"].Value = Convert.ToDouble(row["StockValue"].ToString());
+                    }
                 }
             }
+
+            //Console dtLocStock
+            /*
+            string ConsoleText = "";
+            foreach (DataColumn col in dtLocStock.Columns)
+            {
+                ConsoleText += col.ColumnName + "\t";
+            }
+            Console.WriteLine(ConsoleText);
+            foreach (DataRow row in dtLocStock.Rows)
+            {
+                ConsoleText = "";
+                foreach (DataColumn col in dtLocStock.Columns)
+                {
+                    ConsoleText += row[col.ColumnName].ToString() + "\t";
+                }
+                Console.WriteLine(ConsoleText);
+            }
+            */
 
             foreach (DataRow row in dtTransferSelected.Rows)
             {
@@ -724,24 +770,24 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
         {
             if (dgvScanned.SelectedCells.Count > 0)
             {
-                btnDelete.BackColor = Color.White;
                 btnDelete.Enabled = true;
+                btnDeleteGRAY.SendToBack();
             }
             else
             {
-                btnDelete.BackColor = Color.DarkGray;
                 btnDelete.Enabled = false;
+                btnDeleteGRAY.BringToFront();
             }
 
             if (dgvScanned.Rows.Count > 0)
             {
-                btnSave.BackColor = Color.White;
                 btnSave.Enabled = true;
+                btnSaveGRAY.SendToBack();
             }
             else
             {
-                btnSave.BackColor= Color.DarkGray;
                 btnSave.Enabled = false;
+                btnSaveGRAY.BringToFront();
             }
         }
         private void RetrivePOSConsump()
@@ -938,6 +984,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                     dgvScanned.ClearSelection();
                     txtBarcode.Text = "";
                     CheckBtnSaveAndDelete();
+
                 }
                 else
                 {
@@ -1104,7 +1151,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                                         }
                                         else
                                         {
-                                            if (Remark.Contains("NGRate") == true)
+                                            if (Remark.Contains("_NGRate") == true)
                                             {
                                                 cmd.Parameters.AddWithValue("@Pn", Remark.Replace("_NGRate", ""));
                                             }

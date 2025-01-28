@@ -45,24 +45,26 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelHeader = new System.Windows.Forms.Panel();
+            this.btnDeleteGRAY = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.btnNew = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.txtBarcode = new System.Windows.Forms.TextBox();
+            this.btnSaveGRAY = new System.Windows.Forms.PictureBox();
+            this.btnSave = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.btnNew = new System.Windows.Forms.Button();
             this.panelFooter = new System.Windows.Forms.Panel();
             this.LbStatus = new System.Windows.Forms.Label();
             this.panelChooseItemAndStock = new System.Windows.Forms.Panel();
@@ -70,11 +72,11 @@
             this.btnTakeOut = new System.Windows.Forms.Button();
             this.btnTakeIn = new System.Windows.Forms.Button();
             this.dgvStockSelected = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.POSNoSelected = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.QtySelected = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvStockAvailable = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.POSNoAvailable = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.QtyAvailable = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtItems = new System.Windows.Forms.TextBox();
             this.txtRemark = new System.Windows.Forms.TextBox();
             this.txtTransferQty = new System.Windows.Forms.TextBox();
@@ -89,11 +91,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvScanned = new System.Windows.Forms.DataGridView();
-            this.panelSearchItem = new System.Windows.Forms.Panel();
-            this.txtSearchItem = new System.Windows.Forms.TextBox();
-            this.DgvSearchItem = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RMCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RMName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LocOUT = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -101,9 +98,16 @@
             this.TransferQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ActualTransferQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Remarks = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panelSearchItem = new System.Windows.Forms.Panel();
+            this.txtSearchItem = new System.Windows.Forms.TextBox();
+            this.DgvSearchItem = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelHeader.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGRAY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSaveGRAY)).BeginInit();
             this.panelFooter.SuspendLayout();
             this.panelChooseItemAndStock.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnShowDgvItems)).BeginInit();
@@ -116,16 +120,28 @@
             // 
             // panelHeader
             // 
+            this.panelHeader.Controls.Add(this.btnDeleteGRAY);
             this.panelHeader.Controls.Add(this.pictureBox2);
-            this.panelHeader.Controls.Add(this.btnNew);
-            this.panelHeader.Controls.Add(this.btnSave);
             this.panelHeader.Controls.Add(this.tableLayoutPanel1);
+            this.panelHeader.Controls.Add(this.btnSaveGRAY);
+            this.panelHeader.Controls.Add(this.btnSave);
             this.panelHeader.Controls.Add(this.btnDelete);
+            this.panelHeader.Controls.Add(this.btnNew);
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelHeader.Location = new System.Drawing.Point(0, 0);
             this.panelHeader.Name = "panelHeader";
             this.panelHeader.Size = new System.Drawing.Size(1184, 110);
             this.panelHeader.TabIndex = 21;
+            // 
+            // btnDeleteGRAY
+            // 
+            this.btnDeleteGRAY.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteGRAY.Image")));
+            this.btnDeleteGRAY.Location = new System.Drawing.Point(72, 8);
+            this.btnDeleteGRAY.Name = "btnDeleteGRAY";
+            this.btnDeleteGRAY.Size = new System.Drawing.Size(45, 48);
+            this.btnDeleteGRAY.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnDeleteGRAY.TabIndex = 29;
+            this.btnDeleteGRAY.TabStop = false;
             // 
             // pictureBox2
             // 
@@ -138,29 +154,6 @@
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 28;
             this.pictureBox2.TabStop = false;
-            // 
-            // btnNew
-            // 
-            this.btnNew.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnNew.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnNew.BackgroundImage")));
-            this.btnNew.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnNew.Location = new System.Drawing.Point(127, 4);
-            this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(53, 56);
-            this.btnNew.TabIndex = 27;
-            this.btnNew.UseVisualStyleBackColor = false;
-            // 
-            // btnSave
-            // 
-            this.btnSave.BackColor = System.Drawing.Color.DarkGray;
-            this.btnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSave.BackgroundImage")));
-            this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSave.Enabled = false;
-            this.btnSave.Location = new System.Drawing.Point(9, 4);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(53, 56);
-            this.btnSave.TabIndex = 1;
-            this.btnSave.UseVisualStyleBackColor = false;
             // 
             // tableLayoutPanel1
             // 
@@ -204,9 +197,29 @@
             this.txtBarcode.Size = new System.Drawing.Size(305, 32);
             this.txtBarcode.TabIndex = 0;
             // 
+            // btnSaveGRAY
+            // 
+            this.btnSaveGRAY.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveGRAY.Image")));
+            this.btnSaveGRAY.Location = new System.Drawing.Point(13, 8);
+            this.btnSaveGRAY.Name = "btnSaveGRAY";
+            this.btnSaveGRAY.Size = new System.Drawing.Size(45, 48);
+            this.btnSaveGRAY.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnSaveGRAY.TabIndex = 29;
+            this.btnSaveGRAY.TabStop = false;
+            // 
+            // btnSave
+            // 
+            this.btnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSave.BackgroundImage")));
+            this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSave.Enabled = false;
+            this.btnSave.Location = new System.Drawing.Point(9, 4);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(53, 56);
+            this.btnSave.TabIndex = 1;
+            this.btnSave.UseVisualStyleBackColor = false;
+            // 
             // btnDelete
             // 
-            this.btnDelete.BackColor = System.Drawing.Color.DarkGray;
             this.btnDelete.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDelete.BackgroundImage")));
             this.btnDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnDelete.Enabled = false;
@@ -215,6 +228,17 @@
             this.btnDelete.Size = new System.Drawing.Size(53, 56);
             this.btnDelete.TabIndex = 2;
             this.btnDelete.UseVisualStyleBackColor = false;
+            // 
+            // btnNew
+            // 
+            this.btnNew.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnNew.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnNew.BackgroundImage")));
+            this.btnNew.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnNew.Location = new System.Drawing.Point(127, 4);
+            this.btnNew.Name = "btnNew";
+            this.btnNew.Size = new System.Drawing.Size(53, 56);
+            this.btnNew.TabIndex = 27;
+            this.btnNew.UseVisualStyleBackColor = false;
             // 
             // panelFooter
             // 
@@ -319,8 +343,8 @@
             this.dgvStockSelected.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvStockSelected.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvStockSelected.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn6});
+            this.POSNoSelected,
+            this.QtySelected});
             this.dgvStockSelected.EnableHeadersVisualStyles = false;
             this.dgvStockSelected.Location = new System.Drawing.Point(676, 29);
             this.dgvStockSelected.MultiSelect = false;
@@ -345,26 +369,26 @@
             this.dgvStockSelected.Size = new System.Drawing.Size(278, 213);
             this.dgvStockSelected.TabIndex = 14;
             // 
-            // dataGridViewTextBoxColumn1
+            // POSNoSelected
             // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.POSNoSelected.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dataGridViewTextBoxColumn1.HeaderText = "ចំណាំ";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 150;
+            this.POSNoSelected.DefaultCellStyle = dataGridViewCellStyle3;
+            this.POSNoSelected.HeaderText = "ចំណាំ";
+            this.POSNoSelected.Name = "POSNoSelected";
+            this.POSNoSelected.ReadOnly = true;
+            this.POSNoSelected.Width = 150;
             // 
-            // dataGridViewTextBoxColumn6
+            // QtySelected
             // 
-            this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.QtySelected.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle4.Format = "N0";
-            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle4;
-            this.dataGridViewTextBoxColumn6.HeaderText = "ចំនួន";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            this.dataGridViewTextBoxColumn6.Width = 90;
+            this.QtySelected.DefaultCellStyle = dataGridViewCellStyle4;
+            this.QtySelected.HeaderText = "ចំនួន";
+            this.QtySelected.Name = "QtySelected";
+            this.QtySelected.ReadOnly = true;
+            this.QtySelected.Width = 90;
             // 
             // dgvStockAvailable
             // 
@@ -387,8 +411,8 @@
             this.dgvStockAvailable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.dgvStockAvailable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvStockAvailable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn5});
+            this.POSNoAvailable,
+            this.QtyAvailable});
             this.dgvStockAvailable.EnableHeadersVisualStyles = false;
             this.dgvStockAvailable.Location = new System.Drawing.Point(343, 29);
             this.dgvStockAvailable.MultiSelect = false;
@@ -413,26 +437,26 @@
             this.dgvStockAvailable.Size = new System.Drawing.Size(278, 213);
             this.dgvStockAvailable.TabIndex = 14;
             // 
-            // dataGridViewTextBoxColumn3
+            // POSNoAvailable
             // 
-            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.POSNoAvailable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle9;
-            this.dataGridViewTextBoxColumn3.HeaderText = "ចំណាំ";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            this.dataGridViewTextBoxColumn3.Width = 150;
+            this.POSNoAvailable.DefaultCellStyle = dataGridViewCellStyle9;
+            this.POSNoAvailable.HeaderText = "ចំណាំ";
+            this.POSNoAvailable.Name = "POSNoAvailable";
+            this.POSNoAvailable.ReadOnly = true;
+            this.POSNoAvailable.Width = 150;
             // 
-            // dataGridViewTextBoxColumn5
+            // QtyAvailable
             // 
-            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.QtyAvailable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle10.Format = "N0";
-            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle10;
-            this.dataGridViewTextBoxColumn5.HeaderText = "ចំនួន";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            this.dataGridViewTextBoxColumn5.Width = 90;
+            this.QtyAvailable.DefaultCellStyle = dataGridViewCellStyle10;
+            this.QtyAvailable.HeaderText = "ចំនួន";
+            this.QtyAvailable.Name = "QtyAvailable";
+            this.QtyAvailable.ReadOnly = true;
+            this.QtyAvailable.Width = 90;
             // 
             // txtItems
             // 
@@ -599,10 +623,10 @@
             this.dgvScanned.Name = "dgvScanned";
             this.dgvScanned.ReadOnly = true;
             dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             dataGridViewCellStyle19.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Bold);
             dataGridViewCellStyle19.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
             dataGridViewCellStyle19.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvScanned.RowHeadersDefaultCellStyle = dataGridViewCellStyle19;
@@ -616,6 +640,72 @@
             this.dgvScanned.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvScanned.Size = new System.Drawing.Size(1184, 168);
             this.dgvScanned.TabIndex = 24;
+            // 
+            // RMCode
+            // 
+            this.RMCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.RMCode.DefaultCellStyle = dataGridViewCellStyle15;
+            this.RMCode.FillWeight = 190F;
+            this.RMCode.HeaderText = "លេខកូដ";
+            this.RMCode.Name = "RMCode";
+            this.RMCode.ReadOnly = true;
+            this.RMCode.Width = 120;
+            // 
+            // RMName
+            // 
+            this.RMName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.RMName.DefaultCellStyle = dataGridViewCellStyle16;
+            this.RMName.HeaderText = "ឈ្មោះវត្ថុធាតុដើម";
+            this.RMName.Name = "RMName";
+            this.RMName.ReadOnly = true;
+            this.RMName.Width = 250;
+            // 
+            // LocOUT
+            // 
+            this.LocOUT.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.LocOUT.HeaderText = "វេរចេញពី";
+            this.LocOUT.Name = "LocOUT";
+            this.LocOUT.ReadOnly = true;
+            this.LocOUT.Width = 130;
+            // 
+            // LocIN
+            // 
+            this.LocIN.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.LocIN.HeaderText = "វេរចូលទៅ";
+            this.LocIN.Name = "LocIN";
+            this.LocIN.ReadOnly = true;
+            this.LocIN.Width = 130;
+            // 
+            // TransferQty
+            // 
+            this.TransferQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle17.Format = "N0";
+            this.TransferQty.DefaultCellStyle = dataGridViewCellStyle17;
+            this.TransferQty.HeaderText = "ចំនួនវេរ";
+            this.TransferQty.Name = "TransferQty";
+            this.TransferQty.ReadOnly = true;
+            this.TransferQty.Width = 140;
+            // 
+            // ActualTransferQty
+            // 
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle18.Format = "N0";
+            this.ActualTransferQty.DefaultCellStyle = dataGridViewCellStyle18;
+            this.ActualTransferQty.HeaderText = "ចំនួនត្រូវវេរ";
+            this.ActualTransferQty.Name = "ActualTransferQty";
+            this.ActualTransferQty.ReadOnly = true;
+            this.ActualTransferQty.Width = 140;
+            // 
+            // Remarks
+            // 
+            this.Remarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Remarks.HeaderText = "ចំណាំ";
+            this.Remarks.Name = "Remarks";
+            this.Remarks.ReadOnly = true;
+            this.Remarks.Width = 170;
             // 
             // panelSearchItem
             // 
@@ -708,72 +798,6 @@
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             this.dataGridViewTextBoxColumn8.Width = 200;
             // 
-            // RMCode
-            // 
-            this.RMCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.RMCode.DefaultCellStyle = dataGridViewCellStyle15;
-            this.RMCode.FillWeight = 190F;
-            this.RMCode.HeaderText = "លេខកូដ";
-            this.RMCode.Name = "RMCode";
-            this.RMCode.ReadOnly = true;
-            this.RMCode.Width = 120;
-            // 
-            // RMName
-            // 
-            this.RMName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.RMName.DefaultCellStyle = dataGridViewCellStyle16;
-            this.RMName.HeaderText = "ឈ្មោះវត្ថុធាតុដើម";
-            this.RMName.Name = "RMName";
-            this.RMName.ReadOnly = true;
-            this.RMName.Width = 250;
-            // 
-            // LocOUT
-            // 
-            this.LocOUT.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.LocOUT.HeaderText = "វេរចេញពី";
-            this.LocOUT.Name = "LocOUT";
-            this.LocOUT.ReadOnly = true;
-            this.LocOUT.Width = 130;
-            // 
-            // LocIN
-            // 
-            this.LocIN.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.LocIN.HeaderText = "វេរចូលទៅ";
-            this.LocIN.Name = "LocIN";
-            this.LocIN.ReadOnly = true;
-            this.LocIN.Width = 130;
-            // 
-            // TransferQty
-            // 
-            this.TransferQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle17.Format = "N0";
-            this.TransferQty.DefaultCellStyle = dataGridViewCellStyle17;
-            this.TransferQty.HeaderText = "ចំនួនវេរ";
-            this.TransferQty.Name = "TransferQty";
-            this.TransferQty.ReadOnly = true;
-            this.TransferQty.Width = 140;
-            // 
-            // ActualTransferQty
-            // 
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle18.Format = "N0";
-            this.ActualTransferQty.DefaultCellStyle = dataGridViewCellStyle18;
-            this.ActualTransferQty.HeaderText = "ចំនួនត្រូវវេរ";
-            this.ActualTransferQty.Name = "ActualTransferQty";
-            this.ActualTransferQty.ReadOnly = true;
-            this.ActualTransferQty.Width = 140;
-            // 
-            // Remarks
-            // 
-            this.Remarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Remarks.HeaderText = "ចំណាំ";
-            this.Remarks.Name = "Remarks";
-            this.Remarks.ReadOnly = true;
-            this.Remarks.Width = 170;
-            // 
             // WireTransferForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -790,9 +814,11 @@
             this.Text = "វេរចេញ";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panelHeader.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGRAY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSaveGRAY)).EndInit();
             this.panelFooter.ResumeLayout(false);
             this.panelChooseItemAndStock.ResumeLayout(false);
             this.panelChooseItemAndStock.PerformLayout();
@@ -829,11 +855,7 @@
         private System.Windows.Forms.ComboBox CboInLocation;
         public System.Windows.Forms.DataGridView dgvStockAvailable;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         public System.Windows.Forms.DataGridView dgvStockSelected;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnTakeOut;
         private System.Windows.Forms.Button btnTakeIn;
@@ -855,5 +877,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TransferQty;
         private System.Windows.Forms.DataGridViewTextBoxColumn ActualTransferQty;
         private System.Windows.Forms.DataGridViewTextBoxColumn Remarks;
+        private System.Windows.Forms.DataGridViewTextBoxColumn POSNoAvailable;
+        private System.Windows.Forms.DataGridViewTextBoxColumn QtyAvailable;
+        private System.Windows.Forms.DataGridViewTextBoxColumn POSNoSelected;
+        private System.Windows.Forms.DataGridViewTextBoxColumn QtySelected;
+        private System.Windows.Forms.PictureBox btnSaveGRAY;
+        private System.Windows.Forms.PictureBox btnDeleteGRAY;
     }
 }
