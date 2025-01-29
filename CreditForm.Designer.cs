@@ -36,9 +36,12 @@
             this.LbAppNameAndVersion = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
+            this.LbVersion = new System.Windows.Forms.Label();
             this.LbDatabase = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.LbServer = new System.Windows.Forms.Label();
@@ -66,9 +69,6 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.LbVersion = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PicMessenger)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicTelegram)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -151,6 +151,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Application Infomations";
             // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(285, 28);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(60, 24);
+            this.label19.TabIndex = 0;
+            this.label19.Text = "Version";
+            // 
             // label18
             // 
             this.label18.AutoSize = true;
@@ -171,6 +181,16 @@
             this.label12.TabIndex = 0;
             this.label12.Text = "Server";
             // 
+            // LbVersion
+            // 
+            this.LbVersion.AutoSize = true;
+            this.LbVersion.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbVersion.Location = new System.Drawing.Point(385, 28);
+            this.LbVersion.Name = "LbVersion";
+            this.LbVersion.Size = new System.Drawing.Size(90, 24);
+            this.LbVersion.TabIndex = 0;
+            this.LbVersion.Text = "                    ";
+            // 
             // LbDatabase
             // 
             this.LbDatabase.AutoSize = true;
@@ -180,6 +200,16 @@
             this.LbDatabase.Size = new System.Drawing.Size(90, 24);
             this.LbDatabase.TabIndex = 0;
             this.LbDatabase.Text = "                    ";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(364, 28);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(14, 24);
+            this.label9.TabIndex = 0;
+            this.label9.Text = ":";
             // 
             // label4
             // 
@@ -480,36 +510,6 @@
             this.label16.Size = new System.Drawing.Size(14, 24);
             this.label16.TabIndex = 0;
             this.label16.Text = ":";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(364, 28);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(14, 24);
-            this.label9.TabIndex = 0;
-            this.label9.Text = ":";
-            // 
-            // LbVersion
-            // 
-            this.LbVersion.AutoSize = true;
-            this.LbVersion.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbVersion.Location = new System.Drawing.Point(385, 28);
-            this.LbVersion.Name = "LbVersion";
-            this.LbVersion.Size = new System.Drawing.Size(90, 24);
-            this.LbVersion.TabIndex = 0;
-            this.LbVersion.Text = "                    ";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(285, 28);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(60, 24);
-            this.label19.TabIndex = 0;
-            this.label19.Text = "Version";
             // 
             // CreditForm
             // 

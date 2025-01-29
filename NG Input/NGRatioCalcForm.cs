@@ -1,16 +1,11 @@
-﻿using Microsoft.Office.Interop.Excel;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using DataTable = System.Data.DataTable;
@@ -265,7 +260,7 @@ namespace MachineDeptApp.NG_Input
                     Excel.Worksheet worksheetCountable = (Excel.Worksheet)xlWorkBook.Sheets["Countable"];
                     //Header
                     worksheetCountable.Cells[4, 10] = DateTime.Now;
-                    worksheetCountable.Cells[8, 3] = "NG Rate (" + dgvExcelData.Rows[0].Cells[7].Value.ToString()+")";
+                    worksheetCountable.Cells[8, 5] = "NG Rate (" + dgvExcelData.Rows[0].Cells[7].Value.ToString()+")";
                     int WriteItems = 0;
                     foreach (DataGridViewRow DgvRow in dgvCountable.Rows)
                     {
@@ -329,7 +324,7 @@ namespace MachineDeptApp.NG_Input
                     Excel.Worksheet worksheetUncountable = (Excel.Worksheet)xlWorkBook.Sheets["Uncountable"];
                     //Header
                     worksheetUncountable.Cells[4, 10] = DateTime.Now;
-                    worksheetUncountable.Cells[8, 3] = "NG Rate (" + dgvExcelData.Rows[0].Cells[7].Value.ToString() + ")";
+                    worksheetUncountable.Cells[8, 5] = "NG Rate (" + dgvExcelData.Rows[0].Cells[7].Value.ToString() + ")";
                     WriteItems = 0;
                     foreach (DataGridViewRow DgvRow in dgvUncountable.Rows)
                     {
@@ -402,8 +397,9 @@ namespace MachineDeptApp.NG_Input
                     string file = "NGRate " + dgvExcelData.Rows[0].Cells[7].Value.ToString();
                     fName = file + " ( " + date + " )";
                     worksheetCountable.SaveAs(CDirectory.ToString() + @"\Report\NGRate\" + fName + ".xlsx");
-                    xlWorkBook.Save();
+                    excelApp.DisplayAlerts = false;
                     xlWorkBook.Close();
+                    excelApp.DisplayAlerts = true;
                     excelApp.Quit();
 
                     //Kill all Excel background process
