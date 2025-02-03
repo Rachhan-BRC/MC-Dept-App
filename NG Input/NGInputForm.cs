@@ -1,294 +1,206 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using MachineDeptApp.MsgClass;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using Excel = Microsoft.Office.Interop.Excel;
-
+using System.IO;
 
 namespace MachineDeptApp.NG_Input
 {
     public partial class NGInputForm : Form
     {
+        ErrorMsgClass EMsg = new ErrorMsgClass();
+        WarningMsgClass WMsg = new WarningMsgClass();
+        QuestionMsgClass QMsg = new QuestionMsgClass();
+        InformationMsgClass InfoMsg = new InformationMsgClass();
         SQLConnect cnn = new SQLConnect();
         SQLConnectOBS cnnOBS = new SQLConnectOBS();
-        string SysNSelected;
-        string ReqStSelected;
-        string fName;
+
+        string ErrorText;
 
         public NGInputForm()
         {
             InitializeComponent();
-            cnn.Connection();
-            cnnOBS.Connection();
+            this.cnn.Connection();
+            this.cnnOBS.Connection();
+            this.Shown += NGInputForm_Shown;
+            this.chkSelectAll.Click += ChkSelectAll_Click;
+
+            this.btnScale.Click += BtnScale_Click;
+            this.btnCountable.Click += BtnCountable_Click;
+            this.btnSemiSet.Click += BtnSemiSet_Click;
+            this.btnPrint.Click += BtnPrint_Click;
+
             this.dgvNGalready.CellClick += DgvNGalready_CellClick;
             this.dgvNGalready.KeyDown += DgvNGalready_KeyDown;
 
         }
 
-        private void DgvNGalready_KeyDown(object sender, KeyEventArgs e)
+        
+        private void BtnPrint_Click(object sender, EventArgs e)
         {
-            if (e.KeyCode == Keys.Delete)
+            int FoundChecked = 0;
+            foreach (DataGridViewRow row in dgvNGalready.Rows)
             {
-                if (SysNSelected.Trim() != "" && ReqStSelected == "False")
+                if (row.Cells["ChkPrint"].Value.ToString().ToUpper() == "TRUE")
                 {
-                    DialogResult DLR = MessageBox.Show("តើអ្នកចង់លុបទិន្នន័យនេះមែនឬទេ?", "Rachhan System", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (DLR == DialogResult.Yes)
-                    {
-                        string ItemCode = dgvNGalready.Rows[dgvNGalready.CurrentCell.RowIndex].Cells[0].Value.ToString();
-                        try
-                        {
-                            cnn.con.Open();
-                            //Delete in tbNGHistory                     
-                            SqlCommand cmd = new SqlCommand("DELETE FROM tbNGHistory WHERE SysNo ='" + SysNSelected + "' AND ItemCode='"+ItemCode+"' ;", cnn.con);
-                            cmd.ExecuteNonQuery();
-                            //Update tbTrasaction
-                            SqlCommand cmd1 = new SqlCommand("UPDATE tbSDMCAllTransaction SET CancelStatus=1 WHERE SysNo ='" + SysNSelected + "' AND Code='"+ItemCode+"' ;", cnn.con);
-                            cmd1.ExecuteNonQuery();
-                            MessageBox.Show("Successfully deleted !", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            dgvNGalready.Rows.RemoveAt(dgvNGalready.CurrentCell.RowIndex);
-                            dgvNGalready.Refresh();
-                            dgvNGalready.ClearSelection();
-                            SysNSelected = "";
-                            ReqStSelected = "";
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message + "\nSomething wrong ! Please check the connection first !\nOr contact to developer !", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        cnn.con.Close();
-                    }
+                    FoundChecked++;
+                    break;
                 }
             }
-            else
+            if (FoundChecked > 0)
             {
-
-            }
-        }
-
-        private void DgvNGalready_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            SysNSelected = "";
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = this.dgvNGalready.Rows[e.RowIndex];
-                SysNSelected = row.Cells[6].Value.ToString();
-                ReqStSelected = row.Cells[3].Value.ToString();
-            }
-            else
-            {
-
-            }
-        }
-
-        private void btnSemiSet_Click(object sender, EventArgs e)
-        {
-            SysNSelected = "";
-            ReqStSelected = "";
-            NGInputBySetForm Nibsf = new NGInputBySetForm(this);
-            Nibsf.ShowDialog();
-        }
-
-        private void btnScale_Click(object sender, EventArgs e)
-        {
-            SysNSelected = "";
-            ReqStSelected = "";
-            NGInputByUncountForm Nibuf = new NGInputByUncountForm(this);
-            Nibuf.ShowDialog();
-        }
-
-        private void NGInputForm_Load(object sender, EventArgs e)
-        {
-            try
-            {
-                //Take last SysNo
-                cnn.con.Open();
-                SqlDataAdapter da = new SqlDataAdapter("Select * From  (Select * From tbNGHistory Where RegDate Between '" + DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00' AND '" + DateTime.Now.ToString("yyyy-MM-dd") + " 23:59:59' AND ReqStat=0) t1 INNER JOIN (Select ItemCode,ItemName From tbMasterItem Where Len(ItemCode)<5 Group By ItemCode, ItemName) t2 ON t1.ItemCode=t2.ItemCode Order By t1.SysNo ASC", cnn.con);
-                DataTable TodayData = new DataTable();
-                da.Fill(TodayData);
-                if (TodayData.Rows.Count > 0)
+                QMsg.QAText = "តើអ្នកចង់ព្រីនមែនដែរឬទេ?";
+                QMsg.UserClickedYes = false;
+                QMsg.ShowingMsg();
+                if (QMsg.UserClickedYes == true)
                 {
-                    for (int i = 0; i < TodayData.Rows.Count; i++)
-                    {
-                        bool stat;
-                        if (TodayData.Rows[i][3].ToString() == "0")
-                        {
-                            stat = false;
-
-                        }
-                        else
-                        {
-                            stat = true;
-                        }
-                        dgvNGalready.Rows.Add(TodayData.Rows[i][1].ToString(), TodayData.Rows[i][7].ToString(), Convert.ToDouble(TodayData.Rows[i][2].ToString()), stat, Convert.ToDateTime(TodayData.Rows[i][4].ToString()), TodayData.Rows[i][5].ToString(), TodayData.Rows[i][0].ToString());
-                    }
-                }
-                dgvNGalready.ClearSelection();
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message,"Rachhan System",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                this.Close();
-            }
-            cnn.con.Close();
-        }
-
-        private void btnCountable_Click(object sender, EventArgs e)
-        {
-            SysNSelected = "";
-            ReqStSelected = "";
-            NGInputByCountForm Nibcf = new NGInputByCountForm(this);
-            Nibcf.ShowDialog();
-
-        }
-
-        private void btnPrint_Click(object sender, EventArgs e)
-        {
-            if (dgvNGalready.Rows.Count > 0)
-            {
-                DialogResult DLR = MessageBox.Show("តើអ្នកចង់ព្រីនមែនដែរឬទេ?", "Rachhan System", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (DLR == DialogResult.Yes)
-                {
-                    LbExportStatus.Visible = true;
+                    Cursor = Cursors.WaitCursor;
                     LbExportStatus.Text = "កំពុងបង្កើត File​ . . . .";
                     LbExportStatus.Refresh();
+                    ErrorText = "";
+                    string fName = "";
+                    string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\NG";
+                    //ឆែករកមើល Folder បើគ្មាន => បង្កើត
+                    if (!Directory.Exists(SavePath))
+                    {
+                        Directory.CreateDirectory(SavePath);
+                    }
+
                     DataTable dtStatus = new DataTable();
                     dtStatus.Columns.Add("SysNo", typeof(string));
+                    dtStatus.Columns.Add("RMCode", typeof(string));
                     DataTable dtPrint = new DataTable();
-                    dtPrint.Columns.Add("Code", typeof(string));
-                    dtPrint.Columns.Add("Items", typeof(string));
+                    dtPrint.Columns.Add("RMCode", typeof(string));
+                    dtPrint.Columns.Add("RMName", typeof(string));
                     dtPrint.Columns.Add("Qty", typeof(double));
 
-                    for (int i = 0; i < dgvNGalready.Rows.Count; i++)
+                    foreach (DataGridViewRow row in dgvNGalready.Rows)
                     {
-                        int count = 0;
-                        //Add to dtStatus
-                        dtStatus.Rows.Add(dgvNGalready.Rows[i].Cells[6].Value.ToString());
-
-                        //Add to dtPrint
-                        //Check have or not
-                        for (int j = 0; j < dtPrint.Rows.Count; j++)
+                        if (row.Cells["ChkPrint"].Value.ToString().ToUpper() == "TRUE")
                         {
-                            if (dtPrint.Rows[j][0].ToString() == dgvNGalready.Rows[i].Cells[0].Value.ToString())
-                            {
-                                count = count + 1;
-                            }
-                        }
-                        //If already have
+                            string SysNo = row.Cells["SysNo"].Value.ToString();
+                            string RMCode = row.Cells["RMCode"].Value.ToString();
+                            string RMName = row.Cells["RMName"].Value.ToString();
+                            double Qty = Convert.ToDouble(row.Cells["Qty"].Value.ToString());
 
-                        if (count > 0)
-                        {
-                            for (int j = 0; j < dtPrint.Rows.Count; j++)
+                            //For Update Status
+                            dtStatus.Rows.Add();
+                            dtStatus.Rows[dtStatus.Rows.Count-1]["SysNo"] = SysNo;
+                            dtStatus.Rows[dtStatus.Rows.Count - 1]["RMCode"] = RMCode;
+
+                            //For Print
+                            int FoundDupl = 0;
+                            foreach (DataRow rowPrint in dtPrint.Rows)
                             {
-                                if (dtPrint.Rows[j][0].ToString() == dgvNGalready.Rows[i].Cells[0].Value.ToString())
+                                if (rowPrint["RMCode"].ToString() == RMCode)
                                 {
-                                    dtPrint.Rows[j][2] = Convert.ToDouble(dtPrint.Rows[j][2].ToString()) + Convert.ToDouble(dgvNGalready.Rows[i].Cells[2].Value.ToString());
+                                    FoundDupl++;
+                                    rowPrint["Qty"] = Convert.ToDouble(rowPrint["Qty"]) + Qty;
+                                    break;
                                 }
                             }
-                        }
-                        //If not yet have
-                        else
-                        {
-                            dtPrint.Rows.Add(dgvNGalready.Rows[i].Cells[0].Value.ToString(), dgvNGalready.Rows[i].Cells[1].Value.ToString(), Convert.ToDouble(dgvNGalready.Rows[i].Cells[2].Value.ToString()));
-                        }
+                            if (FoundDupl == 0)
+                            {
+                                dtPrint.Rows.Add();
+                                dtPrint.Rows[dtPrint.Rows.Count - 1]["RMCode"] = RMCode;
+                                dtPrint.Rows[dtPrint.Rows.Count - 1]["RMName"] = RMName;
+                                dtPrint.Rows[dtPrint.Rows.Count - 1]["Qty"] = Qty;
+                            }
+                            dtPrint.AcceptChanges();
 
+                        }
                     }
 
                     //Convert total
-                    for (int i = 0; i < dtPrint.Rows.Count; i++)
-                    {
-                        dtPrint.Rows[i][2] = Math.Round(Convert.ToDouble(dtPrint.Rows[i][2].ToString()), 0, MidpointRounding.AwayFromZero);
-                    }
-                    int error = 0;
+                    //for (int i = 0; i < dtPrint.Rows.Count; i++)
+                    //{
+                    //    dtPrint.Rows[i][2] = Math.Round(Convert.ToDouble(dtPrint.Rows[i][2].ToString()), 0, MidpointRounding.AwayFromZero);
+                    //}
 
                     //Add type of Count/Uncount
-                    try
+                    if (dtPrint.Rows.Count > 0)
                     {
+                        DataTable dtOBS = new DataTable();
                         string RMCodeIN = "";
                         foreach (DataRow row in dtPrint.Rows)
                         {
                             if (RMCodeIN.Trim() == "")
                             {
-                                RMCodeIN = "'" + row["Code"].ToString() +"'";
+                                RMCodeIN = "'" + row["RMCode"].ToString() + "'";
                             }
                             else
                             {
-                                RMCodeIN += ", '" + row["Code"].ToString() + "'";
+                                RMCodeIN += ", '" + row["RMCode"].ToString() + "'";
                             }
                         }
-                        cnnOBS.conOBS.Open();
-                        SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM mstitem WHERE DelFlag=0 AND ItemCode IN ("+RMCodeIN+") ORDER BY ItemCode ASC;", cnnOBS.conOBS);
-                        DataTable dt = new DataTable();
-                        sda.Fill(dt);
-
-                        dtPrint.Columns.Add("MatCalcFlag");
-                        foreach (DataRow row in dtPrint.Rows)
+                        try
                         {
-                            row["MatCalcFlag"] = "0";
-                            foreach (DataRow rowOBS in dt.Rows)
+                            cnnOBS.conOBS.Open();
+                            SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM mstitem WHERE DelFlag=0 AND ItemCode IN (" + RMCodeIN + ") ORDER BY ItemCode ASC;", cnnOBS.conOBS);
+                            sda.Fill(dtOBS);
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorText = ex.Message;
+                        }
+                        cnnOBS.conOBS.Close();
+
+                        if (ErrorText.Trim() == "")
+                        {
+                            dtPrint.Columns.Add("MatCalcFlag");
+                            foreach (DataRow row in dtPrint.Rows)
                             {
-                                if (row["Code"].ToString() == rowOBS["ItemCode"].ToString())
+                                row["MatCalcFlag"] = "0";
+                                foreach (DataRow rowOBS in dtOBS.Rows)
                                 {
-                                    row["MatCalcFlag"] = rowOBS["MatCalcFlag"].ToString();
-                                    break;
+                                    if (row["RMCode"].ToString() == rowOBS["ItemCode"].ToString())
+                                    {
+                                        row["MatCalcFlag"] = rowOBS["MatCalcFlag"].ToString();
+                                        break;
+                                    }
                                 }
                             }
+                            dtPrint.AcceptChanges();
                         }
-                        dtPrint.AcceptChanges();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message + "\nSomething wrong ! Please check the connection first !\nOr contact to developer !", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        error = error + 1;
+
                     }
                     //Update to SQL
-                    if(error == 0)
+                    if(ErrorText.Trim() == "")
                     {
-                        for (int i = 0; i < dtStatus.Rows.Count; i++)
+                        try
                         {
-                            try
+                            cnn.con.Open();
+                            foreach (DataRow row in dtStatus.Rows)
                             {
-                                cnn.con.Open();
                                 string query = "UPDATE tbNGHistory SET " +
-                                                    "ReqStat=1" +
-                                                    "WHERE SysNo = '" + dtStatus.Rows[i][0] + "';";
+                                                "ReqStat=1" +
+                                                "WHERE SysNo = '" + row["SysNo"] + "' AND ItemCode = '" + row["RMCode"] +"' ";
                                 SqlCommand cmd = new SqlCommand(query, cnn.con);
                                 cmd.ExecuteNonQuery();
-
                             }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message + "\nSomething wrong ! Please check the connection first !\nOr contact to developer !", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                error = error + 1;
-                            }
-                            cnn.con.Close();
                         }
-
+                        catch (Exception ex)
+                        {
+                            ErrorText = ex.Message;
+                        }
+                        cnn.con.Close();
                     }
 
-                    if (error == 0)
+                    //Print to Excel
+                    if (ErrorText.Trim() == "" && dtPrint.Rows.Count>0)
                     {
                         //Print excel
-                        var CDirectory = Environment.CurrentDirectory;
                         Excel.Application excelApp = new Excel.Application();
-                        Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(Filename: CDirectory.ToString() + @"\Template\NG_Calculate.xlsx", Editable: true);
-                                                
+                        Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(Filename: Environment.CurrentDirectory + @"\Template\NG_Calculate.xlsx", Editable: true);
+
                         try
                         {
                             //Countable
-                            Excel.Worksheet worksheet = (Excel.Worksheet)xlWorkBook.Sheets["Countable"];
+                            Excel.Worksheet wsCount = (Excel.Worksheet)xlWorkBook.Sheets["Countable"];
                             int Countable = 0;
                             foreach (DataRow row in dtPrint.Rows)
                             {
@@ -299,11 +211,10 @@ namespace MachineDeptApp.NG_Input
                             }
                             if (Countable > 1)
                             {
-                                worksheet.Range["5:" + (Countable - 1 + 4)].Insert();
-                                worksheet.Range["A4:C" + (Countable - 1 + 4)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
-
+                                wsCount.Range["5:" + (Countable - 1 + 4)].Insert();
+                                wsCount.Range["A4:C" + (Countable - 1 + 4)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
                             }
-                            worksheet.Cells[2, 2] = DateTime.Now;
+                            wsCount.Cells[2, 2] = DateTime.Now;
                             int RowIndex = 4;
                             for (int i = 0; i < dtPrint.Rows.Count; i++)
                             {
@@ -313,7 +224,7 @@ namespace MachineDeptApp.NG_Input
                                     {
                                         if (dtPrint.Rows[i][j] != null)
                                         {
-                                            worksheet.Cells[RowIndex, j + 1] = dtPrint.Rows[i][j];
+                                            wsCount.Cells[RowIndex, j + 1] = dtPrint.Rows[i][j];
                                         }
                                     }
                                     RowIndex++;
@@ -321,7 +232,7 @@ namespace MachineDeptApp.NG_Input
                             }
 
                             //Uncount
-                            Excel.Worksheet worksheetUncount = (Excel.Worksheet)xlWorkBook.Sheets["Uncountable"];
+                            Excel.Worksheet wsUncount = (Excel.Worksheet)xlWorkBook.Sheets["Uncountable"];
                             int Uncountable = 0;
                             foreach (DataRow row in dtPrint.Rows)
                             {
@@ -332,11 +243,10 @@ namespace MachineDeptApp.NG_Input
                             }
                             if (Uncountable > 1)
                             {
-                                worksheetUncount.Range["5:" + (Uncountable - 1 + 4)].Insert();
-                                worksheetUncount.Range["A4:C" + (Uncountable - 1 + 4)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
-
+                                wsUncount.Range["5:" + (Uncountable - 1 + 4)].Insert();
+                                wsUncount.Range["A4:C" + (Uncountable - 1 + 4)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
                             }
-                            worksheetUncount.Cells[2, 2] = DateTime.Now;
+                            wsUncount.Cells[2, 2] = DateTime.Now;
                             RowIndex = 4;
                             for (int i = 0; i < dtPrint.Rows.Count; i++)
                             {
@@ -346,7 +256,7 @@ namespace MachineDeptApp.NG_Input
                                     {
                                         if (dtPrint.Rows[i][j] != null)
                                         {
-                                            worksheetUncount.Cells[RowIndex, j + 1] = dtPrint.Rows[i][j];
+                                            wsUncount.Cells[RowIndex, j + 1] = dtPrint.Rows[i][j];
                                         }
                                     }
                                     RowIndex++;
@@ -354,59 +264,20 @@ namespace MachineDeptApp.NG_Input
                             }
 
                             // Saving the modified Excel file
-                            string date = DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss");
                             string file = "NG_Calculated ";
-                            fName = file + "( " + date + " )";
-                            worksheet.SaveAs(CDirectory.ToString() + @"\Report\NG\" + fName + ".xlsx");
-                            xlWorkBook.Save();
-                            xlWorkBook.Close();
-                            excelApp.Quit();
-
+                            fName = file + "( " + DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss") + " )";
+                            wsCount.SaveAs(SavePath + @"\" + fName + ".xlsx");
                         }
                         catch (Exception ex)
                         {
-                            excelApp.DisplayAlerts = false;
-                            xlWorkBook.Close();
-                            excelApp.DisplayAlerts = true;
-                            excelApp.Quit();
-                            LbExportStatus.Text = "ការរក្សាទុកមានបញ្ហា ៖​ " + ex.Message + ", អាចមកពី File នេះកំពុងតែបើក !";
+                            ErrorText = ex.Message;
                         }
 
-
-                        //Refres dgv
-                        dgvNGalready.Rows.Clear();
-                        try
-                        {
-                            //Take last SysNo
-                            cnn.con.Open();
-                            SqlDataAdapter da = new SqlDataAdapter("Select * From  (Select * From tbNGHistory Where RegDate Between '" + DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00' AND '" + DateTime.Now.ToString("yyyy-MM-dd") + " 23:59:59' AND ReqStat=0) t1 INNER JOIN (Select ItemCode,ItemName From tbMasterItem Where Len(ItemCode)<5) t2 ON t1.ItemCode=t2.ItemCode Order By t1.SysNo ASC", cnn.con);
-                            DataTable TodayData = new DataTable();
-                            da.Fill(TodayData);
-                            if (TodayData.Rows.Count > 0)
-                            {
-                                for (int i = 0; i < TodayData.Rows.Count; i++)
-                                {
-                                    bool stat;
-                                    if (TodayData.Rows[i][3].ToString() == "0")
-                                    {
-                                        stat = false;
-
-                                    }
-                                    else
-                                    {
-                                        stat = true;
-                                    }
-                                    dgvNGalready.Rows.Add(TodayData.Rows[i][1].ToString(), TodayData.Rows[i][7].ToString(), Convert.ToDouble(TodayData.Rows[i][2].ToString()), stat, Convert.ToDateTime(TodayData.Rows[i][4].ToString()), TodayData.Rows[i][5].ToString(), TodayData.Rows[i][0].ToString());
-                                }
-                            }
-                            dgvNGalready.ClearSelection();
-
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        cnn.con.Close();
+                        //Close Excel
+                        excelApp.DisplayAlerts = false;
+                        xlWorkBook.Close();
+                        excelApp.DisplayAlerts = true;
+                        excelApp.Quit();
 
                         //Kill all Excel background process
                         var processes = from p in Process.GetProcessesByName("EXCEL")
@@ -417,21 +288,250 @@ namespace MachineDeptApp.NG_Input
                                 process.Kill();
                         }
 
+                    }
+
+                    //Refres dgv
+                    if (ErrorText.Trim() == "")
+                    {
+                        for (int i = dgvNGalready.Rows.Count - 1; i > -1; i--)
+                        {
+                            if (dgvNGalready.Rows[i].Cells["ChkPrint"].Value.ToString().ToUpper() == "TRUE")
+                            {
+                                dgvNGalready.Rows.RemoveAt(i);
+                            }
+                        }
+                        dgvNGalready.ClearSelection();
+                        dgvNGalready.CurrentCell = null;
+                        CheckForEnableBtn();
+                    }
+
+                    Cursor = Cursors.Default;
+
+                    if (ErrorText.Trim() == "")
+                    {
                         LbExportStatus.Text = "ព្រីនបានជោគជ័យ​ !";
-                        MessageBox.Show("ការព្រីនបានជោគជ័យ​ !", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        System.Diagnostics.Process.Start(CDirectory.ToString() + @"\\Report\NG\" + fName + ".xlsx");
-                        fName = "";
-                        LbExportStatus.Visible = false;
+                        LbExportStatus.Refresh();
+                        chkSelectAll.Checked = false; 
+                        InfoMsg.InfoText = "ការព្រីនបានជោគជ័យ​ !";
+                        InfoMsg.ShowingMsg();
+                        System.Diagnostics.Process.Start(SavePath + @"\" + fName + ".xlsx");
                     }
                     else
                     {
                         LbExportStatus.Text = "ព្រីនមានបញ្ហា​ !";
-                        MessageBox.Show("ព្រីនមានបញ្ហា​ !", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
+                        LbExportStatus.Refresh();
+                        EMsg.AlertText = "ព្រីនមានបញ្ហា​ !";
+                        EMsg.ShowingMsg();
                     }
                 }
             }
         }
+        private void BtnSemiSet_Click(object sender, EventArgs e)
+        {
+            NGInputBySetForm Nibsf = new NGInputBySetForm(this);
+            Nibsf.ShowDialog();
+        }
+        private void BtnCountable_Click(object sender, EventArgs e)
+        {
+            NGInputByCountForm Nibcf = new NGInputByCountForm(this);
+            Nibcf.ShowDialog();
+        }
+        private void BtnScale_Click(object sender, EventArgs e)
+        {
+            NGInputByUncountForm Nibuf = new NGInputByUncountForm(this);
+            Nibuf.ShowDialog();
+        }
 
+        private void DgvNGalready_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                if (dgvNGalready.SelectedCells.Count > 0 && dgvNGalready.CurrentCell != null && dgvNGalready.CurrentCell.RowIndex > -1)
+                {
+                    QMsg.QAText = "តើអ្នកចង់លុបទិន្នន័យនេះមែនឬទេ?";
+                    QMsg.UserClickedYes = false;
+                    QMsg.ShowingMsg();
+                    if (QMsg.UserClickedYes == true)
+                    {
+                        ErrorText = "";
+                        Cursor = Cursors.WaitCursor;
+                        string SysNo = dgvNGalready.Rows[dgvNGalready.CurrentCell.RowIndex].Cells["SysNo"].Value.ToString();
+                        string ItemCode = dgvNGalready.Rows[dgvNGalready.CurrentCell.RowIndex].Cells["RMCode"].Value.ToString();
+                        try
+                        {
+                            cnn.con.Open();
+                            //Delete in tbNGHistory                     
+                            SqlCommand cmd = new SqlCommand("DELETE FROM tbNGHistory WHERE SysNo ='" + SysNo + "' AND ItemCode='" + ItemCode + "' ;", cnn.con);
+                            cmd.ExecuteNonQuery();
+                            //Update tbTrasaction
+                            SqlCommand cmd1 = new SqlCommand("UPDATE tbSDMCAllTransaction SET CancelStatus=1 WHERE SysNo ='" + SysNo + "' AND Code='" + ItemCode + "' ;", cnn.con);
+                            cmd1.ExecuteNonQuery();                            
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorText = ex.Message;
+                        }
+                        cnn.con.Close();
+
+                        Cursor = Cursors.Default;
+
+                        if (ErrorText.Trim() == "")
+                        {
+                            InfoMsg.InfoText = "លុបរួចរាល់!";
+                            InfoMsg.ShowingMsg();
+                            dgvNGalready.Rows.RemoveAt(dgvNGalready.CurrentCell.RowIndex);
+                            dgvNGalready.Refresh();
+                            dgvNGalready.ClearSelection();
+                            dgvNGalready.CurrentCell = null;
+                            CheckForEnableBtn();
+                        }
+                        else
+                        {
+                            EMsg.AlertText = "មានបញ្ហា!\n"+ErrorText;
+                            EMsg.ShowingMsg();
+                        }
+                    }
+                }
+            }
+        }
+        private void DgvNGalready_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvNGalready.Columns[e.ColumnIndex].Name == "ChkPrint" && e.RowIndex > -1)
+            {
+                if (dgvNGalready.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().ToUpper()=="TRUE")
+                {
+                    dgvNGalready.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = false;
+                }
+                else
+                {
+                    dgvNGalready.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = true;
+                }
+                dgvNGalready.ClearSelection();
+                dgvNGalready.CurrentCell = null;
+                CheckForEnableBtn();
+                int ChkCount = 0;
+                foreach (DataGridViewRow row in dgvNGalready.Rows)
+                {
+                    if (row.Cells[e.ColumnIndex].Value.ToString().ToUpper() == "TRUE")
+                    {
+                        ChkCount++;
+                    }
+                }
+                if (ChkCount == dgvNGalready.Rows.Count)
+                {
+                    chkSelectAll.Checked = true;
+                }
+                else
+                {
+                    chkSelectAll.Checked = false;
+                }
+            }
+        }
+
+        private void NGInputForm_Shown(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+            ErrorText = "";
+            foreach (DataGridViewColumn col in dgvNGalready.Columns)
+            {
+                //Console.WriteLine(col.Name);
+            }
+
+            //Taking Data
+            DataTable dt = new DataTable();
+            try
+            {
+                cnn.con.Open();
+                string SQLQuery = "SELECT SysNo, T1.ItemCode, ItemName, NGQty, T1.Remarks, RegDate, RegBy FROM " +
+                    "\n(SELECT * FROM tbNGHistory WHERE ReqStat = 0) T1 " +
+                    "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T2 ON T1.ItemCode=T2.ItemCode " +
+                    "\nORDER BY SysNo ASC";
+                SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                sda.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                ErrorText = ex.Message;
+            }
+            cnn.con.Close();
+
+            //Add to Dgv
+            if (ErrorText.Trim() == "")
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    dgvNGalready.Rows.Add();
+                    dgvNGalready.Rows[dgvNGalready.Rows.Count - 1].Cells["ChkPrint"].Value = false;
+                    dgvNGalready.Rows[dgvNGalready.Rows.Count - 1].Cells["SysNo"].Value = row["SysNo"].ToString();
+                    dgvNGalready.Rows[dgvNGalready.Rows.Count - 1].Cells["RMCode"].Value = row["ItemCode"].ToString();
+                    dgvNGalready.Rows[dgvNGalready.Rows.Count - 1].Cells["RMName"].Value = row["ItemName"].ToString();
+                    dgvNGalready.Rows[dgvNGalready.Rows.Count - 1].Cells["Qty"].Value = Convert.ToDouble(row["NGQty"]);
+                    dgvNGalready.Rows[dgvNGalready.Rows.Count - 1].Cells["RegDate"].Value = Convert.ToDateTime(row["RegDate"]);
+                    dgvNGalready.Rows[dgvNGalready.Rows.Count - 1].Cells["RegBy"].Value = row["RegBy"].ToString();
+                    dgvNGalready.Rows[dgvNGalready.Rows.Count - 1].Cells["Remarks"].Value = row["Remarks"].ToString();
+                }
+                dgvNGalready.ClearSelection();
+                dgvNGalready.CurrentCell = null;
+                CheckForEnableBtn();
+            }
+
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim() != "")
+            {
+                EMsg.AlertText = "មានបញ្ហា!\n" + ErrorText;
+                EMsg.ShowingMsg();
+            }
+        }
+        private void ChkSelectAll_Click(object sender, EventArgs e)
+        {
+            if (dgvNGalready.Rows.Count > 0)
+            {
+                if (chkSelectAll.Checked == true)
+                {
+                    foreach (DataGridViewRow row in dgvNGalready.Rows)
+                    {
+                        row.Cells["ChkPrint"].Value = true;
+                    }
+                }
+                else
+                {
+                    foreach (DataGridViewRow row in dgvNGalready.Rows)
+                    {
+                        row.Cells["ChkPrint"].Value = false;
+                    }
+                }
+                CheckForEnableBtn();
+            }
+            else
+            {
+                chkSelectAll.Checked = false;
+            }
+        }
+
+        //Functions
+        private void CheckForEnableBtn()
+        {
+            //btnDelete
+            int FoundChecked = 0;
+            foreach (DataGridViewRow row in dgvNGalready.Rows)
+            {
+                if (row.Cells["ChkPrint"].Value.ToString().ToUpper() == "TRUE")
+                {
+                    FoundChecked++;
+                    break;
+                }
+            }
+            if (FoundChecked > 0)
+            {
+                btnPrint.Enabled = true;
+                btnPrintGRAY.SendToBack();
+            }
+            else
+            {
+                btnPrint.Enabled = false;
+                btnPrintGRAY.BringToFront();
+            }
+        }
     }
 }
