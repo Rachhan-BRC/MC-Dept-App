@@ -1,26 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using MachineDeptApp.MsgClass;
+using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace MachineDeptApp.NG_Input
 {
     public partial class NGInputByCountForm : Form
     {
+        ErrorMsgClass EMsg = new ErrorMsgClass();
+        WarningMsgClass WMsg = new WarningMsgClass();
+        QuestionMsgClass QMsg = new QuestionMsgClass();
+        InformationMsgClass InfoMsg = new InformationMsgClass();
         SQLConnectOBS cnnOBS = new SQLConnectOBS();
         SQLConnect cnn = new SQLConnect();
         NGInputForm fgrid;
-        SqlCommand cmd;
-        string Username;
-        string lastSysNo;
-        int nextLabelNo;
+
+        string ErrorText;
 
         public NGInputByCountForm(NGInputForm fg)
         {
@@ -28,152 +26,62 @@ namespace MachineDeptApp.NG_Input
             cnn.Connection();
             cnnOBS.Connection();
             this.fgrid = fg;
+            this.Shown += NGInputByCountForm_Shown;
+
             this.txtKG.KeyPress += TxtKG_KeyPress;
             this.txtKG.Leave += TxtKG_Leave;
+
             this.CboItems.SelectedIndexChanged += CboItems_SelectedIndexChanged;
             this.CboItems.TextChanged += CboItems_TextChanged;
 
         }
 
+        
         private void CboItems_TextChanged(object sender, EventArgs e)
         {
             txtCode.Text = "";
         }
-
         private void CboItems_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cnn.con.Close();
             if (CboItems.Text.Trim() != "")
             {
-                //add all data to control box
-                SqlDataAdapter sda = new SqlDataAdapter("Select ItemCode From tbMasterItem Where Len(ItemCode)<5 AND ItemName='" + CboItems.Text + "'", cnn.con);
                 try
                 {
                     cnn.con.Open();
-                    //Fill the DataTable with records from Table.
+                    string SQLQuery = "SELECT ItemCode, ItemName FROM tbMasterItem WHERE ItemType='Material' AND ItemName='" + CboItems.Text + "'";
+                    SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
                     DataTable RMCode = new DataTable();
                     sda.Fill(RMCode);
                     if (RMCode.Rows.Count > 0)
                     {
-                        txtCode.Text = RMCode.Rows[0][0].ToString();
+                        txtCode.Text = RMCode.Rows[0]["ItemCode"].ToString();
                         txtKG.Focus();
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    EMsg.AlertText = ex.Message;
+                    EMsg.ShowingMsg();
                 }
                 cnn.con.Close();
             }
-        }
-
-        private void TxtKG_Leave(object sender, EventArgs e)
-        {
-            if (txtKG.Text.Trim() != "")
-            {
-                try
-                {
-                    double TotalNG = Convert.ToDouble(txtKG.Text);
-                    txtKG.Text = String.Format("{0:#,###}", TotalNG);
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    txtKG.Text = "";
-
-                }
-            }
-            else
-            {
-
-            }
-        }
-
-        private void TxtKG_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-            
-        }
-
-        private void NGInputByCountForm_Load(object sender, EventArgs e)
-        {
-            //add all data to control box
-            SqlDataAdapter sda = new SqlDataAdapter("SELECT ItemCode, ItemName FROM mstitem WHERE ItemType =2 AND DelFlag=0 AND NOT MatTypeCode=2 " +
-                "ORDER BY ItemCode ASC", cnnOBS.conOBS);
-            try
-            {
-                cnnOBS.conOBS.Open();
-                //Fill the DataTable with records from Table.
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-
-                //Insert the Default Item to DataTable.
-                DataRow row = dt.NewRow();
-                row[0] = "";
-                dt.Rows.InsertAt(row, 0);
-
-                //Assign DataTable as DataSource.
-                CboItems.DataSource = dt;
-                CboItems.DisplayMember = "ItemName";
-
-                //Set AutoCompleteMode.
-                CboItems.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                CboItems.AutoCompleteSource = AutoCompleteSource.ListItems;
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            cnnOBS.conOBS.Close();
-            Username = MenuFormV2.UserForNextForm;
-        }
+        }        
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            PicKG.Visible = false;
-            PicItems.Visible = false;
-
-            if (txtCode.Text.Trim() == "" || txtKG.Text.Trim() == "")
+            CheckBeforeSave();
+            if (PicAlertItems.Visible == false && PicAlertQty.Visible == false && PicAlertRemarks.Visible == false)
             {
-                //2
-                //1,2
-                if (txtCode.Text.Trim() == "" && txtKG.Text.Trim() == "")
+                QMsg.QAText = "តើអ្នកចង់រក្សាទុកទិន្នន័យនេះមែនឬទេ?";
+                QMsg.UserClickedYes = false;
+                QMsg.ShowingMsg();
+                if (QMsg.UserClickedYes == true)
                 {
-                    PicKG.Visible = true;
-                    PicItems.Visible = true;
-                    CboItems.Focus();
+                    Cursor = Cursors.WaitCursor;
+                    ErrorText = "";
 
-                }
-                //1
-                else if (txtCode.Text.Trim() == "")
-                {
-                    PicItems.Visible = true;
-                    CboItems.Focus();
-
-                }
-                else if (txtKG.Text.Trim() == "")
-                {
-                    PicKG.Visible = true;
-                    txtKG.Focus();
-
-                }
-
-                else
-                {
-
-                }
-            }
-            else
-            {
-                DialogResult DLR = MessageBox.Show("តើអ្នកចង់រក្សាទុកទិន្នន័យនេះមែនឬទេ?", "Rachhan System", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (DLR == DialogResult.Yes)
-                {
                     DateTime RegNow = DateTime.Now;
+                    string RegBy = MenuFormV2.UserForNextForm;
                     string TransNo = "";
                     try
                     {
@@ -188,7 +96,7 @@ namespace MachineDeptApp.NG_Input
 
                         if (dt.Rows.Count > 0)
                         {
-                            if (Convert.ToDouble(dt.Rows[0][1].ToString()) >= Convert.ToDouble(txtKG.Text))
+                            if (Convert.ToDouble(dt.Rows[0]["StockValue"].ToString()) >= Convert.ToDouble(txtKG.Text))
                             {
                                 //Find Last TransNo
                                 SqlDataAdapter da = new SqlDataAdapter("SELECT SysNo FROM tbSDMCAllTransaction " +
@@ -208,17 +116,20 @@ namespace MachineDeptApp.NG_Input
                                 }
 
                                 //Add to tbNGHistory
-                                cmd = new SqlCommand("INSERT INTO tbNGHistory (SysNo, ItemCode, NGQty, ReqStat, RegDate, RegBy) VALUES (@Sn, @Cd, @NG, @Rs, @Rd, @Rb)", cnn.con);
+                                SqlCommand cmd = new SqlCommand("INSERT INTO tbNGHistory (SysNo, ItemCode, NGQty, ReqStat, RegDate, RegBy, Remarks) " +
+                                    "VALUES (@Sn, @Cd, @NG, @Rs, @Rd, @Rb, @Rms)", cnn.con);
                                 cmd.Parameters.AddWithValue("@Sn", TransNo);
                                 cmd.Parameters.AddWithValue("@Cd", txtCode.Text.ToString());
                                 cmd.Parameters.AddWithValue("@NG", Convert.ToDouble(txtKG.Text.ToString()));
                                 cmd.Parameters.AddWithValue("@Rs", 0);
-                                cmd.Parameters.AddWithValue("@Rd", RegNow.ToString("yyyy-MM-dd HH:mm:ss"));
-                                cmd.Parameters.AddWithValue("@Rb", Username);
+                                cmd.Parameters.AddWithValue("@Rd", RegNow);
+                                cmd.Parameters.AddWithValue("@Rb", RegBy);
+                                cmd.Parameters.AddWithValue("@Rms", txtRemarks.Text.ToString());
                                 cmd.ExecuteNonQuery();
 
                                 //Add to tbSDMCAllTransaction
-                                cmd = new SqlCommand("INSERT INTO tbSDMCAllTransaction (SysNo, Funct, LocCode, POSNo, Code, RMDes, ReceiveQty, TransferQty, StockValue, RegDate, RegBy, CancelStatus) VALUES (@Sn, @Fc, @Lc, @POSN, @Cd, @Rmd, @Rqty, @Tqty, @SV, @Rd, @Rb, @Cs)", cnn.con);
+                                cmd = new SqlCommand("INSERT INTO tbSDMCAllTransaction (SysNo, Funct, LocCode, POSNo, Code, RMDes, ReceiveQty, TransferQty, StockValue, RegDate, RegBy, CancelStatus, Remarks) " +
+                                    "VALUES (@Sn, @Fc, @Lc, @POSN, @Cd, @Rmd, @Rqty, @Tqty, @SV, @Rd, @Rb, @Cs, @Rms)", cnn.con);
                                 cmd.Parameters.AddWithValue("@Sn", TransNo);
                                 cmd.Parameters.AddWithValue("@Fc", 6);
                                 cmd.Parameters.AddWithValue("@Lc", "MC1");
@@ -228,44 +139,168 @@ namespace MachineDeptApp.NG_Input
                                 cmd.Parameters.AddWithValue("@Rqty", 0);
                                 cmd.Parameters.AddWithValue("@Tqty", Convert.ToDouble(txtKG.Text.ToString()));
                                 cmd.Parameters.AddWithValue("@SV", Convert.ToDouble(txtKG.Text.ToString()) * (-1));
-                                cmd.Parameters.AddWithValue("@Rd", RegNow.ToString("yyyy-MM-dd HH:mm:ss"));
-                                cmd.Parameters.AddWithValue("@Rb", Username);
+                                cmd.Parameters.AddWithValue("@Rd", RegNow);
+                                cmd.Parameters.AddWithValue("@Rb", RegBy);
                                 cmd.Parameters.AddWithValue("@Cs", 0);
+                                cmd.Parameters.AddWithValue("@Rms", txtRemarks.Text.ToString());
                                 cmd.ExecuteNonQuery();
 
 
                                 //Add to Parent form
-                                fgrid.dgvNGalready.Rows.Add(txtCode.Text.ToString(), CboItems.Text, Convert.ToDouble(txtKG.Text.ToString()), false, RegNow, Username, TransNo);
+                                fgrid.dgvNGalready.Rows.Add();
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["ChkPrint"].Value = false;
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["SysNo"].Value = TransNo;
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["RMCode"].Value = txtCode.Text;
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["RMName"].Value = CboItems.Text;
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["Qty"].Value = Convert.ToDouble(txtKG.Text.ToString());
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["Remarks"].Value = txtRemarks.Text;
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["RegDate"].Value = RegNow;
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["RegBy"].Value = RegBy;
                                 fgrid.dgvNGalready.ClearSelection();
-                                CboItems.Text = "";
-                                txtCode.Text = "";
-                                txtKG.Text = "";
+                                fgrid.dgvNGalready.CurrentCell = null;
                                 CboItems.Focus();
-
                             }
                             else
                             {
-                                MessageBox.Show("ស្តុកវត្ថុធាតុដើមនេះមិនគ្រប់គ្រាន់ទេ!\nស្ដុកនៅសល់ ៖ " + Convert.ToDouble(dt.Rows[0][1].ToString()).ToString("N0")+ "\nស្តុកខ្វះ ៖ "+ (Convert.ToDouble(txtKG.Text) - Convert.ToDouble(dt.Rows[0][1].ToString())).ToString("N0"), "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                ErrorText = "ស្តុកវត្ថុធាតុដើមនេះមិនគ្រប់គ្រាន់ទេ!\nស្ដុកនៅសល់ ៖ " + Convert.ToDouble(dt.Rows[0][1].ToString()).ToString("N0") + "\nស្តុកខ្វះ ៖ " + (Convert.ToDouble(txtKG.Text) - Convert.ToDouble(dt.Rows[0][1].ToString())).ToString("N0");
                             }
                         }
                         else
                         {
-                            MessageBox.Show("មិនមានស្តុកវត្ថុធាតុដើមនេះទេ!\nស្តុកខ្វះ ៖ "+ Convert.ToDouble(txtKG.Text).ToString("N0"), "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            ErrorText = "មិនមានស្តុកវត្ថុធាតុដើមនេះទេ!\nស្តុកខ្វះ ៖ " + Convert.ToDouble(txtKG.Text).ToString("N0");
                         }
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ErrorText = ex.Message;
                         txtKG.Focus();
                         txtKG.SelectAll();
                     }
                     cnn.con.Close();
-                }
-                else
-                {
 
+                    Cursor = Cursors.Default;
+
+                    if (ErrorText.Trim() == "")
+                    {
+                        ClearAllText();
+                    }
+                    else
+                    {
+                        EMsg.AlertText = "មានបញ្ហា!\n" + ErrorText;
+                        EMsg.ShowingMsg();
+                    }
                 }
             }
+        }
+
+        private void TxtKG_Leave(object sender, EventArgs e)
+        {
+            if (txtKG.Text.Trim() != "")
+            {
+                try
+                {
+                    double TotalNG = Convert.ToDouble(txtKG.Text);
+                    txtKG.Text = TotalNG.ToString("N0");
+                }
+                catch (Exception ex)
+                {
+                    WMsg.WarningText = ex.Message;
+                    WMsg.ShowingMsg();
+                    txtKG.Text = "";
+                }
+            }
+        }
+        private void TxtKG_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+
+        }
+
+        private void NGInputByCountForm_Shown(object sender, EventArgs e)
+        {
+            ErrorText = "";
+            Cursor = Cursors.WaitCursor;
+
+            try
+            {
+                cnnOBS.conOBS.Open();
+                string SQLQuery = "SELECT ItemCode, ItemName FROM mstitem " +
+                                            "\nWHERE ItemType =2 AND DelFlag=0 AND NOT MatTypeCode=2 ORDER BY ItemCode ASC";
+                SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnnOBS.conOBS);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+
+                DataRow row = dt.NewRow();
+                row[0] = "";
+                dt.Rows.InsertAt(row, 0);
+
+                CboItems.DataSource = dt;
+                CboItems.DisplayMember = "ItemName";
+
+                //Set AutoCompleteMode.
+                CboItems.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                CboItems.AutoCompleteSource = AutoCompleteSource.ListItems;
+
+            }
+            catch (Exception ex)
+            {
+                ErrorText = ex.Message;
+            }
+            cnnOBS.conOBS.Close();
+
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim() != "")
+            {
+                EMsg.AlertText = ErrorText;
+                EMsg.ShowingMsg();
+            }
+        }
+
+        //Function
+        private async Task BlinkPictureBox(PictureBox pictureBox)
+        {
+            pictureBox.Visible = false;
+            for (int i = 0; i < 7; i++)
+            {
+                pictureBox.Visible = !pictureBox.Visible;
+                await Task.Delay(350);
+            }
+            pictureBox.Visible = true;
+        }
+        private async void CheckBeforeSave()
+        {
+            PicAlertItems.Visible = false;
+            PicAlertQty.Visible = false;
+            PicAlertRemarks.Visible = false;
+            var tasksBlink = new List<Task>();
+
+            if (txtCode.Text.Trim() == "" || CboItems.Text.Trim() == "")
+            {
+                tasksBlink.Add(BlinkPictureBox(PicAlertItems));
+            }
+            if (txtKG.Text.Trim() == "")
+            {
+                tasksBlink.Add(BlinkPictureBox(PicAlertQty));
+            }
+            if (txtRemarks.Text.Trim() == "")
+            {
+                tasksBlink.Add(BlinkPictureBox(PicAlertRemarks));
+            }
+
+            await Task.WhenAll(tasksBlink);
+        }
+        private void ClearAllText()
+        {
+            CboItems.Text = "";
+            txtCode.Text = "";
+            txtKG.Text = "";
+            txtKG.Text = "";
+            //txtRemarks.Text = "";
+            CboItems.Focus();
         }
 
     }

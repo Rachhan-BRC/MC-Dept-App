@@ -533,5 +533,6 @@ namespace MachineDeptApp.NG_Input
                 btnPrintGRAY.BringToFront();
             }
         }
+
     }
 }
