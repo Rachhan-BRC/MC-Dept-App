@@ -127,7 +127,7 @@
             this.txtRemarks.BackColor = System.Drawing.Color.White;
             this.txtRemarks.Font = new System.Drawing.Font("Khmer OS Battambang", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtRemarks.Location = new System.Drawing.Point(106, 156);
-            this.txtRemarks.MaxLength = 9;
+            this.txtRemarks.MaxLength = 20;
             this.txtRemarks.Name = "txtRemarks";
             this.txtRemarks.Size = new System.Drawing.Size(454, 37);
             this.txtRemarks.TabIndex = 88;
@@ -207,7 +207,6 @@
             this.Name = "NGInputByCountForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Countable NG Input";
-            //this.Load += new System.EventHandler(this.NGInputByCountForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicAlertRemarks)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicAlertItems)).EndInit();

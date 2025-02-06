@@ -227,8 +227,12 @@ namespace MachineDeptApp.NG_Input
             try
             {
                 cnnOBS.conOBS.Open();
-                string SQLQuery = "SELECT ItemCode, ItemName FROM mstitem " +
-                                            "\nWHERE ItemType =2 AND DelFlag=0 AND NOT MatTypeCode=2 ORDER BY ItemCode ASC";
+                string SQLQuery = "SELECT T3.ItemCode, T3.ItemName FROM " +
+                    "\n(SELECT * FROM mstbom) T1 " +
+                    "\nINNER JOIN (SELECT * FROM mstitem WHERE ItemType=1) T2 ON T1.UpItemCode=T2.ItemCode " +
+                    "\nINNER JOIN (SELECT * FROM mstitem WHERE ItemType=2 AND MatCalcFlag=0) T3 ON T1.LowItemCode = T3.ItemCode " +
+                    "\nGROUP BY T3.ItemCode, T3.ItemName " +
+                    "\nORDER BY T3.ItemCode ASC";
                 SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnnOBS.conOBS);
                 DataTable dt = new DataTable();
                 sda.Fill(dt);

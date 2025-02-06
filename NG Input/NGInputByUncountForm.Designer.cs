@@ -147,7 +147,7 @@
             // 
             this.txtRemarks.Font = new System.Drawing.Font("Khmer OS Battambang", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtRemarks.Location = new System.Drawing.Point(143, 152);
-            this.txtRemarks.MaxLength = 9;
+            this.txtRemarks.MaxLength = 20;
             this.txtRemarks.Name = "txtRemarks";
             this.txtRemarks.Size = new System.Drawing.Size(496, 37);
             this.txtRemarks.TabIndex = 2;
