@@ -152,7 +152,7 @@ namespace MachineDeptApp.NG_Input
             try
             {
                 cnn.con.Open();
-                string SQLQuery = "SELECT T1.UpItemCode, T2.ItemCode, ItemName, RMType, TbNGSet.Qty AS NGSet, LowQty*SemiQtyOfFG AS BOMQty, (TbNGSet.Qty * LowQty*SemiQtyOfFG) AS NGSetQty, TbNGPcs.Qty AS NGPcs FROM " +
+                string SQLQuery = "SELECT T1.UpItemCode, T2.ItemCode, ItemName, RMType, TbNGSet.Qty AS NGSet, LowQty*SemiQtyOfFG AS BOMQty, ROUND((TbNGSet.Qty * LowQty*SemiQtyOfFG),3) AS NGSetQty, ROUND(TbNGPcs.Qty,3) AS NGPcs FROM " +
                     "\n\t(SELECT * FROM MstBOM) T1 " +
                     "\n\tLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType = 'Material') T2 " +
                     "\n\tON T1.LowItemCode = T2.ItemCode " +

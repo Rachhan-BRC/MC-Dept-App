@@ -33,28 +33,19 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NGInprocessSearchDetailsForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NGInprocessSearchDetailsForm));
             this.panelHeader = new System.Windows.Forms.Panel();
             this.CboMCNo = new System.Windows.Forms.ComboBox();
             this.LbMCName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelBody = new System.Windows.Forms.Panel();
             this.dgvNGList = new System.Windows.Forms.DataGridView();
-            this.RMCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RMName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.KITSDQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NGSet = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BOMQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NGSetQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NGPcs = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.KITSDOver = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -69,6 +60,15 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnDelete = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.RMCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RMName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.KITSDQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NGSet = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BOMQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NGSetQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NGPcs = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.KITSDOver = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelHeader.SuspendLayout();
             this.panelBody.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvNGList)).BeginInit();
@@ -186,96 +186,6 @@
             this.dgvNGList.RowTemplate.Height = 25;
             this.dgvNGList.Size = new System.Drawing.Size(785, 227);
             this.dgvNGList.TabIndex = 34;
-            // 
-            // RMCode
-            // 
-            this.RMCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.RMCode.HeaderText = "Code";
-            this.RMCode.Name = "RMCode";
-            this.RMCode.ReadOnly = true;
-            this.RMCode.Width = 60;
-            // 
-            // RMName
-            // 
-            this.RMName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.RMName.HeaderText = "Material Name";
-            this.RMName.Name = "RMName";
-            this.RMName.ReadOnly = true;
-            this.RMName.Width = 220;
-            // 
-            // KITSDQty
-            // 
-            this.KITSDQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "N0";
-            dataGridViewCellStyle3.NullValue = null;
-            this.KITSDQty.DefaultCellStyle = dataGridViewCellStyle3;
-            this.KITSDQty.HeaderText = "MC KIT/SD|Qty";
-            this.KITSDQty.Name = "KITSDQty";
-            this.KITSDQty.ReadOnly = true;
-            this.KITSDQty.Width = 90;
-            // 
-            // NGSet
-            // 
-            this.NGSet.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "N0";
-            this.NGSet.DefaultCellStyle = dataGridViewCellStyle4;
-            this.NGSet.HeaderText = "NG SET";
-            this.NGSet.Name = "NGSet";
-            this.NGSet.ReadOnly = true;
-            this.NGSet.Width = 90;
-            // 
-            // BOMQty
-            // 
-            this.BOMQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "N3";
-            this.BOMQty.DefaultCellStyle = dataGridViewCellStyle5;
-            this.BOMQty.HeaderText = "BOMQty";
-            this.BOMQty.Name = "BOMQty";
-            this.BOMQty.ReadOnly = true;
-            this.BOMQty.Width = 80;
-            // 
-            // NGSetQty
-            // 
-            this.NGSetQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "N4";
-            this.NGSetQty.DefaultCellStyle = dataGridViewCellStyle6;
-            this.NGSetQty.HeaderText = "NG Set Qty";
-            this.NGSetQty.Name = "NGSetQty";
-            this.NGSetQty.ReadOnly = true;
-            this.NGSetQty.Width = 90;
-            // 
-            // NGPcs
-            // 
-            this.NGPcs.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle7.Format = "N4";
-            this.NGPcs.DefaultCellStyle = dataGridViewCellStyle7;
-            this.NGPcs.HeaderText = "NG PCs";
-            this.NGPcs.Name = "NGPcs";
-            this.NGPcs.ReadOnly = true;
-            this.NGPcs.Width = 90;
-            // 
-            // KITSDOver
-            // 
-            this.KITSDOver.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle8.Format = "N0";
-            this.KITSDOver.DefaultCellStyle = dataGridViewCellStyle8;
-            this.KITSDOver.HeaderText = "KIT/SD|OVER";
-            this.KITSDOver.Name = "KITSDOver";
-            this.KITSDOver.ReadOnly = true;
-            this.KITSDOver.Width = 90;
-            // 
-            // Unit
-            // 
-            this.Unit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Unit.HeaderText = "Unit";
-            this.Unit.Name = "Unit";
-            this.Unit.ReadOnly = true;
             // 
             // splitter1
             // 
@@ -431,6 +341,96 @@
             this.btnDelete.TabIndex = 30;
             this.toolTip1.SetToolTip(this.btnDelete, "លុប");
             this.btnDelete.UseVisualStyleBackColor = false;
+            // 
+            // RMCode
+            // 
+            this.RMCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.RMCode.HeaderText = "Code";
+            this.RMCode.Name = "RMCode";
+            this.RMCode.ReadOnly = true;
+            this.RMCode.Width = 60;
+            // 
+            // RMName
+            // 
+            this.RMName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.RMName.HeaderText = "Material Name";
+            this.RMName.Name = "RMName";
+            this.RMName.ReadOnly = true;
+            this.RMName.Width = 220;
+            // 
+            // KITSDQty
+            // 
+            this.KITSDQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "N0";
+            dataGridViewCellStyle3.NullValue = null;
+            this.KITSDQty.DefaultCellStyle = dataGridViewCellStyle3;
+            this.KITSDQty.HeaderText = "MC KIT/SD|Qty";
+            this.KITSDQty.Name = "KITSDQty";
+            this.KITSDQty.ReadOnly = true;
+            this.KITSDQty.Width = 90;
+            // 
+            // NGSet
+            // 
+            this.NGSet.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.Format = "N0";
+            this.NGSet.DefaultCellStyle = dataGridViewCellStyle4;
+            this.NGSet.HeaderText = "NG SET";
+            this.NGSet.Name = "NGSet";
+            this.NGSet.ReadOnly = true;
+            this.NGSet.Width = 90;
+            // 
+            // BOMQty
+            // 
+            this.BOMQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "N3";
+            this.BOMQty.DefaultCellStyle = dataGridViewCellStyle5;
+            this.BOMQty.HeaderText = "BOMQty";
+            this.BOMQty.Name = "BOMQty";
+            this.BOMQty.ReadOnly = true;
+            this.BOMQty.Width = 80;
+            // 
+            // NGSetQty
+            // 
+            this.NGSetQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.Format = "N3";
+            this.NGSetQty.DefaultCellStyle = dataGridViewCellStyle6;
+            this.NGSetQty.HeaderText = "NG Set Qty";
+            this.NGSetQty.Name = "NGSetQty";
+            this.NGSetQty.ReadOnly = true;
+            this.NGSetQty.Width = 90;
+            // 
+            // NGPcs
+            // 
+            this.NGPcs.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.Format = "N3";
+            this.NGPcs.DefaultCellStyle = dataGridViewCellStyle7;
+            this.NGPcs.HeaderText = "NG PCs";
+            this.NGPcs.Name = "NGPcs";
+            this.NGPcs.ReadOnly = true;
+            this.NGPcs.Width = 90;
+            // 
+            // KITSDOver
+            // 
+            this.KITSDOver.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle8.Format = "N0";
+            this.KITSDOver.DefaultCellStyle = dataGridViewCellStyle8;
+            this.KITSDOver.HeaderText = "KIT/SD|OVER";
+            this.KITSDOver.Name = "KITSDOver";
+            this.KITSDOver.ReadOnly = true;
+            this.KITSDOver.Width = 90;
+            // 
+            // Unit
+            // 
+            this.Unit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Unit.HeaderText = "Unit";
+            this.Unit.Name = "Unit";
+            this.Unit.ReadOnly = true;
             // 
             // NGInprocessSearchDetailsForm
             // 
