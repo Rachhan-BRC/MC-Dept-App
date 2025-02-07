@@ -557,6 +557,12 @@
     <Compile Include="NG Input\NGRatioCalcForm.Designer.cs">
       <DependentUpon>NGRatioCalcForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NG Input\RegisterNG.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NG Input\RegisterNG.Designer.cs">
+      <DependentUpon>RegisterNG.cs</DependentUpon>
+    </Compile>
     <Compile Include="OBS\OBSStockForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -933,6 +939,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NG Input\NGRatioCalcForm.resx">
       <DependentUpon>NGRatioCalcForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NG Input\RegisterNG.resx">
+      <DependentUpon>RegisterNG.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OBS\OBSStockForm.resx">
       <DependentUpon>OBSStockForm.cs</DependentUpon>

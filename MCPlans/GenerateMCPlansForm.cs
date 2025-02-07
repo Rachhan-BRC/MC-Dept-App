@@ -24,7 +24,6 @@ namespace MachineDeptApp.MCPlans
         DataTable dtCodeNotFound;
         DataTable dtExcelCodeIndex;
 
-
         string CurrentExcelDir = "";
         string CurrentPass = "";
         string NewExcelDir = "";
