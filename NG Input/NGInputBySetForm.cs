@@ -1,188 +1,114 @@
-﻿using MachineDeptApp.InputTransferSemi;
+﻿using MachineDeptApp.MsgClass;
+using MachineDeptApp.InputTransferSemi;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
+using System.Drawing;
 
 namespace MachineDeptApp.NG_Input
 {
     public partial class NGInputBySetForm : Form
     {
+        ErrorMsgClass EMsg = new ErrorMsgClass();
+        WarningMsgClass WMsg = new WarningMsgClass();
+        QuestionMsgClass QMsg = new QuestionMsgClass();
+        InformationMsgClass InfoMsg = new InformationMsgClass();
         SQLConnect cnn = new SQLConnect();
         NGInputForm fgrid;
-        DataTable SemiInforSearch;
-        DataTable SemiConsumpSearch;
-        DataTable SelectedConsump;
-        SqlCommand cmd;
-        string Username;
-        string lastSysNo;
-        int nextLabelNo;
 
+        string ErrorText;
 
         public NGInputBySetForm(NGInputForm fg)
         {
             InitializeComponent();
             cnn.Connection();
             this.fgrid = fg;
-            this.txtItemname.KeyDown += TxtItemname_KeyDown;
-            this.dgvSemi.CellClick += DgvSemi_CellClick;
+            this.Shown += NGInputBySetForm_Shown;
+            this.txtWIPNameSearch.KeyDown += TxtItemname_KeyDown;
+            this.txtWIPCodeSearch.KeyDown += TxtWIPCodeSearch_KeyDown;
+
+            this.dgvSemi.CurrentCellChanged += DgvSemi_CurrentCellChanged;
             this.txtNGQty.KeyPress += TxtNGQty_KeyPress;
 
         }
 
-        private void TxtNGQty_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void DgvSemi_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            string SemiSelected = "";
-            dgvConsump.Rows.Clear();
-            SelectedConsump.Rows.Clear();
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = this.dgvSemi.Rows[e.RowIndex];
-                SemiSelected = row.Cells[0].Value.ToString();
-                for (int i = 0; i < SemiConsumpSearch.Rows.Count; i++)
-                {
-                    if (SemiConsumpSearch.Rows[i][0].ToString() == SemiSelected)
-                    {
-                        dgvConsump.Rows.Add(SemiConsumpSearch.Rows[i][1].ToString(), SemiConsumpSearch.Rows[i][5].ToString(), Convert.ToDouble(SemiConsumpSearch.Rows[i][2].ToString()));
-                        SelectedConsump.Rows.Add(SemiConsumpSearch.Rows[i][1].ToString(), SemiConsumpSearch.Rows[i][5].ToString(), Convert.ToDouble(SemiConsumpSearch.Rows[i][2].ToString()));
-                    }
-
-                }
-                dgvConsump.ClearSelection();
-                txtNGQty.Focus();
-            }
-            else
-            {
-
-            }
-            
-        }
-
-        private void TxtItemname_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                dgvSemi.Rows.Clear();
-                dgvConsump.Rows.Clear();
-                SelectedConsump.Rows.Clear();
-                if (txtItemname.Text.Trim() != "")
-                {
-                    //Take Semi Inform
-                    try
-                    {
-                        cnn.con.Open();
-                        SqlDataAdapter da = new SqlDataAdapter("Select UpItemCode, tbMasterItem.ItemName, tbMasterItem.Remarks1, tbMasterItem.Remarks2, tbMasterItem.Remarks3, Max(UpdateDate) as LastUpdate From MstBOM "+
-                                                                                        "INNER JOIN tbMasterItem ON MstBOM.UpItemCode = tbMasterItem.ItemCode "+
-                                                                                        "Where LEN(ItemCode) > 4  AND ItemName Like '%"+txtItemname.Text.ToString()+"%' "+
-                                                                                        "Group By UpItemCode, tbMasterItem.ItemName, tbMasterItem.Remarks1, tbMasterItem.Remarks2, tbMasterItem.Remarks3", cnn.con);
-                        SemiInforSearch = new DataTable();
-                        da.Fill(SemiInforSearch);
-                        SqlDataAdapter da1 = new SqlDataAdapter("Select * From (Select UpItemCode, LowItemCode, LowQty as OnePcsUse, Yield From MstBOM) t1 INNER JOIN (Select ItemCode, ItemName From tbMasterItem Where LEN(ItemCode)<5 Group By ItemCode, ItemName) t2 ON t1.LowItemCode=t2.ItemCode", cnn.con);
-                        SemiConsumpSearch = new DataTable();
-                        da1.Fill(SemiConsumpSearch);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("មានបញ្ហាអ្វីមួយ ! សូមពិនិត្យមលើការភ្ជាប់បណ្ដាញ \nឬ​ក៏សួរទៅកាន់រ៉ាឆាន់!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    cnn.con.Close();
-
-                    //Add to dgv
-                    if (SemiInforSearch.Rows.Count > 0)
-                    {
-                        for (int i = 0; i < SemiInforSearch.Rows.Count; i++)
-                        {
-                            dgvSemi.Rows.Add(SemiInforSearch.Rows[i][0].ToString(), SemiInforSearch.Rows[i][1].ToString(), SemiInforSearch.Rows[i][2].ToString(), SemiInforSearch.Rows[i][3].ToString(), SemiInforSearch.Rows[i][4].ToString());
-
-                        }
-                        dgvSemi.ClearSelection();
-                    }
-                    dgvSemi.Focus();
-                    
-                }
-                else
-                {
-                    MessageBox.Show("សូមបញ្ចូលឈ្មោះផលិតផលដើម្បីស្វែងរក!","Rachhan System",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
-                }
-            }
-            else
-            {
-
-            }
-        }
-
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (txtNGQty.Text.Trim() == "")
+            CheckBeforeSave();
+            if (PicAlertItems.Visible == false && PicAlertQty.Visible == false && PicAlertRemarks.Visible == false)
             {
-                MessageBox.Show("សូមបញ្ចូល NG Qty !","Rachhan System",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                txtNGQty.Focus();
-            }
-            else
-            {
-                DialogResult DLR = MessageBox.Show("តើអ្នករក្សាទុកទិន្នន័យនេះមែនទេ ?", "Rachhan System", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (DLR == DialogResult.Yes)
+                QMsg.QAText = "តើអ្នករក្សាទុកទិន្នន័យនេះមែនទេ ?";
+                QMsg.UserClickedYes = false;
+                QMsg.ShowingMsg();
+                if (QMsg.UserClickedYes == true)
                 {
+                    Cursor = Cursors.WaitCursor;
                     DateTime RegNow = DateTime.Now;
+                    string RegBy = MenuFormV2.UserForNextForm;
+                    string ErrorText = "";
                     string TransNo = "";
+                    string ShortageRM = "";
+
                     try
                     {
-                        int NG = Convert.ToInt16(txtNGQty.Text.ToString());
-                        //Calculate Total
-                        for (int i = 0; i < SelectedConsump.Rows.Count; i++)
-                        {
-                            SelectedConsump.Rows[i][3] = Math.Round(Convert.ToDouble(NG) * Convert.ToDouble(SelectedConsump.Rows[i][2].ToString()), 3, MidpointRounding.AwayFromZero);
-                            
-                        }
-
-
-                        //Compare remain Stock
                         cnn.con.Open();
-                        string CompareString = "ឈ្មោះ  |  ចំនួនប្រើ  |  ស្តុកនៅសល់  |  ស្តុកខ្វះ";
-                        int FoundNotEnoung = 0;
-                        foreach (DataRow row in SelectedConsump.Rows)
+                        int NGQty = Convert.ToInt16(txtNGQty.Text.ToString());
+                        string RMCodeIN = "";
+                        foreach (DataGridViewRow row in dgvConsump.Rows)
                         {
-                            SqlDataAdapter sda = new SqlDataAdapter("SELECT Code,StockValue FROM " +
-                                "(SELECT Code, SUM(StockValue) AS StockValue  FROM tbSDMCAllTransaction WHERE CancelStatus=0 AND LocCode='MC1' AND POSNo='' " +
-                                "GROUP BY Code) T1 " +
-                                "WHERE StockValue>0 AND Code = '" + row[0].ToString() + "' ", cnn.con);
-                            DataTable dt = new DataTable();
-                            sda.Fill(dt);
-
-                            if (dt.Rows.Count == 0)
+                            if (RMCodeIN.Trim() == "")
                             {
-                                FoundNotEnoung = FoundNotEnoung + 1;
-                                CompareString = CompareString + "\n" + row[1] + "  |  " + row[3] + "  |  0  |  "+ row[3];
+                                RMCodeIN = "'" + row.Cells["RMCode"].Value.ToString() + "'";
                             }
                             else
                             {
-                                if (Convert.ToDouble(dt.Rows[0][1].ToString()) < Convert.ToDouble(row[3].ToString()))
+                                RMCodeIN += ", '"+ row.Cells["RMCode"].Value.ToString() + "'";
+                            }
+                        }
+                        //Checking Stock
+                        DataTable dtStock = new DataTable();
+                        string SQLQuery = "SELECT Code,StockValue FROM " +
+                            "(SELECT Code, SUM(StockValue) AS StockValue  FROM tbSDMCAllTransaction WHERE CancelStatus=0 AND LocCode='MC1' AND POSNo='' " +
+                            "GROUP BY Code) T1 " +
+                            "WHERE StockValue>0 AND Code IN ("+RMCodeIN+") ";
+                        SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                        sda.Fill(dtStock);
+                        foreach (DataGridViewRow row in dgvConsump.Rows)
+                        {
+                            string RMCode = row.Cells["RMCode"].Value.ToString();
+                            string RMName = row.Cells["RMName"].Value.ToString();
+                            double UsageQty = Convert.ToDouble(row.Cells["ConsumpQty"].Value.ToString()) * NGQty;
+                            double RemainStock = 0;
+                            int NotOK = 1;
+                            foreach (DataRow rowStock in dtStock.Rows)
+                            {
+                                if (RMCode == rowStock["Code"].ToString())
                                 {
-                                    FoundNotEnoung = FoundNotEnoung + 1;
-                                    CompareString = CompareString + "\n" + row[1] + "  |  " + row[3] + "  |  " + dt.Rows[0][1] + "  |  " + (Convert.ToDouble(row[3].ToString()) - Convert.ToDouble(dt.Rows[0][1].ToString())).ToString("N3");
+                                    RemainStock = Convert.ToDouble(rowStock["StockValue"]);
+                                    if (UsageQty <= RemainStock)
+                                    {
+                                        NotOK=0;
+                                    }
+                                    break;
                                 }
-                            }                            
+                            }
+                            if (NotOK > 0)
+                            {
+                                if (ShortageRM.Trim() == "")
+                                {
+                                    ShortageRM = RMName+"  |  "+UsageQty.ToString()+"  |  "+RemainStock.ToString()+"  |  "+ (UsageQty-RemainStock).ToString();
+                                }
+                                else
+                                {
+                                    ShortageRM += "\n"+ RMName + "  |  " + UsageQty.ToString() + "  |  " + RemainStock.ToString() + "  |  " + (UsageQty - RemainStock).ToString();
+                                }
+                            }
                         }
 
-                        if (FoundNotEnoung == 0)
+                        if (ShortageRM.Trim() == "")
                         {
                             //Find Last TransNo
                             SqlDataAdapter da = new SqlDataAdapter("SELECT SysNo FROM tbSDMCAllTransaction " +
@@ -201,74 +127,292 @@ namespace MachineDeptApp.NG_Input
 
                             }
 
-                            //Add to tbNGHistory 
-                            for (int i = 0; i < SelectedConsump.Rows.Count; i++)
+                            //Add to tbNGHistory & Add to tbSDMCAllTransaction
+                            foreach (DataGridViewRow row in dgvConsump.Rows)
                             {
-                                cmd = new SqlCommand("INSERT INTO tbNGHistory (SysNo, ItemCode, NGQty, ReqStat, RegDate, RegBy) VALUES (@Sn, @Cd, @NG, @Rs, @Rd, @Rb)", cnn.con);
+                                string RMCode = row.Cells["RMCode"].Value.ToString();
+                                string RMName = row.Cells["RMName"].Value.ToString();
+                                double UsageQty = Convert.ToDouble(txtNGQty.Text.ToString()) * Convert.ToDouble(row.Cells["ConsumpQty"].Value.ToString());
+
+                                //Add to tbNGHistory
+                                SqlCommand cmd = new SqlCommand("INSERT INTO tbNGHistory (SysNo, ItemCode, NGQty, ReqStat, RegDate, RegBy, Remarks) " +
+                                    "VALUES (@Sn, @Cd, @NG, @Rs, @Rd, @Rb, @Rms)", cnn.con);
                                 cmd.Parameters.AddWithValue("@Sn", TransNo);
-                                cmd.Parameters.AddWithValue("@Cd", SelectedConsump.Rows[i][0].ToString());
-                                cmd.Parameters.AddWithValue("@NG", Convert.ToDouble(SelectedConsump.Rows[i][3].ToString()));
+                                cmd.Parameters.AddWithValue("@Cd", RMCode);
+                                cmd.Parameters.AddWithValue("@NG", UsageQty);
                                 cmd.Parameters.AddWithValue("@Rs", 0);
-                                cmd.Parameters.AddWithValue("@Rd", RegNow.ToString("yyyy-MM-dd HH:mm:ss"));
-                                cmd.Parameters.AddWithValue("@Rb", Username);
+                                cmd.Parameters.AddWithValue("@Rd", RegNow);
+                                cmd.Parameters.AddWithValue("@Rb", RegBy);
+                                cmd.Parameters.AddWithValue("@Rms", txtRemarks.Text);
                                 cmd.ExecuteNonQuery();
-                                SelectedConsump.Rows[i][4] = TransNo;
 
-                            }
-
-                            foreach (DataRow row in SelectedConsump.Rows)
-                            {
                                 //Add to tbSDMCAllTransaction
-                                cmd = new SqlCommand("INSERT INTO tbSDMCAllTransaction (SysNo, Funct, LocCode, POSNo, Code, RMDes, ReceiveQty, TransferQty, StockValue, RegDate, RegBy, CancelStatus) VALUES (@Sn, @Fc, @Lc, @POSN, @Cd, @Rmd, @Rqty, @Tqty, @SV, @Rd, @Rb, @Cs)", cnn.con);
+                                cmd = new SqlCommand("INSERT INTO tbSDMCAllTransaction (SysNo, Funct, LocCode, POSNo, Code, RMDes, ReceiveQty, TransferQty, StockValue, RegDate, RegBy, CancelStatus, Remarks) " +
+                                    "VALUES (@Sn, @Fc, @Lc, @POSN, @Cd, @Rmd, @Rqty, @Tqty, @SV, @Rd, @Rb, @Cs, @Rms)", cnn.con);
                                 cmd.Parameters.AddWithValue("@Sn", TransNo);
                                 cmd.Parameters.AddWithValue("@Fc", 6);
                                 cmd.Parameters.AddWithValue("@Lc", "MC1");
                                 cmd.Parameters.AddWithValue("@POSN", "");
-                                cmd.Parameters.AddWithValue("@Cd", row[0].ToString());
-                                cmd.Parameters.AddWithValue("@Rmd", row[1].ToString());
+                                cmd.Parameters.AddWithValue("@Cd", RMCode);
+                                cmd.Parameters.AddWithValue("@Rmd", RMName);
                                 cmd.Parameters.AddWithValue("@Rqty", 0);
-                                cmd.Parameters.AddWithValue("@Tqty", Convert.ToDouble(row[3].ToString()));
-                                cmd.Parameters.AddWithValue("@SV", Convert.ToDouble(row[3].ToString()) * (-1));
-                                cmd.Parameters.AddWithValue("@Rd", RegNow.ToString("yyyy-MM-dd HH:mm:ss"));
-                                cmd.Parameters.AddWithValue("@Rb", Username);
+                                cmd.Parameters.AddWithValue("@Tqty", UsageQty);
+                                cmd.Parameters.AddWithValue("@SV", UsageQty*(-1));
+                                cmd.Parameters.AddWithValue("@Rd", RegNow);
+                                cmd.Parameters.AddWithValue("@Rb", RegBy);
                                 cmd.Parameters.AddWithValue("@Cs", 0);
+                                cmd.Parameters.AddWithValue("@Rms", txtRemarks.Text);
                                 cmd.ExecuteNonQuery();
-                            }
 
-                            //Add to Parent form
-                            for (int i = 0; i < SelectedConsump.Rows.Count; i++)
-                            {
-                                fgrid.dgvNGalready.Rows.Add(SelectedConsump.Rows[i][0].ToString(), SelectedConsump.Rows[i][1].ToString(), Convert.ToDouble(SelectedConsump.Rows[i][3].ToString()), false, DateTime.Now, Username, SelectedConsump.Rows[i][4].ToString());
+                                //Add to Parent form
+                                fgrid.dgvNGalready.Rows.Add();
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["ChkPrint"].Value = false;
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["SysNo"].Value = TransNo;
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["RMCode"].Value = RMCode;
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["RMName"].Value = RMName;
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["Qty"].Value = UsageQty;
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["Remarks"].Value = txtRemarks.Text;
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["RegDate"].Value = RegNow;
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["RegBy"].Value = RegBy;
+                                fgrid.dgvNGalready.ClearSelection();
+                                fgrid.dgvNGalready.CurrentCell = null;
+
                             }
-                            fgrid.dgvNGalready.ClearSelection();
-                            this.Close();
-                        }
-                        else
-                        {
-                            MessageBox.Show("ស្តុកវត្ថុធាតុដើមមិនគ្រប់គ្រាន់ ៖ \n"+CompareString,"Rachhan System",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
                         }
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("ចំនួន <NG Qty> ត្រូវតែជាលេខចំនួនគត់!" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        WMsg.WarningText = "ចំនួន <NG Qty> ត្រូវតែជាលេខចំនួនគត់!\n"+ex.Message;
+                        WMsg.ShowingMsg();
                         txtNGQty.Focus();
                         txtNGQty.SelectAll();
                     }
                     cnn.con.Close();
+
+                    Cursor = Cursors.Default;
+
+                    if (ErrorText.Trim() == "")
+                    {
+                        if (ShortageRM.Trim() == "")
+                        {
+                            ClearAllText();
+                        }
+                        else
+                        {
+                            WMsg.WarningText = "ស្តុកវត្ថុធាតុដើមមិនគ្រប់គ្រាន់ ៖ " +
+                                "\nឈ្មោះ  |  ចំនួនប្រើ  |  ស្តុកនៅសល់  |  ស្តុកខ្វះ" +
+                                "\n" + ShortageRM;
+                            WMsg.ShowingMsg();
+                        }
+                    }
+                    else
+                    {
+                        EMsg.AlertText = "មានបញ្ហា!\n"+ErrorText;
+                        EMsg.ShowingMsg();
+                    }
                 }
             }
         }
 
-        private void NGInputBySetForm_Load(object sender, EventArgs e)
+        private void DgvSemi_CurrentCellChanged(object sender, EventArgs e)
         {
-            SelectedConsump = new DataTable();
-            SelectedConsump.Columns.Add("Code", typeof(string));
-            SelectedConsump.Columns.Add("Name", typeof(string));
-            SelectedConsump.Columns.Add("Qty", typeof(double));
-            SelectedConsump.Columns.Add("TotalQty", typeof(double));
-            SelectedConsump.Columns.Add("SysN", typeof(string));
-            Username = MenuFormV2.UserForNextForm;
+            dgvConsump.Rows.Clear();
+            if (dgvSemi.SelectedCells.Count > 0 && dgvSemi.CurrentCell != null && dgvSemi.CurrentCell.RowIndex > -1)
+            {
+                Cursor = Cursors.WaitCursor;
+                ErrorText = "";
 
+                //Taking Data
+                string WIPCodeSelected = dgvSemi.Rows[dgvSemi.CurrentCell.RowIndex].Cells["WIPCode"].Value.ToString();
+                DataTable dt = new DataTable();
+                try
+                {
+                    cnn.con.Open();
+                    string SQLQuery = "SELECT UpItemCode, LowItemCode, ItemName, LowQty FROM " +
+                        "\n(SELECT * FROM MstBOM) T1 " +
+                        "\nINNER JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T2 ON T1.LowItemCode=T2.ItemCode " +
+                        "\nWHERE UpItemCode = '"+WIPCodeSelected+"' " +
+                        "\nORDER BY LowItemCode ASC";
+                    SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    ErrorText = ex.Message;
+                }
+                cnn.con.Close();
+
+                //Add to DGV
+                if (ErrorText.Trim() == "")
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        dgvConsump.Rows.Add();
+                        dgvConsump.Rows[dgvConsump.Rows.Count-1].HeaderCell.Value = dgvConsump.Rows.Count.ToString();
+                        dgvConsump.Rows[dgvConsump.Rows.Count - 1].Cells["RMCode"].Value = row["LowItemCode"].ToString();
+                        dgvConsump.Rows[dgvConsump.Rows.Count - 1].Cells["RMName"].Value = row["ItemName"].ToString();
+                        dgvConsump.Rows[dgvConsump.Rows.Count - 1].Cells["ConsumpQty"].Value = Convert.ToDouble(row["LowQty"].ToString());
+                    }
+                    txtNGQty.Focus();
+                }
+
+                Cursor = Cursors.Default;
+
+                if (ErrorText.Trim() != "")
+                {
+                    EMsg.AlertText = "មានបញ្ហា!\n" + ErrorText;
+                    EMsg.ShowingMsg();
+                }
+            }
+        }
+        private void TxtNGQty_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }        
+        private void TxtItemname_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                SearchWIP();
+            }
+        }
+        private void TxtWIPCodeSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                SearchWIP();
+            }
+        }
+        private void NGInputBySetForm_Shown(object sender, EventArgs e)
+        {
+            float FontSize = Convert.ToSingle("9.75");
+            dgvConsump.RowHeadersDefaultCellStyle.Font = new Font("Khmer OS Battambang", FontSize, FontStyle.Regular);
+        }
+
+        //Function
+        private void SearchWIP()
+        {
+            Cursor = Cursors.WaitCursor;
+            dgvSemi.Rows.Clear();
+            ErrorText = "";
+
+            //SQL Condition
+            DataTable dtSQLCon = new DataTable();
+            dtSQLCon.Columns.Add("Col");
+            dtSQLCon.Columns.Add("Val");
+            if (txtWIPCodeSearch.Text.Trim() != "")
+            {
+                dtSQLCon.Rows.Add("ItemCode LIKE ", "'%"+txtWIPCodeSearch.Text+"%' ");
+            }
+            if (txtWIPNameSearch.Text.Trim() != "")
+            {
+                dtSQLCon.Rows.Add("ItemName LIKE ", "'%" + txtWIPNameSearch.Text + "%' ");
+            }
+            string SQLConds = "";
+            foreach (DataRow row in dtSQLCon.Rows)
+            {
+                if (SQLConds.Trim() == "")
+                {
+                    SQLConds = "WHERE " + row["Col"] + row["Val"];
+                }
+                else
+                {
+                    SQLConds += " AND " + row["Col"] + row["Val"];
+                }
+            }
+
+            //Taking Data
+            DataTable dt = new DataTable();
+            try
+            {
+                cnn.con.Open();
+                string SQLQuery = "SELECT T1.* FROM " +
+                                            "\n(SELECT * FROM tbMasterItem WHERE ItemType ='Work In Process') T1 " +
+                                            "\nINNER JOIN (SELECT * FROM MstBOM) T2 ON T1.ItemCode=T2.UpItemCode \n"+
+                                            SQLConds+" ORDER BY ItemCode ASC ";
+                SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                sda.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                ErrorText = ex.Message;
+            }
+            cnn.con.Close();
+
+            //Add to DGV
+            if (ErrorText.Trim() == "")
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    dgvSemi.Rows.Add();
+                    dgvSemi.Rows[dgvSemi.Rows.Count-1].Cells["WIPCode"].Value = row["ItemCode"].ToString();
+                    dgvSemi.Rows[dgvSemi.Rows.Count - 1].Cells["WIPName"].Value = row["ItemName"].ToString();
+                    dgvSemi.Rows[dgvSemi.Rows.Count - 1].Cells["PIN"].Value = row["Remarks1"].ToString();
+                    dgvSemi.Rows[dgvSemi.Rows.Count - 1].Cells["Wire"].Value = row["Remarks2"].ToString();
+                    dgvSemi.Rows[dgvSemi.Rows.Count - 1].Cells["Length"].Value = row["Remarks3"].ToString();
+                }
+            }
+
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim() == "")
+            {
+                dgvSemi.ClearSelection();
+                dgvSemi.CurrentCell = null;
+            }
+            else
+            {
+                EMsg.AlertText = "មានបញ្ហា!\n" + ErrorText;
+                EMsg.ShowingMsg();
+            }
+
+        }
+        private async Task BlinkPictureBox(PictureBox pictureBox)
+        {
+            pictureBox.Visible = false;
+            for (int i = 0; i < 7; i++)
+            {
+                pictureBox.Visible = !pictureBox.Visible;
+                await Task.Delay(350);
+            }
+            pictureBox.Visible = true;
+        }
+        private async void CheckBeforeSave()
+        {
+            PicAlertItems.Visible = false;
+            PicAlertQty.Visible = false;
+            PicAlertRemarks.Visible = false;
+            var tasksBlink = new List<Task>();
+
+            if (dgvSemi.SelectedCells.Count==0 || dgvConsump.Rows.Count==0)
+            {
+                tasksBlink.Add(BlinkPictureBox(PicAlertItems));
+            }
+            if (txtNGQty.Text.Trim() == "")
+            {
+                tasksBlink.Add(BlinkPictureBox(PicAlertQty));
+            }
+            else
+            {
+                if (Convert.ToDouble(txtNGQty.Text) <= 0)
+                {
+                    tasksBlink.Add(BlinkPictureBox(PicAlertQty));
+                }
+            }
+            if (txtRemarks.Text.Trim() == "")
+            {
+                tasksBlink.Add(BlinkPictureBox(PicAlertRemarks));
+            }
+
+            await Task.WhenAll(tasksBlink);
+        }
+        private void ClearAllText()
+        {
+            txtNGQty.Text = "";
+            dgvSemi.Rows.Clear();
         }
 
     }

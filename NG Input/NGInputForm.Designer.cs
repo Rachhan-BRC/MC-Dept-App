@@ -30,280 +30,298 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NGInputForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.panel1 = new System.Windows.Forms.Panel();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.panelHeader = new System.Windows.Forms.Panel();
+            this.btnPrintGRAY = new System.Windows.Forms.PictureBox();
             this.btnPrint = new System.Windows.Forms.Button();
             this.btnCountable = new System.Windows.Forms.Button();
             this.btnScale = new System.Windows.Forms.Button();
             this.btnSemiSet = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.dgvNGalready = new System.Windows.Forms.DataGridView();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.LbPercent = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.panelFooter = new System.Windows.Forms.Panel();
             this.LbExportStatus = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column0 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel1.SuspendLayout();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkSelectAll = new System.Windows.Forms.CheckBox();
+            this.dgvNGalready = new System.Windows.Forms.DataGridView();
+            this.ChkPrint = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.SysNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RMCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RMName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Remarks = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RegDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RegBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panelBody = new System.Windows.Forms.Panel();
+            this.panelHeader.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnPrintGRAY)).BeginInit();
+            this.panelFooter.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvNGalready)).BeginInit();
-            this.panel2.SuspendLayout();
+            this.panelBody.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel1
+            // panelHeader
             // 
-            this.panel1.Controls.Add(this.btnPrint);
-            this.panel1.Controls.Add(this.btnCountable);
-            this.panel1.Controls.Add(this.btnScale);
-            this.panel1.Controls.Add(this.btnSemiSet);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1174, 65);
-            this.panel1.TabIndex = 4;
+            this.panelHeader.Controls.Add(this.btnPrintGRAY);
+            this.panelHeader.Controls.Add(this.btnPrint);
+            this.panelHeader.Controls.Add(this.btnCountable);
+            this.panelHeader.Controls.Add(this.btnScale);
+            this.panelHeader.Controls.Add(this.btnSemiSet);
+            this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelHeader.Location = new System.Drawing.Point(0, 0);
+            this.panelHeader.Name = "panelHeader";
+            this.panelHeader.Size = new System.Drawing.Size(1174, 59);
+            this.panelHeader.TabIndex = 4;
+            // 
+            // btnPrintGRAY
+            // 
+            this.btnPrintGRAY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrintGRAY.Image = ((System.Drawing.Image)(resources.GetObject("btnPrintGRAY.Image")));
+            this.btnPrintGRAY.Location = new System.Drawing.Point(1125, 8);
+            this.btnPrintGRAY.Name = "btnPrintGRAY";
+            this.btnPrintGRAY.Size = new System.Drawing.Size(40, 43);
+            this.btnPrintGRAY.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnPrintGRAY.TabIndex = 20;
+            this.btnPrintGRAY.TabStop = false;
             // 
             // btnPrint
             // 
-            this.btnPrint.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPrint.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnPrint.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnPrint.BackgroundImage")));
             this.btnPrint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnPrint.Location = new System.Drawing.Point(1116, 5);
+            this.btnPrint.Enabled = false;
+            this.btnPrint.Location = new System.Drawing.Point(1121, 4);
             this.btnPrint.Name = "btnPrint";
-            this.btnPrint.Size = new System.Drawing.Size(53, 56);
+            this.btnPrint.Size = new System.Drawing.Size(48, 51);
             this.btnPrint.TabIndex = 19;
             this.btnPrint.UseVisualStyleBackColor = false;
-            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
             // btnCountable
             // 
             this.btnCountable.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnCountable.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnCountable.BackgroundImage")));
             this.btnCountable.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnCountable.Location = new System.Drawing.Point(124, 5);
+            this.btnCountable.Location = new System.Drawing.Point(107, 4);
             this.btnCountable.Name = "btnCountable";
-            this.btnCountable.Size = new System.Drawing.Size(53, 56);
+            this.btnCountable.Size = new System.Drawing.Size(48, 51);
             this.btnCountable.TabIndex = 17;
             this.toolTip1.SetToolTip(this.btnCountable, "បញ្ចូល NG ដោយរាប់");
             this.btnCountable.UseVisualStyleBackColor = false;
-            this.btnCountable.Click += new System.EventHandler(this.btnCountable_Click);
             // 
             // btnScale
             // 
             this.btnScale.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnScale.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnScale.BackgroundImage")));
             this.btnScale.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnScale.Location = new System.Drawing.Point(65, 5);
+            this.btnScale.Location = new System.Drawing.Point(56, 4);
             this.btnScale.Name = "btnScale";
-            this.btnScale.Size = new System.Drawing.Size(53, 56);
+            this.btnScale.Size = new System.Drawing.Size(48, 51);
             this.btnScale.TabIndex = 17;
             this.toolTip1.SetToolTip(this.btnScale, "បញ្ចូល NG ដោយថ្លឹង");
             this.btnScale.UseVisualStyleBackColor = false;
-            this.btnScale.Click += new System.EventHandler(this.btnScale_Click);
             // 
             // btnSemiSet
             // 
             this.btnSemiSet.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnSemiSet.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSemiSet.BackgroundImage")));
             this.btnSemiSet.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSemiSet.Location = new System.Drawing.Point(6, 5);
+            this.btnSemiSet.Location = new System.Drawing.Point(5, 4);
             this.btnSemiSet.Name = "btnSemiSet";
-            this.btnSemiSet.Size = new System.Drawing.Size(53, 56);
+            this.btnSemiSet.Size = new System.Drawing.Size(48, 51);
             this.btnSemiSet.TabIndex = 17;
             this.toolTip1.SetToolTip(this.btnSemiSet, "បញ្ចូល NG ជា Set");
             this.btnSemiSet.UseVisualStyleBackColor = false;
-            this.btnSemiSet.Click += new System.EventHandler(this.btnSemiSet_Click);
+            // 
+            // panelFooter
+            // 
+            this.panelFooter.BackColor = System.Drawing.SystemColors.Control;
+            this.panelFooter.Controls.Add(this.LbExportStatus);
+            this.panelFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelFooter.Location = new System.Drawing.Point(0, 528);
+            this.panelFooter.Name = "panelFooter";
+            this.panelFooter.Size = new System.Drawing.Size(1174, 33);
+            this.panelFooter.TabIndex = 11;
+            // 
+            // LbExportStatus
+            // 
+            this.LbExportStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.LbExportStatus.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.LbExportStatus.Location = new System.Drawing.Point(544, 4);
+            this.LbExportStatus.Name = "LbExportStatus";
+            this.LbExportStatus.Size = new System.Drawing.Size(626, 25);
+            this.LbExportStatus.TabIndex = 7;
+            this.LbExportStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.chkSelectAll);
             this.groupBox2.Controls.Add(this.dgvNGalready);
-            this.groupBox2.Font = new System.Drawing.Font("Khmer OS Battambang", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(4, 71);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold);
+            this.groupBox2.Location = new System.Drawing.Point(4, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1167, 443);
-            this.groupBox2.TabIndex = 8;
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 0, 3, 4);
+            this.groupBox2.Size = new System.Drawing.Size(1166, 466);
+            this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "លទ្ធផលស្វែងរក";
+            // 
+            // chkSelectAll
+            // 
+            this.chkSelectAll.AutoSize = true;
+            this.chkSelectAll.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.chkSelectAll.Location = new System.Drawing.Point(13, 31);
+            this.chkSelectAll.Name = "chkSelectAll";
+            this.chkSelectAll.Size = new System.Drawing.Size(15, 14);
+            this.chkSelectAll.TabIndex = 21;
+            this.chkSelectAll.UseVisualStyleBackColor = false;
             // 
             // dgvNGalready
             // 
             this.dgvNGalready.AllowUserToAddRows = false;
             this.dgvNGalready.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.PaleTurquoise;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvNGalready.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvNGalready.AllowUserToResizeRows = false;
+            dataGridViewCellStyle15.BackColor = System.Drawing.Color.Lavender;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvNGalready.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle15;
             this.dgvNGalready.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Khmer OS Battambang", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvNGalready.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvNGalready.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
             this.dgvNGalready.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvNGalready.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column2,
-            this.Column0,
-            this.Column24,
-            this.Column1,
-            this.Column7,
-            this.Column3,
-            this.Column4});
+            this.ChkPrint,
+            this.SysNo,
+            this.RMCode,
+            this.RMName,
+            this.Qty,
+            this.Remarks,
+            this.RegDate,
+            this.RegBy});
             this.dgvNGalready.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvNGalready.EnableHeadersVisualStyles = false;
-            this.dgvNGalready.Location = new System.Drawing.Point(3, 33);
+            this.dgvNGalready.Location = new System.Drawing.Point(3, 23);
             this.dgvNGalready.MultiSelect = false;
             this.dgvNGalready.Name = "dgvNGalready";
             this.dgvNGalready.ReadOnly = true;
             this.dgvNGalready.RowHeadersVisible = false;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvNGalready.RowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle21.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle21.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvNGalready.RowsDefaultCellStyle = dataGridViewCellStyle21;
             this.dgvNGalready.RowTemplate.Height = 25;
-            this.dgvNGalready.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvNGalready.Size = new System.Drawing.Size(1161, 407);
+            this.dgvNGalready.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgvNGalready.Size = new System.Drawing.Size(1160, 439);
             this.dgvNGalready.TabIndex = 11;
             // 
-            // panel2
+            // ChkPrint
             // 
-            this.panel2.Controls.Add(this.LbPercent);
-            this.panel2.Controls.Add(this.progressBar1);
-            this.panel2.Controls.Add(this.LbExportStatus);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 520);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1174, 41);
-            this.panel2.TabIndex = 11;
+            this.ChkPrint.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle17.Format = "N2";
+            dataGridViewCellStyle17.NullValue = false;
+            this.ChkPrint.DefaultCellStyle = dataGridViewCellStyle17;
+            this.ChkPrint.FillWeight = 160F;
+            this.ChkPrint.HeaderText = "";
+            this.ChkPrint.Name = "ChkPrint";
+            this.ChkPrint.ReadOnly = true;
+            this.ChkPrint.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ChkPrint.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.ChkPrint.Width = 30;
             // 
-            // LbPercent
+            // SysNo
             // 
-            this.LbPercent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.LbPercent.AutoSize = true;
-            this.LbPercent.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbPercent.Location = new System.Drawing.Point(265, 7);
-            this.LbPercent.Name = "LbPercent";
-            this.LbPercent.Size = new System.Drawing.Size(0, 27);
-            this.LbPercent.TabIndex = 9;
+            this.SysNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.SysNo.HeaderText = "លេខរៀង";
+            this.SysNo.Name = "SysNo";
+            this.SysNo.ReadOnly = true;
+            this.SysNo.Width = 150;
             // 
-            // progressBar1
+            // RMCode
             // 
-            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.progressBar1.Location = new System.Drawing.Point(8, 7);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(241, 27);
-            this.progressBar1.TabIndex = 8;
-            this.progressBar1.Visible = false;
+            this.RMCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.RMCode.HeaderText = "លេខកូដ";
+            this.RMCode.Name = "RMCode";
+            this.RMCode.ReadOnly = true;
+            this.RMCode.Width = 120;
             // 
-            // LbExportStatus
+            // RMName
             // 
-            this.LbExportStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LbExportStatus.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbExportStatus.Location = new System.Drawing.Point(649, 5);
-            this.LbExportStatus.Name = "LbExportStatus";
-            this.LbExportStatus.Size = new System.Drawing.Size(519, 34);
-            this.LbExportStatus.TabIndex = 7;
-            this.LbExportStatus.Text = "កំពុងបង្កើត File . . . .";
-            this.LbExportStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.LbExportStatus.Visible = false;
+            this.RMName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.RMName.DefaultCellStyle = dataGridViewCellStyle18;
+            this.RMName.FillWeight = 190F;
+            this.RMName.HeaderText = "ឈ្មោះវត្ថុធាតុដើម";
+            this.RMName.Name = "RMName";
+            this.RMName.ReadOnly = true;
+            this.RMName.Width = 350;
             // 
-            // Column2
+            // Qty
             // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Column2.HeaderText = "លេខកូដ";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.Width = 120;
+            this.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle19.Format = "N3";
+            dataGridViewCellStyle19.NullValue = null;
+            this.Qty.DefaultCellStyle = dataGridViewCellStyle19;
+            this.Qty.HeaderText = "ចំនួនសរុប";
+            this.Qty.Name = "Qty";
+            this.Qty.ReadOnly = true;
+            this.Qty.Width = 130;
             // 
-            // Column0
+            // Remarks
             // 
-            this.Column0.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Column0.DefaultCellStyle = dataGridViewCellStyle3;
-            this.Column0.FillWeight = 190F;
-            this.Column0.HeaderText = "ឈ្មោះវត្ថុធាតុដើម";
-            this.Column0.Name = "Column0";
-            this.Column0.ReadOnly = true;
-            this.Column0.Width = 350;
+            this.Remarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Remarks.HeaderText = "Remarks";
+            this.Remarks.Name = "Remarks";
+            this.Remarks.ReadOnly = true;
+            this.Remarks.Width = 150;
             // 
-            // Column24
+            // RegDate
             // 
-            this.Column24.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "N3";
-            dataGridViewCellStyle4.NullValue = null;
-            this.Column24.DefaultCellStyle = dataGridViewCellStyle4;
-            this.Column24.HeaderText = "ចំនួនសរុប";
-            this.Column24.Name = "Column24";
-            this.Column24.ReadOnly = true;
-            this.Column24.Width = 130;
+            this.RegDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle20.Format = "dd-MMM-yyyy hh:mm:ss tt";
+            dataGridViewCellStyle20.NullValue = null;
+            this.RegDate.DefaultCellStyle = dataGridViewCellStyle20;
+            this.RegDate.HeaderText = "ថ្ងៃខែឆ្នាំបញ្ចូល";
+            this.RegDate.Name = "RegDate";
+            this.RegDate.ReadOnly = true;
+            this.RegDate.Width = 180;
             // 
-            // Column1
+            // RegBy
             // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.Format = "N2";
-            dataGridViewCellStyle5.NullValue = false;
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle5;
-            this.Column1.FillWeight = 160F;
-            this.Column1.HeaderText = "Request Status";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Column1.Width = 150;
+            this.RegBy.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.RegBy.HeaderText = "បញ្ចូលដោយ";
+            this.RegBy.Name = "RegBy";
+            this.RegBy.ReadOnly = true;
+            this.RegBy.Width = 120;
             // 
-            // Column7
+            // panelBody
             // 
-            this.Column7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.Format = "dd-MMM-yyyy hh:mm:ss tt";
-            dataGridViewCellStyle6.NullValue = null;
-            this.Column7.DefaultCellStyle = dataGridViewCellStyle6;
-            this.Column7.HeaderText = "ថ្ងៃខែឆ្នាំបញ្ចូល";
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
-            this.Column7.Width = 180;
-            // 
-            // Column3
-            // 
-            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Column3.HeaderText = "បញ្ចូលដោយ";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 120;
-            // 
-            // Column4
-            // 
-            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Column4.HeaderText = "លេខរៀង";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.Width = 120;
+            this.panelBody.Controls.Add(this.groupBox2);
+            this.panelBody.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelBody.Location = new System.Drawing.Point(0, 59);
+            this.panelBody.Name = "panelBody";
+            this.panelBody.Padding = new System.Windows.Forms.Padding(4, 0, 4, 3);
+            this.panelBody.Size = new System.Drawing.Size(1174, 469);
+            this.panelBody.TabIndex = 13;
             // 
             // NGInputForm
             // 
@@ -311,44 +329,47 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1174, 561);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panelBody);
+            this.Controls.Add(this.panelFooter);
+            this.Controls.Add(this.panelHeader);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NGInputForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "បញ្ចូល NG";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.NGInputForm_Load);
-            this.panel1.ResumeLayout(false);
+            this.panelHeader.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btnPrintGRAY)).EndInit();
+            this.panelFooter.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvNGalready)).EndInit();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.panelBody.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panelHeader;
         private System.Windows.Forms.Button btnSemiSet;
-        private System.Windows.Forms.GroupBox groupBox2;
-        public System.Windows.Forms.DataGridView dgvNGalready;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label LbPercent;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Panel panelFooter;
         private System.Windows.Forms.Label LbExportStatus;
         private System.Windows.Forms.Button btnScale;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button btnCountable;
         private System.Windows.Forms.Button btnPrint;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column0;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column24;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.GroupBox groupBox2;
+        public System.Windows.Forms.DataGridView dgvNGalready;
+        private System.Windows.Forms.Panel panelBody;
+        private System.Windows.Forms.PictureBox btnPrintGRAY;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ChkPrint;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SysNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RMCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RMName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Remarks;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RegDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RegBy;
+        private System.Windows.Forms.CheckBox chkSelectAll;
     }
 }

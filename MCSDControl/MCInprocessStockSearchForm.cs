@@ -173,6 +173,7 @@ namespace MachineDeptApp.MCSDControl
             Cursor = Cursors.WaitCursor;
             LbStatus.Text = "កំពុងស្វែងរក . . .";
             LbStatus.Refresh();
+            dgvStock.Rows.Clear();
             
             DataTable dtSQLCond = new DataTable();
             dtSQLCond.Columns.Add("Col");

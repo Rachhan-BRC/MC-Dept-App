@@ -528,7 +528,7 @@
             // 
             this.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "N4";
+            dataGridViewCellStyle4.Format = "N3";
             this.Qty.DefaultCellStyle = dataGridViewCellStyle4;
             this.Qty.HeaderText = "ចំនួន";
             this.Qty.Name = "Qty";
