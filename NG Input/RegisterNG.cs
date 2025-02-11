@@ -27,7 +27,12 @@ namespace MachineDeptApp.NG_Input
             btnRemove.Click += BtnRemove_Click;
             btnToAdd.Click += BtnToAdd_Click;
             btnCancel.Click += BtnCancel_Click;
-           
+           tbPosPQty.ReadOnly = true;
+            tbWipCode.ReadOnly = true;
+            tbDeliveryDate.ReadOnly = true;
+            tbDoc.DropDownStyle = ComboBoxStyle.DropDownList;
+            
+            
         }
 
         private void HideEditTabContrl()
