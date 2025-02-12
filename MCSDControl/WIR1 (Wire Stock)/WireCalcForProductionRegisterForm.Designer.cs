@@ -30,29 +30,40 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WireCalcForProductionRegisterForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.btnNew = new System.Windows.Forms.Button();
             this.btnOKGRAY = new System.Windows.Forms.PictureBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.panelFooter = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.dgvSummary = new System.Windows.Forms.DataGridView();
             this.panelBody = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvInputted = new System.Windows.Forms.DataGridView();
             this.panelIput = new System.Windows.Forms.Panel();
             this.tabContrlType = new System.Windows.Forms.TabControl();
             this.tabPageBC = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.dgvAvailable = new System.Windows.Forms.DataGridView();
+            this.BobbinCodeAvailable = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WeightAvailable = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.QtyAvailable = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PicAlertBC = new System.Windows.Forms.PictureBox();
             this.LbRMNameBC = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -63,81 +74,74 @@
             this.txtBarcode = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPageManual = new System.Windows.Forms.TabPage();
-            this.PicAlertLNew = new System.Windows.Forms.PictureBox();
-            this.PicAlertWNew = new System.Windows.Forms.PictureBox();
+            this.PicAlertBobbinW = new System.Windows.Forms.PictureBox();
+            this.CboBobbinW = new System.Windows.Forms.ComboBox();
+            this.txtUnitPerGram = new System.Windows.Forms.TextBox();
+            this.rdbOldReg = new System.Windows.Forms.RadioButton();
+            this.panelOldReg = new System.Windows.Forms.Panel();
+            this.txtQtyOld = new System.Windows.Forms.TextBox();
+            this.txtTotalWOld = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.PicAlertLOld = new System.Windows.Forms.PictureBox();
+            this.PicAlertWOld = new System.Windows.Forms.PictureBox();
+            this.rdbNewReg = new System.Windows.Forms.RadioButton();
+            this.panelNewReg = new System.Windows.Forms.Panel();
             this.txtQtyNew = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.PicAlertLNew = new System.Windows.Forms.PictureBox();
+            this.PicAlertNWNew = new System.Windows.Forms.PictureBox();
+            this.PicAlertWNew = new System.Windows.Forms.PictureBox();
+            this.txtNetWNew = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.txtTotalWNew = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.txtRMName = new System.Windows.Forms.TextBox();
             this.txtRMCode = new System.Windows.Forms.TextBox();
             this.btnRegister = new System.Windows.Forms.Button();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.panelNewReg = new System.Windows.Forms.Panel();
-            this.rdbNewReg = new System.Windows.Forms.RadioButton();
-            this.panelOldReg = new System.Windows.Forms.Panel();
-            this.rdbOldReg = new System.Windows.Forms.RadioButton();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.txtNetWNew = new System.Windows.Forms.TextBox();
-            this.PicAlertNWNew = new System.Windows.Forms.PictureBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.txtTotalWOld = new System.Windows.Forms.TextBox();
-            this.PicAlertWOld = new System.Windows.Forms.PictureBox();
-            this.PicAlertLOld = new System.Windows.Forms.PictureBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.txtQtyOld = new System.Windows.Forms.TextBox();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.txtUnitPerGram = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.dgvSummary = new System.Windows.Forms.DataGridView();
-            this.BobbinQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TotalBobbinQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TotalWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Length = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TotalLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NeedQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.dgvAvailable = new System.Windows.Forms.DataGridView();
-            this.BobbinCodeAvailable = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.WeightAvailable = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.QtyAvailable = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BobbinCodeInputted = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WeightInputted = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LengthInputted = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Remove = new System.Windows.Forms.DataGridViewImageColumn();
-            this.CboBobbinW = new System.Windows.Forms.ComboBox();
-            this.PicAlertBobbinW = new System.Windows.Forms.PictureBox();
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnOKGRAY)).BeginInit();
             this.panelFooter.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSummary)).BeginInit();
             this.panelBody.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInputted)).BeginInit();
             this.panelIput.SuspendLayout();
             this.tabContrlType.SuspendLayout();
             this.tabPageBC.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicAlertBC)).BeginInit();
-            this.tabPageManual.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicAlertLNew)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicAlertWNew)).BeginInit();
-            this.panelNewReg.SuspendLayout();
-            this.panelOldReg.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicAlertNWNew)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicAlertWOld)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicAlertLOld)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSummary)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAvailable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAlertBC)).BeginInit();
+            this.tabPageManual.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicAlertBobbinW)).BeginInit();
+            this.panelOldReg.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAlertLOld)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAlertWOld)).BeginInit();
+            this.panelNewReg.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAlertLNew)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAlertNWNew)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAlertWNew)).BeginInit();
             this.SuspendLayout();
             // 
             // panelHeader
@@ -198,6 +202,70 @@
             this.panelFooter.Size = new System.Drawing.Size(924, 95);
             this.panelFooter.TabIndex = 1;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.dgvSummary);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(4, 4);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.groupBox1.Size = new System.Drawing.Size(916, 87);
+            this.groupBox1.TabIndex = 43;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Total";
+            // 
+            // dgvSummary
+            // 
+            this.dgvSummary.AllowUserToAddRows = false;
+            this.dgvSummary.AllowUserToDeleteRows = false;
+            this.dgvSummary.AllowUserToResizeColumns = false;
+            this.dgvSummary.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSummary.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSummary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSummary.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.TotalBobbinQty,
+            this.TotalWeight,
+            this.TotalLength,
+            this.NeedQty});
+            this.dgvSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvSummary.EnableHeadersVisualStyles = false;
+            this.dgvSummary.Location = new System.Drawing.Point(3, 21);
+            this.dgvSummary.Name = "dgvSummary";
+            this.dgvSummary.ReadOnly = true;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSummary.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.dgvSummary.RowHeadersVisible = false;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Blue;
+            this.dgvSummary.RowsDefaultCellStyle = dataGridViewCellStyle7;
+            this.dgvSummary.RowTemplate.Height = 36;
+            this.dgvSummary.Size = new System.Drawing.Size(910, 63);
+            this.dgvSummary.TabIndex = 1;
+            // 
             // panelBody
             // 
             this.panelBody.Controls.Add(this.groupBox2);
@@ -226,14 +294,18 @@
             // 
             this.dgvInputted.AllowUserToAddRows = false;
             this.dgvInputted.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvInputted.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.Empty;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.Blue;
+            this.dgvInputted.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvInputted.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.dgvInputted.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvInputted.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.BobbinCodeInputted,
@@ -245,7 +317,18 @@
             this.dgvInputted.Location = new System.Drawing.Point(3, 23);
             this.dgvInputted.Name = "dgvInputted";
             this.dgvInputted.ReadOnly = true;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvInputted.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
             this.dgvInputted.RowHeadersWidth = 55;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Khmer OS Battambang", 9F);
+            dataGridViewCellStyle12.ForeColor = System.Drawing.Color.Blue;
+            this.dgvInputted.RowsDefaultCellStyle = dataGridViewCellStyle12;
             this.dgvInputted.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvInputted.Size = new System.Drawing.Size(910, 140);
             this.dgvInputted.TabIndex = 0;
@@ -293,6 +376,81 @@
             this.tabPageBC.TabIndex = 0;
             this.tabPageBC.Text = "ស្កេន";
             this.tabPageBC.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.dgvAvailable);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox3.Location = new System.Drawing.Point(3, 79);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.groupBox3.Size = new System.Drawing.Size(896, 197);
+            this.groupBox3.TabIndex = 43;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Available Bobbins";
+            // 
+            // dgvAvailable
+            // 
+            this.dgvAvailable.AllowUserToAddRows = false;
+            this.dgvAvailable.AllowUserToDeleteRows = false;
+            this.dgvAvailable.AllowUserToResizeColumns = false;
+            this.dgvAvailable.AllowUserToResizeRows = false;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvAvailable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            this.dgvAvailable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAvailable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.BobbinCodeAvailable,
+            this.WeightAvailable,
+            this.QtyAvailable});
+            this.dgvAvailable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvAvailable.EnableHeadersVisualStyles = false;
+            this.dgvAvailable.Location = new System.Drawing.Point(3, 23);
+            this.dgvAvailable.Name = "dgvAvailable";
+            this.dgvAvailable.ReadOnly = true;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvAvailable.RowHeadersDefaultCellStyle = dataGridViewCellStyle16;
+            this.dgvAvailable.RowHeadersWidth = 55;
+            this.dgvAvailable.Size = new System.Drawing.Size(890, 171);
+            this.dgvAvailable.TabIndex = 1;
+            // 
+            // BobbinCodeAvailable
+            // 
+            this.BobbinCodeAvailable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.BobbinCodeAvailable.HeaderText = "Bobbin Code";
+            this.BobbinCodeAvailable.Name = "BobbinCodeAvailable";
+            this.BobbinCodeAvailable.ReadOnly = true;
+            // 
+            // WeightAvailable
+            // 
+            this.WeightAvailable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle14.Format = "N2";
+            this.WeightAvailable.DefaultCellStyle = dataGridViewCellStyle14;
+            this.WeightAvailable.HeaderText = "Weight (KG)";
+            this.WeightAvailable.Name = "WeightAvailable";
+            this.WeightAvailable.ReadOnly = true;
+            // 
+            // QtyAvailable
+            // 
+            this.QtyAvailable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle15.Format = "N0";
+            this.QtyAvailable.DefaultCellStyle = dataGridViewCellStyle15;
+            this.QtyAvailable.HeaderText = "Length/Qty (M/Pcs)";
+            this.QtyAvailable.Name = "QtyAvailable";
+            this.QtyAvailable.ReadOnly = true;
             // 
             // PicAlertBC
             // 
@@ -408,6 +566,212 @@
             this.tabPageManual.Text = "បញ្ចូលថ្មី";
             this.tabPageManual.UseVisualStyleBackColor = true;
             // 
+            // PicAlertBobbinW
+            // 
+            this.PicAlertBobbinW.BackColor = System.Drawing.Color.Transparent;
+            this.PicAlertBobbinW.Image = ((System.Drawing.Image)(resources.GetObject("PicAlertBobbinW.Image")));
+            this.PicAlertBobbinW.Location = new System.Drawing.Point(347, 78);
+            this.PicAlertBobbinW.Name = "PicAlertBobbinW";
+            this.PicAlertBobbinW.Size = new System.Drawing.Size(18, 18);
+            this.PicAlertBobbinW.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicAlertBobbinW.TabIndex = 127;
+            this.PicAlertBobbinW.TabStop = false;
+            this.PicAlertBobbinW.Visible = false;
+            // 
+            // CboBobbinW
+            // 
+            this.CboBobbinW.BackColor = System.Drawing.Color.White;
+            this.CboBobbinW.Enabled = false;
+            this.CboBobbinW.FormattingEnabled = true;
+            this.CboBobbinW.Location = new System.Drawing.Point(182, 78);
+            this.CboBobbinW.MaxLength = 7;
+            this.CboBobbinW.Name = "CboBobbinW";
+            this.CboBobbinW.Size = new System.Drawing.Size(163, 30);
+            this.CboBobbinW.TabIndex = 126;
+            // 
+            // txtUnitPerGram
+            // 
+            this.txtUnitPerGram.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.txtUnitPerGram.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtUnitPerGram.ForeColor = System.Drawing.Color.Blue;
+            this.txtUnitPerGram.Location = new System.Drawing.Point(487, 78);
+            this.txtUnitPerGram.MaxLength = 8;
+            this.txtUnitPerGram.Name = "txtUnitPerGram";
+            this.txtUnitPerGram.ReadOnly = true;
+            this.txtUnitPerGram.Size = new System.Drawing.Size(165, 30);
+            this.txtUnitPerGram.TabIndex = 125;
+            this.txtUnitPerGram.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // rdbOldReg
+            // 
+            this.rdbOldReg.Location = new System.Drawing.Point(604, 120);
+            this.rdbOldReg.Name = "rdbOldReg";
+            this.rdbOldReg.Size = new System.Drawing.Size(132, 33);
+            this.rdbOldReg.TabIndex = 124;
+            this.rdbOldReg.Text = "វត្ថុធាតុដើមប្រើរួច";
+            this.rdbOldReg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rdbOldReg.UseVisualStyleBackColor = true;
+            // 
+            // panelOldReg
+            // 
+            this.panelOldReg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.panelOldReg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelOldReg.Controls.Add(this.txtQtyOld);
+            this.panelOldReg.Controls.Add(this.txtTotalWOld);
+            this.panelOldReg.Controls.Add(this.label25);
+            this.panelOldReg.Controls.Add(this.label18);
+            this.panelOldReg.Controls.Add(this.label24);
+            this.panelOldReg.Controls.Add(this.label23);
+            this.panelOldReg.Controls.Add(this.PicAlertLOld);
+            this.panelOldReg.Controls.Add(this.PicAlertWOld);
+            this.panelOldReg.Enabled = false;
+            this.panelOldReg.Location = new System.Drawing.Point(449, 159);
+            this.panelOldReg.Name = "panelOldReg";
+            this.panelOldReg.Size = new System.Drawing.Size(449, 117);
+            this.panelOldReg.TabIndex = 123;
+            // 
+            // txtQtyOld
+            // 
+            this.txtQtyOld.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtQtyOld.Location = new System.Drawing.Point(261, 7);
+            this.txtQtyOld.MaxLength = 8;
+            this.txtQtyOld.Name = "txtQtyOld";
+            this.txtQtyOld.Size = new System.Drawing.Size(153, 30);
+            this.txtQtyOld.TabIndex = 120;
+            // 
+            // txtTotalWOld
+            // 
+            this.txtTotalWOld.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTotalWOld.Location = new System.Drawing.Point(261, 43);
+            this.txtTotalWOld.MaxLength = 7;
+            this.txtTotalWOld.Name = "txtTotalWOld";
+            this.txtTotalWOld.Size = new System.Drawing.Size(153, 30);
+            this.txtTotalWOld.TabIndex = 120;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(20, 10);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(181, 22);
+            this.label25.TabIndex = 11;
+            this.label25.Text = "ប្រវែង/ចំនួននៅសល់ ( M/Pcs )";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(227, 46);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(28, 22);
+            this.label18.TabIndex = 7;
+            this.label18.Text = " ៖ ";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(227, 10);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(28, 22);
+            this.label24.TabIndex = 10;
+            this.label24.Text = " ៖ ";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(20, 46);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(152, 22);
+            this.label23.TabIndex = 8;
+            this.label23.Text = "ទម្ងន់នៅសល់សរុប ( KG )";
+            // 
+            // PicAlertLOld
+            // 
+            this.PicAlertLOld.BackColor = System.Drawing.Color.Transparent;
+            this.PicAlertLOld.Image = ((System.Drawing.Image)(resources.GetObject("PicAlertLOld.Image")));
+            this.PicAlertLOld.Location = new System.Drawing.Point(416, 7);
+            this.PicAlertLOld.Name = "PicAlertLOld";
+            this.PicAlertLOld.Size = new System.Drawing.Size(18, 18);
+            this.PicAlertLOld.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicAlertLOld.TabIndex = 121;
+            this.PicAlertLOld.TabStop = false;
+            this.PicAlertLOld.Visible = false;
+            // 
+            // PicAlertWOld
+            // 
+            this.PicAlertWOld.BackColor = System.Drawing.Color.Transparent;
+            this.PicAlertWOld.Image = ((System.Drawing.Image)(resources.GetObject("PicAlertWOld.Image")));
+            this.PicAlertWOld.Location = new System.Drawing.Point(416, 43);
+            this.PicAlertWOld.Name = "PicAlertWOld";
+            this.PicAlertWOld.Size = new System.Drawing.Size(18, 18);
+            this.PicAlertWOld.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicAlertWOld.TabIndex = 121;
+            this.PicAlertWOld.TabStop = false;
+            this.PicAlertWOld.Visible = false;
+            // 
+            // rdbNewReg
+            // 
+            this.rdbNewReg.Checked = true;
+            this.rdbNewReg.Location = new System.Drawing.Point(179, 120);
+            this.rdbNewReg.Name = "rdbNewReg";
+            this.rdbNewReg.Size = new System.Drawing.Size(112, 33);
+            this.rdbNewReg.TabIndex = 124;
+            this.rdbNewReg.TabStop = true;
+            this.rdbNewReg.Text = "វត្ថុធាតុដើមថ្មី";
+            this.rdbNewReg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rdbNewReg.UseVisualStyleBackColor = true;
+            // 
+            // panelNewReg
+            // 
+            this.panelNewReg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.panelNewReg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelNewReg.Controls.Add(this.txtQtyNew);
+            this.panelNewReg.Controls.Add(this.label21);
+            this.panelNewReg.Controls.Add(this.label22);
+            this.panelNewReg.Controls.Add(this.PicAlertLNew);
+            this.panelNewReg.Controls.Add(this.PicAlertNWNew);
+            this.panelNewReg.Controls.Add(this.PicAlertWNew);
+            this.panelNewReg.Controls.Add(this.txtNetWNew);
+            this.panelNewReg.Controls.Add(this.label15);
+            this.panelNewReg.Controls.Add(this.txtTotalWNew);
+            this.panelNewReg.Controls.Add(this.label12);
+            this.panelNewReg.Controls.Add(this.label17);
+            this.panelNewReg.Controls.Add(this.label16);
+            this.panelNewReg.Location = new System.Drawing.Point(5, 159);
+            this.panelNewReg.Name = "panelNewReg";
+            this.panelNewReg.Size = new System.Drawing.Size(441, 117);
+            this.panelNewReg.TabIndex = 123;
+            // 
+            // txtQtyNew
+            // 
+            this.txtQtyNew.BackColor = System.Drawing.Color.White;
+            this.txtQtyNew.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtQtyNew.ForeColor = System.Drawing.Color.Black;
+            this.txtQtyNew.Location = new System.Drawing.Point(252, 7);
+            this.txtQtyNew.MaxLength = 8;
+            this.txtQtyNew.Name = "txtQtyNew";
+            this.txtQtyNew.Size = new System.Drawing.Size(153, 30);
+            this.txtQtyNew.TabIndex = 120;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(11, 10);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(164, 22);
+            this.label21.TabIndex = 11;
+            this.label21.Text = "ប្រវែង/ចំនួនសរុប ( M/Pcs )";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(218, 10);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(28, 22);
+            this.label22.TabIndex = 10;
+            this.label22.Text = " ៖ ";
+            // 
             // PicAlertLNew
             // 
             this.PicAlertLNew.BackColor = System.Drawing.Color.Transparent;
@@ -419,6 +783,18 @@
             this.PicAlertLNew.TabIndex = 121;
             this.PicAlertLNew.TabStop = false;
             this.PicAlertLNew.Visible = false;
+            // 
+            // PicAlertNWNew
+            // 
+            this.PicAlertNWNew.BackColor = System.Drawing.Color.Transparent;
+            this.PicAlertNWNew.Image = ((System.Drawing.Image)(resources.GetObject("PicAlertNWNew.Image")));
+            this.PicAlertNWNew.Location = new System.Drawing.Point(407, 43);
+            this.PicAlertNWNew.Name = "PicAlertNWNew";
+            this.PicAlertNWNew.Size = new System.Drawing.Size(18, 18);
+            this.PicAlertNWNew.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicAlertNWNew.TabIndex = 121;
+            this.PicAlertNWNew.TabStop = false;
+            this.PicAlertNWNew.Visible = false;
             // 
             // PicAlertWNew
             // 
@@ -432,16 +808,25 @@
             this.PicAlertWNew.TabStop = false;
             this.PicAlertWNew.Visible = false;
             // 
-            // txtQtyNew
+            // txtNetWNew
             // 
-            this.txtQtyNew.BackColor = System.Drawing.Color.White;
-            this.txtQtyNew.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtQtyNew.ForeColor = System.Drawing.Color.Black;
-            this.txtQtyNew.Location = new System.Drawing.Point(252, 7);
-            this.txtQtyNew.MaxLength = 8;
-            this.txtQtyNew.Name = "txtQtyNew";
-            this.txtQtyNew.Size = new System.Drawing.Size(153, 30);
-            this.txtQtyNew.TabIndex = 120;
+            this.txtNetWNew.BackColor = System.Drawing.Color.White;
+            this.txtNetWNew.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNetWNew.ForeColor = System.Drawing.Color.Black;
+            this.txtNetWNew.Location = new System.Drawing.Point(252, 43);
+            this.txtNetWNew.MaxLength = 7;
+            this.txtNetWNew.Name = "txtNetWNew";
+            this.txtNetWNew.Size = new System.Drawing.Size(153, 30);
+            this.txtNetWNew.TabIndex = 120;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(11, 46);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(103, 22);
+            this.label15.TabIndex = 8;
+            this.label15.Text = "ទម្ងន់សុទ្ធ ( KG )";
             // 
             // txtTotalWNew
             // 
@@ -452,6 +837,33 @@
             this.txtTotalWNew.Name = "txtTotalWNew";
             this.txtTotalWNew.Size = new System.Drawing.Size(153, 30);
             this.txtTotalWNew.TabIndex = 120;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(218, 46);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(28, 22);
+            this.label12.TabIndex = 7;
+            this.label12.Text = " ៖ ";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(11, 82);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(157, 22);
+            this.label17.TabIndex = 8;
+            this.label17.Text = "ទម្ងន់ជាក់ស្ដែងសរុប ( KG )";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(218, 82);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(28, 22);
+            this.label16.TabIndex = 7;
+            this.label16.Text = " ៖ ";
             // 
             // txtRMName
             // 
@@ -488,41 +900,14 @@
             this.toolTip1.SetToolTip(this.btnRegister, "បន្ថែម");
             this.btnRegister.UseVisualStyleBackColor = false;
             // 
-            // label16
+            // label27
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(218, 82);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(28, 22);
-            this.label16.TabIndex = 7;
-            this.label16.Text = " ៖ ";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(11, 82);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(157, 22);
-            this.label17.TabIndex = 8;
-            this.label17.Text = "ទម្ងន់ជាក់ស្ដែងសរុប ( KG )";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(218, 10);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(28, 22);
-            this.label22.TabIndex = 10;
-            this.label22.Text = " ៖ ";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(11, 10);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(164, 22);
-            this.label21.TabIndex = 11;
-            this.label21.Text = "ប្រវែង/ចំនួនសរុប ( M/Pcs )";
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(453, 81);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(28, 22);
+            this.label27.TabIndex = 10;
+            this.label27.Text = " ៖ ";
             // 
             // label19
             // 
@@ -532,6 +917,15 @@
             this.label19.Size = new System.Drawing.Size(28, 22);
             this.label19.TabIndex = 10;
             this.label19.Text = " ៖ ";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(351, 81);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(96, 22);
+            this.label26.TabIndex = 11;
+            this.label26.Text = "ប្រវែង/មួយក្រាម";
             // 
             // label20
             // 
@@ -560,289 +954,12 @@
             this.label14.TabIndex = 5;
             this.label14.Text = "វត្ថុធាតុដើម";
             // 
-            // panelNewReg
+            // TotalBobbinQty
             // 
-            this.panelNewReg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.panelNewReg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelNewReg.Controls.Add(this.txtQtyNew);
-            this.panelNewReg.Controls.Add(this.label21);
-            this.panelNewReg.Controls.Add(this.label22);
-            this.panelNewReg.Controls.Add(this.PicAlertLNew);
-            this.panelNewReg.Controls.Add(this.PicAlertNWNew);
-            this.panelNewReg.Controls.Add(this.PicAlertWNew);
-            this.panelNewReg.Controls.Add(this.txtNetWNew);
-            this.panelNewReg.Controls.Add(this.label15);
-            this.panelNewReg.Controls.Add(this.txtTotalWNew);
-            this.panelNewReg.Controls.Add(this.label12);
-            this.panelNewReg.Controls.Add(this.label17);
-            this.panelNewReg.Controls.Add(this.label16);
-            this.panelNewReg.Location = new System.Drawing.Point(5, 159);
-            this.panelNewReg.Name = "panelNewReg";
-            this.panelNewReg.Size = new System.Drawing.Size(441, 117);
-            this.panelNewReg.TabIndex = 123;
-            // 
-            // rdbNewReg
-            // 
-            this.rdbNewReg.Checked = true;
-            this.rdbNewReg.Location = new System.Drawing.Point(179, 120);
-            this.rdbNewReg.Name = "rdbNewReg";
-            this.rdbNewReg.Size = new System.Drawing.Size(112, 33);
-            this.rdbNewReg.TabIndex = 124;
-            this.rdbNewReg.TabStop = true;
-            this.rdbNewReg.Text = "វត្ថុធាតុដើមថ្មី";
-            this.rdbNewReg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.rdbNewReg.UseVisualStyleBackColor = true;
-            // 
-            // panelOldReg
-            // 
-            this.panelOldReg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.panelOldReg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelOldReg.Controls.Add(this.txtQtyOld);
-            this.panelOldReg.Controls.Add(this.txtTotalWOld);
-            this.panelOldReg.Controls.Add(this.label25);
-            this.panelOldReg.Controls.Add(this.label18);
-            this.panelOldReg.Controls.Add(this.label24);
-            this.panelOldReg.Controls.Add(this.label23);
-            this.panelOldReg.Controls.Add(this.PicAlertLOld);
-            this.panelOldReg.Controls.Add(this.PicAlertWOld);
-            this.panelOldReg.Enabled = false;
-            this.panelOldReg.Location = new System.Drawing.Point(449, 159);
-            this.panelOldReg.Name = "panelOldReg";
-            this.panelOldReg.Size = new System.Drawing.Size(449, 117);
-            this.panelOldReg.TabIndex = 123;
-            // 
-            // rdbOldReg
-            // 
-            this.rdbOldReg.Location = new System.Drawing.Point(604, 120);
-            this.rdbOldReg.Name = "rdbOldReg";
-            this.rdbOldReg.Size = new System.Drawing.Size(132, 33);
-            this.rdbOldReg.TabIndex = 124;
-            this.rdbOldReg.Text = "វត្ថុធាតុដើមប្រើរួច";
-            this.rdbOldReg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.rdbOldReg.UseVisualStyleBackColor = true;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(218, 46);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(28, 22);
-            this.label12.TabIndex = 7;
-            this.label12.Text = " ៖ ";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(11, 46);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(103, 22);
-            this.label15.TabIndex = 8;
-            this.label15.Text = "ទម្ងន់សុទ្ធ ( KG )";
-            // 
-            // txtNetWNew
-            // 
-            this.txtNetWNew.BackColor = System.Drawing.Color.White;
-            this.txtNetWNew.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNetWNew.ForeColor = System.Drawing.Color.Black;
-            this.txtNetWNew.Location = new System.Drawing.Point(252, 43);
-            this.txtNetWNew.MaxLength = 7;
-            this.txtNetWNew.Name = "txtNetWNew";
-            this.txtNetWNew.Size = new System.Drawing.Size(153, 30);
-            this.txtNetWNew.TabIndex = 120;
-            // 
-            // PicAlertNWNew
-            // 
-            this.PicAlertNWNew.BackColor = System.Drawing.Color.Transparent;
-            this.PicAlertNWNew.Image = ((System.Drawing.Image)(resources.GetObject("PicAlertNWNew.Image")));
-            this.PicAlertNWNew.Location = new System.Drawing.Point(407, 43);
-            this.PicAlertNWNew.Name = "PicAlertNWNew";
-            this.PicAlertNWNew.Size = new System.Drawing.Size(18, 18);
-            this.PicAlertNWNew.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicAlertNWNew.TabIndex = 121;
-            this.PicAlertNWNew.TabStop = false;
-            this.PicAlertNWNew.Visible = false;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(227, 46);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(28, 22);
-            this.label18.TabIndex = 7;
-            this.label18.Text = " ៖ ";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(20, 46);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(152, 22);
-            this.label23.TabIndex = 8;
-            this.label23.Text = "ទម្ងន់នៅសល់សរុប ( KG )";
-            // 
-            // txtTotalWOld
-            // 
-            this.txtTotalWOld.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTotalWOld.Location = new System.Drawing.Point(261, 43);
-            this.txtTotalWOld.MaxLength = 7;
-            this.txtTotalWOld.Name = "txtTotalWOld";
-            this.txtTotalWOld.Size = new System.Drawing.Size(153, 30);
-            this.txtTotalWOld.TabIndex = 120;
-            // 
-            // PicAlertWOld
-            // 
-            this.PicAlertWOld.BackColor = System.Drawing.Color.Transparent;
-            this.PicAlertWOld.Image = ((System.Drawing.Image)(resources.GetObject("PicAlertWOld.Image")));
-            this.PicAlertWOld.Location = new System.Drawing.Point(416, 43);
-            this.PicAlertWOld.Name = "PicAlertWOld";
-            this.PicAlertWOld.Size = new System.Drawing.Size(18, 18);
-            this.PicAlertWOld.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicAlertWOld.TabIndex = 121;
-            this.PicAlertWOld.TabStop = false;
-            this.PicAlertWOld.Visible = false;
-            // 
-            // PicAlertLOld
-            // 
-            this.PicAlertLOld.BackColor = System.Drawing.Color.Transparent;
-            this.PicAlertLOld.Image = ((System.Drawing.Image)(resources.GetObject("PicAlertLOld.Image")));
-            this.PicAlertLOld.Location = new System.Drawing.Point(416, 7);
-            this.PicAlertLOld.Name = "PicAlertLOld";
-            this.PicAlertLOld.Size = new System.Drawing.Size(18, 18);
-            this.PicAlertLOld.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicAlertLOld.TabIndex = 121;
-            this.PicAlertLOld.TabStop = false;
-            this.PicAlertLOld.Visible = false;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(227, 10);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(28, 22);
-            this.label24.TabIndex = 10;
-            this.label24.Text = " ៖ ";
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(20, 10);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(181, 22);
-            this.label25.TabIndex = 11;
-            this.label25.Text = "ប្រវែង/ចំនួននៅសល់ ( M/Pcs )";
-            // 
-            // txtQtyOld
-            // 
-            this.txtQtyOld.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtQtyOld.Location = new System.Drawing.Point(261, 7);
-            this.txtQtyOld.MaxLength = 8;
-            this.txtQtyOld.Name = "txtQtyOld";
-            this.txtQtyOld.Size = new System.Drawing.Size(153, 30);
-            this.txtQtyOld.TabIndex = 120;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(351, 81);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(96, 22);
-            this.label26.TabIndex = 11;
-            this.label26.Text = "ប្រវែង/មួយក្រាម";
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(453, 81);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(28, 22);
-            this.label27.TabIndex = 10;
-            this.label27.Text = " ៖ ";
-            // 
-            // txtUnitPerGram
-            // 
-            this.txtUnitPerGram.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.txtUnitPerGram.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUnitPerGram.ForeColor = System.Drawing.Color.Blue;
-            this.txtUnitPerGram.Location = new System.Drawing.Point(487, 78);
-            this.txtUnitPerGram.MaxLength = 8;
-            this.txtUnitPerGram.Name = "txtUnitPerGram";
-            this.txtUnitPerGram.ReadOnly = true;
-            this.txtUnitPerGram.Size = new System.Drawing.Size(165, 30);
-            this.txtUnitPerGram.TabIndex = 125;
-            this.txtUnitPerGram.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.dgvSummary);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(4, 4);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.groupBox1.Size = new System.Drawing.Size(916, 87);
-            this.groupBox1.TabIndex = 43;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Total";
-            // 
-            // dgvSummary
-            // 
-            this.dgvSummary.AllowUserToAddRows = false;
-            this.dgvSummary.AllowUserToDeleteRows = false;
-            this.dgvSummary.AllowUserToResizeColumns = false;
-            this.dgvSummary.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSummary.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSummary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSummary.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.BobbinQty,
-            this.TotalWeight,
-            this.Length,
-            this.NeedQty});
-            this.dgvSummary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvSummary.EnableHeadersVisualStyles = false;
-            this.dgvSummary.Location = new System.Drawing.Point(3, 21);
-            this.dgvSummary.Name = "dgvSummary";
-            this.dgvSummary.ReadOnly = true;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSummary.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
-            this.dgvSummary.RowHeadersVisible = false;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Blue;
-            this.dgvSummary.RowsDefaultCellStyle = dataGridViewCellStyle7;
-            this.dgvSummary.RowTemplate.Height = 36;
-            this.dgvSummary.Size = new System.Drawing.Size(910, 63);
-            this.dgvSummary.TabIndex = 1;
-            // 
-            // BobbinQty
-            // 
-            this.BobbinQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.BobbinQty.HeaderText = "Bobbin Qty";
-            this.BobbinQty.Name = "BobbinQty";
-            this.BobbinQty.ReadOnly = true;
+            this.TotalBobbinQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.TotalBobbinQty.HeaderText = "Bobbin Qty";
+            this.TotalBobbinQty.Name = "TotalBobbinQty";
+            this.TotalBobbinQty.ReadOnly = true;
             // 
             // TotalWeight
             // 
@@ -853,14 +970,14 @@
             this.TotalWeight.Name = "TotalWeight";
             this.TotalWeight.ReadOnly = true;
             // 
-            // Length
+            // TotalLength
             // 
-            this.Length.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.TotalLength.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle4.Format = "N0";
-            this.Length.DefaultCellStyle = dataGridViewCellStyle4;
-            this.Length.HeaderText = "Length/Qty (M/Pcs)";
-            this.Length.Name = "Length";
-            this.Length.ReadOnly = true;
+            this.TotalLength.DefaultCellStyle = dataGridViewCellStyle4;
+            this.TotalLength.HeaderText = "Length/Qty (M/Pcs)";
+            this.TotalLength.Name = "TotalLength";
+            this.TotalLength.ReadOnly = true;
             // 
             // NeedQty
             // 
@@ -870,81 +987,6 @@
             this.NeedQty.HeaderText = "Requirement (M/Pcs)";
             this.NeedQty.Name = "NeedQty";
             this.NeedQty.ReadOnly = true;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.dgvAvailable);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox3.Location = new System.Drawing.Point(3, 79);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.groupBox3.Size = new System.Drawing.Size(896, 197);
-            this.groupBox3.TabIndex = 43;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Available Bobbins";
-            // 
-            // dgvAvailable
-            // 
-            this.dgvAvailable.AllowUserToAddRows = false;
-            this.dgvAvailable.AllowUserToDeleteRows = false;
-            this.dgvAvailable.AllowUserToResizeColumns = false;
-            this.dgvAvailable.AllowUserToResizeRows = false;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvAvailable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
-            this.dgvAvailable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAvailable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.BobbinCodeAvailable,
-            this.WeightAvailable,
-            this.QtyAvailable});
-            this.dgvAvailable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvAvailable.EnableHeadersVisualStyles = false;
-            this.dgvAvailable.Location = new System.Drawing.Point(3, 23);
-            this.dgvAvailable.Name = "dgvAvailable";
-            this.dgvAvailable.ReadOnly = true;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvAvailable.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
-            this.dgvAvailable.RowHeadersWidth = 55;
-            this.dgvAvailable.Size = new System.Drawing.Size(890, 171);
-            this.dgvAvailable.TabIndex = 1;
-            // 
-            // BobbinCodeAvailable
-            // 
-            this.BobbinCodeAvailable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.BobbinCodeAvailable.HeaderText = "Bobbin Code";
-            this.BobbinCodeAvailable.Name = "BobbinCodeAvailable";
-            this.BobbinCodeAvailable.ReadOnly = true;
-            // 
-            // WeightAvailable
-            // 
-            this.WeightAvailable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle10.Format = "N2";
-            this.WeightAvailable.DefaultCellStyle = dataGridViewCellStyle10;
-            this.WeightAvailable.HeaderText = "Weight (KG)";
-            this.WeightAvailable.Name = "WeightAvailable";
-            this.WeightAvailable.ReadOnly = true;
-            // 
-            // QtyAvailable
-            // 
-            this.QtyAvailable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle11.Format = "N0";
-            this.QtyAvailable.DefaultCellStyle = dataGridViewCellStyle11;
-            this.QtyAvailable.HeaderText = "Length/Qty (M/Pcs)";
-            this.QtyAvailable.Name = "QtyAvailable";
-            this.QtyAvailable.ReadOnly = true;
             // 
             // BobbinCodeInputted
             // 
@@ -970,35 +1012,16 @@
             // Remove
             // 
             this.Remove.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle10.NullValue")));
+            dataGridViewCellStyle10.Padding = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.Remove.DefaultCellStyle = dataGridViewCellStyle10;
             this.Remove.HeaderText = "";
             this.Remove.Image = ((System.Drawing.Image)(resources.GetObject("Remove.Image")));
             this.Remove.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.Remove.Name = "Remove";
             this.Remove.ReadOnly = true;
             this.Remove.Width = 30;
-            // 
-            // CboBobbinW
-            // 
-            this.CboBobbinW.BackColor = System.Drawing.Color.White;
-            this.CboBobbinW.Enabled = false;
-            this.CboBobbinW.FormattingEnabled = true;
-            this.CboBobbinW.Location = new System.Drawing.Point(182, 78);
-            this.CboBobbinW.MaxLength = 7;
-            this.CboBobbinW.Name = "CboBobbinW";
-            this.CboBobbinW.Size = new System.Drawing.Size(163, 30);
-            this.CboBobbinW.TabIndex = 126;
-            // 
-            // PicAlertBobbinW
-            // 
-            this.PicAlertBobbinW.BackColor = System.Drawing.Color.Transparent;
-            this.PicAlertBobbinW.Image = ((System.Drawing.Image)(resources.GetObject("PicAlertBobbinW.Image")));
-            this.PicAlertBobbinW.Location = new System.Drawing.Point(347, 78);
-            this.PicAlertBobbinW.Name = "PicAlertBobbinW";
-            this.PicAlertBobbinW.Size = new System.Drawing.Size(18, 18);
-            this.PicAlertBobbinW.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicAlertBobbinW.TabIndex = 127;
-            this.PicAlertBobbinW.TabStop = false;
-            this.PicAlertBobbinW.Visible = false;
             // 
             // WireCalcForProductionRegisterForm
             // 
@@ -1016,6 +1039,8 @@
             this.panelHeader.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnOKGRAY)).EndInit();
             this.panelFooter.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSummary)).EndInit();
             this.panelBody.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvInputted)).EndInit();
@@ -1023,23 +1048,21 @@
             this.tabContrlType.ResumeLayout(false);
             this.tabPageBC.ResumeLayout(false);
             this.tabPageBC.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAvailable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicAlertBC)).EndInit();
             this.tabPageManual.ResumeLayout(false);
             this.tabPageManual.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicAlertLNew)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicAlertWNew)).EndInit();
-            this.panelNewReg.ResumeLayout(false);
-            this.panelNewReg.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAlertBobbinW)).EndInit();
             this.panelOldReg.ResumeLayout(false);
             this.panelOldReg.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicAlertNWNew)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicAlertWOld)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicAlertLOld)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSummary)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAvailable)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicAlertBobbinW)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAlertWOld)).EndInit();
+            this.panelNewReg.ResumeLayout(false);
+            this.panelNewReg.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAlertLNew)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAlertNWNew)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAlertWNew)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1104,20 +1127,20 @@
         private System.Windows.Forms.TextBox txtUnitPerGram;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView dgvSummary;
-        private System.Windows.Forms.DataGridViewTextBoxColumn BobbinQty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TotalWeight;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Length;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NeedQty;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.DataGridView dgvAvailable;
         private System.Windows.Forms.DataGridViewTextBoxColumn BobbinCodeAvailable;
         private System.Windows.Forms.DataGridViewTextBoxColumn WeightAvailable;
         private System.Windows.Forms.DataGridViewTextBoxColumn QtyAvailable;
+        private System.Windows.Forms.ComboBox CboBobbinW;
+        private System.Windows.Forms.PictureBox PicAlertBobbinW;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TotalBobbinQty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TotalWeight;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TotalLength;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NeedQty;
         private System.Windows.Forms.DataGridViewTextBoxColumn BobbinCodeInputted;
         private System.Windows.Forms.DataGridViewTextBoxColumn WeightInputted;
         private System.Windows.Forms.DataGridViewTextBoxColumn LengthInputted;
         private System.Windows.Forms.DataGridViewImageColumn Remove;
-        private System.Windows.Forms.ComboBox CboBobbinW;
-        private System.Windows.Forms.PictureBox PicAlertBobbinW;
     }
 }
