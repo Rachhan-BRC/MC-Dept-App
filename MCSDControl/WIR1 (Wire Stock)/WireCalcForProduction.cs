@@ -19,6 +19,8 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
     {
         SQLConnect cnn = new SQLConnect();
         SQLConnectOBS cnnOBS = new SQLConnectOBS();
+        public DataTable dtSeletedBobbin;
+        public static double SelectedQtyRequierement;
         string ExceptedRM;
         double BeginEdit;
         string SysNo;
@@ -41,6 +43,8 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             this.dgvRMUsage.CellFormatting += DgvRMUsage_CellFormatting;
             this.dgvRMUsage.CellBeginEdit += DgvRMUsage_CellBeginEdit;
             this.dgvRMUsage.CellEndEdit += DgvRMUsage_CellEndEdit;
+            this.dgvRMUsage.CellClick += DgvRMUsage_CellClick;
+
 
             //btn
             this.btnNew.Click += BtnNew_Click;
@@ -715,6 +719,16 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 e.Cancel = true;
             }
         }
+        private void DgvRMUsage_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvRMUsage.Columns[e.ColumnIndex].Name == "TransferQty" && e.RowIndex > -1 && btnSave.Enabled == true)
+            {
+                SelectedQtyRequierement = Convert.ToDouble(dgvRMUsage.Rows[dgvRMUsage.CurrentCell.RowIndex].Cells["TotalUsageQty"].Value);
+                WireCalcForProductionRegisterForm Wcfprf = new WireCalcForProductionRegisterForm(this);
+                Wcfprf.ShowDialog();
+            }
+        }
+
 
         private void WireCalcForProduction_Load(object sender, EventArgs e)
         {
@@ -852,6 +866,13 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             fName = "";
 
         }
+        private void ClearDtSeletedBobbin()
+        {
+            dtSeletedBobbin = new DataTable();
+            dtSeletedBobbin.Columns.Add("");
+            dtSeletedBobbin.Columns.Add("");
+            dtSeletedBobbin.Columns.Add("");
 
+        }
     }
 }

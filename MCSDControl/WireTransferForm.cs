@@ -578,7 +578,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
         {
             HidePanelItems();
         }
-                
+       
         //Cbo
         private void CboOutLocation_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -622,7 +622,6 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             cnn.con.Close();
             
         }
-
 
         //Method
         private void RetriveLocStock()

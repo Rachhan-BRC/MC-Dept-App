@@ -421,6 +421,12 @@
     <Compile Include="MCSDControl\KITandSDForProductionSearch.Designer.cs">
       <DependentUpon>KITandSDForProductionSearch.cs</DependentUpon>
     </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireCalcForProductionRegisterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireCalcForProductionRegisterForm.Designer.cs">
+      <DependentUpon>WireCalcForProductionRegisterForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireRemainingCalcAndPrintTag.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -873,6 +879,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MCSDControl\KITandSDForProductionSearch.resx">
       <DependentUpon>KITandSDForProductionSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\WIR1 %28Wire Stock%29\WireCalcForProductionRegisterForm.resx">
+      <DependentUpon>WireCalcForProductionRegisterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MCSDControl\WIR1 %28Wire Stock%29\WireRemainingCalcAndPrintTag.resx">
       <DependentUpon>WireRemainingCalcAndPrintTag.cs</DependentUpon>

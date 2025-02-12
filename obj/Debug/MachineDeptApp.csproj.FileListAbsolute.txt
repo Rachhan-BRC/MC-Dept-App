@@ -1789,3 +1789,5 @@ C:\Users\ASUS\Desktop\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.CoreCompileInp
 C:\Users\ASUS\Desktop\MC-Dept-App\obj\Debug\MC Dept App.exe
 C:\Users\ASUS\Desktop\MC-Dept-App\obj\Debug\MC Dept App.pdb
 C:\Users\ASUS\Desktop\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.RegisterNG.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.RegisterNG.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.WireCalcForProductionRegisterForm.resources

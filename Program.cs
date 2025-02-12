@@ -66,10 +66,10 @@ namespace MachineDeptApp
                 }
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new LoginForm());
+                //Application.Run(new LoginForm());
                 //Application.Run(new RegisterNG());
                 //For Design test
-                //Application.Run(new MCInprocessStockSearchForm());
+                Application.Run(new WireCalcForProduction());
             }
         }
     }
