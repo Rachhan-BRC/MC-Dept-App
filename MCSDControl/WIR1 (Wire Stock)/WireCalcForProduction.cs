@@ -45,7 +45,6 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             this.dgvRMUsage.CellEndEdit += DgvRMUsage_CellEndEdit;
             this.dgvRMUsage.CellClick += DgvRMUsage_CellClick;
 
-
             //btn
             this.btnNew.Click += BtnNew_Click;
             this.btnAdd.Click += BtnAdd_Click;
@@ -73,7 +72,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
         }
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            Console.WriteLine(MCNameSave);
+            //Console.WriteLine(MCNameSave);
             if (dgvRMUsage.Rows.Count > 0)
             {
                 int UserAccepted = 0;
@@ -209,7 +208,6 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                                 TransNo = "TRF" + NextTransNo.ToString("0000000000");
                             }
 
-
                             //Add to tbSDAllocateStock
                             if (ErrorText.Trim() == "")
                             {
@@ -230,11 +228,10 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                                 }
                                 catch (Exception ex)
                                 {
-                                    ErrorText = ex.Message;
+                                    ErrorText = "tbSDAllocateStock : " + ex.Message;
                                 }
                                 cnn.con.Close();
                             }
-
 
                             //Add tb tbSDMCAllTransaction
                             if (ErrorText.Trim() == "")
@@ -294,14 +291,53 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                                 }
                                 catch (Exception ex)
                                 {
-                                    ErrorText = ex.Message;
+                                    ErrorText = "tbSDMCAllTransaction : " + ex.Message;
                                 }
                                 cnn.con.Close();
 
-
-
                             }
 
+                            //Add to tbBobbinRecords
+                            if (ErrorText.Trim() == "")
+                            {
+                                try
+                                {
+                                    cnn.con.Open();
+                                    foreach (DataRow row in dtSeletedBobbin.Rows)
+                                    {
+                                        string BobbinNo = row["BobbinCode"].ToString();
+                                        string RMCode = row["RMCode"].ToString();
+                                        double BeginW = Convert.ToDouble(row["Weigth"]);
+                                        double BeginQty = Convert.ToDouble(row["Qty"]);
+
+                                        //tbBobbinRecords
+                                        SqlCommand cmd = new SqlCommand("INSERT INTO tbBobbinRecords(BobbinSysNo, RMCode, BStock_Kg, BStock_QTY, MCName, SD_DocNo, Out_Date) " +
+                                                                                                    "VALUES (@BSysNo, @Rc, @BW, @Bqty, @MC, @SDSysNo, @OD)", cnn.con);
+                                        cmd.Parameters.AddWithValue("@BSysNo", BobbinNo);
+                                        cmd.Parameters.AddWithValue("@Rc", RMCode);
+                                        cmd.Parameters.AddWithValue("@BW", BeginW);
+                                        cmd.Parameters.AddWithValue("@Bqty", BeginQty);
+                                        cmd.Parameters.AddWithValue("@MC", MCNameSave);
+                                        cmd.Parameters.AddWithValue("@SDSysNo", SysNo);
+                                        cmd.Parameters.AddWithValue("@OD", RegDate);
+                                        cmd.ExecuteNonQuery();
+
+                                        //Update tbMstRMRegister
+                                        string query = "UPDATE tbMstRMRegister SET " +
+                                            "C_Location='MC1', " +
+                                            "UpdateDate='" + RegDate.ToString("yyyy-MM-dd HH:mm:ss") + "', " +
+                                            "UpdateBy=N'" + RegBy + "' " +
+                                            "WHERE BobbinSysNo = '" + BobbinNo + "' AND RMCode = '"+ RMCode + "';";
+                                        cmd = new SqlCommand(query, cnn.con);
+                                        cmd.ExecuteNonQuery();
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    ErrorText = "tbBobbinRecords : " + ex.Message;
+                                }
+                                cnn.con.Close();
+                            }
                         }
                         else
                         {
@@ -325,6 +361,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                         if (ErrorText.Trim() == "")
                         {
                             MessageBox.Show("រក្សាទុករួចរាល់!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            ClearDtSeletedBobbin();
                             btnAdd.Enabled = false;
                             btnAddGRAY.BringToFront();
                             btnCalculate.Enabled = false;
@@ -412,7 +449,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                         "\nINNER JOIN (SELECT * FROM mstitem WHERE DelFlag=0 AND ItemType=2 AND (MatCalcFlag=1 OR ItemCode IN ( "+ExceptedRM+" ))) T3 ON T1.LowItemCode = T3.ItemCode " +
                         "\nWHERE T1.UpItemCode IN ("+WIPCodeIN+") ";
                     
-                    Console.WriteLine(SQLQuery);
+                    //Console.WriteLine(SQLQuery);
                     
                     SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnnOBS.conOBS);
                     sda.Fill(dtConsumtion);
@@ -592,6 +629,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
         {
             dgvPOS.Rows.Clear();
             dgvRMUsage.Rows.Clear();
+            ClearDtSeletedBobbin();
             btnAdd.Enabled = true;
             btnAddGRAY.SendToBack();
             CheckBtnForEnable();
@@ -729,7 +767,6 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             }
         }
 
-
         private void WireCalcForProduction_Load(object sender, EventArgs e)
         {
             ExceptedRM =  "'2114', '1000', '1053', '1132', '1138', '0386', '1015', '1019'";
@@ -740,6 +777,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                     dgvCol.ReadOnly = true;
                 }
             }
+            ClearDtSeletedBobbin();
         }
 
         //Method
@@ -795,16 +833,16 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             }
 
             //Header
-            worksheet.Cells[2 , 1] = DateTime.Now;
-            worksheet.Cells[3, 1] = SysNo;
+            worksheet.Cells[3 , 1] = DateTime.Now;
+            worksheet.Cells[4, 1] = SysNo;
             //Insert if more than 1
             if (InsertRow > 1)
             {
-                worksheet.Range["7:" + (InsertRow+5)].Insert();
-                worksheet.Range["A7:C" + (InsertRow+5)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                worksheet.Range["8:" + (InsertRow+6)].Insert();
+                worksheet.Range["A8:C" + (InsertRow+6)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
             }
             //Add data
-            int RowIndex = 6;
+            int RowIndex = 7;
             foreach (DataGridViewRow dgvRow in dgvRMUsage.Rows)
             {
                 if (dgvRow.Cells["DocNo"].Value != null && dgvRow.Cells["DocNo"].Value.ToString().Trim() != "")
@@ -820,18 +858,18 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             Excel.Worksheet worksheetPOS = (Excel.Worksheet)xlWorkBook.Sheets["POSList"];
             if (dgvPOS.Rows.Count > 1)
             {
-                worksheetPOS.Range["5:" + (4+dgvPOS.Rows.Count-1)].Insert();
-                worksheetPOS.Range["A5:G" + (4 + dgvPOS.Rows.Count - 1)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                worksheetPOS.Range["6:" + (5+dgvPOS.Rows.Count-1)].Insert();
+                worksheetPOS.Range["A6:G" + (5 + dgvPOS.Rows.Count - 1)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
             }
             foreach (DataGridViewRow row in dgvPOS.Rows)
             {
-                worksheetPOS.Cells[row.Index+4, 1] = row.Cells["WIPCode"].Value.ToString();
-                worksheetPOS.Cells[row.Index+4, 2] = row.Cells["WIPName"].Value.ToString();
-                worksheetPOS.Cells[row.Index+4, 3] = row.Cells["POSNo"].Value.ToString();
-                worksheetPOS.Cells[row.Index+4, 4] = row.Cells["PIN"].Value.ToString();
-                worksheetPOS.Cells[row.Index+4, 5] = row.Cells["Wire"].Value.ToString();
-                worksheetPOS.Cells[row.Index+4, 6] = row.Cells["Length"].Value.ToString();
-                worksheetPOS.Cells[row.Index+4, 7] = row.Cells["Qty"].Value.ToString();
+                worksheetPOS.Cells[row.Index+5, 1] = row.Cells["WIPCode"].Value.ToString();
+                worksheetPOS.Cells[row.Index+5, 2] = row.Cells["WIPName"].Value.ToString();
+                worksheetPOS.Cells[row.Index+5, 3] = row.Cells["POSNo"].Value.ToString();
+                worksheetPOS.Cells[row.Index+5, 4] = row.Cells["PIN"].Value.ToString();
+                worksheetPOS.Cells[row.Index+5, 5] = row.Cells["Wire"].Value.ToString();
+                worksheetPOS.Cells[row.Index+5, 6] = row.Cells["Length"].Value.ToString();
+                worksheetPOS.Cells[row.Index+5, 7] = row.Cells["Qty"].Value.ToString();
             }
 
 
@@ -869,10 +907,14 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
         private void ClearDtSeletedBobbin()
         {
             dtSeletedBobbin = new DataTable();
-            dtSeletedBobbin.Columns.Add("");
-            dtSeletedBobbin.Columns.Add("");
-            dtSeletedBobbin.Columns.Add("");
+            dtSeletedBobbin.Columns.Add("RMCode");
+            dtSeletedBobbin.Columns.Add("BobbinCode");
+            dtSeletedBobbin.Columns.Add("Weigth");
+            dtSeletedBobbin.Columns.Add("Qty");
 
+            // Set the primary key
+            dtSeletedBobbin.PrimaryKey = new DataColumn[] { dtSeletedBobbin.Columns["RMCode"], dtSeletedBobbin.Columns["BobbinCode"] };
         }
+
     }
 }

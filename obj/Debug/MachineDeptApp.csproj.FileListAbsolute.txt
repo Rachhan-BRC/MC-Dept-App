@@ -1793,3 +1793,4 @@ D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.RegisterNG.resour
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.WireCalcForProductionRegisterForm.resources
 D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.WireCalcForProductionRegisterForm.resources
 D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.RegisterNG.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.WireCalcForProductionRegisterDeleteForm.resources

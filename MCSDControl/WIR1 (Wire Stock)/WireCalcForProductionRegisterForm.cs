@@ -23,6 +23,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
         SQLConnectOBS cnnOBS = new SQLConnectOBS();
         WireCalcForProduction fgrid;
         DataTable dtMstRM;
+        public DataTable dtAvailableBobbin;
         string SeletedRMType;
         string SeletedMaker;
 
@@ -33,13 +34,22 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             InitializeComponent();
             this.cnn.Connection();
             this.cnnOBS.Connection();
+            this.FormClosed += WireCalcForProductionRegisterForm_FormClosed;
             this.fgrid = fg;
+            this.btnNew.Click += BtnNew_Click;
+            this.btnOK.Click += BtnOK_Click;
             this.Shown += WireCalcForProductionRegisterForm_Shown;
             this.tabContrlType.SelectedIndexChanged += TabContrlType_SelectedIndexChanged;
             this.tabPageManual.Click += TabPageManual_Click;
-            this.dgvInputted.RowsAdded += DgvInputted_RowsAdded;
             this.dgvInputted.RowsRemoved += DgvInputted_RowsRemoved;
+            this.dgvInputted.CellClick += DgvInputted_CellClick;
+            this.dgvAvailable.CellClick += DgvAvailable_CellClick;
+            this.dgvAvailable.RowsAdded += DgvAvailable_RowsAdded;
+            this.dgvAvailable.RowsRemoved += DgvAvailable_RowsRemoved;
 
+            //BC
+            this.txtBarcode.KeyDown += TxtBarcode_KeyDown;
+         
             //New Register
             this.btnRegister.Click += BtnRegister_Click;
             this.rdbNewReg.CheckedChanged += RdbNewReg_CheckedChanged;
@@ -68,16 +78,254 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             this.txtQtyOld.Leave += TxtQtyOld_Leave;
             this.txtQtyOld.TextChanged += TxtQtyOld_TextChanged;
 
+            //Terminal Register
+            this.txtQtyTM.KeyPress += TxtQtyTM_KeyPress;
+            this.txtQtyTM.Leave += TxtQtyTM_Leave;
+
         }
 
+        private void WireCalcForProductionRegisterForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            double TotalQty=0;
+            foreach (DataRow row in fgrid.dtSeletedBobbin.Rows)
+            {
+                if (LbRMCodeBC.Text == row["RMCode"].ToString())
+                {
+                    TotalQty += Convert.ToDouble(row["Qty"]);
+                }
+            }
+            fgrid.dgvRMUsage.Rows[fgrid.dgvRMUsage.CurrentCell.RowIndex].Cells["TransferQty"].Value = TotalQty;
+        }
+        private void TxtQtyTM_Leave(object sender, EventArgs e)
+        {
+            if (txtQtyTM.Text.Trim() != "")
+            {
+                try
+                {
+                    double InputQty = Convert.ToDouble(txtQtyTM.Text.Trim());
+                    if (InputQty > 0)
+                    {
+                        txtQtyTM.Text = InputQty.ToString("N0");
+                    }
+                    else
+                    {
+                        WMsg.WarningText = "សូមបញ្ចូលតែចំនួនដែលធំជាង 0!";
+                        WMsg.ShowingMsg();
+                        txtQtyTM.Text = "";
+                    }
+                }
+                catch
+                {
+                    WMsg.WarningText = "អ្នកបញ្ចូលខុសទម្រង់ហើយ!\nសូមបញ្ចូលតែចំនួនលេខប៉ុណ្ណោះ!";
+                    WMsg.ShowingMsg();
+                    txtQtyTM.Text = "";
+                }
+            }
+        }
+        private void TxtQtyTM_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+        private void BtnOK_Click(object sender, EventArgs e)
+        {
+            if (Convert.ToDouble(dgvSummary.Rows[0].Cells["TotalLength"].Value) >= Convert.ToDouble(dgvSummary.Rows[0].Cells["NeedQty"].Value))
+            {
+                Cursor = Cursors.WaitCursor;
+                ErrorText = "";
+
+                string RMCode = LbRMCodeBC.Text;
+
+                //Delete current SelectedBobbins
+                for (int i = fgrid.dtSeletedBobbin.Rows.Count - 1; i > -1; i--)
+                {
+                    if (RMCode == fgrid.dtSeletedBobbin.Rows[i]["RMCode"].ToString())
+                    {
+                        fgrid.dtSeletedBobbin.Rows.RemoveAt(i);
+                        fgrid.dtSeletedBobbin.AcceptChanges();
+                    }
+                }
+
+                //Add to SelectedBobbins
+                try
+                {
+                    foreach (DataGridViewRow row in dgvInputted.Rows)
+                    {
+                        double Weigth = Convert.ToDouble(row.Cells["WeightInputted"].Value);
+                        double Qty = Convert.ToDouble(row.Cells["LengthInputted"].Value);
+                        string BobbinCode = row.Cells["BobbinCodeInputted"].Value.ToString();
+                        fgrid.dtSeletedBobbin.Rows.Add(RMCode, BobbinCode, Weigth, Qty);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ErrorText = ex.Message;
+                }
+
+                Cursor = Cursors.Default;
+
+                if (ErrorText.Trim() == "")
+                {                    
+                    this.Close();
+                }
+                else
+                {
+                    EMsg.AlertText = "មានបញ្ហា!\n" + ErrorText;
+                    EMsg.ShowingMsg();
+                }
+            }
+        }
+        private void BtnNew_Click(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+
+            //Delete From dtSelectedBobbin
+            for (int i = fgrid.dtSeletedBobbin.Rows.Count - 1; i > -1; i--)
+            {
+                if (fgrid.dtSeletedBobbin.Rows[i]["RMCode"].ToString() == LbRMCodeBC.Text)
+                {
+                    fgrid.dtSeletedBobbin.Rows.RemoveAt(i);
+                }
+            }
+            fgrid.dtSeletedBobbin.AcceptChanges();
+            
+            dtAvailableBobbin = new DataTable();
+            try
+            {
+                cnn.con.Open();
+                string SQLQuery = "SELECT ItemCode, ItemName, RMType, R2OrBobbinsW, R1OrNetW, MOQ, BobbinsOrReil FROM " +
+                    "\n(SELECT * FROM tbMasterItem WHERE ItemType = 'Material') T1 " +
+                    "\nLEFT JOIN (SELECT * FROM tbSDMstUncountMat) T2 ON T1.ItemCode = T2.Code " +
+                    "\nWHERE ItemCode = '" + fgrid.dgvRMUsage.Rows[fgrid.dgvRMUsage.CurrentCell.RowIndex].Cells["RMCode"].Value.ToString() + "' ";
+                SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                sda.Fill(dtMstRM);
+
+                SQLQuery = "SELECT RMCode, BobbinSysNo, Remain_W, Remain_L FROM tbMstRMRegister " +
+                    "\nWHERE C_Location='WIR1' AND Remain_L>0 AND RMCode='" + fgrid.dgvRMUsage.Rows[fgrid.dgvRMUsage.CurrentCell.RowIndex].Cells["RMCode"].Value.ToString() + "' " +
+                    "\nORDER BY Remain_L ASC";
+                sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                sda.Fill(dtAvailableBobbin);
+            }
+            catch (Exception ex)
+            {
+                ErrorText = "Taking Data : " + ex.Message;
+            }
+            cnn.con.Close();
+            
+            SortingAvailableBobbins();
+            dgvInputted.Rows.Clear();
+
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim()!= "")
+            {
+                EMsg.AlertText = "មានបញ្ហា!\n" + ErrorText;
+                EMsg.ShowingMsg();
+            }
+        }
+        private void TxtBarcode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (txtBarcode.Text.Trim() != "")
+                {
+                    CheckBeforeAdd();
+                    if (PicAlertBC.Visible == false)
+                    {
+                        string BobbinCode = txtBarcode.Text;
+                        double W = 0;
+                        double Qty = 0;
+                        foreach (DataRow row in dtAvailableBobbin.Rows)
+                        {
+                            if (row["BobbinSysNo"].ToString() == BobbinCode)
+                            {
+                                W = Convert.ToDouble(row["Remain_W"]);
+                                Qty = Convert.ToDouble(row["Remain_L"]);
+                                dtAvailableBobbin.Rows.Remove(row);
+                                dtAvailableBobbin.AcceptChanges();
+                                break;
+                            }
+                        }
+
+                        dgvInputted.Rows.Add();
+                        dgvInputted.Rows[dgvInputted.Rows.Count - 1].HeaderCell.Value = dgvInputted.Rows.Count.ToString();
+                        dgvInputted.Rows[dgvInputted.Rows.Count - 1].Cells["BobbinCodeInputted"].Value = BobbinCode;
+                        dgvInputted.Rows[dgvInputted.Rows.Count - 1].Cells["WeightInputted"].Value = W;
+                        dgvInputted.Rows[dgvInputted.Rows.Count - 1].Cells["LengthInputted"].Value = Qty;
+                        CalcSummaryDetails();
+                        dgvInputted.ClearSelection();
+                        dgvAvailable.ClearSelection();
+                        txtBarcode.Text = "";
+                        txtBarcode.Focus();
+                    }
+                    else
+                    {
+                        txtBarcode.Focus();
+                        txtBarcode.SelectAll();
+                    }
+                }
+            }
+        }
+        private void DgvAvailable_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvAvailable.Rows)
+            {
+                row.HeaderCell.Value = (row.Index+1).ToString();
+            }
+        }
+        private void DgvAvailable_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvAvailable.Rows)
+            {
+                row.HeaderCell.Value = (row.Index + 1).ToString();
+            }
+        }
+        private void DgvAvailable_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex > -1 && e.ColumnIndex>-1)
+            {
+                string BobbinCode = dgvAvailable.Rows[e.RowIndex].Cells["BobbinCodeAvailable"].Value.ToString();
+                double W = Convert.ToDouble(dgvAvailable.Rows[e.RowIndex].Cells["WeightAvailable"].Value);
+                double Qty = Convert.ToDouble(dgvAvailable.Rows[e.RowIndex].Cells["QtyAvailable"].Value);
+
+                foreach (DataRow row in dtAvailableBobbin.Rows)
+                {
+                    if (row["BobbinSysNo"].ToString() == BobbinCode)
+                    {
+                        dtAvailableBobbin.Rows.Remove(row);
+                        dtAvailableBobbin.AcceptChanges();
+                        break;
+                    }
+                }
+
+                dgvInputted.Rows.Add();
+                dgvInputted.Rows[dgvInputted.Rows.Count - 1].HeaderCell.Value = dgvInputted.Rows.Count.ToString();
+                dgvInputted.Rows[dgvInputted.Rows.Count - 1].Cells["BobbinCodeInputted"].Value = BobbinCode;
+                dgvInputted.Rows[dgvInputted.Rows.Count - 1].Cells["WeightInputted"].Value = W;
+                dgvInputted.Rows[dgvInputted.Rows.Count - 1].Cells["LengthInputted"].Value = Qty;
+                CalcSummaryDetails();
+                dgvInputted.ClearSelection();
+                dgvAvailable.ClearSelection();
+            }
+        }
+        private void DgvInputted_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvInputted.Columns[e.ColumnIndex].Name == "Remove")
+            {
+                if (e.RowIndex > -1)
+                {
+                    WireCalcForProductionRegisterDeleteForm Wcfprdf = new WireCalcForProductionRegisterDeleteForm(this);
+                    Wcfprdf.ShowDialog();
+                }
+            }
+        }
         private void DgvInputted_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
+            SortingAvailableBobbins();
             CalcSummaryDetails();
-        }
-        private void DgvInputted_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            CalcSummaryDetails();
-        }
+        }        
         private void TxtQtyNew_TextChanged(object sender, EventArgs e)
         {
             CalcUnitPerGram();
@@ -389,10 +637,20 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             Cursor = Cursors.WaitCursor;
             ErrorText = "";
             SeletedMaker = "";
+            dgvAvailable.RowHeadersDefaultCellStyle.Font = new Font(dgvAvailable.RowHeadersDefaultCellStyle.Font, FontStyle.Regular);
             dgvInputted.RowHeadersDefaultCellStyle.Font = new Font(dgvInputted.RowHeadersDefaultCellStyle.Font, FontStyle.Regular);
+            foreach (DataGridViewColumn col in dgvAvailable.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+            foreach (DataGridViewColumn col in dgvInputted.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
 
             //Taking Data 
             dtMstRM = new DataTable();
+            dtAvailableBobbin = new DataTable();
             try
             {
                 cnn.con.Open();
@@ -400,8 +658,16 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                     "\n(SELECT * FROM tbMasterItem WHERE ItemType = 'Material') T1 " +
                     "\nLEFT JOIN (SELECT * FROM tbSDMstUncountMat) T2 ON T1.ItemCode = T2.Code " +
                     "\nWHERE ItemCode = '" + fgrid.dgvRMUsage.Rows[fgrid.dgvRMUsage.CurrentCell.RowIndex].Cells["RMCode"].Value.ToString() +"' ";
+                //Console.WriteLine(SQLQuery);
                 SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
                 sda.Fill(dtMstRM);
+
+                SQLQuery = "SELECT RMCode, BobbinSysNo, Remain_W, Remain_L FROM tbMstRMRegister " +
+                    "\nWHERE C_Location='WIR1' AND Remain_L>0 AND RMCode='"+ fgrid.dgvRMUsage.Rows[fgrid.dgvRMUsage.CurrentCell.RowIndex].Cells["RMCode"].Value.ToString() + "' " +
+                    "\nORDER BY Remain_L ASC";
+                //Console.WriteLine(SQLQuery );
+                sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                sda.Fill(dtAvailableBobbin);
             }
             catch (Exception ex)
             {
@@ -440,17 +706,30 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 string MOQ = dtMstRM.Rows[0]["MOQ"].ToString();
                 SeletedRMType = dtMstRM.Rows[0]["RMType"].ToString();
 
+                SortingAvailableBobbins();
+                
                 LbRMCodeBC.Text = RMCode;
                 LbRMNameBC.Text = RMName;
 
                 txtRMCode.Text = RMCode;
                 txtRMName.Text = RMName;
-                if(MOQ.Trim()!="")
-                    txtQtyNew.Text = Convert.ToDouble(MOQ).ToString("N0");
-                if(NetW.Trim()!="" && dtMstRM.Rows[0]["BobbinsOrReil"].ToString() == "Bobbin")
-                    txtNetWNew.Text = NetW;
-
+                if (SeletedRMType == "Wire")
+                {
+                    if (MOQ.Trim() != "")
+                        txtQtyNew.Text = Convert.ToDouble(MOQ).ToString("N0");
+                    panelRegWire.BringToFront();
+                    panelRegOther.SendToBack();
+                }
+                else
+                {
+                    if (MOQ.Trim() != "")
+                        txtQtyTM.Text = Convert.ToDouble(MOQ).ToString("N0");
+                    panelRegWire.SendToBack();
+                    panelRegOther.BringToFront();
+                }
+                
                 dgvSummary.Rows.Add(0, 0, 0, WireCalcForProduction.SelectedQtyRequierement);
+                CalcSummaryDetails();
             }
             else
             {
@@ -462,7 +741,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
         {
             CheckBeforeAdd();
             if (PicAlertBC.Visible == false && PicAlertBobbinW.Visible == false && PicAlertLNew.Visible == false && PicAlertNWNew.Visible == false
-                && PicAlertWNew.Visible == false && PicAlertLOld.Visible == false && PicAlertWOld.Visible == false)
+                && PicAlertWNew.Visible == false && PicAlertLOld.Visible == false && PicAlertWOld.Visible == false && PicAlertQtyTM.Visible == false)
             {
                 QMsg.QAText = "តើអ្នកចង់ Register មែនដែរឬទេ?";
                 QMsg.UserClickedYes = false;
@@ -475,8 +754,9 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                     DateTime RegDate = DateTime.Now;
                     //string RegBy = MenuFormV2.UserForNextForm;
                     string RegBy = "Rachhan";
-                    double BobbinW = Convert.ToDouble(CboBobbinW.Text.Trim());
-                    double PerUnit = Convert.ToDouble(txtUnitPerGram.Text.Trim()); double MOQ_W = 0;
+                    double BobbinW = 0;
+                    double PerUnit = 0; 
+                    double MOQ_W = 0;
                     double MOQ_L = 0;
                     double Remain_W = 0;
                     double Remain_L = 0;
@@ -504,7 +784,23 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                         {
                             string[] SplitText = dt.Rows[0]["BobbinSysNo"].ToString().Split('-');
                             string Prefix = SplitText[0].ToString();
-                            int LastSysNo = Convert.ToInt32(SplitText[1].ToString());
+                            int LastSysNo = Convert.ToInt32(SplitText[1].ToString());                            
+                            if (LastSysNo == 9999999)
+                            {
+                                Console.WriteLine(Prefix[1].ToString() + "\t" +LastSysNo);
+                                int CurrentASCiiCode = (int)Prefix[1];
+                                if (Prefix[1].ToString() != "Z")
+                                {
+                                    CurrentASCiiCode++;
+                                    Console.WriteLine(CurrentASCiiCode + "\t" +(Convert.ToChar(CurrentASCiiCode)).ToString());
+                                    Prefix = Prefix[0].ToString() + (Convert.ToChar(CurrentASCiiCode)).ToString();
+                                    LastSysNo = 0;
+                                }
+                                else 
+                                {
+                                    ErrorText = "You're reach the Maximum Number : WZ-9999999 !";
+                                }
+                            }
                             BobbinSysNo = Prefix + "-" + (LastSysNo + 1).ToString("D7");
                         }
                     }
@@ -517,17 +813,31 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                     //Save to DB
                     if (ErrorText.Trim() == "")
                     {
-                        if (rdbNewReg.Checked == true)
+                        if (SeletedRMType == "Wire")
                         {
-                            MOQ_W = Convert.ToDouble(txtTotalWNew.Text.Trim());
-                            MOQ_L = Convert.ToDouble(txtQtyNew.Text.Trim());
-                            Remain_W = MOQ_W;
-                            Remain_L = MOQ_L;
+                            BobbinW = Convert.ToDouble(CboBobbinW.Text.Trim());
+                            PerUnit = Convert.ToDouble(txtUnitPerGram.Text.Trim());
+                            if (rdbNewReg.Checked == true)
+                            {
+                                MOQ_W = Convert.ToDouble(txtTotalWNew.Text.Trim());
+                                MOQ_L = Convert.ToDouble(txtQtyNew.Text.Trim());
+                                Remain_W = MOQ_W;
+                                Remain_L = MOQ_L;
+                            }
+                            else
+                            {
+                                Remain_W = Convert.ToDouble(txtTotalWOld.Text.Trim());
+                                Remain_L = Convert.ToDouble(txtQtyOld.Text.Trim());
+                            }
+
                         }
                         else
                         {
-                            Remain_W = Convert.ToDouble(txtTotalWOld.Text.Trim());
-                            Remain_L = Convert.ToDouble(txtQtyOld.Text.Trim());
+                            Remain_L = Convert.ToDouble(txtQtyTM.Text.Trim());
+                            if (rdbNewRegTM.Checked == true)
+                            {
+                                MOQ_L = Remain_L;
+                            }
                         }
 
                         try
@@ -558,6 +868,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                             ErrorText = "Save to DB : " + ex.Message;
                         }
                         cnn.con.Close();
+
                     }
 
                     //Print Excel Out 
@@ -576,24 +887,60 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                         try
                         {
                             //Write to 
-                            Excel.Worksheet worksheet = (Excel.Worksheet)xlWorkBook.Sheets["RachhanSystem"];
+                            //Excel.Worksheet WS = (Excel.Worksheet)xlWorkBook.Sheets["RachhanSystem"];
+                            Excel.Worksheet WS = new Excel.Worksheet();
+                            Excel.Worksheet DeletedWS = new Excel.Worksheet();
+
+                            //Assign WS 
+                            if (SeletedRMType == "Wire")
+                            {
+                                WS = (Excel.Worksheet)xlWorkBook.Sheets["Wire"];
+                                DeletedWS = (Excel.Worksheet)xlWorkBook.Sheets["Terminal"];
+                            }
+                            else
+                            {
+                                WS = (Excel.Worksheet)xlWorkBook.Sheets["Terminal"];
+                                DeletedWS = (Excel.Worksheet)xlWorkBook.Sheets["Wire"];
+                            }
+
+                            //Rename Sheet
+                            WS.Name = "RachhanSystem";
+
+                            //Write Data
                             //Header
-                            worksheet.Cells[1,1] = "*"+BobbinSysNo+"*";
-                            worksheet.Cells[2, 3] = txtRMCode.Text;
-                            worksheet.Cells[3, 3] = txtRMName.Text;
-                            worksheet.Cells[4, 3] = SeletedMaker;
-                            worksheet.Cells[5, 3] = BobbinW;
-                            worksheet.Cells[6, 3] = Remain_W;
-                            worksheet.Cells[7, 3] = Remain_L;
-                            worksheet.Cells[8, 3] = RegDate;
+                            WS.Cells[1,1] = "*"+BobbinSysNo+"*";
+                            WS.Cells[3, 2] = txtRMName.Text;
+
+                            if (SeletedRMType == "Wire")
+                            {
+                                WS.Cells[4, 2] = MOQ_W;
+                                WS.Cells[4, 6] = BobbinW;
+                                WS.Cells[5, 2] = MOQ_L;
+                                WS.Cells[5, 6] = PerUnit;
+                                WS.Cells[8, 3] = Remain_W;
+                                WS.Cells[8, 1] = RegDate;
+                                WS.Cells[8, 2] = Remain_L;
+                            }
+                            else
+                            {
+                                if (rdbNewRegTM.Checked == true)
+                                    WS.Cells[4, 2] = MOQ_L;
+                                WS.Cells[7, 1] = RegDate;
+                                WS.Cells[7, 2] = Remain_L;
+                            }
+
+                            //Delete Sheet 
+                            excelApp.DisplayAlerts = false;
+                            DeletedWS.Delete();
+                            excelApp.DisplayAlerts = true;
 
                             //Print
-                            worksheet.PrintOut();
+                            WS.PrintOut();
 
                             // Saving the modified Excel file                 
                             string file = txtRMCode.Text + " - " + BobbinSysNo;
                             fName = file + " ( " + RegDate.ToString("dd-MM-yyyy HH_mm_ss") + " )";
-                            worksheet.SaveAs(SavePath + @"\" + fName + ".xlsx");
+                            WS.SaveAs(SavePath + @"\" + fName + ".xlsx");
                         }
                         catch (Exception ex)
                         {
@@ -621,10 +968,12 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                     {
                         dgvInputted.Rows.Add();
                         dgvInputted.Rows[dgvInputted.Rows.Count - 1].HeaderCell.Value = dgvInputted.Rows.Count.ToString();
-                        dgvInputted.Rows[dgvInputted.Rows.Count-1].Cells["BobbinCodeInputted"].Value = BobbinSysNo;
+                        dgvInputted.Rows[dgvInputted.Rows.Count - 1].Cells["BobbinCodeInputted"].Value = BobbinSysNo;
                         dgvInputted.Rows[dgvInputted.Rows.Count - 1].Cells["WeightInputted"].Value = Remain_W;
                         dgvInputted.Rows[dgvInputted.Rows.Count - 1].Cells["LengthInputted"].Value = Remain_L;
                         ClearAllText();
+                        CalcSummaryDetails();
+                        dgvInputted.ClearSelection();
                     }
                     else
                     {
@@ -647,75 +996,107 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
 
             PicAlertLOld.Visible = false;
             PicAlertWOld.Visible = false;
+
+            PicAlertQtyTM.Visible = false;
+
             var tasksBlink = new List<Task>();
 
-
-            if (txtUnitPerGram.Text.Trim() == "")
+            if (tabContrlType.SelectedIndex==0)
             {
-                if (rdbNewReg.Checked == true)
+                int Found = 0;
+                string BC = txtBarcode.Text;
+                foreach (DataGridViewRow row in dgvAvailable.Rows)
                 {
-                    if (txtQtyNew.Text.Trim() == "")
-                        tasksBlink.Add(BlinkPictureBox(PicAlertLNew));
-
-                    if (txtNetWNew.Text.Trim() == "")
-                        tasksBlink.Add(BlinkPictureBox(PicAlertNWNew));
+                    if (BC == row.Cells["BobbinCodeAvailable"].Value.ToString())
+                    {
+                        Found++;
+                        break;
+                    }
                 }
-                else
+
+                if (Found == 0)
                 {
-                    if (txtTotalWOld.Text.Trim() != "" && txtQtyOld.Text.Trim() != "" && CboBobbinW.Text.Trim() != "")
-                    {
-                        if (Convert.ToDouble(CboBobbinW.Text.Trim()) >= Convert.ToDouble(txtTotalWOld.Text.Trim()))
-                        {
-                            tasksBlink.Add(BlinkPictureBox(PicAlertWOld));
-                            tasksBlink.Add(BlinkPictureBox(PicAlertBobbinW));
-                        }
-                    }
-                    else 
-                    {
-                        if (txtTotalWOld.Text.Trim() == "")
-                            tasksBlink.Add(BlinkPictureBox(PicAlertWOld));
-
-                        if (txtQtyOld.Text.Trim() == "")
-                            tasksBlink.Add(BlinkPictureBox(PicAlertLOld));
-
-                        if (CboBobbinW.Text.Trim() == "")
-                            tasksBlink.Add(BlinkPictureBox(PicAlertBobbinW));
-                    }
+                    tasksBlink.Add(BlinkPictureBox(PicAlertBC));
                 }
             }
             else
             {
-                if (Convert.ToDouble(txtUnitPerGram.Text.Trim()) > 0)
+                if (SeletedRMType == "Wire")
                 {
-                    if (rdbNewReg.Checked == true)
+                    if (txtUnitPerGram.Text.Trim() == "")
                     {
-                        if (CboBobbinW.Text.Trim() == "")
+                        if (rdbNewReg.Checked == true)
                         {
-                            tasksBlink.Add(BlinkPictureBox(PicAlertWNew));
+                            if (txtQtyNew.Text.Trim() == "")
+                                tasksBlink.Add(BlinkPictureBox(PicAlertLNew));
+
+                            if (txtNetWNew.Text.Trim() == "")
+                                tasksBlink.Add(BlinkPictureBox(PicAlertNWNew));
                         }
                         else
                         {
-                            if (Convert.ToDouble(CboBobbinW.Text.Trim()) < 0)
+                            if (txtTotalWOld.Text.Trim() != "" && txtQtyOld.Text.Trim() != "" && CboBobbinW.Text.Trim() != "")
                             {
-                                tasksBlink.Add(BlinkPictureBox(PicAlertNWNew));
+                                if (Convert.ToDouble(CboBobbinW.Text.Trim()) >= Convert.ToDouble(txtTotalWOld.Text.Trim()))
+                                {
+                                    tasksBlink.Add(BlinkPictureBox(PicAlertWOld));
+                                    tasksBlink.Add(BlinkPictureBox(PicAlertBobbinW));
+                                }
+                            }
+                            else
+                            {
+                                if (txtTotalWOld.Text.Trim() == "")
+                                    tasksBlink.Add(BlinkPictureBox(PicAlertWOld));
 
-                                tasksBlink.Add(BlinkPictureBox(PicAlertWNew));
+                                if (txtQtyOld.Text.Trim() == "")
+                                    tasksBlink.Add(BlinkPictureBox(PicAlertLOld));
+
+                                if (CboBobbinW.Text.Trim() == "")
+                                    tasksBlink.Add(BlinkPictureBox(PicAlertBobbinW));
                             }
                         }
                     }
-                }
-                else
-                {
-                    if (rdbOldReg.Checked == true)
+                    else
                     {
-                        if (Convert.ToDouble(CboBobbinW.Text.Trim()) >= Convert.ToDouble(txtTotalWOld.Text.Trim()))
+                        if (Convert.ToDouble(txtUnitPerGram.Text.Trim()) > 0)
                         {
-                            tasksBlink.Add(BlinkPictureBox(PicAlertWOld));
-                            tasksBlink.Add(BlinkPictureBox(PicAlertBobbinW));
+                            if (rdbNewReg.Checked == true)
+                            {
+                                if (CboBobbinW.Text.Trim() == "")
+                                {
+                                    tasksBlink.Add(BlinkPictureBox(PicAlertWNew));
+                                }
+                                else
+                                {
+                                    if (Convert.ToDouble(CboBobbinW.Text.Trim()) < 0)
+                                    {
+                                        tasksBlink.Add(BlinkPictureBox(PicAlertNWNew));
+
+                                        tasksBlink.Add(BlinkPictureBox(PicAlertWNew));
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (rdbOldReg.Checked == true)
+                            {
+                                if (Convert.ToDouble(CboBobbinW.Text.Trim()) >= Convert.ToDouble(txtTotalWOld.Text.Trim()))
+                                {
+                                    tasksBlink.Add(BlinkPictureBox(PicAlertWOld));
+                                    tasksBlink.Add(BlinkPictureBox(PicAlertBobbinW));
+                                }
+                            }
                         }
                     }
+
                 }
+                else
+                    if(txtQtyTM.Text.Trim()=="")
+                        tasksBlink.Add(BlinkPictureBox(PicAlertQtyTM));
             }
+
+
             await Task.WhenAll(tasksBlink);
         }
         private async Task BlinkPictureBox(PictureBox pictureBox)
@@ -732,16 +1113,25 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
         {
             if (tabContrlType.SelectedIndex == 1)
             {
-                if (rdbNewReg.Checked == true)
+                if (SeletedRMType == "Wire")
                 {
-                    txtTotalWNew.Text = "";
-                    txtTotalWNew.Focus();
+                    if (rdbNewReg.Checked == true)
+                    {
+                        txtTotalWNew.Text = "";
+                        txtTotalWNew.Focus();
+                    }
+                    else
+                    {
+                        txtQtyOld.Text = "";
+                        txtTotalWOld.Text = "";
+                        txtQtyOld.Focus();
+                    }
                 }
                 else
                 {
-                    txtQtyOld.Text = "";
-                    txtTotalWOld.Text = "";
-                    txtQtyOld.Focus();
+                    if (rdbOldRegTM.Checked == true)
+                        txtQtyTM.Text = "";
+                    txtQtyTM.Focus();
                 }
                 CalcUnitPerGram();
             }
@@ -874,13 +1264,66 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             double TotalL = 0;
             foreach (DataGridViewRow row in dgvInputted.Rows)
             {
-                TotalW += Convert.ToDouble(row.Cells["WeightInputted"].Value);
-                TotalL += Convert.ToDouble(row.Cells["LengthInputted"].Value);
+                //Console.WriteLine(row.Cells["WeightInputted"].Value.ToString());
+                TotalW += Convert.ToDouble(row.Cells["WeightInputted"].Value.ToString());
+                TotalL += Convert.ToDouble(row.Cells["LengthInputted"].Value.ToString());
             }
             dgvSummary.Rows[0].Cells["TotalBobbinQty"].Value = BobbinQty;
             dgvSummary.Rows[0].Cells["TotalWeight"].Value = TotalW;
             dgvSummary.Rows[0].Cells["TotalLength"].Value = TotalL;
-        }
 
+            //Check for enable BtnOK
+            if (TotalL >= Convert.ToDouble(dgvSummary.Rows[0].Cells["NeedQty"].Value))
+            {
+                btnOK.Enabled = true;
+                btnOKGRAY.SendToBack();
+            }
+            else
+            {
+                btnOK.Enabled = false;
+                btnOKGRAY.BringToFront();
+            }
+        }
+        private void SortingAvailableBobbins()
+        {
+            DataView view = new DataView(dtAvailableBobbin);
+            view.Sort = "Remain_L ASC";
+            DataTable dtSorted = view.ToTable();
+            dtAvailableBobbin = new DataTable();
+            dtAvailableBobbin = dtSorted.Copy();
+            dtAvailableBobbin.AcceptChanges();
+
+            //Add from dtSeletedBobbin
+            foreach (DataRow row in fgrid.dtSeletedBobbin.Rows)
+            {
+                foreach (DataRow rowAB in dtAvailableBobbin.Rows)
+                {
+                    string BobbinCode = rowAB["BobbinSysNo"].ToString();
+                    double W = Convert.ToDouble(rowAB["Remain_W"].ToString());
+                    double Qty = Convert.ToDouble(rowAB["Remain_L"].ToString());
+
+                    if (row["RMCode"].ToString() == rowAB["RMCode"].ToString() && row["BobbinCode"].ToString() == BobbinCode)
+                    {
+                        dgvInputted.Rows.Add();
+                        dgvInputted.Rows[dgvInputted.Rows.Count - 1].HeaderCell.Value = dgvInputted.Rows.Count.ToString();
+                        dgvInputted.Rows[dgvInputted.Rows.Count - 1].Cells["BobbinCodeInputted"].Value = BobbinCode;
+                        dgvInputted.Rows[dgvInputted.Rows.Count - 1].Cells["WeightInputted"].Value = W;
+                        dgvInputted.Rows[dgvInputted.Rows.Count - 1].Cells["LengthInputted"].Value = Qty;
+                        dgvInputted.ClearSelection();
+                        dtAvailableBobbin.Rows.Remove(rowAB);
+                        break;
+                    }
+                }
+            }
+            dtAvailableBobbin.AcceptChanges();
+
+            dgvAvailable.AutoGenerateColumns = false; // Keep your predefined columns
+            dgvAvailable.Columns["BobbinCodeAvailable"].DataPropertyName = "BobbinSysNo";
+            dgvAvailable.Columns["WeightAvailable"].DataPropertyName = "Remain_W";
+            dgvAvailable.Columns["QtyAvailable"].DataPropertyName = "Remain_L";
+            dgvAvailable.DataSource = dtAvailableBobbin;
+            dgvAvailable.ClearSelection();
+        }
+        
     }
 }
