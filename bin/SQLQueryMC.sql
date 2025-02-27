@@ -10,15 +10,11 @@ CREATE TABLE tbMstRMRegister(
 	Per_Unit float NOT NULL,
 	C_Location nvarchar (50) NOT NULL, 	
 	Status nvarchar (50) NOT NULL, 
-	Resv1 nvarchar(5) NULL,	
-	Resv2 nvarchar(5) NULL,	
-	Resv3 nvarchar(5) NULL, 
-	Resv4 nvarchar(5) NULL, 
-	Resv5 nvarchar(5) NULL, 
 	RegDate datetime NOT NULL, 
 	RegBy nvarchar (100) COLLATE Khmer_100_CI_AI_SC_UTF8 NOT NULL, 
 	UpdateDate datetime NOT NULL, 
 	UpdateBy nvarchar (100) COLLATE Khmer_100_CI_AI_SC_UTF8 NOT NULL 
+
 ) 
 CREATE TABLE tbBobbinRecords(
 	BobbinSysNo  nvarchar (25) NOT NULL, 	
@@ -32,11 +28,6 @@ CREATE TABLE tbBobbinRecords(
 	SD_DocNo nvarchar (50) NOT NULL,
 	In_Date datetime NULL,
 	Out_Date datetime NULL,
-	Resv1 nvarchar(5) NULL,	
-	Resv2 nvarchar(5) NULL,	
-	Resv3 nvarchar(5) NULL, 
-	Resv4 nvarchar(5) NULL, 
-	Resv5 nvarchar(5) NULL
 )
 
 

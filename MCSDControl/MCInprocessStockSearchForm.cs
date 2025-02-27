@@ -230,7 +230,7 @@ namespace MachineDeptApp.MCSDControl
                     "\nEND, MC3Name),'') AS MCName2 FROM tbPOSDetailofMC) T3 ON T1.POSNo = T3.PosCNo " +
                     "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T4 ON T1.Code=T4.ItemCode" +
                     "\nWHERE NOT TotalQty=0 "+ SQLConds;
-                //Console.WriteLine(SQLQueryDetails + "\nORDER BY Code ASC, POSNo ASC");
+                Console.WriteLine(SQLQueryDetails + "\nORDER BY Code ASC, POSNo ASC");
 
                 string SQLQueryTotal = "SELECT Code, ItemName, SUM(TotalQty) AS TotalQty FROM (\n"+SQLQueryDetails+"\n) TbDetails " +
                     "\nGROUP BY Code, ItemName " +
