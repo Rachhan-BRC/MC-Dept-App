@@ -1,0 +1,2 @@
+ - 24-1200231 : The multi-part identifier "tbNGDetailsSET.TotalQty" could not be bound.
+ - 24-1201007 : The multi-part identifier "tbNGDetailsSET.TotalQty" could not be bound.

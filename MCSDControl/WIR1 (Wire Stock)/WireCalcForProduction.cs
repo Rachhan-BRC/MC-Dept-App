@@ -88,11 +88,14 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 {
                     if (FoundZero > 0)
                     {
+                        /*
                         DialogResult DSL = MessageBox.Show("មានទិន្នន័យខ្លះ ចំនួនវេរ ស្មើ 0 ! \nតើអ្នកបន្តរក្សាទុកទៀតដែរឬទេ?", "Rachhan System", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
                         if (DSL == DialogResult.Yes)
                         {
                             UserAccepted++;
                         }
+                        */
+                        MessageBox.Show("មានទិន្នន័យខ្លះ ចំនួនវេរ ស្មើ 0 ! \nសូមបញ្ចូលដើម្បីបន្ត!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                     else
                     {

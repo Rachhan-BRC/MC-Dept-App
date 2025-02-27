@@ -110,6 +110,8 @@ namespace MachineDeptApp.NG_Input
             this.Text = "NG Details for : " + fgrid.dgvSearchResult.Rows[fgrid.dgvSearchResult.CurrentCell.RowIndex].Cells["PosCNo"].Value.ToString();
             this.CboMCNo.SelectedIndex = 0;
 
+            dgvNGList.RowHeadersDefaultCellStyle.Font = new Font(dgvNGList.RowHeadersDefaultCellStyle.Font, FontStyle.Regular);
+
             //Rename HeaderText
             foreach (DataGridViewColumn dgvCol in dgvNGList.Columns)
             {
@@ -119,7 +121,7 @@ namespace MachineDeptApp.NG_Input
                 dgvCol.SortMode = DataGridViewColumnSortMode.NotSortable;
 
                 //Set HeaderColumnBackColor
-                if (dgvCol.Name == "NGSet" || dgvCol.Name == "BOMQty" || dgvCol.Name == "NGSetQty" || dgvCol.Name == "NGPcs")
+                if (dgvCol.Name == "NGQty")
                 {
                     dgvCol.HeaderCell.Style.BackColor = Color.Yellow;
                     dgvCol.HeaderCell.Style.SelectionBackColor = Color.Yellow;
@@ -152,6 +154,7 @@ namespace MachineDeptApp.NG_Input
             try
             {
                 cnn.con.Open();
+                /*
                 string SQLQuery = "SELECT T1.UpItemCode, T2.ItemCode, ItemName, RMType, TbNGSet.Qty AS NGSet, LowQty*SemiQtyOfFG AS BOMQty, ROUND((TbNGSet.Qty * LowQty*SemiQtyOfFG),3) AS NGSetQty, ROUND(TbNGPcs.Qty,3) AS NGPcs FROM " +
                     "\n\t(SELECT * FROM MstBOM) T1 " +
                     "\n\tLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType = 'Material') T2 " +
@@ -166,6 +169,19 @@ namespace MachineDeptApp.NG_Input
                     "\n\tON TbNGPcs.PosCNo=T4.PosCNo AND T1.LowItemCode=TbNGPcs.RMCode " +
                     "\n\tWHERE T4.PosCNo='" + fgrid.dgvSearchResult.Rows[fgrid.dgvSearchResult.CurrentCell.RowIndex].Cells["PosCNo"].Value.ToString() + "' " +
                     "\n\tORDER BY UpItemCode ASC, ItemCode ASC ";
+                */
+
+                string SQLQuery = "SELECT T1.UpItemCode, T2.ItemCode, ItemName, COALESCE(NGKITQty,0) AS NGKITQty, ROUND(TbNGQty.Qty,3) AS NGPcs FROM " +
+                    "\n(SELECT * FROM MstBOM) T1 " +
+                    "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType = 'Material') T2 ON T1.LowItemCode = T2.ItemCode " +
+                    "\nLEFT JOIN (SELECT * FROM tbPOSDetailofMC) T3 ON T1.UpItemCode=T3.WIPCode " +
+                    "\nLEFT JOIN (SELECT * FROM tbNGInprocess WHERE NGType='NGPcs' AND MCSeqNo='" + CboMCNo.Text + "') TbNGQty " +
+                    "\nON TbNGQty.PosCNo=T3.PosCNo AND T1.LowItemCode=TbNGQty.RMCode " +
+                    "\nLEFT JOIN (SELECT POSNo, Code, SUM(ReceiveQty) AS NGKITQty FROM tbSDMCAllTransaction " +
+                    "\nWHERE CancelStatus=0 AND LocCode = 'MC1' AND Remarks LIKE '%NG%' AND POSNo='"+ fgrid.dgvSearchResult.Rows[fgrid.dgvSearchResult.CurrentCell.RowIndex].Cells["PosCNo"].Value.ToString() + "' GROUP BY POSNo, Code) TbKITNG " +
+                    "\nON T2.ItemCode=TbKITNG.Code " +
+                    "\nWHERE T3.PosCNo='"+ fgrid.dgvSearchResult.Rows[fgrid.dgvSearchResult.CurrentCell.RowIndex].Cells["PosCNo"].Value.ToString() + "' " +
+                    "\nORDER BY UpItemCode ASC, ItemCode ASC ";
                 //Console.WriteLine(SQLQuery);
                 SqlDataAdapter sda = new SqlDataAdapter(SQLQuery,cnn.con);
                 sda.Fill(dt);
@@ -195,38 +211,18 @@ namespace MachineDeptApp.NG_Input
             {
                 string ItemCode = row["ItemCode"].ToString();
                 string ItemName = row["ItemName"].ToString();
-                string RMType = row["RMType"].ToString();
                 
                 dgvNGList.Rows.Add();
                 dgvNGList.Rows[dgvNGList.Rows.Count - 1].HeaderCell.Value = dgvNGList.Rows.Count.ToString();
                 dgvNGList.Rows[dgvNGList.Rows.Count - 1].Cells["RMCode"].Value = ItemCode;
                 dgvNGList.Rows[dgvNGList.Rows.Count - 1].Cells["RMName"].Value = ItemName;
-                if (RMType == "Wire")
+                if (row["NGKITQty"].ToString().Trim() != "")
                 {
-                    dgvNGList.Rows[dgvNGList.Rows.Count - 1].Cells["Unit"].Value = "Gram (g)";
-                }
-                else
-                {
-                    dgvNGList.Rows[dgvNGList.Rows.Count - 1].Cells["Unit"].Value = "Pieces (Pcs)";
-                }
-                if (row["NGSet"].ToString().Trim() != "")
-                {
-                    dgvNGList.Rows[dgvNGList.Rows.Count - 1].Cells["NGSet"].Value = Convert.ToDouble(row["NGSet"].ToString());
-
-                    //BOM
-                    if (row["BOMQty"].ToString().Trim() != "")
-                    {
-                        dgvNGList.Rows[dgvNGList.Rows.Count - 1].Cells["BOMQty"].Value = Convert.ToDouble(row["BOMQty"].ToString());
-                    }
-                    //Total
-                    if (row["NGSetQty"].ToString().Trim() != "")
-                    {
-                        dgvNGList.Rows[dgvNGList.Rows.Count - 1].Cells["NGSetQty"].Value = Convert.ToDouble(row["NGSetQty"].ToString());
-                    }
+                    dgvNGList.Rows[dgvNGList.Rows.Count - 1].Cells["KITSDQty"].Value = Convert.ToDouble(row["NGKITQty"].ToString());
                 }
                 if (row["NGPcs"].ToString().Trim() != "")
                 {
-                    dgvNGList.Rows[dgvNGList.Rows.Count - 1].Cells["NGPcs"].Value = Convert.ToDouble(row["NGPcs"].ToString());
+                    dgvNGList.Rows[dgvNGList.Rows.Count - 1].Cells["NGQty"].Value = Convert.ToDouble(row["NGPcs"].ToString());
                 }
 
             }

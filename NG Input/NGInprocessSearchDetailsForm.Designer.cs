@@ -31,15 +31,11 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NGInprocessSearchDetailsForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.CboMCNo = new System.Windows.Forms.ComboBox();
             this.LbMCName = new System.Windows.Forms.Label();
@@ -63,12 +59,7 @@
             this.RMCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RMName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.KITSDQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NGSet = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BOMQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NGSetQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NGPcs = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.KITSDOver = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NGQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelHeader.SuspendLayout();
             this.panelBody.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvNGList)).BeginInit();
@@ -161,28 +152,23 @@
             this.RMCode,
             this.RMName,
             this.KITSDQty,
-            this.NGSet,
-            this.BOMQty,
-            this.NGSetQty,
-            this.NGPcs,
-            this.KITSDOver,
-            this.Unit});
+            this.NGQty});
             this.dgvNGList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvNGList.EnableHeadersVisualStyles = false;
             this.dgvNGList.Location = new System.Drawing.Point(3, 42);
             this.dgvNGList.Name = "dgvNGList";
             this.dgvNGList.ReadOnly = true;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvNGList.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Blue;
-            this.dgvNGList.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvNGList.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Blue;
+            this.dgvNGList.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvNGList.RowTemplate.Height = 25;
             this.dgvNGList.Size = new System.Drawing.Size(785, 227);
             this.dgvNGList.TabIndex = 34;
@@ -348,15 +334,14 @@
             this.RMCode.HeaderText = "Code";
             this.RMCode.Name = "RMCode";
             this.RMCode.ReadOnly = true;
-            this.RMCode.Width = 60;
+            this.RMCode.Width = 90;
             // 
             // RMName
             // 
-            this.RMName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.RMName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.RMName.HeaderText = "Material Name";
             this.RMName.Name = "RMName";
             this.RMName.ReadOnly = true;
-            this.RMName.Width = 220;
             // 
             // KITSDQty
             // 
@@ -368,69 +353,18 @@
             this.KITSDQty.HeaderText = "MC KIT/SD|Qty";
             this.KITSDQty.Name = "KITSDQty";
             this.KITSDQty.ReadOnly = true;
-            this.KITSDQty.Width = 90;
+            this.KITSDQty.Width = 110;
             // 
-            // NGSet
+            // NGQty
             // 
-            this.NGSet.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.NGQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "N0";
-            this.NGSet.DefaultCellStyle = dataGridViewCellStyle4;
-            this.NGSet.HeaderText = "NG SET";
-            this.NGSet.Name = "NGSet";
-            this.NGSet.ReadOnly = true;
-            this.NGSet.Width = 90;
-            // 
-            // BOMQty
-            // 
-            this.BOMQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "N3";
-            this.BOMQty.DefaultCellStyle = dataGridViewCellStyle5;
-            this.BOMQty.HeaderText = "BOMQty";
-            this.BOMQty.Name = "BOMQty";
-            this.BOMQty.ReadOnly = true;
-            this.BOMQty.Width = 80;
-            // 
-            // NGSetQty
-            // 
-            this.NGSetQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "N3";
-            this.NGSetQty.DefaultCellStyle = dataGridViewCellStyle6;
-            this.NGSetQty.HeaderText = "NG Set Qty";
-            this.NGSetQty.Name = "NGSetQty";
-            this.NGSetQty.ReadOnly = true;
-            this.NGSetQty.Width = 90;
-            // 
-            // NGPcs
-            // 
-            this.NGPcs.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle7.Format = "N3";
-            this.NGPcs.DefaultCellStyle = dataGridViewCellStyle7;
-            this.NGPcs.HeaderText = "NG PCs";
-            this.NGPcs.Name = "NGPcs";
-            this.NGPcs.ReadOnly = true;
-            this.NGPcs.Width = 90;
-            // 
-            // KITSDOver
-            // 
-            this.KITSDOver.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle8.Format = "N0";
-            this.KITSDOver.DefaultCellStyle = dataGridViewCellStyle8;
-            this.KITSDOver.HeaderText = "KIT/SD|OVER";
-            this.KITSDOver.Name = "KITSDOver";
-            this.KITSDOver.ReadOnly = true;
-            this.KITSDOver.Width = 90;
-            // 
-            // Unit
-            // 
-            this.Unit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Unit.HeaderText = "Unit";
-            this.Unit.Name = "Unit";
-            this.Unit.ReadOnly = true;
+            dataGridViewCellStyle4.Format = "N3";
+            this.NGQty.DefaultCellStyle = dataGridViewCellStyle4;
+            this.NGQty.HeaderText = "NG PCs";
+            this.NGQty.Name = "NGQty";
+            this.NGQty.ReadOnly = true;
+            this.NGQty.Width = 110;
             // 
             // NGInprocessSearchDetailsForm
             // 
@@ -484,11 +418,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn RMCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn RMName;
         private System.Windows.Forms.DataGridViewTextBoxColumn KITSDQty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NGSet;
-        private System.Windows.Forms.DataGridViewTextBoxColumn BOMQty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NGSetQty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NGPcs;
-        private System.Windows.Forms.DataGridViewTextBoxColumn KITSDOver;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Unit;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NGQty;
     }
 }

@@ -197,7 +197,7 @@ namespace MachineDeptApp.NG_Input
             dtSQLCond.Columns.Add("Val");
             if (txtRMCode.Text.Trim() != "")
             {
-                dtSQLCond.Rows.Add("TbNGPsc.RMCode = ", "'" + txtRMCode.Text + "'");
+                dtSQLCond.Rows.Add("TBNGQty.RMCode = ", "'" + txtRMCode.Text + "'");
             }
             if (txtRMName.Text.Trim() != "")
             {
@@ -214,11 +214,11 @@ namespace MachineDeptApp.NG_Input
                 if (SearchValue.Contains("*") == true)
                 {
                     SearchValue = SearchValue.Replace("*", "%");
-                    dtSQLCond.Rows.Add("TbNGPsc.PosCNo LIKE ", "'" + SearchValue + "'");
+                    dtSQLCond.Rows.Add("TBNGQty.PosCNo LIKE ", "'" + SearchValue + "'");
                 }
                 else
                 {
-                    dtSQLCond.Rows.Add("TbNGPsc.PosCNo = ", "'" + SearchValue + "'");
+                    dtSQLCond.Rows.Add("TBNGQty.PosCNo = ", "'" + SearchValue + "'");
                 }
             }
             if (CboStatus.Text.Trim() != "" && CboStatus.Text.ToString() != "ALL")
@@ -257,7 +257,7 @@ namespace MachineDeptApp.NG_Input
             try
             {
                 cnn.con.Open();
-                string SQLQuery = "SELECT TbPOSDetails.PosPDelDate, TbNGPsc.PosCNo, " +
+                string SQLQuery = "SELECT TbPOSDetails.PosPDelDate, TBNGQty.PosCNo, " +
                     "\nNULLIF(CONCAT(MC1Name, " +
                     "\n\tCASE " +
                     "\n\t\tWHEN LEN(MC2Name)>1 THEN ' & '  " +
@@ -267,38 +267,21 @@ namespace MachineDeptApp.NG_Input
                     "\n\t\tWHEN LEN(MC3Name)>1 THEN ' & '  " +
                     "\n\t\tELSE ''  " +
                     "\n\tEND, MC3Name),'') AS MCName, " +
-                    "\nTbNGPsc.RMCode, TbRMMaster.ItemName, (COALESCE(TbNGPsc.TotalQty,0)+COALESCE(TbNGSet.TotalQty,0)) AS TotalQty, COALESCE(TbNGStatus.ReqStatus, 1) AS ReqStatus, TbNGStatus.RegDate FROM " +
-                    "\n\n\n(SELECT PosCNo, RMCode, " +
-                    "\n\tCASE " +
-                    "\n\t\tWHEN Unit='Gram (g)' THEN ROUND(((TotalQtyPcs/1000) / (COALESCE(T2.R1OrNetW, 1)) * (COALESCE (MOQ,1))),3) " +
-                    "\n\t\tELSE TotalQtyPcs " +
-                    "\n\tEND AS TotalQty, TotalQtyPcs, COALESCE(T2.R1OrNetW, 1) AS R1OrNetW, COALESCE (MOQ,1) AS MOQ FROM " +
-                    "\n(SELECT PosCNo, RMCode, SUM(QTY) AS TotalQtyPcs, Unit FROM tbNGInprocess WHERE NGType='NGPcs' GROUP BY PosCNo, RMCode, Unit) T1 " +
-                    "\nLEFT JOIN (SELECT * FROM tbSDMstUncountMat) T2 " +
-                    "\nON T1.RMCode=T2.Code " +
-                    "\n) TbNGPsc " +
-                    "\n\n\nLEFT JOIN " +
-                    "\n(SELECT T1.PosCNo, RMCode, ROUND((TotalQtySet * SemiQtyOfFG * T3.LowQty),3) AS TotalQty, TotalQtySet, SemiQtyOfFG, T3.LowQty FROM " +
-                    "\n(SELECT PosCNo, RMCode, SUM(QTY) AS TotalQtySet FROM tbNGInprocess WHERE NGType='NGSet' GROUP BY PosCNo, RMCode) T1 " +
-                    "\nINNER JOIN (SELECT * FROM tbPOSDetailofMC) T2 " +
-                    "\nON T1.PosCNo=T2.PosCNo " +
-                    "\nLEFT JOIN (SELECT * FROM MstBOM) T3 " +
-                    "\nON T2.WIPCode=T3.UpItemCode AND T1.RMCode=T3.LowItemCode " +
-                    "\n) TbNGSet " +
-                    "\nON TbNGPsc.PosCNo=TbNGSet.PosCNo AND TbNGPsc.RMCode=TbNGSet.RMCode " +
+                    "\nTBNGQty.RMCode, TbRMMaster.ItemName, TotalQty, COALESCE(TbNGStatus.ReqStatus, 1) AS ReqStatus, TbNGStatus.RegDate FROM " +
+                    "\n\n\n(SELECT PosCNo, RMCode, SUM(Qty) AS TotalQty FROM tbNGInprocess WHERE NGType='NGPcs' GROUP BY PosCNo, RMCode) TBNGQty " +
                     "\n\n\nLEFT JOIN " +
                     "\n(SELECT T1.PosCNo, RegDate, ReqStatus FROM " +
                     "\n(SELECT PosCNo, MIN(RegDate) AS RegDate FROM tbNGInprocess GROUP BY PosCNo) T1 " +
                     "\nLEFT JOIN (SELECT PosCNo, ReqStatus FROM tbNGInprocess WHERE ReqStatus=0 GROUP BY PosCNo, ReqStatus) T2 " +
                     "\nON T1.PosCNo=T2.PosCNo " +
                     "\n) TbNGStatus " +
-                    "\nON TbNGPsc.PosCNo=TBNGStatus.PosCNo " +
+                    "\nON TBNGQty.PosCNo=TBNGStatus.PosCNo " +
                     "\n\n\nLEFT JOIN (SELECT * FROM tbPOSDetailofMC) TbPOSDetails " +
-                    "\nON TbNGPsc.PosCNo=TbPOSDetails.PosCNo " +
+                    "\nON TBNGQty.PosCNo=TbPOSDetails.PosCNo " +
                     "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') TbRMMaster " +
-                    "\nON TbNGPsc.RMCode=TbRMMaster.ItemCode ";
-                SQLQuery += SQLConds + " ORDER BY TbNGPsc.PosCNo ASC ";
-                Console.WriteLine(SQLQuery);
+                    "\nON TBNGQty.RMCode=TbRMMaster.ItemCode ";
+                SQLQuery += SQLConds + " ORDER BY TBNGQty.PosCNo ASC ";
+                //Console.WriteLine(SQLQuery);
                 SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
                 sda.Fill(dtSearchResult);
             }
@@ -437,7 +420,6 @@ namespace MachineDeptApp.NG_Input
             }
             else
             {
-
                 LbStatus.Text = "មានបញ្ហា!";
                 LbStatus.Refresh();
                 MessageBox.Show("មានបញ្ហា!\n" + ErrorText, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -603,37 +585,17 @@ namespace MachineDeptApp.NG_Input
                         cnn.con.Open();
                         string SQLQuery = "SELECT PosCNo, RMCode, ROUND(SUM(TotalQty),3) AS Qty FROM " +
                                 "\n( " +
-                                "\n \n\tSELECT tbNGHeader.*, tbNGDetailsPcs.RMCode, (tbNGDetailsPcs.TotalQty+ tbNGDetailsSET.TotalQty) AS TotalQty  FROM " +
+                                "\n \n\tSELECT tbNGHeader.*, tbNGDetailsPcs.RMCode, TotalQty  FROM " +
                                 "\n\t(SELECT MCSeqNo, PosCNo FROM tbNGInprocess WHERE ReqStatus=0 GROUP BY MCSeqNo, PosCNo) tbNGHeader " +
                                 "\n \n \n\tINNER JOIN  " +
-                                "\n\t(SELECT MCSeqNo, PosCNo, RMCode,  " +
-                                "\n\tCASE  " +
-                                "\n\t\tWHEN Unit='Gram (g)' THEN ROUND(Qty/1000/R1OrNetW*MOQ, 3) " +
-                                "\n\t\tELSE Qty " +
-                                "\n\tEND AS TotalQty FROM " +
-                                "\n\t(SELECT MCSeqNo, PosCNo, RMCode, Qty, Unit FROM tbNGInprocess WHERE NGType='NGPcs' AND ReqStatus=0) T1 " +
-                                "\n\tLEFT JOIN " +
-                                "\n\t(SELECT Code, R1OrNetW, MOQ FROM tbSDMstUncountMat) T2 " +
-                                "\n\tON T1.RMCode=T2.Code " +
-                                "\n\t) tbNGDetailsPcs " +
+                                "\n\t(SELECT MCSeqNo, PosCNo, RMCode, SUM(Qty) AS TotalQty FROM tbNGInprocess WHERE NGType='NGPcs' AND ReqStatus=0 GROUP BY MCSeqNo, PosCNo, RMCode) tbNGDetailsPcs " +
                                 "\n\tON tbNGHeader.MCSeqNo=tbNGDetailsPcs.MCSeqNo AND tbNGHeader.PosCNo=tbNGDetailsPcs.PosCNo " +
-                                "\n\t \n \n\tINNER JOIN  " +
-                                "\n\t(SELECT MCSeqNo, T1.PosCNo, RMCode,  " +
-                                "\n\tROUND(Qty * LowQty*SemiQtyOfFG,3) AS TotalQty FROM " +
-                                "\n\t(SELECT MCSeqNo, PosCNo, RMCode, Qty FROM tbNGInprocess WHERE NGType='NGSet' AND ReqStatus=0) T1  " +
-                                "\n\tLEFT JOIN  " +
-                                "\n\t(SELECT PosCNo, WIPCode FROM tbPOSDetailofMC) T2  " +
-                                "\n\tON T1.PosCNo=T2.PosCNo  " +
-                                "\n\tINNER JOIN  " +
-                                "\n\t(SELECT * FROM MstBOM) T3  " +
-                                "\n\tON T2.WIPCode=T3.UpItemCode AND T1.RMCode=T3.LowItemCode) tbNGDetailsSET " +
-                                "\n\tON tbNGDetailsPcs.MCSeqNo=tbNGDetailsSET.MCSeqNo AND tbNGDetailsPcs.PosCNo=tbNGDetailsSET.PosCNo AND tbNGDetailsPcs.RMCode=tbNGDetailsSET.RMCode " +
-                                "\n WHERE ROUND((tbNGDetailsPcs.TotalQty+ tbNGDetailsSET.TotalQty),3)>0 AND tbNGHeader.PosCNo = '"+POSNo+"' " +
+                                "\n WHERE ROUND(TotalQty,3)>0 AND tbNGHeader.PosCNo = '"+POSNo+"' " +
                                 "\n \n) TbFinal " +
                                 "\nGROUP BY PosCNo, RMCode " +
                                 "\nORDER BY PosCNo ASC, RMCode ASC ";
 
-                        //Console.WriteLine("--dtNGQtyTemp\n" + SQLQuery);
+                        Console.WriteLine("--dtNGQtyTemp\n" + SQLQuery);
                         SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
                         sda.Fill(dtNGQtyTemp);
 
@@ -756,27 +718,6 @@ namespace MachineDeptApp.NG_Input
                             dtNGQtyTemp.AcceptChanges();
                         }
 
-                        //For Console dtNGQtyTemp
-                        /*
-
-                        string ColumnTex = "";
-                        foreach (DataColumn col in dtNGQtyTemp.Columns)
-                        {
-                            ColumnTex += col.ColumnName + "\t";
-                        }
-                        Console.WriteLine(ColumnTex);
-                        foreach (DataRow row in dtNGQtyTemp.Rows)
-                        {
-                            string Msg = "";
-                            foreach (DataColumn col in dtNGQtyTemp.Columns)
-                            {
-                                Msg += row[col.ColumnName] + "\t";
-                            }
-                            Console.WriteLine(Msg);
-                        }
-
-                        */
-
                         //Checking Stock Enough or Not
                         if (ErrorText2.Trim() == "")
                         {
@@ -878,7 +819,6 @@ namespace MachineDeptApp.NG_Input
                                     {
                                         NotEnoughStock += ", " + RMCode + "|" + RMName;
                                     }
-
                                     FoundStockNotEnough++;
                                 }
                             }
@@ -893,7 +833,7 @@ namespace MachineDeptApp.NG_Input
                         //If Enough >> Cutting Stock & Update NG Inprocess Print Status
                         if (ErrorText2.Trim() == "" && FoundStockNotEnough == 0)
                         {
-                            //Console dtCutting Stock
+                            //Console dtCutting Stock                           
                             /*
 
                             string ColumnTex = "";
