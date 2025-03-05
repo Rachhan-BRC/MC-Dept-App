@@ -838,6 +838,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             //Header
             worksheet.Cells[3 , 1] = DateTime.Now;
             worksheet.Cells[4, 1] = SysNo;
+            worksheet.Cells[4, 3] = MCNameSave;
             //Insert if more than 1
             if (InsertRow > 1)
             {
