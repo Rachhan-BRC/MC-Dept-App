@@ -38,17 +38,24 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             this.cnn.Connection();
             this.Shown += WireStockReturnForm_Shown;
             this.txtBarcode.KeyDown += TxtBarcode_KeyDown;
-
+            this.tabContrl.SelectedIndexChanged += TabContrl_SelectedIndexChanged;
             //btn
             this.btnDelete.Click += BtnDelete_Click;
             this.btnSave.Click += BtnSave_Click;
             this.btnNew.Click += BtnNew_Click;
             this.btnPrint.Click += BtnPrint_Click;
 
+
+
             //Dgv
             this.dgvInput.RowsAdded += DgvInput_RowsAdded;
             this.dgvInput.RowsRemoved += DgvInput_RowsRemoved;
             this.dgvInput.CurrentCellChanged += DgvInput_CurrentCellChanged;
+
+        }
+
+        private void TabContrl_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
         }
 
@@ -59,6 +66,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
         private void BtnNew_Click(object sender, EventArgs e)
         {
             this.dgvInput.Rows.Clear();
+            this.dgvInputNew.Rows.Clear();
             CheckingBtn();
             btnPrint.Enabled = false;
             btnPrintGRAY.BringToFront();
@@ -490,6 +498,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 //{
                 //    DgvCol.ReadOnly = true;
                 //}
+                Console.WriteLine(DgvCol.Name);
             }
         }
 
@@ -499,31 +508,71 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             //btnSave
             if (btnPrint.Enabled == false)
             {
-                if (dgvInput.Rows.Count > 0)
+                if (tabContrl.SelectedIndex == 0)
                 {
-                    btnSave.Enabled = true;
-                    btnSaveGRAY.SendToBack();
+                    if (dgvInputNew.Rows.Count > 0)
+                    {
+                        int CountAlready = 0;
+                        foreach (DataGridViewRow row in dgvInputNew.Rows)
+                        {
+                            if (row.Cells["Status"].Value.ToString() == "✔️")
+                            {
+                                CountAlready++;
+                            }
+                        }
+                        if (CountAlready == dgvInputNew.Rows.Count)
+                        {
+                            btnSave.Enabled = true;
+                            btnSaveGRAY.SendToBack();
+                        }
+                        else
+                        {
+                            btnSave.Enabled = false;
+                            btnSaveGRAY.BringToFront();
+                        }
+                    }
+                    else
+                    {
+                        btnSave.Enabled = false;
+                        btnSaveGRAY.BringToFront();
+                    }
                 }
                 else
                 {
-                    btnSave.Enabled = false;
-                    btnSaveGRAY.BringToFront();
+                    if (dgvInput.Rows.Count > 0)
+                    {
+                        btnSave.Enabled = true;
+                        btnSaveGRAY.SendToBack();
+                    }
+                    else
+                    {
+                        btnSave.Enabled = false;
+                        btnSaveGRAY.BringToFront();
+                    }
                 }
             }
 
             //btnDelete
-            if (btnPrint.Enabled == false)
+            if (tabContrl.SelectedIndex == 1)
             {
-                if (dgvInput.SelectedCells.Count > 0 && dgvInput.CurrentCell != null && dgvInput.CurrentCell.RowIndex > -1)
+                if (btnPrint.Enabled == false)
                 {
-                    btnDelete.Enabled = true;
-                    btnDeleteGRAY.SendToBack();
+                    if (dgvInput.SelectedCells.Count > 0 && dgvInput.CurrentCell != null && dgvInput.CurrentCell.RowIndex > -1)
+                    {
+                        btnDelete.Enabled = true;
+                        btnDeleteGRAY.SendToBack();
+                    }
+                    else
+                    {
+                        btnDelete.Enabled = false;
+                        btnDeleteGRAY.BringToFront();
+                    }
                 }
-                else
-                {
-                    btnDelete.Enabled = false;
-                    btnDeleteGRAY.BringToFront();
-                }
+            }
+            else
+            {
+                btnDelete.Enabled = false;
+                btnDeleteGRAY.BringToFront();
             }
 
         }

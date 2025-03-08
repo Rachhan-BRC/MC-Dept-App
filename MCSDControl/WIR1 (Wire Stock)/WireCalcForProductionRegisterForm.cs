@@ -43,7 +43,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             this.tabPageManual.Click += TabPageManual_Click;
             this.dgvInputted.RowsRemoved += DgvInputted_RowsRemoved;
             this.dgvInputted.CellClick += DgvInputted_CellClick;
-            this.dgvAvailable.CellClick += DgvAvailable_CellClick;
+            //this.dgvAvailable.CellClick += DgvAvailable_CellClick;
             this.dgvAvailable.RowsAdded += DgvAvailable_RowsAdded;
             this.dgvAvailable.RowsRemoved += DgvAvailable_RowsRemoved;
 
