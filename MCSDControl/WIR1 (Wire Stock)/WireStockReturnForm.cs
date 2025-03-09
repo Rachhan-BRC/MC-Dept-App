@@ -27,6 +27,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
         SQLConnect cnn = new SQLConnect();
         DataTable dtTotalStock;
         DataTable dtExcelPrint;
+        string SDNoSelected;
 
         string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\Received From MC";
         string fName;
@@ -45,18 +46,216 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             this.btnNew.Click += BtnNew_Click;
             this.btnPrint.Click += BtnPrint_Click;
 
+            //New 
+            this.txtBarcodeNew.KeyDown += TxtBarcodeNew_KeyDown;
+            this.dgvInputNew.CellPainting += DgvInputNew_CellPainting;
 
-
-            //Dgv
+            //Old
             this.dgvInput.RowsAdded += DgvInput_RowsAdded;
             this.dgvInput.RowsRemoved += DgvInput_RowsRemoved;
             this.dgvInput.CurrentCellChanged += DgvInput_CurrentCellChanged;
 
         }
 
+        private void DgvInputNew_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                if (dgvInputNew.Columns[e.ColumnIndex].Name == "Status")
+                {
+                    if (dgvInputNew.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == "✖️")
+                    {
+                        e.CellStyle.ForeColor = Color.Red;
+                        e.CellStyle.SelectionForeColor = Color.Red;
+                    }
+                    else
+                    {
+                        e.CellStyle.ForeColor = Color.Green;
+                        e.CellStyle.SelectionForeColor = Color.Green;
+                    }
+                }
+            }
+        }
+        private void TxtBarcodeNew_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (txtBarcodeNew.Text.Trim() != "" && btnPrint.Enabled==false)
+                {
+                    if (LbBarcodeTitle.Text.ToString().Contains("SD") == true)
+                    {
+                        ErrorText = "";
+                        SDNoSelected = "";
+                        string SelectedRMType = "";
+                        if (rdbTerminal.Checked == true)
+                        {
+                            SelectedRMType = rdbTerminal.Text;
+                            dgvInputNew.Columns["TotalWNew"].Visible = false;
+                        }
+                        else
+                        {
+                            SelectedRMType = rdbWire.Text;
+                            dgvInputNew.Columns["TotalWNew"].Visible = true;
+                        }
+
+                        Cursor = Cursors.WaitCursor;
+
+                        DataTable dt = new DataTable();
+                        try
+                        {
+                            cnn.con.Open();
+                            string SQLQuery = "SELECT SD_DocNo, BobbinSysNo, RMCode, ItemName, RMTypeName, AStock_Kg, AStock_QTY FROM " +
+                                "\n(SELECT * FROM tbBobbinRecords WHERE In_Date IS NULL) T1 " +
+                                "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType = 'Material') T2 ON T1.RMCode = T2.ItemCode " +
+                                "\nWHERE SD_DocNo = '"+txtBarcodeNew.Text+ "' AND RMTypeName='"+SelectedRMType+"' " +
+                                "\nORDER BY BobbinSysNo ASC, RMTypeName ASC";
+                            //Console.WriteLine(SQLQuery);
+                            SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                            sda.Fill(dt);
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorText = ex.Message;
+                        }
+                        cnn.con.Close();
+
+                        Cursor = Cursors.Default;
+
+                        if (ErrorText.Trim() == "")
+                        {
+                            if (dt.Rows.Count > 0)
+                            {
+                                SDNoSelected = txtBarcodeNew.Text;
+                                txtBarcodeNew.Text = "";
+                                foreach (DataRow row in dt.Rows)
+                                {
+                                    //DocNoNew
+                                    //LabelNoNew
+                                    //RMCodeNew
+                                    //RMNameNew
+                                    //RMTypeNew
+                                    //TotalWNew
+                                    //QtyNew
+                                    //Status
+
+                                    dgvInputNew.Rows.Add();
+                                    dgvInputNew.Rows[dgvInputNew.Rows.Count - 1].HeaderCell.Value = dgvInputNew.Rows.Count.ToString();
+                                    dgvInputNew.Rows[dgvInputNew.Rows.Count - 1].Cells["DocNoNew"].Value = row["SD_DocNo"].ToString();
+                                    dgvInputNew.Rows[dgvInputNew.Rows.Count - 1].Cells["LabelNoNew"].Value = row["BobbinSysNo"].ToString();
+                                    dgvInputNew.Rows[dgvInputNew.Rows.Count - 1].Cells["RMCodeNew"].Value = row["RMCode"].ToString();
+                                    dgvInputNew.Rows[dgvInputNew.Rows.Count - 1].Cells["RMNameNew"].Value = row["ItemName"].ToString();
+                                    dgvInputNew.Rows[dgvInputNew.Rows.Count - 1].Cells["RMTypeNew"].Value = row["RMTypeName"].ToString();
+                                    dgvInputNew.Rows[dgvInputNew.Rows.Count - 1].Cells["Status"].Value = "✖️";
+
+                                }
+                                dgvInputNew.ClearSelection();
+                                LbBarcodeTitle.Text = "ស្កេនបាកូដឡាប៊ែលត្រង់នេះ";
+                                LbBarcodeTitle.Refresh();
+                                txtBarcode.Focus();
+                            }
+                            else
+                            {
+                                WMsg.WarningText = "គ្មានទិន្នន័យ SD នេះនៅទីតាំង Inprocess នុះទេ!";
+                                WMsg.ShowingMsg();
+                                txtBarcodeNew.Focus();
+                                txtBarcodeNew.SelectAll();
+                            }
+                        }
+                        else
+                        {
+                            EMsg.AlertText = "មានបញ្ហា!\n"+ ErrorText;
+                            EMsg.ShowingMsg();
+                        }
+                    }
+                    else
+                    {
+                        string BobbinCode = txtBarcodeNew.Text;
+                        string SDNo = "";
+                        string RMCode = "";
+                        foreach (DataGridViewRow row in dgvInputNew.Rows)
+                        {
+                            if (row.Cells["LabelNoNew"].Value.ToString() == BobbinCode)
+                            {
+                                SDNo = row.Cells["DocNoNew"].Value.ToString();
+                                RMCode = row.Cells["RMCodeNew"].Value.ToString();
+                                break;
+                            }
+                        }
+
+                        if (SDNo.Trim() != "" && RMCode.Trim() != "")
+                        {
+                            ErrorText = "";
+                            Cursor = Cursors.WaitCursor;
+
+                            DataTable dt = new DataTable();
+                            try
+                            {
+                                cnn.con.Open();
+                                string SQLQuery = "SELECT * FROM tbBobbinRecords WHERE In_Date IS NULL AND AStock_QTY IS NOT NULL " +
+                                    "\nAND SD_DocNo = '"+SDNo+"' AND BobbinSysNo = '"+BobbinCode+"' AND RMCode='"+RMCode+"' ";
+                                SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                                sda.Fill(dt);
+                            }
+                            catch (Exception ex)
+                            {
+                                ErrorText = ex.Message;
+                            }
+                            cnn.con.Close();
+
+                            Cursor = Cursors.Default;
+
+                            if (ErrorText.Trim() == "")
+                            {
+                                if (dt.Rows.Count > 0)
+                                {
+                                    txtBarcodeNew.Text = "";
+                                    double RemainW = 0;
+                                    if (dt.Rows[0]["AStock_Kg"].ToString().Trim() != "")
+                                        RemainW = Convert.ToDouble(dt.Rows[0]["AStock_Kg"]);
+                                    double RemainQty = 0;
+                                        RemainQty = Convert.ToDouble(dt.Rows[0]["AStock_QTY"]);
+
+                                    foreach (DataGridViewRow row in dgvInputNew.Rows)
+                                    {
+                                        if (BobbinCode == row.Cells["LabelNoNew"].Value.ToString())
+                                        {
+                                            row.Cells["TotalWNew"].Value = RemainW;
+                                            row.Cells["QtyNew"].Value = RemainQty;
+                                            row.Cells["Status"].Value = "✔️";
+                                            break;
+                                        }
+                                    }
+                                    dgvInputNew.ClearSelection();
+                                    CheckingBtn();
+                                }
+                                else
+                                {
+                                    WMsg.WarningText = "គ្មានទិន្នន័យប៊ូប៊ីននេះទេ!";
+                                    WMsg.ShowingMsg();
+                                    txtBarcodeNew.Focus();
+                                    txtBarcodeNew.SelectAll();
+                                }
+                            }
+                            else
+                            {
+                                EMsg.AlertText = "មានបញ្ហា!\n"+ErrorText;
+                                EMsg.ShowingMsg();
+                            }
+                        }
+                        else
+                        {
+                            WMsg.WarningText = "គ្មានទិន្នន័យប៊ូប៊ីននេះទេ!";
+                            WMsg.ShowingMsg();
+                            txtBarcodeNew.Focus();
+                            txtBarcodeNew.SelectAll();
+                        }
+                    }
+                }
+            }
+        }
         private void TabContrl_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            CheckingBtn();
         }
 
         private void BtnPrint_Click(object sender, EventArgs e)
@@ -65,297 +264,623 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
         }
         private void BtnNew_Click(object sender, EventArgs e)
         {
-            this.dgvInput.Rows.Clear();
-            this.dgvInputNew.Rows.Clear();
+            if (tabContrl.SelectedIndex == 0)
+            {
+                this.dgvInputNew.Rows.Clear();
+                LbBarcodeTitle.Text = "ស្កេនបាកូដ SD ត្រង់នេះ";
+                txtBarcodeNew.Text = "";
+                txtBarcodeNew.Focus();
+            }
+            else
+            {
+                this.dgvInput.Rows.Clear();
+                txtBarcode.Text = "";
+                txtBarcode.Focus();
+            }            
             CheckingBtn();
             btnPrint.Enabled = false;
             btnPrintGRAY.BringToFront();
         }
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (dgvInput.Rows.Count > 0)
+            if (tabContrl.SelectedIndex == 0)
             {
-                QMsg.QAText = "តើអ្នកចង់រក្សាទុកមែនឬទេ?";
-                QMsg.UserClickedYes = false;
-                QMsg.ShowingMsg();
-                if (QMsg.UserClickedYes == true)
+                if (dgvInputNew.Rows.Count > 0)
                 {
-                    ErrorText = "";
-                    ClearDtTotalStock();
-                    ClearDtExcelPrint();
-                    Cursor = Cursors.WaitCursor;
-
-                    //Take TotalStock
-                    string CodeIN = "";
-                    string DocNoIN = "";
-                    string LabelNoIN = "";
-                    foreach (DataGridViewRow dgv in dgvInput.Rows)
+                    //Recheck
+                    int FoundOK = 0;
+                    foreach (DataGridViewRow row in dgvInputNew.Rows)
                     {
-                        //dtTotalStock
-                        int Found = 0;
-                        foreach (DataRow row in dtTotalStock.Rows)
+                        if (row.Cells["Status"].Value.ToString() == "✔️" && row.Cells["QtyNew"].Value != null && row.Cells["QtyNew"].Value.ToString().Trim()!="")
                         {
-                            if (dgv.Cells["DocNo"].Value.ToString() == row["DocNo"].ToString() && dgv.Cells["RMCode"].Value.ToString() == row["Code"].ToString())
-                            {
-                                row["Qty"] = Convert.ToDouble(row["Qty"])+Convert.ToDouble(dgv.Cells["Qty"].Value.ToString());
-                                Found++;
-                                break;
-                            }
-                        }
-                        if (Found == 0)
-                        {
-                            dtTotalStock.Rows.Add();
-                            dtTotalStock.Rows[dtTotalStock.Rows.Count-1]["DocNo"] = dgv.Cells["DocNo"].Value.ToString();
-                            dtTotalStock.Rows[dtTotalStock.Rows.Count - 1]["Code"] = dgv.Cells["RMCode"].Value.ToString();
-                            dtTotalStock.Rows[dtTotalStock.Rows.Count - 1]["RMName"] = dgv.Cells["RMName"].Value.ToString();
-                            dtTotalStock.Rows[dtTotalStock.Rows.Count - 1]["Qty"] = Convert.ToDouble(dgv.Cells["Qty"].Value.ToString());
-                            dtTotalStock.Rows[dtTotalStock.Rows.Count - 1]["MC1StockRemain"] = 0;
-                        }
-                        dtTotalStock.AcceptChanges();
-
-                        //dtExcelPrint
-                        Found = 0;
-                        foreach (DataRow row in dtExcelPrint.Rows)
-                        {
-                            if (dgv.Cells["RMCode"].Value.ToString() == row["RMCode"].ToString())
-                            {
-                                row["BobbinQty"] = Convert.ToDouble(row["BobbinQty"]) + 1;
-                                row["Qty"] = Convert.ToDouble(row["Qty"]) + Convert.ToDouble(dgv.Cells["Qty"].Value.ToString());
-                                Found++;
-                                break;
-                            }
-                        }
-                        if (Found == 0)
-                        {
-                            dtExcelPrint.Rows.Add();
-                            dtExcelPrint.Rows[dtExcelPrint.Rows.Count - 1]["RMCode"] = dgv.Cells["RMCode"].Value.ToString();
-                            dtExcelPrint.Rows[dtExcelPrint.Rows.Count - 1]["RMName"] = dgv.Cells["RMName"].Value.ToString();
-                            dtExcelPrint.Rows[dtExcelPrint.Rows.Count - 1]["BobbinQty"] = 1;
-                            dtExcelPrint.Rows[dtExcelPrint.Rows.Count - 1]["Qty"] = Convert.ToDouble(dgv.Cells["Qty"].Value.ToString());
-                        }
-                        dtExcelPrint.AcceptChanges();
-
-                        //For Seleting Stock & Update Label
-                        if (CodeIN.Contains(dgv.Cells["RMCode"].Value.ToString()) == false)
-                        {
-                            if (CodeIN.Trim() == "")
-                            {
-                                CodeIN = "'"+ dgv.Cells["RMCode"].Value.ToString() + "'";
-                            }
-                            else
-                            {
-                                CodeIN += ", '" + dgv.Cells["RMCode"].Value.ToString() + "'";
-                            }
-                        }
-                        if (DocNoIN.Contains(dgv.Cells["DocNo"].Value.ToString()) == false)
-                        {
-                            if (DocNoIN.Trim() == "")
-                            {
-                                DocNoIN = "'" + dgv.Cells["DocNo"].Value.ToString() + "'";
-                            }
-                            else
-                            {
-                                DocNoIN += ", '" + dgv.Cells["DocNo"].Value.ToString() + "'";
-                            }
-                        }
-                        if (LabelNoIN.Trim() == "")
-                        {
-                            LabelNoIN = "'" + dgv.Cells["LabelNo"].Value.ToString() + "'";
-                        }
-                        else
-                        {
-                            LabelNoIN += ", '" + dgv.Cells["LabelNo"].Value.ToString() + "'";
+                            FoundOK++;
                         }
                     }
 
-                    //Taking Stock Remain
-                    try
+                    if (dgvInputNew.Rows.Count>0 && FoundOK == dgvInputNew.Rows.Count)
                     {
-                        cnn.con.Open();
-                        string SQLQuery = "SELECT POSNo, Code, SUM(StockValue) AS StockValue FROM tbSDMCAllTransaction " +
-                            "\nWHERE CancelStatus=0 AND LocCode='MC1' AND Code IN ( "+CodeIN+" ) AND POSNo IN ( "+DocNoIN+" ) " +
-                            "\nGROUP BY POSNo, Code";
-                        SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
-                        DataTable dt = new DataTable();
-                        sda.Fill(dt);
-                        //Add to dtTotalStock
-                        foreach (DataRow row in dt.Rows)
+                        QMsg.QAText = "តើអ្នកចង់រក្សាទុកមែនឬទេ?";
+                        QMsg.UserClickedYes = false;
+                        QMsg.ShowingMsg();
+                        if (QMsg.UserClickedYes == true)
                         {
-                            foreach (DataRow TTS in dtTotalStock.Rows)
+                            ErrorText = "";
+                            ClearDtTotalStock();
+                            ClearDtExcelPrint();
+                            Cursor = Cursors.WaitCursor;
+
+                            //Take TotalStock
+                            string CodeIN = "";
+                            string DocNoIN = "";
+                            string LabelNoIN = "";
+                            foreach (DataGridViewRow dgv in dgvInputNew.Rows)
                             {
-                                if (row["POSNo"].ToString() == TTS["DocNo"].ToString() && row["Code"].ToString() == TTS["Code"].ToString())
+                                //dtTotalStock
+                                int Found = 0;
+                                foreach (DataRow row in dtTotalStock.Rows)
                                 {
-                                    TTS["MC1StockRemain"] = Convert.ToDouble(row["StockValue"]);
-                                    break;
+                                    if (dgv.Cells["DocNoNew"].Value.ToString() == row["DocNo"].ToString() && dgv.Cells["RMCodeNew"].Value.ToString() == row["Code"].ToString())
+                                    {
+                                        row["Qty"] = Convert.ToDouble(row["Qty"]) + Convert.ToDouble(dgv.Cells["QtyNew"].Value.ToString());
+                                        Found++;
+                                        break;
+                                    }
                                 }
-                            }
-                        }
-                        dtTotalStock.AcceptChanges();
-
-                    }
-                    catch (Exception ex)
-                    {
-                        ErrorText = "មានបញ្ហា!\nTaking Stock : " + ex.Message;
-                    }
-                    cnn.con.Close();
-
-                    //Find Stock not enough
-                    int NotOKFound = 0;
-                    if (ErrorText.Trim() == "")
-                    {
-                        foreach (DataRow row in dtTotalStock.Rows)
-                        {
-                            if (Convert.ToDouble(row["Qty"]) > Convert.ToDouble(row["MC1StockRemain"]))
-                            {
-                                NotOKFound++;
-                                if (ErrorText.Trim() == "")
+                                if (Found == 0)
                                 {
-                                    ErrorText = "វត្ថុធាតុដើមខ្វះស្តុក ៖\n • " + row["Code"] + "\t" + row["RMName"] + "\t" + row["DocNo"] + " : Not Enough Stock";
+                                    dtTotalStock.Rows.Add();
+                                    dtTotalStock.Rows[dtTotalStock.Rows.Count - 1]["DocNo"] = dgv.Cells["DocNoNew"].Value.ToString();
+                                    dtTotalStock.Rows[dtTotalStock.Rows.Count - 1]["Code"] = dgv.Cells["RMCodeNew"].Value.ToString();
+                                    dtTotalStock.Rows[dtTotalStock.Rows.Count - 1]["RMName"] = dgv.Cells["RMNameNew"].Value.ToString();
+                                    dtTotalStock.Rows[dtTotalStock.Rows.Count - 1]["Qty"] = Convert.ToDouble(dgv.Cells["QtyNew"].Value.ToString());
+                                    dtTotalStock.Rows[dtTotalStock.Rows.Count - 1]["MC1StockRemain"] = 0;
+                                }
+                                dtTotalStock.AcceptChanges();
+
+                                //dtExcelPrint
+                                Found = 0;
+                                foreach (DataRow row in dtExcelPrint.Rows)
+                                {
+                                    if (dgv.Cells["RMCodeNew"].Value.ToString() == row["RMCode"].ToString())
+                                    {
+                                        row["BobbinQty"] = Convert.ToDouble(row["BobbinQty"]) + 1;
+                                        row["Qty"] = Convert.ToDouble(row["Qty"]) + Convert.ToDouble(dgv.Cells["QtyNew"].Value.ToString());
+                                        Found++;
+                                        break;
+                                    }
+                                }
+                                if (Found == 0)
+                                {
+                                    dtExcelPrint.Rows.Add();
+                                    dtExcelPrint.Rows[dtExcelPrint.Rows.Count - 1]["RMCode"] = dgv.Cells["RMCodeNew"].Value.ToString();
+                                    dtExcelPrint.Rows[dtExcelPrint.Rows.Count - 1]["RMName"] = dgv.Cells["RMNameNew"].Value.ToString();
+                                    dtExcelPrint.Rows[dtExcelPrint.Rows.Count - 1]["BobbinQty"] = 1;
+                                    dtExcelPrint.Rows[dtExcelPrint.Rows.Count - 1]["Qty"] = Convert.ToDouble(dgv.Cells["QtyNew"].Value.ToString());
+                                }
+                                dtExcelPrint.AcceptChanges();
+
+                                //For Seleting Stock & Update Label
+                                if (CodeIN.Contains(dgv.Cells["RMCodeNew"].Value.ToString()) == false)
+                                {
+                                    if (CodeIN.Trim() == "")
+                                    {
+                                        CodeIN = "'" + dgv.Cells["RMCodeNew"].Value.ToString() + "'";
+                                    }
+                                    else
+                                    {
+                                        CodeIN += ", '" + dgv.Cells["RMCodeNew"].Value.ToString() + "'";
+                                    }
+                                }
+                                if (DocNoIN.Contains(dgv.Cells["DocNoNew"].Value.ToString()) == false)
+                                {
+                                    if (DocNoIN.Trim() == "")
+                                    {
+                                        DocNoIN = "'" + dgv.Cells["DocNoNew"].Value.ToString() + "'";
+                                    }
+                                    else
+                                    {
+                                        DocNoIN += ", '" + dgv.Cells["DocNoNew"].Value.ToString() + "'";
+                                    }
+                                }
+                                if (LabelNoIN.Trim() == "")
+                                {
+                                    LabelNoIN = "'" + dgv.Cells["LabelNoNew"].Value.ToString() + "'";
                                 }
                                 else
                                 {
-                                    ErrorText += "\n • " + row["Code"] + "\t" + row["RMName"] + "\t" + row["DocNo"] + " : Not Enough Stock";
+                                    LabelNoIN += ", '" + dgv.Cells["LabelNoNew"].Value.ToString() + "'";
                                 }
                             }
-                        }
-                    }
 
-
-                    //Add to Transaction & Update
-                    if (ErrorText.Trim() == "" && NotOKFound == 0)
-                    {
-                        //Add to Transaction & Update
-                        try
-                        {
-                            cnn.con.Open();
-                            //Taking SysNo
-                            DateTime RegDate = DateTime.Now;
-                            string User = MenuFormV2.UserForNextForm;
-                            string TransNo = "TRF0000000001";
-                            SqlDataAdapter da = new SqlDataAdapter("SELECT SysNo FROM tbSDMCAllTransaction " +
-                                                                                "WHERE SysNo=(SELECT MAX(SysNo) FROM tbSDMCAllTransaction WHERE Funct =2) Group By SysNo", cnn.con);
-                            DataTable dtTransNo = new DataTable();
-                            da.Fill(dtTransNo);
-                            if (dtTransNo.Rows.Count > 0)
+                            //Taking Stock Remain
+                            try
                             {
-                                string LastTransNo = dtTransNo.Rows[0][0].ToString();
-                                double NextTransNo = Convert.ToDouble(LastTransNo.Substring(LastTransNo.Length - 10)) + 1;
-                                TransNo = "TRF" + NextTransNo.ToString("0000000000");
+                                cnn.con.Open();
+                                string SQLQuery = "SELECT POSNo, Code, SUM(StockValue) AS StockValue FROM tbSDMCAllTransaction " +
+                                    "\nWHERE CancelStatus=0 AND LocCode='MC1' AND Code IN ( " + CodeIN + " ) AND POSNo IN ( " + DocNoIN + " ) " +
+                                    "\nGROUP BY POSNo, Code";
+                                SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                                DataTable dt = new DataTable();
+                                sda.Fill(dt);
+                                //Add to dtTotalStock
+                                foreach (DataRow row in dt.Rows)
+                                {
+                                    foreach (DataRow TTS in dtTotalStock.Rows)
+                                    {
+                                        if (row["POSNo"].ToString() == TTS["DocNo"].ToString() && row["Code"].ToString() == TTS["Code"].ToString())
+                                        {
+                                            TTS["MC1StockRemain"] = Convert.ToDouble(row["StockValue"]);
+                                            break;
+                                        }
+                                    }
+                                }
+                                dtTotalStock.AcceptChanges();
+
+                            }
+                            catch (Exception ex)
+                            {
+                                ErrorText = "មានបញ្ហា!\nTaking Stock : " + ex.Message;
+                            }
+                            cnn.con.Close();
+
+                            //Find Stock not enough
+                            int NotOKFound = 0;
+                            if (ErrorText.Trim() == "")
+                            {
+                                foreach (DataRow row in dtTotalStock.Rows)
+                                {
+                                    if (Convert.ToDouble(row["Qty"]) > Convert.ToDouble(row["MC1StockRemain"]))
+                                    {
+                                        NotOKFound++;
+                                        if (ErrorText.Trim() == "")
+                                        {
+                                            ErrorText = "វត្ថុធាតុដើមខ្វះស្តុក ៖\n • " + row["Code"] + "\t" + row["RMName"] + "\t" + row["DocNo"] + " : Not Enough Stock";
+                                        }
+                                        else
+                                        {
+                                            ErrorText += "\n • " + row["Code"] + "\t" + row["RMName"] + "\t" + row["DocNo"] + " : Not Enough Stock";
+                                        }
+                                    }
+                                }
                             }
 
-                            //Add to Transaction
-                            SqlCommand cmd;
-                            foreach (DataRow row in dtTotalStock.Rows)
+                            //Add to Transaction & Update
+                            if (ErrorText.Trim() == "" && NotOKFound == 0)
                             {
-                                string POSNo = row["DocNo"].ToString();
-                                string Code = row["Code"].ToString();
-                                string Items = row["RMName"].ToString();
-                                double TransferQty = Convert.ToDouble(row["Qty"]);
-                                string Remark = "MC Inprocess return";
+                                //Add to Transaction & Update
+                                try
+                                {
+                                    cnn.con.Open();
+                                    //Taking SysNo
+                                    DateTime RegDate = DateTime.Now;
+                                    string User = MenuFormV2.UserForNextForm;
+                                    string TransNo = "TRF0000000001";
+                                    SqlDataAdapter da = new SqlDataAdapter("SELECT SysNo FROM tbSDMCAllTransaction " +
+                                                                                        "WHERE SysNo=(SELECT MAX(SysNo) FROM tbSDMCAllTransaction WHERE Funct =2) Group By SysNo", cnn.con);
+                                    DataTable dtTransNo = new DataTable();
+                                    da.Fill(dtTransNo);
+                                    if (dtTransNo.Rows.Count > 0)
+                                    {
+                                        string LastTransNo = dtTransNo.Rows[0][0].ToString();
+                                        double NextTransNo = Convert.ToDouble(LastTransNo.Substring(LastTransNo.Length - 10)) + 1;
+                                        TransNo = "TRF" + NextTransNo.ToString("0000000000");
+                                    }
 
-                                //Save To DB Stock-Out
-                                cmd = new SqlCommand("INSERT INTO tbSDMCAllTransaction ( SysNo, Funct, LocCode, POSNo, Code, RMDes, ReceiveQty, TransferQty, StockValue, RegDate, RegBy, CancelStatus, Remarks) " +
-                                                               "VALUES ( @Sn, @Ft, @Lc, @Pn, @Cd, @Rmd, @Rq, @Tq, @Sv, @Rd, @Rb, @Cs, @Rem)", cnn.con);
-                                cmd.Parameters.AddWithValue("@Sn", TransNo);
-                                cmd.Parameters.AddWithValue("@Ft", 2);
-                                cmd.Parameters.AddWithValue("@Lc", "MC1");
-                                cmd.Parameters.AddWithValue("@Pn", POSNo);
-                                cmd.Parameters.AddWithValue("@Cd", Code);
-                                cmd.Parameters.AddWithValue("@Rmd", Items);
-                                cmd.Parameters.AddWithValue("@Rq", 0);
-                                cmd.Parameters.AddWithValue("@Tq", TransferQty);
-                                cmd.Parameters.AddWithValue("@Sv", (TransferQty * (-1)));
-                                cmd.Parameters.AddWithValue("@Rd", RegDate.ToString("yyyy-MM-dd HH:mm:ss"));
-                                cmd.Parameters.AddWithValue("@Rb", User);
-                                cmd.Parameters.AddWithValue("@Cs", 0);
-                                cmd.Parameters.AddWithValue("@Rem", Remark);
-                                cmd.ExecuteNonQuery();
+                                    //Add to Transaction
+                                    SqlCommand cmd;
+                                    foreach (DataRow row in dtTotalStock.Rows)
+                                    {
+                                        string POSNo = row["DocNo"].ToString();
+                                        string Code = row["Code"].ToString();
+                                        string Items = row["RMName"].ToString();
+                                        double TransferQty = Convert.ToDouble(row["Qty"]);
+                                        string Remark = "MC Inprocess return";
 
-                                //Save To DB Stock-IN
-                                cmd = new SqlCommand("INSERT INTO tbSDMCAllTransaction ( SysNo, Funct, LocCode, POSNo, Code, RMDes, ReceiveQty, TransferQty, StockValue, RegDate, RegBy, CancelStatus, Remarks) " +
-                                                               "VALUES ( @Sn, @Ft, @Lc, @Pn, @Cd, @Rmd, @Rq, @Tq, @Sv, @Rd, @Rb, @Cs, @Rem)", cnn.con);
-                                cmd.Parameters.AddWithValue("@Sn", TransNo);
-                                cmd.Parameters.AddWithValue("@Ft", 2);
-                                cmd.Parameters.AddWithValue("@Lc", "WIR1");
-                                cmd.Parameters.AddWithValue("@Pn", "");
-                                cmd.Parameters.AddWithValue("@Cd", Code);
-                                cmd.Parameters.AddWithValue("@Rmd", Items);
-                                cmd.Parameters.AddWithValue("@Rq", TransferQty);
-                                cmd.Parameters.AddWithValue("@Tq", 0);
-                                cmd.Parameters.AddWithValue("@Sv", TransferQty);
-                                cmd.Parameters.AddWithValue("@Rd", RegDate);
-                                cmd.Parameters.AddWithValue("@Rb", User);
-                                cmd.Parameters.AddWithValue("@Cs", 0);
-                                cmd.Parameters.AddWithValue("@Rem", Remark);
-                                cmd.ExecuteNonQuery();
+                                        //Save To DB Stock-Out
+                                        cmd = new SqlCommand("INSERT INTO tbSDMCAllTransaction ( SysNo, Funct, LocCode, POSNo, Code, RMDes, ReceiveQty, TransferQty, StockValue, RegDate, RegBy, CancelStatus, Remarks) " +
+                                                                       "VALUES ( @Sn, @Ft, @Lc, @Pn, @Cd, @Rmd, @Rq, @Tq, @Sv, @Rd, @Rb, @Cs, @Rem)", cnn.con);
+                                        cmd.Parameters.AddWithValue("@Sn", TransNo);
+                                        cmd.Parameters.AddWithValue("@Ft", 2);
+                                        cmd.Parameters.AddWithValue("@Lc", "MC1");
+                                        cmd.Parameters.AddWithValue("@Pn", POSNo);
+                                        cmd.Parameters.AddWithValue("@Cd", Code);
+                                        cmd.Parameters.AddWithValue("@Rmd", Items);
+                                        cmd.Parameters.AddWithValue("@Rq", 0);
+                                        cmd.Parameters.AddWithValue("@Tq", TransferQty);
+                                        cmd.Parameters.AddWithValue("@Sv", (TransferQty * (-1)));
+                                        cmd.Parameters.AddWithValue("@Rd", RegDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                        cmd.Parameters.AddWithValue("@Rb", User);
+                                        cmd.Parameters.AddWithValue("@Cs", 0);
+                                        cmd.Parameters.AddWithValue("@Rem", Remark);
+                                        cmd.ExecuteNonQuery();
+
+                                        //Save To DB Stock-IN
+                                        cmd = new SqlCommand("INSERT INTO tbSDMCAllTransaction ( SysNo, Funct, LocCode, POSNo, Code, RMDes, ReceiveQty, TransferQty, StockValue, RegDate, RegBy, CancelStatus, Remarks) " +
+                                                                       "VALUES ( @Sn, @Ft, @Lc, @Pn, @Cd, @Rmd, @Rq, @Tq, @Sv, @Rd, @Rb, @Cs, @Rem)", cnn.con);
+                                        cmd.Parameters.AddWithValue("@Sn", TransNo);
+                                        cmd.Parameters.AddWithValue("@Ft", 2);
+                                        cmd.Parameters.AddWithValue("@Lc", "WIR1");
+                                        cmd.Parameters.AddWithValue("@Pn", "");
+                                        cmd.Parameters.AddWithValue("@Cd", Code);
+                                        cmd.Parameters.AddWithValue("@Rmd", Items);
+                                        cmd.Parameters.AddWithValue("@Rq", TransferQty);
+                                        cmd.Parameters.AddWithValue("@Tq", 0);
+                                        cmd.Parameters.AddWithValue("@Sv", TransferQty);
+                                        cmd.Parameters.AddWithValue("@Rd", RegDate);
+                                        cmd.Parameters.AddWithValue("@Rb", User);
+                                        cmd.Parameters.AddWithValue("@Cs", 0);
+                                        cmd.Parameters.AddWithValue("@Rem", Remark);
+                                        cmd.ExecuteNonQuery();
+                                    }
+
+                                    //Update tbBobbinRecords
+                                    string SQLQuery = "UPDATE tbBobbinRecords SET In_Date = '" + RegDate.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                                        "WHERE In_Date IS NULL AND SD_DocNo = '"+SDNoSelected+ "' AND BobbinSysNo IN (" + LabelNoIN + ")";
+                                    cmd = new SqlCommand(SQLQuery, cnn.con);
+                                    cmd.ExecuteNonQuery();
+
+                                    //Update tbMstRMRegister
+                                    SQLQuery = "UPDATE tbMstRMRegister SET C_Location = 'WIR1', UpdateBy = N'"+ User + "', UpdateDate = '" + RegDate.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                                        "WHERE BobbinSysNo IN (" + LabelNoIN + ")";
+                                    cmd = new SqlCommand(SQLQuery, cnn.con);
+                                    cmd.ExecuteNonQuery();
+                                }
+                                catch (Exception ex)
+                                {
+                                    ErrorText = "មានបញ្ហា!\n" + ex.Message;
+                                }
+                                cnn.con.Close();
+
+                                //Console dtTotalStock
+                                /*
+                                string CS = "";
+                                foreach (DataColumn col in dtTotalStock.Columns)
+                                {
+                                    CS += col.ColumnName.ToString() + "\t";
+                                }
+                                Console.WriteLine(CS);
+                                foreach (DataRow row in dtTotalStock.Rows)
+                                {
+                                    CS = "";
+                                    foreach (DataColumn col in dtTotalStock.Columns)
+                                    {
+                                        CS += row[col.ColumnName].ToString() + "\t";
+                                    }
+                                    Console.WriteLine(CS);
+                                }
+                                */
                             }
 
-                            //Update
-                            string SQLQuery = "UPDATE tbSDAllocateReturnDetails SET Status = 'Closed', UpdateDate = '"+RegDate.ToString("yyyy-MM-dd HH:mm:ss")+"' " +
-                                "WHERE Status = 'Open' AND SysNo IN ("+LabelNoIN+")";
-                            cmd = new SqlCommand(SQLQuery,cnn.con);
-                            cmd.ExecuteNonQuery();
-                        }
-                        catch (Exception ex)
-                        {
-                            ErrorText = "មានបញ្ហា!\n" + ex.Message;
-                        }
-                        cnn.con.Close();
+                            Cursor = Cursors.Default;
 
-                        //Console dtTotalStock
-                        /*
-                        string CS = "";
-                        foreach (DataColumn col in dtTotalStock.Columns)
-                        {
-                            CS += col.ColumnName.ToString() + "\t";
-                        }
-                        Console.WriteLine(CS);
-                        foreach (DataRow row in dtTotalStock.Rows)
-                        {
-                            CS = "";
-                            foreach (DataColumn col in dtTotalStock.Columns)
+                            if (ErrorText.Trim() == "")
                             {
-                                CS += row[col.ColumnName].ToString() + "\t";
+                                btnDelete.Enabled = false;
+                                btnDeleteGRAY.BringToFront();
+                                btnSave.Enabled = false;
+                                btnSaveGRAY.BringToFront();
+                                btnPrint.Enabled = true;
+                                btnPrintGRAY.SendToBack();
+                                InfoMsg.InfoText = "រក្សាទុករួចរាល់!";
+                                InfoMsg.ShowingMsg();
+
+                                //Console dtExcelPrint
+                                string CS = "";
+                                foreach (DataColumn col in dtExcelPrint.Columns)
+                                {
+                                    CS += col.ColumnName.ToString() + "\t";
+                                }
+                                //Console.WriteLine(CS);
+                                foreach (DataRow row in dtExcelPrint.Rows)
+                                {
+                                    CS = "";
+                                    foreach (DataColumn col in dtExcelPrint.Columns)
+                                    {
+                                        CS += row[col.ColumnName].ToString() + "\t";
+                                    }
+                                    //Console.WriteLine(CS);
+                                }
                             }
-                            Console.WriteLine(CS);
-                        }
-                        */
-                    }
-
-                    Cursor = Cursors.Default;
-
-                    if (ErrorText.Trim() == "")
-                    {
-                        btnDelete.Enabled = false;
-                        btnDeleteGRAY.BringToFront();
-                        btnSave.Enabled = false;
-                        btnSaveGRAY.BringToFront();
-                        btnPrint.Enabled = true;
-                        btnPrintGRAY.SendToBack();
-                        InfoMsg.InfoText = "រក្សាទុករួចរាល់!";
-                        InfoMsg.ShowingMsg();
-
-                        //Console dtExcelPrint
-                        string CS = "";
-                        foreach (DataColumn col in dtExcelPrint.Columns)
-                        {
-                            CS += col.ColumnName.ToString() + "\t";
-                        }
-                        Console.WriteLine(CS);
-                        foreach (DataRow row in dtExcelPrint.Rows)
-                        {
-                            CS = "";
-                            foreach (DataColumn col in dtExcelPrint.Columns)
+                            else
                             {
-                                CS += row[col.ColumnName].ToString() + "\t";
+                                EMsg.AlertText = ErrorText;
+                                EMsg.ShowingMsg();
                             }
-                            Console.WriteLine(CS);
                         }
                     }
                     else
                     {
-                        EMsg.AlertText = ErrorText;
-                        EMsg.ShowingMsg();
+                        WMsg.WarningText = "សូមស្កេនទិន្នន័យប៊ូប៊ីនដែលមាននៅ\n" +
+                                                           "ក្នុង List ទាំងអស់ជាមុនសិន!";
+                        WMsg.ShowingMsg();
+                    }
+                }
+            }
+            else
+            {
+                if (dgvInput.Rows.Count > 0)
+                {
+                    QMsg.QAText = "តើអ្នកចង់រក្សាទុកមែនឬទេ?";
+                    QMsg.UserClickedYes = false;
+                    QMsg.ShowingMsg();
+                    if (QMsg.UserClickedYes == true)
+                    {
+                        ErrorText = "";
+                        ClearDtTotalStock();
+                        ClearDtExcelPrint();
+                        Cursor = Cursors.WaitCursor;
+
+                        //Take TotalStock
+                        string CodeIN = "";
+                        string DocNoIN = "";
+                        string LabelNoIN = "";
+                        foreach (DataGridViewRow dgv in dgvInput.Rows)
+                        {
+                            //dtTotalStock
+                            int Found = 0;
+                            foreach (DataRow row in dtTotalStock.Rows)
+                            {
+                                if (dgv.Cells["DocNo"].Value.ToString() == row["DocNo"].ToString() && dgv.Cells["RMCode"].Value.ToString() == row["Code"].ToString())
+                                {
+                                    row["Qty"] = Convert.ToDouble(row["Qty"]) + Convert.ToDouble(dgv.Cells["Qty"].Value.ToString());
+                                    Found++;
+                                    break;
+                                }
+                            }
+                            if (Found == 0)
+                            {
+                                dtTotalStock.Rows.Add();
+                                dtTotalStock.Rows[dtTotalStock.Rows.Count - 1]["DocNo"] = dgv.Cells["DocNo"].Value.ToString();
+                                dtTotalStock.Rows[dtTotalStock.Rows.Count - 1]["Code"] = dgv.Cells["RMCode"].Value.ToString();
+                                dtTotalStock.Rows[dtTotalStock.Rows.Count - 1]["RMName"] = dgv.Cells["RMName"].Value.ToString();
+                                dtTotalStock.Rows[dtTotalStock.Rows.Count - 1]["Qty"] = Convert.ToDouble(dgv.Cells["Qty"].Value.ToString());
+                                dtTotalStock.Rows[dtTotalStock.Rows.Count - 1]["MC1StockRemain"] = 0;
+                            }
+                            dtTotalStock.AcceptChanges();
+
+                            //dtExcelPrint
+                            Found = 0;
+                            foreach (DataRow row in dtExcelPrint.Rows)
+                            {
+                                if (dgv.Cells["RMCode"].Value.ToString() == row["RMCode"].ToString())
+                                {
+                                    row["BobbinQty"] = Convert.ToDouble(row["BobbinQty"]) + 1;
+                                    row["Qty"] = Convert.ToDouble(row["Qty"]) + Convert.ToDouble(dgv.Cells["Qty"].Value.ToString());
+                                    Found++;
+                                    break;
+                                }
+                            }
+                            if (Found == 0)
+                            {
+                                dtExcelPrint.Rows.Add();
+                                dtExcelPrint.Rows[dtExcelPrint.Rows.Count - 1]["RMCode"] = dgv.Cells["RMCode"].Value.ToString();
+                                dtExcelPrint.Rows[dtExcelPrint.Rows.Count - 1]["RMName"] = dgv.Cells["RMName"].Value.ToString();
+                                dtExcelPrint.Rows[dtExcelPrint.Rows.Count - 1]["BobbinQty"] = 1;
+                                dtExcelPrint.Rows[dtExcelPrint.Rows.Count - 1]["Qty"] = Convert.ToDouble(dgv.Cells["Qty"].Value.ToString());
+                            }
+                            dtExcelPrint.AcceptChanges();
+
+                            //For Seleting Stock & Update Label
+                            if (CodeIN.Contains(dgv.Cells["RMCode"].Value.ToString()) == false)
+                            {
+                                if (CodeIN.Trim() == "")
+                                {
+                                    CodeIN = "'" + dgv.Cells["RMCode"].Value.ToString() + "'";
+                                }
+                                else
+                                {
+                                    CodeIN += ", '" + dgv.Cells["RMCode"].Value.ToString() + "'";
+                                }
+                            }
+                            if (DocNoIN.Contains(dgv.Cells["DocNo"].Value.ToString()) == false)
+                            {
+                                if (DocNoIN.Trim() == "")
+                                {
+                                    DocNoIN = "'" + dgv.Cells["DocNo"].Value.ToString() + "'";
+                                }
+                                else
+                                {
+                                    DocNoIN += ", '" + dgv.Cells["DocNo"].Value.ToString() + "'";
+                                }
+                            }
+                            if (LabelNoIN.Trim() == "")
+                            {
+                                LabelNoIN = "'" + dgv.Cells["LabelNo"].Value.ToString() + "'";
+                            }
+                            else
+                            {
+                                LabelNoIN += ", '" + dgv.Cells["LabelNo"].Value.ToString() + "'";
+                            }
+                        }
+
+                        //Taking Stock Remain
+                        try
+                        {
+                            cnn.con.Open();
+                            string SQLQuery = "SELECT POSNo, Code, SUM(StockValue) AS StockValue FROM tbSDMCAllTransaction " +
+                                "\nWHERE CancelStatus=0 AND LocCode='MC1' AND Code IN ( " + CodeIN + " ) AND POSNo IN ( " + DocNoIN + " ) " +
+                                "\nGROUP BY POSNo, Code";
+                            SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+                            //Add to dtTotalStock
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                foreach (DataRow TTS in dtTotalStock.Rows)
+                                {
+                                    if (row["POSNo"].ToString() == TTS["DocNo"].ToString() && row["Code"].ToString() == TTS["Code"].ToString())
+                                    {
+                                        TTS["MC1StockRemain"] = Convert.ToDouble(row["StockValue"]);
+                                        break;
+                                    }
+                                }
+                            }
+                            dtTotalStock.AcceptChanges();
+
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorText = "មានបញ្ហា!\nTaking Stock : " + ex.Message;
+                        }
+                        cnn.con.Close();
+
+                        //Find Stock not enough
+                        int NotOKFound = 0;
+                        if (ErrorText.Trim() == "")
+                        {
+                            foreach (DataRow row in dtTotalStock.Rows)
+                            {
+                                if (Convert.ToDouble(row["Qty"]) > Convert.ToDouble(row["MC1StockRemain"]))
+                                {
+                                    NotOKFound++;
+                                    if (ErrorText.Trim() == "")
+                                    {
+                                        ErrorText = "វត្ថុធាតុដើមខ្វះស្តុក ៖\n • " + row["Code"] + "\t" + row["RMName"] + "\t" + row["DocNo"] + " : Not Enough Stock";
+                                    }
+                                    else
+                                    {
+                                        ErrorText += "\n • " + row["Code"] + "\t" + row["RMName"] + "\t" + row["DocNo"] + " : Not Enough Stock";
+                                    }
+                                }
+                            }
+                        }
+
+                        //Add to Transaction & Update
+                        if (ErrorText.Trim() == "" && NotOKFound == 0)
+                        {
+                            //Add to Transaction & Update
+                            try
+                            {
+                                cnn.con.Open();
+                                //Taking SysNo
+                                DateTime RegDate = DateTime.Now;
+                                string User = MenuFormV2.UserForNextForm;
+                                string TransNo = "TRF0000000001";
+                                SqlDataAdapter da = new SqlDataAdapter("SELECT SysNo FROM tbSDMCAllTransaction " +
+                                                                                    "WHERE SysNo=(SELECT MAX(SysNo) FROM tbSDMCAllTransaction WHERE Funct =2) Group By SysNo", cnn.con);
+                                DataTable dtTransNo = new DataTable();
+                                da.Fill(dtTransNo);
+                                if (dtTransNo.Rows.Count > 0)
+                                {
+                                    string LastTransNo = dtTransNo.Rows[0][0].ToString();
+                                    double NextTransNo = Convert.ToDouble(LastTransNo.Substring(LastTransNo.Length - 10)) + 1;
+                                    TransNo = "TRF" + NextTransNo.ToString("0000000000");
+                                }
+
+                                //Add to Transaction
+                                SqlCommand cmd;
+                                foreach (DataRow row in dtTotalStock.Rows)
+                                {
+                                    string POSNo = row["DocNo"].ToString();
+                                    string Code = row["Code"].ToString();
+                                    string Items = row["RMName"].ToString();
+                                    double TransferQty = Convert.ToDouble(row["Qty"]);
+                                    string Remark = "MC Inprocess return";
+
+                                    //Save To DB Stock-Out
+                                    cmd = new SqlCommand("INSERT INTO tbSDMCAllTransaction ( SysNo, Funct, LocCode, POSNo, Code, RMDes, ReceiveQty, TransferQty, StockValue, RegDate, RegBy, CancelStatus, Remarks) " +
+                                                                   "VALUES ( @Sn, @Ft, @Lc, @Pn, @Cd, @Rmd, @Rq, @Tq, @Sv, @Rd, @Rb, @Cs, @Rem)", cnn.con);
+                                    cmd.Parameters.AddWithValue("@Sn", TransNo);
+                                    cmd.Parameters.AddWithValue("@Ft", 2);
+                                    cmd.Parameters.AddWithValue("@Lc", "MC1");
+                                    cmd.Parameters.AddWithValue("@Pn", POSNo);
+                                    cmd.Parameters.AddWithValue("@Cd", Code);
+                                    cmd.Parameters.AddWithValue("@Rmd", Items);
+                                    cmd.Parameters.AddWithValue("@Rq", 0);
+                                    cmd.Parameters.AddWithValue("@Tq", TransferQty);
+                                    cmd.Parameters.AddWithValue("@Sv", (TransferQty * (-1)));
+                                    cmd.Parameters.AddWithValue("@Rd", RegDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                    cmd.Parameters.AddWithValue("@Rb", User);
+                                    cmd.Parameters.AddWithValue("@Cs", 0);
+                                    cmd.Parameters.AddWithValue("@Rem", Remark);
+                                    cmd.ExecuteNonQuery();
+
+                                    //Save To DB Stock-IN
+                                    cmd = new SqlCommand("INSERT INTO tbSDMCAllTransaction ( SysNo, Funct, LocCode, POSNo, Code, RMDes, ReceiveQty, TransferQty, StockValue, RegDate, RegBy, CancelStatus, Remarks) " +
+                                                                   "VALUES ( @Sn, @Ft, @Lc, @Pn, @Cd, @Rmd, @Rq, @Tq, @Sv, @Rd, @Rb, @Cs, @Rem)", cnn.con);
+                                    cmd.Parameters.AddWithValue("@Sn", TransNo);
+                                    cmd.Parameters.AddWithValue("@Ft", 2);
+                                    cmd.Parameters.AddWithValue("@Lc", "WIR1");
+                                    cmd.Parameters.AddWithValue("@Pn", "");
+                                    cmd.Parameters.AddWithValue("@Cd", Code);
+                                    cmd.Parameters.AddWithValue("@Rmd", Items);
+                                    cmd.Parameters.AddWithValue("@Rq", TransferQty);
+                                    cmd.Parameters.AddWithValue("@Tq", 0);
+                                    cmd.Parameters.AddWithValue("@Sv", TransferQty);
+                                    cmd.Parameters.AddWithValue("@Rd", RegDate);
+                                    cmd.Parameters.AddWithValue("@Rb", User);
+                                    cmd.Parameters.AddWithValue("@Cs", 0);
+                                    cmd.Parameters.AddWithValue("@Rem", Remark);
+                                    cmd.ExecuteNonQuery();
+                                }
+
+                                //Update
+                                string SQLQuery = "UPDATE tbSDAllocateReturnDetails SET Status = 'Closed', UpdateDate = '" + RegDate.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                                    "WHERE Status = 'Open' AND SysNo IN (" + LabelNoIN + ")";
+                                cmd = new SqlCommand(SQLQuery, cnn.con);
+                                cmd.ExecuteNonQuery();
+                            }
+                            catch (Exception ex)
+                            {
+                                ErrorText = "មានបញ្ហា!\n" + ex.Message;
+                            }
+                            cnn.con.Close();
+
+                            //Console dtTotalStock
+                            /*
+                            string CS = "";
+                            foreach (DataColumn col in dtTotalStock.Columns)
+                            {
+                                CS += col.ColumnName.ToString() + "\t";
+                            }
+                            Console.WriteLine(CS);
+                            foreach (DataRow row in dtTotalStock.Rows)
+                            {
+                                CS = "";
+                                foreach (DataColumn col in dtTotalStock.Columns)
+                                {
+                                    CS += row[col.ColumnName].ToString() + "\t";
+                                }
+                                Console.WriteLine(CS);
+                            }
+                            */
+                        }
+
+                        Cursor = Cursors.Default;
+
+                        if (ErrorText.Trim() == "")
+                        {
+                            btnDelete.Enabled = false;
+                            btnDeleteGRAY.BringToFront();
+                            btnSave.Enabled = false;
+                            btnSaveGRAY.BringToFront();
+                            btnPrint.Enabled = true;
+                            btnPrintGRAY.SendToBack();
+                            InfoMsg.InfoText = "រក្សាទុករួចរាល់!";
+                            InfoMsg.ShowingMsg();
+
+                            //Console dtExcelPrint
+                            string CS = "";
+                            foreach (DataColumn col in dtExcelPrint.Columns)
+                            {
+                                CS += col.ColumnName.ToString() + "\t";
+                            }
+                            //Console.WriteLine(CS);
+                            foreach (DataRow row in dtExcelPrint.Rows)
+                            {
+                                CS = "";
+                                foreach (DataColumn col in dtExcelPrint.Columns)
+                                {
+                                    CS += row[col.ColumnName].ToString() + "\t";
+                                }
+                                //Console.WriteLine(CS);
+                            }
+                        }
+                        else
+                        {
+                            EMsg.AlertText = ErrorText;
+                            EMsg.ShowingMsg();
+                        }
                     }
                 }
             }
@@ -404,85 +929,89 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
 
         private void TxtBarcode_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter && txtBarcode.Text.Trim()!="")
+            if (e.KeyCode == Keys.Enter)
             {
-                ErrorText = "";
-                Cursor = Cursors.WaitCursor;
+                if (txtBarcode.Text.Trim() != "" && btnPrint.Enabled == false)
+                {
+                    ErrorText = "";
+                    Cursor = Cursors.WaitCursor;
 
-                //Check Already Scan
-                int Found = 0;
-                foreach (DataGridViewRow row in dgvInput.Rows)
-                {
-                    if (txtBarcode.Text == row.Cells["LabelNo"].Value.ToString())
+                    //Check Already Scan
+                    int Found = 0;
+                    foreach (DataGridViewRow row in dgvInput.Rows)
                     {
-                        Found++;
-                        break;
-                    }
-                }
-                if (Found == 0)
-                {
-                    //Checking Label Status
-                    try
-                    {
-                        cnn.con.Open();
-                        string SQLQuery = "SELECT SysNo, DocumentNo, POSNo, T1.Code, ItemName, RMType, LotNo, TotalWeight, Qty, Status FROM " +
-                            "\n(SELECT * FROM tbSDAllocateReturnDetails WHERE NOT Status = 'Deleted') T1 " +
-                            "\nINNER JOIN (SELECT * FROM tbMasterItem) T2 ON T1.Code=T2.ItemCode " +
-                            "\nLEFT JOIN (SELECT * FROM tbSDMstUncountMat) T3 ON T1.Code=T3.Code " +
-                            "\nWHERE T1.SysNo='" + txtBarcode.Text + "' ";
-                        SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
-                        DataTable dtChecking = new DataTable();
-                        sda.Fill(dtChecking);
-                        if (dtChecking.Rows.Count > 0)
+                        if (txtBarcode.Text == row.Cells["LabelNo"].Value.ToString())
                         {
-                            if (dtChecking.Rows[0]["Status"].ToString() == "Open")
+                            Found++;
+                            break;
+                        }
+                    }
+                    if (Found == 0)
+                    {
+                        //Checking Label Status
+                        try
+                        {
+                            cnn.con.Open();
+                            string SQLQuery = "SELECT SysNo, DocumentNo, POSNo, T1.Code, ItemName, RMType, LotNo, TotalWeight, Qty, Status FROM " +
+                                "\n(SELECT * FROM tbSDAllocateReturnDetails WHERE NOT Status = 'Deleted') T1 " +
+                                "\nINNER JOIN (SELECT * FROM tbMasterItem) T2 ON T1.Code=T2.ItemCode " +
+                                "\nLEFT JOIN (SELECT * FROM tbSDMstUncountMat) T3 ON T1.Code=T3.Code " +
+                                "\nWHERE T1.SysNo='" + txtBarcode.Text + "' ";
+                            SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                            DataTable dtChecking = new DataTable();
+                            sda.Fill(dtChecking);
+                            if (dtChecking.Rows.Count > 0)
                             {
-                                dgvInput.Rows.Add();
-                                dgvInput.Rows[dgvInput.Rows.Count - 1].Cells["DocNo"].Value = dtChecking.Rows[0]["DocumentNo"];
-                                dgvInput.Rows[dgvInput.Rows.Count - 1].Cells["LabelNo"].Value = dtChecking.Rows[0]["SysNo"];
-                                dgvInput.Rows[dgvInput.Rows.Count - 1].Cells["RMCode"].Value = dtChecking.Rows[0]["Code"];
-                                dgvInput.Rows[dgvInput.Rows.Count - 1].Cells["RMName"].Value = dtChecking.Rows[0]["ItemName"];
-                                dgvInput.Rows[dgvInput.Rows.Count - 1].Cells["RMType"].Value = dtChecking.Rows[0]["RMType"];
-                                dgvInput.Rows[dgvInput.Rows.Count - 1].Cells["TotalW"].Value = Convert.ToDouble(dtChecking.Rows[0]["TotalWeight"]);
-                                dgvInput.Rows[dgvInput.Rows.Count - 1].Cells["Qty"].Value = Convert.ToDouble(dtChecking.Rows[0]["Qty"]);
-                                dgvInput.Rows[dgvInput.Rows.Count - 1].Cells["LotNo"].Value = dtChecking.Rows[0]["LotNo"];
-                                dgvInput.ClearSelection();
-                                dgvInput.CurrentCell = null;
+                                if (dtChecking.Rows[0]["Status"].ToString() == "Open")
+                                {
+                                    dgvInput.Rows.Add();
+                                    dgvInput.Rows[dgvInput.Rows.Count - 1].Cells["DocNo"].Value = dtChecking.Rows[0]["DocumentNo"];
+                                    dgvInput.Rows[dgvInput.Rows.Count - 1].Cells["LabelNo"].Value = dtChecking.Rows[0]["SysNo"];
+                                    dgvInput.Rows[dgvInput.Rows.Count - 1].Cells["RMCode"].Value = dtChecking.Rows[0]["Code"];
+                                    dgvInput.Rows[dgvInput.Rows.Count - 1].Cells["RMName"].Value = dtChecking.Rows[0]["ItemName"];
+                                    dgvInput.Rows[dgvInput.Rows.Count - 1].Cells["RMType"].Value = dtChecking.Rows[0]["RMType"];
+                                    dgvInput.Rows[dgvInput.Rows.Count - 1].Cells["TotalW"].Value = Convert.ToDouble(dtChecking.Rows[0]["TotalWeight"]);
+                                    dgvInput.Rows[dgvInput.Rows.Count - 1].Cells["Qty"].Value = Convert.ToDouble(dtChecking.Rows[0]["Qty"]);
+                                    dgvInput.Rows[dgvInput.Rows.Count - 1].Cells["LotNo"].Value = dtChecking.Rows[0]["LotNo"];
+                                    dgvInput.ClearSelection();
+                                    dgvInput.CurrentCell = null;
+                                }
+                                else
+                                {
+                                    ErrorText = "ឡាប៊ែលនេះស្កេនរួចហើយ!";
+                                }
                             }
                             else
                             {
-                                ErrorText = "ឡាប៊ែលនេះស្កេនរួចហើយ!";
+                                ErrorText = "គ្មានទិន្នន័យឡាប៊ែលនេះទេ!";
                             }
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            ErrorText = "គ្មានទិន្នន័យឡាប៊ែលនេះទេ!";
+                            ErrorText = "មានបញ្ហា!\n" + ex.Message;
                         }
+                        cnn.con.Close();
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        ErrorText = "មានបញ្ហា!\n" + ex.Message;
+                        ErrorText = "ស្កេនមុននេះរួចហើយ!";
                     }
-                    cnn.con.Close();
-                }
-                else
-                {
-                    ErrorText = "ស្កេនមុននេះរួចហើយ!";
-                }
 
-                Cursor = Cursors.Default;
+                    Cursor = Cursors.Default;
 
-                if (ErrorText.Trim() == "")
-                {
-                    txtBarcode.Text = "";
-                    txtBarcode.Focus();
-                }
-                else
-                {
-                    EMsg.AlertText = ErrorText;
-                    EMsg.ShowingMsg();
-                    txtBarcode.Focus();
-                    txtBarcode.SelectAll();
+                    if (ErrorText.Trim() == "")
+                    {
+                        txtBarcode.Text = "";
+                        txtBarcode.Focus();
+                    }
+                    else
+                    {
+                        EMsg.AlertText = ErrorText;
+                        EMsg.ShowingMsg();
+                        txtBarcode.Focus();
+                        txtBarcode.SelectAll();
+                    }
+
                 }
             }
         }
