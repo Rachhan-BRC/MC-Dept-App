@@ -909,7 +909,8 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                             //Write Data
                             //Header
                             WS.Cells[1,1] = "*"+BobbinSysNo+"*";
-                            WS.Cells[3, 2] = txtRMName.Text;
+                            WS.Cells[3, 4] = txtRMName.Text;
+                            WS.Cells[3, 2] = txtRMCode.Text;
 
                             if (SeletedRMType == "Wire")
                             {
