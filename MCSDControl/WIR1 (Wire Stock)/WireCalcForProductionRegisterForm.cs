@@ -752,8 +752,8 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                     ErrorText = "";
 
                     DateTime RegDate = DateTime.Now;
-                    //string RegBy = MenuFormV2.UserForNextForm;
-                    string RegBy = "Rachhan";
+                    string RegBy = MenuFormV2.UserForNextForm;
+                    //string RegBy = "Rachhan";
                     double BobbinW = 0;
                     double PerUnit = 0; 
                     double MOQ_W = 0;
