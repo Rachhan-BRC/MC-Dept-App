@@ -337,8 +337,17 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 try
                 {
                     double InputQty = Convert.ToDouble(CboBobbinW.Text.Trim());
-                    InputQty = Convert.ToDouble(InputQty.ToString("N2"));
-                    CboBobbinW.Text = InputQty.ToString();
+                    if (InputQty < 2)
+                    {
+                        InputQty = Convert.ToDouble(InputQty.ToString("N2"));
+                        CboBobbinW.Text = InputQty.ToString();
+                    }
+                    else
+                    {
+                        WMsg.WarningText = "ទម្ងន់ខុសប្រក្រតី!";
+                        WMsg.ShowingMsg();
+                        CboBobbinW.Text = "";
+                    }
                 }
                 catch
                 {
@@ -378,6 +387,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
         }
         private void RdbNewReg_CheckedChanged(object sender, EventArgs e)
         {
+            CboBobbinW.Text = "";
             if (rdbNewReg.Checked == true)
             {
                 panelNewReg.Enabled = true;
@@ -449,8 +459,35 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 {
                     double InputQty = Convert.ToDouble(txtTotalWOld.Text.Trim());
                     InputQty = Convert.ToDouble(InputQty.ToString("N2"));
-                    if(InputQty>0)
-                        txtTotalWOld.Text = InputQty.ToString();
+                    if (InputQty > 0)
+                    {
+                        int UserAccepted = 0;
+                        if (InputQty >= 20)
+                        {
+                            QMsg.QAText = "ទម្ងន់ខុសប្រក្រតី! តើអ្នកចង់បន្ដទៀតឬទេ?";
+                            QMsg.MsgIcon = MessageBoxIcon.Exclamation;
+                            QMsg.UserClickedYes = false;
+                            QMsg.ShowingMsg();
+                            if (QMsg.UserClickedYes == true)
+                            {
+                                UserAccepted++;
+                            }
+                            QMsg.MsgIcon = MessageBoxIcon.Question;
+                        }
+                        else
+                        {
+                            UserAccepted++;
+                        }
+
+                        if (UserAccepted > 0)
+                        {
+                            txtTotalWOld.Text = InputQty.ToString();
+                        }
+                        else
+                        {
+                            txtTotalWOld.Text = "";
+                        }
+                    }
                     else
                     {
                         WMsg.WarningText = "សូមបញ្ចូលតែចំនួនដែលធំជាង 0!";
@@ -522,7 +559,32 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                     InputQty = Convert.ToDouble(InputQty.ToString("N2"));
                     if (InputQty > 0)
                     {
-                        txtNetWNew.Text = InputQty.ToString();
+                        int UserAccepted = 0;
+                        if (InputQty >= 20)
+                        {
+                            QMsg.QAText = "ទម្ងន់ខុសប្រក្រតី! តើអ្នកចង់បន្ដទៀតឬទេ?";
+                            QMsg.MsgIcon = MessageBoxIcon.Exclamation;
+                            QMsg.UserClickedYes = false;
+                            QMsg.ShowingMsg();
+                            if (QMsg.UserClickedYes == true)
+                            {
+                                UserAccepted++;
+                            }
+                            QMsg.MsgIcon = MessageBoxIcon.Question;
+                        }
+                        else
+                        {
+                            UserAccepted++;
+                        }
+
+                        if (UserAccepted > 0)
+                        {
+                            txtNetWNew.Text = InputQty.ToString();
+                        }
+                        else
+                        {
+                            txtNetWNew.Text = "";
+                        }
                     }
                     else
                     {
@@ -590,7 +652,32 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 {
                     double InputQty = Convert.ToDouble(txtTotalWNew.Text.Trim());
                     InputQty = Convert.ToDouble(InputQty.ToString("N2"));
-                    txtTotalWNew.Text = InputQty.ToString();
+                    int UserAccepted = 0;
+                    if (InputQty >= 20)
+                    {
+                        QMsg.QAText = "ទម្ងន់ខុសប្រក្រតី! តើអ្នកចង់បន្ដទៀតឬទេ?";
+                        QMsg.MsgIcon = MessageBoxIcon.Exclamation;
+                        QMsg.UserClickedYes = false;
+                        QMsg.ShowingMsg();
+                        if (QMsg.UserClickedYes == true)
+                        {
+                            UserAccepted++;
+                        }
+                        QMsg.MsgIcon = MessageBoxIcon.Question;
+                    }
+                    else
+                    {
+                        UserAccepted++;
+                    }
+
+                    if (UserAccepted > 0)
+                    {
+                        txtTotalWNew.Text = InputQty.ToString();
+                    }
+                    else
+                    {
+                        txtTotalWNew.Text = "";
+                    }
                 }
                 catch
                 {
@@ -914,9 +1001,25 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
 
                             if (SeletedRMType == "Wire")
                             {
-                                WS.Cells[4, 2] = MOQ_W;
+                                if (MOQ_W != 0)
+                                {
+                                    WS.Cells[4, 2] = MOQ_W;
+                                }
+                                else
+                                {
+                                    WS.Cells[4, 2] = Remain_W;
+                                }
+                                //WS.Cells[4, 2] = MOQ_W;
                                 WS.Cells[4, 6] = BobbinW;
-                                WS.Cells[5, 2] = MOQ_L;
+                                if (MOQ_L != 0)
+                                {
+                                    WS.Cells[5, 2] = MOQ_L;
+                                }
+                                else
+                                {
+                                    WS.Cells[5, 2] = Remain_L;
+                                }
+                                //WS.Cells[5, 2] = MOQ_L;
                                 WS.Cells[5, 6] = PerUnit;
                                 WS.Cells[8, 3] = Remain_W;
                                 WS.Cells[8, 1] = RegDate;

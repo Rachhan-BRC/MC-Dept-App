@@ -11,9 +11,10 @@ namespace MachineDeptApp.MsgClass
     {
         public string QAText;
         public bool UserClickedYes = false;
+        public MessageBoxIcon MsgIcon = MessageBoxIcon.Question;
         public void ShowingMsg()
         {
-            DialogResult DSL = MessageBox.Show(QAText, "Rachhan System", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult DSL = MessageBox.Show(QAText, "Rachhan System", MessageBoxButtons.YesNo, MsgIcon);
             if (DSL == DialogResult.Yes)
             {
                 UserClickedYes = true;

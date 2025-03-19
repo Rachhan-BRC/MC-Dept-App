@@ -649,8 +649,8 @@
             this.tabPageManual.Controls.Add(this.btnRegister);
             this.tabPageManual.Controls.Add(this.label13);
             this.tabPageManual.Controls.Add(this.label14);
-            this.tabPageManual.Controls.Add(this.panelRegOther);
             this.tabPageManual.Controls.Add(this.panelRegWire);
+            this.tabPageManual.Controls.Add(this.panelRegOther);
             this.tabPageManual.Location = new System.Drawing.Point(4, 31);
             this.tabPageManual.Name = "tabPageManual";
             this.tabPageManual.Padding = new System.Windows.Forms.Padding(3);
