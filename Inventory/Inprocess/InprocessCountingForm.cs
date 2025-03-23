@@ -809,15 +809,23 @@ namespace MachineDeptApp.Inventory.Inprocess
                     string[] BarcodeArray = txtBarcodeSemi.Text.ToString().Split('/');
                     string POSNo = BarcodeArray[0].ToString();
                     string WipCode = BarcodeArray[1].ToString();
+                    string BoxNo = Convert.ToDouble(BarcodeArray[3]).ToString();
                     ErrorText = "";
                     ClearAllText();
 
-                    //Take POS Details
+                    //Checking Already input & Take POS Details
+                    DataTable dtCheck = new DataTable();
                     DataTable dt = new DataTable();
                     try
                     {
                         cnn.con.Open();
-                        string SQLQuery = "SELECT PosCNo, WIPCode, ItemName, Remarks1, Remarks2, Remarks3, " +
+                        string SQLQuery = "SELECT * FROM tbInventory WHERE LocCode = 'MC1' AND CountingMethod='Semi' " +
+                            "\nAND CancelStatus = 0 AND QtyDetails2 = '"+POSNo+"|"+WipCode+"|"+BoxNo+"' ";
+                        Console.WriteLine(SQLQuery);
+                        SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                        sda.Fill(dtCheck);
+                        
+                        SQLQuery = "SELECT PosCNo, WIPCode, ItemName, Remarks1, Remarks2, Remarks3, " +
                             "\nNULLIF(CONCAT(MC1Name, " +
                             "\nCASE " +
                             "\n\tWHEN LEN(MC2Name)>1 THEN ' & ' " +
@@ -832,7 +840,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                             "\nWHERE PosCNo = '" + POSNo + "' AND WIPCode = '" + WipCode + "' " +
                             "\nORDER BY ItemName ASC, ItemCode ASC";
                         //Console.WriteLine(SQLQuery);
-                        SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                        sda = new SqlDataAdapter(SQLQuery, cnn.con);
                         sda.Fill(dt);
                     }
                     catch (Exception ex)
@@ -852,28 +860,42 @@ namespace MachineDeptApp.Inventory.Inprocess
 
                     if (ErrorText.Trim() == "")
                     {
-                        if (dt.Rows.Count > 0)
+                        if (dtCheck.Rows.Count == 0)
                         {
-                            LbWIPCodeSemiBC.Text = WipCode;
-                            LbPOSNoSemiBC.Text = dt.Rows[0]["PosCNo"].ToString();
-                            string MCName = dt.Rows[0]["MCName"].ToString();
-                            if (MCName.Contains("&") == true)
+                            if (dt.Rows.Count > 0)
                             {
-                                MCName = MCName.Replace("&","&&");
+                                LbWIPCodeSemiBC.Text = WipCode;
+                                LbPOSNoSemiBC.Text = dt.Rows[0]["PosCNo"].ToString();
+                                LbBoxNoSemiBC.Text = BoxNo;
+                                string MCName = dt.Rows[0]["MCName"].ToString();
+                                if (MCName.Contains("&") == true)
+                                {
+                                    MCName = MCName.Replace("&", "&&");
+                                }
+                                LbMCNameSemiBC.Text = MCName;
+                                LbWIPNameSemiBC.Text = dt.Rows[0]["ItemName"].ToString();
+                                LbPINSemiBC.Text = dt.Rows[0]["Remarks1"].ToString();
+                                LbLengthSemiBC.Text = dt.Rows[0]["Remarks3"].ToString();
+                                LbWireTubeSemiBC.Text = dt.Rows[0]["Remarks2"].ToString();
+                                txtBarcodeSemi.Text = "";
+                                txtBatchQtyBC.Focus();
                             }
-                            LbMCNameSemiBC.Text = MCName;
-                            LbWIPNameSemiBC.Text = dt.Rows[0]["ItemName"].ToString();
-                            LbPINSemiBC.Text = dt.Rows[0]["Remarks1"].ToString();
-                            LbLengthSemiBC.Text = dt.Rows[0]["Remarks3"].ToString();
-                            LbWireTubeSemiBC.Text = dt.Rows[0]["Remarks2"].ToString();
-                            txtBarcodeSemi.Text = "";
-                            txtBatchQtyBC.Focus();
+                            else
+                            {
+                                WMsg.WarningText = "គ្មានទិន្នន័យសឺមីនេះទេ!" +
+                                    "\nWIP Code : " + WipCode + " " +
+                                    "\nPOS No    : " + POSNo;
+                                WMsg.ShowingMsg();
+                                txtBarcodeSemi.Focus();
+                                txtBarcodeSemi.SelectAll();
+                            }
                         }
                         else
                         {
-                            WMsg.WarningText = "គ្មានទិន្នន័យសឺមីនេះទេ!" +
+                            WMsg.WarningText = "ទិន្នន័យសឺមីនេះស្កេនរួចហើយ!" +
                                 "\nWIP Code : " + WipCode + " " +
-                                "\nPOS No    : " + POSNo;
+                                "\nPOS No    : " + POSNo + " " +
+                                "\nBox No     : " + BoxNo;
                             WMsg.ShowingMsg();
                             txtBarcodeSemi.Focus();
                             txtBarcodeSemi.SelectAll();
@@ -1376,6 +1398,7 @@ namespace MachineDeptApp.Inventory.Inprocess
 
             //SemiBC
             LbMCNameSemiBC.Text = "";
+            LbBoxNoSemiBC.Text = "";
             LbPOSNoSemiBC.Text = "";
             LbWIPCodeSemiBC.Text = "";
             LbWIPNameSemiBC.Text = "";
@@ -1618,7 +1641,7 @@ namespace MachineDeptApp.Inventory.Inprocess
         private void SaveSemi()
         {
             string Loc = "MC1";
-            string SubLoc = LocSelected;
+            string SubLoc = LbMCNameSemiBC.Text;
             string WipCode = "";
             string WIPName = "";
             string Pin = "";
@@ -1628,6 +1651,7 @@ namespace MachineDeptApp.Inventory.Inprocess
             string ItemType = CountingM;
             int Qty = 0;
             string QtyDetails = "";
+            string QtyDetails2= "";
             ErrorText = "";
 
             //Semi BC
@@ -1673,6 +1697,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                             Length = LbLengthSemiBC.Text;
                             Qty = Convert.ToInt32(LbTotalQtySemiBC.Text.Replace(",",""));
                             QtyDetails = txtBatchQtyBC.Text.ToString()+"x"+txtQtyPerBatchBC.Text.ToString();
+                            QtyDetails2 = LbPOSNoSemiBC.Text + "|" + WipCode + "|" + LbBoxNoSemiBC.Text;
                             if (txtQtyReayBC.Text.Trim() != "")
                             {
                                 QtyDetails = QtyDetails+"+"+txtQtyReayBC.Text.ToString();
@@ -1720,6 +1745,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                 }
             }
             //Semi Manual
+            /*
             else
             {
                 if (dgvSemi.SelectedCells.Count>0)
@@ -1802,6 +1828,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                     txtWipNameSemi.Focus();
                 }
             }
+            */
 
             if (ErrorText.Trim() == "")
             {
@@ -1850,12 +1877,11 @@ namespace MachineDeptApp.Inventory.Inprocess
 
                         try
                         {
-                            cnn.con.Open();
-                            
+                            cnn.con.Open();                            
                             if (LabelNo <= Convert.ToInt32(dtLabelNoRange.Rows[0][3].ToString()))
                             {
-                                cmd = new SqlCommand("INSERT INTO tbInventory(LocCode, SubLoc, LabelNo, CountingMethod, SeqNo, ItemCode, ItemType, Qty, QtyDetails, RegDate, RegBy, UpdateDate, UpdateBy, CancelStatus) " +
-                                "VALUES (@Lc, @Slc, @lbn, @Cm, @Sn, @Ic, @It, @Qty, @QtyD, @RegD, @RegB, @UpD, @UpB, @Cs)", cnn.con);
+                                cmd = new SqlCommand("INSERT INTO tbInventory(LocCode, SubLoc, LabelNo, CountingMethod, SeqNo, ItemCode, ItemType, Qty, QtyDetails, QtyDetails2, RegDate, RegBy, UpdateDate, UpdateBy, CancelStatus) " +
+                                "VALUES (@Lc, @Slc, @lbn, @Cm, @Sn, @Ic, @It, @Qty, @QtyD, @QtyD2, @RegD, @RegB, @UpD, @UpB, @Cs)", cnn.con);
 
                                 cmd.Parameters.AddWithValue("@Lc", Loc);
                                 cmd.Parameters.AddWithValue("@Slc", SubLoc);
@@ -1866,6 +1892,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                                 cmd.Parameters.AddWithValue("@It", ItemType);
                                 cmd.Parameters.AddWithValue("@Qty", Qty);
                                 cmd.Parameters.AddWithValue("@QtyD", QtyDetails);
+                                cmd.Parameters.AddWithValue("@QtyD2", QtyDetails2);
                                 cmd.Parameters.AddWithValue("@RegD", RegDate);
                                 cmd.Parameters.AddWithValue("@RegB", Username);
                                 cmd.Parameters.AddWithValue("@UpD", RegDate);
