@@ -817,11 +817,21 @@ namespace MachineDeptApp.Inventory.Inprocess
                     try
                     {
                         cnn.con.Open();
-                        string SQLQuery = "SELECT PosCNo, WIPCode, ItemName, Remarks1, Remarks2, Remarks3 FROM " +
+                        string SQLQuery = "SELECT PosCNo, WIPCode, ItemName, Remarks1, Remarks2, Remarks3, " +
+                            "\nNULLIF(CONCAT(MC1Name, " +
+                            "\nCASE " +
+                            "\n\tWHEN LEN(MC2Name)>1 THEN ' & ' " +
+                            "\n\tELSE '' " +
+                            "\nEND, MC2Name, " +
+                            "\nCASE " +
+                            "\n\tWHEN LEN(MC3Name)>1 THEN ' & ' " +
+                            "\n\tELSE '' " +
+                            "\nEND, MC3Name),'') AS MCName FROM " +
                             "\n(SELECT * FROM tbPOSDetailofMC) T1 " +
                             "\nINNER JOIN (SELECT * FROM tbMasterItem WHERE ItemType = 'Work In Process') T2 ON T1.WIPCode=T2.ItemCode " +
                             "\nWHERE PosCNo = '" + POSNo + "' AND WIPCode = '" + WipCode + "' " +
                             "\nORDER BY ItemName ASC, ItemCode ASC";
+                        //Console.WriteLine(SQLQuery);
                         SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
                         sda.Fill(dt);
                     }
@@ -846,6 +856,12 @@ namespace MachineDeptApp.Inventory.Inprocess
                         {
                             LbWIPCodeSemiBC.Text = WipCode;
                             LbPOSNoSemiBC.Text = dt.Rows[0]["PosCNo"].ToString();
+                            string MCName = dt.Rows[0]["MCName"].ToString();
+                            if (MCName.Contains("&") == true)
+                            {
+                                MCName = MCName.Replace("&","&&");
+                            }
+                            LbMCNameSemiBC.Text = MCName;
                             LbWIPNameSemiBC.Text = dt.Rows[0]["ItemName"].ToString();
                             LbPINSemiBC.Text = dt.Rows[0]["Remarks1"].ToString();
                             LbLengthSemiBC.Text = dt.Rows[0]["Remarks3"].ToString();
@@ -1351,6 +1367,7 @@ namespace MachineDeptApp.Inventory.Inprocess
         private void ClearAllText()
         {
             //POS Connector
+            LbMCNamePOS.Text = "";
             LbPOSNoPOS.Text = "";
             LbQtyPOS.Text = "";
             LbItemNamePOS.Text = "";
@@ -1358,6 +1375,8 @@ namespace MachineDeptApp.Inventory.Inprocess
             dgvRMListPOS.Rows.Clear();
 
             //SemiBC
+            LbMCNameSemiBC.Text = "";
+            LbPOSNoSemiBC.Text = "";
             LbWIPCodeSemiBC.Text = "";
             LbWIPNameSemiBC.Text = "";
             LbLengthSemiBC.Text = "";
