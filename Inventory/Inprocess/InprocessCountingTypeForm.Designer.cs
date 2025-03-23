@@ -106,16 +106,16 @@
             this.LbWireTerminal.Font = new System.Drawing.Font("Khmer OS Niroth", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LbWireTerminal.Location = new System.Drawing.Point(96, 191);
             this.LbWireTerminal.Name = "LbWireTerminal";
-            this.LbWireTerminal.Size = new System.Drawing.Size(321, 52);
+            this.LbWireTerminal.Size = new System.Drawing.Size(350, 52);
             this.LbWireTerminal.TabIndex = 1;
-            this.LbWireTerminal.Text = "រាប់ខ្សែភ្លើង/ធើមីណល (ថ្លឹង/វាស់)";
+            this.LbWireTerminal.Text = "រាប់ខ្សែភ្លើង/ធើមីណល (ថ្លឹង/គណនា)";
             // 
             // InprocessCountingTypeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(421, 268);
+            this.ClientSize = new System.Drawing.Size(443, 268);
             this.Controls.Add(this.LbWireTerminal);
             this.Controls.Add(this.LbWIP);
             this.Controls.Add(this.LbConnector);

@@ -12,9 +12,11 @@ namespace MachineDeptApp.Inventory.Inprocess
 {
     public partial class InprocessCountingTypeForm : Form
     {
-        public InprocessCountingTypeForm()
+        TextBox countType;
+        public InprocessCountingTypeForm(TextBox CountType)
         {
             InitializeComponent();
+            this.countType = CountType;
             this.PicConnector.MouseEnter += PicConnector_MouseEnter;
             this.PicConnector.MouseLeave += PicConnector_MouseLeave;
             this.PicConnector.Click += PicConnector_Click;
@@ -138,18 +140,21 @@ namespace MachineDeptApp.Inventory.Inprocess
         {
             InprocessCountingForm.CountType = "POS";
             InprocessCountingForm.CountTypeChanged = 1;
+            countType.Text = LbConnector.Text;
             this.Close();
         }
         private void WIPClick()
         {
             InprocessCountingForm.CountType = "Semi";
             InprocessCountingForm.CountTypeChanged = 1;
+            countType.Text = LbWIP.Text;
             this.Close();
         }
         private void WireTerminalClick()
         {
             InprocessCountingForm.CountType = "Stock Card";
             InprocessCountingForm.CountTypeChanged = 1;
+            countType.Text = LbWireTerminal.Text;
             this.Close();
         }
     }

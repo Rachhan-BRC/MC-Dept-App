@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using MachineDeptApp.MsgClass;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
@@ -17,6 +14,10 @@ namespace MachineDeptApp.Inventory.Inprocess
 {
     public partial class InprocessCountingForm : Form
     {
+        WarningMsgClass WMsg = new WarningMsgClass();
+        InformationMsgClass InfoMsg = new InformationMsgClass();
+        QuestionMsgClass QMsg = new QuestionMsgClass();
+        ErrorMsgClass EMsg = new ErrorMsgClass();
         SQLConnect cnn = new SQLConnect();
         SQLConnectOBS cnnOBS = new SQLConnectOBS();
         SqlCommand cmd;
@@ -52,6 +53,9 @@ namespace MachineDeptApp.Inventory.Inprocess
             this.btnStart.Click += BtnStart_Click;
             this.btnNew.Click += BtnNew_Click;
             this.btnSave.Click += BtnSave_Click;
+            this.txtCountingType.TextChanged += TxtCountingType_TextChanged;
+            this.txtCountingType.Click += TxtCountingType_Click;
+            this.PicCurrentCountingType.Click += PicCurrentCountingType_Click;
 
             //WireTerminal
             this.RdbBox.CheckedChanged += RdbBox_CheckedChanged;
@@ -64,13 +68,11 @@ namespace MachineDeptApp.Inventory.Inprocess
             this.txtQtyWireTerminal.KeyDown += TxtQtyWireTerminal_KeyDown;
             this.txtQtyWireTerminal.TextChanged += TxtQtyWireTerminal_TextChanged;
 
-
             //POS-Connector
             this.txtBarcode.KeyDown += TxtBarcode_KeyDown;
             this.dgvRMListPOS.CellFormatting += DgvRMListPOS_CellFormatting;
             this.dgvRMListPOS.CellBeginEdit += DgvRMListPOS_CellBeginEdit;
             this.dgvRMListPOS.CellEndEdit += DgvRMListPOS_CellEndEdit;
-
 
             //Semi BC
             this.LbWireTubeSemiBC.TextChanged += LbWireTubeSemiBC_TextChanged;
@@ -95,10 +97,8 @@ namespace MachineDeptApp.Inventory.Inprocess
             this.txtQtyReaySemi.KeyDown += TxtQtyReaySemi_KeyDown;
             this.dgvSemi.CellClick += DgvSemi_CellClick;
 
-
         }
-
-
+                
         //WireTerminal
         private void RdbBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -475,8 +475,6 @@ namespace MachineDeptApp.Inventory.Inprocess
             }
         }
 
-
-
         //POS-Connector
         private void TxtBarcode_KeyDown(object sender, KeyEventArgs e)
         {
@@ -486,7 +484,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                 {
                     if (txtBarcode.Text.Length < 10 || (Regex.Matches(txtBarcode.Text.ToString(), "[~!@#$%^&*()_+{}:\"<>?-]").Count) > 1 || (Regex.Matches(txtBarcode.Text.ToString(), "[-]").Count) < 1 || txtBarcode.Text.ToString().Trim()[2].ToString() != "-")
                     {
-                        MessageBox.Show("លេខ​ POS ផ្ដើមខុសទម្រង់ហើយ !", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("លេខ​ POS ខុសទម្រង់ហើយ !", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         txtBarcode.Focus();
                         txtBarcode.SelectAll();
                     }
@@ -516,82 +514,105 @@ namespace MachineDeptApp.Inventory.Inprocess
                         //Take POS Detail & Consumption from OBS
                         if (dtAlreadyCount.Rows.Count == 0 && ErrorText.Trim() == "")
                         {
-                            //Take POS Detail & Consumption from OBS
+                            //Take POS Details
                             try
                             {
-                                cnnOBS.conOBS.Open();
-                                //Take POS Detail 
-                                SqlDataAdapter sda = new SqlDataAdapter("SELECT DONo, ItemName, PlanQty, POSDeliveryDate FROM " +
-                                    "(SELECT * FROM prgproductionorder) T1 " +
-                                    "INNER JOIN " +
-                                    "(SELECT * FROM mstitem WHERE DelFlag=0 AND ItemType=1) T2 " +
-                                    "ON T1.ItemCode = T2.ItemCode " +
-                                    "WHERE DONo='" + POS + "' ", cnnOBS.conOBS);
+                                cnn.con.Open(); 
+                                string SQLQuery = "SELECT PosCNo, ItemName, PosCQty, PosPDelDate, " +
+                                    "\nNULLIF(CONCAT(MC1Name, " +
+                                    "\nCASE " +
+                                    "\n\tWHEN LEN(MC2Name)>1 THEN ' & ' " +
+                                    "\n\tELSE '' " +
+                                    "\nEND, MC2Name, " +
+                                    "\nCASE " +
+                                    "\n\tWHEN LEN(MC3Name)>1 THEN ' & ' " +
+                                    "\n\tELSE '' " +
+                                    "\nEND, MC3Name),'') AS MCName FROM " +
+                                    "\n(SELECT * FROM tbPOSDetailofMC) T1 " +
+                                    "\nINNER JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Work In Process') T2 ON T1.WIPCode=T2.ItemCode " +
+                                    "\nWHERE PosCNo='"+POS+"' ";
+                                //Console.WriteLine(SQLQuery);
+                                SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
                                 sda.Fill(dtPOSDetails);
-
-                                //Take POS Consumption
-                                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT DONo, ConsumpSeqNo, T2.ItemCode, ItemName, ConsumpQty FROM " +
-                                    "(SELECT * FROM prgproductionorder) T1 " +
-                                    "INNER JOIN " +
-                                    "(SELECT * FROM prgconsumtionorder) T2 " +
-                                    "ON T1.ProductionCode=T2.ProductionCode " +
-                                    "INNER JOIN " +
-                                    "(SELECT * FROM mstitem WHERE DelFlag =0 AND ItemType=2 AND MatCalcFlag=0) T3 " +
-                                    "ON T2.ItemCode=T3.ItemCode " +
-                                    "WHERE DONo = '" + POS + "' " +
-                                    "ORDER BY ConsumpSeqNo ASC", cnnOBS.conOBS);
-                                sda1.Fill(dtPOSConsumpt);
-
                             }
                             catch (Exception ex)
                             {
-                                if (ErrorText.Trim() == "")
-                                {
-                                    ErrorText = "OBS DB : " + ex.Message;
-                                }
-                                else
-                                {
-                                    ErrorText = ErrorText + "\nOBS DB : " + ex.Message;
-                                }
+                                ErrorText = "POS Details : " + ex.Message;
                             }
-                            cnnOBS.conOBS.Close();
+                            cnn.con.Close();
 
-                            //Assign POS Details
-                            if (dtPOSDetails.Rows.Count > 0)
+                            //Consumption from OBS
+                            if (ErrorText.Trim() == "")
                             {
-                                if (dtPOSConsumpt.Rows.Count > 0)
+                                //Assign POS Details
+                                if (dtPOSDetails.Rows.Count > 0)
                                 {
-                                    LbPOSNoPOS.Text = dtPOSDetails.Rows[0][0].ToString();
-                                    LbItemNamePOS.Text = dtPOSDetails.Rows[0][1].ToString();
-                                    LbQtyPOS.Text = Convert.ToDouble(dtPOSDetails.Rows[0][2]).ToString("N0");
-                                    LbShipmentDatePOS.Text = Convert.ToDateTime(dtPOSDetails.Rows[0][3]).ToString("dd-MM-yyyy");
-
-                                    //Assign POS Consumption
-                                    foreach (DataRow row in dtPOSConsumpt.Rows)
+                                    try
                                     {
-                                        string Code = row[2].ToString();
-                                        string RMName = row[3].ToString();
-                                        double Qty = Convert.ToDouble(row[4].ToString());
-
-                                        dgvRMListPOS.Rows.Add(Code, RMName, Qty, Qty);
-                                        dgvRMListPOS.Rows[dgvRMListPOS.Rows.Count - 1].HeaderCell.Value = dgvRMListPOS.Rows.Count.ToString();
+                                        cnnOBS.conOBS.Open();
+                                        //Take POS Consumption
+                                        string SQLQuery = "SELECT DONo, ConsumpSeqNo, T2.ItemCode, ItemName, ConsumpQty FROM " +
+                                            "(SELECT * FROM prgproductionorder) T1 " +
+                                            "INNER JOIN " +
+                                            "(SELECT * FROM prgconsumtionorder) T2 " +
+                                            "ON T1.ProductionCode=T2.ProductionCode " +
+                                            "INNER JOIN " +
+                                            "(SELECT * FROM mstitem WHERE DelFlag =0 AND ItemType=2 AND MatCalcFlag=0) T3 " +
+                                            "ON T2.ItemCode=T3.ItemCode " +
+                                            "WHERE DONo = '" + POS + "' " +
+                                            "ORDER BY ConsumpSeqNo ASC";
+                                        //Console.WriteLine(SQLQuery);
+                                        SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnnOBS.conOBS);
+                                        sda.Fill(dtPOSConsumpt);
                                     }
-                                    dgvRMListPOS.ClearSelection();
-                                    txtBarcode.Text = "";
-                                    btnSave.Focus();
+                                    catch (Exception ex)
+                                    {
+                                        if (ErrorText.Trim() == "")
+                                        {
+                                            ErrorText = "OBS DB : " + ex.Message;
+                                        }
+                                        else
+                                        {
+                                            ErrorText = ErrorText + "\nOBS DB : " + ex.Message;
+                                        }
+                                    }
+                                    cnnOBS.conOBS.Close();
+
+                                    if (dtPOSConsumpt.Rows.Count > 0)
+                                    {
+                                        LbPOSNoPOS.Text = dtPOSDetails.Rows[0]["PosCNo"].ToString();
+                                        LbItemNamePOS.Text = dtPOSDetails.Rows[0]["ItemName"].ToString();
+                                        LbQtyPOS.Text = Convert.ToDouble(dtPOSDetails.Rows[0]["PosCQty"]).ToString("N0");
+                                        LbShipmentDatePOS.Text = Convert.ToDateTime(dtPOSDetails.Rows[0]["PosPDelDate"]).ToString("dd-MM-yyyy");
+                                        LbMCNamePOS.Text = dtPOSDetails.Rows[0]["MCName"].ToString();
+
+                                        //Assign POS Consumption
+                                        foreach (DataRow row in dtPOSConsumpt.Rows)
+                                        {
+                                            string Code = row[2].ToString();
+                                            string RMName = row[3].ToString();
+                                            double Qty = Convert.ToDouble(row[4].ToString());
+
+                                            dgvRMListPOS.Rows.Add(Code, RMName, Qty, Qty);
+                                            dgvRMListPOS.Rows[dgvRMListPOS.Rows.Count - 1].HeaderCell.Value = dgvRMListPOS.Rows.Count.ToString();
+                                        }
+                                        dgvRMListPOS.ClearSelection();
+                                        txtBarcode.Text = "";
+                                        btnSave.Focus();
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("POS នេះមិនប្រើប្រាស់ខនិកទ័រទេ!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                        txtBarcode.Focus();
+                                        txtBarcode.SelectAll();
+                                    }
                                 }
                                 else
                                 {
-                                    MessageBox.Show("POS នេះមិនប្រើប្រាស់ខនិកទ័រទេ!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    MessageBox.Show("គ្មាន POS នេះនៅក្នុងប្រព័ន្ធទេ!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                     txtBarcode.Focus();
                                     txtBarcode.SelectAll();
                                 }
-                            }
-                            else
-                            {
-                                MessageBox.Show("គ្មាន POS នេះនៅក្នុងប្រព័ន្ធទេ!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                txtBarcode.Focus();
-                                txtBarcode.SelectAll();
                             }
                         }
                         else if (dtAlreadyCount.Rows.Count > 0 && ErrorText.Trim() == "")
@@ -669,7 +690,6 @@ namespace MachineDeptApp.Inventory.Inprocess
                 }
             }
         }
-
 
         //Semi BC
         private void LbWireTubeSemiBC_TextChanged(object sender, EventArgs e)
@@ -787,22 +807,22 @@ namespace MachineDeptApp.Inventory.Inprocess
                 {
                     Cursor = Cursors.WaitCursor;
                     string[] BarcodeArray = txtBarcodeSemi.Text.ToString().Split('/');
+                    string POSNo = BarcodeArray[0].ToString();
                     string WipCode = BarcodeArray[1].ToString();
                     ErrorText = "";
                     ClearAllText();
 
-                    //Take OBS MasterItem
+                    //Take POS Details
                     DataTable dt = new DataTable();
                     try
                     {
-                        cnnOBS.conOBS.Open();
-                        SqlDataAdapter sda = new SqlDataAdapter("SELECT UpItemCode, ItemName, Remark2, Remark3, Remark4 FROM " +
-                            "(SELECT UpItemCode FROM mstbom WHERE DelFlag=0 GROUP BY UpItemCode)T1 " +
-                            "INNER JOIN " +
-                            "(SELECT * FROM mstitem WHERE ItemType=1 AND DelFlag=0)T2 " +
-                            "ON T1.UpItemCode=T2.ItemCode " +
-                            "WHERE UpItemCode = '"+WipCode+"' " +
-                            "ORDER BY ItemName ASC,UpItemCode ASC", cnnOBS.conOBS);
+                        cnn.con.Open();
+                        string SQLQuery = "SELECT PosCNo, WIPCode, ItemName, Remarks1, Remarks2, Remarks3 FROM " +
+                            "\n(SELECT * FROM tbPOSDetailofMC) T1 " +
+                            "\nINNER JOIN (SELECT * FROM tbMasterItem WHERE ItemType = 'Work In Process') T2 ON T1.WIPCode=T2.ItemCode " +
+                            "\nWHERE PosCNo = '" + POSNo + "' AND WIPCode = '" + WipCode + "' " +
+                            "\nORDER BY ItemName ASC, ItemCode ASC";
+                        SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
                         sda.Fill(dt);
                     }
                     catch (Exception ex)
@@ -816,7 +836,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                             ErrorText = ErrorText + "\n" + ex.Message;
                         }
                     }
-                    cnnOBS.conOBS.Close();
+                    cnn.con.Close();
 
                     Cursor = Cursors.Default;
 
@@ -825,36 +845,41 @@ namespace MachineDeptApp.Inventory.Inprocess
                         if (dt.Rows.Count > 0)
                         {
                             LbWIPCodeSemiBC.Text = WipCode;
-                            LbWIPNameSemiBC.Text = dt.Rows[0][1].ToString();
-                            LbPINSemiBC.Text = dt.Rows[0][2].ToString();
-                            LbLengthSemiBC.Text = dt.Rows[0][4].ToString();
-                            LbWireTubeSemiBC.Text = dt.Rows[0][3].ToString();
+                            LbPOSNoSemiBC.Text = dt.Rows[0]["PosCNo"].ToString();
+                            LbWIPNameSemiBC.Text = dt.Rows[0]["ItemName"].ToString();
+                            LbPINSemiBC.Text = dt.Rows[0]["Remarks1"].ToString();
+                            LbLengthSemiBC.Text = dt.Rows[0]["Remarks3"].ToString();
+                            LbWireTubeSemiBC.Text = dt.Rows[0]["Remarks2"].ToString();
                             txtBarcodeSemi.Text = "";
                             txtBatchQtyBC.Focus();
                         }
                         else
                         {
-                            MessageBox.Show("គ្មានសឺមីកូដនេះទេ! (" + WipCode + ")" + ErrorText, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            WMsg.WarningText = "គ្មានទិន្នន័យសឺមីនេះទេ!" +
+                                "\nWIP Code : " + WipCode + " " +
+                                "\nPOS No    : " + POSNo;
+                            WMsg.ShowingMsg();
                             txtBarcodeSemi.Focus();
                             txtBarcodeSemi.SelectAll();
                         }
                     }
                     else
                     {
-                        MessageBox.Show("មានបញ្ហា!\n" + ErrorText, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        EMsg.AlertText = "មានបញ្ហា!\n" + ErrorText;
+                        EMsg.ShowingMsg();
                         txtBarcodeSemi.Focus();
                         txtBarcodeSemi.SelectAll();
                     }
                 }
                 else
                 {
-                    MessageBox.Show("អ្នកបញ្ចូលខុសទម្រង់ហើយ!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    WMsg.WarningText = "អ្នកបញ្ចូលខុសទម្រង់ហើយ!";
+                    WMsg.ShowingMsg();
                     txtBarcodeSemi.Focus();
                     txtBarcodeSemi.SelectAll();
                 }
             }
         }
-
         private void TabCtrlSemi_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (tabCtrlSemi.SelectedIndex == 0)
@@ -1036,16 +1061,15 @@ namespace MachineDeptApp.Inventory.Inprocess
             }
         }
 
-
         private void BtnSave_Click(object sender, EventArgs e)
         {
             //POS-Connector
-            if (CountType == "POS")
+            if (txtCountingType.Text.Contains("ខនិកទ័រ") == true)
             {
                 SavePOSConnector();
             }
             //Semi
-            else if (CountType == "Semi")
+            else if (txtCountingType.Text.Contains("សឺមី") == true) 
             {
                 SaveSemi();
             }
@@ -1083,8 +1107,8 @@ namespace MachineDeptApp.Inventory.Inprocess
             if (CboLoc.Text.Trim() != "")
             {
                 CountTypeChanged = 0;
-                InprocessCountingTypeForm Ictf = new InprocessCountingTypeForm();
-                Ictf.ShowDialog();
+                //InprocessCountingTypeForm Ictf = new InprocessCountingTypeForm();
+                //Ictf.ShowDialog();
                 if (CountTypeChanged > 0)
                 {
                     LocSelected = CboLoc.Text;
@@ -1102,7 +1126,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                         CountTypeInKhmer = "ខ្សែភ្លើង/ធើមីណល";
                     }
                     GrbLocAndType.Text = "ទីតាំង ៖ " + LocSelected + " ( " + CountTypeInKhmer + " )";
-                    ShowGrbLocAndType();
+                    //ShowGrbLocAndType();
                 }
             }
             else
@@ -1118,11 +1142,13 @@ namespace MachineDeptApp.Inventory.Inprocess
         private void InprocessCountingForm_Load(object sender, EventArgs e)
         {
             chkPrintStatus.Checked = Properties.Settings.Default.MCInproPrintStatus;
-            string[] MCName = new string[] { "", "MS01", "DCAM", "DE SK", "JAM", "TWIST", "SEMI", "SEMI MQC" };
-            for (int i = 0; i < MCName.Length; i++)
-            {
-                CboLoc.Items.Add(MCName[i].ToString());
-            }
+            txtCountingType.Text = "រាប់ខនិកទ័រ (ស្កេន)";
+            tabCtrlSemi.TabPages.RemoveAt(1);
+            //string[] MCName = new string[] { "", "MS01", "DCAM", "DE SK", "JAM", "TWIST", "SEMI", "SEMI MQC" };
+            //for (int i = 0; i < MCName.Length; i++)
+            //{
+            //    //CboLoc.Items.Add(MCName[i].ToString());
+            //}
 
             dtColor = new DataTable();
             dtColor.Columns.Add("ShortText");
@@ -1248,15 +1274,42 @@ namespace MachineDeptApp.Inventory.Inprocess
                 this.Close();
             }
         }
-
-        //Function
-        private void ShowGrbLocAndType()
+        private void TxtCountingType_TextChanged(object sender, EventArgs e)
         {
-            btnNew.Visible = true;
-            btnSave.Visible = true;
-            numPrintQty.Visible = true;
-            chkPrintStatus.Visible = true;
-            panelBody.Visible = true;
+            string CountTypeInKhmer = "";
+            if (txtCountingType.Text.Contains("ខនិកទ័រ") == true)
+            {
+                CountTypeInKhmer = "ខនិកទ័រ";
+                PicCurrentCountingType.BackgroundImage = imgListCountingType.Images[0];
+                panelPOS.Visible = true;
+                panelPOS.BringToFront();
+                panelSemi.Visible = false;
+                panelStockCardWireTerminal.Visible = false;
+                txtBarcode.Focus();
+            }
+            else if (txtCountingType.Text.Contains("សឺមី") == true)
+            {
+                CountTypeInKhmer = "សឺមី";
+                PicCurrentCountingType.BackgroundImage = imgListCountingType.Images[1]; 
+                panelSemi.Visible = true;
+                panelSemi.BringToFront();
+                panelPOS.Visible = false;
+                panelStockCardWireTerminal.Visible = false;
+                txtBarcodeSemi.Focus();
+            }
+            else
+            {
+                CountTypeInKhmer = "ខ្សែភ្លើង/ធើមីណល";
+                PicCurrentCountingType.BackgroundImage = imgListCountingType.Images[2];
+                panelStockCardWireTerminal.Visible = true;
+                panelStockCardWireTerminal.BringToFront();
+                panelSemi.Visible = false;
+                panelPOS.Visible = false;
+                txtItems.Focus();
+            }
+            GrbLocAndType.Text = "ប្រភេទ ៖ " + CountTypeInKhmer ;
+
+            /*
             if (CountType == "POS")
             {
                 panelPOS.Visible = true;
@@ -1281,7 +1334,20 @@ namespace MachineDeptApp.Inventory.Inprocess
                 panelPOS.Visible = false;
                 txtItems.Focus();
             }
+            */
         }
+        private void TxtCountingType_Click(object sender, EventArgs e)
+        {
+            InprocessCountingTypeForm Ictf = new InprocessCountingTypeForm(this.txtCountingType);
+            Ictf.ShowDialog();
+        }
+        private void PicCurrentCountingType_Click(object sender, EventArgs e)
+        {
+            InprocessCountingTypeForm Ictf = new InprocessCountingTypeForm(this.txtCountingType);
+            Ictf.ShowDialog();
+        }
+
+        //Function
         private void ClearAllText()
         {
             //POS Connector
@@ -1381,7 +1447,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                             {
                                 cnn.con.Open();
                                 string LocCode = "MC1";
-                                string SubLoc = LocSelected;
+                                string SubLoc = LbMCNamePOS.Text;
                                 string CountingMethod = "POS";
                                 string QtyDetails = LbPOSNoPOS.Text;
                                 string ItemCode = DgvRow.Cells[0].Value.ToString();
@@ -1716,7 +1782,6 @@ namespace MachineDeptApp.Inventory.Inprocess
                     }
                     txtWipNameSemi.Focus();
                 }
-
             }
 
             if (ErrorText.Trim() == "")
@@ -2656,5 +2721,6 @@ namespace MachineDeptApp.Inventory.Inprocess
                 }
             }
         }
+
     }
 }
