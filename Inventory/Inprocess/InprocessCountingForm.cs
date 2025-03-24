@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
 using Excel = Microsoft.Office.Interop.Excel;
+using System.ComponentModel;
 
 namespace MachineDeptApp.Inventory.Inprocess
 {
@@ -23,11 +24,14 @@ namespace MachineDeptApp.Inventory.Inprocess
         SqlCommand cmd;
         DataTable dtColor;
         public static string CountType;
-        public static int CountTypeChanged;
+        //public static int CountTypeChanged;
         string LocSelected;
 
         //POS-Connector
         double ValueBeforeUpdate;
+
+        //Wire
+        double PerUnit;
 
         string ErrorText;
 
@@ -45,7 +49,23 @@ namespace MachineDeptApp.Inventory.Inprocess
             this.PicCurrentCountingType.Click += PicCurrentCountingType_Click;
 
             //WireTerminal
+            this.txtBarcodeWireTerminal.KeyDown += TxtBarcodeWireTerminal_KeyDown;
+            this.dgvWireTerminal_W.CellPainting += DgvWireTerminal_W_CellPainting;
+            this.dgvWireTerminal_T.CellPainting += DgvWireTerminal_T_CellPainting;
+            this.dgvWireTerminal_W.SortCompare += DgvWireTerminal_W_SortCompare;
+            this.dgvWireTerminal_T.SortCompare += DgvWireTerminal_T_SortCompare;
+            //Wire 
+            this.btnOK_W.EnabledChanged += BtnOK_W_EnabledChanged;
+            this.txtWAWireTerminal_W.KeyPress += TxtWAWireTerminal_W_KeyPress;
+            this.txtWAWireTerminal_W.Leave += TxtWAWireTerminal_W_Leave;
+            this.txtWAWireTerminal_W.TextChanged += TxtWAWireTerminal_W_TextChanged;
+            this.btnOK_W.Click += BtnOK_W_Click;
 
+            //Terminal
+            this.btnOK_T.EnabledChanged += BtnOK_T_EnabledChanged;
+            this.txtUseQtyWireTerminal_T.KeyPress += TxtUseQtyWireTerminal_T_KeyPress;
+            this.txtUseQtyWireTerminal_T.Leave += TxtUseQtyWireTerminal_T_Leave;
+            this.btnOK_T.Click += BtnOK_T_Click;
 
             //POS-Connector
             this.txtBarcode.KeyDown += TxtBarcode_KeyDown;
@@ -77,9 +97,496 @@ namespace MachineDeptApp.Inventory.Inprocess
             this.dgvSemi.CellClick += DgvSemi_CellClick;
 
         }
-                
-        //WireTerminal
 
+        //WireTerminal
+        private void TxtUseQtyWireTerminal_T_Leave(object sender, EventArgs e)
+        {
+            if (txtUseQtyWireTerminal_T.Text.Trim() != "")
+            {
+                try
+                {
+                    double InputtedValue = Convert.ToDouble(txtUseQtyWireTerminal_T.Text);
+                    if (InputtedValue >= 0)
+                    {
+                        if (InputtedValue <= Convert.ToDouble(txtQtyBWireTerminal_T.Text))
+                            txtUseQtyWireTerminal_T.Text = InputtedValue.ToString("N0");
+                        else
+                        {
+                            txtUseQtyWireTerminal_T.Text = "";
+                        }
+                    }
+                    else
+                    {
+                        WMsg.WarningText = "ចំនួនប្រើប្រាស់មិនអាចតូចជាង 0 បានទេ!";
+                        WMsg.ShowingMsg();
+                        txtUseQtyWireTerminal_T.Text = "";
+                    }
+                }
+                catch
+                {
+                    WMsg.WarningText = "អ្នកបញ្ចូលខុសទម្រង់ហើយ!";
+                    WMsg.ShowingMsg();
+                    txtUseQtyWireTerminal_T.Text = "";
+                }
+            }
+        }
+        private void TxtUseQtyWireTerminal_T_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+        private void BtnOK_T_Click(object sender, EventArgs e)
+        {
+            if (txtUseQtyWireTerminal_T.Text.Trim() != "" && Convert.ToDouble(txtUseQtyWireTerminal_T.Text) >= 0 && Convert.ToDouble(txtQtyBWireTerminal_T.Text) >= Convert.ToDouble(txtUseQtyWireTerminal_T.Text))
+            {
+                foreach (DataGridViewRow row in dgvWireTerminal_T.Rows)
+                {
+                    if (row.Cells["BobbinCodeT"].Value.ToString() == LbBobbinNoWireTerminal_T.Text)
+                    {
+                        int CurrentSeqNo = 1;
+                        foreach (DataGridViewRow SeqRow in dgvWireTerminal_T.Rows)
+                        {
+                            if (SeqRow.Cells["ScanSeqT"].Value != null && SeqRow.Cells["ScanSeqT"].Value.ToString().Trim() != "")
+                                CurrentSeqNo++;
+                        }
+                        row.Cells["RemainQtyT"].Value = Convert.ToDouble(txtQtyBWireTerminal_T.Text) - Convert.ToDouble(txtUseQtyWireTerminal_T.Text);
+                        row.Cells["StatusT"].Value = "✔️";
+                        ClearAllText();
+                        btnOK_T.Enabled = false;
+                        txtBarcodeWireTerminal.Focus();
+                        break;
+                    }
+                }                
+            }
+            else
+            {
+                WMsg.WarningText = "សូមបញ្ចូលប្រអប់ដែលមានពណ៌នៅពីក្រោយជាមុនសិន!";
+                WMsg.ShowingMsg();
+                txtUseQtyWireTerminal_T.Focus();
+            }
+        }
+        private void BtnOK_W_Click(object sender, EventArgs e)
+        {
+            if (txtWAWireTerminal_W.Text.Trim() != "" && txtQtyAWireTerminal_W.Text.Trim() != "")
+            {
+                if (Convert.ToDouble(txtQtyAWireTerminal_W.Text) >= 0)
+                {
+                    foreach (DataGridViewRow row in dgvWireTerminal_W.Rows)
+                    {
+                        if (row.Cells["BobbinCodeW"].Value.ToString() == LbBobbinNoWireTerminal_W.Text)
+                        {
+                            int CurrentSeqNo = 1;
+                            foreach (DataGridViewRow SeqRow in dgvWireTerminal_W.Rows)
+                            {
+                                if (SeqRow.Cells["ScanSeqW"].Value != null && SeqRow.Cells["ScanSeqW"].Value.ToString().Trim() != "")
+                                    CurrentSeqNo++;
+                            }
+                            row.Cells["ScanSeqW"].Value = CurrentSeqNo++;
+                            row.Cells["RemainWW"].Value = Convert.ToDouble(txtWAWireTerminal_W.Text);
+                            row.Cells["RemainQtyW"].Value = Convert.ToDouble(txtQtyAWireTerminal_W.Text);
+                            row.Cells["StatusW"].Value = "✔️";
+                            ClearAllText();
+                            btnOK_W.Enabled = false;
+                            txtBarcodeWireTerminal.Focus();
+                            break;
+                        }
+                    }
+                    //dgvWireTerminal_W.Columns["ScanSeqW"].SortMode = DataGridViewColumnSortMode.Automatic;
+                    //dgvWireTerminal_W.Sort(dgvWireTerminal_W.Columns["ScanSeqW"], ListSortDirection.Ascending);
+                    //dgvWireTerminal_W.Columns["ScanSeqW"].SortMode = DataGridViewColumnSortMode.NotSortable;
+                    //dgvWireTerminal_W.Columns["RMCodeW"].SortMode = DataGridViewColumnSortMode.Automatic;
+                    //dgvWireTerminal_W.Sort(dgvWireTerminal_W.Columns["RMCodeW"], ListSortDirection.Ascending);
+                    //dgvWireTerminal_W.Columns["RMCodeW"].SortMode = DataGridViewColumnSortMode.NotSortable;
+                    //AssignSeqNo();
+                }
+                else
+                {
+                    WMsg.WarningText = "ប្រវែងនៅសល់មិនអាចតូចជាង 0 បានទេ!";
+                    WMsg.ShowingMsg();
+                }
+            }
+            else
+            {
+                WMsg.WarningText = "សូមបញ្ចូលប្រអប់ដែលមានពណ៌នៅពីក្រោយជាមុនសិន!";
+                WMsg.ShowingMsg();
+                txtWAWireTerminal_W.Focus();
+            }
+        }
+        private void BtnOK_T_EnabledChanged(object sender, EventArgs e)
+        {
+            if (btnOK_T.Enabled == true)
+            {
+                btnOK_T.ForeColor = Color.Black;
+                btnOK_T.BackColor = Color.FromArgb(0, 192, 0);
+            }
+            else
+            {
+                btnOK_T.ForeColor = Color.FromArgb(64, 64, 64);
+                btnOK_T.BackColor = Color.Silver;
+            }
+        }
+        private void BtnOK_W_EnabledChanged(object sender, EventArgs e)
+        {
+            if (btnOK_W.Enabled == true)
+            {
+                btnOK_W.ForeColor = Color.Black;
+                btnOK_W.BackColor = Color.FromArgb(0, 192, 0);
+            }
+            else
+            {
+                btnOK_W.ForeColor = Color.FromArgb(64, 64, 64);
+                btnOK_W.BackColor = Color.Silver;
+            }
+        }
+        private void TxtWAWireTerminal_W_TextChanged(object sender, EventArgs e)
+        {
+            if (btnOK_W.Enabled == true)
+            {
+                if (txtWAWireTerminal_W.Text.Trim() != "")
+                {
+                    try
+                    {
+                        double AfterW = Convert.ToDouble(txtWAWireTerminal_W.Text);
+                        double BeforeW = Convert.ToDouble(txtWBWireTerminal_W.Text);
+                        double BeforeQty = Convert.ToDouble(txtQtyBWireTerminal_W.Text);
+
+                        if (AfterW >= 0)
+                        {
+                            if (AfterW > 0)
+                            {
+                                if (AfterW <= BeforeW)
+                                {
+                                    double AfterQty = BeforeQty - (BeforeW - AfterW) * PerUnit * 1000;
+                                    txtQtyAWireTerminal_W.Text = AfterQty.ToString("N0");
+                                }
+                                else
+                                {
+                                    txtQtyAWireTerminal_W.Text = "";
+                                }
+                            }
+                            else
+                            {
+                                txtQtyAWireTerminal_W.Text = "0";
+                            }
+                        }
+                        else
+                        {
+                            WMsg.WarningText = "ទម្ងន់សល់មិនអាចតូចជាង 0 បានទេ!";
+                            WMsg.ShowingMsg();
+                            txtWAWireTerminal_W.Text = "";
+                        }
+                    }
+                    catch
+                    {
+                        EMsg.AlertText = "អ្នកបញ្ចូលខុសទម្រង់ហើយ!";
+                        EMsg.ShowingMsg();
+                        txtWAWireTerminal_W.Text = "";
+                    }
+                }
+                else
+                {
+                    txtQtyAWireTerminal_W.Text = "";
+                }
+            }
+        }        
+        private void TxtWAWireTerminal_W_Leave(object sender, EventArgs e)
+        {
+            if (txtWAWireTerminal_W.Text.Trim() != "")
+            {
+                try
+                {
+                    double InputtedValue = Convert.ToDouble(txtWAWireTerminal_W.Text);
+                    txtWAWireTerminal_W.Text = InputtedValue.ToString("N2");
+                }
+                catch
+                {
+                    WMsg.WarningText = "អ្នកបញ្ចូលខុសទម្រង់ហើយ!";
+                    WMsg.ShowingMsg();
+                    txtWAWireTerminal_W.Text = "";
+                }
+            }
+        }
+        private void TxtWAWireTerminal_W_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Check if the entered key is not a control key, digit or period
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+            // Check if the period is already present in the TextBox
+            else if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+        }
+        private void DgvWireTerminal_T_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
+        {
+            int num1, num2;
+            bool isNum1 = int.TryParse(e.CellValue1?.ToString(), out num1);
+            bool isNum2 = int.TryParse(e.CellValue2?.ToString(), out num2);
+
+            if (isNum1 && isNum2)
+            {
+                e.SortResult = num1.CompareTo(num2);
+            }
+            else if (isNum1)
+            {
+                e.SortResult = -1; // Numbers come before strings
+            }
+            else if (isNum2)
+            {
+                e.SortResult = 1; // Numbers come before strings
+            }
+            else
+            {
+                e.SortResult = string.Compare(e.CellValue1?.ToString(), e.CellValue2?.ToString());
+            }
+
+            e.Handled = true;
+        }
+        private void DgvWireTerminal_W_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
+        {
+            int num1, num2;
+            bool isNum1 = int.TryParse(e.CellValue1?.ToString(), out num1);
+            bool isNum2 = int.TryParse(e.CellValue2?.ToString(), out num2);
+
+            if (isNum1 && isNum2)
+            {
+                e.SortResult = num1.CompareTo(num2);
+            }
+            else if (isNum1)
+            {
+                e.SortResult = -1; // Numbers come before strings
+            }
+            else if (isNum2)
+            {
+                e.SortResult = 1; // Numbers come before strings
+            }
+            else
+            {
+                e.SortResult = string.Compare(e.CellValue1?.ToString(), e.CellValue2?.ToString());
+            }
+
+            e.Handled = true;
+        }
+        private void DgvWireTerminal_T_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                if (dgvWireTerminal_T.Columns[e.ColumnIndex].Name == "StatusT")
+                {
+                    if (dgvWireTerminal_T.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == "✖️")
+                    {
+                        e.CellStyle.ForeColor = Color.Red;
+                        e.CellStyle.SelectionForeColor = Color.Red;
+                    }
+                    else
+                    {
+                        e.CellStyle.ForeColor = Color.Green;
+                        e.CellStyle.SelectionForeColor = Color.Green;
+                    }
+                }
+            }
+        }
+        private void DgvWireTerminal_W_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                if (dgvWireTerminal_W.Columns[e.ColumnIndex].Name == "StatusW")
+                {
+                    if (dgvWireTerminal_W.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == "✖️")
+                    {
+                        e.CellStyle.ForeColor = Color.Red;
+                        e.CellStyle.SelectionForeColor = Color.Red;
+                    }
+                    else
+                    {
+                        e.CellStyle.ForeColor = Color.Green;
+                        e.CellStyle.SelectionForeColor = Color.Green;
+                    }
+                }
+            }
+        }
+        private void TxtBarcodeWireTerminal_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && txtBarcodeWireTerminal.Text.ToString().Trim()!="")
+            {
+                //SD
+                if (LbBarcodeTitleWireTerminal.Text.Contains("SD") == true)
+                {
+                    ErrorText = "";
+                    Cursor = Cursors.WaitCursor;
+                    ClearAllText();
+                    dgvWireTerminal_W.Rows.Clear();
+                    dgvWireTerminal_T.Rows.Clear();
+                    string SDNo = txtBarcodeWireTerminal.Text;
+                    DataTable dtSDDetails = new DataTable();
+                    DataTable dtBobbinsW = new DataTable();
+                    DataTable dtBobbinsT = new DataTable();
+                    try
+                    {
+                        cnn.con.Open();
+                        string SQLQuery = "SELECT MCName FROM tbSDAllocateStock " +
+                            "\nWHERE SysNo = '"+ SDNo + "' " +
+                            "\nGROUP BY MCName";
+                        SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                        sda.Fill(dtSDDetails);
+
+                        SQLQuery = "SELECT T1.*, ItemName, T2.RMType FROM " +
+                            "\n(SELECT * FROM tbBobbinRecords) T1 " +
+                            "\nINNER JOIN (SELECT * FROM tbMstRMRegister) T2 ON T1.BobbinSysNo=T2.BobbinSysNo " +
+                            "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T3 ON T1.RMCode=T3.ItemCode " +
+                            "\nWHERE In_Date IS NULL AND RMType = 'Wire' AND SD_DocNo = '"+ SDNo + "' " +
+                            "\nORDER BY RMCode ASC, BobbinSysNo ASC";
+                        sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                        sda.Fill(dtBobbinsW);
+
+                        SQLQuery = "SELECT T1.*, ItemName, T2.RMType FROM " +
+                            "\n(SELECT * FROM tbBobbinRecords) T1 " +
+                            "\nINNER JOIN (SELECT * FROM tbMstRMRegister) T2 ON T1.BobbinSysNo=T2.BobbinSysNo " +
+                            "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T3 ON T1.RMCode=T3.ItemCode " +
+                            "\nWHERE In_Date IS NULL AND RMType <> 'Wire' AND SD_DocNo = '" + SDNo + "' " +
+                            "\nORDER BY RMCode ASC, BobbinSysNo ASC";
+                        sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                        sda.Fill(dtBobbinsT);
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorText = ex.Message;
+                    }
+                    cnn.con.Close();
+
+                    Cursor = Cursors.Default;
+
+                    if (ErrorText.Trim() == "")
+                    {
+                        if (dtSDDetails.Rows.Count > 0 && dtBobbinsW.Rows.Count > 0)
+                        {
+                            //Header
+                            LbSDNoWireTerminal.Text = SDNo;
+                            LbMCNameWireTerminal.Text = dtSDDetails.Rows[0]["MCName"].ToString();
+
+                            //Wire & Terminal List
+                            foreach (DataRow row in dtBobbinsW.Rows)
+                            {
+                                dgvWireTerminal_W.Rows.Add();
+                                dgvWireTerminal_W.Rows[dgvWireTerminal_W.Rows.Count - 1].HeaderCell.Value = dgvWireTerminal_W.Rows.Count.ToString();
+                                dgvWireTerminal_W.Rows[dgvWireTerminal_W.Rows.Count - 1].Cells["RMCodeW"].Value = row["RMCode"].ToString();
+                                dgvWireTerminal_W.Rows[dgvWireTerminal_W.Rows.Count - 1].Cells["RMNameW"].Value = row["ItemName"].ToString();
+                                dgvWireTerminal_W.Rows[dgvWireTerminal_W.Rows.Count - 1].Cells["BobbinCodeW"].Value = row["BobbinSysNo"].ToString();
+                                dgvWireTerminal_W.Rows[dgvWireTerminal_W.Rows.Count - 1].Cells["StatusW"].Value = "✖️";
+                            }
+                            foreach (DataRow row in dtBobbinsT.Rows)
+                            {
+                                dgvWireTerminal_T.Rows.Add();
+                                dgvWireTerminal_T.Rows[dgvWireTerminal_T.Rows.Count - 1].HeaderCell.Value = dgvWireTerminal_T.Rows.Count.ToString();
+                                dgvWireTerminal_T.Rows[dgvWireTerminal_T.Rows.Count - 1].Cells["BobbinCodeT"].Value = row["BobbinSysNo"].ToString();
+                                dgvWireTerminal_T.Rows[dgvWireTerminal_T.Rows.Count - 1].Cells["RMCodeT"].Value = row["RMCode"].ToString();
+                                dgvWireTerminal_T.Rows[dgvWireTerminal_T.Rows.Count - 1].Cells["RMNameT"].Value = row["ItemName"].ToString();
+                                dgvWireTerminal_T.Rows[dgvWireTerminal_T.Rows.Count - 1].Cells["StatusT"].Value = "✖️";
+                            }
+                            dgvWireTerminal_W.ClearSelection();
+                            dgvWireTerminal_T.ClearSelection();
+                            LbBarcodeTitleWireTerminal.Text = "ស្កេនឡាប៊ែលនៅលើប៊ូប៊ីន";
+                            txtBarcodeWireTerminal.Focus();
+                            txtBarcodeWireTerminal.Text = "";
+                        }
+                        else
+                        {
+                            WMsg.WarningText = "គ្មានទិន្នន័យ SD នេះនៅ Inprocess ទៀតនុះទេ!";
+                            WMsg.ShowingMsg();
+                            txtBarcodeWireTerminal.Focus();
+                            txtBarcodeWireTerminal.SelectAll();
+                        }
+                    }
+                    else
+                    {
+                        EMsg.AlertText = "មានបញ្ហា!\n"+ErrorText;
+                        EMsg.ShowingMsg();
+                    }
+                }
+                //Bobbin
+                else
+                {
+                    ErrorText = "";
+                    Cursor = Cursors.WaitCursor;
+                    ClearAllText();
+                    string BobbinNo = txtBarcodeWireTerminal.Text;
+
+                    //Select Bobbin with PerUnit
+                    DataTable dt = new DataTable();
+                    try
+                    {
+                        cnn.con.Open();
+                        string SQLQuery = "SELECT SD_DocNo, T1.BobbinSysNo, T1.RMCode, ItemName, BStock_Kg, BStock_QTY, AStock_Kg, AStock_QTY, PerUnit, RMType FROM " +
+                            "\n(SELECT * FROM tbBobbinRecords) T1 " +
+                            "\nINNER JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T4 ON T1.RMCode=T4.ItemCode " +
+                            "\nLEFT JOIN (SELECT BobbinSysNo, RMCode, ROUND(Per_Unit,4) AS PerUnit, RMType FROM tbMstRMRegister WHERE Status = 'Active') T2 ON T1.RMCode=T2.RMCode AND T1.BobbinSysNo=T2.BobbinSysNo " +
+                            "\nWHERE In_Date IS NULL AND T1.BobbinSysNo = '" + BobbinNo+ "' AND SD_DocNo = '"+LbSDNoWireTerminal.Text+"' ";
+                        SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                        sda.Fill(dt);
+                    }
+                    catch(Exception ex) 
+                    {
+                        ErrorText = ex.Message;
+                    }
+                    cnn.con.Close();
+
+                    Cursor = Cursors.Default;
+
+                    if (ErrorText.Trim() == "")
+                    {
+                        if (dt.Rows.Count > 0)
+                        {
+                            txtBarcodeWireTerminal.Text = "";
+                            string RMType = dt.Rows[0]["RMType"].ToString();
+                            string RMName = dt.Rows[0]["ItemName"].ToString();
+                            double BStockW = Convert.ToDouble(dt.Rows[0]["BStock_Kg"].ToString());
+                            double BStockQty = Convert.ToDouble(dt.Rows[0]["BStock_QTY"].ToString());
+                            PerUnit = 0;
+                            if ( RMType == "Wire")
+                            {
+                                PerUnit = Convert.ToDouble(dt.Rows[0]["PerUnit"].ToString());
+                                tabContrlWireTerminal.SelectedIndex = 0;
+                                LbBobbinNoWireTerminal_W.Text = BobbinNo;
+                                LbRMNameWireTerminal_W.Text = RMName;
+                                txtWBWireTerminal_W.Text = BStockW.ToString("N2");
+                                txtQtyBWireTerminal_W.Text = BStockQty.ToString("N0");
+                                btnOK_W.Enabled = true;
+                                txtWAWireTerminal_W.Focus();
+                            }
+                            else
+                            {
+                                tabContrlWireTerminal.SelectedIndex = 1;
+                                LbBobbinNoWireTerminal_T.Text = BobbinNo;
+                                LbRMNameWireTerminal_T.Text = RMName;
+                                txtQtyBWireTerminal_T.Text = BStockQty.ToString("N0");
+                                btnOK_T.Enabled = true;
+                                txtUseQtyWireTerminal_T.Focus();
+                            }
+                        }
+                        else
+                        {
+                            WMsg.WarningText = "គ្មានទិន្នន័យប៊ូប៊ីននេះទេ!";
+                            WMsg.ShowingMsg();
+                            btnOK_W.Enabled = false;
+                            btnOK_T.Enabled = false;
+                            txtBarcodeWireTerminal.Focus();
+                        }
+                    }
+                    else
+                    {
+                        EMsg.AlertText = "មានបញ្ហា!\n" + ErrorText;
+                        EMsg.ShowingMsg();
+                        btnOK_W.Enabled = false;
+                        btnOK_T.Enabled = false;
+                    }
+                }
+            }
+        }
+        
         //POS-Connector
         private void TxtBarcode_KeyDown(object sender, KeyEventArgs e)
         {
@@ -742,7 +1249,24 @@ namespace MachineDeptApp.Inventory.Inprocess
             }
             else
             {
-                txtItems.Focus();
+                LbBarcodeTitleWireTerminal.Text = "ស្កេនឯកសារSD";
+                ClearAllText();
+                LbBobbinNoWireTerminal_W.Text = "";
+                LbRMNameWireTerminal_W.Text = "";
+                txtQtyBWireTerminal_W.Text = "";
+                txtWBWireTerminal_W.Text = "";
+                txtQtyAWireTerminal_W.Text = "";
+                txtWBWireTerminal_W.Text = "";
+                txtWAWireTerminal_W.Text = ""; 
+                LbBobbinNoWireTerminal_T.Text = "";
+                LbRMNameWireTerminal_T.Text = "";
+                txtQtyBWireTerminal_T.Text = "";
+                txtUseQtyWireTerminal_T.Text = "";
+                dgvWireTerminal_W.Rows.Clear();
+                dgvWireTerminal_T.Rows.Clear();
+                btnOK_W.Enabled = false;
+                btnOK_T.Enabled = false;
+                txtBarcodeWireTerminal.Focus();
             }
         }
         private void InprocessCountingForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -754,6 +1278,18 @@ namespace MachineDeptApp.Inventory.Inprocess
         {
             chkPrintStatus.Checked = Properties.Settings.Default.MCInproPrintStatus;
             txtCountingType.Text = "រាប់ខនិកទ័រ (ស្កេន)";
+            dgvWireTerminal_W.RowHeadersDefaultCellStyle.Font = new Font(dgvWireTerminal_W.RowHeadersDefaultCellStyle.Font, FontStyle.Regular);
+            foreach (DataGridViewColumn col in dgvWireTerminal_W.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+            this.btnOK_W.Enabled = false;
+            dgvWireTerminal_T.RowHeadersDefaultCellStyle.Font = new Font(dgvWireTerminal_T.RowHeadersDefaultCellStyle.Font, FontStyle.Regular);
+            foreach (DataGridViewColumn col in dgvWireTerminal_T.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+            this.btnOK_T.Enabled = false;
 
             //Remove tap of Semi Manual
             tabCtrlSemi.TabPages.RemoveAt(1);
@@ -818,7 +1354,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                 panelStockCardWireTerminal.BringToFront();
                 panelSemi.Visible = false;
                 panelPOS.Visible = false;
-                txtItems.Focus();
+                txtBarcodeWireTerminal.Focus();
             }
             GrbLocAndType.Text = "ប្រភេទ ៖ " + CountTypeInKhmer ;
 
@@ -864,39 +1400,67 @@ namespace MachineDeptApp.Inventory.Inprocess
         private void ClearAllText()
         {
             //POS Connector
-            LbMCNamePOS.Text = "";
-            LbPOSNoPOS.Text = "";
-            LbQtyPOS.Text = "";
-            LbItemNamePOS.Text = "";
-            LbShipmentDatePOS.Text = "";
-            dgvRMListPOS.Rows.Clear();
+            if (CountType == "POS")
+            {
+                LbMCNamePOS.Text = "";
+                LbPOSNoPOS.Text = "";
+                LbQtyPOS.Text = "";
+                LbItemNamePOS.Text = "";
+                LbShipmentDatePOS.Text = "";
+                dgvRMListPOS.Rows.Clear();
+            }
 
             //SemiBC
-            LbMCNameSemiBC.Text = "";
-            LbBoxNoSemiBC.Text = "";
-            LbPOSNoSemiBC.Text = "";
-            LbWIPCodeSemiBC.Text = "";
-            LbWIPNameSemiBC.Text = "";
-            LbLengthSemiBC.Text = "";
-            LbPINSemiBC.Text = "";
-            LbWireTubeSemiBC.Text = "";
-            txtBatchQtyBC.Text = "";
-            txtQtyPerBatchBC.Text = "";
-            txtQtyReayBC.Text = "";
-            LbTotalQtySemiBC.Text = "";
+            else if (CountType == "Semi") 
+            {
+                LbMCNameSemiBC.Text = "";
+                LbBoxNoSemiBC.Text = "";
+                LbPOSNoSemiBC.Text = "";
+                LbWIPCodeSemiBC.Text = "";
+                LbWIPNameSemiBC.Text = "";
+                LbLengthSemiBC.Text = "";
+                LbPINSemiBC.Text = "";
+                LbWireTubeSemiBC.Text = "";
+                txtBatchQtyBC.Text = "";
+                txtQtyPerBatchBC.Text = "";
+                txtQtyReayBC.Text = "";
+                LbTotalQtySemiBC.Text = "";
 
-            //SemiManual
-            txtWipNameSemi.Text = "";
-            dgvSemi.Rows.Clear();
-            txtBatchQtySemi.Text = "";
-            txtQtyPerBatchSemi.Text = "";
-            txtQtyReaySemi.Text = "";
-            LbTotalQtySemi.Text = "";
+                //SemiManual
+                //txtWipNameSemi.Text = "";
+                //dgvSemi.Rows.Clear();
+                //txtBatchQtySemi.Text = "";
+                //txtQtyPerBatchSemi.Text = "";
+                //txtQtyReaySemi.Text = "";
+                //LbTotalQtySemi.Text = "";
+            }
 
-
-            //Stock Card WireTerminal
-
-
+            //WireTerminal
+            else
+            {                
+                if (LbBarcodeTitleWireTerminal.Text.ToString().Contains("SD")==true)
+                {
+                    LbSDNoWireTerminal.Text = "";
+                    LbMCNameWireTerminal.Text = "";
+                }
+                if (tabContrlWireTerminal.SelectedIndex == 0)
+                {
+                    LbBobbinNoWireTerminal_W.Text = "";
+                    LbRMNameWireTerminal_W.Text = "";
+                    txtQtyBWireTerminal_W.Text = "";
+                    txtWBWireTerminal_W.Text = "";
+                    txtQtyAWireTerminal_W.Text = "";
+                    txtWBWireTerminal_W.Text = "";
+                    txtWAWireTerminal_W.Text = "";
+                }
+                else
+                {
+                    LbBobbinNoWireTerminal_T.Text = "";
+                    LbRMNameWireTerminal_T.Text = "";
+                    txtQtyBWireTerminal_T.Text = "";
+                    txtUseQtyWireTerminal_T.Text = "";
+                }
+            }
         }
         private void ClearTextPos()
         {
@@ -1509,10 +2073,267 @@ namespace MachineDeptApp.Inventory.Inprocess
         }
         private void SaveWireTerminal()
         {
-            
-        }
+            if (dgvWireTerminal_W.Rows.Count + dgvWireTerminal_T.Rows.Count > 0)
+            {
+                string RMTypeNotYet = "";
+                foreach (DataGridViewRow row in dgvWireTerminal_W.Rows)
+                {
+                    if (row.Cells["StatusW"].Value == null || row.Cells["StatusW"].Value.ToString().Trim() != "✔️")
+                    {
+                        RMTypeNotYet = "Wire";
+                        break;
+                    }
+                }
+                foreach (DataGridViewRow row in dgvWireTerminal_T.Rows)
+                {
+                    if (row.Cells["StatusT"].Value == null || row.Cells["StatusT"].Value.ToString().Trim() != "✔️")
+                    {
+                        if (RMTypeNotYet.Trim() == "")
+                            RMTypeNotYet = "Terminal";
+                        else
+                            RMTypeNotYet += " & Terminal";
+                        break;
+                    }
+                }
 
-        //WireTerminal Function
+                if (RMTypeNotYet.Trim() == "")
+                {
+                    QMsg.QAText = "តើអ្នកចង់រក្សាទិន្នន័យនេះទុកមែនឬទេ?";
+                    QMsg.UserClickedYes = false;
+                    QMsg.ShowingMsg();
+                    if (QMsg.UserClickedYes == true)
+                    {
+                        ErrorText = "";
+                        Cursor = Cursors.WaitCursor;
+
+                        DataTable dtLabelNo = new DataTable();
+                        DataTable dtLabelNoRange = new DataTable();
+
+                        //Check LabelNo
+                        try
+                        {
+                            cnn.con.Open();
+                            SqlDataAdapter sda = new SqlDataAdapter("SELECT LabelNo AS LastLabelNo FROM tbInventory WHERE LabelNo = (SELECT MAX(LabelNo) FROM tbInventory WHERE LocCode='MC1') GROUP BY LabelNo", cnn.con);
+                            sda.Fill(dtLabelNo);
+
+                            sda = new SqlDataAdapter("SELECT * FROM tbSDMCLocation WHERE LocCode='MC1'", cnn.con);
+                            sda.Fill(dtLabelNoRange);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            if (ErrorText.Trim() == "")
+                            {
+                                ErrorText = "Take Label No : " + ex.Message;
+                            }
+                            else
+                            {
+                                ErrorText = ErrorText + "\nTake Label No : " + ex.Message;
+                            }
+                        }
+                        cnn.con.Close();
+
+                        //Insert data to DB
+                        if (ErrorText.Trim() == "")
+                        {
+                            int LabelNo = Convert.ToInt32(dtLabelNoRange.Rows[0][2].ToString());
+                            if (dtLabelNo.Rows.Count > 0)
+                            {
+                                LabelNo = Convert.ToInt32(dtLabelNo.Rows[0][0].ToString()) + 1;
+                            }
+                            string Username = MenuFormV2.UserForNextForm;
+                            DateTime RegDate = DateTime.Now;
+
+                            if (LabelNo <= Convert.ToInt32(dtLabelNoRange.Rows[0][3].ToString()))
+                            {
+                                DataTable dtItemSaving = new DataTable();
+                                dtItemSaving.Columns.Add("SeqNo");
+                                dtItemSaving.Columns.Add("RMCode");
+                                dtItemSaving.Columns.Add("RMType");
+                                dtItemSaving.Columns.Add("TotalQty");
+                                dtItemSaving.Columns.Add("TotalBobbinsQty");
+
+                                //Wire
+                                foreach (DataGridViewRow row in dgvWireTerminal_W.Rows)
+                                {
+                                    string RMCode = row.Cells["RMCodeW"].Value.ToString();
+                                    string RMType = "Wire";
+                                    int CountDup = 0;
+                                    foreach (DataRow dtRow in dtItemSaving.Rows)
+                                    {
+                                        if (RMCode == dtRow["RMCode"].ToString())
+                                        {
+                                            CountDup++;
+                                            break;
+                                        }
+                                    }
+
+                                    if (CountDup == 0)
+                                    {
+                                        int TotalQty = 0;
+                                        int TotalBobbinQty = 0;
+                                        foreach (DataGridViewRow rowTotal in dgvWireTerminal_W.Rows)
+                                        {
+                                            if (RMCode == rowTotal.Cells["RMCodeW"].Value.ToString())
+                                            {
+                                                TotalQty += Convert.ToInt32(rowTotal.Cells["RemainQtyW"].Value.ToString());
+                                                TotalBobbinQty++;
+                                            }                                                
+                                        }
+                                        dtItemSaving.Rows.Add((dtItemSaving.Rows.Count+1), RMCode, RMType, TotalQty, TotalBobbinQty);
+                                        dtItemSaving.AcceptChanges();
+                                    }
+                                }
+
+                                //Terminal
+                                foreach (DataGridViewRow row in dgvWireTerminal_T.Rows)
+                                {
+                                    string RMCode = row.Cells["RMCodeT"].Value.ToString();
+                                    string RMType = "Terminal";
+                                    int CountDup = 0;
+                                    foreach (DataRow dtRow in dtItemSaving.Rows)
+                                    {
+                                        if (RMCode == dtRow["RMCode"].ToString())
+                                        {
+                                            CountDup++;
+                                            break;
+                                        }
+                                    }
+
+                                    if (CountDup == 0)
+                                    {
+                                        int TotalQty = 0;
+                                        int TotalBobbinQty = 0;
+                                        foreach (DataGridViewRow rowTotal in dgvWireTerminal_T.Rows)
+                                        {
+                                            if (RMCode == rowTotal.Cells["RMCodeT"].Value.ToString())
+                                            {
+                                                TotalQty += Convert.ToInt32(rowTotal.Cells["RemainQtyT"].Value.ToString());
+                                                TotalBobbinQty++;
+                                            }
+                                        }
+                                        dtItemSaving.Rows.Add((dtItemSaving.Rows.Count + 1), RMCode, RMType, TotalQty, TotalBobbinQty);
+                                        dtItemSaving.AcceptChanges();
+                                    }
+                                }
+
+                                /*
+
+                                // Display the DataTable in the console
+                                Console.WriteLine(LabelNo.ToString());
+                                foreach (DataColumn column in dtItemSaving.Columns)
+                                {
+                                    Console.Write($"{column.ColumnName}\t");
+                                }
+                                Console.WriteLine(); // New line for each row
+                                foreach (DataRow row in dtItemSaving.Rows)
+                                {
+                                    foreach (DataColumn column in dtItemSaving.Columns)
+                                    {
+                                        Console.Write($"{row[column]} \t");
+                                    }
+                                    Console.WriteLine(); // New line for each row
+                                }
+
+                                */
+
+                                try
+                                {
+                                    cnn.con.Open();
+                                    foreach (DataRow row in dtItemSaving.Rows)
+                                    {
+                                        cmd = new SqlCommand("INSERT INTO tbInventory(LocCode, SubLoc, LabelNo, CountingMethod, SeqNo, ItemCode, ItemType, Qty, QtyDetails, RegDate, RegBy, UpdateDate, UpdateBy, CancelStatus) " +
+                                        "VALUES (@Lc, @Slc, @lbn, @Cm, @Sn, @Ic, @It, @Qty, @QtyD, @RegD, @RegB, @UpD, @UpB, @Cs)", cnn.con);
+
+                                        cmd.Parameters.AddWithValue("@Lc", "MC1");
+                                        cmd.Parameters.AddWithValue("@Slc", LbMCNameWireTerminal.Text);
+                                        cmd.Parameters.AddWithValue("@lbn", LabelNo);
+                                        cmd.Parameters.AddWithValue("@Cm", "SD Document");
+                                        cmd.Parameters.AddWithValue("@Sn", Convert.ToInt32(row["SeqNo"]));
+                                        cmd.Parameters.AddWithValue("@Ic", row["RMCode"]);
+                                        cmd.Parameters.AddWithValue("@It", "Material");
+                                        cmd.Parameters.AddWithValue("@Qty", Convert.ToInt32(row["TotalQty"]));
+                                        cmd.Parameters.AddWithValue("@QtyD", LbSDNoWireTerminal.Text);
+                                        cmd.Parameters.AddWithValue("@RegD", RegDate);
+                                        cmd.Parameters.AddWithValue("@RegB", Username);
+                                        cmd.Parameters.AddWithValue("@UpD", RegDate);
+                                        cmd.Parameters.AddWithValue("@UpB", Username);
+                                        cmd.Parameters.AddWithValue("@Cs", 0);
+                                        cmd.ExecuteNonQuery();
+                                    }
+
+                                    foreach (DataGridViewRow row in dgvWireTerminal_W.Rows)
+                                    {
+                                        cmd = new SqlCommand("INSERT INTO tbInventoryWandTDetails(LabelNo, SDNo, BobbinSysNo, RMCode, RemainW, RemainQty) " +
+                                        "VALUES (@Ln, @Sn, @Bobbin, @Rc, @RmW, @RmQty)", cnn.con);
+
+                                        cmd.Parameters.AddWithValue("@Ln", LabelNo);
+                                        cmd.Parameters.AddWithValue("@Sn", LbSDNoWireTerminal.Text);
+                                        cmd.Parameters.AddWithValue("@Bobbin", row.Cells["BobbinCodeW"].Value.ToString());
+                                        cmd.Parameters.AddWithValue("@Rc", row.Cells["RMCodeW"].Value.ToString());
+                                        cmd.Parameters.AddWithValue("@RmW", Convert.ToDouble(row.Cells["RemainWW"].Value.ToString()));
+                                        cmd.Parameters.AddWithValue("@RmQty", Convert.ToInt32(row.Cells["RemainQtyW"].Value.ToString()));
+                                        cmd.ExecuteNonQuery();
+                                    }
+                                }
+                                catch(Exception ex)
+                                {
+                                    if (ErrorText.Trim() == "")
+                                    {
+                                        ErrorText = "Insert to DB : " + ex.Message;
+                                    }
+                                    else
+                                    {
+                                        ErrorText = ErrorText + "\nInsert to DB : " + ex.Message;
+                                    }
+                                }
+                                cnn.con.Close();
+                            }
+                            else
+                            {
+                                if (ErrorText.Trim() == "")
+                                {
+                                    ErrorText = "Label No reach maximum : " + LabelNo.ToString("N0");
+                                }
+                                else
+                                {
+                                    ErrorText = ErrorText + "\nLabel No reach maximum : " + LabelNo.ToString("N0");
+                                }
+                            }
+                        }
+
+
+
+                        Cursor = Cursors.Default;
+
+                        if (ErrorText.Trim() == "")
+                        {
+                            InfoMsg.InfoText = "រក្សាទុករួចរាល់!";
+                            InfoMsg.ShowingMsg();
+                            btnNew.PerformClick();
+                        }
+                        else
+                        {
+                            EMsg.AlertText = "រក្សាទុកមានបញ្ហា!\n" + ErrorText;
+                            EMsg.ShowingMsg();
+                        }
+                    }
+                }
+                else
+                {
+                    WMsg.WarningText = "រកឃើញទិន្នន័យប៊ូប៊ីនដែលមិនទាន់បញ្ចូល! (" + RMTypeNotYet + ")" +
+                        "\nសូមបញ្ចូលជាមុនសិនមុនហ្នឹងបន្ត!";
+                    WMsg.ShowingMsg();
+                    txtBarcodeWireTerminal.Focus();
+                }
+            }
+            else
+            {
+                WMsg.WarningText = "សូមស្កេនឯកសារ SD ជាមុនសិន!";
+                WMsg.ShowingMsg();
+                txtBarcodeWireTerminal.Focus();
+            }
+        }
 
     }
 }

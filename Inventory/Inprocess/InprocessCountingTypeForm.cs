@@ -139,21 +139,21 @@ namespace MachineDeptApp.Inventory.Inprocess
         private void ConnectorClick()
         {
             InprocessCountingForm.CountType = "POS";
-            InprocessCountingForm.CountTypeChanged = 1;
+            //InprocessCountingForm.CountTypeChanged = 1;
             countType.Text = LbConnector.Text;
             this.Close();
         }
         private void WIPClick()
         {
             InprocessCountingForm.CountType = "Semi";
-            InprocessCountingForm.CountTypeChanged = 1;
+            //InprocessCountingForm.CountTypeChanged = 1;
             countType.Text = LbWIP.Text;
             this.Close();
         }
         private void WireTerminalClick()
         {
-            InprocessCountingForm.CountType = "Stock Card";
-            InprocessCountingForm.CountTypeChanged = 1;
+            InprocessCountingForm.CountType = "Wire/Terminal";
+            //InprocessCountingForm.CountTypeChanged = 1;
             countType.Text = LbWireTerminal.Text;
             this.Close();
         }
