@@ -2149,6 +2149,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                                 DataTable dtItemSaving = new DataTable();
                                 dtItemSaving.Columns.Add("SeqNo");
                                 dtItemSaving.Columns.Add("RMCode");
+                                dtItemSaving.Columns.Add("RMName");
                                 dtItemSaving.Columns.Add("RMType");
                                 dtItemSaving.Columns.Add("TotalQty");
                                 dtItemSaving.Columns.Add("TotalBobbinsQty");
@@ -2157,6 +2158,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                                 foreach (DataGridViewRow row in dgvWireTerminal_W.Rows)
                                 {
                                     string RMCode = row.Cells["RMCodeW"].Value.ToString();
+                                    string RMName = row.Cells["RMNameW"].Value.ToString();
                                     string RMType = "Wire";
                                     int CountDup = 0;
                                     foreach (DataRow dtRow in dtItemSaving.Rows)
@@ -2180,7 +2182,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                                                 TotalBobbinQty++;
                                             }                                                
                                         }
-                                        dtItemSaving.Rows.Add((dtItemSaving.Rows.Count+1), RMCode, RMType, TotalQty, TotalBobbinQty);
+                                        dtItemSaving.Rows.Add((dtItemSaving.Rows.Count+1), RMCode, RMName, RMType, TotalQty, TotalBobbinQty);
                                         dtItemSaving.AcceptChanges();
                                     }
                                 }
@@ -2189,6 +2191,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                                 foreach (DataGridViewRow row in dgvWireTerminal_T.Rows)
                                 {
                                     string RMCode = row.Cells["RMCodeT"].Value.ToString();
+                                    string RMName = row.Cells["RMNameT"].Value.ToString();
                                     string RMType = "Terminal";
                                     int CountDup = 0;
                                     foreach (DataRow dtRow in dtItemSaving.Rows)
@@ -2212,7 +2215,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                                                 TotalBobbinQty++;
                                             }
                                         }
-                                        dtItemSaving.Rows.Add((dtItemSaving.Rows.Count + 1), RMCode, RMType, TotalQty, TotalBobbinQty);
+                                        dtItemSaving.Rows.Add((dtItemSaving.Rows.Count + 1), RMCode, RMName, RMType, TotalQty, TotalBobbinQty);
                                         dtItemSaving.AcceptChanges();
                                     }
                                 }
@@ -2237,6 +2240,7 @@ namespace MachineDeptApp.Inventory.Inprocess
 
                                 */
 
+                                //Insert to DB
                                 try
                                 {
                                     cnn.con.Open();
@@ -2275,6 +2279,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                                         cmd.Parameters.AddWithValue("@RmQty", Convert.ToInt32(row.Cells["RemainQtyW"].Value.ToString()));
                                         cmd.ExecuteNonQuery();
                                     }
+
                                 }
                                 catch(Exception ex)
                                 {
@@ -2288,6 +2293,152 @@ namespace MachineDeptApp.Inventory.Inprocess
                                     }
                                 }
                                 cnn.con.Close();
+
+                                //Print
+                                if (chkPrintStatus.Checked == true)
+                                {
+                                    if (ErrorText.Trim() == "")
+                                    {
+                                        //ឆែករកមើល Folder បើគ្មាន => បង្កើត
+                                        string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\InventoryLable\Inprocess";
+                                        if (!Directory.Exists(SavePath))
+                                        {
+                                            Directory.CreateDirectory(SavePath);
+                                        }
+
+                                        //open excel application and create new workbook
+                                        var CDirectory = Environment.CurrentDirectory;
+                                        Excel.Application excelApp = new Excel.Application();
+                                        Excel.Workbook xlWorkBook = null;
+                                        Excel.Worksheet worksheet = null;
+                                        Excel.Worksheet DeleteWorksheet = null;
+
+                                        try
+                                        {                                            
+                                            foreach (DataRow row in dtItemSaving.Rows)
+                                            {
+                                                string RMCode = row["RMCode"].ToString();
+                                                string RMName = row["RMName"].ToString();
+                                                string RMType = row["RMType"].ToString();
+                                                double TotalQty = Convert.ToDouble(row["TotalQty"]);
+                                                double TototalBobbinQty = Convert.ToDouble(row["TotalBobbinsQty"]);
+                                                string QtyAndBobbin = TotalQty.ToString("N0") + " m (" + TototalBobbinQty.ToString("N0") +" Bobbins)";
+                                                if (TotalQty > 0)
+                                                {
+                                                    xlWorkBook = excelApp.Workbooks.Open(Filename: CDirectory.ToString() + @"\Template\InventoryLabel_SD_Template.xlsx", Editable: true);
+                                                    worksheet = (Excel.Worksheet)xlWorkBook.Sheets["Wire"];
+                                                    DeleteWorksheet = (Excel.Worksheet)xlWorkBook.Sheets["Terminal"];
+                                                    if (RMType != "Wire")
+                                                    {
+                                                        worksheet = (Excel.Worksheet)xlWorkBook.Sheets["Terminal"];
+                                                        DeleteWorksheet = (Excel.Worksheet)xlWorkBook.Sheets["Wire"];
+                                                        QtyAndBobbin = TotalQty.ToString("N0") + " Pcs (" + TototalBobbinQty.ToString("N0") + " Bobbins/Reels)";
+                                                    }
+
+                                                    //Header
+                                                    worksheet.Cells[1, 1] = RegDate;
+                                                    worksheet.Cells[2, 3] = LabelNo+"/"+ RMCode;
+                                                    worksheet.Cells[4, 1] = "*" + LabelNo + "/" + RMCode + "*";
+                                                    worksheet.Cells[5, 2] = RMCode;
+                                                    worksheet.Cells[6, 2] = RMName;
+
+                                                    worksheet.Cells[7, 2] = QtyAndBobbin;
+                                                    //Insert if more than 1
+                                                    if (TototalBobbinQty > 1)
+                                                    {
+                                                        worksheet.Range["10:" + (TototalBobbinQty + 8)].Insert();
+                                                        //For Merge
+                                                        worksheet.Range["A9:D9"].Copy();
+                                                        worksheet.Range["A10:D" + (TototalBobbinQty + 8)].PasteSpecial(Excel.XlPasteType.xlPasteFormats);
+                                                        //Border
+                                                        worksheet.Range["A10:D" + (TototalBobbinQty + 8)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                                                    }
+
+                                                    //Bobbin List 
+                                                    if (RMType == "Wire")
+                                                    {
+                                                        int WriteSeqNo = 1;
+                                                        int WriteIndex = 9;
+                                                        foreach (DataGridViewRow RowDgv in dgvWireTerminal_W.Rows)
+                                                        {
+                                                            if (RMCode == RowDgv.Cells["RMCodeW"].Value.ToString())
+                                                            {
+                                                                worksheet.Cells[WriteIndex, 1] = WriteSeqNo;
+                                                                worksheet.Cells[WriteIndex, 2] = RowDgv.Cells["BobbinCodeW"].Value.ToString();
+                                                                worksheet.Cells[WriteIndex, 3] = Convert.ToDouble(RowDgv.Cells["RemainWW"].Value);
+                                                                worksheet.Cells[WriteIndex, 4] = Convert.ToDouble(RowDgv.Cells["RemainQtyW"].Value);
+
+                                                                WriteSeqNo++;
+                                                                WriteIndex++;
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        int WriteSeqNo = 1;
+                                                        int WriteIndex = 9;
+                                                        foreach (DataGridViewRow RowDgv in dgvWireTerminal_T.Rows)
+                                                        {
+                                                            if (RMCode == RowDgv.Cells["RMCodeT"].Value.ToString())
+                                                            {
+                                                                worksheet.Cells[WriteIndex, 1] = WriteSeqNo;
+                                                                worksheet.Cells[WriteIndex, 2] = RowDgv.Cells["BobbinCodeT"].Value.ToString();
+                                                                worksheet.Cells[WriteIndex, 4] = Convert.ToDouble(RowDgv.Cells["RemainQtyT"].Value);
+
+                                                                WriteSeqNo++;
+                                                                WriteIndex++;
+                                                            }
+                                                        }
+                                                    }
+
+                                                    // Saving the modified Excel file
+                                                    string date = DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss");
+                                                    string file = LabelNo.ToString() + "_" + RMCode;
+                                                    string fName = file + "( " + date + " )";
+
+                                                    //Delete worksheet
+                                                    excelApp.DisplayAlerts = false;
+                                                    DeleteWorksheet.Delete();
+                                                    excelApp.DisplayAlerts = true;
+
+                                                    worksheet.Name = "RachhanSystem";
+                                                    worksheet.SaveAs(SavePath + @"\" + fName + ".xlsx");
+                                                    for (int j = 0; j < numPrintQty.Value; j++)
+                                                    {
+                                                        worksheet.PrintOut();
+                                                    }
+                                                    excelApp.DisplayAlerts = false;
+                                                    xlWorkBook.Close();
+                                                    excelApp.DisplayAlerts = true;
+                                                }
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            excelApp.DisplayAlerts = false;
+                                            xlWorkBook.Close();
+                                            excelApp.DisplayAlerts = true;
+                                            excelApp.Quit();
+                                            if (ErrorText.Trim() == "")
+                                            {
+                                                ErrorText = "Print Label : " + ex.Message;
+                                            }
+                                            else
+                                            {
+                                                ErrorText = ErrorText + "\nPrint Label : " + ex.Message;
+                                            }
+                                        }
+                                                                                
+                                        //Kill all Excel background process
+                                        var processes = from p in Process.GetProcessesByName("EXCEL")
+                                                        select p;
+                                        foreach (var process in processes)
+                                        {
+                                            if (process.MainWindowTitle.ToString().Trim() == "")
+                                                process.Kill();
+                                        }
+                                    }
+                                }
                             }
                             else
                             {
@@ -2301,8 +2452,6 @@ namespace MachineDeptApp.Inventory.Inprocess
                                 }
                             }
                         }
-
-
 
                         Cursor = Cursors.Default;
 
