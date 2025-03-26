@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using MachineDeptApp.Inventory;
 
 namespace MachineDeptApp
 {
@@ -68,7 +69,8 @@ namespace MachineDeptApp
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new LoginForm());
                 //For Design test
-                //Application.Run(new InprocessCountingForm());
+                //Application.Run(new InventoryCombineForm());
+                
             }
         }
     }

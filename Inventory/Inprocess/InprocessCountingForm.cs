@@ -422,16 +422,22 @@ namespace MachineDeptApp.Inventory.Inprocess
                     dgvWireTerminal_W.Rows.Clear();
                     dgvWireTerminal_T.Rows.Clear();
                     string SDNo = txtBarcodeWireTerminal.Text;
+                    DataTable dtAlreadyCount = new DataTable();
                     DataTable dtSDDetails = new DataTable();
                     DataTable dtBobbinsW = new DataTable();
                     DataTable dtBobbinsT = new DataTable();
                     try
                     {
                         cnn.con.Open();
-                        string SQLQuery = "SELECT MCName FROM tbSDAllocateStock " +
+
+                        string SQLQuery = "SELECT * FROM tbInventory WHERE LocCode='MC1' AND CancelStatus=0 AND QtyDetails='"+SDNo+"' ";
+                        SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                        sda.Fill(dtAlreadyCount);
+
+                        SQLQuery = "SELECT MCName FROM tbSDAllocateStock " +
                             "\nWHERE SysNo = '"+ SDNo + "' " +
                             "\nGROUP BY MCName";
-                        SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                        sda = new SqlDataAdapter(SQLQuery, cnn.con);
                         sda.Fill(dtSDDetails);
 
                         SQLQuery = "SELECT T1.*, ItemName, T2.RMType FROM " +
@@ -462,40 +468,50 @@ namespace MachineDeptApp.Inventory.Inprocess
 
                     if (ErrorText.Trim() == "")
                     {
-                        if (dtSDDetails.Rows.Count > 0 && dtBobbinsW.Rows.Count > 0)
+                        if (dtAlreadyCount.Rows.Count == 0)
                         {
-                            //Header
-                            LbSDNoWireTerminal.Text = SDNo;
-                            LbMCNameWireTerminal.Text = dtSDDetails.Rows[0]["MCName"].ToString();
+                            if (dtSDDetails.Rows.Count > 0 && dtBobbinsW.Rows.Count > 0)
+                            {
+                                //Header
+                                LbSDNoWireTerminal.Text = SDNo;
+                                LbMCNameWireTerminal.Text = dtSDDetails.Rows[0]["MCName"].ToString();
 
-                            //Wire & Terminal List
-                            foreach (DataRow row in dtBobbinsW.Rows)
-                            {
-                                dgvWireTerminal_W.Rows.Add();
-                                dgvWireTerminal_W.Rows[dgvWireTerminal_W.Rows.Count - 1].HeaderCell.Value = dgvWireTerminal_W.Rows.Count.ToString();
-                                dgvWireTerminal_W.Rows[dgvWireTerminal_W.Rows.Count - 1].Cells["RMCodeW"].Value = row["RMCode"].ToString();
-                                dgvWireTerminal_W.Rows[dgvWireTerminal_W.Rows.Count - 1].Cells["RMNameW"].Value = row["ItemName"].ToString();
-                                dgvWireTerminal_W.Rows[dgvWireTerminal_W.Rows.Count - 1].Cells["BobbinCodeW"].Value = row["BobbinSysNo"].ToString();
-                                dgvWireTerminal_W.Rows[dgvWireTerminal_W.Rows.Count - 1].Cells["StatusW"].Value = "✖️";
+                                //Wire & Terminal List
+                                foreach (DataRow row in dtBobbinsW.Rows)
+                                {
+                                    dgvWireTerminal_W.Rows.Add();
+                                    dgvWireTerminal_W.Rows[dgvWireTerminal_W.Rows.Count - 1].HeaderCell.Value = dgvWireTerminal_W.Rows.Count.ToString();
+                                    dgvWireTerminal_W.Rows[dgvWireTerminal_W.Rows.Count - 1].Cells["RMCodeW"].Value = row["RMCode"].ToString();
+                                    dgvWireTerminal_W.Rows[dgvWireTerminal_W.Rows.Count - 1].Cells["RMNameW"].Value = row["ItemName"].ToString();
+                                    dgvWireTerminal_W.Rows[dgvWireTerminal_W.Rows.Count - 1].Cells["BobbinCodeW"].Value = row["BobbinSysNo"].ToString();
+                                    dgvWireTerminal_W.Rows[dgvWireTerminal_W.Rows.Count - 1].Cells["StatusW"].Value = "✖️";
+                                }
+                                foreach (DataRow row in dtBobbinsT.Rows)
+                                {
+                                    dgvWireTerminal_T.Rows.Add();
+                                    dgvWireTerminal_T.Rows[dgvWireTerminal_T.Rows.Count - 1].HeaderCell.Value = dgvWireTerminal_T.Rows.Count.ToString();
+                                    dgvWireTerminal_T.Rows[dgvWireTerminal_T.Rows.Count - 1].Cells["BobbinCodeT"].Value = row["BobbinSysNo"].ToString();
+                                    dgvWireTerminal_T.Rows[dgvWireTerminal_T.Rows.Count - 1].Cells["RMCodeT"].Value = row["RMCode"].ToString();
+                                    dgvWireTerminal_T.Rows[dgvWireTerminal_T.Rows.Count - 1].Cells["RMNameT"].Value = row["ItemName"].ToString();
+                                    dgvWireTerminal_T.Rows[dgvWireTerminal_T.Rows.Count - 1].Cells["StatusT"].Value = "✖️";
+                                }
+                                dgvWireTerminal_W.ClearSelection();
+                                dgvWireTerminal_T.ClearSelection();
+                                LbBarcodeTitleWireTerminal.Text = "ស្កេនឡាប៊ែលនៅលើប៊ូប៊ីន";
+                                txtBarcodeWireTerminal.Focus();
+                                txtBarcodeWireTerminal.Text = "";
                             }
-                            foreach (DataRow row in dtBobbinsT.Rows)
+                            else
                             {
-                                dgvWireTerminal_T.Rows.Add();
-                                dgvWireTerminal_T.Rows[dgvWireTerminal_T.Rows.Count - 1].HeaderCell.Value = dgvWireTerminal_T.Rows.Count.ToString();
-                                dgvWireTerminal_T.Rows[dgvWireTerminal_T.Rows.Count - 1].Cells["BobbinCodeT"].Value = row["BobbinSysNo"].ToString();
-                                dgvWireTerminal_T.Rows[dgvWireTerminal_T.Rows.Count - 1].Cells["RMCodeT"].Value = row["RMCode"].ToString();
-                                dgvWireTerminal_T.Rows[dgvWireTerminal_T.Rows.Count - 1].Cells["RMNameT"].Value = row["ItemName"].ToString();
-                                dgvWireTerminal_T.Rows[dgvWireTerminal_T.Rows.Count - 1].Cells["StatusT"].Value = "✖️";
+                                WMsg.WarningText = "គ្មានទិន្នន័យ SD នេះនៅ Inprocess ទៀតនុះទេ!";
+                                WMsg.ShowingMsg();
+                                txtBarcodeWireTerminal.Focus();
+                                txtBarcodeWireTerminal.SelectAll();
                             }
-                            dgvWireTerminal_W.ClearSelection();
-                            dgvWireTerminal_T.ClearSelection();
-                            LbBarcodeTitleWireTerminal.Text = "ស្កេនឡាប៊ែលនៅលើប៊ូប៊ីន";
-                            txtBarcodeWireTerminal.Focus();
-                            txtBarcodeWireTerminal.Text = "";
                         }
                         else
                         {
-                            WMsg.WarningText = "គ្មានទិន្នន័យ SD នេះនៅ Inprocess ទៀតនុះទេ!";
+                            WMsg.WarningText = "ទិន្នន័យ SD នេះរាប់រួចហើយ!";
                             WMsg.ShowingMsg();
                             txtBarcodeWireTerminal.Focus();
                             txtBarcodeWireTerminal.SelectAll();
@@ -1599,7 +1615,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                             //ក្បាលលើ
                             wsBarcode.Cells[2, 3] = LabelNo.ToString();
                             wsBarcode.Cells[3, 1] = "*" + LabelNo.ToString() + "*";
-                            wsBarcode.Cells[2, 4] = "Inprocess(" + LocSelected + ")";
+                            wsBarcode.Cells[2, 4] = "Inprocess(" + LbMCNamePOS.Text + ")";
                             wsBarcode.Cells[4, 3] = LbPOSNoPOS.Text;
                             wsBarcode.Cells[5, 3] = LbItemNamePOS.Text.ToString();
                             wsBarcode.Cells[6, 3] = LbQtyPOS.Text.ToString();
@@ -2220,26 +2236,6 @@ namespace MachineDeptApp.Inventory.Inprocess
                                     }
                                 }
 
-                                /*
-
-                                // Display the DataTable in the console
-                                Console.WriteLine(LabelNo.ToString());
-                                foreach (DataColumn column in dtItemSaving.Columns)
-                                {
-                                    Console.Write($"{column.ColumnName}\t");
-                                }
-                                Console.WriteLine(); // New line for each row
-                                foreach (DataRow row in dtItemSaving.Rows)
-                                {
-                                    foreach (DataColumn column in dtItemSaving.Columns)
-                                    {
-                                        Console.Write($"{row[column]} \t");
-                                    }
-                                    Console.WriteLine(); // New line for each row
-                                }
-
-                                */
-
                                 //Insert to DB
                                 try
                                 {
@@ -2341,6 +2337,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                                                     worksheet.Cells[4, 1] = "*" + LabelNo + "/" + RMCode + "*";
                                                     worksheet.Cells[5, 2] = RMCode;
                                                     worksheet.Cells[6, 2] = RMName;
+
 
                                                     worksheet.Cells[7, 2] = QtyAndBobbin;
                                                     //Insert if more than 1
@@ -2483,6 +2480,6 @@ namespace MachineDeptApp.Inventory.Inprocess
                 txtBarcodeWireTerminal.Focus();
             }
         }
-
+         
     }
 }
