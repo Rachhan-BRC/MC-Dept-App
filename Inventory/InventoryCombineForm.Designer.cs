@@ -87,16 +87,6 @@
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PageInprocess = new System.Windows.Forms.TabPage();
             this.dgvInprocess = new System.Windows.Forms.DataGridView();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtDocNo = new System.Windows.Forms.TextBox();
-            this.txtRMName = new System.Windows.Forms.TextBox();
-            this.txtRMCode = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.CboMCName = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.MC1Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MCName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DocumentNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -109,6 +99,16 @@
             this.NGQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SystemQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GAP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtDocNo = new System.Windows.Forms.TextBox();
+            this.txtRMName = new System.Windows.Forms.TextBox();
+            this.txtRMCode = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.CboMCName = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnPrintGRAY)).BeginInit();
             this.panelFooter.SuspendLayout();
@@ -572,103 +572,6 @@
             this.dgvInprocess.Size = new System.Drawing.Size(1064, 338);
             this.dgvInprocess.TabIndex = 2;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.txtDocNo);
-            this.groupBox1.Controls.Add(this.txtRMName);
-            this.groupBox1.Controls.Add(this.txtRMCode);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.CboMCName);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(3, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1078, 86);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Search Condition";
-            // 
-            // txtDocNo
-            // 
-            this.txtDocNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDocNo.Location = new System.Drawing.Point(325, 22);
-            this.txtDocNo.Name = "txtDocNo";
-            this.txtDocNo.Size = new System.Drawing.Size(219, 24);
-            this.txtDocNo.TabIndex = 2;
-            // 
-            // txtRMName
-            // 
-            this.txtRMName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRMName.Location = new System.Drawing.Point(325, 54);
-            this.txtRMName.Name = "txtRMName";
-            this.txtRMName.Size = new System.Drawing.Size(219, 24);
-            this.txtRMName.TabIndex = 2;
-            // 
-            // txtRMCode
-            // 
-            this.txtRMCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRMCode.Location = new System.Drawing.Point(91, 54);
-            this.txtRMCode.Name = "txtRMCode";
-            this.txtRMCode.Size = new System.Drawing.Size(121, 24);
-            this.txtRMCode.TabIndex = 2;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(218, 25);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(101, 18);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Document No";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(218, 57);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(76, 18);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "RM Name";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(9, 57);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 18);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "RM Code";
-            // 
-            // CboMCName
-            // 
-            this.CboMCName.DropDownHeight = 300;
-            this.CboMCName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CboMCName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CboMCName.FormattingEnabled = true;
-            this.CboMCName.IntegralHeight = false;
-            this.CboMCName.Items.AddRange(new object[] {
-            ""});
-            this.CboMCName.Location = new System.Drawing.Point(91, 22);
-            this.CboMCName.Name = "CboMCName";
-            this.CboMCName.Size = new System.Drawing.Size(121, 26);
-            this.CboMCName.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(9, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(76, 18);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "MC Name";
-            // 
             // MC1Name
             // 
             this.MC1Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -784,6 +687,103 @@
             this.GAP.Name = "GAP";
             this.GAP.ReadOnly = true;
             this.GAP.Width = 150;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.txtDocNo);
+            this.groupBox1.Controls.Add(this.txtRMName);
+            this.groupBox1.Controls.Add(this.txtRMCode);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.CboMCName);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(3, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(1078, 86);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Search Condition";
+            // 
+            // txtDocNo
+            // 
+            this.txtDocNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDocNo.Location = new System.Drawing.Point(325, 22);
+            this.txtDocNo.Name = "txtDocNo";
+            this.txtDocNo.Size = new System.Drawing.Size(219, 24);
+            this.txtDocNo.TabIndex = 2;
+            // 
+            // txtRMName
+            // 
+            this.txtRMName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRMName.Location = new System.Drawing.Point(325, 54);
+            this.txtRMName.Name = "txtRMName";
+            this.txtRMName.Size = new System.Drawing.Size(219, 24);
+            this.txtRMName.TabIndex = 2;
+            // 
+            // txtRMCode
+            // 
+            this.txtRMCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRMCode.Location = new System.Drawing.Point(91, 54);
+            this.txtRMCode.Name = "txtRMCode";
+            this.txtRMCode.Size = new System.Drawing.Size(121, 24);
+            this.txtRMCode.TabIndex = 2;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(218, 25);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(101, 18);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Document No";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(218, 57);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(76, 18);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "RM Name";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(9, 57);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(72, 18);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "RM Code";
+            // 
+            // CboMCName
+            // 
+            this.CboMCName.DropDownHeight = 300;
+            this.CboMCName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CboMCName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CboMCName.FormattingEnabled = true;
+            this.CboMCName.IntegralHeight = false;
+            this.CboMCName.Items.AddRange(new object[] {
+            ""});
+            this.CboMCName.Location = new System.Drawing.Point(91, 22);
+            this.CboMCName.Name = "CboMCName";
+            this.CboMCName.Size = new System.Drawing.Size(121, 26);
+            this.CboMCName.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(9, 25);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(76, 18);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "MC Name";
             // 
             // InventoryCombineForm
             // 

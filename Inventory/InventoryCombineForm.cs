@@ -46,8 +46,6 @@ namespace MachineDeptApp.Inventory
 
         }
 
-        
-
         //Inprocess
         private void DgvInprocess_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -110,7 +108,6 @@ namespace MachineDeptApp.Inventory
                             e.CellStyle.Font = new Font(e.CellStyle.Font, FontStyle.Bold);
                             e.CellStyle.ForeColor = Color.Orange;
                         }
-
                     }
                 }
             }
@@ -413,7 +410,8 @@ namespace MachineDeptApp.Inventory
                 {
                     cnn.con.Open();
                     //POS
-                    string SQLQuery = "SELECT SubLoc, LabelNo, ItemCode, QtyDetails AS DocumentNo, Qty FROM tbInventory " +
+                    string SQLQuery = "SELECT SubLoc, LabelNo, tbInventory.ItemCode, ItemName, QtyDetails AS DocumentNo, Qty FROM tbInventory " +
+                        "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T1_1 ON tbInventory.ItemCode=T1_1.ItemCode " +
                         "\nWHERE LocCode='MC1' AND CancelStatus = 0 AND CountingMethod='POS' ";
                     SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
                     sda.Fill(dtPOSDetails);
@@ -445,7 +443,8 @@ namespace MachineDeptApp.Inventory
                     sda.Fill(dtSemi);
 
                     //SD
-                    SQLQuery = "SELECT SubLoc, LabelNo, QtyDetails AS DocumentNo, ItemCode, Qty FROM tbInventory " +
+                    SQLQuery = "SELECT SubLoc, LabelNo, QtyDetails AS DocumentNo, tbInventory.ItemCode, ItemName, Qty FROM tbInventory " +
+                        "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T1_1 ON tbInventory.ItemCode=T1_1.ItemCode " +
                         "\nWHERE LocCode = 'MC1' AND CancelStatus = 0 AND CountingMethod = 'SD Document' ";
                     sda = new SqlDataAdapter(SQLQuery, cnn.con);
                     sda.Fill(dtSDDetails);
@@ -461,10 +460,11 @@ namespace MachineDeptApp.Inventory
                         "\nCASE " +
                         "\n\tWHEN Code IS NULL THEN PosCNo " +
                         "\n\tELSE SDNo " +
-                        "\nEND AS DocumentNo, POSNo, RMCode, Qty FROM tbNGInprocess " +
+                        "\nEND AS DocumentNo, POSNo, RMCode, ItemName, Qty FROM tbNGInprocess " +
                         "\nLEFT JOIN (SELECT SysNo AS SDNo, T1.POSNo  FROM " +
                         "\n\t(SELECT *  FROM tbSDAllocateStock) T1 INNER JOIN (SELECT POSNo, MIN(RegDate) AS RegDate FROM tbSDAllocateStock GROUP BY POSNo) T2 ON T1.POSNo=T2.POSNo AND T1.RegDate=T2.RegDate) TbSDAlloc ON tbNGInprocess.PosCNo=TbSDAlloc.POSNo " +
                         "\nLEFT JOIN (SELECT Code FROM tbSDMCAllTransaction WHERE CancelStatus = 0 AND LocCode = 'MC1' AND ReceiveQty>0 AND POSNo LIKE 'SD%' GROUP BY Code) T3 ON RMCode = T3.Code " +
+                        "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T4 ON RMCode=T4.ItemCode " +
                         "\nWHERE ReqStatus = 0 AND Qty<>0";
                     sda = new SqlDataAdapter(SQLQuery, cnn.con);
                     sda.Fill(dtNGDetails);
@@ -711,11 +711,16 @@ namespace MachineDeptApp.Inventory
                     }
                     try
                     {
-                        
+
                         //open excel application and create new workbook
                         Excel.Application excelApp = new Excel.Application();
                         Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(Filename: Environment.CurrentDirectory + @"\Template\Inventory-ReportTemplate.xlsx", Editable: true);
                         Excel.Worksheet worksheet = (Excel.Worksheet)xlWorkBook.Sheets["Inprocess"];
+                        Excel.Worksheet WsPOS = (Excel.Worksheet)xlWorkBook.Sheets["Inprocess-POS"];
+                        Excel.Worksheet WsSemi = (Excel.Worksheet)xlWorkBook.Sheets["Inprocess-Semi"];
+                        Excel.Worksheet WsSD = (Excel.Worksheet)xlWorkBook.Sheets["Inprocess-SD"];
+                        Excel.Worksheet WsNG = (Excel.Worksheet)xlWorkBook.Sheets["Inprocess-NG"];
+
                         Excel.Worksheet DeleteWs1 = (Excel.Worksheet)xlWorkBook.Sheets["KIT"];
                         Excel.Worksheet DeleteWs2 = (Excel.Worksheet)xlWorkBook.Sheets["SD"];
 
@@ -723,9 +728,13 @@ namespace MachineDeptApp.Inventory
                         double OverCount = 0;
                         double MinusCount = 0;
 
+                        //Inprocess-Combine
                         //Insert Row
-
-
+                        if (dtTotalCombine.Rows.Count > 1)
+                        {
+                            worksheet.Range["9:" + (dtTotalCombine.Rows.Count + 7)].Insert();
+                            worksheet.Range["A9:F" + (dtTotalCombine.Rows.Count + 7)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                        }
                         //Add Data
                         foreach (DataRow row in dtTotalCombine.Rows)
                         {
@@ -733,8 +742,15 @@ namespace MachineDeptApp.Inventory
                             string RMDescription = row["RMName"].ToString();
                             string RMType = row["RMType"].ToString();
                             string Inventory = row["InventoryQty"].ToString();
-                            string Sys = row["SystemQty"].ToString();
+                            double Sys = Convert.ToDouble(row["SystemQty"].ToString());
                             double GAP = Convert.ToDouble(row["GAPQty"].ToString());
+
+                            worksheet.Cells[dtTotalCombine.Rows.IndexOf(row)+8, 1] = RMCode;
+                            worksheet.Cells[dtTotalCombine.Rows.IndexOf(row) + 8, 2] = RMDescription;
+                            worksheet.Cells[dtTotalCombine.Rows.IndexOf(row) + 8, 3] = RMType;
+                            worksheet.Cells[dtTotalCombine.Rows.IndexOf(row) + 8, 4] = Inventory;
+                            worksheet.Cells[dtTotalCombine.Rows.IndexOf(row) + 8, 5] = Sys;
+                            worksheet.Cells[dtTotalCombine.Rows.IndexOf(row) + 8, 6] = GAP;
 
                             if (GAP == 0)
                             {
@@ -752,7 +768,6 @@ namespace MachineDeptApp.Inventory
                                 }
                             }
                         }
-
                         //Header
                         // Loop through all shapes in the worksheet for set Text
                         double TotalItems = dtTotalCombine.Rows.Count;
@@ -821,20 +836,119 @@ namespace MachineDeptApp.Inventory
 
                         }
 
-                        /*
-                        worksheet.Cells[2, 6] = "Inprocess(" + SubLoc + ")";
-                        worksheet.Cells[2, 4] = LabelNo;
-                        worksheet.Cells[3, 1] = "*" + LabelNo + "*";
-                        worksheet.Cells[7, 4] = WipCode;
-                        worksheet.Cells[9, 4] = WIPName;
-                        worksheet.Cells[11, 4] = Pin;
-                        worksheet.Cells[13, 4] = WireColor;
-                        worksheet.Cells[15, 4] = Length;
 
-                        worksheet.Cells[17, 4] = Qty;
-                        //Summary
-                        worksheet.Cells[17, 6] = "( " + QtyDetails + " )";
-                        */
+                        //Inprocess-POS
+                        //Insert Row
+                        if (dtPOSDetails.Rows.Count > 1)
+                        {
+                            WsPOS.Range["3:" + (dtPOSDetails.Rows.Count + 1)].Insert();
+                            WsPOS.Range["A3:F" + (dtPOSDetails.Rows.Count + 1)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                        }
+                        //Add Data
+                        foreach (DataRow row in dtPOSDetails.Rows)
+                        {
+                            string Loc = row["SubLoc"].ToString();
+                            string LabelNo = row["LabelNo"].ToString(); 
+                            string RMCode = row["ItemCode"].ToString();
+                            string RMDescription = row["ItemName"].ToString();
+                            string DocumentNo = row["DocumentNo"].ToString();
+                            double Qty = Convert.ToDouble(row["Qty"].ToString());
+
+                            WsPOS.Cells[dtPOSDetails.Rows.IndexOf(row) + 2, 1] = Loc;
+                            WsPOS.Cells[dtPOSDetails.Rows.IndexOf(row) + 2, 2] = LabelNo;
+                            WsPOS.Cells[dtPOSDetails.Rows.IndexOf(row) + 2, 3] = RMCode;
+                            WsPOS.Cells[dtPOSDetails.Rows.IndexOf(row) + 2, 4] = RMDescription;
+                            WsPOS.Cells[dtPOSDetails.Rows.IndexOf(row) + 2, 5] = DocumentNo;
+                            WsPOS.Cells[dtPOSDetails.Rows.IndexOf(row) + 2, 6] = Qty;
+
+                        }
+
+
+                        //Inprocess-Semi
+                        //Insert Row
+                        if (dtSemiDetails.Rows.Count > 1)
+                        {
+                            WsSemi.Range["3:" + (dtSemiDetails.Rows.Count + 1)].Insert();
+                            WsSemi.Range["A3:I" + (dtSemiDetails.Rows.Count + 1)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                        }
+                        //Add Data
+                        foreach (DataRow row in dtSemiDetails.Rows)
+                        {
+                            string Loc = row["SubLoc"].ToString();
+                            string LabelNo = row["LabelNo"].ToString();
+                            string WIPName = row["WIPName"].ToString(); 
+                            double WIPQty = Convert.ToDouble(row["WIPQty"].ToString());
+                            string DocumentNo = row["DocumentNo"].ToString();
+                            string POSNo = row["POSNo"].ToString();				
+                            string RMCode = row["LowItemCode"].ToString();
+                            string RMDescription = row["ItemName"].ToString();
+                            double UsageQty = Convert.ToDouble(row["TotalQty"].ToString());
+
+                            WsSemi.Cells[dtSemiDetails.Rows.IndexOf(row) + 2, 1] = Loc;
+                            WsSemi.Cells[dtSemiDetails.Rows.IndexOf(row) + 2, 2] = LabelNo;
+                            WsSemi.Cells[dtSemiDetails.Rows.IndexOf(row) + 2, 3] = WIPName;
+                            WsSemi.Cells[dtSemiDetails.Rows.IndexOf(row) + 2, 4] = WIPQty;
+                            WsSemi.Cells[dtSemiDetails.Rows.IndexOf(row) + 2, 5] = DocumentNo;
+                            WsSemi.Cells[dtSemiDetails.Rows.IndexOf(row) + 2, 6] = POSNo;
+                            WsSemi.Cells[dtSemiDetails.Rows.IndexOf(row) + 2, 7] = RMCode;
+                            WsSemi.Cells[dtSemiDetails.Rows.IndexOf(row) + 2, 8] = RMDescription;
+                            WsSemi.Cells[dtSemiDetails.Rows.IndexOf(row) + 2, 9] = UsageQty;
+
+                        }
+
+
+                        //Inprocess-SD
+                        //Insert Row
+                        if (dtSDDetails.Rows.Count > 1)
+                        {
+                            WsSD.Range["3:" + (dtSDDetails.Rows.Count + 1)].Insert();
+                            WsSD.Range["A3:F" + (dtSDDetails.Rows.Count + 1)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                        }
+                        //Add Data
+                        foreach (DataRow row in dtSDDetails.Rows)
+                        {
+                            string Loc = row["SubLoc"].ToString();
+                            string LabelNo = row["LabelNo"].ToString();
+                            string DocumentNo = row["DocumentNo"].ToString();
+                            string RMCode = row["ItemCode"].ToString();
+                            string RMDescription = row["ItemName"].ToString();
+                            double Qty = Convert.ToDouble(row["Qty"].ToString());
+
+                            WsSD.Cells[dtSDDetails.Rows.IndexOf(row) + 2, 1] = Loc;
+                            WsSD.Cells[dtSDDetails.Rows.IndexOf(row) + 2, 2] = LabelNo;
+                            WsSD.Cells[dtSDDetails.Rows.IndexOf(row) + 2, 3] = DocumentNo;
+                            WsSD.Cells[dtSDDetails.Rows.IndexOf(row) + 2, 4] = RMCode;
+                            WsSD.Cells[dtSDDetails.Rows.IndexOf(row) + 2, 5] = RMDescription;
+                            WsSD.Cells[dtSDDetails.Rows.IndexOf(row) + 2, 6] = Qty;
+
+                        }
+
+
+                        //Inprocess-NG
+                        //Insert Row
+                        if (dtNGDetails.Rows.Count > 1)
+                        {
+                            WsNG.Range["3:" + (dtNGDetails.Rows.Count + 1)].Insert();
+                            WsNG.Range["A3:F" + (dtNGDetails.Rows.Count + 1)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                        }
+                        //Add Data
+                        foreach (DataRow row in dtNGDetails.Rows)
+                        {
+                            string MCNo = row["MCSeqNo"].ToString();
+                            string DocumentNo = row["DocumentNo"].ToString();
+                            string POSNo = row["POSNo"].ToString();
+                            string RMCode = row["RMCode"].ToString();
+                            string RMDescription = row["ItemName"].ToString();
+                            double Qty = Convert.ToDouble(row["Qty"].ToString());
+
+                            WsNG.Cells[dtNGDetails.Rows.IndexOf(row) + 2, 1] = MCNo;
+                            WsNG.Cells[dtNGDetails.Rows.IndexOf(row) + 2, 3] = DocumentNo;
+                            WsNG.Cells[dtNGDetails.Rows.IndexOf(row) + 2, 2] = POSNo;
+                            WsNG.Cells[dtNGDetails.Rows.IndexOf(row) + 2, 4] = RMCode;
+                            WsNG.Cells[dtNGDetails.Rows.IndexOf(row) + 2, 5] = RMDescription;
+                            WsNG.Cells[dtNGDetails.Rows.IndexOf(row) + 2, 6] = Qty;
+
+                        }
 
                         // Saving the modified Excel file
                         string date = DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss");
@@ -850,9 +964,8 @@ namespace MachineDeptApp.Inventory
 
 
                         //Save
-                        worksheet.Name = "RachhanSystem";
+                        worksheet.Name = "Inprocess-Combine";
                         worksheet.SaveAs(SavePath + @"\" + fName + ".xlsx");
-
 
                         //Close workbook for keep original format
                         excelApp.DisplayAlerts = false;

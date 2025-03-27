@@ -25,12 +25,17 @@ ORDER BY Code ASC, DocumentNo ASC
 */
 
 --POS Detail
-SELECT SubLoc, LabelNo, ItemCode, QtyDetails AS DocumentNo, Qty FROM tbInventory WHERE LocCode='MC1' AND CancelStatus = 0 AND CountingMethod='POS' 
+SELECT SubLoc, LabelNo, tbInventory.ItemCode, ItemName, QtyDetails AS DocumentNo, Qty FROM tbInventory 
+LEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T1 ON tbInventory.ItemCode=T1.ItemCode
+WHERE LocCode='MC1' AND CancelStatus = 0 AND CountingMethod='POS' 
+
 
 --POS
-/*
-SELECT ItemCode, DocumentNo, SUM(Qty) AS TotalQty FROM
-(SELECT SubLoc, LabelNo, ItemCode, QtyDetails AS DocumentNo, Qty FROM tbInventory WHERE LocCode='MC1' AND CancelStatus = 0 AND CountingMethod='POS' ) T1
+/*SELECT ItemCode, DocumentNo, SUM(Qty) AS TotalQty FROM
+(SELECT SubLoc, LabelNo, tbInventory.ItemCode, ItemName, QtyDetails AS DocumentNo, Qty FROM tbInventory 
+LEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T1 ON tbInventory.ItemCode=T1.ItemCode
+WHERE LocCode='MC1' AND CancelStatus = 0 AND CountingMethod='POS' 
+) T1
 GROUP BY ItemCode, DocumentNo
 */
 
@@ -47,6 +52,7 @@ LEFT JOIN (SELECT SysNo, POSNo FROM tbSDAllocateStock INNER JOIN (SELECT SD_DocN
 INNER JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T4 ON T2.LowItemCode = T4.ItemCode 
 LEFT JOIN (SELECT Code FROM tbSDMCAllTransaction WHERE CancelStatus = 0 AND LocCode = 'MC1' AND ReceiveQty>0 AND POSNo LIKE 'SD%' GROUP BY Code) T5 ON T2.LowItemCode = T5.Code
 LEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Work In Process') T6 ON T1.ItemCode=T6.ItemCode
+
 --Semi
 /*
 SELECT LowItemCode, DocumentNo, ROUND(SUM(TotalQty),2) AS TotalQty FROM 
@@ -66,13 +72,14 @@ ORDER BY DocumentNo ASC, LowItemCode ASC
 */
 
 --SDDetails
-SELECT SubLoc, LabelNo, QtyDetails AS DocumentNo, ItemCode, Qty FROM tbInventory 
+SELECT SubLoc, LabelNo, QtyDetails AS DocumentNo, tbInventory.ItemCode, ItemName, Qty FROM tbInventory 
+LEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T1_1 ON tbInventory.ItemCode=T1_1.ItemCode
 WHERE LocCode = 'MC1' AND CancelStatus = 0 AND CountingMethod = 'SD Document'
 
 --SD
-/*
-SELECT ItemCode, DocumentNo, SUM(Qty) AS TotalQty FROM
-(SELECT SubLoc, LabelNo, QtyDetails AS DocumentNo, ItemCode, Qty FROM tbInventory 
+/*SELECT ItemCode, DocumentNo, SUM(Qty) AS TotalQty FROM
+(SELECT SubLoc, LabelNo, QtyDetails AS DocumentNo, tbInventory.ItemCode, ItemName, Qty FROM tbInventory 
+LEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T1 ON tbInventory.ItemCode=T1.ItemCode
 WHERE LocCode = 'MC1' AND CancelStatus = 0 AND CountingMethod = 'SD Document') T1
 GROUP BY ItemCode, DocumentNo
 ORDER BY ItemCode ASC, DocumentNo ASC
@@ -86,24 +93,25 @@ SELECT MCSeqNo,
 CASE 
 	WHEN Code IS NULL THEN PosCNo
 	ELSE SDNo
-END AS DocumentNo, POSNo, RMCode, Qty FROM tbNGInprocess 
+END AS DocumentNo, POSNo, RMCode, ItemName, Qty FROM tbNGInprocess 
 LEFT JOIN (SELECT SysNo AS SDNo, T1.POSNo  FROM
 	(SELECT *  FROM tbSDAllocateStock) T1 INNER JOIN (SELECT POSNo, MIN(RegDate) AS RegDate FROM tbSDAllocateStock GROUP BY POSNo) T2 ON T1.POSNo=T2.POSNo AND T1.RegDate=T2.RegDate) TbSDAlloc ON tbNGInprocess.PosCNo=TbSDAlloc.POSNo
 LEFT JOIN (SELECT Code FROM tbSDMCAllTransaction WHERE CancelStatus = 0 AND LocCode = 'MC1' AND ReceiveQty>0 AND POSNo LIKE 'SD%' GROUP BY Code) T3 ON RMCode = T3.Code
+LEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T4 ON RMCode=T4.ItemCode
 WHERE ReqStatus = 0 AND Qty<>0
 
 --NG
-/*
-SELECT RMCode, DocumentNo, SUM(Qty) AS TotalQty FROM
+/*SELECT RMCode, DocumentNo, SUM(Qty) AS TotalQty FROM
 (
 SELECT MCSeqNo, 
 CASE 
 	WHEN Code IS NULL THEN PosCNo
 	ELSE SDNo
-END AS DocumentNo, POSNo, RMCode, Qty FROM tbNGInprocess 
+END AS DocumentNo, POSNo, RMCode, ItemName, Qty FROM tbNGInprocess 
 LEFT JOIN (SELECT SysNo AS SDNo, T1.POSNo  FROM
 	(SELECT *  FROM tbSDAllocateStock) T1 INNER JOIN (SELECT POSNo, MIN(RegDate) AS RegDate FROM tbSDAllocateStock GROUP BY POSNo) T2 ON T1.POSNo=T2.POSNo AND T1.RegDate=T2.RegDate) TbSDAlloc ON tbNGInprocess.PosCNo=TbSDAlloc.POSNo
 LEFT JOIN (SELECT Code FROM tbSDMCAllTransaction WHERE CancelStatus = 0 AND LocCode = 'MC1' AND ReceiveQty>0 AND POSNo LIKE 'SD%' GROUP BY Code) T3 ON RMCode = T3.Code
+LEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T4 ON RMCode=T4.ItemCode
 WHERE ReqStatus = 0 AND Qty<>0
 ) tbNG
 GROUP BY RMCode, DocumentNo
