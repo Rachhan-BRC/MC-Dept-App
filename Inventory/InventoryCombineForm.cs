@@ -7,6 +7,9 @@ using System.IO;
 using System.Data;
 using System.Linq;
 using System.Text;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace MachineDeptApp.Inventory
 {
@@ -208,7 +211,10 @@ namespace MachineDeptApp.Inventory
         }
         private void BtnPrint_Click(object sender, EventArgs e)
         {
-
+            if (tabLocation.SelectedTab.Name == "PageInprocess")
+            {
+                PrintInprocessData();
+            }
         }
         private void BtnSearch_Click(object sender, EventArgs e)
         {
@@ -301,6 +307,7 @@ namespace MachineDeptApp.Inventory
         }
 
         //Method
+        //Inprocess 
         private void TakingInprocessData()
         {
             Cursor = Cursors.WaitCursor;
@@ -567,6 +574,7 @@ namespace MachineDeptApp.Inventory
                         DocumentNo = "Other Stock";
                     string RMCode = row["Code"].ToString();
                     string RMName = row["ItemName"].ToString();
+                    string RMType = row["RMTypeName"].ToString();
                     double SysQty = Convert.ToDouble(Convert.ToDouble(row["TotalQty"]).ToString("N0"));
                     double POSQty = Convert.ToDouble(row["POS"]);
                     double SemiQty = Convert.ToDouble(Convert.ToDouble(row["Semi"]).ToString("N0"));
@@ -580,6 +588,7 @@ namespace MachineDeptApp.Inventory
                     dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["DocumentNo"].Value = DocumentNo;
                     dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["RMCode"].Value = RMCode;
                     dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["RMName"].Value = RMName;
+                    dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["RMType"].Value = RMType;
                     dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["SystemQty"].Value = SysQty;
                     dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["POSQty"].Value = POSQty;
                     dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["SemiQty"].Value = SemiQty;
@@ -605,6 +614,286 @@ namespace MachineDeptApp.Inventory
                 EMsg.ShowingMsg();
             }
         }
+        private void PrintInprocessData()
+        {
+            if (dgvInprocess.Rows.Count > 0)
+            {
+                QMsg.QAText = "Do you want to print?";
+                QMsg.UserClickedYes = false;
+                QMsg.ShowingMsg();
+                if (QMsg.UserClickedYes == true)
+                {
+                    ErrorText = "";
+                    Cursor = Cursors.WaitCursor;
+                    LbStatus.Text = "Print excel, please wait patiently!";
+                    LbStatus.Refresh();
+
+                    //Create New table
+                    DataTable dtTotalCombine = new DataTable();
+                    dtTotalCombine.Columns.Add("RMCode");
+                    dtTotalCombine.Columns.Add("RMName");
+                    dtTotalCombine.Columns.Add("RMType");
+                    dtTotalCombine.Columns.Add("InventoryQty");
+                    dtTotalCombine.Columns.Add("SystemQty");
+                    dtTotalCombine.Columns.Add("GAPQty");
+                    foreach (DataGridViewRow row in dgvInprocess.Rows)
+                    {
+                        string RMCode = row.Cells["RMCode"].Value.ToString();
+                        string RMName = row.Cells["RMName"].Value.ToString();
+                        string RMType = row.Cells["RMType"].Value.ToString();
+                        double POSQty = 0;
+                        double SemiQty = 0;
+                        double SDQty = 0;
+                        double NGQty = 0;
+                        double GAPQty = 0;
+                        double SystemQty = 0;
+                        double CountDupl = 0; 
+
+                        foreach (DataRow rowDt in dtTotalCombine.Rows)
+                        {
+                            if (RMCode == rowDt["RMCode"].ToString())
+                            {
+                                CountDupl++;
+                                break;
+                            }
+                        }
+
+                        if (CountDupl == 0)
+                        {
+                            foreach (DataGridViewRow rowSum in dgvInprocess.Rows)
+                            {
+                                if (RMCode == rowSum.Cells["RMCode"].Value.ToString())
+                                {
+                                    POSQty += Convert.ToDouble(rowSum.Cells["POSQty"].Value);
+                                    SemiQty += Convert.ToDouble(rowSum.Cells["SemiQty"].Value);
+                                    SDQty += Convert.ToDouble(rowSum.Cells["SDQty"].Value);
+                                    NGQty += Convert.ToDouble(rowSum.Cells["NGQty"].Value);
+                                    SystemQty += Convert.ToDouble(rowSum.Cells["SystemQty"].Value);
+                                    GAPQty += Convert.ToDouble(rowSum.Cells["GAP"].Value);
+                                }
+                            }
+                            dtTotalCombine.Rows.Add();
+                            dtTotalCombine.Rows[dtTotalCombine.Rows.Count-1]["RMCode"] = RMCode;
+                            dtTotalCombine.Rows[dtTotalCombine.Rows.Count - 1]["RMName"] = RMName;
+                            dtTotalCombine.Rows[dtTotalCombine.Rows.Count - 1]["RMType"] = RMType;
+                            dtTotalCombine.Rows[dtTotalCombine.Rows.Count - 1]["InventoryQty"] = "="+POSQty.ToString()+"+"+SemiQty.ToString()+"+"+SDQty.ToString()+"+"+NGQty.ToString();
+                            dtTotalCombine.Rows[dtTotalCombine.Rows.Count - 1]["SystemQty"] = SystemQty;
+                            dtTotalCombine.Rows[dtTotalCombine.Rows.Count - 1]["GAPQty"] = GAPQty;
+                        }
+
+                    }
+
+                    //Console
+                    /*
+                    //Print column headers
+                    foreach (DataColumn col in dtTotalCombine.Columns)
+                    {
+                        Console.Write(col.ColumnName + "\t");
+                    }
+                    Console.WriteLine();
+                    //Print rows
+                    foreach (DataRow row in dtTotalCombine.Rows)
+                    {
+                        foreach (var item in row.ItemArray)
+                        {
+                            Console.Write(item + "\t");
+                        }
+                        Console.WriteLine();
+                    }
+                    */
+
+                    //ឆែករកមើល Folder បើគ្មាន => បង្កើត
+                    string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\Inventory\Report";
+                    string fName = "";
+                    if (!Directory.Exists(SavePath))
+                    {
+                        Directory.CreateDirectory(SavePath);
+                    }
+                    try
+                    {
+                        
+                        //open excel application and create new workbook
+                        Excel.Application excelApp = new Excel.Application();
+                        Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(Filename: Environment.CurrentDirectory + @"\Template\Inventory-ReportTemplate.xlsx", Editable: true);
+                        Excel.Worksheet worksheet = (Excel.Worksheet)xlWorkBook.Sheets["Inprocess"];
+                        Excel.Worksheet DeleteWs1 = (Excel.Worksheet)xlWorkBook.Sheets["KIT"];
+                        Excel.Worksheet DeleteWs2 = (Excel.Worksheet)xlWorkBook.Sheets["SD"];
+
+                        double MatchingCount = 0;
+                        double OverCount = 0;
+                        double MinusCount = 0;
+
+                        //Insert Row
+
+
+                        //Add Data
+                        foreach (DataRow row in dtTotalCombine.Rows)
+                        {
+                            string RMCode = row["RMCode"].ToString();
+                            string RMDescription = row["RMName"].ToString();
+                            string RMType = row["RMType"].ToString();
+                            string Inventory = row["InventoryQty"].ToString();
+                            string Sys = row["SystemQty"].ToString();
+                            double GAP = Convert.ToDouble(row["GAPQty"].ToString());
+
+                            if (GAP == 0)
+                            {
+                                MatchingCount++;
+                            }
+                            else
+                            {
+                                if (GAP < 0)
+                                {
+                                    MinusCount++;
+                                }
+                                else
+                                {
+                                    OverCount++;
+                                }
+                            }
+                        }
+
+                        //Header
+                        // Loop through all shapes in the worksheet for set Text
+                        double TotalItems = dtTotalCombine.Rows.Count;
+                        foreach (Excel.Shape shape in worksheet.Shapes)
+                        {
+                            //Date
+                            if (shape.Name == "DateShape")
+                            {
+                                // Set the text for the shape
+                                shape.TextFrame.Characters().Text = DateTime.Now.ToString("dd-MMM-yyyy hh:mm tt");
+                            }
+                            //Location
+                            if (shape.Name == "LocationShape")
+                            {
+                                shape.TextFrame.Characters().Text = "MC Inprocess";
+                            }
+
+                            //TotalItemsShape, MatchingShape, OverShape, MinusShape
+                            if (shape.Type == Microsoft.Office.Core.MsoShapeType.msoGroup) // Check if the shape is a group
+                            {
+                                foreach (Excel.Shape childShape in shape.GroupItems) // Iterate through the grouped items
+                                {
+                                    //TotalItemsShape
+                                    if (childShape.Name == "TotalItemsShape") // Check for your shape by name
+                                    {
+                                        childShape.TextFrame.Characters().Text = TotalItems.ToString("N0");
+                                    }
+
+                                    //Matching
+                                    if (childShape.Name == "MatchingQtyShape")
+                                    {
+                                        // Set the text for the childShape
+                                        childShape.TextFrame.Characters().Text = MatchingCount.ToString("N0");
+                                    }
+                                    if (childShape.Name == "Matching%Shape")
+                                    {
+                                        // Set the text for the childShape
+                                        childShape.TextFrame.Characters().Text = ((MatchingCount/TotalItems) * 100).ToString("N2") + " %";
+                                    }
+
+                                    //Over
+                                    if (childShape.Name == "OverQtyShape")
+                                    {
+                                        // Set the text for the childShape
+                                        childShape.TextFrame.Characters().Text = OverCount.ToString("N0");
+                                    }
+                                    if (childShape.Name == "Over%Shape")
+                                    {
+                                        // Set the text for the childShape
+                                        childShape.TextFrame.Characters().Text = ((OverCount / TotalItems) * 100).ToString("N2") + " %";
+                                    }
+
+                                    //Minus
+                                    if (childShape.Name == "MinusQtyShape")
+                                    {
+                                        // Set the text for the childShape
+                                        childShape.TextFrame.Characters().Text = MinusCount.ToString("N0");
+                                    }
+                                    if (childShape.Name == "Minus%Shape")
+                                    {
+                                        // Set the text for the childShape
+                                        childShape.TextFrame.Characters().Text = ((MinusCount / TotalItems) * 100).ToString("N2") + " %";
+                                    }
+                                }
+                            }
+
+                        }
+
+                        /*
+                        worksheet.Cells[2, 6] = "Inprocess(" + SubLoc + ")";
+                        worksheet.Cells[2, 4] = LabelNo;
+                        worksheet.Cells[3, 1] = "*" + LabelNo + "*";
+                        worksheet.Cells[7, 4] = WipCode;
+                        worksheet.Cells[9, 4] = WIPName;
+                        worksheet.Cells[11, 4] = Pin;
+                        worksheet.Cells[13, 4] = WireColor;
+                        worksheet.Cells[15, 4] = Length;
+
+                        worksheet.Cells[17, 4] = Qty;
+                        //Summary
+                        worksheet.Cells[17, 6] = "( " + QtyDetails + " )";
+                        */
+
+                        // Saving the modified Excel file
+                        string date = DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss");
+                        string file = "MC Inventory-Report ";
+                        fName = file + "( " + date + " )";
+
+
+                        //លុប Manual worksheet
+                        excelApp.DisplayAlerts = false;
+                        DeleteWs1.Delete();
+                        DeleteWs2.Delete();
+                        excelApp.DisplayAlerts = true;
+
+
+                        //Save
+                        worksheet.Name = "RachhanSystem";
+                        worksheet.SaveAs(SavePath + @"\" + fName + ".xlsx");
+
+
+                        //Close workbook for keep original format
+                        excelApp.DisplayAlerts = false;
+                        xlWorkBook.Close();
+                        excelApp.DisplayAlerts = true;
+                        excelApp.Quit();
+
+                        //Kill all Excel background process
+                        var processes = from p in Process.GetProcessesByName("EXCEL")
+                                        select p;
+                        foreach (var process in processes)
+                        {
+                            if (process.MainWindowTitle.ToString().Trim() == "")
+                                process.Kill();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorText = ex.Message;
+                    }                    
+                    
+                    Cursor = Cursors.Default;
+
+                    if (ErrorText.Trim() == "")
+                    {
+                        LbStatus.Text = "Print excel successfully!";
+                        LbStatus.Refresh();
+                        InfoMsg.InfoText = "Print excel successfully!";
+                        InfoMsg.ShowingMsg();
+                        System.Diagnostics.Process.Start(SavePath + @"\" + fName + ".xlsx");
+                    }
+                    else
+                    {
+                        EMsg.AlertText = "Something's wrong!\n" + ErrorText;
+                        EMsg.ShowingMsg();
+                    }
+                }
+            }
+        }
+
+
         private void CheckBtnPrint()
         {
             DataGridView dgvChecking = new DataGridView();
