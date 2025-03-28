@@ -64,12 +64,20 @@ namespace MachineDeptApp.Inventory.Inprocess
 
 
             //WireTerminal
+            //Wire
             this.dgvListSDWire.CellClick += DgvListSDWire_CellClick;
             this.btnSDWireOK.EnabledChanged += BtnSDWireOK_EnabledChanged;
             this.txtSDWireWA.KeyPress += TxtSDWireWA_KeyPress;
             this.txtSDWireWA.TextChanged += TxtSDWireWA_TextChanged;
             this.txtSDWireWA.Leave += TxtSDWireWA_Leave;
             this.btnSDWireOK.Click += BtnSDWireOK_Click;
+            //Terminal
+            this.dgvListSDTerminal.CellClick += DgvListSDTerminal_CellClick;
+            this.btnSDTermOK.EnabledChanged += BtnSDTerminalOK_EnabledChanged;
+            this.txtSDTermUseQty.KeyPress += TxtSDTermUseQty_KeyPress;
+            this.txtSDTermUseQty.Leave += TxtSDTermUseQty_Leave;
+            this.btnSDTermOK.Click += BtnSDTermOK_Click;
+
 
             //Semi
             this.LbWireTubeSemi.TextChanged += LbWireTubeSemi_TextChanged;
@@ -83,9 +91,105 @@ namespace MachineDeptApp.Inventory.Inprocess
 
         }
 
-
-
         //WireTerminal
+        private void BtnSDTermOK_Click(object sender, EventArgs e)
+        {
+            if (txtSDTermUseQty.Text.Trim() != "" && Convert.ToDouble(txtSDTermUseQty.Text) >= 0 && Convert.ToDouble(txtSDTermQtyB.Text) >= Convert.ToDouble(txtSDTermUseQty.Text))
+            {
+                foreach (DataGridViewRow row in dgvListSDTerminal.Rows)
+                {
+                    if (row.Cells["BobbinCodeT"].Value.ToString() == LbSDTermBobbinNo.Text)
+                    {
+                        row.Cells["BeforeQtyT"].Value = Convert.ToDouble(txtSDTermQtyB.Text);
+                        row.Cells["UsingQtyT"].Value = Convert.ToDouble(txtSDTermUseQty.Text);
+                        row.Cells["RemainQtyT"].Value = Convert.ToDouble(txtSDTermQtyB.Text) - Convert.ToDouble(txtSDTermUseQty.Text);
+                        LbSDTermBobbinNo.Text = "";
+                        txtSDTermQtyB.Text = "";
+                        txtSDTermUseQty.Text = "";
+                        btnSDTermOK.Enabled = false;
+                        dgvListSDTerminal.Focus();
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                WMsg.WarningText = "សូមបញ្ចូលប្រអប់ដែលមានពណ៌នៅពីក្រោយជាមុនសិន!";
+                WMsg.ShowingMsg();
+                txtSDTermUseQty.Focus();
+            }
+
+        }
+        private void TxtSDTermUseQty_Leave(object sender, EventArgs e)
+        {
+            if (txtSDTermUseQty.Text.Trim() != "")
+            {
+                try
+                {
+                    double InputtedValue = Convert.ToDouble(txtSDTermUseQty.Text);
+                    if (InputtedValue >= 0)
+                    {
+                        if (InputtedValue <= Convert.ToDouble(txtSDTermQtyB.Text))
+                            txtSDTermUseQty.Text = InputtedValue.ToString("N0");
+                        else
+                        {
+                            txtSDTermUseQty.Text = "";
+                        }
+                    }
+                    else
+                    {
+                        WMsg.WarningText = "ចំនួនប្រើប្រាស់មិនអាចតូចជាង 0 បានទេ!";
+                        WMsg.ShowingMsg();
+                        txtSDTermUseQty.Text = "";
+                    }
+                }
+                catch
+                {
+                    WMsg.WarningText = "អ្នកបញ្ចូលខុសទម្រង់ហើយ!";
+                    WMsg.ShowingMsg();
+                    txtSDTermUseQty.Text = "";
+                }
+            }
+        }
+        private void TxtSDTermUseQty_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+        private void BtnSDTerminalOK_EnabledChanged(object sender, EventArgs e)
+        {
+            if (btnSDTermOK.Enabled == true)
+            {
+                btnSDTermOK.ForeColor = Color.Black;
+                btnSDTermOK.BackColor = Color.FromArgb(0, 192, 0);
+            }
+            else
+            {
+                btnSDTermOK.ForeColor = Color.FromArgb(64, 64, 64);
+                btnSDTermOK.BackColor = Color.Silver;
+            }
+        }
+        private void DgvListSDTerminal_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex > -1 && e.RowIndex > -1)
+            {
+                if (dgvListSDTerminal.Columns[e.ColumnIndex].Name == "EdtingSDT")
+                {
+                    string BobbinCode = dgvListSDTerminal.Rows[e.RowIndex].Cells["BobbinCodeT"].Value.ToString();
+                    double BQty = Convert.ToDouble(dgvListSDTerminal.Rows[e.RowIndex].Cells["BeforeQtyT"].Value);
+                    double UsingQty = Convert.ToDouble(dgvListSDTerminal.Rows[e.RowIndex].Cells["UsingQtyT"].Value);
+
+                    LbSDTermBobbinNo.Text = BobbinCode;
+                    txtSDTermQtyB.Text = BQty.ToString("N0");
+                    txtSDTermUseQty.Text = UsingQty.ToString("N0");
+                    btnSDTermOK.Enabled = true;
+                    txtSDTermUseQty.Focus();
+                }
+            }
+        }
+
         private void TxtSDWireWA_Leave(object sender, EventArgs e)
         {
             if (txtSDWireWA.Text.Trim() != "")
@@ -183,7 +287,40 @@ namespace MachineDeptApp.Inventory.Inprocess
         }
         private void BtnSDWireOK_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (txtSDWireWA.Text.Trim() != "" && txtSDWireQtyA.Text.Trim() != "")
+            {
+                if (Convert.ToDouble(txtSDWireQtyA.Text) >= 0)
+                {
+                    foreach (DataGridViewRow row in dgvListSDWire.Rows)
+                    {
+                        if (row.Cells["BobbinCodeW"].Value.ToString() == LbSDWireBobbinNo.Text)
+                        {
+                            row.Cells["RemainWW"].Value = Convert.ToDouble(txtSDWireWA.Text);
+                            row.Cells["RemainQtyW"].Value = Convert.ToDouble(txtSDWireQtyA.Text);
+                            txtSDWireQtyB.Text = "";
+                            txtSDWireWB.Text = "";
+                            txtSDWireQtyA.Text = "";
+                            txtSDWireWA.Text = "";
+                            LbSDWireBobbinNo.Text = "";
+                            LbSDWirePerUnit.Text = "";
+                            btnSDWireOK.Enabled = false;
+                            dgvListSDWire.Focus();
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    WMsg.WarningText = "ប្រវែងនៅសល់មិនអាចតូចជាង 0 បានទេ!";
+                    WMsg.ShowingMsg();
+                }
+            }
+            else
+            {
+                WMsg.WarningText = "សូមបញ្ចូលប្រអប់ដែលមានពណ៌នៅពីក្រោយជាមុនសិន!";
+                WMsg.ShowingMsg();
+                txtSDWireWA.Focus();
+            }
         }
         private void DgvListSDWire_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -205,6 +342,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                     txtSDWireWA.Text = AWeight.ToString("N2");
                     LbSDWirePerUnit.Text = PerUnit.ToString();
                     btnSDWireOK.Enabled = true;
+                    txtSDWireWA.Focus();
                 }
             }
         }
@@ -405,7 +543,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                                             "\nLEFT JOIN tbMasterItem ON tbInventory.ItemCode = tbMasterItem.ItemCode " +
                                             "\nWHERE LocCode='MC1' AND CancelStatus=0 AND LabelNo=  " + Convert.ToInt32(splitText[0]) + " AND tbInventory.ItemCode = '" + splitText[1] + "' " +
                                             "\nORDER BY SeqNo ASC";
-                            Console.WriteLine(SQLQuery);
+                            //Console.WriteLine(SQLQuery);
                             SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
                             sda.Fill(dtInventory);
 
@@ -415,7 +553,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                                 "\nINNER JOIN (SELECT * FROM tbMstRMRegister WHERE Status='Active') T2 ON tbInventoryWandTDetails.BobbinSysNo=T2.BobbinSysNo " +
                                 "\nWHERE LabelNo = '"+ Convert.ToInt32(splitText[0]) + "' AND tbInventoryWandTDetails.RMCode='"+ splitText[1] + "' " +
                                 "\nORDER BY tbInventoryWandTDetails.BobbinSysNo ASC";
-                            //SQLQuery = "SELECT * FROM tbInventoryWandTDetails WHERE LabelNo = '"+ Convert.ToInt32(splitText[0]) + "' AND RMCode='"+ splitText[1] + "' ORDER BY BobbinSysNo ASC";
+                            //Console.WriteLine(SQLQuery);
                             sda = new SqlDataAdapter(SQLQuery, cnn.con);
                             sda.Fill(dtInventoryDetails);
                         }
@@ -508,6 +646,7 @@ namespace MachineDeptApp.Inventory.Inprocess
             {
                 UpdateWireTerminal();
             }
+
         }
         private void BtnNew_Click(object sender, EventArgs e)
         {
@@ -552,6 +691,17 @@ namespace MachineDeptApp.Inventory.Inprocess
                 }
             }
 
+            //Not Resize column
+            foreach (DataGridViewColumn DgvCol in dgvListSDWire.Columns)
+            {
+                if(DgvCol.Name == "EditingSDW")
+                    DgvCol.Resizable = DataGridViewTriState.False;
+            }
+            foreach (DataGridViewColumn DgvCol in dgvListSDTerminal.Columns)
+            {
+                if (DgvCol.Name == "EditingSDT")
+                    DgvCol.Resizable = DataGridViewTriState.False;
+            }
         }
 
 
@@ -559,13 +709,9 @@ namespace MachineDeptApp.Inventory.Inprocess
         private void ClearAllText()
         {
             LbLabelNo.Text = "";
-            LbLabelNoTitle.Visible = false;
+            LbLabelNo.Refresh();
             LbLocation.Text = "";
-            LbLocation.Visible = false;
-            LbSubLocTitle.Visible = false;
-            panelSemi.Visible = false;
-            panelPOS.Visible = false;
-            panelStockCardWireTerminal.Visible = false;
+            LbLocation.Refresh();
 
             //Semi
             LbWIPCodeSemi.Text = "";
@@ -586,14 +732,26 @@ namespace MachineDeptApp.Inventory.Inprocess
             dgvRMListPOS.Rows.Clear();
 
             //WireTerminal
-            //LbCodeWireTerminal.Text = "";
-            //LbItemNameWireTerminal.Text = "";
-            //LbMakerWireTerminal.Text = "";
-            //LbTypeWireTerminal.Text = "";
-            //CboBobbinWWireTerminal.Text = "";
-            //LbNetWWireTerminal.Text = "";
-            //txtQtyWireTerminal.Text = "";
-
+            //Wire
+            LbSDWireRMCode.Text = "";
+            LbSDWireRMName.Text = "";
+            LbSDWireDocumentNo.Text = "";
+            txtSDWireQtyB.Text = "";
+            txtSDWireWB.Text = "";
+            txtSDWireQtyA.Text = "";
+            txtSDWireWA.Text = "";
+            LbSDWireBobbinNo.Text = "";
+            LbSDWirePerUnit.Text = "";
+            btnSDWireOK.Enabled = false;
+            dgvListSDWire.Rows.Clear();
+            //Terminal
+            LbSDTermRMCode.Text = "";
+            LbSDTermRMName.Text = "";
+            LbSDTermBobbinNo.Text = "";
+            LbSDTermDocumentNo.Text = "";
+            txtSDTermQtyB.Text="";
+            txtSDTermUseQty.Text = "";
+            dgvListSDTerminal.Rows.Clear();
         }
         private void ShowingAfterScan()
         {
@@ -765,7 +923,20 @@ namespace MachineDeptApp.Inventory.Inprocess
                 string DocumentNo = dtInventory.Rows[0]["QtyDetails"].ToString();
                 if ( RMType == "Terminal")
                 {
-                    tabContrlSDWire.Visible = false;
+                    tabContrlSDWire.Visible = false; 
+                    LbSDTermRMCode.Text = RMCode;
+                    LbSDTermRMName.Text = RMName;
+                    LbSDTermDocumentNo.Text = DocumentNo;
+                    btnSDTermOK.Enabled = false;
+
+                    foreach (DataRow row in dtInventoryDetails.Rows)
+                    {
+                        dgvListSDTerminal.Rows.Add();
+                        dgvListSDTerminal.Rows[dgvListSDTerminal.Rows.Count - 1].Cells["BobbinCodeT"].Value = row["BobbinSysNo"].ToString();
+                        dgvListSDTerminal.Rows[dgvListSDTerminal.Rows.Count - 1].Cells["BeforeQtyT"].Value = Convert.ToDouble(row["BStock_QTY"]);
+                        dgvListSDTerminal.Rows[dgvListSDTerminal.Rows.Count - 1].Cells["UsingQtyT"].Value = Convert.ToDouble(row["BStock_QTY"])-Convert.ToDouble(row["RemainQty"]);
+                        dgvListSDTerminal.Rows[dgvListSDTerminal.Rows.Count - 1].Cells["RemainQtyT"].Value = Convert.ToDouble(row["RemainQty"]);
+                    }
                 }
                 else
                 {
@@ -786,7 +957,6 @@ namespace MachineDeptApp.Inventory.Inprocess
                         dgvListSDWire.Rows[dgvListSDWire.Rows.Count - 1].Cells["RemainQtyW"].Value = Convert.ToDouble(row["RemainQty"]);
                     }
                 }
-
                 panelStockCardWireTerminal.Visible = true;
                 panelStockCardWireTerminal.BringToFront();
             }
@@ -1157,418 +1327,301 @@ namespace MachineDeptApp.Inventory.Inprocess
         }
         private void UpdateWireTerminal()
         {
-            /*
-            if (LbCodeWireTerminal.Text.Trim() != "" && LbItemNameWireTerminal.Text.Trim() != "")
+            if (dgvListSDWire.Rows.Count > 0 || dgvListSDTerminal.Rows.Count > 0)
             {
-                if (LbTotalQtyWireTerminal.Text.Trim() != "" && LbBobbinQtyWireTerminal.Text.Trim() != "")
+                string Username = MenuFormV2.UserForNextForm;
+                DateTime UpdateDate = DateTime.Now;
+                string LabelNo = LbLabelNo.Text;
+                string RMCode = "";
+                string RMName = "";
+                string SDNo = "";
+
+                QMsg.QAText = "តើអ្នកចង់អាប់ដេតមែនឬទេ?";
+                QMsg.UserClickedYes = false;
+                QMsg.ShowingMsg();
+                if (QMsg.UserClickedYes == true)
                 {
-                    //Check QtyDetail first
-                    if (RdbWeight.Checked == true)
+                    ErrorText = "";
+                    Cursor = Cursors.WaitCursor;
+                    LbStatus.Text = "កំពុងអាប់ដេត . . .";
+                    LbStatus.Refresh();
+
+                    //Check Still not yet delete or not
+                    DataTable dtChecking = new DataTable();
+                    try
                     {
-                        //Only 0-9 & '.' & '+'
-                        int FoundError = 0;
-                        string[] AllowText = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "+" };
-                        for (int i = 0; i < txtQtyWireTerminal.Text.ToString().Length; i++)
+                        cnn.con.Open();
+                        string SQLQuery = "SELECT * FROM tbInventory WHERE LocCode = 'MC1' AND CancelStatus = 0 AND CountingMethod = 'SD Document' AND LabelNo = '" + LabelNo + "' ";
+                        Console.WriteLine(SQLQuery);
+                        SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                        sda.Fill(dtChecking);
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorText = "Check : " + ex.Message;
+                    }
+                    cnn.con.Close();
+
+                    //Update
+                    int TotalQty = 0;
+                    string RMType = "Wire";
+                    if (ErrorText.Trim() == "")
+                    {
+                        if (dtChecking.Rows.Count > 0)
                         {
-                            int OK = 0;
-                            for (int j = 0; j < AllowText.Length; j++)
+                            //Wire
+                            if (tabContrlSDWire.Visible == true)
                             {
-                                if (txtQtyWireTerminal.Text[i].ToString() == AllowText[j].ToString())
-                                {
-                                    OK = 1;
-                                    break;
-                                }
-                            }
-                            if (OK == 0)
-                            {
-                                FoundError++;
-                            }
-                        }
-
-                        //Check each Qty less than BobbinW/R1 or not
-                        string[] QtyArray = txtQtyWireTerminal.Text.ToString().Split('+');
-                        for (int i = 0; i < QtyArray.Length; i++)
-                        {
-                            if (Convert.ToDouble(QtyArray[i].ToString()) < Convert.ToDouble(CboBobbinWWireTerminal.Text))
-                            {
-                                FoundError++;
-                                MessageBox.Show("ក្នុង <ទម្ងន់សរុប> ខ្លះមានទម្ងន់តិចជាង <ទម្ងន់ប៊ូប៊ីន> !", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                break;
-                            }
-                        }
-
-                        //Sum/CalcByComputer
-                        try
-                        {
-                            string value = new DataTable().Compute(txtQtyWireTerminal.Text.ToString(), null).ToString();
-                            double Total = Convert.ToDouble(value);
-                        }
-                        catch
-                        {
-                            FoundError++;
-                        }
-
-                        if (FoundError == 0)
-                        {
-                            DialogResult DSL = MessageBox.Show("តើអ្នកចង់អាប់ដេតមែនឬទេ?", "Rachhan System", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                            if (DSL == DialogResult.Yes)
-                            {
-                                LbStatus.Text = "កំពុងអាប់ដេត . . .";
-                                LbStatus.Refresh();
-                                Cursor = Cursors.WaitCursor;
-
-                                ErrorText = "";
-                                string NewSubLoc = LbLocation.Text;
-                                string RMCode = LbCodeWireTerminal.Text;
-                                int Qty = Convert.ToInt32(LbTotalQtyWireTerminal.Text.Replace(",", ""));
-                                string QtyDetail = txtQtyWireTerminal.Text;
-                                string QtyDetail2 = CboBobbinWWireTerminal.Text + "|" + BobbinQtyInputted.ToString();
-
+                                RMCode = LbSDWireRMCode.Text;
+                                RMName = LbSDWireRMName.Text;
+                                SDNo = LbSDWireDocumentNo.Text;
                                 try
                                 {
                                     cnn.con.Open();
-                                    string Username = MenuFormV2.UserForNextForm;
-                                    DateTime UpdateDate = DateTime.Now;
+                                    //Update tbInventoryWandTDetail
+                                    string query = "";
+                                    SqlCommand cmd = new SqlCommand();
+                                    foreach (DataGridViewRow row in dgvListSDWire.Rows)
+                                    {
+                                        string BobbinCode = row.Cells["BobbinCodeW"].Value.ToString();
+                                        double RemainW = Convert.ToDouble(row.Cells["RemainWW"].Value);
+                                        int RemainQty = Convert.ToInt32(row.Cells["RemainQtyW"].Value);
+                                        TotalQty += RemainQty;
 
-                                    string query = "UPDATE tbInventory SET SubLoc='" + NewSubLoc + "', " +
-                                                            "Qty=" + Qty + ", " +
-                                                            "QtyDetails='" + QtyDetail + "', " +
-                                                            "QtyDetails2='" + QtyDetail2 + "', " +
-                                                            "UpdateDate='" + UpdateDate.ToString("yyyy-MM-dd HH:mm:ss") + "', " +
-                                                            "UpdateBy=N'" + Username + "' " +
-                                                            "WHERE LocCode='MC1' AND LabelNo=" + Convert.ToInt32(LbLabelNo.Text) + " AND ItemCode='" + RMCode + "' ";
+                                        query = "UPDATE tbInventoryWandTDetails " +
+                                                                "SET RemainW=" + RemainW + ", " +
+                                                                "RemainQty='" + RemainQty + "' " +
+                                                                "WHERE LabelNo=" + LabelNo + " AND SDNo='" + SDNo + "' AND RMCode='" + RMCode + "' AND BobbinSysNo = '" + BobbinCode + "' ";
+                                        cmd = new SqlCommand(query, cnn.con);
+                                        cmd.ExecuteNonQuery();
+                                    }
+
+                                    //Update tbInventory
+                                    query = "UPDATE tbInventory " +
+                                                                "SET Qty=" + TotalQty + ", " +
+                                                                "UpdateDate = '" + UpdateDate.ToString("yyyy-MM-dd HH:mm:ss") + "', " +
+                                                                "UpdateBy=N'" + Username + "' " +
+                                                                "WHERE LocCode = 'MC1' AND CountingMethod='SD Document' AND LabelNo=" + LabelNo + " AND ItemCode='" + RMCode + "' ";
                                     cmd = new SqlCommand(query, cnn.con);
                                     cmd.ExecuteNonQuery();
-
                                 }
                                 catch (Exception ex)
                                 {
-                                    if (ErrorText.Trim() == "")
-                                    {
-                                        ErrorText = "Update to DB : " + ex.Message;
-                                    }
-                                    else
-                                    {
-                                        ErrorText = ErrorText + "\nUpdate to DB : " + ex.Message;
-                                    }
+                                    ErrorText = "Update : " + ex.Message;
                                 }
                                 cnn.con.Close();
-
-                                //Print
-                                if (chkPrintStatus.Checked == true)
+                            }
+                            //Terminal
+                            else
+                            {
+                                RMType = "Terminal";
+                                RMCode = LbSDTermRMCode.Text;
+                                RMName = LbSDTermRMName.Text;
+                                SDNo = LbSDTermDocumentNo.Text;
+                                try
                                 {
-                                    if (ErrorText.Trim() == "")
+                                    cnn.con.Open();
+                                    //Update tbInventoryWandTDetail
+                                    string query = "";
+                                    SqlCommand cmd = new SqlCommand();
+                                    foreach (DataGridViewRow row in dgvListSDTerminal.Rows)
                                     {
-                                        try
-                                        {
-                                            //ឆែករកមើល Folder បើគ្មាន => បង្កើត
-                                            string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\InventoryLable\Inprocess";
-                                            if (!Directory.Exists(SavePath))
-                                            {
-                                                Directory.CreateDirectory(SavePath);
-                                            }
+                                        string BobbinCode = row.Cells["BobbinCodeT"].Value.ToString();
+                                        int RemainQty = Convert.ToInt32(row.Cells["RemainQtyT"].Value);
+                                        TotalQty += RemainQty;
 
-                                            //open excel application and create new workbook
-                                            var CDirectory = Environment.CurrentDirectory;
-                                            Excel.Application excelApp = new Excel.Application();
-                                            Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(Filename: CDirectory.ToString() + @"\Template\InventoryLabel_Inprocess_Template.xlsx", Editable: true);
-                                            Excel.Worksheet worksheet = (Excel.Worksheet)xlWorkBook.Sheets["Weight"];
-                                            worksheet.Cells[2, 6] = "Inprocess(" + NewSubLoc + ")";
-                                            worksheet.Cells[2, 4] = LbLabelNo.Text;
-                                            worksheet.Cells[3, 1] = "*" + LbLabelNo.Text + "*";
-                                            worksheet.Cells[7, 4] = LbCodeWireTerminal.Text;
-                                            worksheet.Cells[9, 4] = LbItemNameWireTerminal.Text;
-                                            worksheet.Cells[11, 4] = LbTypeWireTerminal.Text;
-                                            worksheet.Cells[13, 4] = LbMakerWireTerminal.Text;
-                                            worksheet.Cells[15, 4] = LbTotalQtyWireTerminal.Text;
-                                            //Summary                                            
-                                            worksheet.Cells[15, 6] = "( " + txtQtyWireTerminal.Text.Replace("*", "x") + " )\n" + LbBobbinQtyWireTerminal.Text.Replace("( ","").Replace(" )","") ;
-
-                                            // Saving the modified Excel file
-                                            var CDirectory2 = Environment.CurrentDirectory;
-                                            string date = DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss");
-                                            string file = LbLabelNo.Text;
-                                            string fName = file + "-Update( " + date + " )";
-
-                                            //លុប Manual worksheet
-                                            excelApp.DisplayAlerts = false;
-                                            Excel.Worksheet wsDelete = (Excel.Worksheet)xlWorkBook.Sheets["POS"];
-                                            wsDelete.Delete();
-                                            Excel.Worksheet wsDelete1 = (Excel.Worksheet)xlWorkBook.Sheets["Box"];
-                                            wsDelete1.Delete();
-                                            Excel.Worksheet wsDelete2 = (Excel.Worksheet)xlWorkBook.Sheets["Semi"];
-                                            wsDelete2.Delete();
-                                            excelApp.DisplayAlerts = true;
-
-                                            worksheet.Name = "RachhanSystem";
-                                            worksheet.SaveAs(SavePath + @"\" + fName + ".xlsx");
-                                            for (int i = 0; i < numPrintQty.Value; i++)
-                                            {
-                                                worksheet.PrintOut();
-                                            }
-                                            xlWorkBook.Save();
-                                            xlWorkBook.Close();
-                                            excelApp.Quit();
-
-                                            //Kill all Excel background process
-                                            var processes = from p in Process.GetProcessesByName("EXCEL")
-                                                            select p;
-                                            foreach (var process in processes)
-                                            {
-                                                if (process.MainWindowTitle.ToString().Trim() == "")
-                                                    process.Kill();
-                                            }
-
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            if (ErrorText.Trim() == "")
-                                            {
-                                                ErrorText = "Print Label : " + ex.Message;
-                                            }
-                                            else
-                                            {
-                                                ErrorText = ErrorText + "\nPrint Label : " + ex.Message;
-                                            }
-                                            //Kill all Excel background process
-                                            var processes = from p in Process.GetProcessesByName("EXCEL")
-                                                            select p;
-                                            foreach (var process in processes)
-                                            {
-                                                if (process.MainWindowTitle.ToString().Trim() == "")
-                                                    process.Kill();
-                                            }
-                                        }
+                                        query = "UPDATE tbInventoryWandTDetails " +
+                                                                "SET RemainQty='" + RemainQty + "' " +
+                                                                "WHERE LabelNo=" + LabelNo + " AND SDNo='" + SDNo + "' AND RMCode='" + RMCode + "' AND BobbinSysNo = '" + BobbinCode + "' ";
+                                        cmd = new SqlCommand(query, cnn.con);
+                                        cmd.ExecuteNonQuery();
                                     }
-                                }
 
-                                Cursor = Cursors.Default;
-                                if (ErrorText.Trim() == "")
-                                {
-                                    LbStatus.Text = "អាប់ដេតរួចរាល់!";
-                                    LbStatus.Refresh();
-                                    MessageBox.Show("អាប់ដេតរួចរាល់!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    ClearAllText();
-                                    txtBarcode.Focus();
+                                    //Update tbInventory
+                                    query = "UPDATE tbInventory " +
+                                                                "SET Qty=" + TotalQty + ", " +
+                                                                "UpdateDate = '" + UpdateDate.ToString("yyyy-MM-dd HH:mm:ss") + "', " +
+                                                                "UpdateBy=N'" + Username + "' " +
+                                                                "WHERE LocCode = 'MC1' AND CountingMethod='SD Document' AND LabelNo=" + LabelNo + " AND ItemCode='" + RMCode + "' ";
+                                    cmd = new SqlCommand(query, cnn.con);
+                                    cmd.ExecuteNonQuery();
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    LbStatus.Text = "អាប់ដេតមានបញ្ហា!";
-                                    LbStatus.Refresh();
-                                    MessageBox.Show("មានបញ្ហា!\n" + ErrorText, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    ErrorText = "Update : " + ex.Message;
                                 }
+                                cnn.con.Close();
                             }
                         }
                         else
                         {
-                            MessageBox.Show("អ្នកបញ្ចូលខុសទម្រង់ហើយ!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            txtQtyWireTerminal.Focus();
+                            ErrorText = "ទិន្នន័យត្រូវបានលុបបាត់ហើយ!";
                         }
+                    }
+
+                    LbStatus.Text = "កំពុងព្រីនឡាប៊ែល . . .";
+                    LbStatus.Refresh();
+                    //Print
+                    if (ErrorText.Trim() == "")
+                    {
+                        if (chkPrintStatus.Checked == true)
+                        {
+                            //ឆែករកមើល Folder បើគ្មាន => បង្កើត
+                            string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\InventoryLable\Inprocess";
+                            if (!Directory.Exists(SavePath))
+                            {
+                                Directory.CreateDirectory(SavePath);
+                            }
+
+                            //open excel application and create new workbook
+                            var CDirectory = Environment.CurrentDirectory;
+                            Excel.Application excelApp = new Excel.Application();
+                            Excel.Workbook xlWorkBook = null;
+                            Excel.Worksheet worksheet = null;
+                            Excel.Worksheet DeleteWorksheet = null;
+
+                            try
+                            {
+                                double TototalBobbinQty = dgvListSDWire.Rows.Count;
+                                string QtyAndBobbin = TotalQty.ToString("N0") + " m (" + TototalBobbinQty.ToString("N0") + " Bobbins)";
+
+                                xlWorkBook = excelApp.Workbooks.Open(Filename: CDirectory.ToString() + @"\Template\InventoryLabel_SD_Template.xlsx", Editable: true);
+                                worksheet = (Excel.Worksheet)xlWorkBook.Sheets["Wire"];
+                                DeleteWorksheet = (Excel.Worksheet)xlWorkBook.Sheets["Terminal"];
+                                if (RMType != "Wire")
+                                {
+                                    TototalBobbinQty = dgvListSDTerminal.Rows.Count;
+                                    worksheet = (Excel.Worksheet)xlWorkBook.Sheets["Terminal"];
+                                    DeleteWorksheet = (Excel.Worksheet)xlWorkBook.Sheets["Wire"];
+                                    QtyAndBobbin = TotalQty.ToString("N0") + " Pcs (" + TototalBobbinQty.ToString("N0") + " Bobbins/Reels)";
+                                }
+
+                                //Header
+                                worksheet.Cells[1, 1] = UpdateDate;
+                                worksheet.Cells[2, 3] = LabelNo + "/" + RMCode;
+                                worksheet.Cells[4, 1] = "*" + LabelNo + "/" + RMCode + "*";
+                                worksheet.Cells[5, 2] = RMCode;
+                                worksheet.Cells[6, 2] = RMName;
+
+
+                                worksheet.Cells[7, 2] = QtyAndBobbin;
+                                //Insert if more than 1
+                                if (TototalBobbinQty > 1)
+                                {
+                                    worksheet.Range["10:" + (TototalBobbinQty + 8)].Insert();
+                                    //For Merge
+                                    worksheet.Range["A9:D9"].Copy();
+                                    worksheet.Range["A10:D" + (TototalBobbinQty + 8)].PasteSpecial(Excel.XlPasteType.xlPasteFormats);
+                                    //Border
+                                    worksheet.Range["A10:D" + (TototalBobbinQty + 8)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                                }
+
+                                //Bobbin List 
+                                if (RMType == "Wire")
+                                {
+                                    int WriteSeqNo = 1;
+                                    int WriteIndex = 9;
+                                    foreach (DataGridViewRow RowDgv in dgvListSDWire.Rows)
+                                    {
+                                        worksheet.Cells[WriteIndex, 1] = WriteSeqNo;
+                                        worksheet.Cells[WriteIndex, 2] = RowDgv.Cells["BobbinCodeW"].Value.ToString();
+                                        worksheet.Cells[WriteIndex, 3] = Convert.ToDouble(RowDgv.Cells["RemainWW"].Value);
+                                        worksheet.Cells[WriteIndex, 4] = Convert.ToDouble(RowDgv.Cells["RemainQtyW"].Value);
+
+                                        WriteSeqNo++;
+                                        WriteIndex++;
+                                    }
+                                }
+                                else
+                                {
+                                    int WriteSeqNo = 1;
+                                    int WriteIndex = 9;
+                                    foreach (DataGridViewRow RowDgv in dgvListSDTerminal.Rows)
+                                    {
+                                        worksheet.Cells[WriteIndex, 1] = WriteSeqNo;
+                                        worksheet.Cells[WriteIndex, 2] = RowDgv.Cells["BobbinCodeT"].Value.ToString();
+                                        worksheet.Cells[WriteIndex, 4] = Convert.ToDouble(RowDgv.Cells["RemainQtyT"].Value);
+
+                                        WriteSeqNo++;
+                                        WriteIndex++;
+                                    }
+                                }
+
+                                // Saving the modified Excel file
+                                string date = DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss");
+                                string file = LabelNo.ToString() + "_" + RMCode;
+                                string fName = file + "( " + date + " )";
+
+                                //Delete worksheet
+                                excelApp.DisplayAlerts = false;
+                                DeleteWorksheet.Delete();
+                                excelApp.DisplayAlerts = true;
+
+                                worksheet.Name = "RachhanSystem";
+                                worksheet.SaveAs(SavePath + @"\" + fName + ".xlsx");
+                                for (int j = 0; j < numPrintQty.Value; j++)
+                                {
+                                    worksheet.PrintOut();
+                                }
+                                excelApp.DisplayAlerts = false;
+                                xlWorkBook.Close();
+                                excelApp.DisplayAlerts = true;
+
+                            }
+                            catch (Exception ex)
+                            {
+                                excelApp.DisplayAlerts = false;
+                                xlWorkBook.Close();
+                                excelApp.DisplayAlerts = true;
+                                excelApp.Quit();
+                                if (ErrorText.Trim() == "")
+                                {
+                                    ErrorText = "Print Label : " + ex.Message;
+                                }
+                                else
+                                {
+                                    ErrorText = ErrorText + "\nPrint Label : " + ex.Message;
+                                }
+                            }
+
+                            //Kill all Excel background process
+                            var processes = from p in Process.GetProcessesByName("EXCEL")
+                                            select p;
+                            foreach (var process in processes)
+                            {
+                                if (process.MainWindowTitle.ToString().Trim() == "")
+                                    process.Kill();
+                            }
+                        }
+                    }
+
+                    Cursor = Cursors.Default;
+
+                    if (ErrorText.Trim() == "")
+                    {
+                        LbStatus.Text = "អាប់ដេតរួចរាល់!";
+                        LbStatus.Refresh();
+                        InfoMsg.InfoText = "អាប់ដេតរួចរាល់!";
+                        InfoMsg.ShowingMsg();
+                        btnNew.PerformClick();
+                        LbStatus.Text = "";
+                        LbStatus.Refresh();
                     }
                     else
                     {
-                        //Only 0-9 & '*' & '+'
-                        int FoundError = 0;
-                        string[] AllowText = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "+" };
-                        for (int i = 0; i < txtQtyWireTerminal.Text.ToString().Length; i++)
-                        {
-                            int OK = 0;
-                            for (int j = 0; j < AllowText.Length; j++)
-                            {
-                                if (txtQtyWireTerminal.Text[i].ToString() == AllowText[j].ToString())
-                                {
-                                    OK = 1;
-                                    break;
-                                }
-                            }
-                            if (OK == 0)
-                            {
-                                FoundError++;
-                            }
-                        }
-
-                        //Sum/CalcByComputer
-                        try
-                        {
-                            string value = new DataTable().Compute(txtQtyWireTerminal.Text.ToString(), null).ToString();
-                            double Total = Convert.ToDouble(value);
-                        }
-                        catch
-                        {
-                            FoundError++;
-                        }
-
-                        if (FoundError == 0)
-                        {
-                            DialogResult DSL = MessageBox.Show("តើអ្នកចង់អាប់ដេតមែនឬទេ?", "Rachhan System", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                            if (DSL == DialogResult.Yes)
-                            {
-                                LbStatus.Text = "កំពុងអាប់ដេត . . .";
-                                LbStatus.Refresh();
-                                Cursor = Cursors.WaitCursor;
-
-                                ErrorText = "";
-                                string NewSubLoc = LbLocation.Text;
-                                string RMCode = LbCodeWireTerminal.Text;
-                                int Qty = Convert.ToInt32(LbTotalQtyWireTerminal.Text.Replace(",", ""));
-                                string QtyDetail = txtQtyWireTerminal.Text;
-                                string QtyDetail2 = BobbinQtyInputted.ToString();
-
-                                try
-                                {
-                                    cnn.con.Open();
-                                    string Username = MenuFormV2.UserForNextForm;
-                                    DateTime UpdateDate = DateTime.Now;
-
-                                    string query = "UPDATE tbInventory SET SubLoc='" + NewSubLoc + "', " +
-                                                            "Qty=" + Qty + ", " +
-                                                            "QtyDetails='" + QtyDetail + "', " +
-                                                            "QtyDetails2='" + QtyDetail2 + "', " +
-                                                            "UpdateDate='" + UpdateDate.ToString("yyyy-MM-dd HH:mm:ss") + "', " +
-                                                            "UpdateBy=N'" + Username + "' " +
-                                                            "WHERE LocCode='MC1' AND LabelNo=" + Convert.ToInt32(LbLabelNo.Text) + " AND ItemCode='" + RMCode + "' ";
-                                    cmd = new SqlCommand(query, cnn.con);
-                                    cmd.ExecuteNonQuery();
-
-                                }
-                                catch (Exception ex)
-                                {
-                                    if (ErrorText.Trim() == "")
-                                    {
-                                        ErrorText = "Update to DB : " + ex.Message;
-                                    }
-                                    else
-                                    {
-                                        ErrorText = ErrorText + "\nUpdate to DB : " + ex.Message;
-                                    }
-                                }
-                                cnn.con.Close();
-
-                                //Print
-                                if (chkPrintStatus.Checked == true)
-                                {
-                                    if (ErrorText.Trim() == "")
-                                    {
-                                        try
-                                        {
-                                            //ឆែករកមើល Folder បើគ្មាន => បង្កើត
-                                            string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\InventoryLable\Inprocess";
-                                            if (!Directory.Exists(SavePath))
-                                            {
-                                                Directory.CreateDirectory(SavePath);
-                                            }
-
-                                            //open excel application and create new workbook
-                                            var CDirectory = Environment.CurrentDirectory;
-                                            Excel.Application excelApp = new Excel.Application();
-                                            Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(Filename: CDirectory.ToString() + @"\Template\InventoryLabel_Inprocess_Template.xlsx", Editable: true);
-                                            Excel.Worksheet worksheet = (Excel.Worksheet)xlWorkBook.Sheets["Box"];
-                                            worksheet.Cells[2, 6] = "Inprocess(" + NewSubLoc + ")";
-                                            worksheet.Cells[2, 4] = LbLabelNo.Text;
-                                            worksheet.Cells[3, 1] = "*" + LbLabelNo.Text + "*";
-                                            worksheet.Cells[7, 4] = LbCodeWireTerminal.Text;
-                                            worksheet.Cells[9, 4] = LbItemNameWireTerminal.Text;
-                                            worksheet.Cells[11, 4] = LbTypeWireTerminal.Text;
-                                            worksheet.Cells[13, 4] = LbMakerWireTerminal.Text;
-                                            worksheet.Cells[15, 4] = LbTotalQtyWireTerminal.Text;
-                                            //Summary                                            
-                                            worksheet.Cells[15, 6] = "( " + txtQtyWireTerminal.Text.Replace("*", "x") + " )\n" + LbBobbinQtyWireTerminal.Text.Replace("( ", "").Replace(" )", "");
-
-                                            // Saving the modified Excel file
-                                            var CDirectory2 = Environment.CurrentDirectory;
-                                            string date = DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss");
-                                            string file = LbLabelNo.Text;
-                                            string fName = file + "-Update( " + date + " )";
-
-
-                                            //លុប Manual worksheet
-                                            excelApp.DisplayAlerts = false;
-                                            Excel.Worksheet wsDelete = (Excel.Worksheet)xlWorkBook.Sheets["POS"];
-                                            wsDelete.Delete();
-                                            Excel.Worksheet wsDelete1 = (Excel.Worksheet)xlWorkBook.Sheets["Weight"];
-                                            wsDelete1.Delete();
-                                            Excel.Worksheet wsDelete2 = (Excel.Worksheet)xlWorkBook.Sheets["Semi"];
-                                            wsDelete2.Delete();
-                                            excelApp.DisplayAlerts = true;
-
-                                            worksheet.Name = "RachhanSystem";
-                                            worksheet.SaveAs(SavePath + @"\" + fName + ".xlsx");
-                                            for (int i = 0; i < numPrintQty.Value; i++)
-                                            {
-                                                worksheet.PrintOut();
-                                            }
-                                            xlWorkBook.Save();
-                                            xlWorkBook.Close();
-                                            excelApp.Quit();
-
-                                            //Kill all Excel background process
-                                            var processes = from p in Process.GetProcessesByName("EXCEL")
-                                                            select p;
-                                            foreach (var process in processes)
-                                            {
-                                                if (process.MainWindowTitle.ToString().Trim() == "")
-                                                    process.Kill();
-                                            }
-
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            if (ErrorText.Trim() == "")
-                                            {
-                                                ErrorText = "Print Label : " + ex.Message;
-                                            }
-                                            else
-                                            {
-                                                ErrorText = ErrorText + "\nPrint Label : " + ex.Message;
-                                            }
-                                            //Kill all Excel background process
-                                            var processes = from p in Process.GetProcessesByName("EXCEL")
-                                                            select p;
-                                            foreach (var process in processes)
-                                            {
-                                                if (process.MainWindowTitle.ToString().Trim() == "")
-                                                    process.Kill();
-                                            }
-                                        }
-                                    }
-                                }
-
-                                Cursor = Cursors.Default;
-                                if (ErrorText.Trim() == "")
-                                {
-                                    LbStatus.Text = "អាប់ដេតរួចរាល់!";
-                                    LbStatus.Refresh();
-                                    MessageBox.Show("អាប់ដេតរួចរាល់!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    ClearAllText();
-                                    txtBarcode.Focus();
-                                }
-                                else
-                                {
-                                    LbStatus.Text = "អាប់ដេតមានបញ្ហា!";
-                                    LbStatus.Refresh();
-                                    MessageBox.Show("មានបញ្ហា!\n" + ErrorText, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("អ្នកបញ្ចូលខុសទម្រង់ហើយ!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            txtQtyWireTerminal.Focus();
-                        }
+                        LbStatus.Text = "មានបញ្ហា!";
+                        LbStatus.Refresh();
+                        EMsg.AlertText = "មានបញ្ហា!\n" + ErrorText;
+                        EMsg.ShowingMsg();
                     }
-                }
-                else
-                {
-                    MessageBox.Show("សូមបញ្ចូលចំនួន!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    txtQtyWireTerminal.Focus();
                 }
             }
             else
             {
-                MessageBox.Show("សូមស្កេនបាកូដជាមុនសិន!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                WMsg.WarningText = "សូមស្កេនបាកូដជាមុនសិន!";
+                WMsg.ShowingMsg();
                 txtBarcode.Focus();
             }
-            */
         }
 
     }

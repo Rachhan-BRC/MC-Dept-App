@@ -2276,6 +2276,19 @@ namespace MachineDeptApp.Inventory.Inprocess
                                         cmd.ExecuteNonQuery();
                                     }
 
+                                    foreach (DataGridViewRow row in dgvWireTerminal_T.Rows)
+                                    {
+                                        cmd = new SqlCommand("INSERT INTO tbInventoryWandTDetails(LabelNo, SDNo, BobbinSysNo, RMCode, RemainQty) " +
+                                        "VALUES (@Ln, @Sn, @Bobbin, @Rc, @RmQty)", cnn.con);
+
+                                        cmd.Parameters.AddWithValue("@Ln", LabelNo);
+                                        cmd.Parameters.AddWithValue("@Sn", LbSDNoWireTerminal.Text);
+                                        cmd.Parameters.AddWithValue("@Bobbin", row.Cells["BobbinCodeT"].Value.ToString());
+                                        cmd.Parameters.AddWithValue("@Rc", row.Cells["RMCodeT"].Value.ToString());
+                                        cmd.Parameters.AddWithValue("@RmQty", Convert.ToInt32(row.Cells["RemainQtyT"].Value.ToString()));
+                                        cmd.ExecuteNonQuery();
+                                    }
+
                                 }
                                 catch(Exception ex)
                                 {

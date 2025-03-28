@@ -581,9 +581,68 @@ namespace MachineDeptApp.Inventory.Inprocess
                     MessageBox.Show(ErrorText, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            //WireTerminal
-            else if (CountMethod == "StockCard")
+            //Semi
+            else if (CountMethod == "Semi")
             {
+                ErrorText = "";
+                LbWIPCodeSemi.Text = ItemCode;
+                string[] QtyD = QtyDetails.Split('x');
+                txtBatchQtySemi.Text = QtyD[0].ToString();
+                if (QtyD[1].ToString().Contains("+") == true)
+                {
+                    string[] QtyPlus = QtyD[1].Split('+');
+                    txtQtyPerBatchSemi.Text = QtyPlus[0].ToString();
+                    txtQtyReaySemi.Text = QtyPlus[1].ToString();
+                }
+                else
+                {
+                    txtQtyPerBatchSemi.Text = QtyD[1].ToString();
+                }
+                LbTotalQtySemi.Text = Convert.ToDouble(dtInventory.Rows[0]["Qty"].ToString()).ToString("N0");
+
+                //Take Semi Detail from OBS
+                DataTable dtSemiOBS = new DataTable();
+                try
+                {
+                    cnnOBS.conOBS.Open();
+                    SqlDataAdapter sda = new SqlDataAdapter("SELECT ItemCode, ItemName, Remark2,Remark3,Remark4 FROM mstitem WHERE ItemType = 1 AND DelFlag = 0 AND ItemCode='" + ItemCode + "' ", cnnOBS.conOBS);
+                    sda.Fill(dtSemiOBS);
+                }
+                catch (Exception ex)
+                {
+                    if (ErrorText.Trim() == "")
+                    {
+                        ErrorText = ex.Message;
+                    }
+                    else
+                    {
+                        ErrorText = ErrorText + "\n" + ex.Message;
+                    }
+                }
+                cnnOBS.conOBS.Close();
+
+                if (ErrorText.Trim() == "")
+                {
+                    //Show POS Details
+                    if (dtSemiOBS.Rows.Count > 0)
+                    {
+                        LbWIPNameSemi.Text = dtSemiOBS.Rows[0]["ItemName"].ToString();
+                        LbLengthSemi.Text = dtSemiOBS.Rows[0]["Remark4"].ToString();
+                        LbPINSemi.Text = dtSemiOBS.Rows[0]["Remark2"].ToString();
+                        LbWireTubeSemi.Text = dtSemiOBS.Rows[0]["Remark3"].ToString();
+                    }
+                    panelSemi.Visible = true;
+                    panelSemi.BringToFront();
+                }
+                else
+                {
+                    MessageBox.Show(ErrorText, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            //WireTerminal
+            else
+            {
+                /*
                 ErrorText = "";
                 DataTable dtRMOBS = new DataTable();
                 //Find RM from OBS
@@ -708,65 +767,9 @@ namespace MachineDeptApp.Inventory.Inprocess
                 {
                     MessageBox.Show(ErrorText, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                */
             }
-            //Semi
-            else
-            {
-                ErrorText = "";
-                LbWIPCodeSemi.Text = ItemCode;
-                string[] QtyD = QtyDetails.Split('x');
-                txtBatchQtySemi.Text = QtyD[0].ToString();
-                if (QtyD[1].ToString().Contains("+") == true)
-                {
-                    string[] QtyPlus = QtyD[1].Split('+');
-                    txtQtyPerBatchSemi.Text = QtyPlus[0].ToString();
-                    txtQtyReaySemi.Text = QtyPlus[1].ToString();
-                }
-                else
-                {
-                    txtQtyPerBatchSemi.Text = QtyD[1].ToString();
-                }
-                LbTotalQtySemi.Text = Convert.ToDouble(dtInventory.Rows[0]["Qty"].ToString()).ToString("N0");
-
-                //Take Semi Detail from OBS
-                DataTable dtSemiOBS = new DataTable();
-                try
-                {
-                    cnnOBS.conOBS.Open();
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT ItemCode, ItemName, Remark2,Remark3,Remark4 FROM mstitem WHERE ItemType = 1 AND DelFlag = 0 AND ItemCode='" + ItemCode + "' ", cnnOBS.conOBS);
-                    sda.Fill(dtSemiOBS);
-                }
-                catch (Exception ex)
-                {
-                    if (ErrorText.Trim() == "")
-                    {
-                        ErrorText = ex.Message;
-                    }
-                    else
-                    {
-                        ErrorText = ErrorText + "\n" + ex.Message;
-                    }
-                }
-                cnnOBS.conOBS.Close();
-
-                if (ErrorText.Trim() == "")
-                {
-                    //Show POS Details
-                    if (dtSemiOBS.Rows.Count > 0)
-                    {
-                        LbWIPNameSemi.Text = dtSemiOBS.Rows[0]["ItemName"].ToString();
-                        LbLengthSemi.Text = dtSemiOBS.Rows[0]["Remark4"].ToString();
-                        LbPINSemi.Text = dtSemiOBS.Rows[0]["Remark2"].ToString();
-                        LbWireTubeSemi.Text = dtSemiOBS.Rows[0]["Remark3"].ToString();
-                    }
-                    panelSemi.Visible = true;
-                    panelSemi.BringToFront();
-                }
-                else
-                {
-                    MessageBox.Show(ErrorText, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
+            
             btnDelete.Focus();
         }
 
