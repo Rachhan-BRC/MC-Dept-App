@@ -30,6 +30,16 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InprocessCountingForm));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -43,16 +53,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -69,50 +69,6 @@
             this.LbStatus = new System.Windows.Forms.Label();
             this.panelBody = new System.Windows.Forms.Panel();
             this.GrbLocAndType = new System.Windows.Forms.GroupBox();
-            this.panelStockCardWireTerminal = new System.Windows.Forms.Panel();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.tabContrlWireTerminal = new System.Windows.Forms.TabControl();
-            this.tabWire = new System.Windows.Forms.TabPage();
-            this.dgvWireTerminal_W = new System.Windows.Forms.DataGridView();
-            this.ScanSeqW = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BobbinCodeW = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RMCodeW = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RMNameW = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RemainWW = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RemainQtyW = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StatusW = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.txtQtyAWireTerminal_W = new System.Windows.Forms.TextBox();
-            this.txtWAWireTerminal_W = new System.Windows.Forms.TextBox();
-            this.label23 = new System.Windows.Forms.Label();
-            this.LbAfterWeight1 = new System.Windows.Forms.Label();
-            this.txtQtyBWireTerminal_W = new System.Windows.Forms.TextBox();
-            this.txtWBWireTerminal_W = new System.Windows.Forms.TextBox();
-            this.label48 = new System.Windows.Forms.Label();
-            this.LbBeforeWeight1 = new System.Windows.Forms.Label();
-            this.btnOK_W = new System.Windows.Forms.Button();
-            this.label44 = new System.Windows.Forms.Label();
-            this.LbRMNameWireTerminal_W = new System.Windows.Forms.Label();
-            this.LbBobbinNoWireTerminal_W = new System.Windows.Forms.Label();
-            this.label47 = new System.Windows.Forms.Label();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.dgvWireTerminal_T = new System.Windows.Forms.DataGridView();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.btnOK_T = new System.Windows.Forms.Button();
-            this.txtUseQtyWireTerminal_T = new System.Windows.Forms.TextBox();
-            this.txtQtyBWireTerminal_T = new System.Windows.Forms.TextBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.LbRMNameWireTerminal_T = new System.Windows.Forms.Label();
-            this.LbBobbinNoWireTerminal_T = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.LbMCNameWireTerminal = new System.Windows.Forms.Label();
-            this.LbSDNoWireTerminal = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.LbBarcodeTitleWireTerminal = new System.Windows.Forms.Label();
-            this.txtBarcodeWireTerminal = new System.Windows.Forms.TextBox();
             this.panelSemi = new System.Windows.Forms.Panel();
             this.tabCtrlSemi = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -189,28 +145,63 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtBarcode = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.imgListCountingType = new System.Windows.Forms.ImageList(this.components);
+            this.panelStockCardWireTerminal = new System.Windows.Forms.Panel();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.tabContrlWireTerminal = new System.Windows.Forms.TabControl();
+            this.tabWire = new System.Windows.Forms.TabPage();
+            this.dgvWireTerminal_W = new System.Windows.Forms.DataGridView();
+            this.ScanSeqW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BobbinCodeW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RMCodeW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RMNameW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RemainWW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RemainQtyW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StatusW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.txtQtyAWireTerminal_W = new System.Windows.Forms.TextBox();
+            this.txtWAWireTerminal_W = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.LbAfterWeight1 = new System.Windows.Forms.Label();
+            this.txtQtyBWireTerminal_W = new System.Windows.Forms.TextBox();
+            this.txtWBWireTerminal_W = new System.Windows.Forms.TextBox();
+            this.label48 = new System.Windows.Forms.Label();
+            this.LbBeforeWeight1 = new System.Windows.Forms.Label();
+            this.btnOK_W = new System.Windows.Forms.Button();
+            this.label44 = new System.Windows.Forms.Label();
+            this.LbRMNameWireTerminal_W = new System.Windows.Forms.Label();
+            this.LbBobbinNoWireTerminal_W = new System.Windows.Forms.Label();
+            this.label47 = new System.Windows.Forms.Label();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.dgvWireTerminal_T = new System.Windows.Forms.DataGridView();
             this.ScanSeqT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BobbinCodeT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RMCodeT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RMNameT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RemainQtyT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatusT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.btnOK_T = new System.Windows.Forms.Button();
+            this.txtUseQtyWireTerminal_T = new System.Windows.Forms.TextBox();
+            this.txtQtyBWireTerminal_T = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.LbRMNameWireTerminal_T = new System.Windows.Forms.Label();
+            this.LbBobbinNoWireTerminal_T = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.LbMCNameWireTerminal = new System.Windows.Forms.Label();
+            this.LbSDNoWireTerminal = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.LbBarcodeTitleWireTerminal = new System.Windows.Forms.Label();
+            this.txtBarcodeWireTerminal = new System.Windows.Forms.TextBox();
+            this.imgListCountingType = new System.Windows.Forms.ImageList(this.components);
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numPrintQty)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicCurrentCountingType)).BeginInit();
             this.panelFooter.SuspendLayout();
             this.panelBody.SuspendLayout();
             this.GrbLocAndType.SuspendLayout();
-            this.panelStockCardWireTerminal.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.tabContrlWireTerminal.SuspendLayout();
-            this.tabWire.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvWireTerminal_W)).BeginInit();
-            this.panel3.SuspendLayout();
-            this.tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvWireTerminal_T)).BeginInit();
-            this.panel2.SuspendLayout();
             this.panelSemi.SuspendLayout();
             this.tabCtrlSemi.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -225,6 +216,15 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRMListPOS)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.panelStockCardWireTerminal.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.tabContrlWireTerminal.SuspendLayout();
+            this.tabWire.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvWireTerminal_W)).BeginInit();
+            this.panel3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvWireTerminal_T)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSave
@@ -376,586 +376,6 @@
             this.GrbLocAndType.TabIndex = 22;
             this.GrbLocAndType.TabStop = false;
             this.GrbLocAndType.Text = "ប្រភេទ ៖ ខនិកទ័រ";
-            // 
-            // panelStockCardWireTerminal
-            // 
-            this.panelStockCardWireTerminal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelStockCardWireTerminal.Controls.Add(this.groupBox3);
-            this.panelStockCardWireTerminal.Controls.Add(this.LbBarcodeTitleWireTerminal);
-            this.panelStockCardWireTerminal.Controls.Add(this.txtBarcodeWireTerminal);
-            this.panelStockCardWireTerminal.Location = new System.Drawing.Point(6, 22);
-            this.panelStockCardWireTerminal.Name = "panelStockCardWireTerminal";
-            this.panelStockCardWireTerminal.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.panelStockCardWireTerminal.Size = new System.Drawing.Size(1156, 437);
-            this.panelStockCardWireTerminal.TabIndex = 21;
-            this.panelStockCardWireTerminal.Visible = false;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.tabContrlWireTerminal);
-            this.groupBox3.Controls.Add(this.label13);
-            this.groupBox3.Controls.Add(this.LbMCNameWireTerminal);
-            this.groupBox3.Controls.Add(this.LbSDNoWireTerminal);
-            this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(3, 44);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1150, 390);
-            this.groupBox3.TabIndex = 131;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "ព័ត៌មានឯកសារ SD";
-            // 
-            // tabContrlWireTerminal
-            // 
-            this.tabContrlWireTerminal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabContrlWireTerminal.Controls.Add(this.tabWire);
-            this.tabContrlWireTerminal.Controls.Add(this.tabPage4);
-            this.tabContrlWireTerminal.Location = new System.Drawing.Point(4, 60);
-            this.tabContrlWireTerminal.Name = "tabContrlWireTerminal";
-            this.tabContrlWireTerminal.SelectedIndex = 0;
-            this.tabContrlWireTerminal.Size = new System.Drawing.Size(1143, 326);
-            this.tabContrlWireTerminal.TabIndex = 133;
-            // 
-            // tabWire
-            // 
-            this.tabWire.Controls.Add(this.dgvWireTerminal_W);
-            this.tabWire.Controls.Add(this.panel3);
-            this.tabWire.Location = new System.Drawing.Point(4, 28);
-            this.tabWire.Name = "tabWire";
-            this.tabWire.Padding = new System.Windows.Forms.Padding(3, 2, 3, 3);
-            this.tabWire.Size = new System.Drawing.Size(1135, 294);
-            this.tabWire.TabIndex = 0;
-            this.tabWire.Text = "Wire";
-            this.tabWire.UseVisualStyleBackColor = true;
-            // 
-            // dgvWireTerminal_W
-            // 
-            this.dgvWireTerminal_W.AllowUserToAddRows = false;
-            this.dgvWireTerminal_W.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Blue;
-            this.dgvWireTerminal_W.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvWireTerminal_W.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvWireTerminal_W.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvWireTerminal_W.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ScanSeqW,
-            this.BobbinCodeW,
-            this.RMCodeW,
-            this.RMNameW,
-            this.RemainWW,
-            this.RemainQtyW,
-            this.StatusW});
-            this.dgvWireTerminal_W.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvWireTerminal_W.EnableHeadersVisualStyles = false;
-            this.dgvWireTerminal_W.Location = new System.Drawing.Point(3, 83);
-            this.dgvWireTerminal_W.MultiSelect = false;
-            this.dgvWireTerminal_W.Name = "dgvWireTerminal_W";
-            this.dgvWireTerminal_W.ReadOnly = true;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvWireTerminal_W.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
-            this.dgvWireTerminal_W.RowHeadersWidth = 45;
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Blue;
-            this.dgvWireTerminal_W.RowsDefaultCellStyle = dataGridViewCellStyle9;
-            this.dgvWireTerminal_W.RowTemplate.Height = 30;
-            this.dgvWireTerminal_W.Size = new System.Drawing.Size(1129, 208);
-            this.dgvWireTerminal_W.TabIndex = 6;
-            // 
-            // ScanSeqW
-            // 
-            this.ScanSeqW.HeaderText = "";
-            this.ScanSeqW.Name = "ScanSeqW";
-            this.ScanSeqW.ReadOnly = true;
-            this.ScanSeqW.Visible = false;
-            this.ScanSeqW.Width = 50;
-            // 
-            // BobbinCodeW
-            // 
-            this.BobbinCodeW.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.BobbinCodeW.HeaderText = "Bobbin Code";
-            this.BobbinCodeW.Name = "BobbinCodeW";
-            this.BobbinCodeW.ReadOnly = true;
-            this.BobbinCodeW.Width = 150;
-            // 
-            // RMCodeW
-            // 
-            this.RMCodeW.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.RMCodeW.DefaultCellStyle = dataGridViewCellStyle3;
-            this.RMCodeW.HeaderText = "RM Code";
-            this.RMCodeW.Name = "RMCodeW";
-            this.RMCodeW.ReadOnly = true;
-            // 
-            // RMNameW
-            // 
-            this.RMNameW.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.RMNameW.DefaultCellStyle = dataGridViewCellStyle4;
-            this.RMNameW.HeaderText = "RM Name";
-            this.RMNameW.Name = "RMNameW";
-            this.RMNameW.ReadOnly = true;
-            this.RMNameW.Width = 250;
-            // 
-            // RemainWW
-            // 
-            this.RemainWW.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "N2";
-            this.RemainWW.DefaultCellStyle = dataGridViewCellStyle5;
-            this.RemainWW.HeaderText = "Remain (KG)";
-            this.RemainWW.Name = "RemainWW";
-            this.RemainWW.ReadOnly = true;
-            this.RemainWW.Width = 110;
-            // 
-            // RemainQtyW
-            // 
-            this.RemainQtyW.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "N0";
-            this.RemainQtyW.DefaultCellStyle = dataGridViewCellStyle6;
-            this.RemainQtyW.HeaderText = "Remain (M)";
-            this.RemainQtyW.Name = "RemainQtyW";
-            this.RemainQtyW.ReadOnly = true;
-            this.RemainQtyW.Width = 110;
-            // 
-            // StatusW
-            // 
-            this.StatusW.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.StatusW.DefaultCellStyle = dataGridViewCellStyle7;
-            this.StatusW.HeaderText = "";
-            this.StatusW.Name = "StatusW";
-            this.StatusW.ReadOnly = true;
-            this.StatusW.Width = 40;
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.txtQtyAWireTerminal_W);
-            this.panel3.Controls.Add(this.txtWAWireTerminal_W);
-            this.panel3.Controls.Add(this.label23);
-            this.panel3.Controls.Add(this.LbAfterWeight1);
-            this.panel3.Controls.Add(this.txtQtyBWireTerminal_W);
-            this.panel3.Controls.Add(this.txtWBWireTerminal_W);
-            this.panel3.Controls.Add(this.label48);
-            this.panel3.Controls.Add(this.LbBeforeWeight1);
-            this.panel3.Controls.Add(this.btnOK_W);
-            this.panel3.Controls.Add(this.label44);
-            this.panel3.Controls.Add(this.LbRMNameWireTerminal_W);
-            this.panel3.Controls.Add(this.LbBobbinNoWireTerminal_W);
-            this.panel3.Controls.Add(this.label47);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel3.Location = new System.Drawing.Point(3, 2);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1129, 81);
-            this.panel3.TabIndex = 5;
-            // 
-            // txtQtyAWireTerminal_W
-            // 
-            this.txtQtyAWireTerminal_W.BackColor = System.Drawing.Color.White;
-            this.txtQtyAWireTerminal_W.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtQtyAWireTerminal_W.ForeColor = System.Drawing.Color.Blue;
-            this.txtQtyAWireTerminal_W.Location = new System.Drawing.Point(652, 44);
-            this.txtQtyAWireTerminal_W.MaxLength = 10;
-            this.txtQtyAWireTerminal_W.Name = "txtQtyAWireTerminal_W";
-            this.txtQtyAWireTerminal_W.ReadOnly = true;
-            this.txtQtyAWireTerminal_W.Size = new System.Drawing.Size(121, 32);
-            this.txtQtyAWireTerminal_W.TabIndex = 22;
-            this.txtQtyAWireTerminal_W.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtWAWireTerminal_W
-            // 
-            this.txtWAWireTerminal_W.BackColor = System.Drawing.Color.Bisque;
-            this.txtWAWireTerminal_W.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtWAWireTerminal_W.Location = new System.Drawing.Point(906, 44);
-            this.txtWAWireTerminal_W.MaxLength = 10;
-            this.txtWAWireTerminal_W.Name = "txtWAWireTerminal_W";
-            this.txtWAWireTerminal_W.Size = new System.Drawing.Size(121, 32);
-            this.txtWAWireTerminal_W.TabIndex = 23;
-            this.txtWAWireTerminal_W.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(526, 47);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(120, 24);
-            this.label23.TabIndex = 18;
-            this.label23.Text = "ប្រវែងនៅសល់ (M)";
-            // 
-            // LbAfterWeight1
-            // 
-            this.LbAfterWeight1.AutoSize = true;
-            this.LbAfterWeight1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbAfterWeight1.Location = new System.Drawing.Point(779, 47);
-            this.LbAfterWeight1.Name = "LbAfterWeight1";
-            this.LbAfterWeight1.Size = new System.Drawing.Size(121, 24);
-            this.LbAfterWeight1.TabIndex = 19;
-            this.LbAfterWeight1.Text = "ទម្ងន់នៅសល់ (Kg)";
-            // 
-            // txtQtyBWireTerminal_W
-            // 
-            this.txtQtyBWireTerminal_W.BackColor = System.Drawing.Color.White;
-            this.txtQtyBWireTerminal_W.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtQtyBWireTerminal_W.ForeColor = System.Drawing.Color.Blue;
-            this.txtQtyBWireTerminal_W.Location = new System.Drawing.Point(138, 42);
-            this.txtQtyBWireTerminal_W.Name = "txtQtyBWireTerminal_W";
-            this.txtQtyBWireTerminal_W.ReadOnly = true;
-            this.txtQtyBWireTerminal_W.Size = new System.Drawing.Size(121, 32);
-            this.txtQtyBWireTerminal_W.TabIndex = 16;
-            this.txtQtyBWireTerminal_W.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtWBWireTerminal_W
-            // 
-            this.txtWBWireTerminal_W.BackColor = System.Drawing.Color.White;
-            this.txtWBWireTerminal_W.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtWBWireTerminal_W.ForeColor = System.Drawing.Color.Blue;
-            this.txtWBWireTerminal_W.Location = new System.Drawing.Point(399, 42);
-            this.txtWBWireTerminal_W.Name = "txtWBWireTerminal_W";
-            this.txtWBWireTerminal_W.ReadOnly = true;
-            this.txtWBWireTerminal_W.Size = new System.Drawing.Size(121, 32);
-            this.txtWBWireTerminal_W.TabIndex = 17;
-            this.txtWBWireTerminal_W.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label48
-            // 
-            this.label48.AutoSize = true;
-            this.label48.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label48.Location = new System.Drawing.Point(5, 45);
-            this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(127, 24);
-            this.label48.TabIndex = 12;
-            this.label48.Text = "ប្រវែងមុនផលិត (M)";
-            // 
-            // LbBeforeWeight1
-            // 
-            this.LbBeforeWeight1.AutoSize = true;
-            this.LbBeforeWeight1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbBeforeWeight1.Location = new System.Drawing.Point(265, 45);
-            this.LbBeforeWeight1.Name = "LbBeforeWeight1";
-            this.LbBeforeWeight1.Size = new System.Drawing.Size(128, 24);
-            this.LbBeforeWeight1.TabIndex = 14;
-            this.LbBeforeWeight1.Text = "ទម្ងន់មុនផលិត (Kg)";
-            // 
-            // btnOK_W
-            // 
-            this.btnOK_W.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnOK_W.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.btnOK_W.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOK_W.Location = new System.Drawing.Point(1043, 45);
-            this.btnOK_W.Name = "btnOK_W";
-            this.btnOK_W.Size = new System.Drawing.Size(75, 30);
-            this.btnOK_W.TabIndex = 11;
-            this.btnOK_W.Text = "OK";
-            this.btnOK_W.UseVisualStyleBackColor = false;
-            // 
-            // label44
-            // 
-            this.label44.AutoSize = true;
-            this.label44.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label44.Location = new System.Drawing.Point(265, 7);
-            this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(109, 24);
-            this.label44.TabIndex = 1;
-            this.label44.Text = "ឈ្មោះវត្ថុធាតុដើម";
-            // 
-            // LbRMNameWireTerminal_W
-            // 
-            this.LbRMNameWireTerminal_W.AutoSize = true;
-            this.LbRMNameWireTerminal_W.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbRMNameWireTerminal_W.Location = new System.Drawing.Point(395, 7);
-            this.LbRMNameWireTerminal_W.Name = "LbRMNameWireTerminal_W";
-            this.LbRMNameWireTerminal_W.Size = new System.Drawing.Size(46, 24);
-            this.LbRMNameWireTerminal_W.TabIndex = 2;
-            this.LbRMNameWireTerminal_W.Text = "         ";
-            // 
-            // LbBobbinNoWireTerminal_W
-            // 
-            this.LbBobbinNoWireTerminal_W.AutoSize = true;
-            this.LbBobbinNoWireTerminal_W.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbBobbinNoWireTerminal_W.Location = new System.Drawing.Point(136, 7);
-            this.LbBobbinNoWireTerminal_W.Name = "LbBobbinNoWireTerminal_W";
-            this.LbBobbinNoWireTerminal_W.Size = new System.Drawing.Size(46, 24);
-            this.LbBobbinNoWireTerminal_W.TabIndex = 3;
-            this.LbBobbinNoWireTerminal_W.Text = "         ";
-            // 
-            // label47
-            // 
-            this.label47.AutoSize = true;
-            this.label47.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label47.Location = new System.Drawing.Point(4, 7);
-            this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(70, 24);
-            this.label47.TabIndex = 4;
-            this.label47.Text = "លេខប៊ូប៊ីន";
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.dgvWireTerminal_T);
-            this.tabPage4.Controls.Add(this.panel2);
-            this.tabPage4.Location = new System.Drawing.Point(4, 28);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3, 2, 3, 3);
-            this.tabPage4.Size = new System.Drawing.Size(1135, 294);
-            this.tabPage4.TabIndex = 1;
-            this.tabPage4.Text = "Terminal";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // dgvWireTerminal_T
-            // 
-            this.dgvWireTerminal_T.AllowUserToAddRows = false;
-            this.dgvWireTerminal_T.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle10.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.Blue;
-            this.dgvWireTerminal_T.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvWireTerminal_T.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
-            this.dgvWireTerminal_T.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvWireTerminal_T.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ScanSeqT,
-            this.BobbinCodeT,
-            this.RMCodeT,
-            this.RMNameT,
-            this.RemainQtyT,
-            this.StatusT});
-            this.dgvWireTerminal_T.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvWireTerminal_T.EnableHeadersVisualStyles = false;
-            this.dgvWireTerminal_T.Location = new System.Drawing.Point(3, 44);
-            this.dgvWireTerminal_T.MultiSelect = false;
-            this.dgvWireTerminal_T.Name = "dgvWireTerminal_T";
-            this.dgvWireTerminal_T.ReadOnly = true;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvWireTerminal_T.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
-            this.dgvWireTerminal_T.RowHeadersWidth = 45;
-            dataGridViewCellStyle16.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.Blue;
-            this.dgvWireTerminal_T.RowsDefaultCellStyle = dataGridViewCellStyle16;
-            this.dgvWireTerminal_T.RowTemplate.Height = 30;
-            this.dgvWireTerminal_T.Size = new System.Drawing.Size(1129, 247);
-            this.dgvWireTerminal_T.TabIndex = 4;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.btnOK_T);
-            this.panel2.Controls.Add(this.txtUseQtyWireTerminal_T);
-            this.panel2.Controls.Add(this.txtQtyBWireTerminal_T);
-            this.panel2.Controls.Add(this.label21);
-            this.panel2.Controls.Add(this.label22);
-            this.panel2.Controls.Add(this.label15);
-            this.panel2.Controls.Add(this.LbRMNameWireTerminal_T);
-            this.panel2.Controls.Add(this.LbBobbinNoWireTerminal_T);
-            this.panel2.Controls.Add(this.label19);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel2.Location = new System.Drawing.Point(3, 2);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1129, 42);
-            this.panel2.TabIndex = 3;
-            // 
-            // btnOK_T
-            // 
-            this.btnOK_T.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnOK_T.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.btnOK_T.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOK_T.Location = new System.Drawing.Point(1043, 6);
-            this.btnOK_T.Name = "btnOK_T";
-            this.btnOK_T.Size = new System.Drawing.Size(75, 30);
-            this.btnOK_T.TabIndex = 11;
-            this.btnOK_T.Text = "OK";
-            this.btnOK_T.UseVisualStyleBackColor = false;
-            // 
-            // txtUseQtyWireTerminal_T
-            // 
-            this.txtUseQtyWireTerminal_T.BackColor = System.Drawing.Color.Bisque;
-            this.txtUseQtyWireTerminal_T.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUseQtyWireTerminal_T.ForeColor = System.Drawing.Color.Black;
-            this.txtUseQtyWireTerminal_T.Location = new System.Drawing.Point(916, 4);
-            this.txtUseQtyWireTerminal_T.MaxLength = 10;
-            this.txtUseQtyWireTerminal_T.Name = "txtUseQtyWireTerminal_T";
-            this.txtUseQtyWireTerminal_T.Size = new System.Drawing.Size(121, 32);
-            this.txtUseQtyWireTerminal_T.TabIndex = 10;
-            this.txtUseQtyWireTerminal_T.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtQtyBWireTerminal_T
-            // 
-            this.txtQtyBWireTerminal_T.BackColor = System.Drawing.Color.White;
-            this.txtQtyBWireTerminal_T.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtQtyBWireTerminal_T.ForeColor = System.Drawing.Color.Blue;
-            this.txtQtyBWireTerminal_T.Location = new System.Drawing.Point(652, 4);
-            this.txtQtyBWireTerminal_T.Name = "txtQtyBWireTerminal_T";
-            this.txtQtyBWireTerminal_T.ReadOnly = true;
-            this.txtQtyBWireTerminal_T.Size = new System.Drawing.Size(121, 32);
-            this.txtQtyBWireTerminal_T.TabIndex = 9;
-            this.txtQtyBWireTerminal_T.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(779, 7);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(131, 24);
-            this.label21.TabIndex = 5;
-            this.label21.Text = "ចំនួនប្រើប្រាស់ (pcs)";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(513, 7);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(133, 24);
-            this.label22.TabIndex = 6;
-            this.label22.Text = "ចំនួនមុនផលិត (pcs)";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(177, 7);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(109, 24);
-            this.label15.TabIndex = 1;
-            this.label15.Text = "ឈ្មោះវត្ថុធាតុដើម";
-            // 
-            // LbRMNameWireTerminal_T
-            // 
-            this.LbRMNameWireTerminal_T.AutoSize = true;
-            this.LbRMNameWireTerminal_T.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbRMNameWireTerminal_T.Location = new System.Drawing.Point(286, 7);
-            this.LbRMNameWireTerminal_T.Name = "LbRMNameWireTerminal_T";
-            this.LbRMNameWireTerminal_T.Size = new System.Drawing.Size(50, 24);
-            this.LbRMNameWireTerminal_T.TabIndex = 2;
-            this.LbRMNameWireTerminal_T.Text = "          ";
-            // 
-            // LbBobbinNoWireTerminal_T
-            // 
-            this.LbBobbinNoWireTerminal_T.AutoSize = true;
-            this.LbBobbinNoWireTerminal_T.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbBobbinNoWireTerminal_T.Location = new System.Drawing.Point(80, 7);
-            this.LbBobbinNoWireTerminal_T.Name = "LbBobbinNoWireTerminal_T";
-            this.LbBobbinNoWireTerminal_T.Size = new System.Drawing.Size(50, 24);
-            this.LbBobbinNoWireTerminal_T.TabIndex = 3;
-            this.LbBobbinNoWireTerminal_T.Text = "          ";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(4, 7);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(70, 24);
-            this.label19.TabIndex = 4;
-            this.label19.Text = "លេខប៊ូប៊ីន";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(310, 23);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(96, 27);
-            this.label13.TabIndex = 0;
-            this.label13.Text = "ឈ្មោះម៉ាស៊ីន";
-            // 
-            // LbMCNameWireTerminal
-            // 
-            this.LbMCNameWireTerminal.AutoSize = true;
-            this.LbMCNameWireTerminal.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbMCNameWireTerminal.Location = new System.Drawing.Point(419, 23);
-            this.LbMCNameWireTerminal.Name = "LbMCNameWireTerminal";
-            this.LbMCNameWireTerminal.Size = new System.Drawing.Size(122, 27);
-            this.LbMCNameWireTerminal.TabIndex = 0;
-            this.LbMCNameWireTerminal.Text = "                      ";
-            // 
-            // LbSDNoWireTerminal
-            // 
-            this.LbSDNoWireTerminal.AutoSize = true;
-            this.LbSDNoWireTerminal.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbSDNoWireTerminal.Location = new System.Drawing.Point(138, 23);
-            this.LbSDNoWireTerminal.Name = "LbSDNoWireTerminal";
-            this.LbSDNoWireTerminal.Size = new System.Drawing.Size(122, 27);
-            this.LbSDNoWireTerminal.TabIndex = 0;
-            this.LbSDNoWireTerminal.Text = "                      ";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(53, 23);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(66, 27);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "SD No ";
-            // 
-            // LbBarcodeTitleWireTerminal
-            // 
-            this.LbBarcodeTitleWireTerminal.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.LbBarcodeTitleWireTerminal.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbBarcodeTitleWireTerminal.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.LbBarcodeTitleWireTerminal.Location = new System.Drawing.Point(188, 8);
-            this.LbBarcodeTitleWireTerminal.Name = "LbBarcodeTitleWireTerminal";
-            this.LbBarcodeTitleWireTerminal.Size = new System.Drawing.Size(255, 32);
-            this.LbBarcodeTitleWireTerminal.TabIndex = 129;
-            this.LbBarcodeTitleWireTerminal.Text = "ស្កេនឯកសារSD";
-            this.LbBarcodeTitleWireTerminal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // txtBarcodeWireTerminal
-            // 
-            this.txtBarcodeWireTerminal.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtBarcodeWireTerminal.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBarcodeWireTerminal.Location = new System.Drawing.Point(449, 8);
-            this.txtBarcodeWireTerminal.MaxLength = 20;
-            this.txtBarcodeWireTerminal.Name = "txtBarcodeWireTerminal";
-            this.txtBarcodeWireTerminal.Size = new System.Drawing.Size(313, 32);
-            this.txtBarcodeWireTerminal.TabIndex = 130;
             // 
             // panelSemi
             // 
@@ -1851,13 +1271,409 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "ស្កេនបាកូដត្រង់នេះ";
             // 
-            // imgListCountingType
+            // panelStockCardWireTerminal
             // 
-            this.imgListCountingType.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgListCountingType.ImageStream")));
-            this.imgListCountingType.TransparentColor = System.Drawing.Color.Transparent;
-            this.imgListCountingType.Images.SetKeyName(0, "Connector.png");
-            this.imgListCountingType.Images.SetKeyName(1, "Wire Harness.png");
-            this.imgListCountingType.Images.SetKeyName(2, "Terminal.png");
+            this.panelStockCardWireTerminal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelStockCardWireTerminal.Controls.Add(this.groupBox3);
+            this.panelStockCardWireTerminal.Controls.Add(this.LbBarcodeTitleWireTerminal);
+            this.panelStockCardWireTerminal.Controls.Add(this.txtBarcodeWireTerminal);
+            this.panelStockCardWireTerminal.Location = new System.Drawing.Point(6, 22);
+            this.panelStockCardWireTerminal.Name = "panelStockCardWireTerminal";
+            this.panelStockCardWireTerminal.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.panelStockCardWireTerminal.Size = new System.Drawing.Size(1156, 437);
+            this.panelStockCardWireTerminal.TabIndex = 21;
+            this.panelStockCardWireTerminal.Visible = false;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.tabContrlWireTerminal);
+            this.groupBox3.Controls.Add(this.label13);
+            this.groupBox3.Controls.Add(this.LbMCNameWireTerminal);
+            this.groupBox3.Controls.Add(this.LbSDNoWireTerminal);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox3.Location = new System.Drawing.Point(3, 44);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(1150, 390);
+            this.groupBox3.TabIndex = 131;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "ព័ត៌មានឯកសារ SD";
+            // 
+            // tabContrlWireTerminal
+            // 
+            this.tabContrlWireTerminal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabContrlWireTerminal.Controls.Add(this.tabWire);
+            this.tabContrlWireTerminal.Controls.Add(this.tabPage4);
+            this.tabContrlWireTerminal.Location = new System.Drawing.Point(4, 60);
+            this.tabContrlWireTerminal.Name = "tabContrlWireTerminal";
+            this.tabContrlWireTerminal.SelectedIndex = 0;
+            this.tabContrlWireTerminal.Size = new System.Drawing.Size(1143, 326);
+            this.tabContrlWireTerminal.TabIndex = 133;
+            // 
+            // tabWire
+            // 
+            this.tabWire.Controls.Add(this.dgvWireTerminal_W);
+            this.tabWire.Controls.Add(this.panel3);
+            this.tabWire.Location = new System.Drawing.Point(4, 28);
+            this.tabWire.Name = "tabWire";
+            this.tabWire.Padding = new System.Windows.Forms.Padding(3, 2, 3, 3);
+            this.tabWire.Size = new System.Drawing.Size(1135, 294);
+            this.tabWire.TabIndex = 0;
+            this.tabWire.Text = "Wire";
+            this.tabWire.UseVisualStyleBackColor = true;
+            // 
+            // dgvWireTerminal_W
+            // 
+            this.dgvWireTerminal_W.AllowUserToAddRows = false;
+            this.dgvWireTerminal_W.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Blue;
+            this.dgvWireTerminal_W.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvWireTerminal_W.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvWireTerminal_W.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvWireTerminal_W.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ScanSeqW,
+            this.BobbinCodeW,
+            this.RMCodeW,
+            this.RMNameW,
+            this.RemainWW,
+            this.RemainQtyW,
+            this.StatusW});
+            this.dgvWireTerminal_W.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvWireTerminal_W.EnableHeadersVisualStyles = false;
+            this.dgvWireTerminal_W.Location = new System.Drawing.Point(3, 83);
+            this.dgvWireTerminal_W.MultiSelect = false;
+            this.dgvWireTerminal_W.Name = "dgvWireTerminal_W";
+            this.dgvWireTerminal_W.ReadOnly = true;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvWireTerminal_W.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            this.dgvWireTerminal_W.RowHeadersWidth = 45;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Blue;
+            this.dgvWireTerminal_W.RowsDefaultCellStyle = dataGridViewCellStyle9;
+            this.dgvWireTerminal_W.RowTemplate.Height = 30;
+            this.dgvWireTerminal_W.Size = new System.Drawing.Size(1129, 208);
+            this.dgvWireTerminal_W.TabIndex = 6;
+            // 
+            // ScanSeqW
+            // 
+            this.ScanSeqW.HeaderText = "";
+            this.ScanSeqW.Name = "ScanSeqW";
+            this.ScanSeqW.ReadOnly = true;
+            this.ScanSeqW.Visible = false;
+            this.ScanSeqW.Width = 50;
+            // 
+            // BobbinCodeW
+            // 
+            this.BobbinCodeW.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.BobbinCodeW.HeaderText = "Bobbin Code";
+            this.BobbinCodeW.Name = "BobbinCodeW";
+            this.BobbinCodeW.ReadOnly = true;
+            this.BobbinCodeW.Width = 150;
+            // 
+            // RMCodeW
+            // 
+            this.RMCodeW.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.RMCodeW.DefaultCellStyle = dataGridViewCellStyle3;
+            this.RMCodeW.HeaderText = "RM Code";
+            this.RMCodeW.Name = "RMCodeW";
+            this.RMCodeW.ReadOnly = true;
+            // 
+            // RMNameW
+            // 
+            this.RMNameW.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.RMNameW.DefaultCellStyle = dataGridViewCellStyle4;
+            this.RMNameW.HeaderText = "RM Name";
+            this.RMNameW.Name = "RMNameW";
+            this.RMNameW.ReadOnly = true;
+            this.RMNameW.Width = 250;
+            // 
+            // RemainWW
+            // 
+            this.RemainWW.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "N2";
+            this.RemainWW.DefaultCellStyle = dataGridViewCellStyle5;
+            this.RemainWW.HeaderText = "Remain (KG)";
+            this.RemainWW.Name = "RemainWW";
+            this.RemainWW.ReadOnly = true;
+            this.RemainWW.Width = 110;
+            // 
+            // RemainQtyW
+            // 
+            this.RemainQtyW.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.Format = "N0";
+            this.RemainQtyW.DefaultCellStyle = dataGridViewCellStyle6;
+            this.RemainQtyW.HeaderText = "Remain (M)";
+            this.RemainQtyW.Name = "RemainQtyW";
+            this.RemainQtyW.ReadOnly = true;
+            this.RemainQtyW.Width = 110;
+            // 
+            // StatusW
+            // 
+            this.StatusW.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.StatusW.DefaultCellStyle = dataGridViewCellStyle7;
+            this.StatusW.HeaderText = "";
+            this.StatusW.Name = "StatusW";
+            this.StatusW.ReadOnly = true;
+            this.StatusW.Width = 40;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.txtQtyAWireTerminal_W);
+            this.panel3.Controls.Add(this.txtWAWireTerminal_W);
+            this.panel3.Controls.Add(this.label23);
+            this.panel3.Controls.Add(this.LbAfterWeight1);
+            this.panel3.Controls.Add(this.txtQtyBWireTerminal_W);
+            this.panel3.Controls.Add(this.txtWBWireTerminal_W);
+            this.panel3.Controls.Add(this.label48);
+            this.panel3.Controls.Add(this.LbBeforeWeight1);
+            this.panel3.Controls.Add(this.btnOK_W);
+            this.panel3.Controls.Add(this.label44);
+            this.panel3.Controls.Add(this.LbRMNameWireTerminal_W);
+            this.panel3.Controls.Add(this.LbBobbinNoWireTerminal_W);
+            this.panel3.Controls.Add(this.label47);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel3.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel3.Location = new System.Drawing.Point(3, 2);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1129, 81);
+            this.panel3.TabIndex = 5;
+            // 
+            // txtQtyAWireTerminal_W
+            // 
+            this.txtQtyAWireTerminal_W.BackColor = System.Drawing.Color.White;
+            this.txtQtyAWireTerminal_W.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtQtyAWireTerminal_W.ForeColor = System.Drawing.Color.Blue;
+            this.txtQtyAWireTerminal_W.Location = new System.Drawing.Point(652, 44);
+            this.txtQtyAWireTerminal_W.MaxLength = 10;
+            this.txtQtyAWireTerminal_W.Name = "txtQtyAWireTerminal_W";
+            this.txtQtyAWireTerminal_W.ReadOnly = true;
+            this.txtQtyAWireTerminal_W.Size = new System.Drawing.Size(121, 32);
+            this.txtQtyAWireTerminal_W.TabIndex = 22;
+            this.txtQtyAWireTerminal_W.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtWAWireTerminal_W
+            // 
+            this.txtWAWireTerminal_W.BackColor = System.Drawing.Color.Bisque;
+            this.txtWAWireTerminal_W.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtWAWireTerminal_W.Location = new System.Drawing.Point(906, 44);
+            this.txtWAWireTerminal_W.MaxLength = 10;
+            this.txtWAWireTerminal_W.Name = "txtWAWireTerminal_W";
+            this.txtWAWireTerminal_W.Size = new System.Drawing.Size(121, 32);
+            this.txtWAWireTerminal_W.TabIndex = 23;
+            this.txtWAWireTerminal_W.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(526, 47);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(120, 24);
+            this.label23.TabIndex = 18;
+            this.label23.Text = "ប្រវែងនៅសល់ (M)";
+            // 
+            // LbAfterWeight1
+            // 
+            this.LbAfterWeight1.AutoSize = true;
+            this.LbAfterWeight1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbAfterWeight1.Location = new System.Drawing.Point(779, 47);
+            this.LbAfterWeight1.Name = "LbAfterWeight1";
+            this.LbAfterWeight1.Size = new System.Drawing.Size(121, 24);
+            this.LbAfterWeight1.TabIndex = 19;
+            this.LbAfterWeight1.Text = "ទម្ងន់នៅសល់ (Kg)";
+            // 
+            // txtQtyBWireTerminal_W
+            // 
+            this.txtQtyBWireTerminal_W.BackColor = System.Drawing.Color.White;
+            this.txtQtyBWireTerminal_W.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtQtyBWireTerminal_W.ForeColor = System.Drawing.Color.Blue;
+            this.txtQtyBWireTerminal_W.Location = new System.Drawing.Point(138, 42);
+            this.txtQtyBWireTerminal_W.Name = "txtQtyBWireTerminal_W";
+            this.txtQtyBWireTerminal_W.ReadOnly = true;
+            this.txtQtyBWireTerminal_W.Size = new System.Drawing.Size(121, 32);
+            this.txtQtyBWireTerminal_W.TabIndex = 16;
+            this.txtQtyBWireTerminal_W.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtWBWireTerminal_W
+            // 
+            this.txtWBWireTerminal_W.BackColor = System.Drawing.Color.White;
+            this.txtWBWireTerminal_W.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtWBWireTerminal_W.ForeColor = System.Drawing.Color.Blue;
+            this.txtWBWireTerminal_W.Location = new System.Drawing.Point(399, 42);
+            this.txtWBWireTerminal_W.Name = "txtWBWireTerminal_W";
+            this.txtWBWireTerminal_W.ReadOnly = true;
+            this.txtWBWireTerminal_W.Size = new System.Drawing.Size(121, 32);
+            this.txtWBWireTerminal_W.TabIndex = 17;
+            this.txtWBWireTerminal_W.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label48.Location = new System.Drawing.Point(5, 45);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(127, 24);
+            this.label48.TabIndex = 12;
+            this.label48.Text = "ប្រវែងមុនផលិត (M)";
+            // 
+            // LbBeforeWeight1
+            // 
+            this.LbBeforeWeight1.AutoSize = true;
+            this.LbBeforeWeight1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbBeforeWeight1.Location = new System.Drawing.Point(265, 45);
+            this.LbBeforeWeight1.Name = "LbBeforeWeight1";
+            this.LbBeforeWeight1.Size = new System.Drawing.Size(128, 24);
+            this.LbBeforeWeight1.TabIndex = 14;
+            this.LbBeforeWeight1.Text = "ទម្ងន់មុនផលិត (Kg)";
+            // 
+            // btnOK_W
+            // 
+            this.btnOK_W.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnOK_W.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnOK_W.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOK_W.Location = new System.Drawing.Point(1043, 45);
+            this.btnOK_W.Name = "btnOK_W";
+            this.btnOK_W.Size = new System.Drawing.Size(75, 30);
+            this.btnOK_W.TabIndex = 11;
+            this.btnOK_W.Text = "OK";
+            this.btnOK_W.UseVisualStyleBackColor = false;
+            // 
+            // label44
+            // 
+            this.label44.AutoSize = true;
+            this.label44.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label44.Location = new System.Drawing.Point(265, 7);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(109, 24);
+            this.label44.TabIndex = 1;
+            this.label44.Text = "ឈ្មោះវត្ថុធាតុដើម";
+            // 
+            // LbRMNameWireTerminal_W
+            // 
+            this.LbRMNameWireTerminal_W.AutoSize = true;
+            this.LbRMNameWireTerminal_W.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbRMNameWireTerminal_W.Location = new System.Drawing.Point(395, 7);
+            this.LbRMNameWireTerminal_W.Name = "LbRMNameWireTerminal_W";
+            this.LbRMNameWireTerminal_W.Size = new System.Drawing.Size(46, 24);
+            this.LbRMNameWireTerminal_W.TabIndex = 2;
+            this.LbRMNameWireTerminal_W.Text = "         ";
+            // 
+            // LbBobbinNoWireTerminal_W
+            // 
+            this.LbBobbinNoWireTerminal_W.AutoSize = true;
+            this.LbBobbinNoWireTerminal_W.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbBobbinNoWireTerminal_W.Location = new System.Drawing.Point(136, 7);
+            this.LbBobbinNoWireTerminal_W.Name = "LbBobbinNoWireTerminal_W";
+            this.LbBobbinNoWireTerminal_W.Size = new System.Drawing.Size(46, 24);
+            this.LbBobbinNoWireTerminal_W.TabIndex = 3;
+            this.LbBobbinNoWireTerminal_W.Text = "         ";
+            // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label47.Location = new System.Drawing.Point(4, 7);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(70, 24);
+            this.label47.TabIndex = 4;
+            this.label47.Text = "លេខប៊ូប៊ីន";
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.dgvWireTerminal_T);
+            this.tabPage4.Controls.Add(this.panel2);
+            this.tabPage4.Location = new System.Drawing.Point(4, 28);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3, 2, 3, 3);
+            this.tabPage4.Size = new System.Drawing.Size(1135, 294);
+            this.tabPage4.TabIndex = 1;
+            this.tabPage4.Text = "Terminal";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // dgvWireTerminal_T
+            // 
+            this.dgvWireTerminal_T.AllowUserToAddRows = false;
+            this.dgvWireTerminal_T.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.Blue;
+            this.dgvWireTerminal_T.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvWireTerminal_T.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            this.dgvWireTerminal_T.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvWireTerminal_T.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ScanSeqT,
+            this.BobbinCodeT,
+            this.RMCodeT,
+            this.RMNameT,
+            this.RemainQtyT,
+            this.StatusT});
+            this.dgvWireTerminal_T.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvWireTerminal_T.EnableHeadersVisualStyles = false;
+            this.dgvWireTerminal_T.Location = new System.Drawing.Point(3, 44);
+            this.dgvWireTerminal_T.MultiSelect = false;
+            this.dgvWireTerminal_T.Name = "dgvWireTerminal_T";
+            this.dgvWireTerminal_T.ReadOnly = true;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvWireTerminal_T.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            this.dgvWireTerminal_T.RowHeadersWidth = 45;
+            dataGridViewCellStyle16.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.Blue;
+            this.dgvWireTerminal_T.RowsDefaultCellStyle = dataGridViewCellStyle16;
+            this.dgvWireTerminal_T.RowTemplate.Height = 30;
+            this.dgvWireTerminal_T.Size = new System.Drawing.Size(1129, 247);
+            this.dgvWireTerminal_T.TabIndex = 4;
             // 
             // ScanSeqT
             // 
@@ -1916,6 +1732,190 @@
             this.StatusT.ReadOnly = true;
             this.StatusT.Width = 40;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btnOK_T);
+            this.panel2.Controls.Add(this.txtUseQtyWireTerminal_T);
+            this.panel2.Controls.Add(this.txtQtyBWireTerminal_T);
+            this.panel2.Controls.Add(this.label21);
+            this.panel2.Controls.Add(this.label22);
+            this.panel2.Controls.Add(this.label15);
+            this.panel2.Controls.Add(this.LbRMNameWireTerminal_T);
+            this.panel2.Controls.Add(this.LbBobbinNoWireTerminal_T);
+            this.panel2.Controls.Add(this.label19);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel2.Location = new System.Drawing.Point(3, 2);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1129, 42);
+            this.panel2.TabIndex = 3;
+            // 
+            // btnOK_T
+            // 
+            this.btnOK_T.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnOK_T.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnOK_T.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOK_T.Location = new System.Drawing.Point(1043, 6);
+            this.btnOK_T.Name = "btnOK_T";
+            this.btnOK_T.Size = new System.Drawing.Size(75, 30);
+            this.btnOK_T.TabIndex = 11;
+            this.btnOK_T.Text = "OK";
+            this.btnOK_T.UseVisualStyleBackColor = false;
+            // 
+            // txtUseQtyWireTerminal_T
+            // 
+            this.txtUseQtyWireTerminal_T.BackColor = System.Drawing.Color.Bisque;
+            this.txtUseQtyWireTerminal_T.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtUseQtyWireTerminal_T.ForeColor = System.Drawing.Color.Black;
+            this.txtUseQtyWireTerminal_T.Location = new System.Drawing.Point(916, 4);
+            this.txtUseQtyWireTerminal_T.MaxLength = 10;
+            this.txtUseQtyWireTerminal_T.Name = "txtUseQtyWireTerminal_T";
+            this.txtUseQtyWireTerminal_T.Size = new System.Drawing.Size(121, 32);
+            this.txtUseQtyWireTerminal_T.TabIndex = 10;
+            this.txtUseQtyWireTerminal_T.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtQtyBWireTerminal_T
+            // 
+            this.txtQtyBWireTerminal_T.BackColor = System.Drawing.Color.White;
+            this.txtQtyBWireTerminal_T.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtQtyBWireTerminal_T.ForeColor = System.Drawing.Color.Blue;
+            this.txtQtyBWireTerminal_T.Location = new System.Drawing.Point(652, 4);
+            this.txtQtyBWireTerminal_T.Name = "txtQtyBWireTerminal_T";
+            this.txtQtyBWireTerminal_T.ReadOnly = true;
+            this.txtQtyBWireTerminal_T.Size = new System.Drawing.Size(121, 32);
+            this.txtQtyBWireTerminal_T.TabIndex = 9;
+            this.txtQtyBWireTerminal_T.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(779, 7);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(131, 24);
+            this.label21.TabIndex = 5;
+            this.label21.Text = "ចំនួនប្រើប្រាស់ (pcs)";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(513, 7);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(133, 24);
+            this.label22.TabIndex = 6;
+            this.label22.Text = "ចំនួនមុនផលិត (pcs)";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(177, 7);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(109, 24);
+            this.label15.TabIndex = 1;
+            this.label15.Text = "ឈ្មោះវត្ថុធាតុដើម";
+            // 
+            // LbRMNameWireTerminal_T
+            // 
+            this.LbRMNameWireTerminal_T.AutoSize = true;
+            this.LbRMNameWireTerminal_T.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbRMNameWireTerminal_T.Location = new System.Drawing.Point(286, 7);
+            this.LbRMNameWireTerminal_T.Name = "LbRMNameWireTerminal_T";
+            this.LbRMNameWireTerminal_T.Size = new System.Drawing.Size(50, 24);
+            this.LbRMNameWireTerminal_T.TabIndex = 2;
+            this.LbRMNameWireTerminal_T.Text = "          ";
+            // 
+            // LbBobbinNoWireTerminal_T
+            // 
+            this.LbBobbinNoWireTerminal_T.AutoSize = true;
+            this.LbBobbinNoWireTerminal_T.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbBobbinNoWireTerminal_T.Location = new System.Drawing.Point(80, 7);
+            this.LbBobbinNoWireTerminal_T.Name = "LbBobbinNoWireTerminal_T";
+            this.LbBobbinNoWireTerminal_T.Size = new System.Drawing.Size(50, 24);
+            this.LbBobbinNoWireTerminal_T.TabIndex = 3;
+            this.LbBobbinNoWireTerminal_T.Text = "          ";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(4, 7);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(70, 24);
+            this.label19.TabIndex = 4;
+            this.label19.Text = "លេខប៊ូប៊ីន";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(310, 23);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(96, 27);
+            this.label13.TabIndex = 0;
+            this.label13.Text = "ឈ្មោះម៉ាស៊ីន";
+            // 
+            // LbMCNameWireTerminal
+            // 
+            this.LbMCNameWireTerminal.AutoSize = true;
+            this.LbMCNameWireTerminal.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbMCNameWireTerminal.Location = new System.Drawing.Point(419, 23);
+            this.LbMCNameWireTerminal.Name = "LbMCNameWireTerminal";
+            this.LbMCNameWireTerminal.Size = new System.Drawing.Size(122, 27);
+            this.LbMCNameWireTerminal.TabIndex = 0;
+            this.LbMCNameWireTerminal.Text = "                      ";
+            // 
+            // LbSDNoWireTerminal
+            // 
+            this.LbSDNoWireTerminal.AutoSize = true;
+            this.LbSDNoWireTerminal.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbSDNoWireTerminal.Location = new System.Drawing.Point(138, 23);
+            this.LbSDNoWireTerminal.Name = "LbSDNoWireTerminal";
+            this.LbSDNoWireTerminal.Size = new System.Drawing.Size(122, 27);
+            this.LbSDNoWireTerminal.TabIndex = 0;
+            this.LbSDNoWireTerminal.Text = "                      ";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(53, 23);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(66, 27);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "SD No ";
+            // 
+            // LbBarcodeTitleWireTerminal
+            // 
+            this.LbBarcodeTitleWireTerminal.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.LbBarcodeTitleWireTerminal.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbBarcodeTitleWireTerminal.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.LbBarcodeTitleWireTerminal.Location = new System.Drawing.Point(188, 8);
+            this.LbBarcodeTitleWireTerminal.Name = "LbBarcodeTitleWireTerminal";
+            this.LbBarcodeTitleWireTerminal.Size = new System.Drawing.Size(255, 32);
+            this.LbBarcodeTitleWireTerminal.TabIndex = 129;
+            this.LbBarcodeTitleWireTerminal.Text = "ស្កេនឯកសារSD";
+            this.LbBarcodeTitleWireTerminal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtBarcodeWireTerminal
+            // 
+            this.txtBarcodeWireTerminal.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtBarcodeWireTerminal.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBarcodeWireTerminal.Location = new System.Drawing.Point(449, 8);
+            this.txtBarcodeWireTerminal.MaxLength = 20;
+            this.txtBarcodeWireTerminal.Name = "txtBarcodeWireTerminal";
+            this.txtBarcodeWireTerminal.Size = new System.Drawing.Size(313, 32);
+            this.txtBarcodeWireTerminal.TabIndex = 130;
+            // 
+            // imgListCountingType
+            // 
+            this.imgListCountingType.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgListCountingType.ImageStream")));
+            this.imgListCountingType.TransparentColor = System.Drawing.Color.Transparent;
+            this.imgListCountingType.Images.SetKeyName(0, "Connector.png");
+            this.imgListCountingType.Images.SetKeyName(1, "Wire Harness.png");
+            this.imgListCountingType.Images.SetKeyName(2, "Terminal.png");
+            // 
             // InprocessCountingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1936,19 +1936,6 @@
             this.panelFooter.ResumeLayout(false);
             this.panelBody.ResumeLayout(false);
             this.GrbLocAndType.ResumeLayout(false);
-            this.panelStockCardWireTerminal.ResumeLayout(false);
-            this.panelStockCardWireTerminal.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.tabContrlWireTerminal.ResumeLayout(false);
-            this.tabWire.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvWireTerminal_W)).EndInit();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
-            this.tabPage4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvWireTerminal_T)).EndInit();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.panelSemi.ResumeLayout(false);
             this.tabCtrlSemi.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -1971,6 +1958,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvRMListPOS)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.panelStockCardWireTerminal.ResumeLayout(false);
+            this.panelStockCardWireTerminal.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.tabContrlWireTerminal.ResumeLayout(false);
+            this.tabWire.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvWireTerminal_W)).EndInit();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvWireTerminal_T)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }

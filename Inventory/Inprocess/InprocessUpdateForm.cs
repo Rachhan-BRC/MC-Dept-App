@@ -13,22 +13,25 @@ using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
 using Excel = Microsoft.Office.Interop.Excel;
+using MachineDeptApp.MsgClass;
+using System.Windows.Controls.Primitives;
+using System.Runtime.CompilerServices;
 
 namespace MachineDeptApp.Inventory.Inprocess
 {
     public partial class InprocessUpdateForm : Form
     {
+        WarningMsgClass WMsg = new WarningMsgClass();
+        InformationMsgClass InfoMsg = new InformationMsgClass();
+        ErrorMsgClass EMsg = new ErrorMsgClass();
+        QuestionMsgClass QMsg = new QuestionMsgClass();
         SQLConnect cnn = new SQLConnect();
         SQLConnectOBS cnnOBS = new SQLConnectOBS();
-        SqlCommand cmd;
         DataTable dtInventory;
+        DataTable dtInventoryDetails;
         DataTable dtColor;
-        string SubLoc;
         string CountMethod;
-        string CountMethod2;
-        string ItemCode;
-        string QtyDetails;
-        string QtyDetails2;
+        string CountTypeInKhmer;
 
         //POS-Connector
         double ValueBeforeUpdate;
@@ -61,10 +64,12 @@ namespace MachineDeptApp.Inventory.Inprocess
 
 
             //WireTerminal
-            this.CboBobbinWWireTerminal.SelectedIndexChanged += CboBobbinWWireTerminal_SelectedIndexChanged;
-            this.txtQtyWireTerminal.KeyPress += TxtQtyWireTerminal_KeyPress;
-            this.txtQtyWireTerminal.KeyDown += TxtQtyWireTerminal_KeyDown;
-            this.txtQtyWireTerminal.TextChanged += TxtQtyWireTerminal_TextChanged;
+            this.dgvListSDWire.CellClick += DgvListSDWire_CellClick;
+            this.btnSDWireOK.EnabledChanged += BtnSDWireOK_EnabledChanged;
+            this.txtSDWireWA.KeyPress += TxtSDWireWA_KeyPress;
+            this.txtSDWireWA.TextChanged += TxtSDWireWA_TextChanged;
+            this.txtSDWireWA.Leave += TxtSDWireWA_Leave;
+            this.btnSDWireOK.Click += BtnSDWireOK_Click;
 
             //Semi
             this.LbWireTubeSemi.TextChanged += LbWireTubeSemi_TextChanged;
@@ -76,6 +81,132 @@ namespace MachineDeptApp.Inventory.Inprocess
             this.txtQtyReaySemi.KeyDown += TxtQtyReaySemi_KeyDown;
 
 
+        }
+
+
+
+        //WireTerminal
+        private void TxtSDWireWA_Leave(object sender, EventArgs e)
+        {
+            if (txtSDWireWA.Text.Trim() != "")
+            {
+                try
+                {
+                    double InputtedValue = Convert.ToDouble(txtSDWireWA.Text);
+                    txtSDWireWA.Text = InputtedValue.ToString("N2");
+                }
+                catch
+                {
+                    WMsg.WarningText = "អ្នកបញ្ចូលខុសទម្រង់ហើយ!";
+                    WMsg.ShowingMsg();
+                    txtSDWireWA.Text = "";
+                }
+            }
+        }
+        private void TxtSDWireWA_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Check if the entered key is not a control key, digit or period
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+            // Check if the period is already present in the TextBox
+            else if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+        }
+        private void TxtSDWireWA_TextChanged(object sender, EventArgs e)
+        {
+            if (btnSDWireOK.Enabled == true)
+            {
+                if (txtSDWireWA.Text.Trim() != "")
+                {
+                    try
+                    {
+                        double AfterW = Convert.ToDouble(txtSDWireWA.Text);
+                        double BeforeW = Convert.ToDouble(txtSDWireWB.Text);
+                        double BeforeQty = Convert.ToDouble(txtSDWireQtyB.Text);
+                        double PerUnit = Convert.ToDouble(LbSDWirePerUnit.Text);
+
+                        if (AfterW >= 0)
+                        {
+                            if (AfterW > 0)
+                            {
+                                if (AfterW <= BeforeW)
+                                {
+                                    double AfterQty = BeforeQty - (BeforeW - AfterW) * PerUnit * 1000;
+                                    txtSDWireQtyA.Text = AfterQty.ToString("N0");
+                                }
+                                else
+                                {
+                                    txtSDWireQtyA.Text = "";
+                                }
+                            }
+                            else
+                            {
+                                txtSDWireQtyA.Text = "0";
+                            }
+                        }
+                        else
+                        {
+                            WMsg.WarningText = "ទម្ងន់សល់មិនអាចតូចជាង 0 បានទេ!";
+                            WMsg.ShowingMsg();
+                            txtSDWireWA.Text = "";
+                        }
+                    }
+                    catch
+                    {
+                        EMsg.AlertText = "អ្នកបញ្ចូលខុសទម្រង់ហើយ!";
+                        EMsg.ShowingMsg();
+                        txtSDWireWA.Text = "";
+                    }
+                }
+                else
+                {
+                    txtSDWireQtyA.Text = "";
+                }
+            }
+        }        
+        private void BtnSDWireOK_EnabledChanged(object sender, EventArgs e)
+        {
+            if (btnSDWireOK.Enabled == true)
+            {
+                btnSDWireOK.ForeColor = Color.Black;
+                btnSDWireOK.BackColor = Color.FromArgb(0, 192, 0);
+            }
+            else
+            {
+                btnSDWireOK.ForeColor = Color.FromArgb(64, 64, 64);
+                btnSDWireOK.BackColor = Color.Silver;
+            }
+        }
+        private void BtnSDWireOK_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        private void DgvListSDWire_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex > -1 && e.RowIndex > -1)
+            {
+                if (dgvListSDWire.Columns[e.ColumnIndex].Name == "EditingSDW")
+                {
+                    string BobbinCode = dgvListSDWire.Rows[e.RowIndex].Cells["BobbinCodeW"].Value.ToString();
+                    double BQty = Convert.ToDouble(dgvListSDWire.Rows[e.RowIndex].Cells["BeforeQtySDWire"].Value);
+                    double BWeight = Convert.ToDouble(dgvListSDWire.Rows[e.RowIndex].Cells["BeforeWSDWire"].Value);
+                    double AQty = Convert.ToDouble(dgvListSDWire.Rows[e.RowIndex].Cells["RemainQtyW"].Value);
+                    double AWeight = Convert.ToDouble(dgvListSDWire.Rows[e.RowIndex].Cells["RemainWW"].Value);
+                    double PerUnit = Convert.ToDouble(dgvListSDWire.Rows[e.RowIndex].Cells["PerUnit"].Value);
+
+                    LbSDWireBobbinNo.Text = BobbinCode;
+                    txtSDWireQtyB.Text = BQty.ToString("N0");
+                    txtSDWireWB.Text = BWeight.ToString("N2");
+                    txtSDWireQtyA.Text = AQty.ToString("N0");
+                    txtSDWireWA.Text = AWeight.ToString("N2");
+                    LbSDWirePerUnit.Text = PerUnit.ToString();
+                    btnSDWireOK.Enabled = true;
+                }
+            }
         }
 
 
@@ -188,282 +319,6 @@ namespace MachineDeptApp.Inventory.Inprocess
             }
         }
 
-
-        //WireTerminal
-        private void CboBobbinWWireTerminal_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (txtQtyWireTerminal.Text.Trim() != "")
-            {
-                string QtyDetails = txtQtyWireTerminal.Text;
-                //split betwen + Symbol.
-                string[] QtyArray = QtyDetails.Split('+');
-
-                //If Count By Reil
-                if (LbBobbinsWTitleWireTerminal.Text.ToString().Contains("R2") == true && LbNetWTitleWireTerminal.Text.ToString().Contains("R1") == true)
-                {
-                    //Calc Total Qty
-                    double TotalQty = 0;
-                    for (int i = 0; i < QtyArray.Length; i++)
-                    {
-                        if (QtyArray[i].ToString().Trim() != "")
-                        {
-                            double R2 = Convert.ToDouble(CboBobbinWWireTerminal.Text);
-                            double R1 = NetWSelected;
-                            double MOQ = MOQSelected;
-                            double InputedR3 = Convert.ToDouble(QtyArray[i].ToString());
-                            TotalQty = TotalQty + Math.Round(MOQ * (InputedR3 * InputedR3 - R2 * R2) / (R1 * R1 - R2 * R2), 2);
-                            TotalQty = Convert.ToDouble(TotalQty.ToString("N0"));
-                        }
-                    }
-
-                    LbTotalQtyWireTerminal.Text = TotalQty.ToString("N0");
-
-                }
-                //If Count By Bobbins
-                else
-                {
-                    //Calc Total Qty
-                    double TotalQty = 0;
-                    for (int i = 0; i < QtyArray.Length; i++)
-                    {
-                        if (QtyArray[i].ToString().Trim() != "")
-                        {
-                            double W = Convert.ToDouble(QtyArray[i].ToString());
-                            double BobbinW = Convert.ToDouble(CboBobbinWWireTerminal.Text);
-                            TotalQty = TotalQty + Math.Round((W - BobbinW) / NetWSelected * MOQSelected, 2);
-                            TotalQty = Convert.ToDouble(TotalQty.ToString("N0"));
-                        }
-                    }
-
-                    LbTotalQtyWireTerminal.Text = TotalQty.ToString("N0");
-
-                }
-            }
-        }
-        private void TxtQtyWireTerminal_TextChanged(object sender, EventArgs e)
-        {
-            if (txtQtyWireTerminal.Text.Trim() != "")
-            {
-                if (RdbWeight.Checked == true)
-                {
-                    if (CboBobbinWWireTerminal.Text.Trim() != "")
-                    {
-                        if (txtQtyWireTerminal.ToString().Contains("*") == false)
-                        {
-                            string QtyDetails = txtQtyWireTerminal.Text;
-                            //split betwen + Symbol.
-                            string[] QtyArray = QtyDetails.Split('+');
-                            BobbinQtyInputted = QtyArray.Length;
-
-                            try
-                            {
-                                //If Count By Reil
-                                if (LbBobbinsWTitleWireTerminal.Text.ToString().Contains("R2") == true && LbNetWTitleWireTerminal.Text.ToString().Contains("R1") == true)
-                                {
-                                    //Calc Total Qty
-                                    double TotalQty = 0;
-                                    for (int i = 0; i < QtyArray.Length; i++)
-                                    {
-                                        if (QtyArray[i].ToString().Trim() != "")
-                                        {
-                                            double R2 = Convert.ToDouble(CboBobbinWWireTerminal.Text);
-                                            double R1 = NetWSelected;
-                                            double MOQ = MOQSelected;
-                                            double InputedR3 = Convert.ToDouble(QtyArray[i].ToString());
-                                            TotalQty = TotalQty + Math.Round(MOQ * (InputedR3 * InputedR3 - R2 * R2) / (R1 * R1 - R2 * R2), 2);
-                                            TotalQty = Convert.ToDouble(TotalQty.ToString("N0"));
-                                        }
-                                    }
-
-                                    LbTotalQtyWireTerminal.Text = TotalQty.ToString("N0");
-
-                                    //Assign Bobbin/Reel
-                                    if (BobbinQtyInputted > 1)
-                                    {
-                                        LbBobbinQtyWireTerminal.Text = "( " + BobbinQtyInputted + " Reels )";
-                                    }
-                                    else
-                                    {
-                                        LbBobbinQtyWireTerminal.Text = "( " + BobbinQtyInputted + " Reel )";
-                                    }
-                                }
-                                //If Count By Bobbins
-                                else
-                                {
-                                    //Calc Total Qty
-                                    double TotalQty = 0;
-                                    for (int i = 0; i < QtyArray.Length; i++)
-                                    {
-                                        if (QtyArray[i].ToString().Trim() != "")
-                                        {
-                                            double W = Convert.ToDouble(QtyArray[i].ToString());
-                                            double BobbinW = Convert.ToDouble(CboBobbinWWireTerminal.Text);
-                                            TotalQty = TotalQty + Math.Round((W - BobbinW) / NetWSelected * MOQSelected, 2);
-                                            TotalQty = Convert.ToDouble(TotalQty.ToString("N0"));
-                                        }
-                                    }
-
-                                    LbTotalQtyWireTerminal.Text = TotalQty.ToString("N0");
-
-                                    //Assign Bobbin/Reel
-                                    if (BobbinQtyInputted > 1)
-                                    {
-                                        LbBobbinQtyWireTerminal.Text = "( " + BobbinQtyInputted + " Bobbins )";
-                                    }
-                                    else
-                                    {
-                                        LbBobbinQtyWireTerminal.Text = "( " + BobbinQtyInputted + " Bobbin )";
-                                    }
-                                }
-                            }
-                            catch
-                            {
-                                LbTotalQtyWireTerminal.Text = "";
-                                LbBobbinQtyWireTerminal.Text = "";
-                                MessageBox.Show("អ្នកបញ្ចូលខុសទម្រង់ហើយ!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            }
-                        }
-                        else
-                        {
-                            LbTotalQtyWireTerminal.Text = "";
-                            LbBobbinQtyWireTerminal.Text = "";
-                            MessageBox.Show("អ្នកបញ្ចូលខុសទម្រង់ហើយ!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("សូមជ្រើសរើស <ទម្ងន់ប៊ូប៊ីន (KG)> ជាមុនសិន!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    }
-                }
-                else
-                {
-                    string QtyDetails = txtQtyWireTerminal.Text;
-                    //split betwen + Symbol.
-                    string[] QtyArray = QtyDetails.Split('+');
-                    BobbinQtyInputted = 0;
-                    for (int i = 0; i < QtyArray.Length; i++)
-                    {
-                        if (QtyArray[i].Trim() != "")
-                        {
-                            double CheckBobbinQty = 1;
-                            if (QtyArray[i].ToString().Contains("*") == true)
-                            {
-                                string[] CheckBobbinQtyArray = QtyArray[i].ToString().Split('*');
-                                if (CheckBobbinQtyArray[1].ToString().Trim() != "")
-                                {
-                                    CheckBobbinQty = Convert.ToDouble(CheckBobbinQtyArray[1].ToString());
-                                }
-                            }
-                            BobbinQtyInputted = BobbinQtyInputted + CheckBobbinQty;
-                        }
-                    }
-
-                    try
-                    {
-                        //Calc Total Qty
-                        double TotalQty = 0;
-                        int ErrorCalc = 0;
-                        for (int i = 0; i < QtyArray.Length; i++)
-                        {
-                            double CheckQty = 0;
-                            if (QtyArray[i].ToString().Trim() != "")
-                            {
-                                if (QtyArray[i].ToString().Contains("*") == true)
-                                {
-                                    string[] CheckQtyArray = QtyArray[i].Split('*');
-                                    if (CheckQtyArray.Length < 3)
-                                    {
-                                        if (CheckQtyArray[1].ToString().Trim() != "")
-                                        {
-                                            CheckQty = CheckQty + (Convert.ToDouble(CheckQtyArray[0].ToString()) * Convert.ToDouble(CheckQtyArray[1].ToString()));
-                                        }
-                                    }
-                                    else
-                                    {
-                                        LbTotalQtyWireTerminal.Text = "";
-                                        LbBobbinQtyWireTerminal.Text = "";
-                                        MessageBox.Show("អ្នកមិនអាចគុណតគ្នាបែបនេះបានទេ!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                        ErrorCalc++;
-                                        break;
-                                    }
-                                }
-                                else
-                                {
-                                    CheckQty = CheckQty + Convert.ToDouble(QtyArray[i].ToString());
-                                }
-                            }
-                            TotalQty = TotalQty + CheckQty;
-                        }
-
-                        if (ErrorCalc == 0)
-                        {
-                            LbTotalQtyWireTerminal.Text = TotalQty.ToString("N0");
-
-                            //Assign Bobbin/Reel
-                            if (LbBobbinsWTitleWireTerminal.Text.ToString().Contains("R1") == true && LbNetWTitleWireTerminal.Text.ToString().Contains("R2") == true)
-                            {
-                                if (BobbinQtyInputted > 1)
-                                {
-                                    LbBobbinQtyWireTerminal.Text = "( " + BobbinQtyInputted + " Reels )";
-                                }
-                                else
-                                {
-                                    LbBobbinQtyWireTerminal.Text = "( " + BobbinQtyInputted + " Reel )";
-                                }
-                            }
-                            else
-                            {
-                                if (BobbinQtyInputted > 1)
-                                {
-                                    LbBobbinQtyWireTerminal.Text = "( " + BobbinQtyInputted + " Bobbins )";
-                                }
-                                else
-                                {
-                                    LbBobbinQtyWireTerminal.Text = "( " + BobbinQtyInputted + " Bobbin )";
-                                }
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        LbTotalQtyWireTerminal.Text = "";
-                        LbBobbinQtyWireTerminal.Text = "";
-                        MessageBox.Show("អ្នកបញ្ចូលខុសទម្រង់ហើយ!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    }
-                }
-            }
-            else
-            {
-                LbTotalQtyWireTerminal.Text = "";
-                LbBobbinQtyWireTerminal.Text = "";
-            }
-        }
-        private void TxtQtyWireTerminal_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                btnSave.PerformClick();
-            }
-        }
-        private void TxtQtyWireTerminal_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (RdbWeight.Checked == true)
-            {
-                if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '+') && (e.KeyChar != '.'))
-                {
-                    e.Handled = true;
-                }
-            }
-            else
-            {
-                if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '+') && (e.KeyChar != '*'))
-                {
-                    e.Handled = true;
-                }
-            }
-        }
-
-
         //POS-Connector
         private void DgvRMListPOS_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
@@ -536,13 +391,43 @@ namespace MachineDeptApp.Inventory.Inprocess
                     Cursor = Cursors.WaitCursor;
                     ErrorText = "";
                     dtInventory = new DataTable();
+                    dtInventoryDetails = new DataTable();
+                    string Barcode = txtBarcode.Text;
+
                     try
                     {
                         cnn.con.Open();
-                        SqlDataAdapter sda = new SqlDataAdapter("SELECT SubLoc, CountingMethod, CountingMethod2, ItemType, ItemCode, Qty, QtyDetails, QtyDetails2 FROM tbInventory " +
-                            " WHERE LocCode='MC1' AND CancelStatus=0 AND LabelNo="+Convert.ToInt32(txtBarcode.Text) + " ORDER BY SeqNo ASC", cnn.con);
-                        sda.Fill(dtInventory);
+                        if (Barcode.Contains("/") == true)
+                        {
+                            //Inventory Data
+                            string[] splitText = Barcode.Split('/');
+                            string SQLQuery = "SELECT SubLoc, CountingMethod, CountingMethod2, tbInventory.ItemType, tbInventory.ItemCode, ItemName, RMTypeName, Qty, QtyDetails, QtyDetails2 FROM tbInventory " +
+                                            "\nLEFT JOIN tbMasterItem ON tbInventory.ItemCode = tbMasterItem.ItemCode " +
+                                            "\nWHERE LocCode='MC1' AND CancelStatus=0 AND LabelNo=  " + Convert.ToInt32(splitText[0]) + " AND tbInventory.ItemCode = '" + splitText[1] + "' " +
+                                            "\nORDER BY SeqNo ASC";
+                            Console.WriteLine(SQLQuery);
+                            SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                            sda.Fill(dtInventory);
 
+                            //Take Bobbin Information
+                            SQLQuery = "SELECT tbInventoryWandTDetails.BobbinSysNo, tbInventoryWandTDetails.RMCode, T1.BStock_Kg, BStock_QTY, tbInventoryWandTDetails.RemainQty,tbInventoryWandTDetails.RemainW, Per_Unit FROM tbInventoryWandTDetails " +
+                                "\nLEFT JOIN (SELECT * FROM tbBobbinRecords WHERE In_Date IS NULL) T1 ON tbInventoryWandTDetails.BobbinSysNo = T1.BobbinSysNo AND tbInventoryWandTDetails.RMCode=T1.RMCode " +
+                                "\nINNER JOIN (SELECT * FROM tbMstRMRegister WHERE Status='Active') T2 ON tbInventoryWandTDetails.BobbinSysNo=T2.BobbinSysNo " +
+                                "\nWHERE LabelNo = '"+ Convert.ToInt32(splitText[0]) + "' AND tbInventoryWandTDetails.RMCode='"+ splitText[1] + "' " +
+                                "\nORDER BY tbInventoryWandTDetails.BobbinSysNo ASC";
+                            //SQLQuery = "SELECT * FROM tbInventoryWandTDetails WHERE LabelNo = '"+ Convert.ToInt32(splitText[0]) + "' AND RMCode='"+ splitText[1] + "' ORDER BY BobbinSysNo ASC";
+                            sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                            sda.Fill(dtInventoryDetails);
+                        }
+                        else
+                        {
+                            string SQLQuery = "SELECT SubLoc, CountingMethod, CountingMethod2, tbInventory.ItemType, tbInventory.ItemCode, ItemName, Qty, QtyDetails, QtyDetails2 FROM tbInventory " +
+                                            "\nLEFT JOIN tbMasterItem ON tbInventory.ItemCode = tbMasterItem.ItemCode " +
+                                            "\nWHERE LocCode='MC1' AND CancelStatus=0 AND CountingMethod <> 'SD Document' AND LabelNo= " + Convert.ToInt32(Barcode) + " " +
+                                            "\nORDER BY SeqNo ASC";
+                            SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                            sda.Fill(dtInventory);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -561,24 +446,12 @@ namespace MachineDeptApp.Inventory.Inprocess
 
                     if (ErrorText.Trim() == "")
                     {
-                        SubLoc = "";
                         CountMethod = "";
-                        CountMethod2 = "";
-                        ItemCode = "";
-                        QtyDetails = "";
-                        QtyDetails2 = "";
                         ClearAllText();
-
                         if (dtInventory.Rows.Count > 0)
                         {
-                            SubLoc = dtInventory.Rows[0]["SubLoc"].ToString();
                             CountMethod = dtInventory.Rows[0]["CountingMethod"].ToString();
-                            CountMethod2 = dtInventory.Rows[0]["CountingMethod2"].ToString();
-                            ItemCode = dtInventory.Rows[0]["ItemCode"].ToString();
-                            QtyDetails = dtInventory.Rows[0]["QtyDetails"].ToString();
-                            QtyDetails2 = dtInventory.Rows[0]["QtyDetails2"].ToString();
-
-                            string CountTypeInKhmer = "";
+                            CountTypeInKhmer = "";
                             if (CountMethod == "POS")
                             {
                                 CountTypeInKhmer = "ខនិកទ័រ";
@@ -591,22 +464,29 @@ namespace MachineDeptApp.Inventory.Inprocess
                             {
                                 CountTypeInKhmer = "ខ្សែភ្លើង/ធើមីណល";
                             }
-                            LbCountMethod.Text = " ( " + CountTypeInKhmer + " )";
-                            CboSubLoc.Text = SubLoc;
-                            LbLabelNo.Text = txtBarcode.Text;
+                            LbLocation.Text = dtInventory.Rows[0]["SubLoc"].ToString() + " ( " + CountTypeInKhmer + " )";
+                            if (Barcode.Contains("/") == false)
+                                LbLabelNo.Text = Barcode;
+                            else
+                            {
+                                string[] SplitText = Barcode.Split('/');
+                                LbLabelNo.Text = SplitText[0].ToString();
+                            }
                             txtBarcode.Text = "";
                             ShowingAfterScan();
                         }
                         else
                         {
-                            MessageBox.Show("គ្មានទិន្នន័យឡាប៊ែលនេះទេ!","Rachhan System",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
+                            WMsg.WarningText = "គ្មានទិន្នន័យឡាប៊ែលនេះទេ!";
+                            WMsg.ShowingMsg();
                             txtBarcode.Focus();
                             txtBarcode.SelectAll();
                         }
                     }
                     else
                     {
-                        MessageBox.Show(ErrorText, "Rachhan System",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                        EMsg.AlertText = ErrorText;
+                        EMsg.ShowingMsg();
                     }
                 }
             }
@@ -644,12 +524,6 @@ namespace MachineDeptApp.Inventory.Inprocess
         {
             chkPrintStatus.Checked = Properties.Settings.Default.MCInproPrintStatus;
 
-            string[] MCName = new string[] { "MS01", "DCAM", "DE SK", "JAM", "TWIST", "SEMI", "SEMI MQC" };
-            for (int i = 0; i < MCName.Length; i++)
-            {
-                CboSubLoc.Items.Add(MCName[i].ToString());
-            }
-
             dtColor = new DataTable();
             dtColor.Columns.Add("ShortText");
             dtColor.Columns.Add("ColorText");
@@ -686,10 +560,9 @@ namespace MachineDeptApp.Inventory.Inprocess
         {
             LbLabelNo.Text = "";
             LbLabelNoTitle.Visible = false;
-            CboSubLoc.Text = "";
-            CboSubLoc.Visible = false;
-            CboSubLocTitle.Visible = false;
-            LbCountMethod.Text = "";
+            LbLocation.Text = "";
+            LbLocation.Visible = false;
+            LbSubLocTitle.Visible = false;
             panelSemi.Visible = false;
             panelPOS.Visible = false;
             panelStockCardWireTerminal.Visible = false;
@@ -713,27 +586,27 @@ namespace MachineDeptApp.Inventory.Inprocess
             dgvRMListPOS.Rows.Clear();
 
             //WireTerminal
-            LbCodeWireTerminal.Text = "";
-            LbItemNameWireTerminal.Text = "";
-            LbMakerWireTerminal.Text = "";
-            LbTypeWireTerminal.Text = "";
-            CboBobbinWWireTerminal.Text = "";
-            LbNetWWireTerminal.Text = "";
-            txtQtyWireTerminal.Text = "";
+            //LbCodeWireTerminal.Text = "";
+            //LbItemNameWireTerminal.Text = "";
+            //LbMakerWireTerminal.Text = "";
+            //LbTypeWireTerminal.Text = "";
+            //CboBobbinWWireTerminal.Text = "";
+            //LbNetWWireTerminal.Text = "";
+            //txtQtyWireTerminal.Text = "";
 
         }
         private void ShowingAfterScan()
         {
             LbLabelNo.Visible = true;
             LbLabelNoTitle.Visible = true;
-            CboSubLocTitle.Visible = true;
-            CboSubLoc.Visible = true;
-            LbCountMethod.Visible=true;
+            LbSubLocTitle.Visible = true;
+            LbLocation.Visible = true;
 
             //POS-Connector
             if (CountMethod == "POS")
             {
                 ErrorText = "";
+                string POSNo = dtInventory.Rows[0]["QtyDetails"].ToString();
                 DataTable dt = new DataTable();
                 DataTable dtRMOBS = new DataTable();
                 //Find POS Detail from OBS
@@ -741,12 +614,11 @@ namespace MachineDeptApp.Inventory.Inprocess
                 {
                     //POS Details
                     cnnOBS.conOBS.Open();
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT T1.ItemCode, ItemName, PlanQty, POSDeliveryDate FROM " +
-                        "(SELECT * FROM prgproductionorder) T1 " +
-                        "INNER JOIN " +
-                        "(SELECT * FROM mstitem WHERE ItemType = 1 AND DelFlag=0) T2 " +
-                        "ON T1.ItemCode=T2.ItemCode " +
-                        "WHERE DONo='"+QtyDetails+"'", cnnOBS.conOBS);
+                    string SQLQuery = "SELECT T1.ItemCode, ItemName, PlanQty, POSDeliveryDate FROM " +
+                        "\n(SELECT * FROM prgproductionorder) T1 " +
+                        "\nINNER JOIN (SELECT * FROM mstitem WHERE ItemType = 1 AND DelFlag=0) T2 ON T1.ItemCode=T2.ItemCode " +
+                        "\nWHERE DONo='" + POSNo + "'";
+                    SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnnOBS.conOBS);
                     sda.Fill(dt);
 
                     //Take RM 
@@ -783,7 +655,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                     //Show POS Details
                     if (dt.Rows.Count > 0)
                     {
-                        LbPOSNoPOS.Text = QtyDetails;
+                        LbPOSNoPOS.Text = POSNo;
                         LbQtyPOS.Text = Convert.ToDouble(dt.Rows[0]["PlanQty"].ToString()).ToString("N0");
                         LbItemNamePOS.Text = dt.Rows[0]["ItemName"].ToString();
                         LbShipmentDatePOS.Text = Convert.ToDateTime(dt.Rows[0]["POSDeliveryDate"].ToString()).ToString("dd-MM-yyyy");
@@ -811,147 +683,20 @@ namespace MachineDeptApp.Inventory.Inprocess
                 }
                 else
                 {
-                    MessageBox.Show(ErrorText,"Rachhan System",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                }
-            }
-            //WireTerminal
-            else if (CountMethod == "StockCard")
-            {
-                ErrorText = "";
-                DataTable dtRMOBS = new DataTable();
-                //Find RM from OBS
-                try
-                {
-                    cnnOBS.conOBS.Open();
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT ItemCode, ItemName, Resv1 FROM mstitem WHERE ItemType = 2 AND DelFlag = 0 AND ItemCode = '" + ItemCode + "'", cnnOBS.conOBS);
-                    sda.Fill(dtRMOBS);
-                }
-                catch (Exception ex)
-                {
-                    if (ErrorText.Trim() == "")
-                    {
-                        ErrorText = ex.Message;
-                    }
-                    else
-                    {
-                        ErrorText = ErrorText + "\n" + ex.Message;
-                    }
-                }
-                cnnOBS.conOBS.Close();
-
-                if (ErrorText.Trim() == "")
-                {
-                    DataTable dt = new DataTable();
-                    try
-                    {
-                        cnn.con.Open();
-                        SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM tbSDMstUncountMat WHERE Code='"+ItemCode+"'", cnn.con);
-                        sda.Fill(dt);
-                    }
-                    catch (Exception ex)
-                    { 
-                        if (ErrorText.Trim() == "")
-                        {
-                            ErrorText = ex.Message;
-                        }
-                        else
-                        {
-                            ErrorText = ErrorText +"\n"+ ex.Message;
-                        }
-                    }
-                    cnn.con.Close();
-
-                    if (ErrorText.Trim() == "")
-                    {
-                        //Show info
-                        string ItemName = "";
-                        string Maker = "";
-                        if (dtRMOBS.Rows.Count > 0)
-                        {
-                            ItemName = dtRMOBS.Rows[0]["ItemName"].ToString();
-                            Maker = dtRMOBS.Rows[0]["Resv1"].ToString();
-                        }
-                        LbCodeWireTerminal.Text = ItemCode;
-                        LbItemNameWireTerminal.Text = ItemName;
-                        LbMakerWireTerminal.Text= Maker;
-                        LbTypeWireTerminal.Text = dt.Rows[0]["RMType"].ToString();
-                        CboBobbinWWireTerminal.Items.Clear();
-                        //Box Or Weigth
-                        if (CountMethod2 == "Weight")
-                        {
-                            RdbWeight.Checked = true;
-                            string [] QtyD2 = QtyDetails2.Split('|');
-                            CboBobbinWWireTerminal.Items.Add(QtyD2[0].ToString());
-                            CboBobbinWWireTerminal.SelectedIndex = 0;
-
-                            if (dt.Rows[0]["BobbinsOrReil"].ToString() == "Bobbin")
-                            {
-                                LbBobbinsWTitleWireTerminal.Text = "ទម្ងន់ប៊ូប៊ីន (KG)";
-                                LbNetWTitleWireTerminal.Text = "ទម្ងន់សាច់សុទ្ធ (KG)";
-                                LbNetWTitleWireTerminal.Font = new Font("Khmer OS Battambang", 14);
-                                LbQtyTitleWireTerminal.Text = "ទម្ងន់សរុប";
-                                
-                            }
-                            else
-                            {
-                                LbBobbinsWTitleWireTerminal.Text = "ប្រវែងគ្មានធើមីណល R2 (mm)";
-                                LbBobbinsWTitleWireTerminal.Font = new Font("Khmer OS Battambang", 11, FontStyle.Regular);
-                                LbNetWTitleWireTerminal.Text = "ប្រវែងពេញ R1 (mm)";
-                                LbQtyTitleWireTerminal.Text = "ប្រវែងសរុប";
-                                //CboBobbinWWireTerminal.Items.Add(dt.Rows[0]["R2OrBobbinsW"].ToString());
-                                //CboBobbinWWireTerminal.Text = dt.Rows[0]["R2OrBobbinsW"].ToString();
-
-                            }
-                            NetWSelected = Convert.ToDouble(dt.Rows[0]["R1OrNetW"].ToString());
-                            MOQSelected = Convert.ToDouble(dt.Rows[0]["MOQ"].ToString());
-                            LbNetWWireTerminal.Text = NetWSelected.ToString("N2") + " = " + MOQSelected.ToString("N0");
-                        }
-                        else
-                        {
-                            RdbBox.Checked = true; 
-                            CboBobbinWWireTerminal.Items.Clear();
-                            CboBobbinWWireTerminal.Items.Add(dt.Rows[0]["R2OrBobbinsW"].ToString());
-                            CboBobbinWWireTerminal.Text = dt.Rows[0]["R2OrBobbinsW"].ToString();
-                            if (dt.Rows[0]["BobbinsOrReil"].ToString() == "Bobbin")
-                            {
-                                LbBobbinsWTitleWireTerminal.Text = "ទម្ងន់ប៊ូប៊ីន (KG)";
-                                LbNetWTitleWireTerminal.Text = "ទម្ងន់សាច់សុទ្ធ (KG)";
-                                LbNetWTitleWireTerminal.Font = new Font("Khmer OS Battambang", 14);
-                                LbQtyTitleWireTerminal.Text = "សម្រាយចំនួន";
-
-                            }
-                            else
-                            {
-                                LbBobbinsWTitleWireTerminal.Text = "ប្រវែងគ្មានធើមីណល R2 (mm)";
-                                LbBobbinsWTitleWireTerminal.Font = new Font("Khmer OS Battambang", 11, FontStyle.Regular);
-                                LbNetWTitleWireTerminal.Text = "ប្រវែងពេញ R1 (mm)";
-                                LbQtyTitleWireTerminal.Text = "សម្រាយចំនួន";
-                            }
-                            NetWSelected = Convert.ToDouble(dt.Rows[0]["R1OrNetW"].ToString());
-                            MOQSelected = Convert.ToDouble(dt.Rows[0]["MOQ"].ToString());
-                            LbNetWWireTerminal.Text = NetWSelected.ToString("N2") + " = " + MOQSelected.ToString("N0");
-                        }
-                        txtQtyWireTerminal.Text = QtyDetails.Replace("x","*");
-                        panelStockCardWireTerminal.Visible = true;
-                        panelStockCardWireTerminal.BringToFront();
-                        txtQtyWireTerminal.Focus();
-                    }
-                    else
-                    {
-                        MessageBox.Show(ErrorText, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show(ErrorText, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    EMsg.AlertText = ErrorText;
+                    EMsg.ShowingMsg();
                 }
             }
             //Semi
-            else
+            else if (CountMethod == "Semi")
             {
                 ErrorText = "";
-                LbWIPCodeSemi.Text = ItemCode;
-                string[] QtyD = QtyDetails.Split('x');
+                string [] SplitText = dtInventory.Rows[0]["QtyDetails2"].ToString().Split('|');
+                string POSNo = SplitText[0].ToString();
+                string WIPCode = SplitText[1].ToString();
+                string BoxNo = Convert.ToDouble(SplitText[2]).ToString("N0");
+                LbWIPCodeSemi.Text = WIPCode;
+                string[] QtyD = dtInventory.Rows[0]["QtyDetails"].ToString().Split('x');
                 txtBatchQtySemi.Text = QtyD[0].ToString();
                 if (QtyD[1].ToString().Contains("+") == true)
                 {
@@ -966,12 +711,13 @@ namespace MachineDeptApp.Inventory.Inprocess
                 LbTotalQtySemi.Text = Convert.ToDouble(dtInventory.Rows[0]["Qty"].ToString()).ToString("N0");
 
                 //Take Semi Detail from OBS
-                DataTable dtSemiOBS = new DataTable();
+                DataTable dtSemiInfo = new DataTable();
                 try
                 {
-                    cnnOBS.conOBS.Open();
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT ItemCode, ItemName, Remark2,Remark3,Remark4 FROM mstitem WHERE ItemType = 1 AND DelFlag = 0 AND ItemCode='"+ItemCode+"' ", cnnOBS.conOBS);
-                    sda.Fill(dtSemiOBS);
+                    cnn.con.Open();
+                    SqlDataAdapter sda = new SqlDataAdapter("SELECT ItemCode, ItemName, Remarks1, Remarks2, Remarks3 FROM tbMasterItem " +
+                        "\nWHERE ItemType = 'Work In Process' AND ItemCode = '" + WIPCode + "' ", cnn.con);
+                    sda.Fill(dtSemiInfo);
                 }
                 catch (Exception ex)
                 {
@@ -981,38 +727,79 @@ namespace MachineDeptApp.Inventory.Inprocess
                     }
                     else
                     {
-                        ErrorText = ErrorText +"\n"+ ex.Message;
+                        ErrorText = ErrorText + "\n" + ex.Message;
                     }
                 }
-                cnnOBS.conOBS.Close();
+                cnn.con.Close();
 
                 if (ErrorText.Trim() == "")
                 {
                     //Show POS Details
-                    if (dtSemiOBS.Rows.Count > 0)
+                    if (dtSemiInfo.Rows.Count > 0)
                     {
-                        LbWIPNameSemi.Text = dtSemiOBS.Rows[0]["ItemName"].ToString();
-                        LbLengthSemi.Text = dtSemiOBS.Rows[0]["Remark4"].ToString();
-                        LbPINSemi.Text = dtSemiOBS.Rows[0]["Remark2"].ToString();
-                        LbWireTubeSemi.Text = dtSemiOBS.Rows[0]["Remark3"].ToString();
+                        LbPOSNoSemi.Text = POSNo;
+                        LbBoxNoSemi.Text = BoxNo;
+                        LbWIPNameSemi.Text = dtSemiInfo.Rows[0]["ItemName"].ToString();
+                        LbLengthSemi.Text = dtSemiInfo.Rows[0]["Remarks3"].ToString();
+                        LbPINSemi.Text = dtSemiInfo.Rows[0]["Remarks1"].ToString();
+                        LbWireTubeSemi.Text = dtSemiInfo.Rows[0]["Remarks2"].ToString();
                     }
+
                     panelSemi.Visible = true;
                     panelSemi.BringToFront();
                     txtBatchQtySemi.Focus();
                 }
                 else
                 {
-                    MessageBox.Show(ErrorText, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    EMsg.AlertText = ErrorText;
+                    EMsg.ShowingMsg();
                 }
             }
 
+            //WireTerminal
+            else
+            {
+                string RMCode = dtInventory.Rows[0]["ItemCode"].ToString();
+                string RMName = dtInventory.Rows[0]["ItemName"].ToString();
+                string RMType = dtInventory.Rows[0]["RMTypeName"].ToString();
+                string DocumentNo = dtInventory.Rows[0]["QtyDetails"].ToString();
+                if ( RMType == "Terminal")
+                {
+                    tabContrlSDWire.Visible = false;
+                }
+                else
+                {
+                    tabContrlSDWire.Visible = true;
+                    LbSDWireRMCode.Text = RMCode;
+                    LbSDWireRMName.Text = RMName;
+                    LbSDWireDocumentNo.Text = DocumentNo;
+                    btnSDWireOK.Enabled = false;
+
+                    foreach (DataRow row in dtInventoryDetails.Rows)
+                    {
+                        dgvListSDWire.Rows.Add();
+                        dgvListSDWire.Rows[dgvListSDWire.Rows.Count-1].Cells["BobbinCodeW"].Value = row["BobbinSysNo"].ToString();
+                        dgvListSDWire.Rows[dgvListSDWire.Rows.Count - 1].Cells["PerUnit"].Value = Convert.ToDouble(row["Per_Unit"]);
+                        dgvListSDWire.Rows[dgvListSDWire.Rows.Count - 1].Cells["BeforeQtySDWire"].Value = Convert.ToDouble(row["BStock_QTY"]);
+                        dgvListSDWire.Rows[dgvListSDWire.Rows.Count - 1].Cells["BeforeWSDWire"].Value = Convert.ToDouble(row["BStock_Kg"]);
+                        dgvListSDWire.Rows[dgvListSDWire.Rows.Count - 1].Cells["RemainWW"].Value = Convert.ToDouble(row["RemainW"]);
+                        dgvListSDWire.Rows[dgvListSDWire.Rows.Count - 1].Cells["RemainQtyW"].Value = Convert.ToDouble(row["RemainQty"]);
+                    }
+                }
+
+                panelStockCardWireTerminal.Visible = true;
+                panelStockCardWireTerminal.BringToFront();
+            }
+            
         }
         private void UpdatePOSConnector()
         {
             if (LbLabelNo.Text.Trim()!="" && LbItemNamePOS.Text.Trim() != "" && dgvRMListPOS.Rows.Count > 0)
             {
-                DialogResult DSL = MessageBox.Show("តើអ្នកចង់អាប់ដេតមែនឬទេ?", "Rachhan System", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (DSL == DialogResult.Yes)
+                QMsg.QAText = "តើអ្នកចង់អាប់ដេតមែនឬទេ?";
+                QMsg.UserClickedYes = false;
+                QMsg.ShowingMsg();
+                if (QMsg.UserClickedYes == true)
                 {
                     ErrorText = "";
                     Cursor = Cursors.WaitCursor;
@@ -1020,7 +807,6 @@ namespace MachineDeptApp.Inventory.Inprocess
                     //Update
                     string Username = MenuFormV2.UserForNextForm;
                     DateTime UpdateDate = DateTime.Now;
-                    string NewSubLoc = CboSubLoc.Text;
 
                     foreach (DataGridViewRow DgvRow in dgvRMListPOS.Rows)
                     {
@@ -1029,12 +815,11 @@ namespace MachineDeptApp.Inventory.Inprocess
                         try
                         {
                             cnn.con.Open();
-                            string query = "UPDATE tbInventory SET SubLoc='" + NewSubLoc + "', " +
-                                                    "Qty=" + Qty + ", " +
+                            string query = "UPDATE tbInventory SET Qty=" + Qty + ", " +
                                                     "UpdateDate='" + UpdateDate.ToString("yyyy-MM-dd HH:mm:ss") + "', " +
                                                     "UpdateBy=N'" + Username + "' " +
                                                     "WHERE LocCode='MC1' AND LabelNo=" + Convert.ToInt32(LbLabelNo.Text) + " AND ItemCode='"+RMCode+"' ";
-                            cmd = new SqlCommand(query, cnn.con);
+                            SqlCommand cmd = new SqlCommand(query, cnn.con);
                             cmd.ExecuteNonQuery();
                         }
                         catch (Exception ex)
@@ -1072,7 +857,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                             //ក្បាលលើ
                             wsBarcode.Cells[2, 3] = LbLabelNo.Text;
                             wsBarcode.Cells[3, 1] = "*" + LbLabelNo.Text + "*";
-                            wsBarcode.Cells[2, 4] = "Inprocess(" + NewSubLoc + ")";
+                            wsBarcode.Cells[2, 4] = "Inprocess(" + LbLocation.Text.ToString().Replace(" ( " + CountTypeInKhmer + " )","") + ")";
                             wsBarcode.Cells[4, 3] = LbPOSNoPOS.Text;
                             wsBarcode.Cells[5, 3] = LbItemNamePOS.Text;
                             wsBarcode.Cells[6, 3] = LbQtyPOS.Text;
@@ -1126,19 +911,22 @@ namespace MachineDeptApp.Inventory.Inprocess
                     Cursor = Cursors.Default;
                     if (ErrorText.Trim() == "")
                     {
-                        MessageBox.Show("រក្សាទុករួចរាល់!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        InfoMsg.InfoText = "រក្សាទុករួចរាល់!";
+                        InfoMsg.ShowingMsg();
                         ClearAllText();
                         txtBarcode.Focus();
                     }
                     else
                     {
-                        MessageBox.Show("រក្សាទុកមានបញ្ហា!\n" + ErrorText, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        EMsg.AlertText = "រក្សាទុកមានបញ្ហា!\n" + ErrorText;
+                        EMsg.ShowingMsg();
                     }
                 }
             }
             else
             {
-                MessageBox.Show("សូមស្កេនបាកូដជាមុនសិន!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                WMsg.WarningText = "សូមស្កេនបាកូដជាមុនសិន!";
+                WMsg.ShowingMsg();
                 txtBarcode.Focus();
             }
         }
@@ -1179,15 +967,17 @@ namespace MachineDeptApp.Inventory.Inprocess
 
                     if (ErrorText.Trim() == "")
                     {
-                        DialogResult DSL = MessageBox.Show("តើអ្នកចង់អាប់ដេតមែនឬទេ?", "Rachhan System", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        if (DSL == DialogResult.Yes)
+                        QMsg.QAText = "តើអ្នកចង់អាប់ដេតមែនឬទេ?";
+                        QMsg.UserClickedYes = false;
+                        QMsg.ShowingMsg();
+                        if (QMsg.UserClickedYes == true)
                         {
                             LbStatus.Text = "កំពុងអាប់ដេត . . .";
                             LbStatus.Refresh();
                             Cursor = Cursors.WaitCursor;
 
                             ErrorText = "";
-                            string NewSubLoc = CboSubLoc.Text;
+                            string NewSubLoc = LbLocation.Text;
                             string WipCode = LbWIPCodeSemi.Text;
                             int Qty = Convert.ToInt32(LbTotalQtySemi.Text.Replace(",", ""));
                             string QtyDetails = txtBatchQtySemi.Text.ToString() + "x" + txtQtyPerBatchSemi.Text.ToString();
@@ -1208,7 +998,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                                                         "UpdateDate='" + UpdateDate.ToString("yyyy-MM-dd HH:mm:ss") + "', " +
                                                         "UpdateBy=N'" + Username + "' " +
                                                         "WHERE LocCode='MC1' AND LabelNo=" + Convert.ToInt32(LbLabelNo.Text) + " AND ItemCode='" + WipCode + "' ";
-                                cmd = new SqlCommand(query, cnn.con);
+                                SqlCommand cmd = new SqlCommand(query, cnn.con);
                                 cmd.ExecuteNonQuery();
 
                             }
@@ -1245,7 +1035,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                                         Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(Filename: CDirectory.ToString() + @"\Template\InventoryLabel_Inprocess_Template.xlsx", Editable: true);
                                         Excel.Worksheet worksheet = (Excel.Worksheet)xlWorkBook.Sheets["Semi"];
 
-                                        worksheet.Cells[2, 6] = "Inprocess(" + NewSubLoc + ")";
+                                        worksheet.Cells[2, 6] = "Inprocess(" + LbLocation.Text.ToString().Replace(" ( " + CountTypeInKhmer + " )", "") + ")";
                                         worksheet.Cells[2, 4] = LbLabelNo.Text;
                                         worksheet.Cells[3, 1] = "*" + LbLabelNo.Text + "*";
                                         worksheet.Cells[7, 4] = LbWIPCodeSemi.Text;
@@ -1313,17 +1103,16 @@ namespace MachineDeptApp.Inventory.Inprocess
                                                 process.Kill();
                                         }
                                     }
-
                                 }
                             }
-
 
                             Cursor = Cursors.Default;
                             if (ErrorText.Trim() == "")
                             {
                                 LbStatus.Text = "អាប់ដេតរួចរាល់!";
                                 LbStatus.Refresh();
-                                MessageBox.Show("អាប់ដេតរួចរាល់!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                InfoMsg.InfoText = "អាប់ដេតរួចរាល់!";
+                                InfoMsg.ShowingMsg();
                                 ClearAllText();
                                 txtBarcode.Focus();
                             }
@@ -1331,7 +1120,8 @@ namespace MachineDeptApp.Inventory.Inprocess
                             {
                                 LbStatus.Text = "អាប់ដេតមានបញ្ហា!";
                                 LbStatus.Refresh();
-                                MessageBox.Show("មានបញ្ហា!\n" + ErrorText, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                EMsg.AlertText = "មានបញ្ហា!\n" + ErrorText;
+                                EMsg.ShowingMsg();
                             }
                         }
                     }
@@ -1352,19 +1142,22 @@ namespace MachineDeptApp.Inventory.Inprocess
                 else
                 {
                     LbTotalQtySemi.Text = "";
-                    MessageBox.Show("សូមបញ្ចូលត្រង់ សម្រាយចំនួន និងចំនួនសរុប! (ប្រអប់ដែលមានពណ៌)","Rachhan System",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
+                    WMsg.WarningText = "សូមបញ្ចូលត្រង់ សម្រាយចំនួន និងចំនួនសរុប! (ប្រអប់ដែលមានពណ៌)";
+                    WMsg.ShowingMsg();
                     txtBatchQtySemi.Focus();
                 }
 
             }
             else
             {
-                MessageBox.Show("សូមស្កេនបាកូដជាមុនសិន!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                WMsg.WarningText = "សូមស្កេនបាកូដជាមុនសិន!";
+                WMsg.ShowingMsg();
                 txtBarcode.Focus();
             }
         }
         private void UpdateWireTerminal()
         {
+            /*
             if (LbCodeWireTerminal.Text.Trim() != "" && LbItemNameWireTerminal.Text.Trim() != "")
             {
                 if (LbTotalQtyWireTerminal.Text.Trim() != "" && LbBobbinQtyWireTerminal.Text.Trim() != "")
@@ -1425,7 +1218,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                                 Cursor = Cursors.WaitCursor;
 
                                 ErrorText = "";
-                                string NewSubLoc = CboSubLoc.Text;
+                                string NewSubLoc = LbLocation.Text;
                                 string RMCode = LbCodeWireTerminal.Text;
                                 int Qty = Convert.ToInt32(LbTotalQtyWireTerminal.Text.Replace(",", ""));
                                 string QtyDetail = txtQtyWireTerminal.Text;
@@ -1615,7 +1408,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                                 Cursor = Cursors.WaitCursor;
 
                                 ErrorText = "";
-                                string NewSubLoc = CboSubLoc.Text;
+                                string NewSubLoc = LbLocation.Text;
                                 string RMCode = LbCodeWireTerminal.Text;
                                 int Qty = Convert.ToInt32(LbTotalQtyWireTerminal.Text.Replace(",", ""));
                                 string QtyDetail = txtQtyWireTerminal.Text;
@@ -1775,6 +1568,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                 MessageBox.Show("សូមស្កេនបាកូដជាមុនសិន!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 txtBarcode.Focus();
             }
+            */
         }
 
     }
