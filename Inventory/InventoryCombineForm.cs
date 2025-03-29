@@ -429,10 +429,11 @@ namespace MachineDeptApp.Inventory
                         "\nEND AS DocumentNo, T1.POSNo, T2.LowItemCode, T4.ItemName, (T2.LowQty*Qty) As TotalQty FROM " +
                         "\n(SELECT SubLoc, LabelNo, LEFT(QtyDetails2, CHARINDEX('|', QtyDetails2) - 1) AS POSNo, ItemCode, Qty FROM tbInventory WHERE LocCode='MC1' AND CancelStatus = 0 AND CountingMethod = 'Semi') T1 " +
                         "\nINNER JOIN (SELECT * FROM MstBOM) T2 ON T1.ItemCode=T2.UpItemCode " +
-                        "\nLEFT JOIN (SELECT SysNo, POSNo FROM tbSDAllocateStock INNER JOIN (SELECT SD_DocNo FROM tbBobbinRecords WHERE In_Date IS NULL GROUP BY SD_DocNo)T3_1 ON tbSDAllocateStock.SysNo=T3_1.SD_DocNo) T3 ON T1.POSNo=T3.POSNo " +
+                        "\nLEFT JOIN (SELECT SysNo, POSNo FROM tbSDAllocateStock) T3 ON T1.POSNo=T3.POSNo " +
                         "\nINNER JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T4 ON T2.LowItemCode = T4.ItemCode " +
                         "\nLEFT JOIN (SELECT Code FROM tbSDMCAllTransaction WHERE CancelStatus = 0 AND LocCode = 'MC1' AND ReceiveQty>0 AND POSNo LIKE 'SD%' GROUP BY Code) T5 ON T2.LowItemCode = T5.Code " +
                         "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Work In Process') T6 ON T1.ItemCode=T6.ItemCode";
+                    Console.WriteLine(SQLQuery);
                     sda = new SqlDataAdapter(SQLQuery, cnn.con);
                     sda.Fill(dtSemiDetails);
                     SQLQuery = "SELECT LowItemCode, DocumentNo, ROUND(SUM(TotalQty),2) AS TotalQty  FROM " +
