@@ -69,7 +69,7 @@ namespace MachineDeptApp
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new LoginForm());
                 //For Design test
-                //Application.Run(new InprocessDeleteForm());
+                //Application.Run(new NGInputForm());
                 
             }
         }

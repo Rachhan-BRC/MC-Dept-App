@@ -17,6 +17,7 @@ namespace MachineDeptApp.NG_Input
         SQLConnectOBS cnnOBS = new SQLConnectOBS();
         SQLConnect cnn = new SQLConnect();
         NGInputForm fgrid;
+        DataTable dtRMMst;
 
         string ErrorText;
 
@@ -27,45 +28,68 @@ namespace MachineDeptApp.NG_Input
             cnnOBS.Connection();
             this.fgrid = fg;
             this.Shown += NGInputByCountForm_Shown;
+            this.btnShowDgvItems.Click += BtnShowDgvItems_Click;
+            this.DgvSearchItem.LostFocus += DgvSearchItem_LostFocus;
+            this.DgvSearchItem.CellClick += DgvSearchItem_CellClick;
+            this.txtSearchItem.LostFocus += TxtSearchItem_LostFocus;
+            this.txtSearchItem.TextChanged += TxtSearchItem_TextChanged;
+            this.txtCode.KeyDown += TxtCode_KeyDown;
+            this.txtCode.Leave += TxtCode_Leave;
 
-            this.txtKG.KeyPress += TxtKG_KeyPress;
-            this.txtKG.Leave += TxtKG_Leave;
-
-            this.CboItems.SelectedIndexChanged += CboItems_SelectedIndexChanged;
-            this.CboItems.TextChanged += CboItems_TextChanged;
+            this.txtNGQty.KeyPress += TxtKG_KeyPress;
+            this.txtNGQty.Leave += TxtKG_Leave;
 
         }
 
-        
-        private void CboItems_TextChanged(object sender, EventArgs e)
+        private void DgvSearchItem_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            txtCode.Text = "";
-        }
-        private void CboItems_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (CboItems.Text.Trim() != "")
+            if (e.RowIndex > -1 && e.ColumnIndex > -1)
             {
-                try
-                {
-                    cnn.con.Open();
-                    string SQLQuery = "SELECT ItemCode, ItemName FROM tbMasterItem WHERE ItemType='Material' AND ItemName='" + CboItems.Text + "'";
-                    SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
-                    DataTable RMCode = new DataTable();
-                    sda.Fill(RMCode);
-                    if (RMCode.Rows.Count > 0)
-                    {
-                        txtCode.Text = RMCode.Rows[0]["ItemCode"].ToString();
-                        txtKG.Focus();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    EMsg.AlertText = ex.Message;
-                    EMsg.ShowingMsg();
-                }
-                cnn.con.Close();
+                txtCode.Text = DgvSearchItem.Rows[e.RowIndex].Cells[0].Value.ToString();
+                TakingItemName();
+                txtNGQty.Focus();
             }
-        }        
+        }
+        private void TxtCode_Leave(object sender, EventArgs e)
+        {
+            TakingItemName();
+        }
+        private void TxtCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                TakingItemName();
+        }
+        private void TxtSearchItem_TextChanged(object sender, EventArgs e)
+        {
+            SearchItems();
+        }
+        private void TxtSearchItem_LostFocus(object sender, EventArgs e)
+        {
+            if (DgvSearchItem.Focused == false && txtSearchItem.Focused == false)
+            {
+                panelSearchItem.Visible = false;
+            }
+        }
+        private void DgvSearchItem_LostFocus(object sender, EventArgs e)
+        {
+            if (DgvSearchItem.Focused == false && txtSearchItem.Focused == false)
+            {
+                panelSearchItem.Visible = false;
+            }
+        }
+        private void BtnShowDgvItems_Click(object sender, EventArgs e)
+        {
+            if (panelSearchItem.Visible == false)
+            {
+                panelSearchItem.Visible = true;
+                txtSearchItem.Focus();
+                SearchItems();
+            }
+            else
+            {
+                panelSearchItem.Visible = false;
+            }
+        }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
@@ -96,7 +120,7 @@ namespace MachineDeptApp.NG_Input
 
                         if (dt.Rows.Count > 0)
                         {
-                            if (Convert.ToDouble(dt.Rows[0]["StockValue"].ToString()) >= Convert.ToDouble(txtKG.Text))
+                            if (Convert.ToDouble(dt.Rows[0]["StockValue"].ToString()) >= Convert.ToDouble(txtNGQty.Text))
                             {
                                 //Find Last TransNo
                                 SqlDataAdapter da = new SqlDataAdapter("SELECT SysNo FROM tbSDMCAllTransaction " +
@@ -120,7 +144,7 @@ namespace MachineDeptApp.NG_Input
                                     "VALUES (@Sn, @Cd, @NG, @Rs, @Rd, @Rb, @Rms)", cnn.con);
                                 cmd.Parameters.AddWithValue("@Sn", TransNo);
                                 cmd.Parameters.AddWithValue("@Cd", txtCode.Text.ToString());
-                                cmd.Parameters.AddWithValue("@NG", Convert.ToDouble(txtKG.Text.ToString()));
+                                cmd.Parameters.AddWithValue("@NG", Convert.ToDouble(txtNGQty.Text.ToString()));
                                 cmd.Parameters.AddWithValue("@Rs", 0);
                                 cmd.Parameters.AddWithValue("@Rd", RegNow);
                                 cmd.Parameters.AddWithValue("@Rb", RegBy);
@@ -135,10 +159,10 @@ namespace MachineDeptApp.NG_Input
                                 cmd.Parameters.AddWithValue("@Lc", "MC1");
                                 cmd.Parameters.AddWithValue("@POSN", "");
                                 cmd.Parameters.AddWithValue("@Cd", txtCode.Text.ToString());
-                                cmd.Parameters.AddWithValue("@Rmd", CboItems.Text);
+                                cmd.Parameters.AddWithValue("@Rmd", txtItems.Text);
                                 cmd.Parameters.AddWithValue("@Rqty", 0);
-                                cmd.Parameters.AddWithValue("@Tqty", Convert.ToDouble(txtKG.Text.ToString()));
-                                cmd.Parameters.AddWithValue("@SV", Convert.ToDouble(txtKG.Text.ToString()) * (-1));
+                                cmd.Parameters.AddWithValue("@Tqty", Convert.ToDouble(txtNGQty.Text.ToString()));
+                                cmd.Parameters.AddWithValue("@SV", Convert.ToDouble(txtNGQty.Text.ToString()) * (-1));
                                 cmd.Parameters.AddWithValue("@Rd", RegNow);
                                 cmd.Parameters.AddWithValue("@Rb", RegBy);
                                 cmd.Parameters.AddWithValue("@Cs", 0);
@@ -151,30 +175,30 @@ namespace MachineDeptApp.NG_Input
                                 fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["ChkPrint"].Value = false;
                                 fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["SysNo"].Value = TransNo;
                                 fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["RMCode"].Value = txtCode.Text;
-                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["RMName"].Value = CboItems.Text;
-                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["Qty"].Value = Convert.ToDouble(txtKG.Text.ToString());
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["RMName"].Value = txtItems.Text;
+                                fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["Qty"].Value = Convert.ToDouble(txtNGQty.Text.ToString());
                                 fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["Remarks"].Value = txtRemarks.Text;
                                 fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["RegDate"].Value = RegNow;
                                 fgrid.dgvNGalready.Rows[fgrid.dgvNGalready.Rows.Count - 1].Cells["RegBy"].Value = RegBy;
                                 fgrid.dgvNGalready.ClearSelection();
                                 fgrid.dgvNGalready.CurrentCell = null;
-                                CboItems.Focus();
+                                txtItems.Focus();
                             }
                             else
                             {
-                                ErrorText = "ស្តុកវត្ថុធាតុដើមនេះមិនគ្រប់គ្រាន់ទេ!\nស្ដុកនៅសល់ ៖ " + Convert.ToDouble(dt.Rows[0][1].ToString()).ToString("N0") + "\nស្តុកខ្វះ ៖ " + (Convert.ToDouble(txtKG.Text) - Convert.ToDouble(dt.Rows[0][1].ToString())).ToString("N0");
+                                ErrorText = "ស្តុកវត្ថុធាតុដើមនេះមិនគ្រប់គ្រាន់ទេ!\nស្ដុកនៅសល់ ៖ " + Convert.ToDouble(dt.Rows[0][1].ToString()).ToString("N0") + "\nស្តុកខ្វះ ៖ " + (Convert.ToDouble(txtNGQty.Text) - Convert.ToDouble(dt.Rows[0][1].ToString())).ToString("N0");
                             }
                         }
                         else
                         {
-                            ErrorText = "មិនមានស្តុកវត្ថុធាតុដើមនេះទេ!\nស្តុកខ្វះ ៖ " + Convert.ToDouble(txtKG.Text).ToString("N0");
+                            ErrorText = "មិនមានស្តុកវត្ថុធាតុដើមនេះទេ!\nស្តុកខ្វះ ៖ " + Convert.ToDouble(txtNGQty.Text).ToString("N0");
                         }
                     }
                     catch (Exception ex)
                     {
                         ErrorText = ex.Message;
-                        txtKG.Focus();
-                        txtKG.SelectAll();
+                        txtNGQty.Focus();
+                        txtNGQty.SelectAll();
                     }
                     cnn.con.Close();
 
@@ -195,18 +219,18 @@ namespace MachineDeptApp.NG_Input
 
         private void TxtKG_Leave(object sender, EventArgs e)
         {
-            if (txtKG.Text.Trim() != "")
+            if (txtNGQty.Text.Trim() != "")
             {
                 try
                 {
-                    double TotalNG = Convert.ToDouble(txtKG.Text);
-                    txtKG.Text = TotalNG.ToString("N0");
+                    double TotalNG = Convert.ToDouble(txtNGQty.Text);
+                    txtNGQty.Text = TotalNG.ToString("N0");
                 }
                 catch (Exception ex)
                 {
                     WMsg.WarningText = ex.Message;
                     WMsg.ShowingMsg();
-                    txtKG.Text = "";
+                    txtNGQty.Text = "";
                 }
             }
         }
@@ -223,37 +247,23 @@ namespace MachineDeptApp.NG_Input
         {
             ErrorText = "";
             Cursor = Cursors.WaitCursor;
+            panelSearchItem.BringToFront();
 
             try
             {
-                cnnOBS.conOBS.Open();
-                string SQLQuery = "SELECT T3.ItemCode, T3.ItemName FROM " +
-                    "\n(SELECT * FROM mstbom) T1 " +
-                    "\nINNER JOIN (SELECT * FROM mstitem WHERE ItemType=1) T2 ON T1.UpItemCode=T2.ItemCode " +
-                    "\nINNER JOIN (SELECT * FROM mstitem WHERE ItemType=2 AND MatCalcFlag=0) T3 ON T1.LowItemCode = T3.ItemCode " +
-                    "\nGROUP BY T3.ItemCode, T3.ItemName " +
-                    "\nORDER BY T3.ItemCode ASC";
-                SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnnOBS.conOBS);
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-
-                DataRow row = dt.NewRow();
-                row[0] = "";
-                dt.Rows.InsertAt(row, 0);
-
-                CboItems.DataSource = dt;
-                CboItems.DisplayMember = "ItemName";
-
-                //Set AutoCompleteMode.
-                CboItems.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                CboItems.AutoCompleteSource = AutoCompleteSource.ListItems;
-
+                cnn.con.Open();
+                string SQLQuery = "SELECT tbMasterItem.* FROM tbMasterItem " +
+                                            "\nINNER JOIN (SELECT LowItemCode FROM MstBOM GROUP BY LowItemCode) T1 ON ItemCode=LowItemCode " +
+                                            "\nORDER BY ItemCode ASC";
+                SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                dtRMMst = new DataTable();
+                sda.Fill(dtRMMst);
             }
             catch (Exception ex)
             {
                 ErrorText = ex.Message;
             }
-            cnnOBS.conOBS.Close();
+            cnn.con.Close();
 
             Cursor = Cursors.Default;
 
@@ -282,11 +292,11 @@ namespace MachineDeptApp.NG_Input
             PicAlertRemarks.Visible = false;
             var tasksBlink = new List<Task>();
 
-            if (txtCode.Text.Trim() == "" || CboItems.Text.Trim() == "")
+            if (txtCode.Text.Trim() == "" || txtItems.Text.Trim() == "")
             {
                 tasksBlink.Add(BlinkPictureBox(PicAlertItems));
             }
-            if (txtKG.Text.Trim() == "")
+            if (txtNGQty.Text.Trim() == "")
             {
                 tasksBlink.Add(BlinkPictureBox(PicAlertQty));
             }
@@ -299,12 +309,46 @@ namespace MachineDeptApp.NG_Input
         }
         private void ClearAllText()
         {
-            CboItems.Text = "";
+            txtItems.Text = "";
             txtCode.Text = "";
-            txtKG.Text = "";
-            txtKG.Text = "";
+            txtNGQty.Text = "";
+            txtNGQty.Text = "";
             //txtRemarks.Text = "";
-            CboItems.Focus();
+            txtCode.Focus();
+        }
+        private void SearchItems()
+        {
+            DgvSearchItem.Rows.Clear();
+            if (txtSearchItem.Text.Trim() == "")
+            {
+                foreach (DataRow row in dtRMMst.Rows)
+                    DgvSearchItem.Rows.Add(row["ItemCode"], row["ItemName"]);
+                DgvSearchItem.ClearSelection();
+            }
+            else
+            {
+                string SearchText = txtSearchItem.Text.ToLower();
+                foreach (DataRow row in dtRMMst.Rows)
+                {
+                    if (row["ItemCode"].ToString().ToLower().Contains(SearchText) ==true || row["ItemName"].ToString().ToLower().Contains(SearchText) == true)
+                        DgvSearchItem.Rows.Add(row["ItemCode"], row["ItemName"]);
+                }
+                DgvSearchItem.ClearSelection();
+            }
+        }
+        private void TakingItemName()
+        {
+            string ItemCode = txtCode.Text;
+            txtItems.Text = "";
+            foreach (DataRow row in dtRMMst.Rows)
+            {
+                if (row["ItemCode"].ToString() == ItemCode)
+                {
+                    txtItems.Text = row["ItemName"].ToString();
+                    txtNGQty.Focus();
+                    break;
+                }
+            }
         }
 
     }
