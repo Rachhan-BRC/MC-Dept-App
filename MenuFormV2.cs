@@ -1968,7 +1968,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(3, "NG Adjust Search", "NGAdjustSearchForm");
             dtChildRoot.Rows.Add(3, "Semi MstBOM", "MstBOMForm");
             dtChildRoot.Rows.Add(3, "MstUncountable Material", "MstUncountMatForm");
-            dtChildRoot.Rows.Add(3, "Register NG", "RegisterNG");
+            //dtChildRoot.Rows.Add(3, "Register NG", "RegisterNG");
             dtChildRoot.Rows.Add(3, "គណនា NG Ratio បន្ថែម", "NGRatioCalcForm");
 
             //5
@@ -2173,6 +2173,7 @@ namespace MachineDeptApp
                     }
                 }
             }
+
         }
 
         private void btnUnhide_Click(object sender, EventArgs e)
