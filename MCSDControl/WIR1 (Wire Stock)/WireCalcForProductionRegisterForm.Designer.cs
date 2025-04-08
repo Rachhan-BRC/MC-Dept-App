@@ -30,26 +30,26 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WireCalcForProductionRegisterForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle101 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle102 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle106 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle107 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle103 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle104 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle105 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle108 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle109 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle113 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle114 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle110 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle111 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle112 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle115 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle116 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle119 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle120 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle117 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle118 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.btnNew = new System.Windows.Forms.Button();
             this.btnOKGRAY = new System.Windows.Forms.PictureBox();
@@ -91,15 +91,6 @@
             this.btnRegister = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.panelRegOther = new System.Windows.Forms.Panel();
-            this.PicAlertQtyTM = new System.Windows.Forms.PictureBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtQtyTM = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.rdbOldRegTM = new System.Windows.Forms.RadioButton();
-            this.rdbNewRegTM = new System.Windows.Forms.RadioButton();
             this.panelRegWire = new System.Windows.Forms.Panel();
             this.PicAlertBobbinW = new System.Windows.Forms.PictureBox();
             this.label20 = new System.Windows.Forms.Label();
@@ -132,6 +123,15 @@
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.rdbNewReg = new System.Windows.Forms.RadioButton();
+            this.panelRegOther = new System.Windows.Forms.Panel();
+            this.PicAlertQtyTM = new System.Windows.Forms.PictureBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtQtyTM = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.rdbOldRegTM = new System.Windows.Forms.RadioButton();
+            this.rdbNewRegTM = new System.Windows.Forms.RadioButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnOKGRAY)).BeginInit();
@@ -148,8 +148,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvAvailable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicAlertBC)).BeginInit();
             this.tabPageManual.SuspendLayout();
-            this.panelRegOther.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicAlertQtyTM)).BeginInit();
             this.panelRegWire.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicAlertBobbinW)).BeginInit();
             this.panelOldReg.SuspendLayout();
@@ -159,6 +157,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicAlertLNew)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicAlertNWNew)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicAlertWNew)).BeginInit();
+            this.panelRegOther.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAlertQtyTM)).BeginInit();
             this.SuspendLayout();
             // 
             // panelHeader
@@ -238,21 +238,21 @@
             this.dgvSummary.AllowUserToDeleteRows = false;
             this.dgvSummary.AllowUserToResizeColumns = false;
             this.dgvSummary.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSummary.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSummary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle101.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle101.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle101.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle101.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle101.SelectionForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle101.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSummary.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle101;
+            dataGridViewCellStyle102.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle102.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle102.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle102.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle102.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle102.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle102.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSummary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle102;
             this.dgvSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSummary.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.TotalBobbinQty,
@@ -264,21 +264,21 @@
             this.dgvSummary.Location = new System.Drawing.Point(3, 21);
             this.dgvSummary.Name = "dgvSummary";
             this.dgvSummary.ReadOnly = true;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSummary.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle106.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle106.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle106.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle106.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle106.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle106.SelectionForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle106.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSummary.RowHeadersDefaultCellStyle = dataGridViewCellStyle106;
             this.dgvSummary.RowHeadersVisible = false;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Blue;
-            this.dgvSummary.RowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle107.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle107.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle107.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle107.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle107.SelectionForeColor = System.Drawing.Color.Blue;
+            this.dgvSummary.RowsDefaultCellStyle = dataGridViewCellStyle107;
             this.dgvSummary.RowTemplate.Height = 36;
             this.dgvSummary.Size = new System.Drawing.Size(910, 63);
             this.dgvSummary.TabIndex = 1;
@@ -293,8 +293,8 @@
             // TotalWeight
             // 
             this.TotalWeight.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.Format = "N2";
-            this.TotalWeight.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle103.Format = "N2";
+            this.TotalWeight.DefaultCellStyle = dataGridViewCellStyle103;
             this.TotalWeight.HeaderText = "Weight (KG)";
             this.TotalWeight.Name = "TotalWeight";
             this.TotalWeight.ReadOnly = true;
@@ -302,8 +302,8 @@
             // TotalLength
             // 
             this.TotalLength.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle4.Format = "N0";
-            this.TotalLength.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle104.Format = "N0";
+            this.TotalLength.DefaultCellStyle = dataGridViewCellStyle104;
             this.TotalLength.HeaderText = "Length/Qty (M/Pcs)";
             this.TotalLength.Name = "TotalLength";
             this.TotalLength.ReadOnly = true;
@@ -311,8 +311,8 @@
             // NeedQty
             // 
             this.NeedQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle5.Format = "N0";
-            this.NeedQty.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle105.Format = "N0";
+            this.NeedQty.DefaultCellStyle = dataGridViewCellStyle105;
             this.NeedQty.HeaderText = "Requirement (M/Pcs)";
             this.NeedQty.Name = "NeedQty";
             this.NeedQty.ReadOnly = true;
@@ -345,17 +345,17 @@
             // 
             this.dgvInputted.AllowUserToAddRows = false;
             this.dgvInputted.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.Blue;
-            this.dgvInputted.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle8;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvInputted.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle108.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle108.ForeColor = System.Drawing.Color.Blue;
+            this.dgvInputted.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle108;
+            dataGridViewCellStyle109.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle109.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle109.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle109.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle109.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle109.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle109.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvInputted.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle109;
             this.dgvInputted.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvInputted.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.BobbinCodeInputted,
@@ -367,18 +367,18 @@
             this.dgvInputted.Location = new System.Drawing.Point(3, 23);
             this.dgvInputted.Name = "dgvInputted";
             this.dgvInputted.ReadOnly = true;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvInputted.RowHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle113.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle113.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle113.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle113.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle113.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle113.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle113.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvInputted.RowHeadersDefaultCellStyle = dataGridViewCellStyle113;
             this.dgvInputted.RowHeadersWidth = 55;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Khmer OS Battambang", 9F);
-            dataGridViewCellStyle14.ForeColor = System.Drawing.Color.Blue;
-            this.dgvInputted.RowsDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle114.Font = new System.Drawing.Font("Khmer OS Battambang", 9F);
+            dataGridViewCellStyle114.ForeColor = System.Drawing.Color.Blue;
+            this.dgvInputted.RowsDefaultCellStyle = dataGridViewCellStyle114;
             this.dgvInputted.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvInputted.Size = new System.Drawing.Size(910, 145);
             this.dgvInputted.TabIndex = 0;
@@ -393,9 +393,9 @@
             // WeightInputted
             // 
             this.WeightInputted.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle10.Format = "N2";
-            this.WeightInputted.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle110.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle110.Format = "N2";
+            this.WeightInputted.DefaultCellStyle = dataGridViewCellStyle110;
             this.WeightInputted.HeaderText = "Weight (KG)";
             this.WeightInputted.Name = "WeightInputted";
             this.WeightInputted.ReadOnly = true;
@@ -403,9 +403,9 @@
             // LengthInputted
             // 
             this.LengthInputted.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle11.Format = "N0";
-            this.LengthInputted.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle111.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle111.Format = "N0";
+            this.LengthInputted.DefaultCellStyle = dataGridViewCellStyle111;
             this.LengthInputted.HeaderText = "Length/Qty (M/Pcs)";
             this.LengthInputted.Name = "LengthInputted";
             this.LengthInputted.ReadOnly = true;
@@ -413,14 +413,14 @@
             // Remove
             // 
             this.Remove.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle12.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle12.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle12.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle12.NullValue")));
-            dataGridViewCellStyle12.Padding = new System.Windows.Forms.Padding(6, 5, 6, 5);
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.Color.White;
-            this.Remove.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle112.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle112.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle112.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle112.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle112.NullValue")));
+            dataGridViewCellStyle112.Padding = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            dataGridViewCellStyle112.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle112.SelectionForeColor = System.Drawing.Color.White;
+            this.Remove.DefaultCellStyle = dataGridViewCellStyle112;
             this.Remove.HeaderText = "";
             this.Remove.Image = ((System.Drawing.Image)(resources.GetObject("Remove.Image")));
             this.Remove.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
@@ -490,18 +490,18 @@
             this.dgvAvailable.AllowUserToDeleteRows = false;
             this.dgvAvailable.AllowUserToResizeColumns = false;
             this.dgvAvailable.AllowUserToResizeRows = false;
-            dataGridViewCellStyle15.BackColor = System.Drawing.Color.Lavender;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.Blue;
-            this.dgvAvailable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle15;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvAvailable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle115.BackColor = System.Drawing.Color.Lavender;
+            dataGridViewCellStyle115.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle115.ForeColor = System.Drawing.Color.Blue;
+            this.dgvAvailable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle115;
+            dataGridViewCellStyle116.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle116.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle116.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle116.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle116.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle116.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle116.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvAvailable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle116;
             this.dgvAvailable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAvailable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.BobbinCodeAvailable,
@@ -512,18 +512,18 @@
             this.dgvAvailable.Location = new System.Drawing.Point(3, 23);
             this.dgvAvailable.Name = "dgvAvailable";
             this.dgvAvailable.ReadOnly = true;
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle19.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvAvailable.RowHeadersDefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle119.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle119.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle119.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle119.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle119.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle119.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle119.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvAvailable.RowHeadersDefaultCellStyle = dataGridViewCellStyle119;
             this.dgvAvailable.RowHeadersWidth = 55;
-            dataGridViewCellStyle20.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle20.ForeColor = System.Drawing.Color.Blue;
-            this.dgvAvailable.RowsDefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle120.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle120.ForeColor = System.Drawing.Color.Blue;
+            this.dgvAvailable.RowsDefaultCellStyle = dataGridViewCellStyle120;
             this.dgvAvailable.Size = new System.Drawing.Size(890, 171);
             this.dgvAvailable.TabIndex = 1;
             // 
@@ -537,9 +537,9 @@
             // WeightAvailable
             // 
             this.WeightAvailable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle17.Format = "N2";
-            this.WeightAvailable.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle117.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle117.Format = "N2";
+            this.WeightAvailable.DefaultCellStyle = dataGridViewCellStyle117;
             this.WeightAvailable.HeaderText = "Weight (KG)";
             this.WeightAvailable.Name = "WeightAvailable";
             this.WeightAvailable.ReadOnly = true;
@@ -547,15 +547,16 @@
             // QtyAvailable
             // 
             this.QtyAvailable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle18.Format = "N0";
-            this.QtyAvailable.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle118.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle118.Format = "N0";
+            this.QtyAvailable.DefaultCellStyle = dataGridViewCellStyle118;
             this.QtyAvailable.HeaderText = "Length/Qty (M/Pcs)";
             this.QtyAvailable.Name = "QtyAvailable";
             this.QtyAvailable.ReadOnly = true;
             // 
             // PicAlertBC
             // 
+            this.PicAlertBC.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicAlertBC.BackColor = System.Drawing.Color.Transparent;
             this.PicAlertBC.Image = ((System.Drawing.Image)(resources.GetObject("PicAlertBC.Image")));
             this.PicAlertBC.Location = new System.Drawing.Point(602, 6);
@@ -564,7 +565,7 @@
             this.PicAlertBC.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicAlertBC.TabIndex = 42;
             this.PicAlertBC.TabStop = false;
-            this.toolTip1.SetToolTip(this.PicAlertBC, "Must input Request By");
+            this.toolTip1.SetToolTip(this.PicAlertBC, "គ្មានទិន្នន័យនេះទេ");
             this.PicAlertBC.Visible = false;
             // 
             // LbRMNameBC
@@ -691,7 +692,7 @@
             this.btnRegister.Size = new System.Drawing.Size(103, 35);
             this.btnRegister.TabIndex = 42;
             this.btnRegister.Text = "Register";
-            this.toolTip1.SetToolTip(this.btnRegister, "បន្ថែម");
+            this.toolTip1.SetToolTip(this.btnRegister, "ចុះឈ្មោះ");
             this.btnRegister.UseVisualStyleBackColor = false;
             // 
             // label13
@@ -711,104 +712,6 @@
             this.label14.Size = new System.Drawing.Size(69, 22);
             this.label14.TabIndex = 5;
             this.label14.Text = "វត្ថុធាតុដើម";
-            // 
-            // panelRegOther
-            // 
-            this.panelRegOther.Controls.Add(this.PicAlertQtyTM);
-            this.panelRegOther.Controls.Add(this.label8);
-            this.panelRegOther.Controls.Add(this.label4);
-            this.panelRegOther.Controls.Add(this.txtQtyTM);
-            this.panelRegOther.Controls.Add(this.label5);
-            this.panelRegOther.Controls.Add(this.label6);
-            this.panelRegOther.Controls.Add(this.rdbOldRegTM);
-            this.panelRegOther.Controls.Add(this.rdbNewRegTM);
-            this.panelRegOther.Location = new System.Drawing.Point(1, 73);
-            this.panelRegOther.Name = "panelRegOther";
-            this.panelRegOther.Size = new System.Drawing.Size(900, 200);
-            this.panelRegOther.TabIndex = 129;
-            // 
-            // PicAlertQtyTM
-            // 
-            this.PicAlertQtyTM.BackColor = System.Drawing.Color.Transparent;
-            this.PicAlertQtyTM.Image = ((System.Drawing.Image)(resources.GetObject("PicAlertQtyTM.Image")));
-            this.PicAlertQtyTM.Location = new System.Drawing.Point(346, 36);
-            this.PicAlertQtyTM.Name = "PicAlertQtyTM";
-            this.PicAlertQtyTM.Size = new System.Drawing.Size(18, 18);
-            this.PicAlertQtyTM.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicAlertQtyTM.TabIndex = 127;
-            this.PicAlertQtyTM.TabStop = false;
-            this.PicAlertQtyTM.Visible = false;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(5, 5);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(47, 22);
-            this.label8.TabIndex = 11;
-            this.label8.Text = "ប្រភេទ";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(5, 39);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(112, 22);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "ចំនួនសរុប ( Pcs )";
-            // 
-            // txtQtyTM
-            // 
-            this.txtQtyTM.BackColor = System.Drawing.Color.White;
-            this.txtQtyTM.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtQtyTM.ForeColor = System.Drawing.Color.Black;
-            this.txtQtyTM.Location = new System.Drawing.Point(181, 36);
-            this.txtQtyTM.MaxLength = 8;
-            this.txtQtyTM.Name = "txtQtyTM";
-            this.txtQtyTM.Size = new System.Drawing.Size(165, 30);
-            this.txtQtyTM.TabIndex = 125;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(147, 5);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(28, 22);
-            this.label5.TabIndex = 10;
-            this.label5.Text = " ៖ ";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(147, 39);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(28, 22);
-            this.label6.TabIndex = 10;
-            this.label6.Text = " ៖ ";
-            // 
-            // rdbOldRegTM
-            // 
-            this.rdbOldRegTM.AutoSize = true;
-            this.rdbOldRegTM.Location = new System.Drawing.Point(299, 4);
-            this.rdbOldRegTM.Name = "rdbOldRegTM";
-            this.rdbOldRegTM.Size = new System.Drawing.Size(120, 26);
-            this.rdbOldRegTM.TabIndex = 124;
-            this.rdbOldRegTM.Text = "វត្ថុធាតុដើមប្រើរួច";
-            this.rdbOldRegTM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.rdbOldRegTM.UseVisualStyleBackColor = true;
-            // 
-            // rdbNewRegTM
-            // 
-            this.rdbNewRegTM.AutoSize = true;
-            this.rdbNewRegTM.Checked = true;
-            this.rdbNewRegTM.Location = new System.Drawing.Point(181, 4);
-            this.rdbNewRegTM.Name = "rdbNewRegTM";
-            this.rdbNewRegTM.Size = new System.Drawing.Size(96, 26);
-            this.rdbNewRegTM.TabIndex = 124;
-            this.rdbNewRegTM.TabStop = true;
-            this.rdbNewRegTM.Text = "វត្ថុធាតុដើមថ្មី";
-            this.rdbNewRegTM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.rdbNewRegTM.UseVisualStyleBackColor = true;
             // 
             // panelRegWire
             // 
@@ -1163,6 +1066,104 @@
             this.rdbNewReg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.rdbNewReg.UseVisualStyleBackColor = true;
             // 
+            // panelRegOther
+            // 
+            this.panelRegOther.Controls.Add(this.PicAlertQtyTM);
+            this.panelRegOther.Controls.Add(this.label8);
+            this.panelRegOther.Controls.Add(this.label4);
+            this.panelRegOther.Controls.Add(this.txtQtyTM);
+            this.panelRegOther.Controls.Add(this.label5);
+            this.panelRegOther.Controls.Add(this.label6);
+            this.panelRegOther.Controls.Add(this.rdbOldRegTM);
+            this.panelRegOther.Controls.Add(this.rdbNewRegTM);
+            this.panelRegOther.Location = new System.Drawing.Point(1, 73);
+            this.panelRegOther.Name = "panelRegOther";
+            this.panelRegOther.Size = new System.Drawing.Size(900, 200);
+            this.panelRegOther.TabIndex = 129;
+            // 
+            // PicAlertQtyTM
+            // 
+            this.PicAlertQtyTM.BackColor = System.Drawing.Color.Transparent;
+            this.PicAlertQtyTM.Image = ((System.Drawing.Image)(resources.GetObject("PicAlertQtyTM.Image")));
+            this.PicAlertQtyTM.Location = new System.Drawing.Point(346, 36);
+            this.PicAlertQtyTM.Name = "PicAlertQtyTM";
+            this.PicAlertQtyTM.Size = new System.Drawing.Size(18, 18);
+            this.PicAlertQtyTM.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicAlertQtyTM.TabIndex = 127;
+            this.PicAlertQtyTM.TabStop = false;
+            this.PicAlertQtyTM.Visible = false;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(5, 5);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(47, 22);
+            this.label8.TabIndex = 11;
+            this.label8.Text = "ប្រភេទ";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(5, 39);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(112, 22);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "ចំនួនសរុប ( Pcs )";
+            // 
+            // txtQtyTM
+            // 
+            this.txtQtyTM.BackColor = System.Drawing.Color.White;
+            this.txtQtyTM.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtQtyTM.ForeColor = System.Drawing.Color.Black;
+            this.txtQtyTM.Location = new System.Drawing.Point(181, 36);
+            this.txtQtyTM.MaxLength = 8;
+            this.txtQtyTM.Name = "txtQtyTM";
+            this.txtQtyTM.Size = new System.Drawing.Size(165, 30);
+            this.txtQtyTM.TabIndex = 125;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(147, 5);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(28, 22);
+            this.label5.TabIndex = 10;
+            this.label5.Text = " ៖ ";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(147, 39);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(28, 22);
+            this.label6.TabIndex = 10;
+            this.label6.Text = " ៖ ";
+            // 
+            // rdbOldRegTM
+            // 
+            this.rdbOldRegTM.AutoSize = true;
+            this.rdbOldRegTM.Location = new System.Drawing.Point(299, 4);
+            this.rdbOldRegTM.Name = "rdbOldRegTM";
+            this.rdbOldRegTM.Size = new System.Drawing.Size(120, 26);
+            this.rdbOldRegTM.TabIndex = 124;
+            this.rdbOldRegTM.Text = "វត្ថុធាតុដើមប្រើរួច";
+            this.rdbOldRegTM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rdbOldRegTM.UseVisualStyleBackColor = true;
+            // 
+            // rdbNewRegTM
+            // 
+            this.rdbNewRegTM.AutoSize = true;
+            this.rdbNewRegTM.Checked = true;
+            this.rdbNewRegTM.Location = new System.Drawing.Point(181, 4);
+            this.rdbNewRegTM.Name = "rdbNewRegTM";
+            this.rdbNewRegTM.Size = new System.Drawing.Size(96, 26);
+            this.rdbNewRegTM.TabIndex = 124;
+            this.rdbNewRegTM.TabStop = true;
+            this.rdbNewRegTM.Text = "វត្ថុធាតុដើមថ្មី";
+            this.rdbNewRegTM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rdbNewRegTM.UseVisualStyleBackColor = true;
+            // 
             // WireCalcForProductionRegisterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1173,6 +1174,7 @@
             this.Controls.Add(this.panelFooter);
             this.Controls.Add(this.panelHeader);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(940, 650);
             this.Name = "WireCalcForProductionRegisterForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Select / Register";
@@ -1193,9 +1195,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicAlertBC)).EndInit();
             this.tabPageManual.ResumeLayout(false);
             this.tabPageManual.PerformLayout();
-            this.panelRegOther.ResumeLayout(false);
-            this.panelRegOther.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicAlertQtyTM)).EndInit();
             this.panelRegWire.ResumeLayout(false);
             this.panelRegWire.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicAlertBobbinW)).EndInit();
@@ -1208,6 +1207,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicAlertLNew)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicAlertNWNew)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicAlertWNew)).EndInit();
+            this.panelRegOther.ResumeLayout(false);
+            this.panelRegOther.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAlertQtyTM)).EndInit();
             this.ResumeLayout(false);
 
         }
