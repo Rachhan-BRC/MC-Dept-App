@@ -511,13 +511,43 @@ namespace MachineDeptApp.NG_Input
                     worksheetCountable.Cells[1, 9] = "";
                     worksheetCountable.Cells[5, 10] = PrintingBy;
 
-                    worksheetCountable.Cells[8, 3] = "Adjust OBS Stock";
+                    worksheetCountable.Cells[8, 5] = "Adjust OBS Stock";
                     worksheetCountable.Cells[14, 12] = "Add to OBS";
 
-                    worksheetCountable.Cells[11, 2] = "MC1";
-                    worksheetCountable.Cells[11, 3] = "MC";
-                    worksheetCountable.Cells[11, 7] = "IT";
-                    worksheetCountable.Cells[11, 8] = "IT";
+
+                    foreach (Excel.Shape shape in worksheetCountable.Shapes)
+                    {
+                        //TotalItemsShape, MatchingShape, OverShape, MinusShape
+                        if (shape.Type == Microsoft.Office.Core.MsoShapeType.msoGroup) // Check if the shape is a group
+                        {
+                            foreach (Excel.Shape childShape in shape.GroupItems) // Iterate through the grouped items
+                            {
+                                if (childShape.Name == "FromLocName") // Check for your shape by name
+                                {
+                                    childShape.TextFrame.Characters().Text = "IT";
+                                }
+
+                                if (childShape.Name == "FromLocCode") // Check for your shape by name
+                                {
+                                    childShape.TextFrame.Characters().Text = "IT";
+                                }
+
+                                if (childShape.Name == "ToLocName")
+                                {
+                                    // Set the text for the childShape
+                                    childShape.TextFrame.Characters().Text = "Machine";
+                                }
+
+                                if (childShape.Name == "ToLocCode")
+                                {
+                                    // Set the text for the childShape
+                                    childShape.TextFrame.Characters().Text = "MC";
+                                }
+
+                            }
+                        }
+                    }
+
 
 
                     if (dtForPrintExcel.Rows.Count > 1)
