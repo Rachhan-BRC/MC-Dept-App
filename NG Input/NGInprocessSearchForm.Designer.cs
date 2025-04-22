@@ -84,6 +84,7 @@
             this.PrintStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RegDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SDLastRecDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SpacialCase = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelHeader.SuspendLayout();
             this.panelFooter.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -248,7 +249,8 @@
             this.Amount,
             this.PrintStatus,
             this.RegDate,
-            this.SDLastRecDate});
+            this.SDLastRecDate,
+            this.SpacialCase});
             this.dgvSearchResult.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvSearchResult.EnableHeadersVisualStyles = false;
             this.dgvSearchResult.Location = new System.Drawing.Point(3, 26);
@@ -597,6 +599,13 @@
             this.SDLastRecDate.ReadOnly = true;
             this.SDLastRecDate.Width = 180;
             // 
+            // SpacialCase
+            // 
+            this.SpacialCase.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.SpacialCase.HeaderText = "Spacial Case";
+            this.SpacialCase.Name = "SpacialCase";
+            this.SpacialCase.ReadOnly = true;
+            // 
             // NGInprocessSearchForm
             // 
             this.AcceptButton = this.btnSearch;
@@ -668,5 +677,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn PrintStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn RegDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn SDLastRecDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SpacialCase;
     }
 }

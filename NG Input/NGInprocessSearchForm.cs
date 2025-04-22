@@ -189,9 +189,19 @@ namespace MachineDeptApp.NG_Input
         {
             foreach (DataGridViewRow dgvRow in dgvSearchResult.Rows)
             {
-                if (dgvRow.Cells["PrintStatus"].Value.ToString() != "OK" && dgvRow.Cells["SDLastRecDate"].Value != null) 
+                if (dgvRow.Cells["PrintStatus"].Value.ToString() != "OK")
                 {
-                    dgvRow.Cells["ChkForPrint"].Value = true;
+                    if (dgvRow.Cells["SDLastRecDate"].Value != null)
+                    {
+                        dgvRow.Cells["ChkForPrint"].Value = true;
+                    }
+                    else
+                    {
+                        if (dgvRow.Cells["SpacialCase"].Value != null && dgvRow.Cells["SpacialCase"].Value.ToString().Trim() != "")
+                        {
+                            dgvRow.Cells["ChkForPrint"].Value = true;
+                        }
+                    }
                 }
             }
             dgvSearchResult.Refresh();
@@ -267,7 +277,6 @@ namespace MachineDeptApp.NG_Input
                 dtSQLCond.Rows.Add("( ", "MC1Name = '"+MCName+"' OR MC2Name = '"+ MCName + "' OR MC3Name = '"+ MCName + "' )");
             }
 
-
             string SQLConds = "";
             foreach (DataRow row in dtSQLCond.Rows)
             {
@@ -334,14 +343,17 @@ namespace MachineDeptApp.NG_Input
                 DataTable dtOBS = new DataTable();
                 try
                 {
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT T1.ItemCode, ItemName, T3.EffDate , COALESCE(T2.UnitPrice,0) AS UnitPrice FROM " +
-                        "\n(SELECT ItemCode, ItemName FROM mstitem WHERE DelFlag=0 AND ItemType=2) T1 " +
+                    string SQLQuery = "SELECT T1.ItemCode, ItemName, T3.EffDate , COALESCE(T2.UnitPrice,0) AS UnitPrice, MatCalcFlag, MatTypeName FROM " +
+                        "\n(SELECT ItemCode, ItemName, MatCalcFlag, MatTypeCode FROM mstitem WHERE DelFlag=0 AND ItemType=2) T1 " +
                         "\nLEFT JOIN (SELECT ItemCode, UnitPrice, EffDate FROM mstpurchaseprice WHERE DelFlag=0) T2 " +
                         "\nON T1.ItemCode=T2.ItemCode " +
                         "\nINNER JOIN (SELECT ItemCode, MAX(EffDate) AS EffDate FROM mstpurchaseprice GROUP BY ItemCode) T3 " +
                         "\nON T2.ItemCode=T3.ItemCode AND T2.EffDate=T3.EffDate " +
+                        "\nLEFT JOIN (SELECT * FROM MstMatType WHERE DelFlag = 0) T4 ON T1.MatTypeCode=T4.MatTypeCode " +
                         "\nWHERE T1.ItemCode IN (" + RMCodeIN + ") " +
-                        "\nORDER BY ItemCode ASC ", cnnOBS.conOBS);
+                        "\nORDER BY ItemCode ASC ";
+                    SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnnOBS.conOBS);
+                    //Console.WriteLine(SQLQuery);
                     sda.Fill(dtOBS);
                 }
                 catch (Exception ex)
@@ -352,23 +364,29 @@ namespace MachineDeptApp.NG_Input
                 //Add to dtSearchResult
                 dtSearchResult.Columns.Add("UP");
                 dtSearchResult.Columns.Add("Amount");
+                dtSearchResult.Columns.Add("SpacialCase");
                 foreach (DataRow row in dtSearchResult.Rows)
                 {
                     double UP = 0;
                     double Amount = 0;
+                    string Spacial = "";
+                    string RMCode = row["RMCode"].ToString();
                     foreach (DataRow rowOBS in dtOBS.Rows)
                     {
-                        if (row["RMCode"].ToString() == rowOBS["ItemCode"].ToString())
+                        if ( RMCode == rowOBS["ItemCode"].ToString())
                         {
                             UP = Convert.ToDouble(rowOBS["UnitPrice"]);
                             UP = Convert.ToDouble(UP.ToString("N4"));
                             Amount = (Convert.ToDouble(row["TotalQty"].ToString())) * UP;
                             Amount = Convert.ToDouble(Amount.ToString("N3"));
+                            if (Convert.ToDouble(RMCode.Substring(RMCode.Length - 4, 4)) > 2000 && rowOBS["MatCalcFlag"].ToString() == "1" && rowOBS["MatTypeName"].ToString() == "Other")
+                                Spacial = "Tube";
                             break;
                         }
                     }
                     row["UP"] = UP;
                     row["Amount"] = Amount;
+                    row["SpacialCase"] = Spacial;
                 }
                 dtSearchResult.AcceptChanges();
 
@@ -416,6 +434,7 @@ namespace MachineDeptApp.NG_Input
                     double Amount = Convert.ToDouble(row["Amount"]);
                     dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["Amount"].Value = Amount;
 
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["SpacialCase"].Value = row["SpacialCase"];
                 }
             }
 
@@ -445,14 +464,22 @@ namespace MachineDeptApp.NG_Input
                 {
                     if (dgvSearchResult.Rows[e.RowIndex].Cells["PrintStatus"].Value.ToString() != "OK")
                     {
-                        if (dgvSearchResult.Rows[e.RowIndex].Cells["SDLastRecDate"].Value != null)
+                        //Get check type 
+                        bool ChkPrint = false;
+                        if (dgvSearchResult.Rows[e.RowIndex].Cells["ChkForPrint"].Value.ToString().ToUpper() == "FALSE")
                         {
-                            bool ChkPrint = false;
-                            if (dgvSearchResult.Rows[e.RowIndex].Cells["ChkForPrint"].Value.ToString().ToUpper() == "FALSE")
-                            {
-                                ChkPrint = true;
-                                //dgvSearchResult.Rows[e.RowIndex].Cells["ChkForPrint"].Value = true;
-                            }
+                            ChkPrint = true;
+                        }
+
+                        //Check
+                        string CheckAlert = "";
+                        if (dgvSearchResult.Rows[e.RowIndex].Cells["SDLastRecDate"].Value == null && (dgvSearchResult.Rows[e.RowIndex].Cells["SpacialCase"].Value == null || dgvSearchResult.Rows[e.RowIndex].Cells["SpacialCase"].Value.ToString().Trim() == ""))
+                        {
+                            CheckAlert = "ទិន្នន័យនេះមិនទាន់វេរទៅ SD នៅឡើយទេ!";
+                        }
+
+                        if (CheckAlert.Trim() == "")
+                        {
                             foreach (DataGridViewRow dgvRow in dgvSearchResult.Rows)
                             {
                                 if (dgvRow.Cells["PosCNo"].Value.ToString() == dgvSearchResult.Rows[e.RowIndex].Cells["PosCNo"].Value.ToString() &&
@@ -466,7 +493,7 @@ namespace MachineDeptApp.NG_Input
                         }
                         else
                         {
-                            WMsg.WarningText = "ទិន្នន័យនេះមិនទាន់វេរទៅ SD នៅឡើយទេ!";
+                            WMsg.WarningText = CheckAlert;
                             WMsg.ShowingMsg();
                         }
                     }
