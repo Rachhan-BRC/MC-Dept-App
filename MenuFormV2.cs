@@ -1940,7 +1940,6 @@ namespace MachineDeptApp
             {
                 TreeNode rootNode = new TreeNode(row["RootName"].ToString());
                 treeViewMenu.Nodes.Add(rootNode);
-
             }
 
             //Add child Node
@@ -2081,7 +2080,6 @@ namespace MachineDeptApp
                 treeViewMenu.Nodes[Convert.ToInt32(row2[0].ToString())].Nodes[Convert.ToInt32(row2[1].ToString())].Nodes.Add(ChildrootNode);
                 Font regularFont = new Font("Khmer OS Battambang", 10, FontStyle.Regular);
                 ChildrootNode.NodeFont = regularFont;
-
             }
 
             dtOpenForm = new DataTable();
@@ -2116,6 +2114,14 @@ namespace MachineDeptApp
                         }
                     }
                 }
+
+                //Remove Adjust function
+                //1666 Seongsour, 1747 Somart
+                if (LoginForm.IDValueForNextForm != "3132" && LoginForm.IDValueForNextForm != "1666" && LoginForm.IDValueForNextForm != "1747")
+                {
+                    treeViewMenu.Nodes[5].Nodes[3].Remove();
+                }
+
 
                 //Add image Form to all child 
                 int parentRoot = treeViewMenu.Nodes.Count;

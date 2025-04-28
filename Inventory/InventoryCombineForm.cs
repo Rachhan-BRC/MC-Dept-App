@@ -467,6 +467,7 @@ namespace MachineDeptApp.Inventory
                         "\nLEFT JOIN (SELECT Code FROM tbSDMCAllTransaction WHERE CancelStatus = 0 AND LocCode = 'MC1' AND ReceiveQty>0 AND POSNo LIKE 'SD%' GROUP BY Code) T3 ON RMCode = T3.Code " +
                         "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T4 ON RMCode=T4.ItemCode " +
                         "\nWHERE ReqStatus = 0 AND Qty<>0";
+                    //Console.WriteLine(SQLQuery);
                     sda = new SqlDataAdapter(SQLQuery, cnn.con);
                     sda.Fill(dtNGDetails);
                     SQLQuery = "SELECT RMCode, DocumentNo, SUM(Qty) AS TotalQty FROM " +
