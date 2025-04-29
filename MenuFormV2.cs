@@ -1904,6 +1904,29 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("MCInprocessStockSearchForm", "MC Inprocess - Total View");
                 }
             }
+            if (currentClkNode.Text == "ប្រៀបធៀបទិន្នន័យ In-Out")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    StockInOutComparisonForm Uf = new StockInOutComparisonForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("ប្រៀបធៀបទិន្នន័យ In-Out");
+                    dtOpenForm.Rows.Add("StockInOutComparisonForm", "ប្រៀបធៀបទិន្នន័យ In-Out");
+                }
+            }
 
             int After = dtOpenForm.Rows.Count;
 
@@ -1984,6 +2007,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(5, "ស្តុកកាត", "StockCardForm");
             dtChildRoot.Rows.Add(5, "ទិន្នន័យវេរចេញ/ចូល", "MCStockTransactionSearchForm");
             dtChildRoot.Rows.Add(5, "ទិន្នន័យស្តុក MC", "MCStockSearchForm");
+            dtChildRoot.Rows.Add(5, "ប្រៀបធៀបទិន្នន័យ In-Out", "StockInOutComparisonForm");
 
             //7
             dtChildRoot.Rows.Add(6, "Import POS", "RMStatusForPlanForm");
