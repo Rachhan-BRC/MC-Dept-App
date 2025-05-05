@@ -1927,6 +1927,29 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("StockInOutComparisonForm", "ប្រៀបធៀបទិន្នន័យ In-Out");
                 }
             }
+            if (currentClkNode.Text == "ឆែកទិន្នន័យដែល WIP មិនទាន់ស្កេនទទួល")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    SemiTransferComparisonForm Uf = new SemiTransferComparisonForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("ឆែកទិន្នន័យដែល WIP មិនទាន់ស្កេនទទួល");
+                    dtOpenForm.Rows.Add("SemiTransferComparisonForm", "ឆែកទិន្នន័យដែល WIP មិនទាន់ស្កេនទទួល");
+                }
+            }
 
             int After = dtOpenForm.Rows.Count;
 
@@ -1977,6 +2000,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(1, "កែប្រែទិន្នន័យវេរចេញ", "TransferDataEditForm");
             dtChildRoot.Rows.Add(1, "ទិន្នន័យវេរសឺមី", "TransferDataForm");
             dtChildRoot.Rows.Add(1, "ឆែកទិន្នន័យ POS", "POSTrackingSearchForm");
+            dtChildRoot.Rows.Add(1, "ឆែកទិន្នន័យដែល WIP មិនទាន់ស្កេនទទួល", "SemiTransferComparisonForm");
 
             //3
             dtChildRoot.Rows.Add(2, "បញ្ចូលដំណាក់កាល Auto", "");

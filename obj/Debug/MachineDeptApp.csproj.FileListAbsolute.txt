@@ -1796,3 +1796,4 @@ D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.Regist
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.WireCalcForProductionRegisterDeleteForm.resources
 D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.WireCalcForProductionRegisterDeleteForm.resources
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.StockInOutComparisonForm.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.TransferData.SemiTransferComparisonForm.resources

@@ -701,6 +701,12 @@
     <Compile Include="TrackingPOS\RetriveDataFromOBSForm.Designer.cs">
       <DependentUpon>RetriveDataFromOBSForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TransferData\SemiTransferComparisonForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TransferData\SemiTransferComparisonForm.Designer.cs">
+      <DependentUpon>SemiTransferComparisonForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TransferData\TransferDataEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1036,6 +1042,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TrackingPOS\RetriveDataFromOBSForm.resx">
       <DependentUpon>RetriveDataFromOBSForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransferData\SemiTransferComparisonForm.resx">
+      <DependentUpon>SemiTransferComparisonForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TransferData\TransferDataEditForm.resx">
       <DependentUpon>TransferDataEditForm.cs</DependentUpon>

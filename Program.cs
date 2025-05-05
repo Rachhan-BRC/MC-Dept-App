@@ -17,6 +17,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using MachineDeptApp.Inventory;
+using MachineDeptApp.TransferData;
 
 namespace MachineDeptApp
 {
@@ -69,7 +70,7 @@ namespace MachineDeptApp
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new LoginForm());
                 //For Design test
-                //Application.Run(new StockInOutComparisonForm());                
+                //Application.Run(new SemiTransferComparisonForm());                
             }
         }
     }
