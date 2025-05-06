@@ -163,7 +163,7 @@ namespace MachineDeptApp.MCSDControl
             dtAllRM = new DataTable();
             dtAllRM.Columns.Add("Code");
 
-            string DateBetween = " BETWEEN '"+DtDate.Value.ToString("yyyy-MM-dd")+" 00:00:00' AND '"+DtEndDate.Value.ToString("yyyy-MM-dd")+" 23:59:59' ";
+            string DateBetween = " BETWEEN '"+DtDate.Value.ToString("yyyy-MM-dd")+" "+DtDateTime.Value.ToString("HH:mm:00")+"' AND '"+DtEndDate.Value.ToString("yyyy-MM-dd")+" 23:59:59' ";
             string SQLCondsSub = "";
             string SQLCondsOBS = "";
             if (chkItemCode.Checked == true && txtItemCode.Text.Trim() != "")
@@ -427,7 +427,8 @@ namespace MachineDeptApp.MCSDControl
             }
         }
         private void StockInOutComparisonForm_Shown(object sender, EventArgs e)
-        { 
+        {
+            DtDateTime.Value = Convert.ToDateTime(DateTime.Now.ToString("dd-MM-yyyy")+ "  10:00:00");
             foreach (DataGridViewColumn col in dgvTotalCombine.Columns)
             {
                 //Console.WriteLine(col.Name);
