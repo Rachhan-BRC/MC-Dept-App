@@ -48,7 +48,7 @@ namespace MachineDeptApp.TransferData
         }
         private void LbStatus_TextChanged(object sender, EventArgs e)
         {
-            if (LbStatus.Text.ToString().Contains("WIP room មិនទាន់ទទួល") == true)
+            if (LbStatus.Text.ToString().Contains("មិនទាន់ទទួល") == true || LbStatus.Text.ToString().Contains("មិនទាន់វេរ"))
             {
                 LbStatus.ForeColor = Color.Red;
             }
@@ -85,8 +85,10 @@ namespace MachineDeptApp.TransferData
             LbStatus.Text = "កំពុងស្វែងរក . . .";
             Cursor = Cursors.WaitCursor;
             dgvSearch.Rows.Clear();
+            dgvOBS.Rows.Clear();
 
             string SQLConds = "";
+            string OBSSQLConds = "";
             if (chkItemCode.Checked == true && txtItemCode.Text.Trim() != "")
             {
                 string SearchValue = txtItemCode.Text;
@@ -97,6 +99,15 @@ namespace MachineDeptApp.TransferData
                 }
                 else
                     SQLConds += " AND WipCode = '" + SearchValue + "'";
+
+                //OBS
+                if (SearchValue.Contains("*") == true)
+                {
+                    SearchValue = SearchValue.Replace("*", "%");
+                    OBSSQLConds += " AND prgproductionresult.ItemCode LIKE '" + SearchValue + "'";
+                }
+                else
+                    OBSSQLConds += " AND prgproductionresult.ItemCode = '" + SearchValue + "'";
             }
             if (chkItemName.Checked == true && txtItemName.Text.Trim() != "")
             {
@@ -106,8 +117,10 @@ namespace MachineDeptApp.TransferData
                     SearchValue = SearchValue.Replace("*", "");    
                 }
                 SQLConds += " AND WipDes LIKE '%" + SearchValue + "%'";
+                OBSSQLConds += " AND ItemName LIKE '%" + SearchValue + "%'";
             }
 
+            //Sub vs OBS
             //Taking MC Data
             DataTable dtMC = new DataTable();
             try
@@ -116,7 +129,7 @@ namespace MachineDeptApp.TransferData
                 string SQLQuery = "SELECT PosNo, WipCode, WipDes, BoxNo, Qty, RegDate FROM tbWipTransactions WHERE DeleteState = 0 AND " +
                     "\nRegDate BETWEEN '"+DtDate.Value.ToString("yyyy-MM-dd")+" 00:00:00' AND '"+DtEndDate.Value.ToString("yyyy-MM-dd")+" 23:59:59'"+SQLConds+
                     " \nORDER BY RegDate ASC";
-                Console.WriteLine(SQLQuery);
+                //Console.WriteLine(SQLQuery);
                 SqlDataAdapter sda = new SqlDataAdapter(SQLQuery,cnn.con);
                 sda.Fill(dtMC);
             }
@@ -125,7 +138,6 @@ namespace MachineDeptApp.TransferData
                 ErrorText = "Taking MC Data : " + ex.Message;
             }
             cnn.con.Close();
-
             //Taking OBS Data 
             if (ErrorText.Trim() == "" && dtMC.Rows.Count > 0)
             {
@@ -138,7 +150,7 @@ namespace MachineDeptApp.TransferData
                         POSNoIN += ", '" + row["PosNo"].ToString() + "'";
                 }
 
-                DataTable dtOBS = new DataTable();
+                DataTable dt = new DataTable();
                 try
                 {
                     cnnOBS.conOBS.Open();
@@ -147,7 +159,7 @@ namespace MachineDeptApp.TransferData
                         "\nORDER BY CreateDate ASC";
                     //Console.WriteLine(SQLQuery);
                     SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnnOBS.conOBS);
-                    sda.Fill(dtOBS);
+                    sda.Fill(dt);
                 }
                 catch (Exception ex) 
                 {
@@ -161,7 +173,7 @@ namespace MachineDeptApp.TransferData
                     dtMC.Columns.Add("QtyOBS");
                     dtMC.Columns.Add("RegDateOBS");
                     dtMC.AcceptChanges();
-                    foreach (DataRow rowOBS in dtOBS.Rows)
+                    foreach (DataRow rowOBS in dt.Rows)
                     {
                         string POSNo = rowOBS["DONo"].ToString();
                         string WipCode = rowOBS["ItemCode"].ToString();
@@ -183,10 +195,88 @@ namespace MachineDeptApp.TransferData
                 }
             }
 
+            //OBS vs Sub
+            //Taking OBS Data 2
+            DataTable dtOBS = new DataTable();
+            if (ErrorText.Trim() == "")
+            {
+                try
+                {
+                    cnnOBS.conOBS.Open();
+                    string SQLQuery = "SELECT DONo, prgproductionresult.ItemCode, ItemName, OKQty,prgproductionresult.Resv7 AS BoxNO, prgproductionresult.CreateDate FROM prgproductionresult " +
+                        "\nINNER JOIN mstitem ON prgproductionresult.ItemCode = mstitem.ItemCode " +
+                        "\nWHERE prgproductionresult.DelFlag = 0 AND mstitem.DelFlag=0 AND ItemType=1 AND prgproductionresult.CreateDate BETWEEN '" + DtDate.Value.ToString("yyyy-MM-dd")+" 00:00:00' AND '"+DtEndDate.Value.ToString("yyyy-MM-dd")+" 23:59:59' " + OBSSQLConds +
+                        "\nORDER BY prgproductionresult.CreateDate ASC";
+                    SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnnOBS.conOBS);
+                    sda.Fill(dtOBS);
+                }
+                catch (Exception ex)
+                {
+                    ErrorText = "Taking OBS Data 2 : " + ex.Message;
+                }
+                cnnOBS.conOBS.Close();
+            }
+            //Taking MC Data 2
+            if (ErrorText.Trim() == "" && dtOBS.Rows.Count > 0)
+            {
+                string POSNoIN = "";
+                foreach (DataRow row in dtOBS.Rows)
+                {
+                    if (POSNoIN.Trim() == "")
+                        POSNoIN = "'" + row["DONo"].ToString() + "'";
+                    else
+                        POSNoIN += ", '" + row["DONo"].ToString() + "'";
+                }
+
+                DataTable dt = new DataTable();
+                try
+                {
+                    cnn.con.Open();
+                    string SQLQuery = "SELECT PosNo, WipCode, BoxNo, Qty, RegDate FROM tbWipTransactions WHERE DeleteState = 0 AND PosNo IN (" + POSNoIN+") " +
+                        "\nORDER BY RegDate ASC";
+                    //Console.WriteLine(SQLQuery);
+                    SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
+                    sda.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    ErrorText = "Taking MC Data 2 : " + ex.Message;
+                }
+                cnn.con.Close();
+
+                //Add to dtOBS
+                if (ErrorText.Trim() == "")
+                {
+                    dtOBS.Columns.Add("QtySub");
+                    dtOBS.Columns.Add("RegDateSub");
+                    dtOBS.AcceptChanges();
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        string POSNo = row["PosNo"].ToString();
+                        string WipCode = row["WipCode"].ToString();
+                        string BoxNo = row["BoxNo"].ToString();
+                        string Qty = row["Qty"].ToString();
+                        string RegDate = row["RegDate"].ToString();
+
+                        foreach (DataRow rowOBS in dtOBS.Rows)
+                        {
+                            if (POSNo == rowOBS["DONo"].ToString() && WipCode == rowOBS["ItemCode"].ToString() && BoxNo == rowOBS["BoxNO"].ToString())
+                            {
+                                rowOBS["QtySub"] = Qty;
+                                rowOBS["RegDateSub"] = RegDate;
+                                dtOBS.AcceptChanges();
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
             //Add to Dgv
             if (ErrorText.Trim() == "")
             {
                 int FoundNotYet = 0;
+                int MCFoundNotYet = 0;
                 foreach (DataRow row in dtMC.Rows)
                 {
                     dgvSearch.Rows.Add();
@@ -212,14 +302,43 @@ namespace MachineDeptApp.TransferData
                     }
 
                 }
+                foreach (DataRow rowOBS in dtOBS.Rows)
+                {
+                    dgvOBS.Rows.Add();
+                    dgvOBS.Rows[dgvOBS.Rows.Count - 1].Cells["POSNoOBS"].Value = rowOBS["DONo"].ToString();
+                    dgvOBS.Rows[dgvOBS.Rows.Count - 1].Cells["WipCodeOBS"].Value = rowOBS["ItemCode"].ToString();
+                    dgvOBS.Rows[dgvOBS.Rows.Count - 1].Cells["WipNameOBS"].Value = rowOBS["ItemName"].ToString();
+                    dgvOBS.Rows[dgvOBS.Rows.Count - 1].Cells["BoxNoOBS"].Value = Convert.ToDouble(rowOBS["BoxNO"]);
+                    dgvOBS.Rows[dgvOBS.Rows.Count - 1].Cells["QtyOBS2"].Value = Convert.ToDouble(rowOBS["OKQty"]);
+                    dgvOBS.Rows[dgvOBS.Rows.Count - 1].Cells["RegDateOBS2"].Value = Convert.ToDateTime(rowOBS["CreateDate"]);
 
+                    Nullable<double> QtySub = null;
+                    if (rowOBS["QtySub"].ToString().Trim() != "")
+                        QtySub = Convert.ToDouble(rowOBS["QtySub"]);
+                    Nullable<DateTime> RegDateSub = null;
+                    if (rowOBS["RegDateSub"].ToString().Trim() != "")
+                        RegDateSub = Convert.ToDateTime(rowOBS["RegDateSub"]);
+                    dgvOBS.Rows[dgvOBS.Rows.Count - 1].Cells["QtySub"].Value = QtySub;
+                    dgvOBS.Rows[dgvOBS.Rows.Count - 1].Cells["RegSub"].Value = RegDateSub;
+
+                    if (RegDateSub == null)
+                    {
+                        MCFoundNotYet++;
+                    }
+                }
                 dgvSearch.ClearSelection();
-                if (dgvSearch.Rows.Count > 0)
+                dgvOBS.ClearSelection();
+                if (dgvSearch.Rows.Count > 0 || dgvOBS.Rows.Count>0)
                 {
                     if (FoundNotYet == 0)
                         LbStatus.Text = "ទិន្នន័យត្រូវបាន WIP room ទទួលរួចអស់ហើយ!";
                     else
                         LbStatus.Text = "WIP room មិនទាន់ទទួល "+FoundNotYet.ToString("N0")+"  កាតុង";
+
+                    if (MCFoundNotYet == 0)
+                        LbStatus.Text += ", ទិន្នន័យត្រូវបាន MC វេររួចអស់ហើយ!";
+                    else
+                        LbStatus.Text += ", MC មិនទាន់វេរ " + MCFoundNotYet.ToString("N0") + "  កាតុង";
                 }
                 else
                 {
@@ -238,10 +357,12 @@ namespace MachineDeptApp.TransferData
         }
         private void SemiTransferComparisonForm_Shown(object sender, EventArgs e)
         {
-            foreach (DataGridViewColumn col in dgvSearch.Columns)
+            foreach (DataGridViewColumn col in dgvOBS.Columns)
             {
                 //Console.WriteLine(col.Name);
             }
         }
+
+
     }
 }

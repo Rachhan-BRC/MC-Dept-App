@@ -30,6 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SemiTransferComparisonForm));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -48,7 +59,27 @@
             this.panelFooter = new System.Windows.Forms.Panel();
             this.LbStatus = new System.Windows.Forms.Label();
             this.panelBody = new System.Windows.Forms.Panel();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dgvSearch = new System.Windows.Forms.DataGridView();
+            this.POSNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BoxNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RegDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.QtyOBS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RegDateOBS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dgvOBS = new System.Windows.Forms.DataGridView();
+            this.POSNoOBS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WipCodeOBS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WipNameOBS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BoxNoOBS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.QtyOBS2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RegDateOBS2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.QtySub = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RegSub = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtItemName = new System.Windows.Forms.TextBox();
             this.txtItemCode = new System.Windows.Forms.TextBox();
@@ -58,18 +89,14 @@
             this.DtEndDate = new System.Windows.Forms.DateTimePicker();
             this.DtDate = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
-            this.POSNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BoxNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RegDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.QtyOBS = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RegDateOBS = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelHeader.SuspendLayout();
             this.panelFooter.SuspendLayout();
             this.panelBody.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSearch)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvOBS)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -133,7 +160,7 @@
             // 
             // panelBody
             // 
-            this.panelBody.Controls.Add(this.dgvSearch);
+            this.panelBody.Controls.Add(this.tabControl1);
             this.panelBody.Controls.Add(this.groupBox1);
             this.panelBody.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBody.Location = new System.Drawing.Point(0, 63);
@@ -142,26 +169,49 @@
             this.panelBody.Size = new System.Drawing.Size(1084, 463);
             this.panelBody.TabIndex = 4;
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabControl1.Location = new System.Drawing.Point(4, 66);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1076, 393);
+            this.tabControl1.TabIndex = 18;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.dgvSearch);
+            this.tabPage1.Location = new System.Drawing.Point(4, 28);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1068, 361);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "SubSys vs OBS";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
             // dgvSearch
             // 
             this.dgvSearch.AllowUserToAddRows = false;
             this.dgvSearch.AllowUserToDeleteRows = false;
             this.dgvSearch.AllowUserToResizeRows = false;
-            dataGridViewCellStyle12.BackColor = System.Drawing.Color.Lavender;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvSearch.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Lavender;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvSearch.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvSearch.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSearch.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSearch.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvSearch.ColumnHeadersHeight = 30;
             this.dgvSearch.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvSearch.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -175,20 +225,245 @@
             this.RegDateOBS});
             this.dgvSearch.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvSearch.EnableHeadersVisualStyles = false;
-            this.dgvSearch.Location = new System.Drawing.Point(4, 66);
+            this.dgvSearch.Location = new System.Drawing.Point(3, 3);
             this.dgvSearch.MultiSelect = false;
             this.dgvSearch.Name = "dgvSearch";
             this.dgvSearch.ReadOnly = true;
             this.dgvSearch.RowHeadersVisible = false;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvSearch.RowsDefaultCellStyle = dataGridViewCellStyle11;
+            this.dgvSearch.RowTemplate.Height = 25;
+            this.dgvSearch.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgvSearch.Size = new System.Drawing.Size(1062, 355);
+            this.dgvSearch.TabIndex = 17;
+            // 
+            // POSNo
+            // 
+            this.POSNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.POSNo.DefaultCellStyle = dataGridViewCellStyle3;
+            this.POSNo.HeaderText = "លេខភីអូអេស";
+            this.POSNo.Name = "POSNo";
+            this.POSNo.ReadOnly = true;
+            this.POSNo.Width = 120;
+            // 
+            // Code
+            // 
+            this.Code.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Code.DefaultCellStyle = dataGridViewCellStyle4;
+            this.Code.HeaderText = "លេខកូដ";
+            this.Code.Name = "Code";
+            this.Code.ReadOnly = true;
+            this.Code.Width = 80;
+            // 
+            // ItemName
+            // 
+            this.ItemName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ItemName.DefaultCellStyle = dataGridViewCellStyle5;
+            this.ItemName.FillWeight = 190F;
+            this.ItemName.HeaderText = "ឈ្មោះ";
+            this.ItemName.Name = "ItemName";
+            this.ItemName.ReadOnly = true;
+            this.ItemName.Width = 200;
+            // 
+            // BoxNo
+            // 
+            this.BoxNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.NullValue = null;
+            this.BoxNo.DefaultCellStyle = dataGridViewCellStyle6;
+            this.BoxNo.HeaderText = "លេខកាតុង";
+            this.BoxNo.Name = "BoxNo";
+            this.BoxNo.ReadOnly = true;
+            this.BoxNo.Width = 80;
+            // 
+            // Qty
+            // 
+            this.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.Format = "N0";
+            this.Qty.DefaultCellStyle = dataGridViewCellStyle7;
+            this.Qty.HeaderText = "ចំនួន";
+            this.Qty.Name = "Qty";
+            this.Qty.ReadOnly = true;
+            // 
+            // RegDate
+            // 
+            this.RegDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle8.Format = "dd-MM-yy hh:mm tt";
+            dataGridViewCellStyle8.NullValue = null;
+            this.RegDate.DefaultCellStyle = dataGridViewCellStyle8;
+            this.RegDate.HeaderText = "ថ្ងៃបញ្ចូល";
+            this.RegDate.Name = "RegDate";
+            this.RegDate.ReadOnly = true;
+            this.RegDate.Width = 150;
+            // 
+            // QtyOBS
+            // 
+            this.QtyOBS.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle9.Format = "N0";
+            this.QtyOBS.DefaultCellStyle = dataGridViewCellStyle9;
+            this.QtyOBS.HeaderText = "ចំនួន (OBS)";
+            this.QtyOBS.Name = "QtyOBS";
+            this.QtyOBS.ReadOnly = true;
+            // 
+            // RegDateOBS
+            // 
+            this.RegDateOBS.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle10.Format = "dd-MM-yy hh:mm tt";
+            this.RegDateOBS.DefaultCellStyle = dataGridViewCellStyle10;
+            this.RegDateOBS.HeaderText = "ថ្ងៃបញ្ចូល (OBS)";
+            this.RegDateOBS.Name = "RegDateOBS";
+            this.RegDateOBS.ReadOnly = true;
+            this.RegDateOBS.Width = 150;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.dgvOBS);
+            this.tabPage2.Location = new System.Drawing.Point(4, 28);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1068, 361);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "OBS vs SubSys";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // dgvOBS
+            // 
+            this.dgvOBS.AllowUserToAddRows = false;
+            this.dgvOBS.AllowUserToDeleteRows = false;
+            this.dgvOBS.AllowUserToResizeRows = false;
+            dataGridViewCellStyle12.BackColor = System.Drawing.Color.Lavender;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvOBS.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle12;
+            this.dgvOBS.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvOBS.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            this.dgvOBS.ColumnHeadersHeight = 30;
+            this.dgvOBS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dgvOBS.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.POSNoOBS,
+            this.WipCodeOBS,
+            this.WipNameOBS,
+            this.BoxNoOBS,
+            this.QtyOBS2,
+            this.RegDateOBS2,
+            this.QtySub,
+            this.RegSub});
+            this.dgvOBS.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvOBS.EnableHeadersVisualStyles = false;
+            this.dgvOBS.Location = new System.Drawing.Point(3, 3);
+            this.dgvOBS.MultiSelect = false;
+            this.dgvOBS.Name = "dgvOBS";
+            this.dgvOBS.ReadOnly = true;
+            this.dgvOBS.RowHeadersVisible = false;
             dataGridViewCellStyle22.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle22.ForeColor = System.Drawing.Color.Blue;
             dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle22.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvSearch.RowsDefaultCellStyle = dataGridViewCellStyle22;
-            this.dgvSearch.RowTemplate.Height = 25;
-            this.dgvSearch.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvSearch.Size = new System.Drawing.Size(1076, 393);
-            this.dgvSearch.TabIndex = 17;
+            this.dgvOBS.RowsDefaultCellStyle = dataGridViewCellStyle22;
+            this.dgvOBS.RowTemplate.Height = 25;
+            this.dgvOBS.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgvOBS.Size = new System.Drawing.Size(1062, 355);
+            this.dgvOBS.TabIndex = 18;
+            // 
+            // POSNoOBS
+            // 
+            this.POSNoOBS.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.POSNoOBS.DefaultCellStyle = dataGridViewCellStyle14;
+            this.POSNoOBS.HeaderText = "លេខភីអូអេស";
+            this.POSNoOBS.Name = "POSNoOBS";
+            this.POSNoOBS.ReadOnly = true;
+            this.POSNoOBS.Width = 120;
+            // 
+            // WipCodeOBS
+            // 
+            this.WipCodeOBS.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.WipCodeOBS.DefaultCellStyle = dataGridViewCellStyle15;
+            this.WipCodeOBS.HeaderText = "លេខកូដ";
+            this.WipCodeOBS.Name = "WipCodeOBS";
+            this.WipCodeOBS.ReadOnly = true;
+            this.WipCodeOBS.Width = 80;
+            // 
+            // WipNameOBS
+            // 
+            this.WipNameOBS.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.WipNameOBS.DefaultCellStyle = dataGridViewCellStyle16;
+            this.WipNameOBS.FillWeight = 190F;
+            this.WipNameOBS.HeaderText = "ឈ្មោះ";
+            this.WipNameOBS.Name = "WipNameOBS";
+            this.WipNameOBS.ReadOnly = true;
+            this.WipNameOBS.Width = 200;
+            // 
+            // BoxNoOBS
+            // 
+            this.BoxNoOBS.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle17.NullValue = null;
+            this.BoxNoOBS.DefaultCellStyle = dataGridViewCellStyle17;
+            this.BoxNoOBS.HeaderText = "លេខកាតុង";
+            this.BoxNoOBS.Name = "BoxNoOBS";
+            this.BoxNoOBS.ReadOnly = true;
+            this.BoxNoOBS.Width = 80;
+            // 
+            // QtyOBS2
+            // 
+            this.QtyOBS2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle18.Format = "N0";
+            this.QtyOBS2.DefaultCellStyle = dataGridViewCellStyle18;
+            this.QtyOBS2.HeaderText = "ចំនួន";
+            this.QtyOBS2.Name = "QtyOBS2";
+            this.QtyOBS2.ReadOnly = true;
+            // 
+            // RegDateOBS2
+            // 
+            this.RegDateOBS2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle19.Format = "dd-MM-yy hh:mm tt";
+            dataGridViewCellStyle19.NullValue = null;
+            this.RegDateOBS2.DefaultCellStyle = dataGridViewCellStyle19;
+            this.RegDateOBS2.HeaderText = "ថ្ងៃបញ្ចូល";
+            this.RegDateOBS2.Name = "RegDateOBS2";
+            this.RegDateOBS2.ReadOnly = true;
+            this.RegDateOBS2.Width = 150;
+            // 
+            // QtySub
+            // 
+            this.QtySub.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle20.Format = "N0";
+            this.QtySub.DefaultCellStyle = dataGridViewCellStyle20;
+            this.QtySub.HeaderText = "ចំនួន (SubSys)";
+            this.QtySub.Name = "QtySub";
+            this.QtySub.ReadOnly = true;
+            // 
+            // RegSub
+            // 
+            this.RegSub.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle21.Format = "dd-MM-yy hh:mm tt";
+            this.RegSub.DefaultCellStyle = dataGridViewCellStyle21;
+            this.RegSub.HeaderText = "ថ្ងៃបញ្ចូល (SubSys)";
+            this.RegSub.Name = "RegSub";
+            this.RegSub.ReadOnly = true;
+            this.RegSub.Width = 150;
             // 
             // groupBox1
             // 
@@ -287,89 +562,6 @@
             this.label6.TabIndex = 10;
             this.label6.Text = "-";
             // 
-            // POSNo
-            // 
-            this.POSNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.POSNo.DefaultCellStyle = dataGridViewCellStyle14;
-            this.POSNo.HeaderText = "លេខភីអូអេស";
-            this.POSNo.Name = "POSNo";
-            this.POSNo.ReadOnly = true;
-            this.POSNo.Width = 120;
-            // 
-            // Code
-            // 
-            this.Code.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Code.DefaultCellStyle = dataGridViewCellStyle15;
-            this.Code.HeaderText = "លេខកូដ";
-            this.Code.Name = "Code";
-            this.Code.ReadOnly = true;
-            this.Code.Width = 80;
-            // 
-            // ItemName
-            // 
-            this.ItemName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ItemName.DefaultCellStyle = dataGridViewCellStyle16;
-            this.ItemName.FillWeight = 190F;
-            this.ItemName.HeaderText = "ឈ្មោះ";
-            this.ItemName.Name = "ItemName";
-            this.ItemName.ReadOnly = true;
-            this.ItemName.Width = 200;
-            // 
-            // BoxNo
-            // 
-            this.BoxNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle17.NullValue = null;
-            this.BoxNo.DefaultCellStyle = dataGridViewCellStyle17;
-            this.BoxNo.HeaderText = "លេខកាតុង";
-            this.BoxNo.Name = "BoxNo";
-            this.BoxNo.ReadOnly = true;
-            this.BoxNo.Width = 80;
-            // 
-            // Qty
-            // 
-            this.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle18.Format = "N0";
-            this.Qty.DefaultCellStyle = dataGridViewCellStyle18;
-            this.Qty.HeaderText = "ចំនួន";
-            this.Qty.Name = "Qty";
-            this.Qty.ReadOnly = true;
-            // 
-            // RegDate
-            // 
-            this.RegDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle19.Format = "dd-MM-yy hh:mm tt";
-            dataGridViewCellStyle19.NullValue = null;
-            this.RegDate.DefaultCellStyle = dataGridViewCellStyle19;
-            this.RegDate.HeaderText = "ថ្ងៃបញ្ចូល";
-            this.RegDate.Name = "RegDate";
-            this.RegDate.ReadOnly = true;
-            this.RegDate.Width = 150;
-            // 
-            // QtyOBS
-            // 
-            this.QtyOBS.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle20.Format = "N0";
-            this.QtyOBS.DefaultCellStyle = dataGridViewCellStyle20;
-            this.QtyOBS.HeaderText = "ចំនួន (OBS)";
-            this.QtyOBS.Name = "QtyOBS";
-            this.QtyOBS.ReadOnly = true;
-            // 
-            // RegDateOBS
-            // 
-            this.RegDateOBS.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle21.Format = "dd-MM-yy hh:mm tt";
-            this.RegDateOBS.DefaultCellStyle = dataGridViewCellStyle21;
-            this.RegDateOBS.HeaderText = "ថ្ងៃបញ្ចូល (OBS)";
-            this.RegDateOBS.Name = "RegDateOBS";
-            this.RegDateOBS.ReadOnly = true;
-            this.RegDateOBS.Width = 150;
-            // 
             // SemiTransferComparisonForm
             // 
             this.AcceptButton = this.btnSearch;
@@ -387,7 +579,11 @@
             this.panelHeader.ResumeLayout(false);
             this.panelFooter.ResumeLayout(false);
             this.panelBody.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSearch)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvOBS)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -421,5 +617,17 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn RegDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn QtyOBS;
         private System.Windows.Forms.DataGridViewTextBoxColumn RegDateOBS;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        public System.Windows.Forms.DataGridView dgvOBS;
+        private System.Windows.Forms.DataGridViewTextBoxColumn POSNoOBS;
+        private System.Windows.Forms.DataGridViewTextBoxColumn WipCodeOBS;
+        private System.Windows.Forms.DataGridViewTextBoxColumn WipNameOBS;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BoxNoOBS;
+        private System.Windows.Forms.DataGridViewTextBoxColumn QtyOBS2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RegDateOBS2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn QtySub;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RegSub;
     }
 }
