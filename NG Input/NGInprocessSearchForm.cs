@@ -347,7 +347,7 @@ namespace MachineDeptApp.NG_Input
                         "\n(SELECT ItemCode, ItemName, MatCalcFlag, MatTypeCode FROM mstitem WHERE DelFlag=0 AND ItemType=2) T1 " +
                         "\nLEFT JOIN (SELECT ItemCode, UnitPrice, EffDate FROM mstpurchaseprice WHERE DelFlag=0) T2 " +
                         "\nON T1.ItemCode=T2.ItemCode " +
-                        "\nINNER JOIN (SELECT ItemCode, MAX(EffDate) AS EffDate FROM mstpurchaseprice GROUP BY ItemCode) T3 " +
+                        "\nINNER JOIN (SELECT ItemCode, MAX(EffDate) AS EffDate FROM mstpurchaseprice WHERE DelFlag=0 GROUP BY ItemCode) T3 " +
                         "\nON T2.ItemCode=T3.ItemCode AND T2.EffDate=T3.EffDate " +
                         "\nLEFT JOIN (SELECT * FROM MstMatType WHERE DelFlag = 0) T4 ON T1.MatTypeCode=T4.MatTypeCode " +
                         "\nWHERE T1.ItemCode IN (" + RMCodeIN + ") " +

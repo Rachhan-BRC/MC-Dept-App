@@ -225,7 +225,7 @@ namespace MachineDeptApp.NG_Input
                     string SQLQuery = "SELECT T1.ItemCode, ItemName, MatCalcFlag, Resv1 AS Maker, MatTypeName, COALESCE(T2.UnitPrice,0) AS UnitPrice FROM " +
                         "\n(SELECT * FROM mstitem WHERE DelFlag=0 AND ItemType=2) T1 " +
                         "\nLEFT JOIN (SELECT ItemCode, UnitPrice, EffDate FROM mstpurchaseprice WHERE DelFlag=0) T2 ON T1.ItemCode=T2.ItemCode " +
-                        "\nINNER JOIN (SELECT ItemCode, MAX(EffDate) AS EffDate FROM mstpurchaseprice GROUP BY ItemCode) T3 ON T2.ItemCode=T3.ItemCode AND T2.EffDate=T3.EffDate " +
+                        "\nINNER JOIN (SELECT ItemCode, MAX(EffDate) AS EffDate FROM mstpurchaseprice WHERE DelFlag=0 GROUP BY ItemCode) T3 ON T2.ItemCode=T3.ItemCode AND T2.EffDate=T3.EffDate " +
                         "\nINNER JOIN (SELECT * FROM MstMatType WHERE DelFlag=0) T4 ON T1.MatTypeCode=T4.MatTypeCode " +
                         "\nWHERE T1.ItemCode IN ("+CodeIN+") " +
                         "\nORDER BY ItemCode ASC";
