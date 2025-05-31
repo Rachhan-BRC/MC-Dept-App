@@ -470,7 +470,7 @@ namespace MachineDeptApp.Inventory.Inprocess
                     {
                         if (dtAlreadyCount.Rows.Count == 0)
                         {
-                            if (dtSDDetails.Rows.Count > 0 && dtBobbinsW.Rows.Count > 0)
+                            if (dtSDDetails.Rows.Count > 0 && (dtBobbinsW.Rows.Count > 0 || dtBobbinsT.Rows.Count > 0))
                             {
                                 //Header
                                 LbSDNoWireTerminal.Text = SDNo;
