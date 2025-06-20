@@ -387,11 +387,18 @@ namespace MachineDeptApp.MCSDControl.SDRec
                                     }
                                 }
                                 //Check BOM
+                                //SqlDataAdapter sda1 = new SqlDataAdapter("SELECT prgconsumtionorder.ItemCode, mstitem.ItemName, BOMQty, ConsumpQty FROM prgconsumtionorder " +
+                                //                                                                    "INNER JOIN prgproductionorder ON prgproductionorder.ProductionCode = prgconsumtionorder.ProductionCode " +
+                                //                                                                    "INNER JOIN mstitem ON  mstitem.ItemCode = prgconsumtionorder.ItemCode " +
+                                //                                                                    "WHERE LEN(prgproductionorder.ItemCode) > 4 AND mstitem.MatCalcFlag = 0 AND mstitem.ItemType = 2 AND NOT mstitem.ItemCode IN (" + ExceptRM + ")AND DONo = '" + POSNo + "' " +
+                                //                                                                    "ORDER BY DONo ASC, ConsumpSeqNo ASC", cnnOBS.conOBS);
+                                
                                 SqlDataAdapter sda1 = new SqlDataAdapter("SELECT prgconsumtionorder.ItemCode, mstitem.ItemName, BOMQty, ConsumpQty FROM prgconsumtionorder " +
                                                                                                     "INNER JOIN prgproductionorder ON prgproductionorder.ProductionCode = prgconsumtionorder.ProductionCode " +
                                                                                                     "INNER JOIN mstitem ON  mstitem.ItemCode = prgconsumtionorder.ItemCode " +
-                                                                                                    "WHERE LEN(prgproductionorder.ItemCode) > 4 AND mstitem.MatCalcFlag = 0 AND mstitem.ItemType = 2 AND NOT mstitem.ItemCode IN (" + ExceptRM + ")AND DONo = '" + POSNo + "' " +
+                                                                                                    "WHERE LEN(prgproductionorder.ItemCode) > 4 AND mstitem.MatCalcFlag = 0 AND mstitem.ItemType = 2 AND DONo = '" + POSNo + "' " +
                                                                                                     "ORDER BY DONo ASC, ConsumpSeqNo ASC", cnnOBS.conOBS);
+
                                 dtPOSConsump = new DataTable();
                                 sda1.Fill(dtPOSConsump);
                                 if (dtPOSConsump.Rows.Count > 0)
