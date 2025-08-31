@@ -529,7 +529,7 @@ namespace MachineDeptApp.MCPlans
                 "\nON T7.PosCNo=T8.PosCNo " +
                 "\nLEFT JOIN (SELECT * FROM tbMQCData) T9 " +
                 "\nON T8.PosCNo=T9.PosCNo AND T8.LastMQCDate=T9.MQCDate " +
-                "\nLEFT JOIN (SELECT * FROM TD_Database.dbo.Employee_list) T10 " +
+                "\nLEFT JOIN (SELECT * FROM TD_DatabaseTemp.dbo.Employee_list) T10 " +
                 "\nON T9.MQCID=T10.Staff_No " +
                 "\nLEFT JOIN (SELECT PosCNo, SUM(Qty) AS TotalQty  FROM tbMQCData GROUP BY PosCNo) T11 " +
                 "\nON T7.PosCNo=T11.PosCNo " +

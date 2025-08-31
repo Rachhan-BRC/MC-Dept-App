@@ -54,6 +54,8 @@ namespace MachineDeptApp
             this.MdiChildActivate += MenuFormV2_MdiChildActivate;
             this.btnCheckForUpdate.Click += BtnCheckForUpdate_Click;
             
+
+
         }
 
         private void BtnCheckForUpdate_Click(object sender, EventArgs e)
