@@ -36,7 +36,7 @@ namespace MachineDeptApp
         SQLConnect cnn = new SQLConnect();
         string LogRole;
         string name;
-        public static string UserForNextForm;
+        public static string UserForNextForm, MsgTitle = "Rachhan System";
 
         DataTable dtRoot;
         DataTable dtChildRoot;

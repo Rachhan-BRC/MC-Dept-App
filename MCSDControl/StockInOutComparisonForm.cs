@@ -339,9 +339,14 @@ namespace MachineDeptApp.MCSDControl
                                      .OrderBy(row => row["Code"].ToString()) // Sort by "Code"
                                      .CopyToDataTable();
                     //Add to dgv
+                    string RMCodeIN = "";
                     foreach (DataRow row in dtAllRM.Rows)
                     {
                         string Code = row["Code"].ToString();
+                        if (RMCodeIN.Trim() == "")
+                            RMCodeIN = "'"+Code+"'";
+                        else
+                            RMCodeIN += ", '" + Code + "'";
                         string Name = "";
                         foreach (DataGridViewRow dgvRow in dgvMCTransaction.Rows)
                         {
@@ -369,11 +374,22 @@ namespace MachineDeptApp.MCSDControl
                             dgvTotalByRM.Rows[dgvTotalByRM.Rows.Count - 1].Cells["RMCode"].Value = Code;
                             dgvTotalByRM.Rows[dgvTotalByRM.Rows.Count - 1].Cells["RMName"].Value = Name;
                             dgvTotalByRM.Rows[dgvTotalByRM.Rows.Count - 1].Cells["RMFunctName"].Value = dgvRow.Cells["FuntionName"].Value.ToString();
-                            dgvTotalByRM.Rows[dgvTotalByRM.Rows.Count - 1].Cells["RMOBSFunctName"].Value = dgvRow.Cells["OBSFunctName"].Value.ToString();                            
+                            dgvTotalByRM.Rows[dgvTotalByRM.Rows.Count - 1].Cells["RMOBSFunctName"].Value = dgvRow.Cells["OBSFunctName"].Value.ToString();
                         }
                     }
 
-                    //Cal
+                    //Taking OBS UP
+                    string SQLQuery = "SELECT mstpurchaseprice.ItemCode, UnitPrice FROM mstpurchaseprice " +
+                        "\nINNER JOIN (SELECT ItemCode, MAX(EffDate) AS MaxEffDate FROM mstpurchaseprice WHERE DelFlag = 0 GROUP BY ItemCode) T1 " +
+                        "\nON mstpurchaseprice.ItemCode = T1.ItemCode AND mstpurchaseprice.EffDate = T1.MaxEffDate " +
+                        "\nWHERE mstpurchaseprice.ItemCode IN ("+RMCodeIN+") " +
+                        "\nORDER BY mstpurchaseprice.ItemCode ASC";
+                    SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnnOBS.conOBS);
+                    DataTable dtOBS_UP = new DataTable();
+                    sda.Fill(dtOBS_UP);
+
+                    //Calc
+                    double TTLAmount = 0;
                     foreach (DataGridViewRow row in dgvTotalByRM.Rows)
                     {
                         string RMCode = row.Cells["RMCode"].Value.ToString();
@@ -397,15 +413,44 @@ namespace MachineDeptApp.MCSDControl
                             }
                         }
 
+                        double UP = 0;
+                        foreach (DataRow rowUP in dtOBS_UP.Rows)
+                        {
+                            if (rowUP["ItemCode"].ToString() == RMCode)
+                            {
+                                UP = Convert.ToDouble(rowUP["UnitPrice"]);
+                                break;
+                            }
+                        }
+
                         row.Cells["RMSubSys"].Value = SubQty;
                         row.Cells["RMOBS"].Value = OBSQty;
+                        row.Cells["UnitPriceGAP"].Value = UP;
 
                         if (OBSQty < 0 || SubQty < 0)
+                        {
                             row.Cells["RMGAP"].Value = -SubQty + OBSQty;
+                            double Amount = (-SubQty + OBSQty) * UP;
+                            Amount = Convert.ToDouble(Amount.ToString("N2"));
+                            row.Cells["AmountGAP"].Value = Amount;
+                            TTLAmount += Amount;
+                        }
                         else
+                        {
                             row.Cells["RMGAP"].Value = SubQty - OBSQty;
+                            double Amount = (SubQty - OBSQty) * UP;
+                            Amount = Convert.ToDouble(Amount.ToString("N2"));
+                            row.Cells["AmountGAP"].Value = Amount;
+                            TTLAmount += Amount;
+                        }                        
                     }
 
+                    //Sub-TTL
+                    if (dgvTotalByRM.Rows.Count > 0)
+                    {
+                        dgvTotalByRM.Rows.Add();
+                        dgvTotalByRM.Rows[dgvTotalByRM.Rows.Count-1].Cells["AmountGAP"].Value = TTLAmount;
+                    }
                 }
                 catch (Exception ex)
                 {

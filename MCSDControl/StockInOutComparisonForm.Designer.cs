@@ -39,25 +39,27 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.btnExport = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
@@ -75,13 +77,6 @@
             this.GAP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dgvTotalByRM = new System.Windows.Forms.DataGridView();
-            this.RMCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RMName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RMFunctName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RMOBSFunctName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RMSubSys = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RMOBS = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RMGAP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.dgvMCTransaction = new System.Windows.Forms.DataGridView();
             this.SysNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -113,9 +108,18 @@
             this.chkItemCode = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.DtEndDate = new System.Windows.Forms.DateTimePicker();
+            this.DtDateTime = new System.Windows.Forms.DateTimePicker();
             this.DtDate = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
-            this.DtDateTime = new System.Windows.Forms.DateTimePicker();
+            this.RMCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RMName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RMFunctName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RMOBSFunctName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RMSubSys = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RMOBS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RMGAP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UnitPriceGAP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AmountGAP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelHeader.SuspendLayout();
             this.panelFooter.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -357,7 +361,9 @@
             this.RMOBSFunctName,
             this.RMSubSys,
             this.RMOBS,
-            this.RMGAP});
+            this.RMGAP,
+            this.UnitPriceGAP,
+            this.AmountGAP});
             this.dgvTotalByRM.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTotalByRM.EnableHeadersVisualStyles = false;
             this.dgvTotalByRM.Location = new System.Drawing.Point(3, 3);
@@ -365,84 +371,15 @@
             this.dgvTotalByRM.Name = "dgvTotalByRM";
             this.dgvTotalByRM.ReadOnly = true;
             this.dgvTotalByRM.RowHeadersVisible = false;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle14.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvTotalByRM.RowsDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvTotalByRM.RowsDefaultCellStyle = dataGridViewCellStyle16;
             this.dgvTotalByRM.RowTemplate.Height = 25;
             this.dgvTotalByRM.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvTotalByRM.Size = new System.Drawing.Size(1162, 356);
             this.dgvTotalByRM.TabIndex = 17;
-            // 
-            // RMCode
-            // 
-            this.RMCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.RMCode.HeaderText = "លេខកូដ";
-            this.RMCode.Name = "RMCode";
-            this.RMCode.ReadOnly = true;
-            // 
-            // RMName
-            // 
-            this.RMName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.RMName.DefaultCellStyle = dataGridViewCellStyle10;
-            this.RMName.FillWeight = 190F;
-            this.RMName.HeaderText = "ឈ្មោះវត្ថុធាតុដើម";
-            this.RMName.Name = "RMName";
-            this.RMName.ReadOnly = true;
-            this.RMName.Width = 200;
-            // 
-            // RMFunctName
-            // 
-            this.RMFunctName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.RMFunctName.HeaderText = "Function";
-            this.RMFunctName.Name = "RMFunctName";
-            this.RMFunctName.ReadOnly = true;
-            this.RMFunctName.Width = 120;
-            // 
-            // RMOBSFunctName
-            // 
-            this.RMOBSFunctName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.RMOBSFunctName.HeaderText = "OBS Function";
-            this.RMOBSFunctName.Name = "RMOBSFunctName";
-            this.RMOBSFunctName.ReadOnly = true;
-            this.RMOBSFunctName.Visible = false;
-            this.RMOBSFunctName.Width = 120;
-            // 
-            // RMSubSys
-            // 
-            this.RMSubSys.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle11.Format = "N3";
-            this.RMSubSys.DefaultCellStyle = dataGridViewCellStyle11;
-            this.RMSubSys.HeaderText = "Sub-Sys Qty";
-            this.RMSubSys.Name = "RMSubSys";
-            this.RMSubSys.ReadOnly = true;
-            this.RMSubSys.Width = 120;
-            // 
-            // RMOBS
-            // 
-            this.RMOBS.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle12.Format = "N3";
-            dataGridViewCellStyle12.NullValue = null;
-            this.RMOBS.DefaultCellStyle = dataGridViewCellStyle12;
-            this.RMOBS.HeaderText = "OBS Qty";
-            this.RMOBS.Name = "RMOBS";
-            this.RMOBS.ReadOnly = true;
-            this.RMOBS.Width = 120;
-            // 
-            // RMGAP
-            // 
-            this.RMGAP.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle13.Format = "N3";
-            this.RMGAP.DefaultCellStyle = dataGridViewCellStyle13;
-            this.RMGAP.HeaderText = "GAP";
-            this.RMGAP.Name = "RMGAP";
-            this.RMGAP.ReadOnly = true;
-            this.RMGAP.Width = 150;
             // 
             // tabPage4
             // 
@@ -460,21 +397,21 @@
             this.dgvMCTransaction.AllowUserToAddRows = false;
             this.dgvMCTransaction.AllowUserToDeleteRows = false;
             this.dgvMCTransaction.AllowUserToResizeRows = false;
-            dataGridViewCellStyle15.BackColor = System.Drawing.Color.Lavender;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvMCTransaction.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle17.BackColor = System.Drawing.Color.Lavender;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvMCTransaction.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle17;
             this.dgvMCTransaction.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvMCTransaction.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvMCTransaction.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle18;
             this.dgvMCTransaction.ColumnHeadersHeight = 30;
             this.dgvMCTransaction.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvMCTransaction.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -496,11 +433,11 @@
             this.dgvMCTransaction.Name = "dgvMCTransaction";
             this.dgvMCTransaction.ReadOnly = true;
             this.dgvMCTransaction.RowHeadersVisible = false;
-            dataGridViewCellStyle21.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle21.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvMCTransaction.RowsDefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle23.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvMCTransaction.RowsDefaultCellStyle = dataGridViewCellStyle23;
             this.dgvMCTransaction.RowTemplate.Height = 25;
             this.dgvMCTransaction.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvMCTransaction.Size = new System.Drawing.Size(1162, 356);
@@ -548,8 +485,8 @@
             // ItemName
             // 
             this.ItemName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ItemName.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ItemName.DefaultCellStyle = dataGridViewCellStyle19;
             this.ItemName.FillWeight = 190F;
             this.ItemName.HeaderText = "ឈ្មោះវត្ថុធាតុដើម";
             this.ItemName.Name = "ItemName";
@@ -559,9 +496,9 @@
             // ReceiveQty
             // 
             this.ReceiveQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle18.Format = "N3";
-            this.ReceiveQty.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle20.Format = "N3";
+            this.ReceiveQty.DefaultCellStyle = dataGridViewCellStyle20;
             this.ReceiveQty.HeaderText = "ចំនួនចូល";
             this.ReceiveQty.Name = "ReceiveQty";
             this.ReceiveQty.ReadOnly = true;
@@ -570,10 +507,10 @@
             // TransferQty
             // 
             this.TransferQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle19.Format = "N3";
-            dataGridViewCellStyle19.NullValue = null;
-            this.TransferQty.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle21.Format = "N3";
+            dataGridViewCellStyle21.NullValue = null;
+            this.TransferQty.DefaultCellStyle = dataGridViewCellStyle21;
             this.TransferQty.HeaderText = "ចំនួនចេញ";
             this.TransferQty.Name = "TransferQty";
             this.TransferQty.ReadOnly = true;
@@ -590,9 +527,9 @@
             // RegDate
             // 
             this.RegDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle20.Format = "dd-MM-yy hh:mm:ss tt";
-            dataGridViewCellStyle20.NullValue = null;
-            this.RegDate.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle22.Format = "dd-MM-yy hh:mm:ss tt";
+            dataGridViewCellStyle22.NullValue = null;
+            this.RegDate.DefaultCellStyle = dataGridViewCellStyle22;
             this.RegDate.HeaderText = "ថ្ងៃបញ្ចូល";
             this.RegDate.Name = "RegDate";
             this.RegDate.ReadOnly = true;
@@ -622,21 +559,21 @@
             this.dgvOBSTransaction.AllowUserToAddRows = false;
             this.dgvOBSTransaction.AllowUserToDeleteRows = false;
             this.dgvOBSTransaction.AllowUserToResizeRows = false;
-            dataGridViewCellStyle22.BackColor = System.Drawing.Color.Lavender;
-            dataGridViewCellStyle22.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle22.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvOBSTransaction.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle24.BackColor = System.Drawing.Color.Lavender;
+            dataGridViewCellStyle24.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle24.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle24.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvOBSTransaction.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle24;
             this.dgvOBSTransaction.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle23.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle23.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvOBSTransaction.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle25.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle25.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle25.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle25.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle25.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvOBSTransaction.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
             this.dgvOBSTransaction.ColumnHeadersHeight = 30;
             this.dgvOBSTransaction.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvOBSTransaction.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -656,11 +593,11 @@
             this.dgvOBSTransaction.Name = "dgvOBSTransaction";
             this.dgvOBSTransaction.ReadOnly = true;
             this.dgvOBSTransaction.RowHeadersVisible = false;
-            dataGridViewCellStyle28.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle28.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle28.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle28.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvOBSTransaction.RowsDefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle30.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle30.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle30.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle30.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvOBSTransaction.RowsDefaultCellStyle = dataGridViewCellStyle30;
             this.dgvOBSTransaction.RowTemplate.Height = 25;
             this.dgvOBSTransaction.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvOBSTransaction.Size = new System.Drawing.Size(1162, 356);
@@ -692,8 +629,8 @@
             // OBSItemName
             // 
             this.OBSItemName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.OBSItemName.DefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle26.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.OBSItemName.DefaultCellStyle = dataGridViewCellStyle26;
             this.OBSItemName.FillWeight = 190F;
             this.OBSItemName.HeaderText = "ឈ្មោះវត្ថុធាតុដើម";
             this.OBSItemName.Name = "OBSItemName";
@@ -703,9 +640,9 @@
             // OBSReceiveQty
             // 
             this.OBSReceiveQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle25.Format = "N3";
-            this.OBSReceiveQty.DefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle27.Format = "N3";
+            this.OBSReceiveQty.DefaultCellStyle = dataGridViewCellStyle27;
             this.OBSReceiveQty.HeaderText = "ចំនួនចូល";
             this.OBSReceiveQty.Name = "OBSReceiveQty";
             this.OBSReceiveQty.ReadOnly = true;
@@ -714,10 +651,10 @@
             // OBSIssueQty
             // 
             this.OBSIssueQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle26.Format = "N3";
-            dataGridViewCellStyle26.NullValue = null;
-            this.OBSIssueQty.DefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle28.Format = "N3";
+            dataGridViewCellStyle28.NullValue = null;
+            this.OBSIssueQty.DefaultCellStyle = dataGridViewCellStyle28;
             this.OBSIssueQty.HeaderText = "ចំនួនចេញ";
             this.OBSIssueQty.Name = "OBSIssueQty";
             this.OBSIssueQty.ReadOnly = true;
@@ -734,9 +671,9 @@
             // CreateDate
             // 
             this.CreateDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle27.Format = "dd-MM-yy hh:mm:ss tt";
-            dataGridViewCellStyle27.NullValue = null;
-            this.CreateDate.DefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle29.Format = "dd-MM-yy hh:mm:ss tt";
+            dataGridViewCellStyle29.NullValue = null;
+            this.CreateDate.DefaultCellStyle = dataGridViewCellStyle29;
             this.CreateDate.HeaderText = "ថ្ងៃបញ្ចូល";
             this.CreateDate.Name = "CreateDate";
             this.CreateDate.ReadOnly = true;
@@ -828,6 +765,17 @@
             this.DtEndDate.Size = new System.Drawing.Size(118, 32);
             this.DtEndDate.TabIndex = 7;
             // 
+            // DtDateTime
+            // 
+            this.DtDateTime.CustomFormat = "hh:mm tt";
+            this.DtDateTime.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DtDateTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.DtDateTime.Location = new System.Drawing.Point(256, 20);
+            this.DtDateTime.Name = "DtDateTime";
+            this.DtDateTime.ShowUpDown = true;
+            this.DtDateTime.Size = new System.Drawing.Size(86, 32);
+            this.DtDateTime.TabIndex = 8;
+            // 
             // DtDate
             // 
             this.DtDate.CustomFormat = "dd-MM-yyyy";
@@ -848,16 +796,93 @@
             this.label6.TabIndex = 10;
             this.label6.Text = "-";
             // 
-            // DtDateTime
+            // RMCode
             // 
-            this.DtDateTime.CustomFormat = "hh:mm tt";
-            this.DtDateTime.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DtDateTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DtDateTime.Location = new System.Drawing.Point(256, 20);
-            this.DtDateTime.Name = "DtDateTime";
-            this.DtDateTime.ShowUpDown = true;
-            this.DtDateTime.Size = new System.Drawing.Size(86, 32);
-            this.DtDateTime.TabIndex = 8;
+            this.RMCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.RMCode.HeaderText = "លេខកូដ";
+            this.RMCode.Name = "RMCode";
+            this.RMCode.ReadOnly = true;
+            // 
+            // RMName
+            // 
+            this.RMName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.RMName.DefaultCellStyle = dataGridViewCellStyle10;
+            this.RMName.FillWeight = 190F;
+            this.RMName.HeaderText = "ឈ្មោះវត្ថុធាតុដើម";
+            this.RMName.Name = "RMName";
+            this.RMName.ReadOnly = true;
+            this.RMName.Width = 200;
+            // 
+            // RMFunctName
+            // 
+            this.RMFunctName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.RMFunctName.HeaderText = "Function";
+            this.RMFunctName.Name = "RMFunctName";
+            this.RMFunctName.ReadOnly = true;
+            this.RMFunctName.Width = 120;
+            // 
+            // RMOBSFunctName
+            // 
+            this.RMOBSFunctName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.RMOBSFunctName.HeaderText = "OBS Function";
+            this.RMOBSFunctName.Name = "RMOBSFunctName";
+            this.RMOBSFunctName.ReadOnly = true;
+            this.RMOBSFunctName.Visible = false;
+            this.RMOBSFunctName.Width = 120;
+            // 
+            // RMSubSys
+            // 
+            this.RMSubSys.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle11.Format = "N3";
+            this.RMSubSys.DefaultCellStyle = dataGridViewCellStyle11;
+            this.RMSubSys.HeaderText = "Sub-Sys Qty";
+            this.RMSubSys.Name = "RMSubSys";
+            this.RMSubSys.ReadOnly = true;
+            // 
+            // RMOBS
+            // 
+            this.RMOBS.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle12.Format = "N3";
+            dataGridViewCellStyle12.NullValue = null;
+            this.RMOBS.DefaultCellStyle = dataGridViewCellStyle12;
+            this.RMOBS.HeaderText = "OBS Qty";
+            this.RMOBS.Name = "RMOBS";
+            this.RMOBS.ReadOnly = true;
+            // 
+            // RMGAP
+            // 
+            this.RMGAP.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle13.Format = "N3";
+            this.RMGAP.DefaultCellStyle = dataGridViewCellStyle13;
+            this.RMGAP.HeaderText = "GAP";
+            this.RMGAP.Name = "RMGAP";
+            this.RMGAP.ReadOnly = true;
+            // 
+            // UnitPriceGAP
+            // 
+            this.UnitPriceGAP.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle14.Format = "N4";
+            this.UnitPriceGAP.DefaultCellStyle = dataGridViewCellStyle14;
+            this.UnitPriceGAP.HeaderText = "Unit Price";
+            this.UnitPriceGAP.Name = "UnitPriceGAP";
+            this.UnitPriceGAP.ReadOnly = true;
+            this.UnitPriceGAP.Width = 90;
+            // 
+            // AmountGAP
+            // 
+            this.AmountGAP.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle15.Format = "#,##0.00 $";
+            this.AmountGAP.DefaultCellStyle = dataGridViewCellStyle15;
+            this.AmountGAP.HeaderText = "Amount $";
+            this.AmountGAP.Name = "AmountGAP";
+            this.AmountGAP.ReadOnly = true;
+            this.AmountGAP.Width = 90;
             // 
             // StockInOutComparisonForm
             // 
@@ -943,6 +968,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn OBSFunctName;
         private System.Windows.Forms.DataGridViewTextBoxColumn OBS;
         private System.Windows.Forms.DataGridViewTextBoxColumn GAP;
+        private System.Windows.Forms.DateTimePicker DtDateTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn RMCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn RMName;
         private System.Windows.Forms.DataGridViewTextBoxColumn RMFunctName;
@@ -950,6 +976,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn RMSubSys;
         private System.Windows.Forms.DataGridViewTextBoxColumn RMOBS;
         private System.Windows.Forms.DataGridViewTextBoxColumn RMGAP;
-        private System.Windows.Forms.DateTimePicker DtDateTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UnitPriceGAP;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AmountGAP;
     }
 }

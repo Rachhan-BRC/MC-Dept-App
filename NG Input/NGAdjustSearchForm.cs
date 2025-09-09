@@ -514,7 +514,6 @@ namespace MachineDeptApp.NG_Input
                     worksheetCountable.Cells[8, 5] = "Adjust OBS Stock";
                     worksheetCountable.Cells[14, 12] = "Add to OBS";
 
-
                     foreach (Excel.Shape shape in worksheetCountable.Shapes)
                     {
                         //TotalItemsShape, MatchingShape, OverShape, MinusShape
@@ -547,8 +546,6 @@ namespace MachineDeptApp.NG_Input
                             }
                         }
                     }
-
-
 
                     if (dtForPrintExcel.Rows.Count > 1)
                     {
