@@ -429,10 +429,11 @@ namespace MachineDeptApp.Inventory
                         "\nEND AS DocumentNo, T1.POSNo, T2.LowItemCode, T4.ItemName, (T2.LowQty*Qty) As TotalQty FROM " +
                         "\n(SELECT SubLoc, LabelNo, LEFT(QtyDetails2, CHARINDEX('|', QtyDetails2) - 1) AS POSNo, ItemCode, Qty FROM tbInventory WHERE LocCode='MC1' AND CancelStatus = 0 AND CountingMethod = 'Semi') T1 " +
                         "\nINNER JOIN (SELECT * FROM MstBOM) T2 ON T1.ItemCode=T2.UpItemCode " +
-                        "\nLEFT JOIN (SELECT SysNo, POSNo FROM tbSDAllocateStock INNER JOIN (SELECT SD_DocNo FROM tbBobbinRecords WHERE In_Date IS NULL GROUP BY SD_DocNo)T3_1 ON tbSDAllocateStock.SysNo=T3_1.SD_DocNo) T3 ON T1.POSNo=T3.POSNo " +
+                        "\nLEFT JOIN (SELECT SysNo, POSNo FROM tbSDAllocateStock) T3 ON T1.POSNo=T3.POSNo " +
                         "\nINNER JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T4 ON T2.LowItemCode = T4.ItemCode " +
                         "\nLEFT JOIN (SELECT Code FROM tbSDMCAllTransaction WHERE CancelStatus = 0 AND LocCode = 'MC1' AND ReceiveQty>0 AND POSNo LIKE 'SD%' GROUP BY Code) T5 ON T2.LowItemCode = T5.Code " +
                         "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Work In Process') T6 ON T1.ItemCode=T6.ItemCode";
+                    //Console.WriteLine(SQLQuery);
                     sda = new SqlDataAdapter(SQLQuery, cnn.con);
                     sda.Fill(dtSemiDetails);
                     SQLQuery = "SELECT LowItemCode, DocumentNo, ROUND(SUM(TotalQty),2) AS TotalQty  FROM " +
@@ -466,6 +467,7 @@ namespace MachineDeptApp.Inventory
                         "\nLEFT JOIN (SELECT Code FROM tbSDMCAllTransaction WHERE CancelStatus = 0 AND LocCode = 'MC1' AND ReceiveQty>0 AND POSNo LIKE 'SD%' GROUP BY Code) T3 ON RMCode = T3.Code " +
                         "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') T4 ON RMCode=T4.ItemCode " +
                         "\nWHERE ReqStatus = 0 AND Qty<>0";
+                    //Console.WriteLine(SQLQuery);
                     sda = new SqlDataAdapter(SQLQuery, cnn.con);
                     sda.Fill(dtNGDetails);
                     SQLQuery = "SELECT RMCode, DocumentNo, SUM(Qty) AS TotalQty FROM " +
@@ -582,6 +584,25 @@ namespace MachineDeptApp.Inventory
                     double NGQty = Convert.ToDouble(Convert.ToDouble(row["NG"]).ToString("N0"));
                     double GAP = (POSQty+ SemiQty + SDQty + NGQty) - SysQty;
 
+                    /*
+                    if (DocumentNo != "Other Stock")
+                    {
+                        dgvInprocess.Rows.Add();
+                        dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["MC1Name"].Value = MC1Name;
+                        dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["MCName"].Value = MCName;
+                        dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["DocumentNo"].Value = DocumentNo;
+                        dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["RMCode"].Value = RMCode;
+                        dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["RMName"].Value = RMName;
+                        dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["RMType"].Value = RMType;
+                        dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["SystemQty"].Value = SysQty;
+                        dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["POSQty"].Value = POSQty;
+                        dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["SemiQty"].Value = SemiQty;
+                        dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["SDQty"].Value = SDQty;
+                        dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["NGQty"].Value = NGQty;
+                        dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["GAP"].Value = GAP;
+                    }
+                    */
+
                     dgvInprocess.Rows.Add();
                     dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["MC1Name"].Value = MC1Name;
                     dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["MCName"].Value = MCName;
@@ -595,6 +616,7 @@ namespace MachineDeptApp.Inventory
                     dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["SDQty"].Value = SDQty;
                     dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["NGQty"].Value = NGQty;
                     dgvInprocess.Rows[dgvInprocess.Rows.Count - 1].Cells["GAP"].Value = GAP;
+
                 }
             }
 

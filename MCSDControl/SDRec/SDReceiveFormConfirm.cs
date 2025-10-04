@@ -13,94 +13,60 @@ namespace MachineDeptApp.MCSDControl.SDRec
 {
     public partial class SDReceiveFormConfirm : Form
     {
-        SQLConnectOBS cnnOBS = new SQLConnectOBS();
-        SDReceiveForm fgrid;
-        DataTable dtOBSTrans;
-        public static string ID;
-        public static string Password;
-        int FoundAbnormal;
-        int width;
-        int height;
+        DataGridView dgvMain;
+        DataTable dtMain, dtPOSDetail, dtRMDetails;
 
-        public SDReceiveFormConfirm(SDReceiveForm fg)
+        public SDReceiveFormConfirm(DataTable dt, DataGridView dgv, DataTable dtPOS, DataTable dtRM)
         {
             InitializeComponent();
-            this.fgrid = fg;
-            this.cnnOBS.Connection();
+            this.dtMain = dt;
+            this.dgvMain = dgv;
+            this.dtPOSDetail = dtPOS;
+            this.dtRMDetails = dtRM;
             this.dgvConsumption.CellFormatting += DgvConsumption_CellFormatting;
-            this.dgvConsumption.SelectionChanged += DgvConsumption_SelectionChanged;
-            this.dgvTransfered.SelectionChanged += DgvTransfered_SelectionChanged;
             this.btnOK.Click += BtnOK_Click;
-            this.btnEdit.Click += BtnEdit_Click;
             this.Load += SDReceiveFormConfirm_Load;
-            this.btnSwap.Click += BtnSwap_Click;
-        }
-
-        private void BtnSwap_Click(object sender, EventArgs e)
-        {
-            int dgvConsSelectedRow = dgvConsumption.CurrentCell.RowIndex;
-            int dgvTransSelectedRow = dgvTransfered.CurrentCell.RowIndex;
-            this.dgvConsumption.Rows[dgvConsSelectedRow].Cells[0].Value = dgvTransfered.Rows[dgvConsSelectedRow].Cells[0].Value.ToString();
-            this.dgvConsumption.Rows[dgvConsSelectedRow].Cells[1].Value = dgvTransfered.Rows[dgvConsSelectedRow].Cells[1].Value.ToString();
-            this.dgvConsumption.Rows[dgvConsSelectedRow].Cells[4].Value = Convert.ToDouble(dgvTransfered.Rows[dgvConsSelectedRow].Cells[2].Value.ToString());
-            this.dgvTransfered.Rows.RemoveAt(dgvTransSelectedRow);
-            dgvConsumption.ClearSelection();
-            dgvTransfered.ClearSelection();
-            CheckButtonSwap();
 
         }
 
         private void SDReceiveFormConfirm_Load(object sender, EventArgs e)
         {
-            LbPOSNo.Text = SDReceiveForm.POSNo;
-            LbShipDate.Text = SDReceiveForm.ShipDate;
-            LbWipCode.Text = SDReceiveForm.WIPCode;
-            LbWipName.Text = SDReceiveForm.WIPName;
-            LbQty.Text = Convert.ToDouble(SDReceiveForm.Qty).ToString("N0");
-            this.GrbOBSTransfer.Visible = false;
-            this.splitter1.Visible = false;
-            width = GrbBOM.Width;
-            height = GrbBOM.Height;
-            this.GrbBOM.Size = new Size(width + 380, height);
-            ReloadBOM();
-        }
+            dgvConsumption.RowHeadersDefaultCellStyle.Font = new Font("Calibri", 10,FontStyle.Regular);
+            LbPOSNo.Text = dtPOSDetail.Rows[0]["DONO"].ToString();
+            LbShipDate.Text = Convert.ToDateTime(dtPOSDetail.Rows[0]["POSDeliveryDate"]).ToString("dd-MM-yyyy");
+            LbWipCode.Text = dtPOSDetail.Rows[0]["ItemCode"].ToString();
+            LbWipName.Text = dtPOSDetail.Rows[0]["ItemName"].ToString();
+            LbQty.Text = Convert.ToDouble(dtPOSDetail.Rows[0]["PlanQty"]).ToString("N0");
 
-        private void BtnEdit_Click(object sender, EventArgs e)
-        {
-            int Width = GrbBOM.Width;
-            for (int i = 0; i < 1000; i++)
+            foreach (DataRow row in dtRMDetails.Rows)
             {
-                if (Width == width)
-                {
-                    break;
-                }
-                else
-                {
-                    Width = Width - 1;
-                    this.GrbBOM.Size = new Size(Width, height);
-                }
+                dgvConsumption.Rows.Add();
+                dgvConsumption.Rows[dgvConsumption.Rows.Count - 1].HeaderCell.Value = dgvConsumption.Rows.Count.ToString();
+                dgvConsumption.Rows[dgvConsumption.Rows.Count - 1].Cells["RMCode"].Value = row["ItemCode"];
+                dgvConsumption.Rows[dgvConsumption.Rows.Count - 1].Cells["RMName"].Value = row["ItemName"];
+                dgvConsumption.Rows[dgvConsumption.Rows.Count - 1].Cells["BOMQty"].Value = Convert.ToDouble(row["BOMQty"]);
+                dgvConsumption.Rows[dgvConsumption.Rows.Count - 1].Cells["ConsumptionQty"].Value = Convert.ToDouble(row["ConsumpQty"]);
+                dgvConsumption.Rows[dgvConsumption.Rows.Count - 1].Cells["KITTransferQty"].Value = Convert.ToDouble(row["KITTranQty"]);
+                if(row["RecQty"].ToString().Trim()!="")
+                    dgvConsumption.Rows[dgvConsumption.Rows.Count - 1].Cells["MCRecQty"].Value = Convert.ToDouble(row["RecQty"]);
+                dgvConsumption.Rows[dgvConsumption.Rows.Count - 1].Cells["MCRemQty"].Value = Convert.ToDouble(row["RemainMC_KITQty"]);
             }
-            this.GrbBOM.Size = new Size(width, height);
-            this.GrbOBSTransfer.Visible = true;
-            this.splitter1.Visible = true;
-            CheckOBSTransfer();
-            Calc();
+            dgvConsumption.ClearSelection();
 
         }
-
         private void BtnOK_Click(object sender, EventArgs e)
         {
-            FoundAbnormal = 0;
+            int FoundAbnormal = 0;
             foreach (DataGridViewRow row in dgvConsumption.Rows)
             {
-                if (Convert.ToDouble(row.Cells[3].Value.ToString()) != Convert.ToDouble(row.Cells[4].Value.ToString()))
+                if (Convert.ToDouble(row.Cells["KITTransferQty"].Value.ToString()) < Convert.ToDouble(row.Cells["ConsumptionQty"].Value.ToString()))
                 {
                     FoundAbnormal++;
                 }
             }
             if (FoundAbnormal == 0)
             {
-                InsertOK();
+                AddToMainForm();
                 this.Close();
             }
             else
@@ -108,144 +74,118 @@ namespace MachineDeptApp.MCSDControl.SDRec
                 DialogResult DLS = MessageBox.Show("មានវត្ថុធាតុដើមដែល Kitting Room វេរឱ្យមិនទាន់គ្រប់!\nតើអ្នកចង់បន្ដឬទេ?", "Rachhan System", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                 if (DLS == DialogResult.Yes)
                 {
-                    ID = "";
-                    Password = "";
                     SDReceiveFormConfirmUser Srfcu = new SDReceiveFormConfirmUser();
                     Srfcu.ShowDialog();
-                    if (ID.Trim() != "" && Password.Trim() != "")
+                    if (Srfcu.ID.ToString().Trim()!="" && Srfcu.Password.ToString().Trim()!="")
                     {
-                        InsertOK();
+                        AddToMainForm();
                         this.Close();
                     }
                 }
             }
-        }
 
-        private void DgvTransfered_SelectionChanged(object sender, EventArgs e)
-        {
-            CheckButtonSwap();
         }
-
-        private void DgvConsumption_SelectionChanged(object sender, EventArgs e)
-        {
-            CheckButtonSwap();
-        }
-
         private void DgvConsumption_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.ColumnIndex == 4 && e.Value.ToString() != "")
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                if (Convert.ToDouble(dgvConsumption[3, e.RowIndex].Value.ToString()) == Convert.ToDouble(dgvConsumption[4, e.RowIndex].Value.ToString()))
+                if (dgvConsumption.Columns[e.ColumnIndex].Name == "KITTransferQty")
                 {
-                    e.CellStyle.ForeColor = Color.Blue;
-                    e.CellStyle.Font = new System.Drawing.Font("Khmer OS Battambong", 9, FontStyle.Bold);
-                }
-                else
-                {
-                    e.CellStyle.ForeColor = Color.Red;
-                    e.CellStyle.Font = new System.Drawing.Font("Khmer OS Battambong", 9, FontStyle.Bold);
-                }
-
-            }
-
-        }
-
-        private void CheckButtonSwap()
-        {
-            btnSwap.Enabled = false;
-            btnSwap.BackColor = Color.FromKnownColor(KnownColor.DarkGray);
-            if (dgvConsumption.SelectedRows.Count > 0 && dgvTransfered.SelectedRows.Count > 0)
-            {
-                btnSwap.Enabled = true;
-                btnSwap.BackColor = Color.White;
-            }
-        }
-
-        private void ReloadBOM()
-        {
-            dgvConsumption.Rows.Clear();
-            foreach (DataRow row in fgrid.dtPOSConsump.Rows)
-            {
-                dgvConsumption.Rows.Add(row[0], row[1], Convert.ToDouble(row[2].ToString()), Convert.ToDouble(row[3].ToString()));
-            }
-            CheckOBSTransfer();
-            Calc();
-            dgvConsumption.ClearSelection();
-        }
-
-        private void CheckOBSTransfer()
-        {
-            dgvTransfered.Rows.Clear();
-            try
-            {
-                //Check BOM
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT prgalltransaction.ItemCode, mstitem.ItemName, SUM(prgalltransaction.RealValueQty) as TotalQty FROM prgalltransaction " +
-                                                                                    "INNER JOIN mstitem ON mstitem.ItemCode = prgalltransaction.ItemCode " +
-                                                                                    "INNER JOIN mstgri ON mstgri.GRICode = prgalltransaction.GRICode " +
-                                                                                    "WHERE prgalltransaction.LocCode = 'MC1' AND mstgri.GRIName LIKE 'Transfer%' AND prgalltransaction.Remark = '" + LbPOSNo.Text + "' " +
-                                                                                    "GROUP BY prgalltransaction.ItemCode, mstitem.ItemName", cnnOBS.conOBS);
-                dtOBSTrans = new DataTable();
-                sda.Fill(dtOBSTrans);
-                foreach (DataRow row in dtOBSTrans.Rows)
-                {
-                    if (Convert.ToDouble(row[2].ToString()) > 0)
+                    double ConsumptionQty = Convert.ToDouble(dgvConsumption.Rows[e.RowIndex].Cells["ConsumptionQty"].Value);
+                    double KITTransferQty = Convert.ToDouble(dgvConsumption.Rows[e.RowIndex].Cells["KITTransferQty"].Value);
+                    if (KITTransferQty >= ConsumptionQty)
                     {
-                        dgvTransfered.Rows.Add(row[0], row[1], Convert.ToDouble(row[2].ToString()));
+                        e.CellStyle.ForeColor = Color.Green;
+                        e.CellStyle.Font = new Font(dgvConsumption.AlternatingRowsDefaultCellStyle.Font, FontStyle.Bold);
+                    }
+                    else
+                    {
+                        e.CellStyle.ForeColor = Color.Red;
+                        e.CellStyle.Font = new Font(dgvConsumption.AlternatingRowsDefaultCellStyle.Font, FontStyle.Bold);
                     }
                 }
-                dgvTransfered.ClearSelection();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("ការភ្ជាប់បណ្ដាញមានបញ្ហា!\nសូមពិនិត្យមើល Wifi/Internet!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                if (dgvConsumption.Columns[e.ColumnIndex].Name == "MCRemQty")
+                {
+                    double ConsumptionQty = Convert.ToDouble(dgvConsumption.Rows[e.RowIndex].Cells["ConsumptionQty"].Value);
+                    double MCRemainQty = Convert.ToDouble(dgvConsumption.Rows[e.RowIndex].Cells["MCRemQty"].Value);
+                    if (MCRemainQty > 0 )
+                    {
+                        if (MCRemainQty == ConsumptionQty)
+                        {
+                            e.CellStyle.ForeColor = Color.Green;
+                            e.CellStyle.Font = new Font(dgvConsumption.AlternatingRowsDefaultCellStyle.Font, FontStyle.Bold);
+                        }
+                        else
+                        {
+                            e.CellStyle.ForeColor = Color.Orange;
+                            e.CellStyle.Font = new Font(dgvConsumption.AlternatingRowsDefaultCellStyle.Font, FontStyle.Bold);
+                        }
+                    }
+                    else
+                    {
+                        e.CellStyle.ForeColor = Color.Green;
+                        e.CellStyle.Font = new Font(dgvConsumption.AlternatingRowsDefaultCellStyle.Font, FontStyle.Bold);
+                    }
+                }
 
             }
         }
 
-        private void Calc()
-        {
-            //Cal TransQty
-            foreach (DataGridViewRow DgvRow in dgvConsumption.Rows)
-            {
-                double Trans = 0;
-                foreach (DataRow row in dtOBSTrans.Rows)
-                {
-                    if (DgvRow.Cells[0].Value.ToString() == row[0].ToString())
-                    {
-                        Trans = Convert.ToDouble(row[2].ToString());
-                        break;
-                    }
-                }
-                DgvRow.Cells[4].Value = Trans;
-            }
-            //Remove from Swap Item
-            for (int i = dgvTransfered.Rows.Count - 1; i > -1; i--)
-            {
-                foreach (DataGridViewRow DgvRow in dgvConsumption.Rows)
-                {
-                    if (dgvTransfered.Rows[i].Cells[0].Value.ToString() == DgvRow.Cells[0].Value.ToString())
-                    {
-                        dgvTransfered.Rows.RemoveAt(i);
-                        break;
-                    }
-                }
-            }
-        }
 
-        private void InsertOK()
+        //Method
+        private void AddToMainForm()
         {
-            if (FoundAbnormal > 0)
+            Cursor = Cursors.WaitCursor;
+            //Check Complete-Set or not
+            int CountNCompleteSet = 0;
+            foreach (DataGridViewRow row in dgvConsumption.Rows)
             {
-                fgrid.dgvScanned.Rows.Add(LbPOSNo.Text, LbWipCode.Text, LbWipName.Text, Convert.ToDouble(LbQty.Text), Convert.ToDateTime(LbShipDate.Text), false);
+                if (Convert.ToDouble(row.Cells["MCRemQty"].Value) != Convert.ToDouble(row.Cells["ConsumptionQty"].Value))
+                {
+                    CountNCompleteSet++;
+                    break;
+                }
             }
+
+            //Add to DGV
+            dgvMain.Rows.Add();
+            dgvMain.Rows[dgvMain.Rows.Count-1].Cells["POSNo"].Value = LbPOSNo.Text;
+            dgvMain.Rows[dgvMain.Rows.Count - 1].Cells["WIPCode"].Value = LbWipCode.Text;
+            dgvMain.Rows[dgvMain.Rows.Count - 1].Cells["WIPName"].Value = LbWipName.Text;
+            dgvMain.Rows[dgvMain.Rows.Count - 1].Cells["POSQty"].Value = Convert.ToDouble(LbQty.Text);
+            dgvMain.Rows[dgvMain.Rows.Count - 1].Cells["ShipDate"].Value = Convert.ToDateTime(LbShipDate.Text);
+            //Complete Set
+            if (CountNCompleteSet == 0)
+                dgvMain.Rows[dgvMain.Rows.Count - 1].Cells["CompleteSet"].Value = true;
+            //Not-Complete Set
             else
+                dgvMain.Rows[dgvMain.Rows.Count - 1].Cells["CompleteSet"].Value = false;
+
+            //Add Consumption to dtSQLSaving-Main
+            foreach (DataGridViewRow row in dgvConsumption.Rows)
             {
-                fgrid.dgvScanned.Rows.Add(LbPOSNo.Text, LbWipCode.Text, LbWipName.Text, Convert.ToDouble(LbQty.Text), Convert.ToDateTime(LbShipDate.Text), true);
+                string POSNo = LbPOSNo.Text;
+                string RMCode = row.Cells["RMCode"].Value.ToString();
+                string RMName = row.Cells["RMName"].Value.ToString();
+                double BOMQty = Convert.ToDouble(row.Cells["BOMQty"].Value);
+                double ConsumptionQty = Convert.ToDouble(row.Cells["ConsumptionQty"].Value);
+                double KITTransferQty = Convert.ToDouble(row.Cells["KITTransferQty"].Value);
+                double MCRemQty = Convert.ToDouble(row.Cells["MCRemQty"].Value);
+
+                dtMain.Rows.Add(POSNo, RMCode); //Need to Assign during add because it's PrimaryKey
+                dtMain.Rows[dtMain.Rows.Count-1]["ItemName"] = RMName;
+                dtMain.Rows[dtMain.Rows.Count-1]["BOMQty"] = BOMQty;
+                dtMain.Rows[dtMain.Rows.Count-1]["ConsumpQty"] = ConsumptionQty;
+                dtMain.Rows[dtMain.Rows.Count-1]["KITTranQty"] = KITTransferQty;
+                if(row.Cells["MCRecQty"].Value != null && row.Cells["MCRecQty"].Value.ToString().Trim() != "")
+                    dtMain.Rows[dtMain.Rows.Count-1]["RecQty"]=Convert.ToDouble(row.Cells["MCRecQty"].Value);
+                dtMain.Rows[dtMain.Rows.Count-1]["RemainMC_KITQty"] = MCRemQty;
+                dtMain.AcceptChanges();
             }
-            foreach (DataGridViewRow row in this.dgvConsumption.Rows)
-            {
-                fgrid.dtSQLSaving.Rows.Add(LbPOSNo.Text, row.Cells[0].Value.ToString(), row.Cells[1].Value.ToString(), row.Cells[2].Value.ToString(), row.Cells[3].Value.ToString(), row.Cells[4].Value.ToString());
-            }
+
+            Cursor = Cursors.Default;
+            
         }
 
     }

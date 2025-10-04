@@ -446,14 +446,21 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 try
                 {
                     cnnOBS.conOBS.Open();
+                    //string SQLQuery = "SELECT T1.UpItemCode, T2.ItemName, T1.LowItemCode, T3.ItemName AS RMName, T1.LowQty FROM " +
+                    //    "\n(SELECT * FROM mstbom) T1 " +
+                    //    "\nINNER JOIN (SELECT * FROM mstitem WHERE DelFlag=0 AND ItemType=1) T2 ON T1.UpItemCode=T2.ItemCode " +
+                    //    "\nINNER JOIN (SELECT * FROM mstitem WHERE DelFlag=0 AND ItemType=2 AND (MatCalcFlag=1 OR ItemCode IN ( "+ExceptedRM+" ))) T3 ON T1.LowItemCode = T3.ItemCode " +
+                    //    "\nWHERE T1.UpItemCode IN ("+WIPCodeIN+") ";
+
                     string SQLQuery = "SELECT T1.UpItemCode, T2.ItemName, T1.LowItemCode, T3.ItemName AS RMName, T1.LowQty FROM " +
                         "\n(SELECT * FROM mstbom) T1 " +
                         "\nINNER JOIN (SELECT * FROM mstitem WHERE DelFlag=0 AND ItemType=1) T2 ON T1.UpItemCode=T2.ItemCode " +
-                        "\nINNER JOIN (SELECT * FROM mstitem WHERE DelFlag=0 AND ItemType=2 AND (MatCalcFlag=1 OR ItemCode IN ( "+ExceptedRM+" ))) T3 ON T1.LowItemCode = T3.ItemCode " +
-                        "\nWHERE T1.UpItemCode IN ("+WIPCodeIN+") ";
-                    
+                        "\nINNER JOIN (SELECT * FROM mstitem WHERE DelFlag=0 AND ItemType=2 AND MatCalcFlag=1) T3 ON T1.LowItemCode = T3.ItemCode " +
+                        "\nWHERE T1.UpItemCode IN (" + WIPCodeIN + ") ";
+
+
                     //Console.WriteLine(SQLQuery);
-                    
+
                     SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnnOBS.conOBS);
                     sda.Fill(dtConsumtion);
                     dtConsumtion.Columns.Add("TotalSemiQty");

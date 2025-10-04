@@ -32,12 +32,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NGInprocessSearchForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.btnUnSelectAll = new System.Windows.Forms.Button();
             this.btnSelectAll = new System.Windows.Forms.Button();
@@ -72,6 +74,7 @@
             this.ChkForPrint = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.PosPDelDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PosCNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MCSeqNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MCName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RMCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RMName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -80,6 +83,8 @@
             this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PrintStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RegDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SDLastRecDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SpacialCase = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelHeader.SuspendLayout();
             this.panelFooter.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -235,6 +240,7 @@
             this.ChkForPrint,
             this.PosPDelDate,
             this.PosCNo,
+            this.MCSeqNo,
             this.MCName,
             this.RMCode,
             this.RMName,
@@ -242,7 +248,9 @@
             this.UP,
             this.Amount,
             this.PrintStatus,
-            this.RegDate});
+            this.RegDate,
+            this.SDLastRecDate,
+            this.SpacialCase});
             this.dgvSearchResult.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvSearchResult.EnableHeadersVisualStyles = false;
             this.dgvSearchResult.Location = new System.Drawing.Point(3, 26);
@@ -250,11 +258,11 @@
             this.dgvSearchResult.ReadOnly = true;
             this.dgvSearchResult.RowHeadersVisible = false;
             this.dgvSearchResult.RowHeadersWidth = 60;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvSearchResult.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvSearchResult.RowsDefaultCellStyle = dataGridViewCellStyle10;
             this.dgvSearchResult.RowTemplate.Height = 25;
             this.dgvSearchResult.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvSearchResult.Size = new System.Drawing.Size(1068, 347);
@@ -500,6 +508,15 @@
             this.PosCNo.ReadOnly = true;
             this.PosCNo.Width = 120;
             // 
+            // MCSeqNo
+            // 
+            this.MCSeqNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.MCSeqNo.DefaultCellStyle = dataGridViewCellStyle4;
+            this.MCSeqNo.HeaderText = "ល.រ ម៉ាស៊ីន";
+            this.MCSeqNo.Name = "MCSeqNo";
+            this.MCSeqNo.ReadOnly = true;
+            // 
             // MCName
             // 
             this.MCName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -527,9 +544,9 @@
             // Qty
             // 
             this.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "N3";
-            this.Qty.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "N3";
+            this.Qty.DefaultCellStyle = dataGridViewCellStyle5;
             this.Qty.HeaderText = "ចំនួន";
             this.Qty.Name = "Qty";
             this.Qty.ReadOnly = true;
@@ -538,9 +555,9 @@
             // UP
             // 
             this.UP.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "N4";
-            this.UP.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.Format = "N4";
+            this.UP.DefaultCellStyle = dataGridViewCellStyle6;
             this.UP.HeaderText = "Unit Price";
             this.UP.Name = "UP";
             this.UP.ReadOnly = true;
@@ -548,9 +565,9 @@
             // Amount
             // 
             this.Amount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "N2";
-            this.Amount.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.Format = "N2";
+            this.Amount.DefaultCellStyle = dataGridViewCellStyle7;
             this.Amount.HeaderText = "Amount";
             this.Amount.Name = "Amount";
             this.Amount.ReadOnly = true;
@@ -565,12 +582,29 @@
             // RegDate
             // 
             this.RegDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle7.Format = "dd-MMM-yy hh:mm tt";
-            this.RegDate.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle8.Format = "dd-MMM-yy hh:mm tt";
+            this.RegDate.DefaultCellStyle = dataGridViewCellStyle8;
             this.RegDate.HeaderText = "ថ្ងៃខែឆ្នាំបញ្ចូល";
             this.RegDate.Name = "RegDate";
             this.RegDate.ReadOnly = true;
             this.RegDate.Width = 180;
+            // 
+            // SDLastRecDate
+            // 
+            this.SDLastRecDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle9.Format = "dd-MMM-yy hh:mm tt";
+            this.SDLastRecDate.DefaultCellStyle = dataGridViewCellStyle9;
+            this.SDLastRecDate.HeaderText = "SD Last Rec";
+            this.SDLastRecDate.Name = "SDLastRecDate";
+            this.SDLastRecDate.ReadOnly = true;
+            this.SDLastRecDate.Width = 180;
+            // 
+            // SpacialCase
+            // 
+            this.SpacialCase.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.SpacialCase.HeaderText = "Spacial Case";
+            this.SpacialCase.Name = "SpacialCase";
+            this.SpacialCase.ReadOnly = true;
             // 
             // NGInprocessSearchForm
             // 
@@ -633,6 +667,7 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn ChkForPrint;
         private System.Windows.Forms.DataGridViewTextBoxColumn PosPDelDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn PosCNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MCSeqNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn MCName;
         private System.Windows.Forms.DataGridViewTextBoxColumn RMCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn RMName;
@@ -641,5 +676,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Amount;
         private System.Windows.Forms.DataGridViewTextBoxColumn PrintStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn RegDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SDLastRecDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SpacialCase;
     }
 }

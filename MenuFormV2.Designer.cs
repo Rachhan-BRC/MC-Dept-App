@@ -50,11 +50,13 @@
             this.panelOpenTab = new System.Windows.Forms.Panel();
             this.tabControlOpenForm = new System.Windows.Forms.TabControl();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.PicUpdate = new System.Windows.Forms.PictureBox();
             this.panelFooter.SuspendLayout();
             this.panelHeader.SuspendLayout();
             this.panelHeaderTable.SuspendLayout();
             this.panelLeft.SuspendLayout();
             this.panelOpenTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicUpdate)).BeginInit();
             this.SuspendLayout();
             // 
             // panelFooter
@@ -129,6 +131,7 @@
             this.panelHeaderTable.Name = "panelHeaderTable";
             this.panelHeaderTable.RowCount = 1;
             this.panelHeaderTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.panelHeaderTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.panelHeaderTable.Size = new System.Drawing.Size(1144, 46);
             this.panelHeaderTable.TabIndex = 34;
             // 
@@ -294,12 +297,28 @@
             this.tabControlOpenForm.TabIndex = 0;
             this.toolTip1.SetToolTip(this.tabControlOpenForm, "មុខងារដែលធ្លាប់បានបើក");
             // 
+            // PicUpdate
+            // 
+            this.PicUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.PicUpdate.BackColor = System.Drawing.Color.White;
+            this.PicUpdate.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PicUpdate.BackgroundImage")));
+            this.PicUpdate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PicUpdate.Location = new System.Drawing.Point(1135, 9);
+            this.PicUpdate.Name = "PicUpdate";
+            this.PicUpdate.Size = new System.Drawing.Size(7, 7);
+            this.PicUpdate.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicUpdate.TabIndex = 37;
+            this.PicUpdate.TabStop = false;
+            this.toolTip1.SetToolTip(this.PicUpdate, "New update are available");
+            this.PicUpdate.Visible = false;
+            // 
             // MenuFormV2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1184, 561);
+            this.Controls.Add(this.PicUpdate);
             this.Controls.Add(this.panelOpenTab);
             this.Controls.Add(this.splitterMenuVSMdi);
             this.Controls.Add(this.panelLeft);
@@ -318,6 +337,7 @@
             this.panelHeaderTable.PerformLayout();
             this.panelLeft.ResumeLayout(false);
             this.panelOpenTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PicUpdate)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -344,5 +364,6 @@
         private System.Windows.Forms.ImageList imageListTreeview;
         private System.Windows.Forms.Button btnUnhideHeader;
         private System.Windows.Forms.Button btnCheckForUpdate;
+        private System.Windows.Forms.PictureBox PicUpdate;
     }
 }

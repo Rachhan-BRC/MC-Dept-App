@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 
@@ -18,6 +15,8 @@ namespace MachineDeptApp.MCSDControl.SDRec
         SQLConnect cnn = new SQLConnect();
         DataTable dtStatus;
 
+        string ErrorText = "";
+
         public MCPOSDetailsSearchForm()
         {
             InitializeComponent(); 
@@ -27,9 +26,21 @@ namespace MachineDeptApp.MCSDControl.SDRec
             this.btnSearch.Click += BtnSearch_Click;
             this.DgvPOS.CurrentCellChanged += DgvPOS_CurrentCellChanged;
             this.DgvConsumption.CellFormatting += DgvConsumption_CellFormatting;
+            this.DgvPOS.CellPainting += DgvPOS_CellPainting;
             this.btnExport.Click += BtnExport_Click;
+
         }
 
+        private void DgvPOS_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                if (DgvPOS.Rows[e.RowIndex].Cells["Status"].Value.ToString() == "Cancel")
+                {
+                    DgvPOS.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Pink;
+                }
+            }
+        }
         private void BtnExport_Click(object sender, EventArgs e)
         {
             if (DgvPOS.Rows.Count > 0)
@@ -141,78 +152,99 @@ namespace MachineDeptApp.MCSDControl.SDRec
                 }
             }
         }
-
         private void DgvConsumption_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.ColumnIndex == 3 && e.Value.ToString() != "")
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                if (Convert.ToDouble(DgvConsumption[2, e.RowIndex].Value.ToString()) == Convert.ToDouble(DgvConsumption[3, e.RowIndex].Value.ToString()))
+                if (DgvConsumption.Columns[e.ColumnIndex].Name == "RecQty")
                 {
-                    e.CellStyle.ForeColor = Color.Blue;
-                    e.CellStyle.Font = new System.Drawing.Font("Khmer OS Battambong", 9, FontStyle.Regular);
-                }
-                else
-                {
-                    e.CellStyle.ForeColor = Color.Red;
-                    e.CellStyle.Font = new System.Drawing.Font("Khmer OS Battambong", 9, FontStyle.Bold);
+                    if (Convert.ToDouble(e.Value.ToString()) < Convert.ToDouble(DgvConsumption.Rows[e.RowIndex].Cells["ConsumptionQty"].Value))
+                    {
+                        e.CellStyle.ForeColor = Color.Red;
+                        e.CellStyle.Font = new Font(DgvConsumption.AlternatingRowsDefaultCellStyle.Font, FontStyle.Bold);
+                    }
+                    else
+                    {
+                        e.CellStyle.ForeColor = Color.Green;
+                        e.CellStyle.Font = new Font(DgvConsumption.AlternatingRowsDefaultCellStyle.Font, FontStyle.Bold);
+                    }
                 }
 
+                if (DgvConsumption.Columns[e.ColumnIndex].Name == "TransferQty")
+                {
+                    if (Convert.ToDouble(e.Value.ToString()) < Convert.ToDouble(DgvConsumption.Rows[e.RowIndex].Cells["ConsumptionQty"].Value))
+                    {
+                        e.CellStyle.ForeColor = Color.Orange;
+                        e.CellStyle.Font = new Font(DgvConsumption.AlternatingRowsDefaultCellStyle.Font, FontStyle.Bold);
+                    }
+                    else
+                    {
+                        e.CellStyle.ForeColor = Color.Green;
+                        e.CellStyle.Font = new Font(DgvConsumption.AlternatingRowsDefaultCellStyle.Font, FontStyle.Bold);
+                    }
+
+                }
             }
         }
-
         private void DgvPOS_CurrentCellChanged(object sender, EventArgs e)
         {
-            Cursor = Cursors.WaitCursor;
-            if (DgvPOS.SelectedCells.Count > 0)
+            ErrorText = "";
+            DgvConsumption.Rows.Clear();
+
+            if (DgvPOS.SelectedCells.Count > 0 && DgvPOS.CurrentCell != null && DgvPOS.CurrentCell.RowIndex >= 0 && DgvPOS.CurrentCell.ColumnIndex >= 0)
             {
-                DgvConsumption.Rows.Clear();
+                Cursor = Cursors.WaitCursor;
+                string SysNo = DgvPOS.Rows[DgvPOS.CurrentCell.RowIndex].Cells["SysNo"].Value.ToString();
+                string POSNo = DgvPOS.Rows[DgvPOS.CurrentCell.RowIndex].Cells["POSNo"].Value.ToString(); 
+                DataTable dt = new DataTable();
                 try
                 {
                     cnn.con.Open();
-                    string SysNo = DgvPOS.Rows[DgvPOS.CurrentCell.RowIndex].Cells[0].Value.ToString();
-                    string POSNo = DgvPOS.Rows[DgvPOS.CurrentCell.RowIndex].Cells[1].Value.ToString();
-
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT t1.ItemCode, t1.ItemName, t1.ConsumpQty, t2.RecQty, t2.TranQty FROM " +
-                                                                                        "(SELECT SeqNo, tbSDConn1Rec.POSNo, ItemCode, ItemName, ConsumpQty FROM tbSDConn2Consump " +
-                                                                                        "INNER JOIN tbSDConn1Rec ON tbSDConn1Rec.SysNo = tbSDConn2Consump.SysNo " +
-                                                                                        "WHERE tbSDConn2Consump.SysNo = '" + SysNo + "') t1 " +
-                                                                                        "INNER JOIN " +
-                                                                                        "(SELECT POSNo, Code, SUM(ReceiveQty) AS RecQty, SUM(TransferQty) AS TranQty FROM tbSDMCAllTransaction " +
-                                                                                        "WHERE POSNo = '" + POSNo + "' AND CancelStatus=0 " +
-                                                                                        "GROUP BY POSNo, Code, RMDes) t2 " +
-                                                                                        "ON t1.POSNo = t2.POSNo AND t1.ItemCode = t2.Code " +
-                                                                                        "ORDER BY t1.SeqNo ASC", cnn.con);
-                    DataTable dt = new DataTable();
+                    string SQLQuery = "SELECT T1.POSNo, tbSDConn2Consump.* FROM tbSDConn2Consump " +
+                                                "\nINNER JOIN (SELECT * FROM tbSDConn1Rec) T1 " +
+                                                "\nON tbSDConn2Consump.SysNo = T1.SysNo " +
+                                                "\nWHERE T1.POSNo = '" + POSNo + "' AND tbSDConn2Consump.SysNo = '" + SysNo + "' " +
+                                                "\nORDER BY POSNo ASC, SeqNo ASC";
+                    SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
                     sda.Fill(dt);
-
-                    foreach (DataRow row in dt.Rows)
-                    {
-                        DgvConsumption.Rows.Add(row[0], row[1], Convert.ToDouble(row[2]), Convert.ToDouble(row[3]), Convert.ToDouble(row[4]));
-                    }
-
-                    DgvConsumption.ClearSelection();
                 }
-                catch
+                catch(Exception ex)
                 {
-
+                    ErrorText = ex.Message;
                 }
                 cnn.con.Close();
+                //Add to Dgv
+                if (ErrorText.Trim() == "")
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        DgvConsumption.Rows.Add();
+                        DgvConsumption.Rows[DgvConsumption.Rows.Count - 1].HeaderCell.Value = DgvConsumption.Rows.Count.ToString();
+                        DgvConsumption.Rows[DgvConsumption.Rows.Count-1].Cells["RMCode"].Value = row["ItemCode"].ToString();
+                        DgvConsumption.Rows[DgvConsumption.Rows.Count - 1].Cells["RMName"].Value = row["ItemName"].ToString();
+                        DgvConsumption.Rows[DgvConsumption.Rows.Count - 1].Cells["ConsumptionQty"].Value = Convert.ToDouble(row["ConsumpQty"]);
+                        DgvConsumption.Rows[DgvConsumption.Rows.Count - 1].Cells["RecQty"].Value = Convert.ToDouble(row["RecQty"]);
+                        DgvConsumption.Rows[DgvConsumption.Rows.Count - 1].Cells["TransferQty"].Value = Convert.ToDouble(row["TransferQty"]);                        
+                    }
+                    DgvConsumption.ClearSelection();
+                }
+                Cursor = Cursors.Default;
             }
-            Cursor = Cursors.Default;
 
+            if (ErrorText.Trim() != "")
+                MessageBox.Show("មានបញ្ហា!\n"+ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
         private void BtnSearch_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
             LbStatus.Text = "កំពុងស្វែងរក . . .";
-            LbStatus.Visible = true;
             LbStatus.Refresh();
+            DgvPOS.Rows.Clear();
+            ErrorText = "";
+
             DataTable dtSQLCond = new DataTable();
             dtSQLCond.Columns.Add("Col");
             dtSQLCond.Columns.Add("Value");
-            DgvPOS.Rows.Clear();
-
             if (txtCode.Text.Trim() != "")
             {
                 dtSQLCond.Rows.Add("WIPCode", " = '" + txtCode.Text + "' ");
@@ -241,7 +273,6 @@ namespace MachineDeptApp.MCSDControl.SDRec
             {
                 dtSQLCond.Rows.Add("PosShipD ", "BETWEEN '" + DtDate.Value.ToString("yyyy-MM-dd") + " 00:00:00' AND '" + DtDate.Value.ToString("yyyy-MM-dd") + " 23:59:59' ");
             }
-
             string SQLConds = "";
             foreach (DataRow row in dtSQLCond.Rows)
             {
@@ -255,51 +286,74 @@ namespace MachineDeptApp.MCSDControl.SDRec
                 }
             }
 
+
+            //Taking Data
+            DataTable dtSearch = new DataTable();
             try
             {
                 cnn.con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM tbSDConn1Rec " + SQLConds + " ORDER BY POSNo ASC", cnn.con);
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT *, " +
+                    "\nCASE " +
+                    "\n\tWHEN Status = 1 THEN N'ខ្វះ' " +
+                    "\n\tWHEN Status = 2 THEN N'គ្រប់' " +
+                    "\n\tWHEN Status = 3 THEN N'វេររួច' " +
+                    "\n\tELSE N'Cancel' " +
+                    "\nEND AS StatusText FROM tbSDConn1Rec " + SQLConds + " ORDER BY POSNo ASC", cnn.con);
+                sda.Fill(dtSearch);
 
-                foreach (DataRow row in dt.Rows)
-                {
-                    string Status = "";
-                    foreach (DataRow rowStat in dtStatus.Rows)
-                    {
-                        string StatCode = rowStat[1].ToString().Replace("=", "");
-                        StatCode = StatCode.Replace(" ", "");
-                        if (StatCode == row[6].ToString())
-                        {
-                            Status = rowStat[0].ToString();
-                            break;
-                        }
-                    }
-                    DgvPOS.Rows.Add(row[0], row[1], row[2], row[3], Convert.ToDouble(row[4]), Status, Convert.ToDateTime(row[5]));
-                }
-
-                SetColorForCancel();
-                DgvPOS.ClearSelection();
-                Cursor = Cursors.Default;
-                LbStatus.Text = "រកឃើញទិន្នន័យចំនួន ៖ " + DgvPOS.Rows.Count.ToString("N0") + " ទិន្នន័យ";
             }
             catch (Exception ex)
             {
-                Cursor = Cursors.Default;
-                LbStatus.Text = "ការស្វែងរកមានបញ្ហា!";
-                MessageBox.Show("មានបញ្ហា!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorText = "Taking Data : " + ex.Message; 
             }
             cnn.con.Close();
 
-        }
+            //Add to DGV
+            if (ErrorText.Trim() == "")
+            {
+                foreach (DataRow row in dtSearch.Rows)
+                {
+                    DgvPOS.Rows.Add();
+                    DgvPOS.Rows[DgvPOS.Rows.Count - 1].Cells["SysNo"].Value = row["SysNo"].ToString();
+                    DgvPOS.Rows[DgvPOS.Rows.Count - 1].Cells["POSNo"].Value = row["POSNo"].ToString();
+                    DgvPOS.Rows[DgvPOS.Rows.Count - 1].Cells["WIPCode"].Value = row["WIPCode"].ToString();
+                    DgvPOS.Rows[DgvPOS.Rows.Count - 1].Cells["WIPName"].Value = row["WIPName"].ToString();
+                    DgvPOS.Rows[DgvPOS.Rows.Count - 1].Cells["POSQty"].Value = Convert.ToDouble(row["PosQty"]);
+                    DgvPOS.Rows[DgvPOS.Rows.Count - 1].Cells["Status"].Value = row["StatusText"].ToString();
+                    DgvPOS.Rows[DgvPOS.Rows.Count - 1].Cells["ShipDate"].Value = Convert.ToDateTime(row["PosShipD"]);
+                    DgvPOS.Rows[DgvPOS.Rows.Count - 1].Cells["RegDate"].Value = Convert.ToDateTime(row["RegDate"]);
+                    DgvPOS.Rows[DgvPOS.Rows.Count - 1].Cells["RegBy"].Value = row["RegBy"].ToString();
+                    DgvPOS.Rows[DgvPOS.Rows.Count - 1].Cells["UpdateDate"].Value = Convert.ToDateTime(row["UpdateDate"]);
+                    DgvPOS.Rows[DgvPOS.Rows.Count - 1].Cells["UpdateBy"].Value = row["UpdateBy"].ToString();
+                }
+            }
 
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim() == "")
+            {
+                LbStatus.Text = "រកឃើញទិន្នន័យចំនួន ៖ " + DgvPOS.Rows.Count.ToString("N0") + " ទិន្នន័យ";
+                LbStatus.Refresh();
+                DgvPOS.ClearSelection(); DgvPOS.CurrentCell = null;
+            }
+            else
+            {
+                LbStatus.Text = "ការស្វែងរកមានបញ្ហា!";
+                LbStatus.Refresh();
+                MessageBox.Show("មានបញ្ហា!\n" + ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
         private void DtDate_ValueChanged(object sender, EventArgs e)
         {
             ChkDate.Checked = true;
         }
-
         private void MCPOSDetailsSearchForm_Load(object sender, EventArgs e)
         {
+            DgvConsumption.RowHeadersDefaultCellStyle.Font = new Font("Calibri",10, FontStyle.Regular);
+            //foreach (DataGridViewColumn col in DgvConsumption.Columns)
+            //    Console.WriteLine(col.Name);
+
             dtStatus = new DataTable();
             dtStatus.Columns.Add("Status");
             dtStatus.Columns.Add("Value");
@@ -326,19 +380,7 @@ namespace MachineDeptApp.MCSDControl.SDRec
             {
                 CboStatus.Items.Add(row[0]);
             }
-            CboStatus.SelectedIndex = 0;
-        }
-
-        private void SetColorForCancel()
-        {
-            foreach (DataGridViewRow row in DgvPOS.Rows)
-            {
-                if (row.Cells[5].Value.ToString() == "Cancel")
-                {
-
-                    row.DefaultCellStyle.BackColor = Color.LightPink;
-                }
-            }
+            CboStatus.SelectedIndex = 1;
         }
 
     }

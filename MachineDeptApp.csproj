@@ -391,6 +391,12 @@
     <Compile Include="MCSDControl\SDRec\SDTransferForm.Designer.cs">
       <DependentUpon>SDTransferForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MCSDControl\StockInOutComparisonForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\StockInOutComparisonForm.Designer.cs">
+      <DependentUpon>StockInOutComparisonForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\NGRatePrintLabelSDWireForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -593,6 +599,7 @@
     <Compile Include="OBS\OBSTransactionWIPResultForm.Designer.cs">
       <DependentUpon>OBSTransactionWIPResultForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="OtherClass\ExportAsCSVClass.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SemiNGReq\SemiNGReqInputForm.cs">
@@ -682,6 +689,7 @@
     <Compile Include="SQLConnect.cs" />
     <Compile Include="SQLConnectAllSection.cs" />
     <Compile Include="SQLConnectOBS.cs" />
+    <Compile Include="SQLConnectUpdate.cs" />
     <Compile Include="TrackingPOS\POSTrackingSearchForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -693,6 +701,12 @@
     </Compile>
     <Compile Include="TrackingPOS\RetriveDataFromOBSForm.Designer.cs">
       <DependentUpon>RetriveDataFromOBSForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TransferData\SemiTransferComparisonForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TransferData\SemiTransferComparisonForm.Designer.cs">
+      <DependentUpon>SemiTransferComparisonForm.cs</DependentUpon>
     </Compile>
     <Compile Include="TransferData\TransferDataEditForm.cs">
       <SubType>Form</SubType>
@@ -871,6 +885,9 @@
     <EmbeddedResource Include="MCSDControl\SDRec\SDTransferForm.resx">
       <DependentUpon>SDTransferForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\StockInOutComparisonForm.resx">
+      <DependentUpon>StockInOutComparisonForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MCSDControl\WIR1 %28Wire Stock%29\NGRatePrintLabelSDWireForm.resx">
       <DependentUpon>NGRatePrintLabelSDWireForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -1026,6 +1043,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TrackingPOS\RetriveDataFromOBSForm.resx">
       <DependentUpon>RetriveDataFromOBSForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransferData\SemiTransferComparisonForm.resx">
+      <DependentUpon>SemiTransferComparisonForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TransferData\TransferDataEditForm.resx">
       <DependentUpon>TransferDataEditForm.cs</DependentUpon>

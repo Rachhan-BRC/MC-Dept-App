@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MachineDeptApp.MsgClass;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -13,6 +14,10 @@ namespace MachineDeptApp.NG_Input
 {
     public partial class NGInprocessSearchForm : Form
     {
+        ErrorMsgClass EMsg = new ErrorMsgClass();
+        InformationMsgClass InfoMsg = new InformationMsgClass();
+        WarningMsgClass WMsg = new WarningMsgClass();
+        QuestionMsgClass QMsg = new QuestionMsgClass();
         SQLConnectOBS cnnOBS = new SQLConnectOBS();
         SQLConnect cnn = new SQLConnect();
         ErrorReportAsTxt OutputError = new ErrorReportAsTxt();
@@ -76,23 +81,28 @@ namespace MachineDeptApp.NG_Input
             }
             if (FoundTobePrint > 0)
             {
-                DialogResult DSL = MessageBox.Show("តើអ្នកចង់ព្រីនទិន្នន័យទាំងនេះចេញមែនឬទេ?", "Rachhan System", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (DSL == DialogResult.Yes)
+                QMsg.QAText = "តើអ្នកចង់ព្រីនទិន្នន័យទាំងនេះចេញមែនឬទេ?";
+                QMsg.UserClickedYes = false;
+                QMsg.ShowingMsg();
+                if (QMsg.UserClickedYes == true)
                 {
                     CalcForPrint();
                 }
             }
             else
             {
-                MessageBox.Show("សូមជ្រើសរើសទិន្នន័យដើម្បីព្រីនចេញ!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                WMsg.WarningText = "សូមជ្រើសរើសទិន្នន័យដើម្បីព្រីនចេញ!";
+                WMsg.ShowingMsg();
             }
         }
         private void BtnExport_Click(object sender, EventArgs e)
         {
             if (dgvSearchResult.Rows.Count > 0)
             {
-                DialogResult DLS = MessageBox.Show("តើអ្នកចង់ទាញទិន្នន័យចេញមែន ឬទេ?", "Rachhan System", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (DLS == DialogResult.Yes)
+                QMsg.QAText = "តើអ្នកចង់ទាញទិន្នន័យចេញមែន ឬទេ?";
+                QMsg.UserClickedYes = false;
+                QMsg.ShowingMsg();
+                if (QMsg.UserClickedYes == true)
                 {
                     SaveFileDialog saveDialog = new SaveFileDialog();
                     saveDialog.Filter = "CSV file (*.csv)|*.csv";
@@ -147,13 +157,17 @@ namespace MachineDeptApp.NG_Input
                             }
 
                             File.WriteAllLines(saveDialog.FileName, outputCsv, Encoding.UTF8);
+
                             Cursor = Cursors.Default;
-                            MessageBox.Show("ទាញទិន្នន័យចេញរួចរាល់!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            InfoMsg.InfoText = "ទាញទិន្នន័យចេញរួចរាល់!";
+                            InfoMsg.ShowingMsg();
                         }
                         catch (Exception ex)
                         {
                             Cursor = Cursors.Default;
-                            MessageBox.Show("មានបញ្ហា!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            EMsg.AlertText = "មានបញ្ហា!\n" + ex.Message;
+                            EMsg.ShowingMsg();
                         }
                     }
                 }
@@ -177,7 +191,17 @@ namespace MachineDeptApp.NG_Input
             {
                 if (dgvRow.Cells["PrintStatus"].Value.ToString() != "OK")
                 {
-                    dgvRow.Cells["ChkForPrint"].Value = true;
+                    if (dgvRow.Cells["SDLastRecDate"].Value != null)
+                    {
+                        dgvRow.Cells["ChkForPrint"].Value = true;
+                    }
+                    else
+                    {
+                        if (dgvRow.Cells["SpacialCase"].Value != null && dgvRow.Cells["SpacialCase"].Value.ToString().Trim() != "")
+                        {
+                            dgvRow.Cells["ChkForPrint"].Value = true;
+                        }
+                    }
                 }
             }
             dgvSearchResult.Refresh();
@@ -197,7 +221,16 @@ namespace MachineDeptApp.NG_Input
             dtSQLCond.Columns.Add("Val");
             if (txtRMCode.Text.Trim() != "")
             {
-                dtSQLCond.Rows.Add("TBNGQty.RMCode = ", "'" + txtRMCode.Text + "'");
+                string SearchValue = txtRMCode.Text;
+                if (SearchValue.Contains("*") == true)
+                {
+                    SearchValue = SearchValue.Replace("*","%");
+                    dtSQLCond.Rows.Add("TBNG.RMCode LIKE ", "'" + SearchValue+ "'");
+                }
+                else
+                {
+                    dtSQLCond.Rows.Add("TBNG.RMCode = ", "'" + SearchValue + "'");
+                }
             }
             if (txtRMName.Text.Trim() != "")
             {
@@ -206,7 +239,7 @@ namespace MachineDeptApp.NG_Input
                 {
                     SearchValue = SearchValue.Replace("*", "");
                 }
-                dtSQLCond.Rows.Add("TbRMMaster.ItemName LIKE ", "'%" + SearchValue + "%'");
+                dtSQLCond.Rows.Add("ItemName LIKE ", "'%" + SearchValue + "%'");
             }
             if (txtPOSC.Text.Trim() != "")
             {
@@ -214,11 +247,11 @@ namespace MachineDeptApp.NG_Input
                 if (SearchValue.Contains("*") == true)
                 {
                     SearchValue = SearchValue.Replace("*", "%");
-                    dtSQLCond.Rows.Add("TBNGQty.PosCNo LIKE ", "'" + SearchValue + "'");
+                    dtSQLCond.Rows.Add("TBNG.PosCNo LIKE ", "'" + SearchValue + "'");
                 }
                 else
                 {
-                    dtSQLCond.Rows.Add("TBNGQty.PosCNo = ", "'" + SearchValue + "'");
+                    dtSQLCond.Rows.Add("TBNG.PosCNo = ", "'" + SearchValue + "'");
                 }
             }
             if (CboStatus.Text.Trim() != "" && CboStatus.Text.ToString() != "ALL")
@@ -226,9 +259,9 @@ namespace MachineDeptApp.NG_Input
                 string Status = "= 0";
                 if (CboStatus.Text.ToString() != "NOT YET")
                 {
-                    Status = "IS NULL";
+                    Status = "<> 0";
                 }
-                dtSQLCond.Rows.Add("TbNGStatus.ReqStatus ", Status);
+                dtSQLCond.Rows.Add("TBNG.ReqStatus ", Status);
             }
             if (ChkDate.Checked == true)
             {
@@ -236,7 +269,12 @@ namespace MachineDeptApp.NG_Input
             }
             if (ChkRegDate.Checked == true)
             {
-                dtSQLCond.Rows.Add("TbNGStatus.RegDate BETWEEN '" + dtpRegFrom.Value.ToString("yyyy-MM-dd") + " 00:00:00' AND '" + dtpRegTo.Value.ToString("yyyy-MM-dd") + " 23:59:59'");
+                dtSQLCond.Rows.Add("TBNG.RegDate BETWEEN '" + dtpRegFrom.Value.ToString("yyyy-MM-dd") + " 00:00:00' AND '" + dtpRegTo.Value.ToString("yyyy-MM-dd") + " 23:59:59'");
+            }
+            if (CboMCName.Text.Trim() != "")
+            {
+                string MCName = CboMCName.Text;
+                dtSQLCond.Rows.Add("( ", "MC1Name = '"+MCName+"' OR MC2Name = '"+ MCName + "' OR MC3Name = '"+ MCName + "' )");
             }
 
             string SQLConds = "";
@@ -257,30 +295,23 @@ namespace MachineDeptApp.NG_Input
             try
             {
                 cnn.con.Open();
-                string SQLQuery = "SELECT TbPOSDetails.PosPDelDate, TBNGQty.PosCNo, " +
+                string SQLQuery = "SELECT PosPDelDate, TBNG.PosCNo, MCSeqNo, " +
                     "\nNULLIF(CONCAT(MC1Name, " +
                     "\n\tCASE " +
-                    "\n\t\tWHEN LEN(MC2Name)>1 THEN ' & '  " +
-                    "\n\t\tELSE ''  " +
-                    "\n\t\tEND, MC2Name,  " +
-                    "\n\tCASE  " +
-                    "\n\t\tWHEN LEN(MC3Name)>1 THEN ' & '  " +
-                    "\n\t\tELSE ''  " +
-                    "\n\tEND, MC3Name),'') AS MCName, " +
-                    "\nTBNGQty.RMCode, TbRMMaster.ItemName, TotalQty, COALESCE(TbNGStatus.ReqStatus, 1) AS ReqStatus, TbNGStatus.RegDate FROM " +
-                    "\n\n\n(SELECT PosCNo, RMCode, SUM(Qty) AS TotalQty FROM tbNGInprocess WHERE NGType='NGPcs' GROUP BY PosCNo, RMCode) TBNGQty " +
-                    "\n\n\nLEFT JOIN " +
-                    "\n(SELECT T1.PosCNo, RegDate, ReqStatus FROM " +
-                    "\n(SELECT PosCNo, MIN(RegDate) AS RegDate FROM tbNGInprocess GROUP BY PosCNo) T1 " +
-                    "\nLEFT JOIN (SELECT PosCNo, ReqStatus FROM tbNGInprocess WHERE ReqStatus=0 GROUP BY PosCNo, ReqStatus) T2 " +
-                    "\nON T1.PosCNo=T2.PosCNo " +
-                    "\n) TbNGStatus " +
-                    "\nON TBNGQty.PosCNo=TBNGStatus.PosCNo " +
-                    "\n\n\nLEFT JOIN (SELECT * FROM tbPOSDetailofMC) TbPOSDetails " +
-                    "\nON TBNGQty.PosCNo=TbPOSDetails.PosCNo " +
-                    "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType='Material') TbRMMaster " +
-                    "\nON TBNGQty.RMCode=TbRMMaster.ItemCode ";
-                SQLQuery += SQLConds + " ORDER BY TBNGQty.PosCNo ASC ";
+                    "\n\t\tWHEN LEN(MC2Name)>1 THEN ' & ' " +
+                    "\n\t\tELSE '' " +
+                    "\n\t\tEND, MC2Name, " +
+                    "\n\tCASE " +
+                    "\n\t\tWHEN LEN(MC3Name)>1 THEN ' & ' " +
+                    "\n\t\tELSE '' " +
+                    "\n\tEND, MC3Name),'') AS MCName, RMCode, ItemName, TBNG.Qty AS TotalQty, ReqStatus, TBNG.RegDate, SDNo, SDLastTransfer  FROM " +
+                    "\n(SELECT * FROM tbNGInprocess WHERE NGType = 'NGPcs' AND (RMCode <> '' OR RMCode IS NULL)) TBNG " +
+                    "\nLEFT JOIN (SELECT * FROM tbPOSDetailofMC) T2 ON TBNG.PosCNo=T2.PosCNo " +
+                    "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType = 'Material') TBMaster ON TBNG.RMCode=TBMaster.ItemCode " +
+                    "\nLEFT JOIN (SELECT  MAX(SysNo) AS SDNo,POSNo FROM tbSDAllocateStock GROUP BY POSNo) TBSD ON TBNG.PosCNo = TBSD.POSNo " +
+                    "\nLEFT JOIN (SELECT POSNo, MAX(RegDate) AS SDLastTransfer FROM tbSDMCAllTransaction " +
+                    "\nWHERE LocCode='MC1' AND StockValue<0 AND POSNo LIKE 'SD%' AND Remarks LIKE '%MC Inprocess return%' GROUP BY POSNo) T5 ON TBSD.SDNo=T5.POSNo \n" +SQLConds;
+                SQLQuery += " ORDER BY PosCNo ASC, MCSeqNo ASC, ItemCode ASC";
                 //Console.WriteLine(SQLQuery);
                 SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
                 sda.Fill(dtSearchResult);
@@ -312,14 +343,17 @@ namespace MachineDeptApp.NG_Input
                 DataTable dtOBS = new DataTable();
                 try
                 {
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT T1.ItemCode, ItemName, T3.EffDate , COALESCE(T2.UnitPrice,0) AS UnitPrice FROM " +
-                        "\n(SELECT ItemCode, ItemName FROM mstitem WHERE DelFlag=0 AND ItemType=2) T1 " +
+                    string SQLQuery = "SELECT T1.ItemCode, ItemName, T3.EffDate , COALESCE(T2.UnitPrice,0) AS UnitPrice, MatCalcFlag, MatTypeName FROM " +
+                        "\n(SELECT ItemCode, ItemName, MatCalcFlag, MatTypeCode FROM mstitem WHERE DelFlag=0 AND ItemType=2) T1 " +
                         "\nLEFT JOIN (SELECT ItemCode, UnitPrice, EffDate FROM mstpurchaseprice WHERE DelFlag=0) T2 " +
                         "\nON T1.ItemCode=T2.ItemCode " +
-                        "\nINNER JOIN (SELECT ItemCode, MAX(EffDate) AS EffDate FROM mstpurchaseprice GROUP BY ItemCode) T3 " +
+                        "\nINNER JOIN (SELECT ItemCode, MAX(EffDate) AS EffDate FROM mstpurchaseprice WHERE DelFlag=0 GROUP BY ItemCode) T3 " +
                         "\nON T2.ItemCode=T3.ItemCode AND T2.EffDate=T3.EffDate " +
+                        "\nLEFT JOIN (SELECT * FROM MstMatType WHERE DelFlag = 0) T4 ON T1.MatTypeCode=T4.MatTypeCode " +
                         "\nWHERE T1.ItemCode IN (" + RMCodeIN + ") " +
-                        "\nORDER BY ItemCode ASC ", cnnOBS.conOBS);
+                        "\nORDER BY ItemCode ASC ";
+                    SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnnOBS.conOBS);
+                    //Console.WriteLine(SQLQuery);
                     sda.Fill(dtOBS);
                 }
                 catch (Exception ex)
@@ -330,23 +364,29 @@ namespace MachineDeptApp.NG_Input
                 //Add to dtSearchResult
                 dtSearchResult.Columns.Add("UP");
                 dtSearchResult.Columns.Add("Amount");
+                dtSearchResult.Columns.Add("SpacialCase");
                 foreach (DataRow row in dtSearchResult.Rows)
                 {
                     double UP = 0;
                     double Amount = 0;
+                    string Spacial = "";
+                    string RMCode = row["RMCode"].ToString();
                     foreach (DataRow rowOBS in dtOBS.Rows)
                     {
-                        if (row["RMCode"].ToString() == rowOBS["ItemCode"].ToString())
+                        if ( RMCode == rowOBS["ItemCode"].ToString())
                         {
                             UP = Convert.ToDouble(rowOBS["UnitPrice"]);
                             UP = Convert.ToDouble(UP.ToString("N4"));
                             Amount = (Convert.ToDouble(row["TotalQty"].ToString())) * UP;
                             Amount = Convert.ToDouble(Amount.ToString("N3"));
+                            if (Convert.ToDouble(RMCode.Substring(RMCode.Length - 4, 4)) > 2000 && rowOBS["MatCalcFlag"].ToString() == "1" && rowOBS["MatTypeName"].ToString() == "Other")
+                                Spacial = "Tube";
                             break;
                         }
                     }
                     row["UP"] = UP;
                     row["Amount"] = Amount;
+                    row["SpacialCase"] = Spacial;
                 }
                 dtSearchResult.AcceptChanges();
 
@@ -357,55 +397,44 @@ namespace MachineDeptApp.NG_Input
             {
                 foreach (DataRow row in dtSearchResult.Rows)
                 {
-                    int CheckMCName = 0;
-                    if (CboMCName.Text.Trim() != "")
+                    dgvSearchResult.Rows.Add();
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["ChkForPrint"].Value = false;
+                    Nullable<DateTime> DelDate = null;
+                    if (row["PosPDelDate"].ToString() != "")
+                        DelDate = Convert.ToDateTime(row["PosPDelDate"]);
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["PosPDelDate"].Value = DelDate;
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["PosCNo"].Value = row["PosCNo"].ToString();
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["MCSeqNo"].Value = row["MCSeqNo"].ToString();
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["MCName"].Value = row["MCName"].ToString();
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["RMCode"].Value = row["RMCode"].ToString();
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["RMName"].Value = row["ItemName"].ToString();
+
+                    double Qty = Convert.ToDouble(row["TotalQty"]);
+                    Qty = Convert.ToDouble(Qty.ToString("N4"));
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["Qty"].Value = Qty;
+
+                    string Status = "NOT YET";
+                    if (row["ReqStatus"].ToString() == "1")
                     {
-                        if (row["MCName"].ToString().Trim() != "" && row["MCName"].ToString().ToUpper().Contains(CboMCName.Text.ToString().ToUpper()) == true)
-                        {
-                            CheckMCName++;
-                        }
+                        Status = "OK";
                     }
-                    else
-                    {
-                        CheckMCName++;
-                    }
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["PrintStatus"].Value = Status;
 
-                    if (CheckMCName > 0)
-                    {
-                        dgvSearchResult.Rows.Add();
-                        dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["ChkForPrint"].Value = false;
-                        DateTime DelDate = Convert.ToDateTime(row["PosPDelDate"]);
-                        dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["PosPDelDate"].Value = DelDate;
-                        string POSCNo = row["PosCNo"].ToString();
-                        dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["PosCNo"].Value = POSCNo;
-                        string MCName = row["MCName"].ToString();
-                        dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["MCName"].Value = MCName;
-                        string Code = row["RMCode"].ToString();
-                        dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["RMCode"].Value = Code;
-                        string Name = row["ItemName"].ToString();
-                        dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["RMName"].Value = Name;
+                    DateTime RegDate = Convert.ToDateTime(row["RegDate"]);
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["RegDate"].Value = RegDate;
 
-                        double Qty = Convert.ToDouble(row["TotalQty"]);
-                        Qty = Convert.ToDouble(Qty.ToString("N4"));
-                        dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["Qty"].Value = Qty;
+                    Nullable<DateTime> SDLastRec = null;
+                    if (row["SDLastTransfer"].ToString() != "")
+                        SDLastRec = Convert.ToDateTime(row["SDLastTransfer"]);
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["SDLastRecDate"].Value = SDLastRec;
 
-                        string Status = "NOT YET";
-                        if (row["ReqStatus"].ToString() == "1")
-                        {
-                            Status = "OK";
-                        }
-                        dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["PrintStatus"].Value = Status;
+                    double UP = Convert.ToDouble(row["UP"]);
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["UP"].Value = UP;
 
-                        DateTime RegDate = Convert.ToDateTime(row["RegDate"]);
-                        dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["RegDate"].Value = RegDate;
+                    double Amount = Convert.ToDouble(row["Amount"]);
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["Amount"].Value = Amount;
 
-                        double UP = Convert.ToDouble(row["UP"]);
-                        dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["UP"].Value = UP;
-
-                        double Amount = Convert.ToDouble(row["Amount"]); 
-                        dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["Amount"].Value = Amount;
-
-                    }
+                    dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["SpacialCase"].Value = row["SpacialCase"];
                 }
             }
 
@@ -422,7 +451,8 @@ namespace MachineDeptApp.NG_Input
             {
                 LbStatus.Text = "មានបញ្ហា!";
                 LbStatus.Refresh();
-                MessageBox.Show("មានបញ្ហា!\n" + ErrorText, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                EMsg.AlertText = "មានបញ្ហា!\n" + ErrorText;
+                EMsg.ShowingMsg();
             }
         }
 
@@ -434,26 +464,43 @@ namespace MachineDeptApp.NG_Input
                 {
                     if (dgvSearchResult.Rows[e.RowIndex].Cells["PrintStatus"].Value.ToString() != "OK")
                     {
+                        //Get check type 
                         bool ChkPrint = false;
                         if (dgvSearchResult.Rows[e.RowIndex].Cells["ChkForPrint"].Value.ToString().ToUpper() == "FALSE")
                         {
                             ChkPrint = true;
-                            //dgvSearchResult.Rows[e.RowIndex].Cells["ChkForPrint"].Value = true;
                         }
-                        foreach (DataGridViewRow dgvRow in dgvSearchResult.Rows)
+
+                        //Check
+                        string CheckAlert = "";
+                        if (dgvSearchResult.Rows[e.RowIndex].Cells["SDLastRecDate"].Value == null && (dgvSearchResult.Rows[e.RowIndex].Cells["SpacialCase"].Value == null || dgvSearchResult.Rows[e.RowIndex].Cells["SpacialCase"].Value.ToString().Trim() == ""))
                         {
-                            if (dgvRow.Cells["PosCNo"].Value.ToString() == dgvSearchResult.Rows[e.RowIndex].Cells["PosCNo"].Value.ToString() &&
-                                dgvRow.Cells["PrintStatus"].Value.ToString() != "OK")
-                            {
-                                dgvRow.Cells["ChkForPrint"].Value = ChkPrint;
-                            }
+                            CheckAlert = "ទិន្នន័យនេះមិនទាន់វេរទៅ SD នៅឡើយទេ!";
                         }
-                        dgvSearchResult.Refresh();
-                        dgvSearchResult.ClearSelection();
+
+                        if (CheckAlert.Trim() == "")
+                        {
+                            foreach (DataGridViewRow dgvRow in dgvSearchResult.Rows)
+                            {
+                                if (dgvRow.Cells["PosCNo"].Value.ToString() == dgvSearchResult.Rows[e.RowIndex].Cells["PosCNo"].Value.ToString() &&
+                                    dgvRow.Cells["PrintStatus"].Value.ToString() != "OK")
+                                {
+                                    dgvRow.Cells["ChkForPrint"].Value = ChkPrint;
+                                }
+                            }
+                            dgvSearchResult.Refresh();
+                            dgvSearchResult.ClearSelection();
+                        }
+                        else
+                        {
+                            WMsg.WarningText = CheckAlert;
+                            WMsg.ShowingMsg();
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("ទិន្នន័យនេះព្រីនចេញរួចរាល់ហើយ!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        WMsg.WarningText = "ទិន្នន័យនេះព្រីនចេញរួចរាល់ហើយ!";
+                        WMsg.ShowingMsg();
                     }
                 }
             }
@@ -500,7 +547,8 @@ namespace MachineDeptApp.NG_Input
 
             if (ErrorText.Trim() != "")
             {
-                MessageBox.Show("មានបញ្ហា!\n"+ErrorText, "Rachhan System",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                EMsg.AlertText = "មានបញ្ហា!\n" + ErrorText;
+                EMsg.ShowingMsg();
             }
 
         }
@@ -1180,7 +1228,8 @@ namespace MachineDeptApp.NG_Input
             //Alert to User
             if (ErrorText.Trim() == "")
             {
-                MessageBox.Show("ព្រីនរួចរាល់!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                InfoMsg.InfoText = "ព្រីនរួចរាល់!";
+                InfoMsg.ShowingMsg();
             }
             else
             {
@@ -1190,13 +1239,15 @@ namespace MachineDeptApp.NG_Input
 
                 if (dtNotEnough.Rows.Count > 0)
                 {
-                    MessageBox.Show("មានទិន្នន័យស្តុកខ្វះ!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    WMsg.WarningText = "មានទិន្នន័យស្តុកខ្វះ!";
+                    WMsg.ShowingMsg();
                     NGInprocessShortageStockDetailsForm Nissdf = new NGInprocessShortageStockDetailsForm(this);
                     Nissdf.ShowDialog();
                 }
                 else
                 {
-                    MessageBox.Show("មានបញ្ហា!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);                    
+                    EMsg.AlertText = "មានបញ្ហា!";
+                    EMsg.ShowingMsg();
                 }
             }
 

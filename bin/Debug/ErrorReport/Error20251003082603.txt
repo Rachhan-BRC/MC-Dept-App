@@ -1,0 +1,10 @@
+POSNo	ErrorText
+25-0902000	The variable name '@SysNo' has already been declared. Variable names must be unique within a query batch or stored procedure.
+The variable name '@ItemCode' has already been declared. Variable names must be unique within a query batch or stored procedure.
+The variable name '@NewTranQty' has already been declared. Variable names must be unique within a query batch or stored procedure.
+25-0902013	The variable name '@SysNo' has already been declared. Variable names must be unique within a query batch or stored procedure.
+The variable name '@ItemCode' has already been declared. Variable names must be unique within a query batch or stored procedure.
+The variable name '@NewTranQty' has already been declared. Variable names must be unique within a query batch or stored procedure.
+25-0902015	The variable name '@SysNo' has already been declared. Variable names must be unique within a query batch or stored procedure.
+The variable name '@ItemCode' has already been declared. Variable names must be unique within a query batch or stored procedure.
+The variable name '@NewTranQty' has already been declared. Variable names must be unique within a query batch or stored procedure.

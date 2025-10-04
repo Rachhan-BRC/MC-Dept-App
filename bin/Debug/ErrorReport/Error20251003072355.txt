@@ -1,0 +1,4 @@
+POSNo	ErrorText
+25-0901260	Column 'RMCode' does not belong to table .
+25-0901388	Column 'RMCode' does not belong to table .
+25-0901389	Column 'RMCode' does not belong to table .

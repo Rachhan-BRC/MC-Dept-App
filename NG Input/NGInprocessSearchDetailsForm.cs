@@ -154,23 +154,6 @@ namespace MachineDeptApp.NG_Input
             try
             {
                 cnn.con.Open();
-                /*
-                string SQLQuery = "SELECT T1.UpItemCode, T2.ItemCode, ItemName, RMType, TbNGSet.Qty AS NGSet, LowQty*SemiQtyOfFG AS BOMQty, ROUND((TbNGSet.Qty * LowQty*SemiQtyOfFG),3) AS NGSetQty, ROUND(TbNGPcs.Qty,3) AS NGPcs FROM " +
-                    "\n\t(SELECT * FROM MstBOM) T1 " +
-                    "\n\tLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType = 'Material') T2 " +
-                    "\n\tON T1.LowItemCode = T2.ItemCode " +
-                    "\n\tLEFT JOIN (SELECT * FROM tbSDMstUncountMat) T3 " +
-                    "\n\tON T2.ItemCode=T3.Code " +
-                    "\n\tLEFT JOIN (SELECT * FROM tbPOSDetailofMC) T4 " +
-                    "\n\tON T1.UpItemCode=T4.WIPCode " +
-                    "\n\tLEFT JOIN (SELECT * FROM tbNGInprocess WHERE NGType='NGSet' AND MCSeqNo='" + CboMCNo.Text + "') TbNGSet  " +
-                    "\n\tON TbNGSet.PosCNo=T4.PosCNo AND T1.LowItemCode=TbNGSet.RMCode " +
-                    "\n\tLEFT JOIN (SELECT * FROM tbNGInprocess WHERE NGType='NGPcs' AND MCSeqNo='" + CboMCNo.Text + "') TbNGPcs " +
-                    "\n\tON TbNGPcs.PosCNo=T4.PosCNo AND T1.LowItemCode=TbNGPcs.RMCode " +
-                    "\n\tWHERE T4.PosCNo='" + fgrid.dgvSearchResult.Rows[fgrid.dgvSearchResult.CurrentCell.RowIndex].Cells["PosCNo"].Value.ToString() + "' " +
-                    "\n\tORDER BY UpItemCode ASC, ItemCode ASC ";
-                */
-
                 string SQLQuery = "SELECT T1.UpItemCode, T2.ItemCode, ItemName, COALESCE(NGKITQty,0) AS NGKITQty, ROUND(TbNGQty.Qty,3) AS NGPcs FROM " +
                     "\n(SELECT * FROM MstBOM) T1 " +
                     "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType = 'Material') T2 ON T1.LowItemCode = T2.ItemCode " +

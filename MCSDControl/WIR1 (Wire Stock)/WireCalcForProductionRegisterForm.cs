@@ -750,7 +750,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 sda.Fill(dtMstRM);
 
                 SQLQuery = "SELECT RMCode, BobbinSysNo, Remain_W, Remain_L FROM tbMstRMRegister " +
-                    "\nWHERE C_Location='WIR1' AND Remain_L>0 AND RMCode='"+ fgrid.dgvRMUsage.Rows[fgrid.dgvRMUsage.CurrentCell.RowIndex].Cells["RMCode"].Value.ToString() + "' " +
+                    "\nWHERE C_Location='WIR1' AND Remain_L>0 AND Status = 'Active' AND RMCode='" + fgrid.dgvRMUsage.Rows[fgrid.dgvRMUsage.CurrentCell.RowIndex].Cells["RMCode"].Value.ToString() + "' " +
                     "\nORDER BY Remain_L ASC";
                 //Console.WriteLine(SQLQuery );
                 sda = new SqlDataAdapter(SQLQuery, cnn.con);

@@ -34,19 +34,16 @@ namespace MachineDeptApp
     public partial class MenuFormV2 : Form
     {
         SQLConnect cnn = new SQLConnect();
-        string LogRole;
-        string name;
-        public static string UserForNextForm;
+        string LogRole, name;
+        public static string UserForNextForm, MsgTitle = "Rachhan System";
 
-        DataTable dtRoot;
-        DataTable dtChildRoot;
-        DataTable dtChildRootofChild;
-        DataTable dtOpenForm;
-        
-        public MenuFormV2()
+        DataTable dtRoot, dtChildRoot, dtChildRootofChild, dtOpenForm, dtUpdate;
+
+        public MenuFormV2(DataTable dt1)
         {
             InitializeComponent();
             this.cnn.Connection();
+            this.dtUpdate = dt1;
             this.FormClosing += MenuFormV2_FormClosing;
             this.treeViewMenu.NodeMouseDoubleClick += TreeViewMenu_NodeMouseDoubleClick;
             this.treeViewMenu.NodeMouseClick += TreeViewMenu_NodeMouseClick;
@@ -54,6 +51,8 @@ namespace MachineDeptApp
             this.MdiChildActivate += MenuFormV2_MdiChildActivate;
             this.btnCheckForUpdate.Click += BtnCheckForUpdate_Click;
             
+
+
         }
 
         private void BtnCheckForUpdate_Click(object sender, EventArgs e)
@@ -1904,6 +1903,52 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("MCInprocessStockSearchForm", "MC Inprocess - Total View");
                 }
             }
+            if (currentClkNode.Text == "ប្រៀបធៀបទិន្នន័យ In-Out")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    StockInOutComparisonForm Uf = new StockInOutComparisonForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("ប្រៀបធៀបទិន្នន័យ In-Out");
+                    dtOpenForm.Rows.Add("StockInOutComparisonForm", "ប្រៀបធៀបទិន្នន័យ In-Out");
+                }
+            }
+            if (currentClkNode.Text == "ឆែកទិន្នន័យដែល WIP មិនទាន់ស្កេនទទួល")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    SemiTransferComparisonForm Uf = new SemiTransferComparisonForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("ឆែកទិន្នន័យដែល WIP មិនទាន់ស្កេនទទួល");
+                    dtOpenForm.Rows.Add("SemiTransferComparisonForm", "ឆែកទិន្នន័យដែល WIP មិនទាន់ស្កេនទទួល");
+                }
+            }
 
             int After = dtOpenForm.Rows.Count;
 
@@ -1921,6 +1966,8 @@ namespace MachineDeptApp
 
         private void MenuFormV2_Load(object sender, EventArgs e)
         {
+            if (dtUpdate.Rows.Count > 0)
+                PicUpdate.Visible = true;
             this.Text = Assembly.GetExecutingAssembly().GetName().Name + " by Rachhan";
             treeViewMenu.Nodes.Clear();
             //Add root Node
@@ -1940,7 +1987,6 @@ namespace MachineDeptApp
             {
                 TreeNode rootNode = new TreeNode(row["RootName"].ToString());
                 treeViewMenu.Nodes.Add(rootNode);
-
             }
 
             //Add child Node
@@ -1955,6 +2001,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(1, "កែប្រែទិន្នន័យវេរចេញ", "TransferDataEditForm");
             dtChildRoot.Rows.Add(1, "ទិន្នន័យវេរសឺមី", "TransferDataForm");
             dtChildRoot.Rows.Add(1, "ឆែកទិន្នន័យ POS", "POSTrackingSearchForm");
+            dtChildRoot.Rows.Add(1, "ឆែកទិន្នន័យដែល WIP មិនទាន់ស្កេនទទួល", "SemiTransferComparisonForm");
 
             //3
             dtChildRoot.Rows.Add(2, "បញ្ចូលដំណាក់កាល Auto", "");
@@ -1968,7 +2015,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(3, "NG Adjust Search", "NGAdjustSearchForm");
             dtChildRoot.Rows.Add(3, "Semi MstBOM", "MstBOMForm");
             dtChildRoot.Rows.Add(3, "MstUncountable Material", "MstUncountMatForm");
-            dtChildRoot.Rows.Add(3, "Register NG", "RegisterNG");
+            //dtChildRoot.Rows.Add(3, "Register NG", "RegisterNG");
             dtChildRoot.Rows.Add(3, "គណនា NG Ratio បន្ថែម", "NGRatioCalcForm");
 
             //5
@@ -1985,6 +2032,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(5, "ស្តុកកាត", "StockCardForm");
             dtChildRoot.Rows.Add(5, "ទិន្នន័យវេរចេញ/ចូល", "MCStockTransactionSearchForm");
             dtChildRoot.Rows.Add(5, "ទិន្នន័យស្តុក MC", "MCStockSearchForm");
+            dtChildRoot.Rows.Add(5, "ប្រៀបធៀបទិន្នន័យ In-Out", "StockInOutComparisonForm");
 
             //7
             dtChildRoot.Rows.Add(6, "Import POS", "RMStatusForPlanForm");
@@ -2041,8 +2089,8 @@ namespace MachineDeptApp
             //6,1
             dtChildRootofChild.Rows.Add(5, 0, "បញ្ចូលទទួលពី Kitting Room", "SDReceiveForm"); 
             dtChildRootofChild.Rows.Add(5, 0, "បញ្ចូលស្តុក KIT", "KITStockINForm");
-            dtChildRootofChild.Rows.Add(5, 0, "ផ្លាស់ប្ដូរ/ខ្ចី", "SDBorrowForm");
-            dtChildRootofChild.Rows.Add(5, 0, "បញ្ចូលសង", "SDPayBackForm");
+            //dtChildRootofChild.Rows.Add(5, 0, "ផ្លាស់ប្ដូរ/ខ្ចី", "SDBorrowForm");
+            //dtChildRootofChild.Rows.Add(5, 0, "បញ្ចូលសង", "SDPayBackForm");
             dtChildRootofChild.Rows.Add(5, 0, "បញ្ចូលវេរចេញទៅផលិត", "SDTransferForm");
             dtChildRootofChild.Rows.Add(5, 0, "ឆែកទិន្នន័យ POS (MC KIT)", "MCPOSDetailsSearchForm");
             dtChildRootofChild.Rows.Add(5, 0, "ឆែកទិន្នន័យ POS (1 SET)", "MCPOSDetailsBySetForm");
@@ -2081,7 +2129,6 @@ namespace MachineDeptApp
                 treeViewMenu.Nodes[Convert.ToInt32(row2[0].ToString())].Nodes[Convert.ToInt32(row2[1].ToString())].Nodes.Add(ChildrootNode);
                 Font regularFont = new Font("Khmer OS Battambang", 10, FontStyle.Regular);
                 ChildrootNode.NodeFont = regularFont;
-
             }
 
             dtOpenForm = new DataTable();
@@ -2116,6 +2163,14 @@ namespace MachineDeptApp
                         }
                     }
                 }
+
+                //Remove Adjust function
+                //1666 Seongsour, 1747 Somart
+                if (LoginForm.IDValueForNextForm != "3132" && LoginForm.IDValueForNextForm != "1666" && LoginForm.IDValueForNextForm != "1747")
+                {
+                    treeViewMenu.Nodes[5].Nodes[3].Remove();
+                }
+
 
                 //Add image Form to all child 
                 int parentRoot = treeViewMenu.Nodes.Count;
@@ -2173,6 +2228,7 @@ namespace MachineDeptApp
                     }
                 }
             }
+
         }
 
         private void btnUnhide_Click(object sender, EventArgs e)

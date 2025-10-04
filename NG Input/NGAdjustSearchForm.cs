@@ -225,7 +225,7 @@ namespace MachineDeptApp.NG_Input
                     string SQLQuery = "SELECT T1.ItemCode, ItemName, MatCalcFlag, Resv1 AS Maker, MatTypeName, COALESCE(T2.UnitPrice,0) AS UnitPrice FROM " +
                         "\n(SELECT * FROM mstitem WHERE DelFlag=0 AND ItemType=2) T1 " +
                         "\nLEFT JOIN (SELECT ItemCode, UnitPrice, EffDate FROM mstpurchaseprice WHERE DelFlag=0) T2 ON T1.ItemCode=T2.ItemCode " +
-                        "\nINNER JOIN (SELECT ItemCode, MAX(EffDate) AS EffDate FROM mstpurchaseprice GROUP BY ItemCode) T3 ON T2.ItemCode=T3.ItemCode AND T2.EffDate=T3.EffDate " +
+                        "\nINNER JOIN (SELECT ItemCode, MAX(EffDate) AS EffDate FROM mstpurchaseprice WHERE DelFlag=0 GROUP BY ItemCode) T3 ON T2.ItemCode=T3.ItemCode AND T2.EffDate=T3.EffDate " +
                         "\nINNER JOIN (SELECT * FROM MstMatType WHERE DelFlag=0) T4 ON T1.MatTypeCode=T4.MatTypeCode " +
                         "\nWHERE T1.ItemCode IN ("+CodeIN+") " +
                         "\nORDER BY ItemCode ASC";
@@ -511,14 +511,41 @@ namespace MachineDeptApp.NG_Input
                     worksheetCountable.Cells[1, 9] = "";
                     worksheetCountable.Cells[5, 10] = PrintingBy;
 
-                    worksheetCountable.Cells[8, 3] = "Adjust OBS Stock";
+                    worksheetCountable.Cells[8, 5] = "Adjust OBS Stock";
                     worksheetCountable.Cells[14, 12] = "Add to OBS";
 
-                    worksheetCountable.Cells[11, 2] = "MC1";
-                    worksheetCountable.Cells[11, 3] = "MC";
-                    worksheetCountable.Cells[11, 7] = "IT";
-                    worksheetCountable.Cells[11, 8] = "IT";
+                    foreach (Excel.Shape shape in worksheetCountable.Shapes)
+                    {
+                        //TotalItemsShape, MatchingShape, OverShape, MinusShape
+                        if (shape.Type == Microsoft.Office.Core.MsoShapeType.msoGroup) // Check if the shape is a group
+                        {
+                            foreach (Excel.Shape childShape in shape.GroupItems) // Iterate through the grouped items
+                            {
+                                if (childShape.Name == "FromLocName") // Check for your shape by name
+                                {
+                                    childShape.TextFrame.Characters().Text = "IT";
+                                }
 
+                                if (childShape.Name == "FromLocCode") // Check for your shape by name
+                                {
+                                    childShape.TextFrame.Characters().Text = "IT";
+                                }
+
+                                if (childShape.Name == "ToLocName")
+                                {
+                                    // Set the text for the childShape
+                                    childShape.TextFrame.Characters().Text = "Machine";
+                                }
+
+                                if (childShape.Name == "ToLocCode")
+                                {
+                                    // Set the text for the childShape
+                                    childShape.TextFrame.Characters().Text = "MC";
+                                }
+
+                            }
+                        }
+                    }
 
                     if (dtForPrintExcel.Rows.Count > 1)
                     {

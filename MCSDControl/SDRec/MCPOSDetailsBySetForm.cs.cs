@@ -88,19 +88,34 @@ namespace MachineDeptApp.MCSDControl.SDRec
             try
             {
                 cnnOBS.conOBS.Open();
+                //SqlDataAdapter sda = new SqlDataAdapter("SELECT PPOSNO, T1.DONo, T1.ItemCode, T3.ItemName, PlanQty, POSDeliveryDate FROM " +
+                //                                                                "(SELECT PPOSNO, DONo, ItemCode, PlanQty, POSDeliveryDate FROM prgproductionorder " +
+                //                                                                "WHERE PPOSNO IN (SELECT PPOSNO FROM prgproductionorder WHERE LineCode='MC1' " + T1Cond+ " GROUP BY PPOSNO)) T1 " +
+                //                                                                "INNER JOIN " +
+                //                                                                "(SELECT prgconsumtionorder.ProductionCode,prgproductionorder.DONo FROM prgconsumtionorder  " +
+                //                                                                "INNER JOIN prgproductionorder ON prgproductionorder.ProductionCode = prgconsumtionorder.ProductionCode INNER JOIN mstitem ON  mstitem.ItemCode = prgconsumtionorder.ItemCode " +
+                //                                                                "WHERE LEN(prgproductionorder.ItemCode) > 4 AND mstitem.MatCalcFlag = 0 AND mstitem.ItemType = 2 AND NOT mstitem.ItemCode IN ("+ ExceptRM + ") " +
+                //                                                                "GROUP BY prgconsumtionorder.ProductionCode,prgproductionorder.DONo) T2 " +
+                //                                                                "ON T1.DONo=T2.DONo " +
+                //                                                                "LEFT JOIN " +
+                //                                                                "(SELECT ItemCode, ItemName FROM mstitem WHERE ItemType=1) T3 " +
+                //                                                                "ON T1.ItemCode=T3.ItemCode " + SQLCond+
+                //                                                                "ORDER BY T1.DONo ASC, T1.PPOSNO ASC", cnnOBS.conOBS);
+
                 SqlDataAdapter sda = new SqlDataAdapter("SELECT PPOSNO, T1.DONo, T1.ItemCode, T3.ItemName, PlanQty, POSDeliveryDate FROM " +
                                                                                 "(SELECT PPOSNO, DONo, ItemCode, PlanQty, POSDeliveryDate FROM prgproductionorder " +
-                                                                                "WHERE PPOSNO IN (SELECT PPOSNO FROM prgproductionorder WHERE LineCode='MC1' " + T1Cond+ " GROUP BY PPOSNO)) T1 " +
+                                                                                "WHERE PPOSNO IN (SELECT PPOSNO FROM prgproductionorder WHERE LineCode='MC1' " + T1Cond + " GROUP BY PPOSNO)) T1 " +
                                                                                 "INNER JOIN " +
                                                                                 "(SELECT prgconsumtionorder.ProductionCode,prgproductionorder.DONo FROM prgconsumtionorder  " +
                                                                                 "INNER JOIN prgproductionorder ON prgproductionorder.ProductionCode = prgconsumtionorder.ProductionCode INNER JOIN mstitem ON  mstitem.ItemCode = prgconsumtionorder.ItemCode " +
-                                                                                "WHERE LEN(prgproductionorder.ItemCode) > 4 AND mstitem.MatCalcFlag = 0 AND mstitem.ItemType = 2 AND NOT mstitem.ItemCode IN ("+ ExceptRM + ") " +
+                                                                                "WHERE LEN(prgproductionorder.ItemCode) > 4 AND mstitem.MatCalcFlag = 0 AND mstitem.ItemType = 2 " +
                                                                                 "GROUP BY prgconsumtionorder.ProductionCode,prgproductionorder.DONo) T2 " +
                                                                                 "ON T1.DONo=T2.DONo " +
                                                                                 "LEFT JOIN " +
                                                                                 "(SELECT ItemCode, ItemName FROM mstitem WHERE ItemType=1) T3 " +
-                                                                                "ON T1.ItemCode=T3.ItemCode " + SQLCond+
+                                                                                "ON T1.ItemCode=T3.ItemCode " + SQLCond +
                                                                                 "ORDER BY T1.DONo ASC, T1.PPOSNO ASC", cnnOBS.conOBS);
+
                 DataTable dt = new DataTable(); 
                 sda.Fill(dt);
 
