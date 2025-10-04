@@ -328,10 +328,10 @@ namespace MachineDeptApp.MCSDControl
                     "\n(SELECT Code, SUM(StockValue) AS MC1Stock FROM tbSDMCAllTransaction WHERE LocCode = 'MC1' AND CancelStatus=0 AND CAST(RegDate AS date) BETWEEN @SDate AND @EDate GROUP BY Code) T4 " +
                     "\nON T1.Code=T4.Code " +
                     "\nLEFT JOIN " +
-                    "\n(\tSELECT mstitem.ItemCode, ItemName, MatTypeName, UnitPrice FROM [192.168.1.21].[Marunix].dbo.mstitem " +
-                    "\n\tLEFT JOIN [192.168.1.21].[Marunix].dbo.MstMatType ON mstitem.MatTypeCode=MstMatType.MatTypeCode " +
-                    "\n\tLEFT JOIN (SELECT mstpurchaseprice.ItemCode, UnitPrice FROM [192.168.1.21].[Marunix].dbo.mstpurchaseprice " +
-                    "\n\tINNER JOIN (SELECT ItemCode, MAX(EffDate) AS MaxEffDate FROM [192.168.1.21].[Marunix].dbo.mstpurchaseprice WHERE DelFlag = 0 GROUP BY ItemCode) T1 " +
+                    "\n(\tSELECT mstitem.ItemCode, ItemName, MatTypeName, UnitPrice FROM ["+cnnOBS.server+"].[Marunix].dbo.mstitem " +
+                    "\n\tLEFT JOIN ["+cnnOBS.server+"].[Marunix].dbo.MstMatType ON mstitem.MatTypeCode=MstMatType.MatTypeCode " +
+                    "\n\tLEFT JOIN (SELECT mstpurchaseprice.ItemCode, UnitPrice FROM ["+cnnOBS.server+"].[Marunix].dbo.mstpurchaseprice " +
+                    "\n\tINNER JOIN (SELECT ItemCode, MAX(EffDate) AS MaxEffDate FROM ["+cnnOBS.server+"].[Marunix].dbo.mstpurchaseprice WHERE DelFlag = 0 GROUP BY ItemCode) T1 " +
                     "\n\tON mstpurchaseprice.ItemCode = T1.ItemCode AND mstpurchaseprice.EffDate = T1.MaxEffDate) tbUP " +
                     "\n\tON mstitem.ItemCode = tbUP.ItemCode " +
                     "\n\tWHERE ItemType = 2 AND mstitem.DelFlag = 0 " +

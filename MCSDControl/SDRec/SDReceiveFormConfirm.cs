@@ -46,8 +46,9 @@ namespace MachineDeptApp.MCSDControl.SDRec
                 dgvConsumption.Rows[dgvConsumption.Rows.Count - 1].Cells["RMName"].Value = row["ItemName"];
                 dgvConsumption.Rows[dgvConsumption.Rows.Count - 1].Cells["BOMQty"].Value = Convert.ToDouble(row["BOMQty"]);
                 dgvConsumption.Rows[dgvConsumption.Rows.Count - 1].Cells["ConsumptionQty"].Value = Convert.ToDouble(row["ConsumpQty"]);
-                dgvConsumption.Rows[dgvConsumption.Rows.Count - 1].Cells["KITTransferQty"].Value = Convert.ToDouble(row["KITTranQty"]);
-                if(row["RecQty"].ToString().Trim()!="")
+                if (row["KITTranQty"].ToString().Trim()!="")
+                    dgvConsumption.Rows[dgvConsumption.Rows.Count - 1].Cells["KITTransferQty"].Value = Convert.ToDouble(row["KITTranQty"]);
+                if (row["RecQty"].ToString().Trim() != "")
                     dgvConsumption.Rows[dgvConsumption.Rows.Count - 1].Cells["MCRecQty"].Value = Convert.ToDouble(row["RecQty"]);
                 dgvConsumption.Rows[dgvConsumption.Rows.Count - 1].Cells["MCRemQty"].Value = Convert.ToDouble(row["RemainMC_KITQty"]);
             }
@@ -59,10 +60,15 @@ namespace MachineDeptApp.MCSDControl.SDRec
             int FoundAbnormal = 0;
             foreach (DataGridViewRow row in dgvConsumption.Rows)
             {
-                if (Convert.ToDouble(row.Cells["KITTransferQty"].Value.ToString()) < Convert.ToDouble(row.Cells["ConsumptionQty"].Value.ToString()))
+                if (row.Cells["KITTransferQty"].Value != null && row.Cells["KITTransferQty"].Value.ToString().Trim() != "")
                 {
-                    FoundAbnormal++;
+                    if (Convert.ToDouble(row.Cells["KITTransferQty"].Value.ToString()) < Convert.ToDouble(row.Cells["ConsumptionQty"].Value.ToString()))
+                    {
+                        FoundAbnormal++;
+                    }
                 }
+                else
+                    FoundAbnormal++;
             }
             if (FoundAbnormal == 0)
             {

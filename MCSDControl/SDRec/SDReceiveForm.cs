@@ -505,7 +505,7 @@ namespace MachineDeptApp.MCSDControl.SDRec
                     "\nLEFT JOIN " +
                     "\n--MC KIT" +
                     "\n(" +
-                    "\n\tSELECT tbSDConn1Rec.POSNo, Status AS MC_KITStatus, tbSDConn2Consump.* FROM MachineDB.dbo.tbSDConn1Rec " +
+                    "\n\tSELECT tbSDConn1Rec.POSNo, Status AS MC_KITStatus, tbSDConn2Consump.* FROM ["+cnnIP+"].MachineDB.dbo.tbSDConn1Rec " +
                     "\n\tINNER JOIN ["+cnnIP+"].MachineDB.dbo.tbSDConn2Consump " +
                     "\n\tON tbSDConn1Rec.SysNo = tbSDConn2Consump.SysNo " +
                     "\n) tbKITDetails " +
