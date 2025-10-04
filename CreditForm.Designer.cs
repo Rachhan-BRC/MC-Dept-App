@@ -36,17 +36,9 @@
             this.LbAppNameAndVersion = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.LbVersion = new System.Windows.Forms.Label();
             this.LbDatabase = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
             this.LbServer = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.panelBody = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -69,6 +61,10 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.PicMessenger)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicTelegram)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -80,6 +76,10 @@
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.SuspendLayout();
             // 
             // PicMessenger
@@ -111,12 +111,12 @@
             // LbAppNameAndVersion
             // 
             this.LbAppNameAndVersion.AutoSize = true;
-            this.LbAppNameAndVersion.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbAppNameAndVersion.Location = new System.Drawing.Point(108, 28);
+            this.LbAppNameAndVersion.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbAppNameAndVersion.Location = new System.Drawing.Point(92, 28);
             this.LbAppNameAndVersion.Name = "LbAppNameAndVersion";
-            this.LbAppNameAndVersion.Size = new System.Drawing.Size(90, 24);
+            this.LbAppNameAndVersion.Size = new System.Drawing.Size(52, 27);
             this.LbAppNameAndVersion.TabIndex = 0;
-            this.LbAppNameAndVersion.Text = "                    ";
+            this.LbAppNameAndVersion.Text = "          ";
             // 
             // pictureBox3
             // 
@@ -130,18 +130,14 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label19);
-            this.groupBox1.Controls.Add(this.label18);
-            this.groupBox1.Controls.Add(this.label12);
+            this.groupBox1.Controls.Add(this.pictureBox5);
+            this.groupBox1.Controls.Add(this.pictureBox4);
+            this.groupBox1.Controls.Add(this.pictureBox2);
+            this.groupBox1.Controls.Add(this.pictureBox1);
             this.groupBox1.Controls.Add(this.LbVersion);
             this.groupBox1.Controls.Add(this.LbDatabase);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label15);
             this.groupBox1.Controls.Add(this.LbServer);
-            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.LbAppNameAndVersion);
-            this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(4, 2);
@@ -151,115 +147,35 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Application Infomations";
             // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(285, 28);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(60, 24);
-            this.label19.TabIndex = 0;
-            this.label19.Text = "Version";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(285, 52);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(72, 24);
-            this.label18.TabIndex = 0;
-            this.label18.Text = "Database";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(8, 52);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(57, 24);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "Server";
-            // 
             // LbVersion
             // 
             this.LbVersion.AutoSize = true;
-            this.LbVersion.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbVersion.Location = new System.Drawing.Point(385, 28);
+            this.LbVersion.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbVersion.Location = new System.Drawing.Point(372, 27);
             this.LbVersion.Name = "LbVersion";
-            this.LbVersion.Size = new System.Drawing.Size(90, 24);
+            this.LbVersion.Size = new System.Drawing.Size(52, 27);
             this.LbVersion.TabIndex = 0;
-            this.LbVersion.Text = "                    ";
+            this.LbVersion.Text = "          ";
             // 
             // LbDatabase
             // 
             this.LbDatabase.AutoSize = true;
-            this.LbDatabase.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbDatabase.Location = new System.Drawing.Point(385, 52);
+            this.LbDatabase.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbDatabase.Location = new System.Drawing.Point(372, 53);
             this.LbDatabase.Name = "LbDatabase";
-            this.LbDatabase.Size = new System.Drawing.Size(90, 24);
+            this.LbDatabase.Size = new System.Drawing.Size(52, 27);
             this.LbDatabase.TabIndex = 0;
-            this.LbDatabase.Text = "                    ";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(364, 28);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(14, 24);
-            this.label9.TabIndex = 0;
-            this.label9.Text = ":";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(8, 28);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(47, 24);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Name";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(364, 52);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(14, 24);
-            this.label15.TabIndex = 0;
-            this.label15.Text = ":";
+            this.LbDatabase.Text = "          ";
             // 
             // LbServer
             // 
             this.LbServer.AutoSize = true;
-            this.LbServer.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbServer.Location = new System.Drawing.Point(108, 52);
+            this.LbServer.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbServer.Location = new System.Drawing.Point(92, 53);
             this.LbServer.Name = "LbServer";
-            this.LbServer.Size = new System.Drawing.Size(90, 24);
+            this.LbServer.Size = new System.Drawing.Size(52, 27);
             this.LbServer.TabIndex = 0;
-            this.LbServer.Text = "                    ";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(87, 52);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(14, 24);
-            this.label6.TabIndex = 0;
-            this.label6.Text = ":";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(87, 28);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(14, 24);
-            this.label1.TabIndex = 0;
-            this.label1.Text = ":";
+            this.LbServer.Text = "          ";
             // 
             // panelHeader
             // 
@@ -511,6 +427,54 @@
             this.label16.TabIndex = 0;
             this.label16.Text = ":";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(42, 27);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Padding = new System.Windows.Forms.Padding(1);
+            this.pictureBox1.Size = new System.Drawing.Size(27, 24);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBox1, "Application Name");
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(42, 52);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Padding = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.pictureBox2.Size = new System.Drawing.Size(27, 24);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 1;
+            this.pictureBox2.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBox2, "Server");
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
+            this.pictureBox4.Location = new System.Drawing.Point(323, 27);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Padding = new System.Windows.Forms.Padding(2);
+            this.pictureBox4.Size = new System.Drawing.Size(27, 24);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox4.TabIndex = 1;
+            this.pictureBox4.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBox4, "Version");
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
+            this.pictureBox5.Location = new System.Drawing.Point(323, 52);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.pictureBox5.Size = new System.Drawing.Size(27, 24);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox5.TabIndex = 1;
+            this.pictureBox5.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBox5, "Database");
+            // 
             // CreditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -539,6 +503,10 @@
             this.tabPage2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -573,16 +541,12 @@
         private System.Windows.Forms.PictureBox PicMessenger;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.PictureBox PicTelegram;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label LbServer;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label LbDatabase;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label LbVersion;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.PictureBox pictureBox4;
     }
 }
