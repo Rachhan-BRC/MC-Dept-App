@@ -689,6 +689,7 @@
     <Compile Include="SQLConnect.cs" />
     <Compile Include="SQLConnectAllSection.cs" />
     <Compile Include="SQLConnectOBS.cs" />
+    <Compile Include="SQLConnectUpdate.cs" />
     <Compile Include="TrackingPOS\POSTrackingSearchForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -1,0 +1,2 @@
+POSNo		ErrorText
+25-0902885	Shortage RM Stock!

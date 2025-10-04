@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.PicHide = new System.Windows.Forms.PictureBox();
@@ -38,10 +39,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnLogin = new System.Windows.Forms.Button();
+            this.PicUpdate = new System.Windows.Forms.PictureBox();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicHide)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicShow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicUpdate)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -69,6 +74,7 @@
             this.PicHide.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicHide.TabIndex = 2;
             this.PicHide.TabStop = false;
+            this.toolTip1.SetToolTip(this.PicHide, "លាក់ពាក្យសម្ងាត់");
             this.PicHide.Visible = false;
             // 
             // PicShow
@@ -80,6 +86,7 @@
             this.PicShow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicShow.TabIndex = 2;
             this.PicShow.TabStop = false;
+            this.toolTip1.SetToolTip(this.PicShow, "បង្ហាញពាក្យសម្ងាត់");
             // 
             // txtPassword
             // 
@@ -135,8 +142,38 @@
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(68, 64);
             this.btnLogin.TabIndex = 8;
+            this.toolTip1.SetToolTip(this.btnLogin, "ចូលប្រើប្រាស់");
             this.btnLogin.UseVisualStyleBackColor = false;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
+            // 
+            // PicUpdate
+            // 
+            this.PicUpdate.BackColor = System.Drawing.Color.White;
+            this.PicUpdate.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PicUpdate.BackgroundImage")));
+            this.PicUpdate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PicUpdate.Location = new System.Drawing.Point(11, 9);
+            this.PicUpdate.Name = "PicUpdate";
+            this.PicUpdate.Size = new System.Drawing.Size(27, 23);
+            this.PicUpdate.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicUpdate.TabIndex = 33;
+            this.PicUpdate.TabStop = false;
+            this.PicUpdate.Visible = false;
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.BackColor = System.Drawing.Color.Transparent;
+            this.btnUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnUpdate.Font = new System.Drawing.Font("Calibri", 8.25F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
+                | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUpdate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnUpdate.Location = new System.Drawing.Point(3, 3);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Padding = new System.Windows.Forms.Padding(30, 0, 1, 0);
+            this.btnUpdate.Size = new System.Drawing.Size(132, 35);
+            this.btnUpdate.TabIndex = 32;
+            this.btnUpdate.Text = "New version are available";
+            this.btnUpdate.UseVisualStyleBackColor = false;
+            this.btnUpdate.Visible = false;
             // 
             // LoginForm
             // 
@@ -145,6 +182,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(476, 322);
+            this.Controls.Add(this.PicUpdate);
+            this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnLogin);
@@ -154,12 +193,13 @@
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ចូលប្រើ";
-            this.Load += new System.EventHandler(this.LoginForm_Load);
+            //this.Load += new System.EventHandler(this.LoginForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicHide)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicShow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicUpdate)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -175,5 +215,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnLogin;
+        private System.Windows.Forms.PictureBox PicUpdate;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

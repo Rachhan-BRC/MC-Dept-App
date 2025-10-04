@@ -34,19 +34,16 @@ namespace MachineDeptApp
     public partial class MenuFormV2 : Form
     {
         SQLConnect cnn = new SQLConnect();
-        string LogRole;
-        string name;
+        string LogRole, name;
         public static string UserForNextForm, MsgTitle = "Rachhan System";
 
-        DataTable dtRoot;
-        DataTable dtChildRoot;
-        DataTable dtChildRootofChild;
-        DataTable dtOpenForm;
-        
-        public MenuFormV2()
+        DataTable dtRoot, dtChildRoot, dtChildRootofChild, dtOpenForm, dtUpdate;
+
+        public MenuFormV2(DataTable dt1)
         {
             InitializeComponent();
             this.cnn.Connection();
+            this.dtUpdate = dt1;
             this.FormClosing += MenuFormV2_FormClosing;
             this.treeViewMenu.NodeMouseDoubleClick += TreeViewMenu_NodeMouseDoubleClick;
             this.treeViewMenu.NodeMouseClick += TreeViewMenu_NodeMouseClick;
@@ -1969,6 +1966,8 @@ namespace MachineDeptApp
 
         private void MenuFormV2_Load(object sender, EventArgs e)
         {
+            if (dtUpdate.Rows.Count > 0)
+                PicUpdate.Visible = true;
             this.Text = Assembly.GetExecutingAssembly().GetName().Name + " by Rachhan";
             treeViewMenu.Nodes.Clear();
             //Add root Node
@@ -2090,8 +2089,8 @@ namespace MachineDeptApp
             //6,1
             dtChildRootofChild.Rows.Add(5, 0, "បញ្ចូលទទួលពី Kitting Room", "SDReceiveForm"); 
             dtChildRootofChild.Rows.Add(5, 0, "បញ្ចូលស្តុក KIT", "KITStockINForm");
-            dtChildRootofChild.Rows.Add(5, 0, "ផ្លាស់ប្ដូរ/ខ្ចី", "SDBorrowForm");
-            dtChildRootofChild.Rows.Add(5, 0, "បញ្ចូលសង", "SDPayBackForm");
+            //dtChildRootofChild.Rows.Add(5, 0, "ផ្លាស់ប្ដូរ/ខ្ចី", "SDBorrowForm");
+            //dtChildRootofChild.Rows.Add(5, 0, "បញ្ចូលសង", "SDPayBackForm");
             dtChildRootofChild.Rows.Add(5, 0, "បញ្ចូលវេរចេញទៅផលិត", "SDTransferForm");
             dtChildRootofChild.Rows.Add(5, 0, "ឆែកទិន្នន័យ POS (MC KIT)", "MCPOSDetailsSearchForm");
             dtChildRootofChild.Rows.Add(5, 0, "ឆែកទិន្នន័យ POS (1 SET)", "MCPOSDetailsBySetForm");

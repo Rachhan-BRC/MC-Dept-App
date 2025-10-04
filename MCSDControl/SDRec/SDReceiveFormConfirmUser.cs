@@ -18,10 +18,16 @@ namespace MachineDeptApp.MCSDControl.SDRec
         {
             InitializeComponent();
             cnn.Connection();
+            this.Load += SDReceiveFormConfirmUser_Load;
             this.btnCancel.Click += BtnCancel_Click;
             this.btnOK.Click += BtnOK_Click;
         }
 
+        private void SDReceiveFormConfirmUser_Load(object sender, EventArgs e)
+        {
+            this.ID = "";
+            this.Password = "";
+        }
         private void BtnOK_Click(object sender, EventArgs e)
         {
             if (txtID.Text.ToString().Trim() != "" && txtPassword.Text.ToString().Trim() != "")
@@ -29,31 +35,42 @@ namespace MachineDeptApp.MCSDControl.SDRec
                 try
                 {
                     cnn.con.Open();
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT COUNT(*) FROM tbUser WHERE Role='Admin' AND ID ='" + txtID.Text + "' AND Password='" + txtPassword.Text + "';", cnn.con);
+                    SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM tbUser WHERE ID ='" + txtID.Text + "' AND Password='" + txtPassword.Text + "';", cnn.con);
                     DataTable dt = new DataTable();
                     sda.Fill(dt);
-                    if (dt.Rows[0][0].ToString() == "1")
+                    if (dt.Rows.Count>0)
                     {
-                        SDReceiveFormConfirm.ID = txtID.Text;
-                        SDReceiveFormConfirm.Password = txtPassword.Text;
-                        this.Close();
+                        if (dt.Rows[0]["Role"].ToString() == "Admin")
+                        {
+                            this.ID = txtID.Text;
+                            this.Password = txtPassword.Text;
+                            this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("គណនីនេះមិនមានសិទ្ធិបន្តទេ!" +
+                                                            "\nសូមបញ្ចូលគណនី Admin តែប៉ុណ្នោះ!" +
+                                                            "\n • ឈ្មោះគណនី ៖  " + dt.Rows[0]["Username"].ToString() +
+                                                            "\n • តួនាទី          ៖  " + dt.Rows[0]["Role"].ToString(), MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
                     }
                     else
-                    {
-                        MessageBox.Show("មិនមានគណនី Admin នេះនៅក្នុងប្រព័ន្ធទេ!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
+                        MessageBox.Show("គ្មានគណនីនេះនៅក្នុងប្រព័ន្ធទេ!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Login Fail", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("មានបញ្ហា! \n" + ex.Message, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 cnn.con.Close();
             }
         }
-
         private void BtnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+        //Method
+        public string ID { get; private set; }
+        public string Password { get; private set; }
     }
 }
