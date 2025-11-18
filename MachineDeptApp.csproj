@@ -491,6 +491,18 @@
     <Compile Include="MsgClass\InformationMsgClass.cs" />
     <Compile Include="MsgClass\QuestionMsgClass.cs" />
     <Compile Include="MsgClass\WarningMsgClass.cs" />
+    <Compile Include="SparePartControll\RegUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SparePartControll\RegUpdateForm.Designer.cs">
+      <DependentUpon>RegUpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SparePartControll\MstSparePart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SparePartControll\MstSparePart.Designer.cs">
+      <DependentUpon>MstSparePart.cs</DependentUpon>
+    </Compile>
     <Compile Include="NG Input\MstBOMForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -933,6 +945,9 @@
     <EmbeddedResource Include="MenuFormV2.resx">
       <DependentUpon>MenuFormV2.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SparePartControll\MstSparePart.resx">
+      <DependentUpon>MstSparePart.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NG Input\MstBOMForm.resx">
       <DependentUpon>MstBOMForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -1037,6 +1052,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SemiPress\SemiPressSearchForm.resx">
       <DependentUpon>SemiPressSearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SparePartControll\RegUpdateForm.resx">
+      <DependentUpon>RegUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TrackingPOS\POSTrackingSearchForm.resx">
       <DependentUpon>POSTrackingSearchForm.cs</DependentUpon>
