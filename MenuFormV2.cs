@@ -1949,7 +1949,29 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("SemiTransferComparisonForm", "ឆែកទិន្នន័យដែល WIP មិនទាន់ស្កេនទទួល");
                 }
             }
+            if (currentClkNode.Text == "Master Spare Parts")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
 
+                if (FoundOpened == 0)
+                {
+                    MstSparePart Uf = new MstSparePart();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("Master Spare Parts");
+                    dtOpenForm.Rows.Add("MstSparePart", "Master Spare Parts");
+                }
+            }
             int After = dtOpenForm.Rows.Count;
 
             if (Before < After)
@@ -1981,7 +2003,7 @@ namespace MachineDeptApp
             dtRoot.Rows.Add("គ្រប់គ្រងទិន្នន័យ SD MC");
             dtRoot.Rows.Add("គ្រប់គ្រងគម្រោងរបស់ម៉ាស៊ីន");
             dtRoot.Rows.Add("រាប់ស្តុក");
-            //dtRoot.Rows.Add("គ្រប់គ្រង Semi Uncomplete");
+            dtRoot.Rows.Add("គ្រប់គ្រង Spare Parts");
             dtRoot.Rows.Add("Admin");
             foreach (DataRow row in dtRoot.Rows)
             {
@@ -2047,6 +2069,9 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(7, "MC Inprocess Inventory", "");
             dtChildRoot.Rows.Add(7, "Combine Inventory", "InventoryCombineForm");
 
+            //9
+            dtChildRoot.Rows.Add(8, "Master Spare Parts", "MstSparePart");
+
 
             //8
             //dtChildRoot.Rows.Add(7, "បញ្ចូលទិន្នន័យវេរ", "AllSectionMCTransferForm");
@@ -2055,12 +2080,13 @@ namespace MachineDeptApp
             //dtChildRoot.Rows.Add(7, "ស្ថានភាពទូទៅ", "AllSectionMCOverviewForm");
 
             //The last one
-            dtChildRoot.Rows.Add(8, "User Account", "UserForm");
-            dtChildRoot.Rows.Add(8, "MC List", "MachineTypeMasterForm");
-            dtChildRoot.Rows.Add(8, "MC Type vs Item", "MasterItemForm");
-            dtChildRoot.Rows.Add(8, "SLOT List", "SLOTMasterForm");
-            dtChildRoot.Rows.Add(8, "Master Check (MC vs Item)", "MasterItemCheckForm");
-            dtChildRoot.Rows.Add(8, "Master RM Uncountable", "UncountableRMMasterForm");
+            dtChildRoot.Rows.Add(9, "User Account", "UserForm");
+            dtChildRoot.Rows.Add(9, "MC List", "MachineTypeMasterForm");
+            dtChildRoot.Rows.Add(9, "MC Type vs Item", "MasterItemForm");
+            dtChildRoot.Rows.Add(9, "SLOT List", "SLOTMasterForm");
+            dtChildRoot.Rows.Add(9, "Master Check (MC vs Item)", "MasterItemCheckForm");
+            dtChildRoot.Rows.Add(9, "Master RM Uncountable", "UncountableRMMasterForm");
+           
 
             foreach (DataRow row1 in dtChildRoot.Rows) 
             {
