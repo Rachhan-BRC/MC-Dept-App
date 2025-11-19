@@ -1918,3 +1918,5 @@ D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.CoreCompileInputs.cach
 D:\IT-Project\MC-Dept-App\obj\Debug\MC Dept App.exe
 D:\IT-Project\MC-Dept-App\obj\Debug\MC Dept App.pdb
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.RegUpdateForm.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.RequestForm.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.InvoiceForm.resources

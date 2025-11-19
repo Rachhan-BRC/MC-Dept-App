@@ -1,8 +1,14 @@
 ﻿using MachineDeptApp.Admin;
+using MachineDeptApp.AllSection;
 using MachineDeptApp.InputTransferSemi;
+using MachineDeptApp.Inventory;
+using MachineDeptApp.Inventory.Inprocess;
+using MachineDeptApp.Inventory.KIT;
+using MachineDeptApp.Inventory.MC_SD;
 using MachineDeptApp.MCPlans;
-using MachineDeptApp.MCSDControl.SDRec;
 using MachineDeptApp.MCSDControl;
+using MachineDeptApp.MCSDControl.SDRec;
+using MachineDeptApp.MCSDControl.WIR1__Wire_Stock_;
 using MachineDeptApp.NG_Input;
 using MachineDeptApp.OBS;
 using MachineDeptApp.SemiNGReq;
@@ -10,24 +16,19 @@ using MachineDeptApp.SemiPress;
 using MachineDeptApp.SemiPress.SemiPress1;
 using MachineDeptApp.SemiPress.SemiPress2;
 using MachineDeptApp.SemiPress2;
+using MachineDeptApp.SparePartControll;
 using MachineDeptApp.TrackingPOS;
 using MachineDeptApp.TransferData;
-using MachineDeptApp.Inventory.KIT;
-using MachineDeptApp.Inventory.MC_SD;
-using MachineDeptApp.Inventory.Inprocess;
-using MachineDeptApp.AllSection;
-using MachineDeptApp.MCSDControl.WIR1__Wire_Stock_;
-using MachineDeptApp.Inventory;
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using System.Diagnostics;
-using System.Reflection;
 
 namespace MachineDeptApp
 {
@@ -1972,6 +1973,29 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("MstSparePart", "Master Spare Parts");
                 }
             }
+            if (currentClkNode.Text == "Request")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    RequestForm Uf = new RequestForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("Request");
+                    dtOpenForm.Rows.Add("RequestForm", "Request");
+                }
+            }
             int After = dtOpenForm.Rows.Count;
 
             if (Before < After)
@@ -2071,6 +2095,7 @@ namespace MachineDeptApp
 
             //9
             dtChildRoot.Rows.Add(8, "Master Spare Parts", "MstSparePart");
+            dtChildRoot.Rows.Add(8, "Request", "RequestForm");
 
 
             //8

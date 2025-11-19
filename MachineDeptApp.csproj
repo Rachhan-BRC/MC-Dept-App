@@ -247,6 +247,12 @@
     <Compile Include="Inventory\MC_SD\MCSDUpdateForm.Designer.cs">
       <DependentUpon>MCSDUpdateForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Invoice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Invoice.Designer.cs">
+      <DependentUpon>Invoice.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -491,6 +497,12 @@
     <Compile Include="MsgClass\InformationMsgClass.cs" />
     <Compile Include="MsgClass\QuestionMsgClass.cs" />
     <Compile Include="MsgClass\WarningMsgClass.cs" />
+    <Compile Include="SparePartControll\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SparePartControll\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="SparePartControll\RegUpdateForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -825,6 +837,9 @@
     <EmbeddedResource Include="Inventory\MC_SD\MCSDUpdateForm.resx">
       <DependentUpon>MCSDUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Invoice.resx">
+      <DependentUpon>Invoice.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -944,6 +959,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MenuFormV2.resx">
       <DependentUpon>MenuFormV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SparePartControll\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SparePartControll\MstSparePart.resx">
       <DependentUpon>MstSparePart.cs</DependentUpon>
