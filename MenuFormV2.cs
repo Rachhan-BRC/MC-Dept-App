@@ -1949,6 +1949,29 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("SemiTransferComparisonForm", "ឆែកទិន្នន័យដែល WIP មិនទាន់ស្កេនទទួល");
                 }
             }
+            if (currentClkNode.Text == "ឆែកទិន្នន័យShortage")
+            {
+                // Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    RMEstimateShortage Uf = new RMEstimateShortage();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("ឆែកទិន្នន័យShortage");
+                    dtOpenForm.Rows.Add("RMEstimateShortage", "ឆែកទិន្នន័យShortage");
+                }
+            }
             if (currentClkNode.Text == "Master Spare Parts")
             {
                 //Check if already open >> Focus on that Form
@@ -2055,6 +2078,8 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(5, "ទិន្នន័យវេរចេញ/ចូល", "MCStockTransactionSearchForm");
             dtChildRoot.Rows.Add(5, "ទិន្នន័យស្តុក MC", "MCStockSearchForm");
             dtChildRoot.Rows.Add(5, "ប្រៀបធៀបទិន្នន័យ In-Out", "StockInOutComparisonForm");
+            dtChildRoot.Rows.Add(5, "ឆែកទិន្នន័យShortage", "RMEstimateShortage");
+
 
             //7
             dtChildRoot.Rows.Add(6, "Import POS", "RMStatusForPlanForm");
