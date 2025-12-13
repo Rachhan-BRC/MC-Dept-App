@@ -138,6 +138,24 @@
     <Compile Include="AllSection\AllSectionMCTransferForm.Designer.cs">
       <DependentUpon>AllSectionMCTransferForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SparePartControll\AddPrint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SparePartControll\AddPrint.Designer.cs">
+      <DependentUpon>AddPrint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SparePartControll\budget.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SparePartControll\budget.Designer.cs">
+      <DependentUpon>budget.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SparePartControll\balance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SparePartControll\balance.Designer.cs">
+      <DependentUpon>balance.cs</DependentUpon>
+    </Compile>
     <Compile Include="CreditForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -246,6 +264,18 @@
     </Compile>
     <Compile Include="Inventory\MC_SD\MCSDUpdateForm.Designer.cs">
       <DependentUpon>MCSDUpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PPData\ShipmentScheduleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PPData\ShipmentScheduleForm.Designer.cs">
+      <DependentUpon>ShipmentScheduleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SparePartControll\Invoice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SparePartControll\Invoice.Designer.cs">
+      <DependentUpon>Invoice.cs</DependentUpon>
     </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
@@ -491,6 +521,18 @@
     <Compile Include="MsgClass\InformationMsgClass.cs" />
     <Compile Include="MsgClass\QuestionMsgClass.cs" />
     <Compile Include="MsgClass\WarningMsgClass.cs" />
+    <Compile Include="SparePartControll\PrintForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SparePartControll\PrintForm.Designer.cs">
+      <DependentUpon>PrintForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SparePartControll\RequestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SparePartControll\RequestForm.Designer.cs">
+      <DependentUpon>RequestForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SparePartControll\RegUpdateForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -702,6 +744,12 @@
     <Compile Include="SQLConnectAllSection.cs" />
     <Compile Include="SQLConnectOBS.cs" />
     <Compile Include="SQLConnectUpdate.cs" />
+    <Compile Include="SparePartControll\StockINOut.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SparePartControll\StockINOut.Designer.cs">
+      <DependentUpon>StockINOut.cs</DependentUpon>
+    </Compile>
     <Compile Include="TrackingPOS\POSTrackingSearchForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -771,6 +819,12 @@
     <EmbeddedResource Include="AllSection\AllSectionMCTransferForm.resx">
       <DependentUpon>AllSectionMCTransferForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SparePartControll\AddPrint.resx">
+      <DependentUpon>AddPrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SparePartControll\balance.resx">
+      <DependentUpon>balance.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CreditForm.resx">
       <DependentUpon>CreditForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -824,6 +878,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\MC_SD\MCSDUpdateForm.resx">
       <DependentUpon>MCSDUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PPData\ShipmentScheduleForm.resx">
+      <DependentUpon>ShipmentScheduleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SparePartControll\budget.resx">
+      <DependentUpon>budget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SparePartControll\Invoice.resx">
+      <DependentUpon>Invoice.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
@@ -945,6 +1008,12 @@
     <EmbeddedResource Include="MenuFormV2.resx">
       <DependentUpon>MenuFormV2.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SparePartControll\PrintForm.resx">
+      <DependentUpon>PrintForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SparePartControll\RequestForm.resx">
+      <DependentUpon>RequestForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SparePartControll\MstSparePart.resx">
       <DependentUpon>MstSparePart.cs</DependentUpon>
     </EmbeddedResource>
@@ -1055,6 +1124,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SparePartControll\RegUpdateForm.resx">
       <DependentUpon>RegUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SparePartControll\StockINOut.resx">
+      <DependentUpon>StockINOut.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TrackingPOS\POSTrackingSearchForm.resx">
       <DependentUpon>POSTrackingSearchForm.cs</DependentUpon>

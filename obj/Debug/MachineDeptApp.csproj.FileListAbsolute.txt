@@ -1802,7 +1802,6 @@ D:\IT-Project\MC-Dept-App\bin\Debug\MC Dept App.exe.config
 D:\IT-Project\MC-Dept-App\bin\Debug\MC Dept App.exe
 D:\IT-Project\MC-Dept-App\bin\Debug\MC Dept App.pdb
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.AssemblyReference.cache
-D:\IT-Project\MC-Dept-App\obj\Debug\MC Dept App.exe.config
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.MachineTypeMasterForm.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.MasterItemCheckForm.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.MasterItemForm.resources
@@ -1918,3 +1917,11 @@ D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.CoreCompileInputs.cach
 D:\IT-Project\MC-Dept-App\obj\Debug\MC Dept App.exe
 D:\IT-Project\MC-Dept-App\obj\Debug\MC Dept App.pdb
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.RegUpdateForm.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.RequestForm.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.InvoiceForm.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\PP_Dept_App._4FinalPlan.ShipmentScheduleForm.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.StockINOut.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.balance.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.budget.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.PrintForm.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.AddPrint.resources
