@@ -349,6 +349,12 @@
     <Compile Include="MCSDControl\MCStockTransactionSearchForm.Designer.cs">
       <DependentUpon>MCStockTransactionSearchForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MCSDControl\RMEstimateShortage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\RMEstimateShortage.Designer.cs">
+      <DependentUpon>RMEstimateShortage.cs</DependentUpon>
+    </Compile>
     <Compile Include="MCSDControl\SDRec\KITStockINForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -438,6 +444,12 @@
     </Compile>
     <Compile Include="MCSDControl\StockCardForm.Designer.cs">
       <DependentUpon>StockCardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\ShortageDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\ShortageDetail.Designer.cs">
+      <DependentUpon>ShortageDetail.cs</DependentUpon>
     </Compile>
     <Compile Include="MCSDControl\WIR1 %28Wire Stock%29\WireCalcForProduction.cs">
       <SubType>Form</SubType>
@@ -924,6 +936,9 @@
     <EmbeddedResource Include="MCSDControl\MCStockTransactionSearchForm.resx">
       <DependentUpon>MCStockTransactionSearchForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\RMEstimateShortage.resx">
+      <DependentUpon>RMEstimateShortage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MCSDControl\SDRec\KITStockINForm.resx">
       <DependentUpon>KITStockINForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -968,6 +983,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MCSDControl\StockCardForm.resx">
       <DependentUpon>StockCardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\ShortageDetail.resx">
+      <DependentUpon>ShortageDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MCSDControl\WIR1 %28Wire Stock%29\WireCalcForProduction.resx">
       <DependentUpon>WireCalcForProduction.cs</DependentUpon>

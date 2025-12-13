@@ -70,6 +70,7 @@ namespace MachineDeptApp
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new LoginForm());
+                //Application.Run(new RMEstimateShortage());
                 //For Design test
                 //Application.Run(new CreditForm());                
             }
