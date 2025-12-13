@@ -18,6 +18,7 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using MachineDeptApp.Inventory;
 using MachineDeptApp.TransferData;
+using MachineDeptApp.SparePartControll;
 
 namespace MachineDeptApp
 {

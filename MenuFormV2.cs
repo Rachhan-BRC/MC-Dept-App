@@ -1,8 +1,14 @@
 ﻿using MachineDeptApp.Admin;
+using MachineDeptApp.AllSection;
 using MachineDeptApp.InputTransferSemi;
+using MachineDeptApp.Inventory;
+using MachineDeptApp.Inventory.Inprocess;
+using MachineDeptApp.Inventory.KIT;
+using MachineDeptApp.Inventory.MC_SD;
 using MachineDeptApp.MCPlans;
-using MachineDeptApp.MCSDControl.SDRec;
 using MachineDeptApp.MCSDControl;
+using MachineDeptApp.MCSDControl.SDRec;
+using MachineDeptApp.MCSDControl.WIR1__Wire_Stock_;
 using MachineDeptApp.NG_Input;
 using MachineDeptApp.OBS;
 using MachineDeptApp.SemiNGReq;
@@ -10,24 +16,20 @@ using MachineDeptApp.SemiPress;
 using MachineDeptApp.SemiPress.SemiPress1;
 using MachineDeptApp.SemiPress.SemiPress2;
 using MachineDeptApp.SemiPress2;
+using MachineDeptApp.SparePartControll;
 using MachineDeptApp.TrackingPOS;
 using MachineDeptApp.TransferData;
-using MachineDeptApp.Inventory.KIT;
-using MachineDeptApp.Inventory.MC_SD;
-using MachineDeptApp.Inventory.Inprocess;
-using MachineDeptApp.AllSection;
-using MachineDeptApp.MCSDControl.WIR1__Wire_Stock_;
-using MachineDeptApp.Inventory;
+using PP_Dept_App._4FinalPlan;
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using System.Diagnostics;
-using System.Reflection;
 
 namespace MachineDeptApp
 {
@@ -1995,6 +1997,174 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("MstSparePart", "Master Spare Parts");
                 }
             }
+            if (currentClkNode.Text == "Request")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    RequestForm Uf = new RequestForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("Request");
+                    dtOpenForm.Rows.Add("RequestForm", "Request");
+                }
+
+            }
+            if (currentClkNode.Text == "Invoice")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    InvoiceForm Uf = new InvoiceForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("Invoice");
+                    dtOpenForm.Rows.Add("InvoiceForm", "Invoice");
+                }
+
+            }
+            if (currentClkNode.Text == "Balance")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    balance Uf = new balance();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("Balance");
+                    dtOpenForm.Rows.Add("balance", "Balance");
+                }
+
+            }
+            if (currentClkNode.Text == "Stock (In / Out)")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    StockINOut Uf = new StockINOut();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("Stock (In / Out)");
+                    dtOpenForm.Rows.Add("StockINOut", "Stock (In / Out)");
+                }
+
+            }
+            if (currentClkNode.Text == "Budget")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    budget Uf = new budget();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("Budget");
+                    dtOpenForm.Rows.Add("budget", "Budget");
+                }
+
+            }
+            if (currentClkNode.Text == "POS Schedule")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    ShipmentScheduleForm Uf = new ShipmentScheduleForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("POS Schedule");
+                    dtOpenForm.Rows.Add("ShipmentScheduleForm", "POS Schedule");
+                }
+
+            }
+            if (currentClkNode.Text == "Printing Form")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    PrintForm Uf = new PrintForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("Printing Form");
+                    dtOpenForm.Rows.Add("PrintForm", "Printing Form");
+                }
+
+            }
             int After = dtOpenForm.Rows.Count;
 
             if (Before < After)
@@ -2027,6 +2197,7 @@ namespace MachineDeptApp
             dtRoot.Rows.Add("គ្រប់គ្រងគម្រោងរបស់ម៉ាស៊ីន");
             dtRoot.Rows.Add("រាប់ស្តុក");
             dtRoot.Rows.Add("គ្រប់គ្រង Spare Parts");
+            dtRoot.Rows.Add("PP Data");
             dtRoot.Rows.Add("Admin");
             foreach (DataRow row in dtRoot.Rows)
             {
@@ -2096,7 +2267,14 @@ namespace MachineDeptApp
 
             //9
             dtChildRoot.Rows.Add(8, "Master Spare Parts", "MstSparePart");
-
+            dtChildRoot.Rows.Add(8, "Balance", "balance");
+            dtChildRoot.Rows.Add(8, "Stock (In / Out)", "StockINOut");
+            dtChildRoot.Rows.Add(8, "Invoice", "InvoiceForm");
+            dtChildRoot.Rows.Add(8, "Request", "RequestForm");
+            dtChildRoot.Rows.Add(8, "Budget", "budget");
+            dtChildRoot.Rows.Add(8, "Printing Form", "PrintForm");
+            //10
+            dtChildRoot.Rows.Add(9, "POS Schedule", "ShipmentScheduleForm");
 
             //8
             //dtChildRoot.Rows.Add(7, "បញ្ចូលទិន្នន័យវេរ", "AllSectionMCTransferForm");
@@ -2105,12 +2283,12 @@ namespace MachineDeptApp
             //dtChildRoot.Rows.Add(7, "ស្ថានភាពទូទៅ", "AllSectionMCOverviewForm");
 
             //The last one
-            dtChildRoot.Rows.Add(9, "User Account", "UserForm");
-            dtChildRoot.Rows.Add(9, "MC List", "MachineTypeMasterForm");
-            dtChildRoot.Rows.Add(9, "MC Type vs Item", "MasterItemForm");
-            dtChildRoot.Rows.Add(9, "SLOT List", "SLOTMasterForm");
-            dtChildRoot.Rows.Add(9, "Master Check (MC vs Item)", "MasterItemCheckForm");
-            dtChildRoot.Rows.Add(9, "Master RM Uncountable", "UncountableRMMasterForm");
+            dtChildRoot.Rows.Add(10, "User Account", "UserForm");
+            dtChildRoot.Rows.Add(10, "MC List", "MachineTypeMasterForm");
+            dtChildRoot.Rows.Add(10, "MC Type vs Item", "MasterItemForm");
+            dtChildRoot.Rows.Add(10, "SLOT List", "SLOTMasterForm");
+            dtChildRoot.Rows.Add(10, "Master Check (MC vs Item)", "MasterItemCheckForm");
+            dtChildRoot.Rows.Add(10, "Master RM Uncountable", "UncountableRMMasterForm");
            
 
             foreach (DataRow row1 in dtChildRoot.Rows) 

@@ -1802,7 +1802,6 @@ D:\IT-Project\MC-Dept-App\bin\Debug\MC Dept App.exe.config
 D:\IT-Project\MC-Dept-App\bin\Debug\MC Dept App.exe
 D:\IT-Project\MC-Dept-App\bin\Debug\MC Dept App.pdb
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.AssemblyReference.cache
-D:\IT-Project\MC-Dept-App\obj\Debug\MC Dept App.exe.config
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.MachineTypeMasterForm.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.MasterItemCheckForm.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.MasterItemForm.resources
@@ -1918,6 +1917,16 @@ D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.CoreCompileInputs.cach
 D:\IT-Project\MC-Dept-App\obj\Debug\MC Dept App.exe
 D:\IT-Project\MC-Dept-App\obj\Debug\MC Dept App.pdb
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.RegUpdateForm.resources
+<<<<<<< HEAD
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.RequestForm.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.InvoiceForm.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\PP_Dept_App._4FinalPlan.ShipmentScheduleForm.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.StockINOut.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.balance.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.budget.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.PrintForm.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.AddPrint.resources
+=======
 D:\MC-Dept-App\bin\Debug\MC Dept App.exe.config
 D:\MC-Dept-App\bin\Debug\MC Dept App.exe
 D:\MC-Dept-App\bin\Debug\MC Dept App.pdb
@@ -2039,3 +2048,6 @@ D:\MC-Dept-App\obj\Debug\MC Dept App.exe
 D:\MC-Dept-App\obj\Debug\MC Dept App.pdb
 D:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.RMEstimateShortage.resources
 D:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.ShortageDetail.resources
+>>>>>>> d2b42ec8fc90c2ceb1a12b91ba9541ba67d3c4f1
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.RMEstimateShortage.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.ShortageDetail.resources

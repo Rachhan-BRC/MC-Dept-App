@@ -111,6 +111,7 @@
             this.btnDeleteGray.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.btnDeleteGray.TabIndex = 31;
             this.btnDeleteGray.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnDeleteGray, "Delete");
             // 
             // btnDelete
             // 
@@ -136,6 +137,7 @@
             this.btnUpdateGrey.Name = "btnUpdateGrey";
             this.btnUpdateGrey.Size = new System.Drawing.Size(57, 56);
             this.btnUpdateGrey.TabIndex = 29;
+            this.toolTip1.SetToolTip(this.btnUpdateGrey, "Update");
             this.btnUpdateGrey.UseVisualStyleBackColor = false;
             // 
             // btnUpdate
