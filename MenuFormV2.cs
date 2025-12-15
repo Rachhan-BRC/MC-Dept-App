@@ -1951,7 +1951,7 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("SemiTransferComparisonForm", "ឆែកទិន្នន័យដែល WIP មិនទាន់ស្កេនទទួល");
                 }
             }
-            /*
+           
             if (currentClkNode.Text == "ឆែកទិន្នន័យShortage")
             {
                 // Check if already open >> Focus on that Form
@@ -1975,173 +1975,174 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("RMEstimateShortage", "ឆែកទិន្នន័យShortage");
                 }
             }
-            if (currentClkNode.Text == "Master Spare Parts")
-            {
-                //Check if already open >> Focus on that Form
-                int FoundOpened = 0;
-                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
-                {
-                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
-                    {
-                        tabControlOpenForm.SelectedIndex = i;
-                        FoundOpened++;
-                        break;
-                    }
-                }
+            /*
+           if (currentClkNode.Text == "Master Spare Parts")
+           {
+               //Check if already open >> Focus on that Form
+               int FoundOpened = 0;
+               for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+               {
+                   if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                   {
+                       tabControlOpenForm.SelectedIndex = i;
+                       FoundOpened++;
+                       break;
+                   }
+               }
 
-                if (FoundOpened == 0)
-                {
-                    MstSparePart Uf = new MstSparePart();
-                    Uf.MdiParent = MenuFormV2.ActiveForm;
-                    Uf.Show();
-                    tabControlOpenForm.TabPages.Add("Master Spare Parts");
-                    dtOpenForm.Rows.Add("MstSparePart", "Master Spare Parts");
-                }
-            }
-            if (currentClkNode.Text == "Request")
-            {
-                //Check if already open >> Focus on that Form
-                int FoundOpened = 0;
-                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
-                {
-                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
-                    {
-                        tabControlOpenForm.SelectedIndex = i;
-                        FoundOpened++;
-                        break;
-                    }
-                }
+               if (FoundOpened == 0)
+               {
+                   MstSparePart Uf = new MstSparePart();
+                   Uf.MdiParent = MenuFormV2.ActiveForm;
+                   Uf.Show();
+                   tabControlOpenForm.TabPages.Add("Master Spare Parts");
+                   dtOpenForm.Rows.Add("MstSparePart", "Master Spare Parts");
+               }
+           }
+           if (currentClkNode.Text == "Request")
+           {
+               //Check if already open >> Focus on that Form
+               int FoundOpened = 0;
+               for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+               {
+                   if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                   {
+                       tabControlOpenForm.SelectedIndex = i;
+                       FoundOpened++;
+                       break;
+                   }
+               }
 
-                if (FoundOpened == 0)
-                {
-                    RequestForm Uf = new RequestForm();
-                    Uf.MdiParent = MenuFormV2.ActiveForm;
-                    Uf.Show();
-                    tabControlOpenForm.TabPages.Add("Request");
-                    dtOpenForm.Rows.Add("RequestForm", "Request");
-                }
+               if (FoundOpened == 0)
+               {
+                   RequestForm Uf = new RequestForm();
+                   Uf.MdiParent = MenuFormV2.ActiveForm;
+                   Uf.Show();
+                   tabControlOpenForm.TabPages.Add("Request");
+                   dtOpenForm.Rows.Add("RequestForm", "Request");
+               }
 
-            }
-            if (currentClkNode.Text == "Invoice")
-            {
-                //Check if already open >> Focus on that Form
-                int FoundOpened = 0;
-                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
-                {
-                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
-                    {
-                        tabControlOpenForm.SelectedIndex = i;
-                        FoundOpened++;
-                        break;
-                    }
-                }
+           }
+           if (currentClkNode.Text == "Invoice")
+           {
+               //Check if already open >> Focus on that Form
+               int FoundOpened = 0;
+               for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+               {
+                   if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                   {
+                       tabControlOpenForm.SelectedIndex = i;
+                       FoundOpened++;
+                       break;
+                   }
+               }
 
-                if (FoundOpened == 0)
-                {
-                    InvoiceForm Uf = new InvoiceForm();
-                    Uf.MdiParent = MenuFormV2.ActiveForm;
-                    Uf.Show();
-                    tabControlOpenForm.TabPages.Add("Invoice");
-                    dtOpenForm.Rows.Add("InvoiceForm", "Invoice");
-                }
+               if (FoundOpened == 0)
+               {
+                   InvoiceForm Uf = new InvoiceForm();
+                   Uf.MdiParent = MenuFormV2.ActiveForm;
+                   Uf.Show();
+                   tabControlOpenForm.TabPages.Add("Invoice");
+                   dtOpenForm.Rows.Add("InvoiceForm", "Invoice");
+               }
 
-            }
-            if (currentClkNode.Text == "Balance")
-            {
-                //Check if already open >> Focus on that Form
-                int FoundOpened = 0;
-                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
-                {
-                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
-                    {
-                        tabControlOpenForm.SelectedIndex = i;
-                        FoundOpened++;
-                        break;
-                    }
-                }
+           }
+           if (currentClkNode.Text == "Balance")
+           {
+               //Check if already open >> Focus on that Form
+               int FoundOpened = 0;
+               for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+               {
+                   if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                   {
+                       tabControlOpenForm.SelectedIndex = i;
+                       FoundOpened++;
+                       break;
+                   }
+               }
 
-                if (FoundOpened == 0)
-                {
-                    balance Uf = new balance();
-                    Uf.MdiParent = MenuFormV2.ActiveForm;
-                    Uf.Show();
-                    tabControlOpenForm.TabPages.Add("Balance");
-                    dtOpenForm.Rows.Add("balance", "Balance");
-                }
+               if (FoundOpened == 0)
+               {
+                   balance Uf = new balance();
+                   Uf.MdiParent = MenuFormV2.ActiveForm;
+                   Uf.Show();
+                   tabControlOpenForm.TabPages.Add("Balance");
+                   dtOpenForm.Rows.Add("balance", "Balance");
+               }
 
-            }
-            if (currentClkNode.Text == "Stock (In / Out)")
-            {
-                //Check if already open >> Focus on that Form
-                int FoundOpened = 0;
-                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
-                {
-                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
-                    {
-                        tabControlOpenForm.SelectedIndex = i;
-                        FoundOpened++;
-                        break;
-                    }
-                }
+           }
+           if (currentClkNode.Text == "Stock (In / Out)")
+           {
+               //Check if already open >> Focus on that Form
+               int FoundOpened = 0;
+               for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+               {
+                   if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                   {
+                       tabControlOpenForm.SelectedIndex = i;
+                       FoundOpened++;
+                       break;
+                   }
+               }
 
-                if (FoundOpened == 0)
-                {
-                    StockINOut Uf = new StockINOut();
-                    Uf.MdiParent = MenuFormV2.ActiveForm;
-                    Uf.Show();
-                    tabControlOpenForm.TabPages.Add("Stock (In / Out)");
-                    dtOpenForm.Rows.Add("StockINOut", "Stock (In / Out)");
-                }
+               if (FoundOpened == 0)
+               {
+                   StockINOut Uf = new StockINOut();
+                   Uf.MdiParent = MenuFormV2.ActiveForm;
+                   Uf.Show();
+                   tabControlOpenForm.TabPages.Add("Stock (In / Out)");
+                   dtOpenForm.Rows.Add("StockINOut", "Stock (In / Out)");
+               }
 
-            }
-            if (currentClkNode.Text == "Budget")
-            {
-                //Check if already open >> Focus on that Form
-                int FoundOpened = 0;
-                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
-                {
-                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
-                    {
-                        tabControlOpenForm.SelectedIndex = i;
-                        FoundOpened++;
-                        break;
-                    }
-                }
+           }
+           if (currentClkNode.Text == "Budget")
+           {
+               //Check if already open >> Focus on that Form
+               int FoundOpened = 0;
+               for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+               {
+                   if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                   {
+                       tabControlOpenForm.SelectedIndex = i;
+                       FoundOpened++;
+                       break;
+                   }
+               }
 
-                if (FoundOpened == 0)
-                {
-                    budget Uf = new budget();
-                    Uf.MdiParent = MenuFormV2.ActiveForm;
-                    Uf.Show();
-                    tabControlOpenForm.TabPages.Add("Budget");
-                    dtOpenForm.Rows.Add("budget", "Budget");
-                }
+               if (FoundOpened == 0)
+               {
+                   budget Uf = new budget();
+                   Uf.MdiParent = MenuFormV2.ActiveForm;
+                   Uf.Show();
+                   tabControlOpenForm.TabPages.Add("Budget");
+                   dtOpenForm.Rows.Add("budget", "Budget");
+               }
 
-            }
-            if (currentClkNode.Text == "Printing Form")
-            {
-                //Check if already open >> Focus on that Form
-                int FoundOpened = 0;
-                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
-                {
-                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
-                    {
-                        tabControlOpenForm.SelectedIndex = i;
-                        FoundOpened++;
-                        break;
-                    }
-                }
+           }
+           if (currentClkNode.Text == "Printing Form")
+           {
+               //Check if already open >> Focus on that Form
+               int FoundOpened = 0;
+               for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+               {
+                   if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                   {
+                       tabControlOpenForm.SelectedIndex = i;
+                       FoundOpened++;
+                       break;
+                   }
+               }
 
-                if (FoundOpened == 0)
-                {
-                    PrintForm Uf = new PrintForm();
-                    Uf.MdiParent = MenuFormV2.ActiveForm;
-                    Uf.Show();
-                    tabControlOpenForm.TabPages.Add("Printing Form");
-                    dtOpenForm.Rows.Add("PrintForm", "Printing Form");
-                }
+               if (FoundOpened == 0)
+               {
+                   PrintForm Uf = new PrintForm();
+                   Uf.MdiParent = MenuFormV2.ActiveForm;
+                   Uf.Show();
+                   tabControlOpenForm.TabPages.Add("Printing Form");
+                   dtOpenForm.Rows.Add("PrintForm", "Printing Form");
+               }
 
-            }*/
+           }*/
             if (currentClkNode.Text == "POS Schedule")
             {
                 //Check if already open >> Focus on that Form
