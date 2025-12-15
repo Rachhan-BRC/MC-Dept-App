@@ -41,14 +41,18 @@ namespace MachineDeptApp.MCSDControl
         {
             DateTime PosDeliveryDate = Convert.ToDateTime(dgvStock.Rows[dgvStock.CurrentCell.RowIndex].Cells["PosDeliveryDate"].Value);
             string RMCode = dgvStock.Rows[dgvStock.CurrentCell.RowIndex].Cells["RMCode"].Value.ToString();
-            DataTable rows = dtDeliveryDetail.AsEnumerable().Where(r => r.Field<DateTime>("POSDeliveryDate") == PosDeliveryDate &&
-            r.Field<string>("RMCode") == RMCode
-            ).CopyToDataTable();
+            var rows = dtDeliveryDetail.AsEnumerable().Where(
+                r => r.Field<DateTime>("POSDeliveryDate").Date == PosDeliveryDate.Date &&
+                r.Field<string>("RMCode") == RMCode
+            );
             //Console.WriteLine(rows.Count());
-            //DataTable result = rows.CopyToDataTable();
-            string RMShortageQty = dgvStock.Rows[dgvStock.CurrentCell.RowIndex].Cells["RMShortage"].Value.ToString();
-            ShortageDetail shortageDetail = new ShortageDetail(rows, RMShortageQty);
-            shortageDetail.ShowDialog();
+            if (rows.Count() > 0)
+            {
+                DataTable result = rows.CopyToDataTable();
+                string RMShortageQty = dgvStock.Rows[dgvStock.CurrentCell.RowIndex].Cells["RMShortage"].Value.ToString();
+                ShortageDetail shortageDetail = new ShortageDetail(result, RMShortageQty);
+                shortageDetail.ShowDialog();
+            }
         }
 
         private void TbItemName_TextChanged(object sender, EventArgs e)
@@ -91,8 +95,8 @@ namespace MachineDeptApp.MCSDControl
                     conditionQuery += " And " + condition.Rows[i][0];
                 }
             }
-            try
-            {
+            //try
+            //{
                 string queryStock = @"
 SELECT
     T1.POSDeliveryDate,
@@ -217,14 +221,15 @@ ORDER BY
                 labelDataCount.Text = dtStock.Rows.Count.ToString() + "ជួរ";
                 dtDeliveryDetail = new DataTable();
                 SqlDataAdapter sqlDetail = new SqlDataAdapter(" SELECT T1.POSDeliveryDate, DONo, T1.ItemCode AS WIPCode, T5.ItemName  AS WIPName, T1.LineCode, T2.ItemCode AS RMCode, T3.ItemName AS RMName, SUM(ConsumpQty) AS TTLUsedQty FROM \r\n" +
-                    " (SELECT * FROM prgproductionorder WHERE CreateDate > '" + dtpPosShipStart.Value.ToString("dd-MM-yyyy") + "') T1 \r\n " +
+                    " (SELECT * FROM prgproductionorder WHERE CreateDate > '2024-07-01') T1 \r\n " +
                     " INNER JOIN (SELECT * FROM prgconsumtionorder) T2 ON T1.ProductionCode = T2.ProductionCode \r\n" +
                     " INNER JOIN (SELECT * FROM mstitem WHERE DelFlag = 0 AND ItemType = 2 AND MatCalcFlag = 1) T3 ON T2.ItemCode=T3.ItemCode \r\n" +
                     " INNER JOIN (SELECT * FROM mstitem WHERE DelFlag = 0 AND ItemType = 1) T5 ON T1.ItemCode = T5.ItemCode \r\n" +
                     " INNER JOIN (SELECT * FROM [" + cnn.server + "].[MachineDB].dbo.tbPOSDetailofMC) T6 ON T1.DONo = T6.PosCNo AND T6.PosCStatus <> 2  \r\n" +
-                    " GROUP BY T1.POSDeliveryDate, DONo, T1.ItemCode, T5.ItemName, T1.LineCode, T2.ItemCode, T3.ItemName\r\n " +
+                    " GROUP BY T1.POSDeliveryDate, DONo, T1.ItemCode, T5.ItemName, T1.LineCode, T2.ItemCode, T3.ItemName \r\n " +
                     " ORDER BY T1.POSDeliveryDate ASC, T1.LineCode ASC, T2.ItemCode ASC ", sobs.conOBS);
                 sqlDetail.Fill(dtDeliveryDetail);
+            //Console.WriteLine(dtDeliveryDetail.Rows.Count);
                 string RMCodeIN = "";
 
                 if (dtStock.Rows.Count > 0) {
@@ -239,7 +244,7 @@ ORDER BY
                         }
                     }
                 }
-                Console.WriteLine(RMCodeIN);
+                //Console.WriteLine(RMCodeIN);
                 dtRMSchuleDetails = new DataTable();
                 dtRMSchuleHeader = new DataTable();
                 if (RMCodeIN.Trim() != "")
@@ -297,16 +302,17 @@ ORDER BY
                     
 
                 }
-            }
+            //}
 
             
 
-            catch (Exception ex)
-            {
+            //catch (Exception ex)
+            //{
 
-                ErrorMsgClass.AlertText = ex.Message;
-                ErrorMsgClass.ShowingMsg();
-            }
+            //    ErrorMsgClass.AlertText = ex.Message;
+            //    ErrorMsgClass.ShowingMsg();
+            //    Console.WriteLine(ex.Message);
+            //}
 
 
 
