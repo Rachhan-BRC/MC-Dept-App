@@ -271,6 +271,12 @@
     <Compile Include="PPData\ShipmentScheduleForm.Designer.cs">
       <DependentUpon>ShipmentScheduleForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PPData\DOSummary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PPData\DOSummary.Designer.cs">
+      <DependentUpon>DOSummary.cs</DependentUpon>
+    </Compile>
     <Compile Include="SparePartControll\Invoice.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -896,6 +902,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SparePartControll\budget.resx">
       <DependentUpon>budget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PPData\DOSummary.resx">
+      <DependentUpon>DOSummary.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SparePartControll\Invoice.resx">
       <DependentUpon>Invoice.cs</DependentUpon>

@@ -95,8 +95,8 @@ namespace MachineDeptApp.MCSDControl
                     conditionQuery += " And " + condition.Rows[i][0];
                 }
             }
-            //try
-            //{
+            try
+            {
                 string queryStock = @"
 SELECT
     T1.POSDeliveryDate,
@@ -302,21 +302,21 @@ ORDER BY
                     
 
                 }
-            //}
+        }
 
             
 
-            //catch (Exception ex)
-            //{
+            catch (Exception ex)
+            {
 
-            //    ErrorMsgClass.AlertText = ex.Message;
-            //    ErrorMsgClass.ShowingMsg();
-            //    Console.WriteLine(ex.Message);
-            //}
+                ErrorMsgClass.AlertText = ex.Message;
+                ErrorMsgClass.ShowingMsg();
+                Console.WriteLine(ex.Message);
+            }
 
 
 
-            Cursor = Cursors.Default;
+    Cursor = Cursors.Default;
           
 
         }

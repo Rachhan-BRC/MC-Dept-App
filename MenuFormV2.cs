@@ -1975,6 +1975,29 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("RMEstimateShortage", "ឆែកទិន្នន័យShortage");
                 }
             }
+            if (currentClkNode.Text == "ទិន្នន័យDo Summary")
+            {
+                // Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    DoSummary Uf = new DoSummary();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("ទិន្នន័យDo Summary");
+                    dtOpenForm.Rows.Add("DoSummary", "ទិន្នន័យDo Summary");
+                }
+            }
             /*
            if (currentClkNode.Text == "Master Spare Parts")
            {
@@ -2279,6 +2302,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(8, "Printing Form", "PrintForm");*/
             //10
             dtChildRoot.Rows.Add(8, "POS Schedule", "ShipmentScheduleForm");
+            dtChildRoot.Rows.Add(8, "ទិន្នន័យDo Summary", "DoSummary");
 
             //8
             //dtChildRoot.Rows.Add(7, "បញ្ចូលទិន្នន័យវេរ", "AllSectionMCTransferForm");

@@ -2181,3 +2181,4 @@ G:\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.GenerateResource.cache
 G:\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.CoreCompileInputs.cache
 G:\MC-Dept-App\obj\Debug\MC Dept App.exe
 G:\MC-Dept-App\obj\Debug\MC Dept App.pdb
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.DoSummary.resources
