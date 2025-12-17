@@ -2182,3 +2182,16 @@ G:\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.CoreCompileInputs.cache
 G:\MC-Dept-App\obj\Debug\MC Dept App.exe
 G:\MC-Dept-App\obj\Debug\MC Dept App.pdb
 G:\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.DoSummary.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.AddPrint.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.balance.resources
+D:\Current Works\MC-Dept-App\obj\Debug\PP_Dept_App._4FinalPlan.ShipmentScheduleForm.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.budget.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.DoSummary.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.InvoiceForm.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.RMEstimateShortage.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.ShortageDetail.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.PrintForm.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.RequestForm.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.MstSparePart.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.RegUpdateForm.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.StockINOut.resources

@@ -106,6 +106,7 @@
             // 
             // panelHeader
             // 
+            this.panelHeader.Controls.Add(this.PicUpdate);
             this.panelHeader.Controls.Add(this.panelHeaderTable);
             this.panelHeader.Controls.Add(this.btnHideHeader);
             this.panelHeader.Controls.Add(this.btnUnhideHeader);
@@ -131,7 +132,7 @@
             this.panelHeaderTable.Name = "panelHeaderTable";
             this.panelHeaderTable.RowCount = 1;
             this.panelHeaderTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.panelHeaderTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.panelHeaderTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.panelHeaderTable.Size = new System.Drawing.Size(1144, 46);
             this.panelHeaderTable.TabIndex = 34;
             // 
@@ -225,9 +226,9 @@
             this.imageListTreeview.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTreeview.ImageStream")));
             this.imageListTreeview.TransparentColor = System.Drawing.Color.Transparent;
             this.imageListTreeview.Images.SetKeyName(0, "Boeun Rachhan System_logo.ico");
-            this.imageListTreeview.Images.SetKeyName(1, "menu.png");
-            this.imageListTreeview.Images.SetKeyName(2, "Form.png");
-            this.imageListTreeview.Images.SetKeyName(3, "FormSelected.png");
+            this.imageListTreeview.Images.SetKeyName(1, "Group Icon");
+            this.imageListTreeview.Images.SetKeyName(2, "Form Icon");
+            this.imageListTreeview.Images.SetKeyName(3, "Form Selected Icon");
             // 
             // btnHide
             // 
@@ -307,7 +308,7 @@
             this.PicUpdate.Name = "PicUpdate";
             this.PicUpdate.Size = new System.Drawing.Size(7, 7);
             this.PicUpdate.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicUpdate.TabIndex = 37;
+            this.PicUpdate.TabIndex = 38;
             this.PicUpdate.TabStop = false;
             this.toolTip1.SetToolTip(this.PicUpdate, "New update are available");
             this.PicUpdate.Visible = false;
@@ -318,7 +319,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1184, 561);
-            this.Controls.Add(this.PicUpdate);
             this.Controls.Add(this.panelOpenTab);
             this.Controls.Add(this.splitterMenuVSMdi);
             this.Controls.Add(this.panelLeft);
@@ -327,7 +327,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.Name = "MenuFormV2";
-            this.Text = "MachineDept Application by Rachhan";
+            this.Text = "MC Dept App";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MenuFormV2_Load);
             this.panelFooter.ResumeLayout(false);

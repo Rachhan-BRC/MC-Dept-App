@@ -48,9 +48,9 @@ namespace MachineDeptApp
             this.dtUpdate = dt1;
             this.FormClosing += MenuFormV2_FormClosing;
             this.treeViewMenu.NodeMouseDoubleClick += TreeViewMenu_NodeMouseDoubleClick;
-            this.treeViewMenu.NodeMouseClick += TreeViewMenu_NodeMouseClick;
             this.tabControlOpenForm.SelectedIndexChanged += TabControlOpenForm_SelectedIndexChanged;
             this.MdiChildActivate += MenuFormV2_MdiChildActivate;
+            this.PicUpdate.Click += BtnCheckForUpdate_Click;
             this.btnCheckForUpdate.Click += BtnCheckForUpdate_Click;
             
 
@@ -75,19 +75,6 @@ namespace MachineDeptApp
                 {
                     MessageBox.Show("មានបញ្ហា!\n"+ex.Message,"Rachhan System",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 }
-            }
-        }
-
-        private void TreeViewMenu_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            TreeNode currentClkNode = e.Node;
-            if (currentClkNode.ImageIndex == 2)
-            {
-                currentClkNode.SelectedImageIndex = 3;
-            }
-            else
-            {
-                currentClkNode.SelectedImageIndex = currentClkNode.ImageIndex;
             }
         }
 
@@ -2209,7 +2196,7 @@ namespace MachineDeptApp
         {
             if (dtUpdate.Rows.Count > 0)
                 PicUpdate.Visible = true;
-            this.Text = Assembly.GetExecutingAssembly().GetName().Name + " by Rachhan";
+            this.Text = Assembly.GetExecutingAssembly().GetName().Name;
             treeViewMenu.Nodes.Clear();
             //Add root Node
             dtRoot = new DataTable();
@@ -2388,6 +2375,10 @@ namespace MachineDeptApp
                 ChildrootNode.NodeFont = regularFont;
             }
 
+
+            //Assign TreeView Icon
+            SetIconToTreeMenu();
+
             dtOpenForm = new DataTable();
             dtOpenForm.Columns.Add("TabFormName");
             dtOpenForm.Columns.Add("TabName");
@@ -2428,6 +2419,7 @@ namespace MachineDeptApp
                     treeViewMenu.Nodes[5].Nodes[3].Remove();
                 }
 
+                /*
 
                 //Add image Form to all child 
                 int parentRoot = treeViewMenu.Nodes.Count;
@@ -2484,6 +2476,8 @@ namespace MachineDeptApp
                         treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 2].Nodes[i].Nodes[j].ImageIndex = 2;
                     }
                 }
+
+                */
             }
 
         }
@@ -2529,5 +2523,37 @@ namespace MachineDeptApp
             panelHeader.Size = new Size(1184, 52);
         }
 
+
+        //Method
+        private void SetIconToTreeMenu()
+        {
+            string FormIcon = "Form Icon";
+            string GroupIcon = "Group Icon";
+            int FontSize = 12;
+            foreach (TreeNode ParentNode in treeViewMenu.Nodes)
+            {
+                foreach (TreeNode ChildNode in ParentNode.Nodes)
+                {
+                    ChildNode.NodeFont = new Font(treeViewMenu.Font.FontFamily, FontSize - 1, FontStyle.Regular);
+                    int CountChildOfChildNode = ChildNode.Nodes.Count;
+                    if (CountChildOfChildNode > 0)
+                    {
+                        ChildNode.ImageKey = GroupIcon;
+                        ChildNode.SelectedImageKey = GroupIcon;
+                        foreach (TreeNode ChildOfChildNode in ChildNode.Nodes)
+                        {
+                            ChildOfChildNode.ImageKey = FormIcon;
+                            ChildOfChildNode.SelectedImageKey = "Form Selected Icon";
+                            ChildOfChildNode.NodeFont = new Font(treeViewMenu.Font.FontFamily, FontSize - 3, FontStyle.Regular);
+                        }
+                    }
+                    else
+                    {
+                        ChildNode.ImageKey = FormIcon;
+                        ChildNode.SelectedImageKey = "Form Selected Icon";
+                    }
+                }
+            }
+        }
     }
 }
