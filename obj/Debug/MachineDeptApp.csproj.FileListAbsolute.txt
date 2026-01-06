@@ -2198,3 +2198,4 @@ D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.RegUpdateForm.resources
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.StockINOut.resources
 >>>>>>> ad1cd7bad8edd0d99f796ba447a42571ddfc26e4
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.DoSummary.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.Inventory.MC_SD.InventoryInput.resources

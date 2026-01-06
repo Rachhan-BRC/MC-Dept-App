@@ -139,6 +139,12 @@
     <Compile Include="AllSection\AllSectionMCTransferForm.Designer.cs">
       <DependentUpon>AllSectionMCTransferForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Inventory\MC_SD\InventoryInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\MC_SD\InventoryInput.Designer.cs">
+      <DependentUpon>InventoryInput.cs</DependentUpon>
+    </Compile>
     <Compile Include="SparePartControll\AddPrint.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -843,6 +849,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AllSection\AllSectionMCTransferForm.resx">
       <DependentUpon>AllSectionMCTransferForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\MC_SD\InventoryInput.resx">
+      <DependentUpon>InventoryInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SparePartControll\AddPrint.resx">
       <DependentUpon>AddPrint.cs</DependentUpon>
