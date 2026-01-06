@@ -2051,3 +2051,4 @@ D:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.ShortageDe
 >>>>>>> d2b42ec8fc90c2ceb1a12b91ba9541ba67d3c4f1
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.RMEstimateShortage.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.ShortageDetail.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.Transaction.resources

@@ -21,7 +21,7 @@ namespace MachineDeptApp
         public StockINOut()
         {
             con.Connection();
-            InitializeComponent();
+            InitializeComponent();      
             this.btnImport.Click += BtnImport_Click;
             this.dgvIn.CellClick += DgvIn_CellClick;
             this.dgvOut.CellClick += DgvOut_CellClick;
@@ -41,9 +41,9 @@ namespace MachineDeptApp
                 DialogResult ask = MessageBox.Show("Are you sure you want to save this data?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (ask == DialogResult.No)
                 {
-                    return;
-                }
-                SaveToDB(dgvIn);
+                    return; 
+                }   
+                SaveToDB(dgvIn);    
             }
             if (tabControl1.SelectedTab == tabOut)
             {
@@ -60,7 +60,6 @@ namespace MachineDeptApp
                 SaveToDB(dgvOut);
             }
         }
-
         private void DgvOut_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
@@ -355,10 +354,12 @@ namespace MachineDeptApp
                     }
                     if (dgv.Rows.Count == 0)
                     {
+                        lbshow.Text = "No data !";
                         MessageBox.Show("No data import, Please check!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    
                         Cursor = Cursors.Default;
                         return;
-                    }
+                    }   
                     List<string> codelist1 = new List<string>();
                     foreach (DataGridViewRow row in dgv.Rows)
                     {
@@ -439,10 +440,11 @@ namespace MachineDeptApp
                     }
                     if (dgv.Rows.Count == 0)
                     {
-                        MessageBox.Show("No data import, Please check!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        lbshow.Text = "No data !";
+                        MessageBox.Show("No data import, Please check!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);    
                         Cursor = Cursors.Default;
                         return;
-                    }
+                    } 
                     List<string> codelist1 = new List<string>();
                     foreach (DataGridViewRow row in dgv.Rows)
                     {
@@ -453,7 +455,7 @@ namespace MachineDeptApp
                     {
                         con.con.Open();
                         string query = "SELECT tbTr.Code, tbTr.Part_No, tbTr.Part_Name, SUM(tbTr.Stock_Value) AS Balance, tbMst.Use_For, tbMst.Maker FROM SparePartTrans tbTr " +
-                            " LEFT JOIN  MstMCSparePart tbMst ON tbTr.Code = tbMst.Code WHERE tbTr.Dept = '"+dept+"' AND tbTr.Code IN " +codelist+ "  Group BY tbTr.Code, TbTr.Part_No, tbTr.Part_Name, tbMst.Use_For, tbMst.Maker  ORDER BY tbTr.Code";
+                            " LEFT JOIN  MstMCSparePart tbMst ON tbTr.Code = tbMst.Code WHERE tbTr.Dept = '"+dept+  "' AND tbTr.Code IN " +codelist+ "  Group BY tbTr.Code, TbTr.Part_No, tbTr.Part_Name, tbMst.Use_For, tbMst.Maker  ORDER BY tbTr.Code";
                         SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                         sda.Fill(dtMaster);
                     }
@@ -502,7 +504,7 @@ namespace MachineDeptApp
                                 row.Cells["stockremain2"].Style.BackColor = Color.LightPink;
                                 row.Cells["Qty2"].Style.BackColor = Color.LightPink;
                                 err2++;
-                            }
+                            }   
                         }
                         // Highlight qty2 if not a number
                         if (!double.TryParse(row.Cells["Qty2"]?.Value?.ToString(), out double cellValue))
@@ -584,7 +586,7 @@ namespace MachineDeptApp
                     btnSaveGrey.BringToFront();
                     lbstock.Text = "Not enough stock, Please check!";
                 }
-
+            
             }
             Cursor = Cursors.Default;
           
@@ -708,7 +710,7 @@ namespace MachineDeptApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Something wrong with delete" + ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Something wrong with delete" + ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);  
             }
         }
 

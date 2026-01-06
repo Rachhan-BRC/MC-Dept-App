@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,6 +19,7 @@ namespace MachineDeptApp.SparePartControll
     {
         SQLConnect con = new SQLConnect();
         string dept = "MC";
+        string nextdocno = "";
         public PrintForm()
         {
             con.Connection();
@@ -132,9 +134,11 @@ namespace MachineDeptApp.SparePartControll
             {
                 try
                 {
-                    con.con.Open();
+                
                     DateTime now1 = DateTime.Now;
                     string now = now1.ToString("yyyy-MM-dd");
+                    string pono = GetNextDocNo();
+                    nextdocno = pono;
                     foreach (DataGridViewRow row1 in dgvTTL.Rows)
                     {
                         string code = row1.Cells["Code"].Value.ToString();
@@ -142,33 +146,55 @@ namespace MachineDeptApp.SparePartControll
                         double unitprice = Convert.ToDouble(row1.Cells["unitprice"].Value);
                         double amount = Convert.ToDouble(row1.Cells["amount"].Value);
                         DateTime Eta = Convert.ToDateTime(row1.Cells["eta"].Value);
-                        string pono = GetNextDocNo();
-                        string query = "INSERT INTO MCSparePartRequest (Code, PO_No, Dept, IssueDate, ETA, Order_Qty, UnitPrice, Amount, ReceiveQTY, Balance, RemainAmount, Receive_Date, Order_State, Remark) " +
+                       
+                        try
+                        {
+                            con.con.Open();
+                            string query = "INSERT INTO MCSparePartRequest (Code, PO_No, Dept, IssueDate, ETA, Order_Qty, UnitPrice, Amount, ReceiveQTY, Balance, RemainAmount, Receive_Date, Order_State, Remark) " +
                                                                                         " VALUES (@code, @pono, @dept, @issuedate, @eta, @orderqty, @unitprice, @amount, @receiveqty, @balance, @reAmount, @recdate, @orderstate, @remark)";
-                        SqlCommand cmd = new SqlCommand(query, con.con);
-                        cmd.Parameters.AddWithValue("@code", code);
-                        cmd.Parameters.AddWithValue("@pono", pono);
-                        cmd.Parameters.AddWithValue("@dept", dept);
-                        cmd.Parameters.AddWithValue("@issuedate", now);
-                        cmd.Parameters.AddWithValue("@orderqty", orderqty);
-                        cmd.Parameters.AddWithValue("@unitprice", unitprice);
-                        cmd.Parameters.AddWithValue("@amount", amount);
-                        cmd.Parameters.AddWithValue("@receiveqty", 0);
-                        cmd.Parameters.AddWithValue("@balance", orderqty);
-                        cmd.Parameters.AddWithValue("@reAmount", amount);
-                        cmd.Parameters.AddWithValue("@eta", Eta);
-                        cmd.Parameters.AddWithValue("@recdate", Eta);
-                        cmd.Parameters.AddWithValue("@orderstate", "Waiting for PO Update");
-                        cmd.Parameters.AddWithValue("@remark", "Update: " + now);
-                        cmd.ExecuteNonQuery();
+                            SqlCommand cmd = new SqlCommand(query, con.con);
+                            cmd.Parameters.AddWithValue("@code", code);
+                            cmd.Parameters.AddWithValue("@pono", pono);
+                            cmd.Parameters.AddWithValue("@dept", dept);
+                            cmd.Parameters.AddWithValue("@issuedate", now);
+                            cmd.Parameters.AddWithValue("@orderqty", orderqty);
+                            cmd.Parameters.AddWithValue("@unitprice", unitprice);
+                            cmd.Parameters.AddWithValue("@amount", amount);
+                            cmd.Parameters.AddWithValue("@receiveqty", 0);
+                            cmd.Parameters.AddWithValue("@balance", orderqty);
+                            cmd.Parameters.AddWithValue("@reAmount", amount);
+                            cmd.Parameters.AddWithValue("@eta", Eta);
+                            cmd.Parameters.AddWithValue("@recdate", Eta);
+                            cmd.Parameters.AddWithValue("@orderstate", "Waiting for PO Update");
+                            cmd.Parameters.AddWithValue("@remark", "Update: " + now);
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error while getting Docno! " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        con.con.Close();
                     }
-                  
+                    try
+                    {
+                        con.con.Open();
+                        string queryDocNo = "INSERT INTO MCDocNo (DocNo) VALUES (@DocNo)";
+                        SqlCommand cmdDocNo = new SqlCommand(queryDocNo, con.con);
+                        cmdDocNo.Parameters.AddWithValue("@DocNo", pono);
+                        cmdDocNo.ExecuteNonQuery();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error while inserting data! " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    con.con.Close();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Error while inserting data! " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                con.con.Close();
+              
                 if (rdnormal.Checked == true)
                 {
                     ExportToExcelFromTemplate();
@@ -195,8 +221,7 @@ namespace MachineDeptApp.SparePartControll
         private void BtnAddColor_Click(object sender, EventArgs e)
         {
             AddPrint ad = new AddPrint(dgvTTL);
-            ad.ShowDialog();   
-
+            ad.ShowDialog();
         }
         private void ExportToExcelFromTemplate()
         {
@@ -255,11 +280,11 @@ namespace MachineDeptApp.SparePartControll
                 // Save Excel
 
                 string DateExcel = DateTime.Now.ToString("yyMMdd");
-                string fileName = "Unit Price Request MC(" + DateExcel + "01).xlsx";
+                string fileName = "Unit Price Request "+nextdocno +").xlsx";
 
                 string fullPath = Path.Combine(SavePath, fileName);
              
-                worksheet.Cells[2, 10] = "MC" + DateExcel + "01";
+                worksheet.Cells[2, 10] = nextdocno;
              
                 xlWorkBook.SaveAs(fullPath);
 
@@ -342,15 +367,14 @@ namespace MachineDeptApp.SparePartControll
                     worksheet.Cells[startRow + 4 + i, 8] = "Date:   " + date + "  /  " + month + "  /  " + year + "";
                 }
                 // Save Excel
-
+                string nextDocNo = nextdocno;
                 string DateExcel = DateTime.Now.ToString("yyMMdd");
-                string fileName = "Unit Price Request MC(" + DateExcel + "01).xlsx";
+                string fileName = "Unit Price Request "+nextDocNo+".xlsx";
 
                 string fullPath = Path.Combine(SavePath, fileName);
 
-                string nextDocNo = GetNextDocNo();
+               
                 worksheet.Cells[2, 10] = nextDocNo;
-
                 xlWorkBook.SaveAs(fullPath);
 
                 // Cleanup
@@ -552,33 +576,35 @@ namespace MachineDeptApp.SparePartControll
             string currentDocNo = "";
             // Build prefix: Dept + YYMMDD
             string currentDateString = dept + DateTime.Now.ToString("yyMMdd");
-
-            int docIndex;
-
-            if (string.IsNullOrEmpty(currentDocNo))
+            Cursor = Cursors.WaitCursor;
+            try
             {
-                docIndex = 1;
-            }
-            else if (currentDocNo.StartsWith(currentDateString))
-            {
-                // Extract last 2 digits and increment
-                string lastIndex = currentDocNo.Substring(currentDocNo.Length - 2);
-                if (int.TryParse(lastIndex, out int num))
+                DataTable docno = new DataTable();
+                con.con.Open();
+                string query = "SELECT MAX(DocNo) AS DocNo FROM MCDocNo WHERE DocNo LIKE '%" + currentDateString + "%' ";
+                SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
+                sda.Fill(docno);
+                con.con.Close();
+                string docnoLast = docno.Rows[0][0] == DBNull.Value? null : docno.Rows[0][0].ToString();
+                if (docnoLast == null)
                 {
-                    docIndex = num + 1;
+                    currentDocNo = currentDateString + "01";
                 }
                 else
                 {
-                    docIndex = 1;
+                    string lastIndex = docnoLast.Substring(docnoLast.Length - 2);
+                    int NewIndex = Convert.ToInt32(lastIndex) + 1;
+                    string NewIndexStr = NewIndex.ToString("D2");
+                    currentDocNo = currentDateString + NewIndexStr;
+
                 }
             }
-            else
+            catch (Exception ex)
             {
-                docIndex = 1;
+                MessageBox.Show("Error while give Docno !"+ ex.Message, "Error." , MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            // Return Dept + YYMMDD + 2-digit index
-            return currentDateString + docIndex.ToString("D2");
+            Cursor = Cursors.Default;
+            return currentDocNo;
         }
     }
 }

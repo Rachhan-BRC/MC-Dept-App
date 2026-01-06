@@ -59,7 +59,7 @@ namespace MachineDeptApp.SparePartControll
                     SqlCommand cmd = new SqlCommand(query, con.con);
                     cmd.Parameters.AddWithValue("@code", code);
                     cmd.Parameters.AddWithValue("@pono", pono);
-                    cmd.Parameters.AddWithValue("@issuedate", issuedate); // ensure DateTime type
+                    cmd.Parameters.AddWithValue("@issuedate", issuedate); 
                     cmd.Parameters.AddWithValue("@dept", dept);
                     cmd.ExecuteNonQuery();
                     int rowIndex1 = dgvRequest.CurrentCell.RowIndex;
@@ -143,7 +143,7 @@ namespace MachineDeptApp.SparePartControll
                 }
                 if (chkPno.Checked == true) // <-- use a different checkbox for Part_No
                 {
-                    string val = txtPname.Text;
+                    string val = txtPno.Text;
                     if (!string.IsNullOrEmpty(val))
                     {
                         // Exact match for Part_No
@@ -168,7 +168,6 @@ namespace MachineDeptApp.SparePartControll
                 string query = "SELECT R.Code, R.PO_No, R.IssueDate, R.ETA, R.Order_Qty, R.UnitPrice, R.Amount, R.ReceiveQTY, " +
                     " R.Balance, R.RemainAmount, R.Receive_Date, R.Order_State, R.Remark, R.UpdateDate, M.Part_No, M.Part_Name FROM MCSparePartRequest R " +
                     " LEFT JOIN MstMCSparePart M ON R.Code = M.Code where R.Dept = '"+dept+"'" + Conds;
-                Console.WriteLine(query);
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dt);
 

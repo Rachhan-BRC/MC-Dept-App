@@ -28,22 +28,41 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle91 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle92 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle105 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(budget));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.panelHeader = new System.Windows.Forms.Panel();
-            this.btnSaveGrey = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnUpdateGrey = new System.Windows.Forms.Button();
-            this.btnUpdate = new System.Windows.Forms.Button();
-            this.btnSearch = new System.Windows.Forms.Button();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle93 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle94 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle95 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle96 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle97 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle98 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle99 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle100 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle101 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle102 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle103 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle104 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.lberror = new System.Windows.Forms.Label();
             this.lbFound = new System.Windows.Forms.Label();
             this.LbStatus = new System.Windows.Forms.Label();
             this.dgvBudget = new System.Windows.Forms.DataGridView();
+            this.panelHeader = new System.Windows.Forms.Panel();
+            this.dtpyear = new System.Windows.Forms.DateTimePicker();
+            this.btnSaveGrey = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnUpdateGrey = new System.Windows.Forms.Button();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.budgetyear = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.budgettype = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.jan = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -58,24 +77,146 @@
             this.oct = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nov = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dec = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panelHeader.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBudget)).BeginInit();
+            this.panelHeader.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.lberror);
+            this.panel2.Controls.Add(this.lbFound);
+            this.panel2.Controls.Add(this.LbStatus);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(0, 428);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1013, 79);
+            this.panel2.TabIndex = 58;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(841, 18);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(0, 24);
+            this.label3.TabIndex = 4;
+            // 
+            // lberror
+            // 
+            this.lberror.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lberror.AutoSize = true;
+            this.lberror.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lberror.Location = new System.Drawing.Point(-1417, 18);
+            this.lberror.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lberror.Name = "lberror";
+            this.lberror.Size = new System.Drawing.Size(0, 24);
+            this.lberror.TabIndex = 3;
+            // 
+            // lbFound
+            // 
+            this.lbFound.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lbFound.AutoSize = true;
+            this.lbFound.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbFound.Location = new System.Drawing.Point(833, 18);
+            this.lbFound.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbFound.Name = "lbFound";
+            this.lbFound.Size = new System.Drawing.Size(0, 24);
+            this.lbFound.TabIndex = 2;
+            // 
+            // LbStatus
+            // 
+            this.LbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.LbStatus.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbStatus.Location = new System.Drawing.Point(189, 7);
+            this.LbStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LbStatus.Name = "LbStatus";
+            this.LbStatus.Size = new System.Drawing.Size(819, 41);
+            this.LbStatus.TabIndex = 1;
+            this.LbStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // dgvBudget
+            // 
+            this.dgvBudget.AllowUserToAddRows = false;
+            this.dgvBudget.AllowUserToDeleteRows = false;
+            this.dgvBudget.AllowUserToResizeRows = false;
+            dataGridViewCellStyle91.BackColor = System.Drawing.Color.Lavender;
+            dataGridViewCellStyle91.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle91.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle91.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle91.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvBudget.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle91;
+            this.dgvBudget.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvBudget.BackgroundColor = System.Drawing.Color.White;
+            this.dgvBudget.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            dataGridViewCellStyle92.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle92.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle92.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle92.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle92.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle92.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle92.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvBudget.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle92;
+            this.dgvBudget.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvBudget.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.budgetyear,
+            this.budgettype,
+            this.jan,
+            this.feb,
+            this.mar,
+            this.apr,
+            this.may,
+            this.jun,
+            this.jul,
+            this.aug,
+            this.sep,
+            this.oct,
+            this.nov,
+            this.dec});
+            this.dgvBudget.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dgvBudget.EnableHeadersVisualStyles = false;
+            this.dgvBudget.Location = new System.Drawing.Point(0, 255);
+            this.dgvBudget.Name = "dgvBudget";
+            this.dgvBudget.RowHeadersVisible = false;
+            dataGridViewCellStyle105.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle105.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle105.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle105.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvBudget.RowsDefaultCellStyle = dataGridViewCellStyle105;
+            this.dgvBudget.RowTemplate.Height = 25;
+            this.dgvBudget.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgvBudget.Size = new System.Drawing.Size(1013, 173);
+            this.dgvBudget.TabIndex = 61;
             // 
             // panelHeader
             // 
             this.panelHeader.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panelHeader.Controls.Add(this.btnSearch);
+            this.panelHeader.Controls.Add(this.dtpyear);
             this.panelHeader.Controls.Add(this.btnSaveGrey);
             this.panelHeader.Controls.Add(this.btnSave);
             this.panelHeader.Controls.Add(this.btnUpdateGrey);
             this.panelHeader.Controls.Add(this.btnUpdate);
-            this.panelHeader.Controls.Add(this.btnSearch);
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelHeader.Location = new System.Drawing.Point(0, 0);
             this.panelHeader.Name = "panelHeader";
-            this.panelHeader.Size = new System.Drawing.Size(800, 68);
-            this.panelHeader.TabIndex = 53;
+            this.panelHeader.Size = new System.Drawing.Size(1013, 68);
+            this.panelHeader.TabIndex = 60;
+            // 
+            // dtpyear
+            // 
+            this.dtpyear.CustomFormat = "    yyyy";
+            this.dtpyear.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpyear.Location = new System.Drawing.Point(234, 18);
+            this.dtpyear.Name = "dtpyear";
+            this.dtpyear.Size = new System.Drawing.Size(91, 32);
+            this.dtpyear.TabIndex = 37;
             // 
             // btnSaveGrey
             // 
@@ -125,6 +266,45 @@
             this.btnUpdate.TabIndex = 31;
             this.btnUpdate.UseVisualStyleBackColor = false;
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 68);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1013, 50);
+            this.panel1.TabIndex = 63;
+            // 
+            // chart1
+            // 
+            chartArea7.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea7);
+            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend7.Name = "Legend1";
+            this.chart1.Legends.Add(legend7);
+            this.chart1.Location = new System.Drawing.Point(0, 118);
+            this.chart1.Name = "chart1";
+            series7.ChartArea = "ChartArea1";
+            series7.Legend = "Legend1";
+            series7.Name = "Series1";
+            this.chart1.Series.Add(series7);
+            this.chart1.Size = new System.Drawing.Size(1013, 137);
+            this.chart1.TabIndex = 64;
+            this.chart1.Text = "chart1";
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Khmer OS Battambang", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(318, 12);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(121, 29);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Budget Chart";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // btnSearch
             // 
             this.btnSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -134,112 +314,8 @@
             this.btnSearch.Location = new System.Drawing.Point(12, 6);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(53, 56);
-            this.btnSearch.TabIndex = 29;
+            this.btnSearch.TabIndex = 38;
             this.btnSearch.UseVisualStyleBackColor = false;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.lberror);
-            this.panel2.Controls.Add(this.lbFound);
-            this.panel2.Controls.Add(this.LbStatus);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 407);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(800, 43);
-            this.panel2.TabIndex = 58;
-            // 
-            // label3
-            // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(671, 10);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(0, 24);
-            this.label3.TabIndex = 4;
-            // 
-            // lberror
-            // 
-            this.lberror.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.lberror.AutoSize = true;
-            this.lberror.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lberror.Location = new System.Drawing.Point(-1022, 10);
-            this.lberror.Name = "lberror";
-            this.lberror.Size = new System.Drawing.Size(0, 24);
-            this.lberror.TabIndex = 3;
-            // 
-            // lbFound
-            // 
-            this.lbFound.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.lbFound.AutoSize = true;
-            this.lbFound.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbFound.Location = new System.Drawing.Point(665, 10);
-            this.lbFound.Name = "lbFound";
-            this.lbFound.Size = new System.Drawing.Size(0, 24);
-            this.lbFound.TabIndex = 2;
-            // 
-            // LbStatus
-            // 
-            this.LbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.LbStatus.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbStatus.Location = new System.Drawing.Point(182, 4);
-            this.LbStatus.Name = "LbStatus";
-            this.LbStatus.Size = new System.Drawing.Size(614, 22);
-            this.LbStatus.TabIndex = 1;
-            this.LbStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // dgvBudget
-            // 
-            this.dgvBudget.AllowUserToAddRows = false;
-            this.dgvBudget.AllowUserToDeleteRows = false;
-            this.dgvBudget.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Lavender;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvBudget.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvBudget.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvBudget.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvBudget.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvBudget.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvBudget.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.budgetyear,
-            this.budgettype,
-            this.jan,
-            this.feb,
-            this.mar,
-            this.apr,
-            this.may,
-            this.jun,
-            this.jul,
-            this.aug,
-            this.sep,
-            this.oct,
-            this.nov,
-            this.dec});
-            this.dgvBudget.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvBudget.EnableHeadersVisualStyles = false;
-            this.dgvBudget.Location = new System.Drawing.Point(0, 68);
-            this.dgvBudget.Name = "dgvBudget";
-            this.dgvBudget.RowHeadersVisible = false;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvBudget.RowsDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvBudget.RowTemplate.Height = 25;
-            this.dgvBudget.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvBudget.Size = new System.Drawing.Size(800, 339);
-            this.dgvBudget.TabIndex = 59;
             // 
             // budgetyear
             // 
@@ -258,105 +334,156 @@
             // jan
             // 
             this.jan.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle93.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle93.Format = "C3";
+            dataGridViewCellStyle93.NullValue = null;
+            this.jan.DefaultCellStyle = dataGridViewCellStyle93;
             this.jan.HeaderText = "Jan";
             this.jan.Name = "jan";
             // 
             // feb
             // 
             this.feb.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle94.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle94.Format = "C3";
+            this.feb.DefaultCellStyle = dataGridViewCellStyle94;
             this.feb.HeaderText = "Feb";
             this.feb.Name = "feb";
             // 
             // mar
             // 
             this.mar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle95.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle95.Format = "C3";
+            this.mar.DefaultCellStyle = dataGridViewCellStyle95;
             this.mar.HeaderText = "Mar";
             this.mar.Name = "mar";
             // 
             // apr
             // 
             this.apr.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle96.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle96.Format = "C3";
+            this.apr.DefaultCellStyle = dataGridViewCellStyle96;
             this.apr.HeaderText = "Apr";
             this.apr.Name = "apr";
             // 
             // may
             // 
             this.may.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle97.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle97.Format = "C3";
+            this.may.DefaultCellStyle = dataGridViewCellStyle97;
             this.may.HeaderText = "May";
             this.may.Name = "may";
             // 
             // jun
             // 
             this.jun.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle98.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle98.Format = "C3";
+            this.jun.DefaultCellStyle = dataGridViewCellStyle98;
             this.jun.HeaderText = "Jun";
             this.jun.Name = "jun";
             // 
             // jul
             // 
             this.jul.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle99.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle99.Format = "C3";
+            this.jul.DefaultCellStyle = dataGridViewCellStyle99;
             this.jul.HeaderText = "Jul";
             this.jul.Name = "jul";
             // 
             // aug
             // 
             this.aug.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle100.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle100.Format = "C3";
+            this.aug.DefaultCellStyle = dataGridViewCellStyle100;
             this.aug.HeaderText = "Aug";
             this.aug.Name = "aug";
             // 
             // sep
             // 
             this.sep.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle101.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle101.Format = "C3";
+            this.sep.DefaultCellStyle = dataGridViewCellStyle101;
             this.sep.HeaderText = "Sep";
             this.sep.Name = "sep";
             // 
             // oct
             // 
             this.oct.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle102.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle102.Format = "C3";
+            this.oct.DefaultCellStyle = dataGridViewCellStyle102;
             this.oct.HeaderText = "Oct";
             this.oct.Name = "oct";
             // 
             // nov
             // 
             this.nov.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle103.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle103.Format = "C3";
+            this.nov.DefaultCellStyle = dataGridViewCellStyle103;
             this.nov.HeaderText = "Nov";
             this.nov.Name = "nov";
             // 
             // dec
             // 
             this.dec.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle104.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle104.Format = "C3";
+            this.dec.DefaultCellStyle = dataGridViewCellStyle104;
             this.dec.HeaderText = "Dec";
             this.dec.Name = "dec";
             // 
             // budget
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1013, 507);
+            this.Controls.Add(this.chart1);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.dgvBudget);
-            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelHeader);
+            this.Controls.Add(this.panel2);
+            this.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.Name = "budget";
             this.Text = "Budget ";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.panelHeader.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBudget)).EndInit();
+            this.panelHeader.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel panelHeader;
-        private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lberror;
         private System.Windows.Forms.Label lbFound;
         private System.Windows.Forms.Label LbStatus;
         public System.Windows.Forms.DataGridView dgvBudget;
+        private System.Windows.Forms.Panel panelHeader;
+        private System.Windows.Forms.Button btnSaveGrey;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnUpdateGrey;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.DateTimePicker dtpyear;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.DataGridViewTextBoxColumn budgetyear;
         private System.Windows.Forms.DataGridViewTextBoxColumn budgettype;
         private System.Windows.Forms.DataGridViewTextBoxColumn jan;
@@ -371,9 +498,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn oct;
         private System.Windows.Forms.DataGridViewTextBoxColumn nov;
         private System.Windows.Forms.DataGridViewTextBoxColumn dec;
-        private System.Windows.Forms.Button btnUpdateGrey;
-        private System.Windows.Forms.Button btnUpdate;
-        private System.Windows.Forms.Button btnSaveGrey;
-        private System.Windows.Forms.Button btnSave;
     }
 }
