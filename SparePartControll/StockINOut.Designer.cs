@@ -28,17 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StockINOut));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabIN = new System.Windows.Forms.TabPage();
             this.dgvIn = new System.Windows.Forms.DataGridView();
@@ -50,16 +50,12 @@
             this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.lbfound1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.lberror = new System.Windows.Forms.Label();
+            this.lbNum2 = new System.Windows.Forms.Label();
             this.lbshow = new System.Windows.Forms.Label();
             this.tabOut = new System.Windows.Forms.TabPage();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnSaveGrey = new System.Windows.Forms.Button();
-            this.btnImport = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnDeleteGray = new System.Windows.Forms.PictureBox();
-            this.panelHeader = new System.Windows.Forms.Panel();
             this.dgvOut = new System.Windows.Forms.DataGridView();
             this.code2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.partnumber2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,25 +65,29 @@
             this.stockremain2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Qty2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.remark2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lbshow2 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.lbfound2 = new System.Windows.Forms.Label();
-            this.lbfound1 = new System.Windows.Forms.Label();
-            this.lbNum = new System.Windows.Forms.Label();
-            this.lbNum2 = new System.Windows.Forms.Label();
             this.lbstock = new System.Windows.Forms.Label();
+            this.lbNum = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lbfound2 = new System.Windows.Forms.Label();
+            this.lbshow2 = new System.Windows.Forms.Label();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnSaveGrey = new System.Windows.Forms.Button();
+            this.btnImport = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnDeleteGray = new System.Windows.Forms.PictureBox();
+            this.panelHeader = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.tabIN.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvIn)).BeginInit();
             this.panel2.SuspendLayout();
             this.tabOut.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGray)).BeginInit();
-            this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOut)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGray)).BeginInit();
+            this.panelHeader.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -120,22 +120,22 @@
             this.dgvIn.AllowUserToAddRows = false;
             this.dgvIn.AllowUserToDeleteRows = false;
             this.dgvIn.AllowUserToResizeRows = false;
-            dataGridViewCellStyle16.BackColor = System.Drawing.Color.Lavender;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvIn.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Lavender;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvIn.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvIn.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvIn.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvIn.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvIn.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvIn.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvIn.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.code,
@@ -152,11 +152,11 @@
             this.dgvIn.Name = "dgvIn";
             this.dgvIn.ReadOnly = true;
             this.dgvIn.RowHeadersVisible = false;
-            dataGridViewCellStyle20.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle20.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvIn.RowsDefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvIn.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvIn.RowTemplate.Height = 25;
             this.dgvIn.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvIn.Size = new System.Drawing.Size(1030, 438);
@@ -165,8 +165,8 @@
             // code
             // 
             this.code.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle18.Format = "D4";
-            this.code.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle3.Format = "D4";
+            this.code.DefaultCellStyle = dataGridViewCellStyle3;
             this.code.HeaderText = "Code";
             this.code.Name = "code";
             this.code.ReadOnly = true;
@@ -205,8 +205,8 @@
             // Qty
             // 
             this.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle19.Format = "N0";
-            this.Qty.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle4.Format = "N0";
+            this.Qty.DefaultCellStyle = dataGridViewCellStyle4;
             this.Qty.HeaderText = "In Stock Qty";
             this.Qty.Name = "Qty";
             this.Qty.ReadOnly = true;
@@ -233,6 +233,16 @@
             this.panel2.Size = new System.Drawing.Size(1030, 43);
             this.panel2.TabIndex = 59;
             // 
+            // lbfound1
+            // 
+            this.lbfound1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbfound1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbfound1.Location = new System.Drawing.Point(805, 12);
+            this.lbfound1.Name = "lbfound1";
+            this.lbfound1.Size = new System.Drawing.Size(222, 22);
+            this.lbfound1.TabIndex = 5;
+            this.lbfound1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // label3
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -252,6 +262,15 @@
             this.lberror.Name = "lberror";
             this.lberror.Size = new System.Drawing.Size(0, 24);
             this.lberror.TabIndex = 3;
+            // 
+            // lbNum2
+            // 
+            this.lbNum2.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbNum2.Location = new System.Drawing.Point(261, 12);
+            this.lbNum2.Name = "lbNum2";
+            this.lbNum2.Size = new System.Drawing.Size(270, 22);
+            this.lbNum2.TabIndex = 1;
+            this.lbNum2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lbshow
             // 
@@ -274,6 +293,209 @@
             this.tabOut.TabIndex = 1;
             this.tabOut.Text = "     Stock Out     ";
             this.tabOut.UseVisualStyleBackColor = true;
+            // 
+            // dgvOut
+            // 
+            this.dgvOut.AllowUserToAddRows = false;
+            this.dgvOut.AllowUserToDeleteRows = false;
+            this.dgvOut.AllowUserToResizeRows = false;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.Lavender;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvOut.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
+            this.dgvOut.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvOut.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvOut.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.dgvOut.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvOut.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.code2,
+            this.partnumber2,
+            this.partname2,
+            this.machinename2,
+            this.maker2,
+            this.stockremain2,
+            this.Qty2,
+            this.remark2});
+            this.dgvOut.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvOut.EnableHeadersVisualStyles = false;
+            this.dgvOut.Location = new System.Drawing.Point(3, 3);
+            this.dgvOut.MultiSelect = false;
+            this.dgvOut.Name = "dgvOut";
+            this.dgvOut.ReadOnly = true;
+            this.dgvOut.RowHeadersVisible = false;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvOut.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            this.dgvOut.RowTemplate.Height = 25;
+            this.dgvOut.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgvOut.Size = new System.Drawing.Size(1030, 438);
+            this.dgvOut.TabIndex = 63;
+            // 
+            // code2
+            // 
+            this.code2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle8.Format = "D4";
+            this.code2.DefaultCellStyle = dataGridViewCellStyle8;
+            this.code2.Frozen = true;
+            this.code2.HeaderText = "Code";
+            this.code2.Name = "code2";
+            this.code2.ReadOnly = true;
+            // 
+            // partnumber2
+            // 
+            this.partnumber2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.partnumber2.Frozen = true;
+            this.partnumber2.HeaderText = "Part Number";
+            this.partnumber2.Name = "partnumber2";
+            this.partnumber2.ReadOnly = true;
+            this.partnumber2.Width = 150;
+            // 
+            // partname2
+            // 
+            this.partname2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.partname2.Frozen = true;
+            this.partname2.HeaderText = "Part Name";
+            this.partname2.Name = "partname2";
+            this.partname2.ReadOnly = true;
+            this.partname2.Width = 150;
+            // 
+            // machinename2
+            // 
+            this.machinename2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.machinename2.Frozen = true;
+            this.machinename2.HeaderText = "Machine Name ";
+            this.machinename2.Name = "machinename2";
+            this.machinename2.ReadOnly = true;
+            this.machinename2.Width = 130;
+            // 
+            // maker2
+            // 
+            this.maker2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.maker2.Frozen = true;
+            this.maker2.HeaderText = "Maker";
+            this.maker2.Name = "maker2";
+            this.maker2.ReadOnly = true;
+            // 
+            // stockremain2
+            // 
+            this.stockremain2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.stockremain2.Frozen = true;
+            this.stockremain2.HeaderText = "Stock Remain";
+            this.stockremain2.Name = "stockremain2";
+            this.stockremain2.ReadOnly = true;
+            this.stockremain2.Width = 120;
+            // 
+            // Qty2
+            // 
+            this.Qty2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle9.Format = "N0";
+            this.Qty2.DefaultCellStyle = dataGridViewCellStyle9;
+            this.Qty2.Frozen = true;
+            this.Qty2.HeaderText = "Out Stock Qty";
+            this.Qty2.Name = "Qty2";
+            this.Qty2.ReadOnly = true;
+            this.Qty2.Width = 130;
+            // 
+            // remark2
+            // 
+            this.remark2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.remark2.HeaderText = "Remark";
+            this.remark2.Name = "remark2";
+            this.remark2.ReadOnly = true;
+            this.remark2.Width = 150;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.lbstock);
+            this.panel1.Controls.Add(this.lbNum);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.lbfound2);
+            this.panel1.Controls.Add(this.lbshow2);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(3, 441);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1030, 43);
+            this.panel1.TabIndex = 62;
+            // 
+            // lbstock
+            // 
+            this.lbstock.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbstock.Location = new System.Drawing.Point(671, 12);
+            this.lbstock.Name = "lbstock";
+            this.lbstock.Size = new System.Drawing.Size(253, 22);
+            this.lbstock.TabIndex = 5;
+            this.lbstock.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lbNum
+            // 
+            this.lbNum.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbNum.Location = new System.Drawing.Point(350, 12);
+            this.lbNum.Name = "lbNum";
+            this.lbNum.Size = new System.Drawing.Size(315, 22);
+            this.lbNum.TabIndex = 5;
+            this.lbNum.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(901, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 24);
+            this.label1.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(-792, 10);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(0, 24);
+            this.label2.TabIndex = 3;
+            // 
+            // label4
+            // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(895, 10);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(0, 24);
+            this.label4.TabIndex = 2;
+            // 
+            // lbfound2
+            // 
+            this.lbfound2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbfound2.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbfound2.Location = new System.Drawing.Point(803, 12);
+            this.lbfound2.Name = "lbfound2";
+            this.lbfound2.Size = new System.Drawing.Size(222, 22);
+            this.lbfound2.TabIndex = 1;
+            this.lbfound2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbshow2
+            // 
+            this.lbshow2.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbshow2.Location = new System.Drawing.Point(0, 12);
+            this.lbshow2.Name = "lbshow2";
+            this.lbshow2.Size = new System.Drawing.Size(344, 22);
+            this.lbshow2.TabIndex = 1;
+            this.lbshow2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnSave
             // 
@@ -345,228 +567,6 @@
             this.panelHeader.Size = new System.Drawing.Size(1044, 65);
             this.panelHeader.TabIndex = 21;
             // 
-            // dgvOut
-            // 
-            this.dgvOut.AllowUserToAddRows = false;
-            this.dgvOut.AllowUserToDeleteRows = false;
-            this.dgvOut.AllowUserToResizeRows = false;
-            dataGridViewCellStyle11.BackColor = System.Drawing.Color.Lavender;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvOut.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle11;
-            this.dgvOut.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvOut.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvOut.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle12;
-            this.dgvOut.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvOut.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.code2,
-            this.partnumber2,
-            this.partname2,
-            this.machinename2,
-            this.maker2,
-            this.stockremain2,
-            this.Qty2,
-            this.remark2});
-            this.dgvOut.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvOut.EnableHeadersVisualStyles = false;
-            this.dgvOut.Location = new System.Drawing.Point(3, 3);
-            this.dgvOut.MultiSelect = false;
-            this.dgvOut.Name = "dgvOut";
-            this.dgvOut.ReadOnly = true;
-            this.dgvOut.RowHeadersVisible = false;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvOut.RowsDefaultCellStyle = dataGridViewCellStyle15;
-            this.dgvOut.RowTemplate.Height = 25;
-            this.dgvOut.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvOut.Size = new System.Drawing.Size(1030, 438);
-            this.dgvOut.TabIndex = 63;
-            // 
-            // code2
-            // 
-            this.code2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle13.Format = "D4";
-            this.code2.DefaultCellStyle = dataGridViewCellStyle13;
-            this.code2.Frozen = true;
-            this.code2.HeaderText = "Code";
-            this.code2.Name = "code2";
-            this.code2.ReadOnly = true;
-            // 
-            // partnumber2
-            // 
-            this.partnumber2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.partnumber2.Frozen = true;
-            this.partnumber2.HeaderText = "Part Number";
-            this.partnumber2.Name = "partnumber2";
-            this.partnumber2.ReadOnly = true;
-            this.partnumber2.Width = 150;
-            // 
-            // partname2
-            // 
-            this.partname2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.partname2.Frozen = true;
-            this.partname2.HeaderText = "Part Name";
-            this.partname2.Name = "partname2";
-            this.partname2.ReadOnly = true;
-            this.partname2.Width = 150;
-            // 
-            // machinename2
-            // 
-            this.machinename2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.machinename2.Frozen = true;
-            this.machinename2.HeaderText = "Machine Name ";
-            this.machinename2.Name = "machinename2";
-            this.machinename2.ReadOnly = true;
-            this.machinename2.Width = 130;
-            // 
-            // maker2
-            // 
-            this.maker2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.maker2.Frozen = true;
-            this.maker2.HeaderText = "Maker";
-            this.maker2.Name = "maker2";
-            this.maker2.ReadOnly = true;
-            // 
-            // stockremain2
-            // 
-            this.stockremain2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.stockremain2.Frozen = true;
-            this.stockremain2.HeaderText = "Stock Remain";
-            this.stockremain2.Name = "stockremain2";
-            this.stockremain2.ReadOnly = true;
-            this.stockremain2.Width = 120;
-            // 
-            // Qty2
-            // 
-            this.Qty2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle14.Format = "N0";
-            this.Qty2.DefaultCellStyle = dataGridViewCellStyle14;
-            this.Qty2.Frozen = true;
-            this.Qty2.HeaderText = "Out Stock Qty";
-            this.Qty2.Name = "Qty2";
-            this.Qty2.ReadOnly = true;
-            this.Qty2.Width = 130;
-            // 
-            // remark2
-            // 
-            this.remark2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.remark2.HeaderText = "Remark";
-            this.remark2.Name = "remark2";
-            this.remark2.ReadOnly = true;
-            this.remark2.Width = 150;
-            // 
-            // lbshow2
-            // 
-            this.lbshow2.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbshow2.Location = new System.Drawing.Point(0, 12);
-            this.lbshow2.Name = "lbshow2";
-            this.lbshow2.Size = new System.Drawing.Size(344, 22);
-            this.lbshow2.TabIndex = 1;
-            this.lbshow2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label4
-            // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(895, 10);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(0, 24);
-            this.label4.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(-792, 10);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(0, 24);
-            this.label2.TabIndex = 3;
-            // 
-            // label1
-            // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(901, 10);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 24);
-            this.label1.TabIndex = 4;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.lbstock);
-            this.panel1.Controls.Add(this.lbNum);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.lbfound2);
-            this.panel1.Controls.Add(this.lbshow2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(3, 441);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1030, 43);
-            this.panel1.TabIndex = 62;
-            // 
-            // lbfound2
-            // 
-            this.lbfound2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbfound2.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbfound2.Location = new System.Drawing.Point(803, 12);
-            this.lbfound2.Name = "lbfound2";
-            this.lbfound2.Size = new System.Drawing.Size(222, 22);
-            this.lbfound2.TabIndex = 1;
-            this.lbfound2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbfound1
-            // 
-            this.lbfound1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbfound1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbfound1.Location = new System.Drawing.Point(805, 12);
-            this.lbfound1.Name = "lbfound1";
-            this.lbfound1.Size = new System.Drawing.Size(222, 22);
-            this.lbfound1.TabIndex = 5;
-            this.lbfound1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbNum
-            // 
-            this.lbNum.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbNum.Location = new System.Drawing.Point(350, 12);
-            this.lbNum.Name = "lbNum";
-            this.lbNum.Size = new System.Drawing.Size(315, 22);
-            this.lbNum.TabIndex = 5;
-            this.lbNum.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lbNum2
-            // 
-            this.lbNum2.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbNum2.Location = new System.Drawing.Point(261, 12);
-            this.lbNum2.Name = "lbNum2";
-            this.lbNum2.Size = new System.Drawing.Size(270, 22);
-            this.lbNum2.TabIndex = 1;
-            this.lbNum2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lbstock
-            // 
-            this.lbstock.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbstock.Location = new System.Drawing.Point(671, 12);
-            this.lbstock.Name = "lbstock";
-            this.lbstock.Size = new System.Drawing.Size(253, 22);
-            this.lbstock.TabIndex = 5;
-            this.lbstock.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // StockINOut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -583,11 +583,11 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.tabOut.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGray)).EndInit();
-            this.panelHeader.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvOut)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGray)).EndInit();
+            this.panelHeader.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

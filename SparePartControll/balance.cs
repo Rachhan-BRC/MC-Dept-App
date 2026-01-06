@@ -98,20 +98,18 @@ namespace MachineDeptApp
                 // Last day of the month
                 DateTime lastDay = new DateTime(date1.Year, date1.Month, DateTime.DaysInMonth(date1.Year, date1.Month));
                 string lastDayStr = lastDay.ToString("yyyy-MM-dd");
-                string query = "\tSELECT tbTr.Code, tbMSt.Supplier, tbMst.Part_No, tbMst.Part_Name,SUM(tbTr.Stock_Value) AS PreQty,tbPre.QtyIn,tbPre.QtyOut " +
+                string query = "SELECT tbTr.Code, tbMSt.Supplier, tbMst.Part_No, tbMst.Part_Name, tbPre.QtyIn,tbPre.QtyOut , tbPreS.PreQty " +
                     "FROM SparePartTrans tbTr " +
+                    "LEFT JOIN  " +
+                    "(SELECT Code,Supplier,Part_Name,Part_No FROM MstMCSparePart) tbMst ON tbMst.Code = tbTr.Code " +
                     "LEFT JOIN " +
-                    "(SELECT Code,Supplier,Part_Name,Part_No " +
-                    "FROM MstMCSparePart) tbMst ON tbMst.Code = tbTr.Code " +
-                    "LEFT JOIN (SELECT Code, SUM(Stock_In) AS QtyIn,SUM(Stock_Out) AS QtyOut " +
-                    "FROM SparePartTrans " +
-                    "WHERE RegDate BETWEEN '"+firstDay+"' AND '"+lastDayStr+"' AND Dept ='"+dept+"' " +
-                    "GROUP BY Code ) " +
-                    "tbPre ON tbPre.Code = tbTr.Code " +
-                    "WHERE CAST(tbTr.RegDate AS DATE) < '"+last+"' AND tbtr.Dept ='"+dept+"' "+ Conds +
-                    "GROUP BY tbTr.Code, tbMst.Supplier,tbMst.Part_No, tbMst.Part_Name,tbPre.QtyIn,tbPre.QtyOut " +
+                    "(SELECT Code, SUM(Stock_In) AS QtyIn,SUM(Stock_Out) AS QtyOut FROM SparePartTrans " +
+                    "WHERE RegDate BETWEEN '"+firstDay+"' AND '"+lastDay+"' AND Dept ='MC' GROUP BY Code ) tbPre ON tbPre.Code = tbTr.Code " +
+                    "LEFT JOIN (SELECT Code, SUM(Stock_Value) AS PreQty FROM SparePartTrans " +
+                    "WHERE CAST(RegDate AS date) <= '"+last+"' AND Dept ='MC' GROUP BY Code ) tbPreS ON tbPreS.Code = tbPre.Code " +
+                    "WHERE CAST(tbTr.RegDate AS DATE) > '"+last+"' AND tbtr.Dept ='MC' " +
+                    "GROUP BY tbTr.Code, tbMst.Supplier,tbMst.Part_No, tbMst.Part_Name,tbPre.QtyIn,tbPre.QtyOut, tbPreS.PreQty " +
                     "Order by tbTr.Code";
-                Console.WriteLine(query);
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtselect);
                 if (dtselect.Rows.Count > 0)
@@ -125,14 +123,14 @@ namespace MachineDeptApp
                         double prestock = double.TryParse(row["PreQty"]?.ToString(), out var ps) ? ps : 0;
                         double stockout = double.TryParse(row["QtyOut"]?.ToString(), out var so) ? so : 0;
                         double stockin = double.TryParse(row["QtyIn"]?.ToString(), out var si) ? si : 0;
-                        double stockremain = prestock + stockin - stockout;
+                        double stockremain = prestock + stockin + stockout;
                         dgvTTL.Rows.Add();
                         dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["code"].Value = code;
                         dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partno"].Value = partno;
                         dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partname"].Value = partname;
                         dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["supplier"].Value = supplier;
                         dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["prestock"].Value = prestock;
-                        dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockout"].Value = stockout;
+                        dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockout"].Value = -stockout;
                         dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockin"].Value = stockin;
                         dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockremain"].Value = stockremain;
                         dgvTTL.ClearSelection();

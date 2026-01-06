@@ -2051,6 +2051,7 @@ D:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.ShortageDe
 >>>>>>> d2b42ec8fc90c2ceb1a12b91ba9541ba67d3c4f1
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.RMEstimateShortage.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.ShortageDetail.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.Transaction.resources
 G:\MC-Dept-App\bin\Debug\MC Dept App.exe.config
 G:\MC-Dept-App\bin\Debug\MC Dept App.exe
 G:\MC-Dept-App\bin\Debug\MC Dept App.pdb
@@ -2195,3 +2196,5 @@ D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.RequestF
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.MstSparePart.resources
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.RegUpdateForm.resources
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.StockINOut.resources
+>>>>>>> ad1cd7bad8edd0d99f796ba447a42571ddfc26e4
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.DoSummary.resources

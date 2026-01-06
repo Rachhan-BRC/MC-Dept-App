@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.Animation;
+using System.Windows.Forms.DataVisualization.Charting; 
 
 namespace MachineDeptApp
 {
@@ -23,14 +24,103 @@ namespace MachineDeptApp
         {
             this.con.Connection();
             InitializeComponent();
+            this.Load += Budget_Load;
             this.btnSearch.Click += BtnSearch_Click;
             this.dgvBudget.CellClick += DgvBudget_CellClick;
             this.btnUpdate.Click += BtnUpdate_Click;
             this.btnSave.Click += BtnSave_Click;
             dgvBudget.EditingControlShowing += DgvBudget_EditingControlShowing;
             this.dgvBudget.CellEndEdit += DgvBudget_CellEndEdit;
+            this.dtpyear.ValueChanged += Dtpyear_ValueChanged;
+           
         }
 
+        private void Dtpyear_ValueChanged(object sender, EventArgs e)
+        {
+            btnSearch.PerformClick();
+            SetupChart();
+        }
+
+        private void Budget_Load(object sender, EventArgs e)
+        {
+            btnSearch.PerformClick();
+            SetupChart();
+        }
+
+        private void SetupChart()
+        {
+            chart1.Series.Clear();
+            chart1.ChartAreas.Clear();
+            chart1.ChartAreas.Add("MainArea");
+            double[] actual = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            double[] target = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            double[] safety = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            string[] months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+            if (dgvBudget.Rows.Count > 0)
+            {
+                for (int i = 0; i < months.Length; i++)
+                {
+                    if (dgvBudget.Rows[0].Cells[1].Value?.ToString() == "Target")
+                    {
+                        target[i] = Convert.ToDouble(dgvBudget.Rows[0].Cells[months[i]].Value ?? 0);
+                    }
+                    if (dgvBudget.Rows[1].Cells[1].Value?.ToString() == "Safety")
+                    {
+                        safety[i] = Convert.ToDouble(dgvBudget.Rows[1].Cells[months[i]].Value ?? 0);
+                    }
+                    if (dgvBudget.Rows.Count > 2 && dgvBudget.Rows[2].Cells[1].Value?.ToString() == "Actual")
+                    {
+                        actual[i] = Convert.ToDouble(dgvBudget.Rows[2].Cells[months[i]].Value ?? 0);
+                    }
+                }
+            }
+            var area = chart1.ChartAreas[0];
+
+            // Hide the axis line at Y=0
+            area.AxisX.LineWidth = 0;
+
+            // Also hide the major tick marks and gridline at Y=0
+            area.AxisX.MajorTickMark.Enabled = false;
+            area.AxisX.MajorGrid.LineWidth = 0;
+
+            chart1.ChartAreas[0].AxisX.Interval = 1; // Force all months to show
+            // Actual (Bar)
+            var actualSeries = new Series("Actual")
+            {
+                ChartType = SeriesChartType.Column,
+                IsValueShownAsLabel = true,
+                LabelForeColor = System.Drawing.Color.Blue,
+                Font = new Font("Arial", 10, FontStyle.Bold),
+                Color = System.Drawing.Color.SteelBlue
+            };
+
+            // Target (Line)
+            var targetSeries = new Series("Target")
+            {
+                ChartType = SeriesChartType.Line,
+                Color = System.Drawing.Color.Red,
+                BorderWidth = 2
+            };
+
+            // Safety (Line)
+            var safetySeries = new Series("Safety")
+            {
+                ChartType = SeriesChartType.Line,
+                Color = System.Drawing.Color.Gold,
+                BorderWidth = 2
+            };
+
+            for (int i = 0; i < months.Length; i++)
+            {
+                actualSeries.Points.AddXY(months[i], actual[i]);
+                targetSeries.Points.AddXY(months[i], target[i]);
+                safetySeries.Points.AddXY(months[i], safety[i]);
+            }
+
+            chart1.Series.Add(actualSeries);
+            chart1.Series.Add(targetSeries);
+            chart1.Series.Add(safetySeries);
+        }
         private void DgvBudget_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             string end = dgvBudget.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString()?? "" ;
@@ -203,7 +293,6 @@ namespace MachineDeptApp
             DataTable dtbudget = new DataTable();
             DataTable dtVal = new DataTable();
             Cursor = Cursors.WaitCursor;
-            Cursor = Cursors.WaitCursor;
             try
             {
                 con.con.Open();
@@ -213,7 +302,7 @@ namespace MachineDeptApp
                     "SELECT RegDate AS YearMonth, SUM(Stock_Amount) AS TotalRemain FROM SparePartTrans " +
                     "WHERE Dept = 'MC' GROUP BY RegDate) t " +
                     "GROUP BY FORMAT(YearMonth, 'yyyy-MM') " +
-                    "ORDER BY YearMonth;";
+                    "ORDER BY YearMonth";
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtVal);
             }
@@ -224,16 +313,22 @@ namespace MachineDeptApp
             con.con.Close();
             try
             {
-                DateTime now = DateTime.Now;
-                string yearnow = now.ToString("yyyy");
+                int yearnow = dtpyear.Value.Year;
                 con.con.Open();
                 string query = "SELECT * FROM SparePartBudget WHERE Budget_Dept = '" + dept + "' AND Budget_Year = " + yearnow;
+      
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtbudget);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error while taking data" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            con.con.Close();
+            if (dtbudget.Rows.Count <= 0)
+            {
+                Cursor = Cursors.Default;
+                return;
             }
             con.con.Close();
             Cursor = Cursors.Default;
@@ -274,22 +369,36 @@ namespace MachineDeptApp
                     dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Dec"].Value = dec;
 
                 }
-                dgvBudget.Rows.Add();
+                if (dgvBudget.Rows.Count < 2 && dgvBudget.Rows[0].Cells[1].Value?.ToString() == "Target")
+                {
+                    dgvBudget.Rows.Add();
+                    dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgetyear"].Value = dgvBudget.Rows[dgvBudget.Rows.Count - 2].Cells["budgetyear"].Value;
+                    dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgettype"].Value = "Safety";
+                }
+                else if (dgvBudget.Rows[0].Cells[1].Value?.ToString() == "Safety")
+                {
+                    dgvBudget.Rows.Add();
+                    dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgetyear"].Value = dgvBudget.Rows[dgvBudget.Rows.Count - 2].Cells["budgetyear"].Value;
+                    dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgettype"].Value = "Safety";
+                }
+                    dgvBudget.Rows.Add();
                 dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgetyear"].Value = dgvBudget.Rows[dgvBudget.Rows.Count - 2].Cells["budgetyear"].Value;
-                dgvBudget.Rows[dgvBudget.Rows.Count -1].Cells["budgettype"].Value = "Actual";
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgettype"].Value = "Actual";
                 for (int i = 2; i < dgvBudget.Columns.Count; i++)
                 {
                     string monthName = dgvBudget.Columns[i].Name;
                     DateTime dt = DateTime.ParseExact(monthName, "MMM",
                         System.Globalization.CultureInfo.InvariantCulture);
-                    string Colname = $"{DateTime.Now.Year}-{dt:MM}";
+                    string Colname = $"{dtpyear.Value.Year}-{dt:MM}";
                     foreach (DataRow row in dtVal.Rows)
                     {
                         string Date = row["YearMonth"].ToString();
                         double total = Convert.ToDouble(row["TotalValue"]);
                         if (Date == Colname)
                         {
-                            dgvBudget.Rows[dgvBudget.Rows.Count -1].Cells[i].Value = total;
+                            dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells[i].Value = total;
+                            break;
+
                         }
                     }
                 }
@@ -304,7 +413,7 @@ namespace MachineDeptApp
 
                         if (string.IsNullOrEmpty(val))
                         {
-                            row1.Cells[m].Value = "0";  
+                            row1.Cells[m].Value = "0";
                         }
                     }
                     row1.Cells["budgetyear"].ReadOnly = true;
@@ -327,6 +436,7 @@ namespace MachineDeptApp
             {
                 MessageBox.Show("Error while fill data !" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            SetupChart();
             dgvBudget.ClearSelection();
             con.con.Close();
             Cursor = Cursors.Default;

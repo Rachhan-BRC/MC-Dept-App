@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.Animation;
 
 namespace MachineDeptApp
 {
@@ -35,7 +36,7 @@ namespace MachineDeptApp
         }
 
         private void DgvPo_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
+        {       
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
                 btnDelete.Enabled = true;
@@ -127,6 +128,7 @@ namespace MachineDeptApp
             int errCode = 0;
             int errDoc = 0;
             int errDate = 0;
+            int bigger = 0;
             try
             {
                 lbshow.Text = "សូមរង់ចាំ...(please wait)";
@@ -224,18 +226,20 @@ namespace MachineDeptApp
                     con.con.Close();
                     if (dtselect.Rows.Count <= 0)
                     {
+                        Cursor = Cursors.Default;
                         MessageBox.Show("This spare part not have in request", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
-                    foreach (DataGridViewRow row1 in dgvInvoice.Rows)
+                    foreach (DataGridViewRow row1 in dgv.Rows)
                     {
                         string code1 = row1.Cells["code"].Value.ToString();
                         string pono = row1.Cells["pono"].Value.ToString();
-                        string raw = row1.Cells["invoicedate"].Value.ToString();
+                        double qty = Convert.ToDouble(row1.Cells["qty"].Value);
                         foreach (DataRow row in dtselect.Rows)
                         {
-                            string pono1 = row["Po_No"].ToString();
-                            string code2 = row["code"].ToString();
+                            double bal = Convert.ToDouble(row["Balance"]);
+                            string pono1 = row["PO_No"].ToString();
+                            string code2 = row["Code"].ToString();  
                             if (code1 == code2)
                             {
                                 row1.Cells["find"].Value = "Pono";
@@ -244,21 +248,17 @@ namespace MachineDeptApp
                             {
                                 row1.Cells["find"].Value = "Code";
                             }
-                            if (DateTime.TryParseExact(raw, "dd-MM-yy",
-System.Globalization.CultureInfo.InvariantCulture,
-System.Globalization.DateTimeStyles.None,
-out DateTime plan1))
-                            {
-                                
-                            }
-                            else
-                            {
-                                row1.Cells["find1"].Value = "Date";
-                                errDate++;
-                            }
+                         
                             if (code1 == code2 && pono == pono1)
                             {
-                                row1.Cells["find"].Value = "Have";
+                                if (qty > bal)
+                                {
+                                    row1.Cells["find"].Value = "Qty";
+                                }
+                                else
+                                {
+                                    row1.Cells["find"].Value = "Have";
+                                }
                             }
                         }
                     }
@@ -266,6 +266,8 @@ out DateTime plan1))
                     {
                         if (row1.Cells["find"].Value?.ToString() == "Not")
                         {
+                            row1.Cells["code"].Style.BackColor = Color.LightPink;
+                            row1.Cells["pono"].Style.BackColor = Color.LightPink;
                             cannot++;
                         }
                         if (row1.Cells["find"].Value?.ToString() == "Code")
@@ -278,10 +280,10 @@ out DateTime plan1))
                             row1.Cells["pono"].Style.BackColor = Color.LightPink;
                             errDoc++;
                         }
-                        if (row1.Cells["find"].Value?.ToString() == "Date")
+                        if (row1.Cells["find"].Value?.ToString() == "Qty")
                         {
-                            row1.Cells["invoicedate"].Style.BackColor = Color.LightPink;
-                            errDate++;
+                            row1.Cells["qty"].Style.BackColor = Color.LightPink;
+                            bigger++;
                         }
                     }
                     if (errCode > 0)
@@ -296,11 +298,12 @@ out DateTime plan1))
                         btnSave.SendToBack();
                         lbshow.Text = "Po No. not have in request.";
                     }
-                    if (errDate > 0)
+                    if (bigger >0)
                     {
+
                         btnSave.Enabled = false;
                         btnSave.SendToBack();
-                        lbshow.Text = "Date wrong format.";
+                        lbshow.Text = "Receive Qty bigger than Order Qty.";
                     }
                     if (cannot > 0)
                     {
@@ -308,7 +311,7 @@ out DateTime plan1))
                         btnSave.SendToBack();
                         lbshow.Text = "Po No and Code not have in request.";
                     }
-                    if (error == 0 && dgv.Rows.Count > 0 && cannot == 0 && errCode == 0 && errDoc == 0 && errDate == 0)
+                    if (error == 0 && dgv.Rows.Count > 0 && cannot == 0 && errCode == 0 && errDoc == 0 && bigger ==0 )
                     {
                         btnSave.Enabled = true;
                         btnSave.BringToFront();
@@ -356,7 +359,7 @@ out DateTime plan1))
                         {
 
                             con.con.Open();
-                            string query = "SELECT * FROM MCSparePartRequest WHERE Dept = '" + dept + "' AND Code IN " + codelist + " ORDER BY Code";
+                            string query = "SELECT * FROM MCSparePartRequest WHERE Dept = '" + dept + "' AND Code IN " + codelist + " AND Order_State <> 'Completed' ORDER BY Code";
                             SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                             sda.Fill(dtselect);
                         }
@@ -439,7 +442,7 @@ out DateTime plan1))
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         error++;
                     }
@@ -493,6 +496,7 @@ out DateTime plan1))
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
+            dgv.ClearSelection();
             Cursor = Cursors.Default;
         }
         private void SaveToDBInvoice()
@@ -590,7 +594,7 @@ out DateTime plan1))
                                 con.con.Open();
                                 string query = "UPDATE MCSparePartRequest SET ReceiveQTY =  @recqty, Balance = @balance, RemainAmount = @reamount, Receive_Date = @recdate, Order_State = @orderstate, " +
                             " Remark = @remark, UpdateDate = @update " +
-                            " WHERE Code = @code AND PO_No = @pono AND Dept = @dept";
+                            " WHERE Code = @code AND PO_No = @pono AND Order_State <> 'Completed' AND Dept = @dept";
                                 SqlCommand cmd = new SqlCommand(query, con.con);
                                 cmd.Parameters.AddWithValue("@recqty", finalQty);
                                 cmd.Parameters.AddWithValue("@balance", finalBalance);
@@ -700,6 +704,8 @@ out DateTime plan1))
                 MessageBox.Show("Save successfully !", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 btnDeleteGray.BringToFront();
                 dgvInvoice.Rows.Clear();
+                btnSave.Enabled = false;
+                btnSave.BringToFront();
             }
             else
             {
@@ -717,7 +723,7 @@ out DateTime plan1))
             int cannot = 0;
             DateTime now = DateTime.Now;
             foreach (DataGridViewRow row in dgvPo.Rows)
-            {
+            {               
                 code.Add(row.Cells["itemcode"].Value.ToString());
             }
             string codelist = "('" + string.Join("','", code) + "')";
@@ -725,7 +731,7 @@ out DateTime plan1))
             try
             {
                 con.con.Open();
-                string query = "SELECT * FROM MCSparePartRequest WHERE Dept = '" + dept + "' AND Code IN " + codelist + " ORDER BY Code";
+                string query = "SELECT * FROM MCSparePartRequest WHERE Dept = '" + dept + "' AND Code IN " + codelist + " AND Order_State <> 'Completed' ORDER BY Code";
                 Console.WriteLine(query);
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtselect);
@@ -759,9 +765,10 @@ out DateTime plan1))
                             string codeselect = row2["Code"] == DBNull.Value ? string.Empty : row2["Code"].ToString();
                             string docno2 = row2["PO_No"] == DBNull.Value ? string.Empty : row2["PO_No"].ToString();
                             string cond = row2["Order_State"] == DBNull.Value ? string.Empty : row2["Order_State"].ToString();
-                            if (codePo == codeselect && docno == docno2)
+                            DateTime plan2 = row2["Receive_Date"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(row2["ETA"]);
+                            if (codePo == codeselect && docno == docno2 && cond != "Completed")
                             {
-                                string query = "UPDATE MCSparePartRequest SET PO_No = @pono, ETA = @eta, Receive_Date = @recdate, Remark = @remark, UpdateDate = @update WHERE Code = @code AND Dept = @dept";
+                                string query = "UPDATE MCSparePartRequest SET PO_No = @pono, ETA = @eta, Receive_Date = @recdate, Remark = @remark, UpdateDate = @update WHERE Code = @code AND Order_State <> 'Completed' AND Dept = @dept";
                                 SqlCommand cmd = new SqlCommand(query, con.con);
                                 cmd.Parameters.AddWithValue("@pono", pono);
                                 cmd.Parameters.AddWithValue("@eta", plan);
@@ -782,6 +789,9 @@ out DateTime plan1))
                 }
                 if (success > 0)
                 {
+                    dgvPo.Rows.Clear();
+                    btnSave.Enabled = false;
+                    btnSaveGrey.BringToFront();
                     MessageBox.Show("Save successfully ! ", "Done.", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
