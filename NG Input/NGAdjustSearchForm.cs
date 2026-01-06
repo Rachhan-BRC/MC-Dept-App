@@ -528,7 +528,7 @@ namespace MachineDeptApp.NG_Input
 
                                 if (childShape.Name == "FromLocCode") // Check for your shape by name
                                 {
-                                    childShape.TextFrame.Characters().Text = "IT";
+                                    childShape.TextFrame.Characters().Text = "";
                                 }
 
                                 if (childShape.Name == "ToLocName")
@@ -540,7 +540,7 @@ namespace MachineDeptApp.NG_Input
                                 if (childShape.Name == "ToLocCode")
                                 {
                                     // Set the text for the childShape
-                                    childShape.TextFrame.Characters().Text = "MC";
+                                    childShape.TextFrame.Characters().Text = "MC1";
                                 }
 
                             }
