@@ -48,9 +48,9 @@ namespace MachineDeptApp
             this.dtUpdate = dt1;
             this.FormClosing += MenuFormV2_FormClosing;
             this.treeViewMenu.NodeMouseDoubleClick += TreeViewMenu_NodeMouseDoubleClick;
-            this.treeViewMenu.NodeMouseClick += TreeViewMenu_NodeMouseClick;
             this.tabControlOpenForm.SelectedIndexChanged += TabControlOpenForm_SelectedIndexChanged;
             this.MdiChildActivate += MenuFormV2_MdiChildActivate;
+            this.PicUpdate.Click += BtnCheckForUpdate_Click;
             this.btnCheckForUpdate.Click += BtnCheckForUpdate_Click;
             
         }
@@ -73,19 +73,6 @@ namespace MachineDeptApp
                 {
                     MessageBox.Show("មានបញ្ហា!\n"+ex.Message,"Rachhan System",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 }
-            }
-        }
-
-        private void TreeViewMenu_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            TreeNode currentClkNode = e.Node;
-            if (currentClkNode.ImageIndex == 2)
-            {
-                currentClkNode.SelectedImageIndex = 3;
-            }
-            else
-            {
-                currentClkNode.SelectedImageIndex = currentClkNode.ImageIndex;
             }
         }
 
@@ -1949,7 +1936,6 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("SemiTransferComparisonForm", "ឆែកទិន្នន័យដែល WIP មិនទាន់ស្កេនទទួល");
                 }
             }
-            
             if (currentClkNode.Text == "ឆែកទិន្នន័យShortage")
             {
                 // Check if already open >> Focus on that Form
@@ -1973,9 +1959,9 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("RMEstimateShortage", "ឆែកទិន្នន័យShortage");
                 }
             }
-            if (currentClkNode.Text == "Master Spare Parts")
+            if (currentClkNode.Text == "ទិន្នន័យDo Summary")
             {
-                //Check if already open >> Focus on that Form
+                // Check if already open >> Focus on that Form
                 int FoundOpened = 0;
                 for (int i = 0; i < dtOpenForm.Rows.Count; i++)
                 {
@@ -1989,157 +1975,180 @@ namespace MachineDeptApp
 
                 if (FoundOpened == 0)
                 {
-                    MstSparePart Uf = new MstSparePart();
+                    DoSummary Uf = new DoSummary();
                     Uf.MdiParent = MenuFormV2.ActiveForm;
                     Uf.Show();
-                    tabControlOpenForm.TabPages.Add("Master Spare Parts");
-                    dtOpenForm.Rows.Add("MstSparePart", "Master Spare Parts");
+                    tabControlOpenForm.TabPages.Add("ទិន្នន័យDo Summary");
+                    dtOpenForm.Rows.Add("DoSummary", "ទិន្នន័យDo Summary");
                 }
             }
-            if (currentClkNode.Text == "Request")
-            {
-                //Check if already open >> Focus on that Form
-                int FoundOpened = 0;
-                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
-                {
-                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
-                    {
-                        tabControlOpenForm.SelectedIndex = i;
-                        FoundOpened++;
-                        break;
-                    }
-                }
+           if (currentClkNode.Text == "Master Spare Parts")
+           {
+               //Check if already open >> Focus on that Form
+               int FoundOpened = 0;
+               for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+               {
+                   if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                   {
+                       tabControlOpenForm.SelectedIndex = i;
+                       FoundOpened++;
+                       break;
+                   }
+               }
 
-                if (FoundOpened == 0)
-                {
-                    RequestForm Uf = new RequestForm();
-                    Uf.MdiParent = MenuFormV2.ActiveForm;
-                    Uf.Show();
-                    tabControlOpenForm.TabPages.Add("Request");
-                    dtOpenForm.Rows.Add("RequestForm", "Request");
-                }
+               if (FoundOpened == 0)
+               {
+                   MstSparePart Uf = new MstSparePart();
+                   Uf.MdiParent = MenuFormV2.ActiveForm;
+                   Uf.Show();
+                   tabControlOpenForm.TabPages.Add("Master Spare Parts");
+                   dtOpenForm.Rows.Add("MstSparePart", "Master Spare Parts");
+               }
+           }
+           if (currentClkNode.Text == "Request")
+           {
+               //Check if already open >> Focus on that Form
+               int FoundOpened = 0;
+               for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+               {
+                   if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                   {
+                       tabControlOpenForm.SelectedIndex = i;
+                       FoundOpened++;
+                       break;
+                   }
+               }
 
-            }
-            if (currentClkNode.Text == "Invoice")
-            {
-                //Check if already open >> Focus on that Form
-                int FoundOpened = 0;
-                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
-                {
-                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
-                    {
-                        tabControlOpenForm.SelectedIndex = i;
-                        FoundOpened++;
-                        break;
-                    }
-                }
+               if (FoundOpened == 0)
+               {
+                   RequestForm Uf = new RequestForm();
+                   Uf.MdiParent = MenuFormV2.ActiveForm;
+                   Uf.Show();
+                   tabControlOpenForm.TabPages.Add("Request");
+                   dtOpenForm.Rows.Add("RequestForm", "Request");
+               }
 
-                if (FoundOpened == 0)
-                {
-                    InvoiceForm Uf = new InvoiceForm();
-                    Uf.MdiParent = MenuFormV2.ActiveForm;
-                    Uf.Show();
-                    tabControlOpenForm.TabPages.Add("Invoice");
-                    dtOpenForm.Rows.Add("InvoiceForm", "Invoice");
-                }
+           }
+           if (currentClkNode.Text == "Invoice")
+           {
+               //Check if already open >> Focus on that Form
+               int FoundOpened = 0;
+               for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+               {
+                   if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                   {
+                       tabControlOpenForm.SelectedIndex = i;
+                       FoundOpened++;
+                       break;
+                   }
+               }
 
-            }
-            if (currentClkNode.Text == "Balance")
-            {
-                //Check if already open >> Focus on that Form
-                int FoundOpened = 0;
-                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
-                {
-                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
-                    {
-                        tabControlOpenForm.SelectedIndex = i;
-                        FoundOpened++;
-                        break;
-                    }
-                }
+               if (FoundOpened == 0)
+               {
+                   InvoiceForm Uf = new InvoiceForm();
+                   Uf.MdiParent = MenuFormV2.ActiveForm;
+                   Uf.Show();
+                   tabControlOpenForm.TabPages.Add("Invoice");
+                   dtOpenForm.Rows.Add("InvoiceForm", "Invoice");
+               }
 
-                if (FoundOpened == 0)
-                {
-                    balance Uf = new balance();
-                    Uf.MdiParent = MenuFormV2.ActiveForm;
-                    Uf.Show();
-                    tabControlOpenForm.TabPages.Add("Balance");
-                    dtOpenForm.Rows.Add("balance", "Balance");
-                }
+           }
+           if (currentClkNode.Text == "Balance")
+           {
+               //Check if already open >> Focus on that Form
+               int FoundOpened = 0;
+               for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+               {
+                   if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                   {
+                       tabControlOpenForm.SelectedIndex = i;
+                       FoundOpened++;
+                       break;
+                   }
+               }
 
-            }
-            if (currentClkNode.Text == "Stock (In / Out)")
-            {
-                //Check if already open >> Focus on that Form
-                int FoundOpened = 0;
-                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
-                {
-                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
-                    {
-                        tabControlOpenForm.SelectedIndex = i;
-                        FoundOpened++;
-                        break;
-                    }
-                }
+               if (FoundOpened == 0)
+               {
+                   balance Uf = new balance();
+                   Uf.MdiParent = MenuFormV2.ActiveForm;
+                   Uf.Show();
+                   tabControlOpenForm.TabPages.Add("Balance");
+                   dtOpenForm.Rows.Add("balance", "Balance");
+               }
 
-                if (FoundOpened == 0)
-                {
-                    StockINOut Uf = new StockINOut();
-                    Uf.MdiParent = MenuFormV2.ActiveForm;
-                    Uf.Show();
-                    tabControlOpenForm.TabPages.Add("Stock (In / Out)");
-                    dtOpenForm.Rows.Add("StockINOut", "Stock (In / Out)");
-                }
+           }
+           if (currentClkNode.Text == "Stock (In / Out)")
+           {
+               //Check if already open >> Focus on that Form
+               int FoundOpened = 0;
+               for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+               {
+                   if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                   {
+                       tabControlOpenForm.SelectedIndex = i;
+                       FoundOpened++;
+                       break;
+                   }
+               }
 
-            }
-            if (currentClkNode.Text == "Budget")
-            {
-                //Check if already open >> Focus on that Form
-                int FoundOpened = 0;
-                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
-                {
-                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
-                    {
-                        tabControlOpenForm.SelectedIndex = i;
-                        FoundOpened++;
-                        break;
-                    }
-                }
+               if (FoundOpened == 0)
+               {
+                   StockINOut Uf = new StockINOut();
+                   Uf.MdiParent = MenuFormV2.ActiveForm;
+                   Uf.Show();
+                   tabControlOpenForm.TabPages.Add("Stock (In / Out)");
+                   dtOpenForm.Rows.Add("StockINOut", "Stock (In / Out)");
+               }
 
-                if (FoundOpened == 0)
-                {
-                    budget Uf = new budget();
-                    Uf.MdiParent = MenuFormV2.ActiveForm;
-                    Uf.Show();
-                    tabControlOpenForm.TabPages.Add("Budget");
-                    dtOpenForm.Rows.Add("budget", "Budget");
-                }
+           }
+           if (currentClkNode.Text == "Budget")
+           {
+               //Check if already open >> Focus on that Form
+               int FoundOpened = 0;
+               for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+               {
+                   if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                   {
+                       tabControlOpenForm.SelectedIndex = i;
+                       FoundOpened++;
+                       break;
+                   }
+               }
 
-            }
-            if (currentClkNode.Text == "Printing Form")
-            {
-                //Check if already open >> Focus on that Form
-                int FoundOpened = 0;
-                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
-                {
-                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
-                    {
-                        tabControlOpenForm.SelectedIndex = i;
-                        FoundOpened++;
-                        break;
-                    }
-                }
+               if (FoundOpened == 0)
+               {
+                   budget Uf = new budget();
+                   Uf.MdiParent = MenuFormV2.ActiveForm;
+                   Uf.Show();
+                   tabControlOpenForm.TabPages.Add("Budget");
+                   dtOpenForm.Rows.Add("budget", "Budget");
+               }
 
-                if (FoundOpened == 0)
-                {
-                    PrintForm Uf = new PrintForm();
-                    Uf.MdiParent = MenuFormV2.ActiveForm;
-                    Uf.Show();
-                    tabControlOpenForm.TabPages.Add("Printing Form");
-                    dtOpenForm.Rows.Add("PrintForm", "Printing Form");
-                }
+           }
+           if (currentClkNode.Text == "Printing Form")
+           {
+               //Check if already open >> Focus on that Form
+               int FoundOpened = 0;
+               for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+               {
+                   if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                   {
+                       tabControlOpenForm.SelectedIndex = i;
+                       FoundOpened++;
+                       break;
+                   }
+               }
 
-            }
+               if (FoundOpened == 0)
+               {
+                   PrintForm Uf = new PrintForm();
+                   Uf.MdiParent = MenuFormV2.ActiveForm;
+                   Uf.Show();
+                   tabControlOpenForm.TabPages.Add("Printing Form");
+                   dtOpenForm.Rows.Add("PrintForm", "Printing Form");
+               }
+
+           }
             if (currentClkNode.Text == "POS Schedule")
             {
                 //Check if already open >> Focus on that Form
@@ -2163,18 +2172,6 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("ShipmentScheduleForm", "POS Schedule");
                 }
 
-            }
-           
-            int After = dtOpenForm.Rows.Count;
-
-            if (Before < After)
-            {
-                tabControlOpenForm.SelectedIndex = dtOpenForm.Rows.Count - 1;
-            }
-            if (dtOpenForm.Rows.Count > 0)
-            {
-                panelOpenTab.Visible = true;
-                panelOpenTab.Show();
             }
             if (currentClkNode.Text == "Transaction")
             {
@@ -2200,13 +2197,26 @@ namespace MachineDeptApp
                 }
 
             }
+
+            int After = dtOpenForm.Rows.Count;
+
+            if (Before < After)
+            {
+                tabControlOpenForm.SelectedIndex = dtOpenForm.Rows.Count - 1;
+            }
+            if (dtOpenForm.Rows.Count > 0)
+            {
+                panelOpenTab.Visible = true;
+                panelOpenTab.Show();
+            }
+           
         }
 
         private void MenuFormV2_Load(object sender, EventArgs e)
         {
             if (dtUpdate.Rows.Count > 0)
                 PicUpdate.Visible = true;
-            this.Text = Assembly.GetExecutingAssembly().GetName().Name + " by Rachhan";
+            this.Text = Assembly.GetExecutingAssembly().GetName().Name;
             treeViewMenu.Nodes.Clear();
             //Add root Node
             dtRoot = new DataTable();
@@ -2300,6 +2310,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(8, "Transaction", "transaction");
             //10
             dtChildRoot.Rows.Add(9, "POS Schedule", "ShipmentScheduleForm");
+            dtChildRoot.Rows.Add(9, "ទិន្នន័យDo Summary", "DoSummary");
 
             //8
             //dtChildRoot.Rows.Add(7, "បញ្ចូលទិន្នន័យវេរ", "AllSectionMCTransferForm");
@@ -2385,6 +2396,10 @@ namespace MachineDeptApp
                 ChildrootNode.NodeFont = regularFont;
             }
 
+
+            //Assign TreeView Icon
+            SetIconToTreeMenu();
+
             dtOpenForm = new DataTable();
             dtOpenForm.Columns.Add("TabFormName");
             dtOpenForm.Columns.Add("TabName");
@@ -2425,6 +2440,7 @@ namespace MachineDeptApp
                     treeViewMenu.Nodes[5].Nodes[3].Remove();
                 }
 
+                /*
 
                 //Add image Form to all child 
                 int parentRoot = treeViewMenu.Nodes.Count;
@@ -2481,6 +2497,8 @@ namespace MachineDeptApp
                         treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 2].Nodes[i].Nodes[j].ImageIndex = 2;
                     }
                 }
+
+                */
             }
 
         }
@@ -2526,5 +2544,37 @@ namespace MachineDeptApp
             panelHeader.Size = new Size(1184, 52);
         }
 
+
+        //Method
+        private void SetIconToTreeMenu()
+        {
+            string FormIcon = "Form Icon";
+            string GroupIcon = "Group Icon";
+            int FontSize = 12;
+            foreach (TreeNode ParentNode in treeViewMenu.Nodes)
+            {
+                foreach (TreeNode ChildNode in ParentNode.Nodes)
+                {
+                    ChildNode.NodeFont = new Font(treeViewMenu.Font.FontFamily, FontSize - 1, FontStyle.Regular);
+                    int CountChildOfChildNode = ChildNode.Nodes.Count;
+                    if (CountChildOfChildNode > 0)
+                    {
+                        ChildNode.ImageKey = GroupIcon;
+                        ChildNode.SelectedImageKey = GroupIcon;
+                        foreach (TreeNode ChildOfChildNode in ChildNode.Nodes)
+                        {
+                            ChildOfChildNode.ImageKey = FormIcon;
+                            ChildOfChildNode.SelectedImageKey = "Form Selected Icon";
+                            ChildOfChildNode.NodeFont = new Font(treeViewMenu.Font.FontFamily, FontSize - 3, FontStyle.Regular);
+                        }
+                    }
+                    else
+                    {
+                        ChildNode.ImageKey = FormIcon;
+                        ChildNode.SelectedImageKey = "Form Selected Icon";
+                    }
+                }
+            }
+        }
     }
 }

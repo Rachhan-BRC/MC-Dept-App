@@ -2052,3 +2052,149 @@ D:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.ShortageDe
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.RMEstimateShortage.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.ShortageDetail.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.Transaction.resources
+G:\MC-Dept-App\bin\Debug\MC Dept App.exe.config
+G:\MC-Dept-App\bin\Debug\MC Dept App.exe
+G:\MC-Dept-App\bin\Debug\MC Dept App.pdb
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.AssemblyReference.cache
+G:\MC-Dept-App\obj\Debug\MC Dept App.exe.config
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.MachineTypeMasterForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.MasterItemCheckForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.MasterItemForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.SLOTMasterForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.UncountableRMMasterForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.UserAddForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.UserForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.UserUpdateForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.AllSection.AllSectionMCOverviewForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.AllSection.AllSectionMCOverviewFormStock.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.AllSection.AllSectionMCReceiveForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.AllSection.AllSectionMCTransactionForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.AllSection.AllSectionMCTransferForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.AddPrint.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.balance.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.CreditForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.InputTransferSemi.InputTransferSemiConfirmForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.InputTransferSemi.InputTransferSemiForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Inventory.Inprocess.InprocessCountingForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Inventory.Inprocess.InprocessCountingTypeForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Inventory.Inprocess.InprocessDeleteForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Inventory.Inprocess.InprocessInventoryDataForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Inventory.Inprocess.InprocessUpdateForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Inventory.InventoryCombineDetailsForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Inventory.InventoryCombineForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Inventory.KIT.KITCountingForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Inventory.KIT.KITDeleteForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Inventory.KIT.KITInventoryDataForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Inventory.KIT.KITUpdateForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Inventory.MC_SD.MCSDCountingForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Inventory.MC_SD.MCSDDeleteForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Inventory.MC_SD.MCSDInventoryDataForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Inventory.MC_SD.MCSDUpdateForm.resources
+G:\MC-Dept-App\obj\Debug\PP_Dept_App._4FinalPlan.ShipmentScheduleForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.budget.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.InvoiceForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.LoginForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCPlans._1InputMCStatusForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCPlans._2InputMQCStatusForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCPlans._3EditPOSMCDetailForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCPlans.GenerateMCPlansForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCPlans.MCPlanStatusSearchForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCPlans.MCPlanStatusSearchFormExport.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCPlans.POSDataCheckAmountForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCPlans.RMStatusForPlanForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.MCInprocessStockSearchForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.MCStockSearchForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.MCStockTransactionSearchForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.RMEstimateShortage.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.SDRec.KITStockINForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.SDRec.KITStockINFormAdd.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.SDRec.MCPOSDetailsBySetForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.SDRec.MCPOSDetailsSearchForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.SDRec.MCStockSearchDetailForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.SDRec.NGRatePrintLabelForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.SDRec.SDBorrowForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.SDRec.SDPayBackForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.SDRec.SDReceiveForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.SDRec.SDReceiveFormConfirm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.SDRec.SDReceiveFormConfirmUser.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.SDRec.SDTransferForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.StockInOutComparisonForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.NGRatePrintLabelSDWireForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.StockCardForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.ShortageDetail.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.WireCalcForProduction.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.WireCalcForProductionAddForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.KITandSDForProductionSearch.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.WireCalcForProductionRegisterDeleteForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.WireCalcForProductionRegisterForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.WireRemainingCalcAndPrintTag.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.WireRemainingCalcAndPrintTagAdd.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.WireStockINFormAdd.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.WireStockReturnForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.WireReceiveAndIssueForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.WireStockINForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.WireTransferForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MenuFormV2.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.PrintForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.RequestForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.MstSparePart.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.MstBOMForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.MstUncountMatForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.MstUncountMatFormAdd.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.MstUncountMatFormUpdate.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.NGAdjustSearchForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.NGHistoryForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.NGInprocessSearchDetailsForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.NGInprocessSearchForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.NGInprocessShortageStockDetailsForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.NGInputByCountForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.NGInputBySetForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.NGInputByUncountForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.NGInputForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.NGRatioCalcForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.NG_Input.RegisterNG.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.OBS.OBSStockForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.OBS.OBSTransactionForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.OBS.OBSTransactionWIPResultForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.Properties.Resources.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SemiNGReq.SemiNGReqInputForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SemiNGReq.SemiNGReqInputFormConfirm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SemiNGReq.SemiNGReqSearchForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SemiNGReq.SemiNGReqUpdateForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SemiPress.SemiPress1.SemiPress1SearchForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SemiPress2.SemiPress2InputConfirmForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SemiPress2.SemiPress2InputForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SemiPress.SemiPressInputByManualConfirmForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SemiPress.SemiPressInputByManualForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SemiPress.SemiPressInputConfirmForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SemiPress.SemiPressInputForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SemiPress.SemiPress2.SemiPress2SearchForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SemiPress.SemiPressSearchDetailsForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SemiPress.SemiPressSearchForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.RegUpdateForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.StockINOut.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.TrackingPOS.POSTrackingSearchForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.TrackingPOS.RetriveDataFromOBSForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.TransferData.SemiTransferComparisonForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.TransferData.TransferDataEditForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.TransferData.TransferDataForm.resources
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.GenerateResource.cache
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.CoreCompileInputs.cache
+G:\MC-Dept-App\obj\Debug\MC Dept App.exe
+G:\MC-Dept-App\obj\Debug\MC Dept App.pdb
+G:\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.DoSummary.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.AddPrint.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.balance.resources
+D:\Current Works\MC-Dept-App\obj\Debug\PP_Dept_App._4FinalPlan.ShipmentScheduleForm.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.budget.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.DoSummary.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.InvoiceForm.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.RMEstimateShortage.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.ShortageDetail.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.PrintForm.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.RequestForm.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.MstSparePart.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.RegUpdateForm.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.StockINOut.resources
+>>>>>>> ad1cd7bad8edd0d99f796ba447a42571ddfc26e4
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.DoSummary.resources
