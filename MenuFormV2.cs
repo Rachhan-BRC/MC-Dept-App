@@ -1453,6 +1453,30 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("KITDeleteForm", "លុបរាប់ស្តុក (KIT)");
                 }
             }
+            if (currentClkNode.Text == "បញ្ចូលរាប់ស្តុក (MC SD)")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    MCSDCountingForm Uf = new MCSDCountingForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("បញ្ចូលរាប់ស្តុក (MC SD)");
+                    dtOpenForm.Rows.Add("MCSDCountingForm", "បញ្ចូលរាប់ស្តុក (MC SD)");
+                }
+
+            }
             if (currentClkNode.Text == "អាប់ដេតរាប់ស្តុក (MC SD)")
             {
                 //Check if already open >> Focus on that Form
@@ -2174,7 +2198,7 @@ namespace MachineDeptApp
                 }
 
             }
-            if (currentClkNode.Text == "Inventory Input Data")
+            if (currentClkNode.Text == "អ្នកទទួលបន្ទុករាប់ស្តុក SD")
             {
                 //Check if already open >> Focus on that Form
                 int FoundOpened = 0;
@@ -2190,11 +2214,11 @@ namespace MachineDeptApp
 
                 if (FoundOpened == 0)
                 {
-                    InventoryInput Uf = new InventoryInput();
+                    SDMstPic Uf = new SDMstPic();
                     Uf.MdiParent = MenuFormV2.ActiveForm;
                     Uf.Show();
-                    tabControlOpenForm.TabPages.Add("Inventory Input Data");
-                    dtOpenForm.Rows.Add("InventoryInput", "Inventory Input Data");
+                    tabControlOpenForm.TabPages.Add("អ្នកទទួលបន្ទុករាប់ស្តុក SD");
+                    dtOpenForm.Rows.Add("SDMstPic", "អ្នកទទួលបន្ទុករាប់ស្តុក SD");
                 }
 
             }
@@ -2325,7 +2349,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(10, "SLOT List", "SLOTMasterForm");
             dtChildRoot.Rows.Add(10, "Master Check (MC vs Item)", "MasterItemCheckForm");
             dtChildRoot.Rows.Add(10, "Master RM Uncountable", "UncountableRMMasterForm");
-           
+            dtChildRoot.Rows.Add(10, "អ្នកទទួលបន្ទុករាប់ស្តុក SD", "SDMstPic");
 
             foreach (DataRow row1 in dtChildRoot.Rows) 
             {
@@ -2376,7 +2400,7 @@ namespace MachineDeptApp
             dtChildRootofChild.Rows.Add(7, 0, "ទិន្នន័យរាប់ស្តុក (KIT)", "KITInventoryDataForm");
 
             //8,2
-            dtChildRootofChild.Rows.Add(7, 1, "Inventory Input Data", "InventoryInput");
+            dtChildRootofChild.Rows.Add(7, 1, "បញ្ចូលរាប់ស្តុក (MC SD)", "MCSDCountingForm");
             dtChildRootofChild.Rows.Add(7, 1, "អាប់ដេតរាប់ស្តុក (MC SD)", "MCSDUpdateForm");
             dtChildRootofChild.Rows.Add(7, 1, "លុបរាប់ស្តុក (MC SD)", "MCSDDeleteForm");
             dtChildRootofChild.Rows.Add(7, 1, "ទិន្នន័យរាប់ស្តុក (MC SD)", "MCSDInventoryDataForm");

@@ -139,11 +139,17 @@
     <Compile Include="AllSection\AllSectionMCTransferForm.Designer.cs">
       <DependentUpon>AllSectionMCTransferForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Inventory\MC_SD\InventoryInput.cs">
+    <Compile Include="Inventory\MC_SD\MCSDCountingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Inventory\MC_SD\InventoryInput.Designer.cs">
-      <DependentUpon>InventoryInput.cs</DependentUpon>
+    <Compile Include="Inventory\MC_SD\MCSDCountingForm.Designer.cs">
+      <DependentUpon>MCSDCountingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SDMstPic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SDMstPic.Designer.cs">
+      <DependentUpon>SDMstPic.cs</DependentUpon>
     </Compile>
     <Compile Include="SparePartControll\AddPrint.cs">
       <SubType>Form</SubType>
@@ -247,12 +253,6 @@
     </Compile>
     <Compile Include="Inventory\KIT\KITUpdateForm.Designer.cs">
       <DependentUpon>KITUpdateForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Inventory\MC_SD\MCSDCountingForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Inventory\MC_SD\MCSDCountingForm.Designer.cs">
-      <DependentUpon>MCSDCountingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Inventory\MC_SD\MCSDDeleteForm.cs">
       <SubType>Form</SubType>
@@ -850,8 +850,11 @@
     <EmbeddedResource Include="AllSection\AllSectionMCTransferForm.resx">
       <DependentUpon>AllSectionMCTransferForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Inventory\MC_SD\InventoryInput.resx">
-      <DependentUpon>InventoryInput.cs</DependentUpon>
+    <EmbeddedResource Include="Inventory\MC_SD\MCSDCountingForm.resx">
+      <DependentUpon>MCSDCountingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SDMstPic.resx">
+      <DependentUpon>SDMstPic.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SparePartControll\AddPrint.resx">
       <DependentUpon>AddPrint.cs</DependentUpon>
@@ -900,9 +903,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\KIT\KITUpdateForm.resx">
       <DependentUpon>KITUpdateForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Inventory\MC_SD\MCSDCountingForm.resx">
-      <DependentUpon>MCSDCountingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\MC_SD\MCSDDeleteForm.resx">
       <DependentUpon>MCSDDeleteForm.cs</DependentUpon>
