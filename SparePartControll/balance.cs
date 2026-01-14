@@ -130,7 +130,7 @@ namespace MachineDeptApp
                         dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partname"].Value = partname;
                         dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["supplier"].Value = supplier;
                         dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["prestock"].Value = prestock;
-                        dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockout"].Value = -stockout;
+                        dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockout"].Value = stockout;
                         dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockin"].Value = stockin;
                         dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockremain"].Value = stockremain;
                         dgvTTL.ClearSelection();

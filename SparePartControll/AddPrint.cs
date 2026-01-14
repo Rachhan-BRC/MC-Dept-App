@@ -207,7 +207,7 @@ namespace MachineDeptApp.SparePartControll
             {
                 DataTable dtDgv = new DataTable();
                 con.con.Open();
-                string query = "SELECT * FROM MstMCSparePart WHERE Dept = '"+dept+"' AND  Part_Name LIKE '%" + txtSearch.Text.Trim() + "%'";
+                string query = "SELECT * FROM MstMCSparePart WHERE Dept = '"+dept+"' AND  Part_Name LIKE '%" + txtSearch.Text.Trim() + "%' ORDER BY Code";
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 Console.WriteLine(query);
                 sda.Fill(dtDgv);
@@ -273,7 +273,7 @@ namespace MachineDeptApp.SparePartControll
             try
             {
                 con.con.Open();
-                string query = "SELECT Code, Part_Name FROM MstMCSparePart WHERE Dept = '"+dept+"'";
+                string query = "SELECT Code, Part_Name FROM MstMCSparePart WHERE Dept = '"+dept+"' ORDER BY Code";
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtSearch);
             }

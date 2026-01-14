@@ -34,44 +34,44 @@
             this.btnNew = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.panelHeader = new System.Windows.Forms.Panel();
+            this.numPrintQty = new System.Windows.Forms.NumericUpDown();
             this.chkPrintStatus = new System.Windows.Forms.CheckBox();
             this.panelFooter = new System.Windows.Forms.Panel();
             this.LbStatus = new System.Windows.Forms.Label();
             this.panelBody = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.CboBobbinW = new System.Windows.Forms.ComboBox();
             this.label24 = new System.Windows.Forms.Label();
-            this.LbTotalQty = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.txtQty = new System.Windows.Forms.TextBox();
+            this.txtttlweight = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.LbCode = new System.Windows.Forms.Label();
             this.LbQtyTitle = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
-            this.LbType = new System.Windows.Forms.Label();
-            this.LbItems = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            this.LbMaker = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.LbBobbinsWTitle = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.LbNetWTitle = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.LbNetW = new System.Windows.Forms.Label();
-            this.LbBobbinQty = new System.Windows.Forms.Label();
-            this.txtBarcode = new System.Windows.Forms.TextBox();
+            this.txtlbinput = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtscan = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.numPrintQty = new System.Windows.Forms.NumericUpDown();
+            this.txtcode = new System.Windows.Forms.TextBox();
+            this.txtrmname = new System.Windows.Forms.TextBox();
+            this.txtlabel = new System.Windows.Forms.TextBox();
+            this.bobinQty = new System.Windows.Forms.TextBox();
+            this.bobinw = new System.Windows.Forms.TextBox();
+            this.txtQty = new System.Windows.Forms.TextBox();
             this.panelHeader.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numPrintQty)).BeginInit();
             this.panelFooter.SuspendLayout();
             this.panelBody.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numPrintQty)).BeginInit();
             this.SuspendLayout();
             // 
             // btnNew
@@ -109,6 +109,21 @@
             this.panelHeader.Name = "panelHeader";
             this.panelHeader.Size = new System.Drawing.Size(1174, 59);
             this.panelHeader.TabIndex = 9;
+            // 
+            // numPrintQty
+            // 
+            this.numPrintQty.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.numPrintQty.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numPrintQty.Location = new System.Drawing.Point(1042, 20);
+            this.numPrintQty.Name = "numPrintQty";
+            this.numPrintQty.Size = new System.Drawing.Size(34, 21);
+            this.numPrintQty.TabIndex = 24;
+            this.numPrintQty.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // chkPrintStatus
             // 
@@ -148,7 +163,9 @@
             // panelBody
             // 
             this.panelBody.Controls.Add(this.groupBox3);
-            this.panelBody.Controls.Add(this.txtBarcode);
+            this.panelBody.Controls.Add(this.txtlbinput);
+            this.panelBody.Controls.Add(this.label6);
+            this.panelBody.Controls.Add(this.txtscan);
             this.panelBody.Controls.Add(this.label2);
             this.panelBody.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBody.Location = new System.Drawing.Point(0, 59);
@@ -178,29 +195,27 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
-            this.tableLayoutPanel1.Controls.Add(this.CboBobbinW, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.txtQty, 2, 5);
+            this.tableLayoutPanel1.Controls.Add(this.bobinw, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.bobinQty, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.txtlabel, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.txtrmname, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.label24, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.LbTotalQty, 3, 6);
             this.tableLayoutPanel1.Controls.Add(this.label17, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.txtQty, 2, 6);
+            this.tableLayoutPanel1.Controls.Add(this.txtttlweight, 2, 6);
             this.tableLayoutPanel1.Controls.Add(this.label13, 1, 6);
-            this.tableLayoutPanel1.Controls.Add(this.LbCode, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.LbQtyTitle, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.label20, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label22, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.LbType, 2, 3);
-            this.tableLayoutPanel1.Controls.Add(this.LbItems, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.label23, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label21, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.LbMaker, 2, 2);
             this.tableLayoutPanel1.Controls.Add(this.label4, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.label3, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.LbBobbinsWTitle, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.label1, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.LbNetWTitle, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.label9, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.LbNetW, 2, 5);
-            this.tableLayoutPanel1.Controls.Add(this.LbBobbinQty, 3, 5);
+            this.tableLayoutPanel1.Controls.Add(this.txtcode, 2, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 39);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -212,19 +227,9 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1156, 377);
             this.tableLayoutPanel1.TabIndex = 26;
-            // 
-            // CboBobbinW
-            // 
-            this.CboBobbinW.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CboBobbinW.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CboBobbinW.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CboBobbinW.FormattingEnabled = true;
-            this.CboBobbinW.Location = new System.Drawing.Point(233, 217);
-            this.CboBobbinW.Name = "CboBobbinW";
-            this.CboBobbinW.Size = new System.Drawing.Size(253, 42);
-            this.CboBobbinW.TabIndex = 22;
             // 
             // label24
             // 
@@ -240,18 +245,6 @@
             this.label24.Text = "លេខកូដ";
             this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // LbTotalQty
-            // 
-            this.LbTotalQty.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LbTotalQty.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbTotalQty.Location = new System.Drawing.Point(959, 318);
-            this.LbTotalQty.Name = "LbTotalQty";
-            this.LbTotalQty.Size = new System.Drawing.Size(194, 59);
-            this.LbTotalQty.TabIndex = 24;
-            this.LbTotalQty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // label17
             // 
             this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -266,15 +259,16 @@
             this.label17.Text = "៖";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtQty
+            // txtttlweight
             // 
-            this.txtQty.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtQty.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtQty.Location = new System.Drawing.Point(233, 326);
-            this.txtQty.MaxLength = 9999;
-            this.txtQty.Name = "txtQty";
-            this.txtQty.Size = new System.Drawing.Size(720, 43);
-            this.txtQty.TabIndex = 2;
+            this.txtttlweight.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtttlweight.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtttlweight.ForeColor = System.Drawing.Color.Black;
+            this.txtttlweight.Location = new System.Drawing.Point(233, 326);
+            this.txtttlweight.MaxLength = 9999;
+            this.txtttlweight.Name = "txtttlweight";
+            this.txtttlweight.Size = new System.Drawing.Size(251, 43);
+            this.txtttlweight.TabIndex = 2;
             // 
             // label13
             // 
@@ -289,18 +283,6 @@
             this.label13.TabIndex = 22;
             this.label13.Text = "៖";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // LbCode
-            // 
-            this.LbCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LbCode.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbCode.Location = new System.Drawing.Point(233, 0);
-            this.LbCode.Name = "LbCode";
-            this.LbCode.Size = new System.Drawing.Size(720, 53);
-            this.LbCode.TabIndex = 0;
-            this.LbCode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LbQtyTitle
             // 
@@ -341,32 +323,8 @@
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(194, 53);
             this.label22.TabIndex = 0;
-            this.label22.Text = "អ្នកផ្គត់ផ្គង់";
+            this.label22.Text = "លេខឡាប៊ែល";
             this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // LbType
-            // 
-            this.LbType.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LbType.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbType.Location = new System.Drawing.Point(233, 159);
-            this.LbType.Name = "LbType";
-            this.LbType.Size = new System.Drawing.Size(720, 53);
-            this.LbType.TabIndex = 0;
-            this.LbType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // LbItems
-            // 
-            this.LbItems.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LbItems.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbItems.Location = new System.Drawing.Point(233, 53);
-            this.LbItems.Name = "LbItems";
-            this.LbItems.Size = new System.Drawing.Size(720, 53);
-            this.LbItems.TabIndex = 0;
-            this.LbItems.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label23
             // 
@@ -379,7 +337,7 @@
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(194, 53);
             this.label23.TabIndex = 0;
-            this.label23.Text = "ប្រភេទ";
+            this.label23.Text = "ចំនួនប៊ូប៊ីន";
             this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label21
@@ -395,18 +353,6 @@
             this.label21.TabIndex = 0;
             this.label21.Text = "៖";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // LbMaker
-            // 
-            this.LbMaker.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LbMaker.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbMaker.Location = new System.Drawing.Point(233, 106);
-            this.LbMaker.Name = "LbMaker";
-            this.LbMaker.Size = new System.Drawing.Size(720, 53);
-            this.LbMaker.TabIndex = 0;
-            this.LbMaker.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label4
             // 
@@ -475,7 +421,7 @@
             this.LbNetWTitle.Name = "LbNetWTitle";
             this.LbNetWTitle.Size = new System.Drawing.Size(194, 53);
             this.LbNetWTitle.TabIndex = 0;
-            this.LbNetWTitle.Text = "ទម្ងន់សាច់សុទ្ធ (KG)";
+            this.LbNetWTitle.Text = "ប្រវែង/ចំនួនសរុប";
             this.LbNetWTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label9
@@ -492,38 +438,36 @@
             this.label9.Text = "៖";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // LbNetW
+            // txtlbinput
             // 
-            this.LbNetW.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LbNetW.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbNetW.Location = new System.Drawing.Point(233, 265);
-            this.LbNetW.Name = "LbNetW";
-            this.LbNetW.Size = new System.Drawing.Size(720, 53);
-            this.LbNetW.TabIndex = 0;
-            this.LbNetW.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.txtlbinput.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtlbinput.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtlbinput.Location = new System.Drawing.Point(786, 3);
+            this.txtlbinput.Name = "txtlbinput";
+            this.txtlbinput.Size = new System.Drawing.Size(217, 36);
+            this.txtlbinput.TabIndex = 0;
             // 
-            // LbBobbinQty
+            // label6
             // 
-            this.LbBobbinQty.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LbBobbinQty.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbBobbinQty.Location = new System.Drawing.Point(959, 265);
-            this.LbBobbinQty.Name = "LbBobbinQty";
-            this.LbBobbinQty.Size = new System.Drawing.Size(194, 53);
-            this.LbBobbinQty.TabIndex = 24;
-            this.LbBobbinQty.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
+                | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.label6.Location = new System.Drawing.Point(701, 6);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(67, 27);
+            this.label6.TabIndex = 20;
+            this.label6.Text = "ឡាប៊ែល";
             // 
-            // txtBarcode
+            // txtscan
             // 
-            this.txtBarcode.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtBarcode.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBarcode.Location = new System.Drawing.Point(553, 6);
-            this.txtBarcode.Name = "txtBarcode";
-            this.txtBarcode.Size = new System.Drawing.Size(217, 36);
-            this.txtBarcode.TabIndex = 0;
+            this.txtscan.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtscan.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtscan.Location = new System.Drawing.Point(276, 3);
+            this.txtscan.Name = "txtscan";
+            this.txtscan.Size = new System.Drawing.Size(217, 36);
+            this.txtscan.TabIndex = 0;
             // 
             // label2
             // 
@@ -532,26 +476,83 @@
             this.label2.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
                 | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.label2.Location = new System.Drawing.Point(349, 11);
+            this.label2.Location = new System.Drawing.Point(179, 6);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(205, 27);
+            this.label2.Size = new System.Drawing.Size(83, 27);
             this.label2.TabIndex = 20;
-            this.label2.Text = "ស្កេនបាកូដ/លេខរៀងឡាប៊ែល";
+            this.label2.Text = "ស្កេនបាកូដ";
             // 
-            // numPrintQty
+            // txtcode
             // 
-            this.numPrintQty.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.numPrintQty.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numPrintQty.Location = new System.Drawing.Point(1042, 20);
-            this.numPrintQty.Name = "numPrintQty";
-            this.numPrintQty.Size = new System.Drawing.Size(34, 21);
-            this.numPrintQty.TabIndex = 24;
-            this.numPrintQty.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.txtcode.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtcode.BackColor = System.Drawing.Color.White;
+            this.txtcode.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtcode.ForeColor = System.Drawing.Color.Blue;
+            this.txtcode.Location = new System.Drawing.Point(233, 5);
+            this.txtcode.MaxLength = 9999;
+            this.txtcode.Name = "txtcode";
+            this.txtcode.ReadOnly = true;
+            this.txtcode.Size = new System.Drawing.Size(251, 43);
+            this.txtcode.TabIndex = 26;
+            // 
+            // txtrmname
+            // 
+            this.txtrmname.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtrmname.BackColor = System.Drawing.Color.White;
+            this.txtrmname.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtrmname.ForeColor = System.Drawing.Color.Blue;
+            this.txtrmname.Location = new System.Drawing.Point(233, 58);
+            this.txtrmname.MaxLength = 9999;
+            this.txtrmname.Name = "txtrmname";
+            this.txtrmname.ReadOnly = true;
+            this.txtrmname.Size = new System.Drawing.Size(392, 43);
+            this.txtrmname.TabIndex = 27;
+            // 
+            // txtlabel
+            // 
+            this.txtlabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtlabel.BackColor = System.Drawing.Color.White;
+            this.txtlabel.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtlabel.ForeColor = System.Drawing.Color.Blue;
+            this.txtlabel.Location = new System.Drawing.Point(233, 111);
+            this.txtlabel.MaxLength = 9999;
+            this.txtlabel.Name = "txtlabel";
+            this.txtlabel.ReadOnly = true;
+            this.txtlabel.Size = new System.Drawing.Size(251, 43);
+            this.txtlabel.TabIndex = 29;
+            // 
+            // bobinQty
+            // 
+            this.bobinQty.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.bobinQty.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bobinQty.ForeColor = System.Drawing.Color.Black;
+            this.bobinQty.Location = new System.Drawing.Point(233, 164);
+            this.bobinQty.MaxLength = 9999;
+            this.bobinQty.Name = "bobinQty";
+            this.bobinQty.Size = new System.Drawing.Size(251, 43);
+            this.bobinQty.TabIndex = 31;
+            // 
+            // bobinw
+            // 
+            this.bobinw.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.bobinw.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bobinw.ForeColor = System.Drawing.Color.Black;
+            this.bobinw.Location = new System.Drawing.Point(233, 217);
+            this.bobinw.MaxLength = 9999;
+            this.bobinw.Name = "bobinw";
+            this.bobinw.Size = new System.Drawing.Size(251, 43);
+            this.bobinw.TabIndex = 33;
+            // 
+            // txtQty
+            // 
+            this.txtQty.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtQty.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtQty.ForeColor = System.Drawing.Color.Black;
+            this.txtQty.Location = new System.Drawing.Point(233, 270);
+            this.txtQty.MaxLength = 9999;
+            this.txtQty.Name = "txtQty";
+            this.txtQty.Size = new System.Drawing.Size(251, 43);
+            this.txtQty.TabIndex = 35;
             // 
             // MCSDUpdateForm
             // 
@@ -568,13 +569,13 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panelHeader.ResumeLayout(false);
             this.panelHeader.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numPrintQty)).EndInit();
             this.panelFooter.ResumeLayout(false);
             this.panelBody.ResumeLayout(false);
             this.panelBody.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numPrintQty)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -589,33 +590,33 @@
         private System.Windows.Forms.Panel panelFooter;
         private System.Windows.Forms.Label LbStatus;
         private System.Windows.Forms.Panel panelBody;
-        private System.Windows.Forms.TextBox txtBarcode;
+        private System.Windows.Forms.TextBox txtscan;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.ComboBox CboBobbinW;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label LbTotalQty;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.TextBox txtQty;
+        private System.Windows.Forms.TextBox txtttlweight;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label LbCode;
         private System.Windows.Forms.Label LbQtyTitle;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label LbType;
-        private System.Windows.Forms.Label LbItems;
-        private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label LbMaker;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label LbBobbinsWTitle;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label LbNetWTitle;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label LbNetW;
-        private System.Windows.Forms.Label LbBobbinQty;
         private System.Windows.Forms.NumericUpDown numPrintQty;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label LbNetWTitle;
+        private System.Windows.Forms.TextBox txtlbinput;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtQty;
+        private System.Windows.Forms.TextBox bobinw;
+        private System.Windows.Forms.TextBox bobinQty;
+        private System.Windows.Forms.TextBox txtlabel;
+        private System.Windows.Forms.TextBox txtrmname;
+        private System.Windows.Forms.TextBox txtcode;
     }
 }

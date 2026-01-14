@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MstSparePart));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -46,6 +46,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.btnDeleteGray = new System.Windows.Forms.PictureBox();
             this.btnDelete = new System.Windows.Forms.Button();
@@ -66,6 +68,7 @@
             this.lbFound = new System.Windows.Forms.Label();
             this.LbStatus = new System.Windows.Forms.Label();
             this.dgvMst = new System.Windows.Forms.DataGridView();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.code = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Pno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Pname = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -79,7 +82,8 @@
             this.unitprice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.unitpricecn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.unitpricejp = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.box = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGray)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -340,18 +344,20 @@
             this.moq,
             this.unitprice,
             this.unitpricecn,
-            this.unitpricejp});
+            this.unitpricejp,
+            this.status,
+            this.box});
             this.dgvMst.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvMst.EnableHeadersVisualStyles = false;
             this.dgvMst.Location = new System.Drawing.Point(0, 191);
             this.dgvMst.Name = "dgvMst";
             this.dgvMst.ReadOnly = true;
             this.dgvMst.RowHeadersVisible = false;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvMst.RowsDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvMst.RowsDefaultCellStyle = dataGridViewCellStyle18;
             this.dgvMst.RowTemplate.Height = 25;
             this.dgvMst.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvMst.Size = new System.Drawing.Size(800, 216);
@@ -490,6 +496,24 @@
             this.unitpricejp.ReadOnly = true;
             this.unitpricejp.Width = 120;
             // 
+            // status
+            // 
+            this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.status.DefaultCellStyle = dataGridViewCellStyle16;
+            this.status.HeaderText = "Status";
+            this.status.Name = "status";
+            this.status.ReadOnly = true;
+            // 
+            // box
+            // 
+            this.box.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.box.DefaultCellStyle = dataGridViewCellStyle17;
+            this.box.HeaderText = "Box";
+            this.box.Name = "box";
+            this.box.ReadOnly = true;
+            // 
             // MstSparePart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -549,5 +573,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn unitprice;
         private System.Windows.Forms.DataGridViewTextBoxColumn unitpricecn;
         private System.Windows.Forms.DataGridViewTextBoxColumn unitpricejp;
+        private System.Windows.Forms.DataGridViewTextBoxColumn status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn box;
     }
 }

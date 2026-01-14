@@ -57,6 +57,10 @@
             this.chkup = new System.Windows.Forms.RadioButton();
             this.chkupcn = new System.Windows.Forms.RadioButton();
             this.chkupjp = new System.Windows.Forms.RadioButton();
+            this.txtbox = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.cbstatus = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // btnSave
@@ -423,17 +427,60 @@
             this.chkupjp.Text = "JP¥";
             this.chkupjp.UseVisualStyleBackColor = true;
             // 
+            // txtbox
+            // 
+            this.txtbox.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtbox.Location = new System.Drawing.Point(165, 408);
+            this.txtbox.Name = "txtbox";
+            this.txtbox.Size = new System.Drawing.Size(84, 32);
+            this.txtbox.TabIndex = 3;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(62, 381);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(47, 24);
+            this.label13.TabIndex = 6;
+            this.label13.Text = "Status";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(191, 384);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(34, 24);
+            this.label14.TabIndex = 6;
+            this.label14.Text = "Box";
+            // 
+            // cbstatus
+            // 
+            this.cbstatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbstatus.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbstatus.FormattingEnabled = true;
+            this.cbstatus.Items.AddRange(new object[] {
+            "Active ",
+            "Closed"});
+            this.cbstatus.Location = new System.Drawing.Point(64, 408);
+            this.cbstatus.Name = "cbstatus";
+            this.cbstatus.Size = new System.Drawing.Size(85, 32);
+            this.cbstatus.TabIndex = 4;
+            // 
             // RegUpdateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.ClientSize = new System.Drawing.Size(530, 404);
+            this.ClientSize = new System.Drawing.Size(530, 471);
             this.Controls.Add(this.chkupjp);
             this.Controls.Add(this.chkupcn);
             this.Controls.Add(this.chkup);
             this.Controls.Add(this.label11);
+            this.Controls.Add(this.label14);
             this.Controls.Add(this.label12);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
@@ -446,6 +493,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cbsupplier);
             this.Controls.Add(this.cbcategory);
+            this.Controls.Add(this.cbstatus);
             this.Controls.Add(this.cbcodeprefix);
             this.Controls.Add(this.cbmaker);
             this.Controls.Add(this.cbusefor);
@@ -453,6 +501,7 @@
             this.Controls.Add(this.txtpname);
             this.Controls.Add(this.txtpnumber);
             this.Controls.Add(this.txtunitprice);
+            this.Controls.Add(this.txtbox);
             this.Controls.Add(this.txtmoq);
             this.Controls.Add(this.txtsafetystock);
             this.Controls.Add(this.txtcode);
@@ -497,5 +546,9 @@
         private System.Windows.Forms.RadioButton chkup;
         private System.Windows.Forms.RadioButton chkupcn;
         private System.Windows.Forms.RadioButton chkupjp;
+        private System.Windows.Forms.TextBox txtbox;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ComboBox cbstatus;
     }
 }

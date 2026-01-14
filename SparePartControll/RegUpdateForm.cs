@@ -30,13 +30,76 @@ namespace MachineDeptApp
             this.Load += RegUpdateForm_Load;
             this.btnClear.Click += BtnClear_Click;
             this.btnSave.Click += BtnSave_Click;
-            this.cbcodeprefix.SelectedIndexChanged += Cbcodeprefix_SelectedIndexChanged;
+            this.cbcodeprefix.TextChanged += Cbcodeprefix_TextChanged;
             //txt
             this.txtmoq.KeyPress += Txtmoq_KeyPress;
             this.txtsafetystock.KeyPress += Txtsafetystock_KeyPress;
             this.txtunitprice.KeyPress += Txtunitprice_KeyPress;
             this.txtleadtime.KeyPress += Txtleadtime_KeyPress;
-            
+            this.cbusefor.TextChanged += Cbusefor_TextChanged;
+        }
+
+        private void Cbusefor_TextChanged(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+            DataTable dtselect = new DataTable();
+            try
+            {
+                con.con.Open();
+                string queryusefor = "SELECT prefix, Use_For from (SELECT Code, left(code,cast((len(code)-4) as int)) as prefix, Use_For FROM MstMCSparePart " +
+                    " WHERE Code <> 'n/a' AND Use_For is not null AND Use_For = '"+cbusefor.Text+"' ) t1 " +
+                    " GROUP BY prefix, Use_For";
+                SqlDataAdapter sdaselect = new SqlDataAdapter(queryusefor, con.con);
+                sdaselect.Fill(dtselect);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while select Usefor !" + ex.Message , "Error 1", MessageBoxButtons.OK, MessageBoxIcon.Error );
+            }
+            con.con.Close();
+            if (dtselect.Rows.Count > 0)
+            {
+                cbcodeprefix.Text = dtselect.Rows[0][0].ToString();
+            }
+
+                Cursor = Cursors.Default;
+        }
+
+        private void Cbcodeprefix_TextChanged(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+            DataTable dtselect = new DataTable();
+            string Code = "";
+            try
+            {
+                con.con.Open();
+                string SQLQuery = "DECLARE @LastID VARCHAR(6); " +
+                    " DECLARE @Number int; " +
+                    " DECLARE @NewID VARCHAR(6) ; " +
+                    " DECLARE @PreFix VARCHAR(6) ='" + cbcodeprefix.Text.Trim().ToString() + "'; " +
+                    " Select @LastID = Max(Code) from MstMCSparePart where Code like @PreFix + '%' AND ISNUMERIC(SUBSTRING(Code, LEN(@PreFix) + 1, LEN(Code))) = 1 " +
+                    " IF @LastID IS NULL    BEGIN        SET @NewID = @PreFix+'0001' " +
+                    " END " +
+                    " ELSE " +
+                    "    BEGIN  SET @Number = CAST(right(@LastID,4) AS INT)+1" +
+                    "  SET @NewID = CONCAT(@PreFix, format(@Number, '0000')) " +
+                    " END " +
+                    " Select @NewID as NextCode ";
+                SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, con.con);
+                Console.WriteLine(SQLQuery);
+                sda.Fill(dtselect);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while select code !\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            con.con.Close();
+            foreach (DataRow row in dtselect.Rows)
+            {
+                Code = row["NextCode"].ToString();
+            }
+            Cursor = Cursors.Default;
+            txtcode.Text = Code;
         }
 
         private void Txtleadtime_KeyPress(object sender, KeyPressEventArgs e)
@@ -66,41 +129,6 @@ namespace MachineDeptApp
             {
                 e.Handled = true; // Block the key
             }
-        }
-        private void Cbcodeprefix_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Cursor = Cursors.WaitCursor;
-            DataTable dtselect = new DataTable();
-            string Code = "";
-            try
-            {
-                con.con.Open();
-                string SQLQuery = "DECLARE @LastID VARCHAR(6); " +
-                    " DECLARE @Number int; " +
-                    " DECLARE @NewID VARCHAR(6) ; " +
-                    " DECLARE @PreFix VARCHAR(6) ='"+ cbcodeprefix.Text.Trim().ToString()+"'; " +
-                    " Select @LastID = Max(Code) from MstMCSparePart where Code like @PreFix + '%' AND ISNUMERIC(SUBSTRING(Code, LEN(@PreFix) + 1, LEN(Code))) = 1 " +
-                    " IF @LastID IS NULL    BEGIN        SET @NewID = @PreFix+'0001' " +
-                    " END " +
-                    " ELSE " +
-                    "    BEGIN  SET @Number = CAST(right(@LastID,4) AS INT)+1" +
-                    "  SET @NewID = CONCAT(@PreFix, format(@Number, '0000')) " +
-                    " END " +
-                    " Select @NewID as NextCode ";
-                SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, con.con);
-                sda.Fill(dtselect);
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show("Error while select code !\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            con.con.Close();
-            foreach (DataRow row in dtselect.Rows)
-            {
-                 Code = row["NextCode"].ToString();
-            }
-            Cursor = Cursors.Default;
-            txtcode.Text = Code;
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
@@ -154,8 +182,8 @@ namespace MachineDeptApp
                     try
                     {
                         con.con.Open();
-                        string query = "INSERT INTO MstMCSparePart (Code, Part_No, Part_Name, Dept, Category, Maker, Use_For, Supplier, Safety_Stock, Lead_Time_Week, MOQ, Unit_Price, Unit_Price_CN, Unit_Price_JP, Remark) " +
-                                               " VALUES (@code, @pno, @pname,  @dept, @cate, @maker, @usefor, @sup, @safe, @LT, @moq, @up, @upcn, @upjp, @rm)";
+                        string query = "INSERT INTO MstMCSparePart (Code, Part_No, Part_Name, Dept, Category, Maker, Use_For, Supplier, Safety_Stock, Lead_Time_Week, MOQ, Unit_Price, Unit_Price_CN, Unit_Price_JP, Remark, Status, Box) " +
+                                               " VALUES (@code, @pno, @pname,  @dept, @cate, @maker, @usefor, @sup, @safe, @LT, @moq, @up, @upcn, @upjp, @rm, @st, @box)";
                         SqlCommand cmd = new SqlCommand(query, con.con);
                         cmd.Parameters.AddWithValue("@code", Code);
                         cmd.Parameters.AddWithValue("@pno", pnum);
@@ -172,6 +200,8 @@ namespace MachineDeptApp
                         cmd.Parameters.AddWithValue("@upcn", upcn);
                         cmd.Parameters.AddWithValue("@upjp", upcn);
                         cmd.Parameters.AddWithValue("@rm", "New Item" + date);
+                        cmd.Parameters.AddWithValue("@st", cbstatus.Text);
+                        cmd.Parameters.AddWithValue("@box", txtbox.Text);
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Register Successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         dgvMain.Rows.Add();
@@ -188,6 +218,9 @@ namespace MachineDeptApp
                         dgvMain.Rows[dgvMain.Rows.Count - 1].Cells["unitprice"].Value = up;
                         dgvMain.Rows[dgvMain.Rows.Count - 1].Cells["unitpricecn"].Value = upcn;
                         dgvMain.Rows[dgvMain.Rows.Count - 1].Cells["unitpricejp"].Value = upjp;
+                        dgvMain.Rows[dgvMain.Rows.Count - 1].Cells["status"].Value = cbstatus.Text;
+                        dgvMain.Rows[dgvMain.Rows.Count - 1].Cells["box"].Value = txtbox.Text;
+
                         dgvMain.Rows[dgvMain.Rows.Count - 1].HeaderCell.Value = dgvMain.Rows.Count.ToString();
                         dgvMain.ClearSelection();
                     }
@@ -212,6 +245,8 @@ namespace MachineDeptApp
                     dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["unitprice"].Value = up;
                     dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["unitpricecn"].Value = upcn;
                     dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["unitpricejp"].Value = upjp;
+                    dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["status"].Value = cbstatus.Text;
+                    dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["box"].Value = txtbox.Text;
                     dgvMain.ClearSelection();
                     dgvMain.CurrentCell = null;
                 }
@@ -260,6 +295,8 @@ namespace MachineDeptApp
                        "MOQ = @moq, " +
                        " " + Up + " = @up, " +
                        "Remark = @rm " +
+                        "Box = @box " +
+                         "Status = @st " +
                        "WHERE Code = @code";
                             SqlCommand cmd = new SqlCommand(query, con.con);
                             cmd.Parameters.AddWithValue("@code", Code);
@@ -332,9 +369,10 @@ namespace MachineDeptApp
             {
                 this.Text = "Update Master";
                 btnSave.Text = "Update";
-
-                txtcode.Text = dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["code"].Value.ToString();
                 txtcode.Enabled = false;
+                cbcodeprefix .Enabled = false;
+                cbusefor .Enabled = false;
+                txtcode.Text = dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["code"].Value.ToString();
                 txtpnumber.Text = dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["Pno"].Value.ToString();
                 txtpname.Text = dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["Pname"].Value.ToString();
                 cbcategory.Text = dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["category"].Value.ToString();

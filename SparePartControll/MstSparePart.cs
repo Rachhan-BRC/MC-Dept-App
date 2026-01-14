@@ -205,7 +205,8 @@ namespace MachineDeptApp
                 double Up = row["Unit_Price"] == DBNull.Value ? 0 : Convert.ToDouble(row["Unit_Price"]);
                 double UpCn = row["Unit_Price_CN"] == DBNull.Value ? 0 : Convert.ToDouble(row["Unit_Price_CN"]);
                 double UpJP = row["Unit_Price_JP"] == DBNull.Value ? 0 : Convert.ToDouble(row["Unit_Price_JP"]);
-
+                string box = row["Box"]?.ToString() ?? "";
+                string status = row["Status"]?.ToString() ?? "";
                 dgvMst.Rows.Add();
                 dgvMst.Rows[dgvMst.Rows.Count -1].Cells["code"].Value = code;
                 dgvMst.Rows[dgvMst.Rows.Count - 1].Cells["Pno"].Value = Pno;
@@ -220,6 +221,8 @@ namespace MachineDeptApp
                 dgvMst.Rows[dgvMst.Rows.Count - 1].Cells["unitprice"].Value = Up;
                 dgvMst.Rows[dgvMst.Rows.Count - 1].Cells["unitpricecn"].Value = UpCn;
                 dgvMst.Rows[dgvMst.Rows.Count - 1].Cells["unitpricejp"].Value = UpJP;
+                dgvMst.Rows[dgvMst.Rows.Count - 1].Cells["box"].Value = box;
+                dgvMst.Rows[dgvMst.Rows.Count - 1].Cells["status"].Value = status;
             }
             dgvMst.ClearSelection();
             Cursor = Cursors.Default;

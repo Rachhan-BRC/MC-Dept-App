@@ -5,289 +5,185 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace MachineDeptApp.Inventory.MC_SD
 {
     public partial class MCSDDeleteForm : Form
     {
-        SQLConnect cnn = new SQLConnect();
-        SQLConnectOBS cnnOBS = new SQLConnectOBS();
-        SqlCommand cmd;
-        int LabelNoSelected;
-        string CountType;
-        string ErrorText;
+        SQLConnect con = new SQLConnect();
 
         public MCSDDeleteForm()
         {
+            con.Connection();
             InitializeComponent();
-            this.cnn.Connection();
-            this.cnnOBS.Connection();
-            this.txtBarcode.KeyDown += TxtBarcode_KeyDown;
-
-            //btn
+            this.txtscan.KeyDown += Txtscan_KeyDown;
+            this.txtlbinput.KeyDown += Txtlbinput_KeyDown;
             this.btnNew.Click += BtnNew_Click;
             this.btnDelete.Click += BtnDelete_Click;
+
         }
 
-
-        //btn
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            if (LbCode.Text.Trim() != "" && LbTotalQty.Text.Trim()!="")
-            {
-                DialogResult DSL = MessageBox.Show("តើអ្នកចង់លុបទិន្នន័យនេះមែនទេ?","Rachhan System",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
-                if (DSL == DialogResult.Yes)
+            if (!string.IsNullOrEmpty(bobinQty.Text.Trim()) &&
+                !string.IsNullOrEmpty(bobinw.Text.Trim()) &&
+                !string.IsNullOrEmpty(txtQty.Text.Trim()) &&
+                 !string.IsNullOrEmpty(txtttlweight.Text.Trim()))
                 {
-                    ErrorText = "";
-                    Cursor = Cursors.WaitCursor;
+                DialogResult dr = MessageBox.Show("តើអ្នកចង់លុបព័ត៌មាននេះមែនទេ?", "Confirm Delete'", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dr == DialogResult.No)
+                {
+                    return;
+                }
+                Cursor = Cursors.WaitCursor;
+                try
+                {
+                    con.con.Open();
+                    string queryDelete = "UPDATE tbSDMCStockInventory SET Status = @st, UpdateBy = @uby, UpdateDate = @ud WHERE SysNo = @SysNo AND Code = @code AND LabelNo = @lbno";
+                    SqlCommand cmdDelete = new SqlCommand(queryDelete, con.con);
+                    cmdDelete.Parameters.AddWithValue("@st", "Deleted");
+                    cmdDelete.Parameters.AddWithValue("@SysNo", txtscan.Text.Trim());
+                    cmdDelete.Parameters.AddWithValue("@Code", txtcode.Text.Trim());
+                    cmdDelete.Parameters.AddWithValue("@lbno", txtlabel.Text.Trim());
+                    cmdDelete.Parameters.AddWithValue("@uby", MenuFormV2.UserForNextForm);
+                    cmdDelete.Parameters.AddWithValue("@ud", DateTime.Now);
+                    cmdDelete.ExecuteNonQuery();
+                    txtscan.Clear();
+                    txtcode.Text = "";
+                    txtrmname.Text = "";
+                    txtlabel.Text = "";
+                    bobinQty.Text = "";
+                    bobinw.Text = "";
+                    txtQty.Text = "";
+                    txtttlweight.Text = "";
+                    txtlbinput.Clear();
+                    txtscan.Enabled = true;
+                    txtlbinput.Enabled = true;
+                    txtscan.Focus();
+                    MessageBox.Show("លុបបានជោគជ័យ!", "Success'", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 3 !" + ex.Message, "Error Delete'", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                txtscan.Enabled = true;
+                txtlbinput.Enabled = true;
+                con.con.Close();
+                Cursor = Cursors.Default;
+            }
 
+           
+        }
+
+        private void Txtlbinput_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Cursor = Cursors.WaitCursor;
+                string lb = txtlbinput.Text.Trim();
+                if (!string.IsNullOrEmpty(lb))
+                {
+                    DataTable dtselect = new DataTable();
                     try
                     {
-                        cnn.con.Open();
-
-                        DateTime UpdateDate = DateTime.Now;
-                        string Username = MenuFormV2.UserForNextForm;
-
-                        string query = "UPDATE tbInventory SET CancelStatus=1, " +
-                                                    "UpdateDate='" + UpdateDate.ToString("yyyy-MM-dd HH:mm:ss") + "', " +
-                                                    "UpdateBy=N'" + Username + "' WHERE LocCode='WIR1' AND LabelNo=" + LabelNoSelected + " ";
-                        cmd = new SqlCommand(query, cnn.con);
-                        cmd.ExecuteNonQuery();
-
+                        con.con.Open();
+                        string querySelect = "SELECT * FROM tbSDMCStockInventory WHERE LabelNo = '" + lb + "' AND Status = 'Active'";
+                        SqlDataAdapter sdaSelect = new SqlDataAdapter(querySelect, con.con);
+                        sdaSelect.Fill(dtselect);
                     }
                     catch (Exception ex)
                     {
-                        if (ErrorText.Trim() == "")
-                        {
-                            ErrorText = ex.Message;
-                        }
-                        else
-                        {
-                            ErrorText = ErrorText +"\n"+ ex.Message;
-                        }
+                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 2 !" + ex.Message, "Error ScanUpdateText'", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    cnn.con.Close();
-
-                    Cursor = Cursors.Default;
-                    if (ErrorText.Trim() == "")
+                    con.con.Close();
+                    if (dtselect.Rows.Count <= 0)
                     {
-                        MessageBox.Show("លុបរួចរាល់!","Rachhan System",MessageBoxButtons.OK,MessageBoxIcon.Information);
-                        ClearAllText();
-                        txtBarcode.Focus();
+                        string soundPath = Path.Combine(Environment.CurrentDirectory, @"Sound\NoCode.wav");
+                        SoundPlayer player = new SoundPlayer(soundPath);
+                        player.Play();
+                        MessageBox.Show("មិនមានឡាប៊ែលប្រភេទនេះទេ !", "Alert'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        Cursor = Cursors.Default;
+                        return;
                     }
-                    else
-                    {
-                        MessageBox.Show("មានបញ្ហា!\n"+ErrorText,"Rachhan System",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                    }
+                    txtcode.Text = dtselect.Rows[0]["Code"].ToString();
+                    txtrmname.Text = dtselect.Rows[0]["RMName"].ToString();
+                    txtlabel.Text = dtselect.Rows[0]["LabelNo"].ToString();
+                    bobinQty.Text = dtselect.Rows[0]["BobbinQty"].ToString();
+                    bobinw.Text = dtselect.Rows[0]["BobinWeight"].ToString();
+                    txtQty.Text = dtselect.Rows[0]["Qty"].ToString();
+                    txtttlweight.Text = dtselect.Rows[0]["TotalWeight"].ToString();
+                    txtscan.Text = dtselect.Rows[0]["SysNo"].ToString();
+                    txtlbinput.Enabled = false;
+                    txtscan.Enabled = false;
                 }
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void Txtscan_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Cursor = Cursors.WaitCursor;
+                string scan = txtscan.Text.Trim();
+                if (!string.IsNullOrEmpty(scan))
+                {
+                    DataTable dtselect = new DataTable();
+                    try
+                    {
+                        con.con.Open();
+                        string querySelect = "SELECT * FROM tbSDMCStockInventory WHERE SysNo = '" + scan + "' AND Status = 'Active'";
+                        SqlDataAdapter sdaSelect = new SqlDataAdapter(querySelect, con.con);
+                        sdaSelect.Fill(dtselect);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 1 !" + ex.Message, "Error ScanUpdateText'", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    con.con.Close();
+                    if (dtselect.Rows.Count <= 0)
+                    {
+                        string soundPath = Path.Combine(Environment.CurrentDirectory, @"Sound\WrongSysNo.wav");
+                        SoundPlayer player = new SoundPlayer(soundPath);
+                        player.Play();
+                        MessageBox.Show("មិនមានឡាប៊ែលប្រភេទនេះទេ !", "Error'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        Cursor = Cursors.Default;
+                        return;
+                    }
+                    txtcode.Text = dtselect.Rows[0]["Code"].ToString();
+                    txtrmname.Text = dtselect.Rows[0]["RMName"].ToString();
+                    txtlabel.Text = dtselect.Rows[0]["LabelNo"].ToString();
+                    bobinQty.Text = dtselect.Rows[0]["BobbinQty"].ToString();
+                    bobinw.Text = dtselect.Rows[0]["BobinWeight"].ToString();
+                    txtQty.Text = dtselect.Rows[0]["Qty"].ToString();
+                    txtttlweight.Text = dtselect.Rows[0]["TotalWeight"].ToString();
+                    txtlbinput.Text = dtselect.Rows[0]["LabelNo"].ToString();
+                    txtscan.Enabled = false;
+                    txtlbinput.Enabled = false;
+                }
+                Cursor = Cursors.Default;
             }
         }
         private void BtnNew_Click(object sender, EventArgs e)
         {
-            ClearAllText();
-            txtBarcode.Text = "";
-            txtBarcode.Focus();
-        }
-
-        private void TxtBarcode_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                if (txtBarcode.Text.Trim() != "")
-                {
-                    ClearAllText();
-                    ErrorText = "";
-                    DataTable dtMCDB = new DataTable();
-                    DataTable dtRMOBS = new DataTable();
-                    try
-                    {
-                        cnn.con.Open();
-                        SqlDataAdapter sda = new SqlDataAdapter("SELECT LocCode, LabelNo, CountingMethod2, ItemCode, Qty, QtyDetails, QtyDetails2, RMType, BobbinsOrReil, R1OrNetW, MOQ,R2OrBobbinsW  FROM " +
-                            "(SELECT * FROM tbInventory) T1 " +
-                            "LEFT JOIN " +
-                            "(SELECT * FROM tbSDMstUncountMat) T2 " +
-                            "ON T1.ItemCode=T2.Code WHERE T1.CancelStatus=0 AND T1.LocCode='WIR1' AND T1.LabelNo='" + txtBarcode.Text + "'", cnn.con);
-                        sda.Fill(dtMCDB);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        if (ErrorText.Trim() == "")
-                        {
-                            ErrorText = ex.Message;
-                        }
-                        else
-                        {
-                            ErrorText = ErrorText + "\n" + ex.Message;
-                        }
-                    }
-                    cnn.con.Close();
-
-                    if (ErrorText.Trim() == "")
-                    {
-                        if (dtMCDB.Rows.Count > 0)
-                        {
-                            try
-                            {
-                                cnnOBS.conOBS.Open();
-                                SqlDataAdapter sda = new SqlDataAdapter("SELECT ItemName, Resv1 FROM mstitem WHERE ItemType=2 AND ItemCode='" + dtMCDB.Rows[0][3].ToString() + "'", cnnOBS.conOBS);
-                                sda.Fill(dtRMOBS);
-
-                            }
-                            catch (Exception ex)
-                            {
-                                if (ErrorText.Trim() == "")
-                                {
-                                    ErrorText = ex.Message;
-                                }
-                                else
-                                {
-                                    ErrorText = ErrorText + "\n" + ex.Message;
-                                }
-                            }
-                            cnnOBS.conOBS.Close();
-
-                            if (ErrorText.Trim() == "")
-                            {
-                                txtQty.Text = "";
-                                CountType = dtMCDB.Rows[0][2].ToString();
-                                LbCode.Text = dtMCDB.Rows[0][3].ToString();
-                                LbItems.Text = dtRMOBS.Rows[0][0].ToString();
-                                LbMaker.Text = dtRMOBS.Rows[0][1].ToString();
-                                LbType.Text = dtMCDB.Rows[0][7].ToString();
-                                if (CountType == "Weight")
-                                {
-                                    ShowWeight();
-                                    //Separate Detail
-                                    string[] DetailArray = dtMCDB.Rows[0][6].ToString().Split('|');
-                                    double BobbinQty = Convert.ToDouble(DetailArray[1].ToString());
-                                    if (dtMCDB.Rows[0][8].ToString() == "Reil")
-                                    {
-                                        LbBobbinsWTitle.Text = "ប្រវែងពេញ R1 (cm)";
-                                        LbNetWTitle.Text = "ប្រវែងគ្មានធើមីណល R2 (cm)";
-                                        LbNetWTitle.Font = new Font("Khmer OS Battambang", 11, FontStyle.Regular);
-                                        LbQtyTitle.Text = "ប្រវែងសរុប";
-                                        CboBobbinW.Items.Clear();
-                                        CboBobbinW.Items.Add(DetailArray[0].ToString());
-                                        CboBobbinW.Text = DetailArray[0].ToString();
-                                        if (BobbinQty == 1)
-                                        {
-                                            LbBobbinQty.Text = "( "+BobbinQty.ToString()+" Reel )";
-                                        }
-                                        else
-                                        {
-                                            LbBobbinQty.Text = "( " + BobbinQty.ToString() + " Reels )";
-                                        }
-                                    }
-                                    else
-                                    {
-                                        LbBobbinsWTitle.Text = "ទម្ងន់ប៊ូប៊ីន (KG)";
-                                        LbNetWTitle.Text = "ទម្ងន់សាច់សុទ្ធ (KG)";
-                                        LbNetWTitle.Font = new Font("Khmer OS Battambang", 14);
-                                        LbQtyTitle.Text = "ទម្ងន់សរុប";
-                                        CboBobbinW.Items.Clear();
-                                        CboBobbinW.Items.Add(DetailArray[0].ToString());
-                                        CboBobbinW.Text = DetailArray[0].ToString();
-                                        if (BobbinQty == 1)
-                                        {
-                                            LbBobbinQty.Text = "( " + BobbinQty.ToString() + " Bobbin )";
-                                        }
-                                        else
-                                        {
-                                            LbBobbinQty.Text = "( " + BobbinQty.ToString() + " Bobbins )";
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    double BobbinQty = Convert.ToDouble(dtMCDB.Rows[0][6].ToString());
-                                    LbBobbinsWTitle.Text = "ទម្ងន់ប៊ូប៊ីន (KG)";
-                                    LbNetWTitle.Text = "ទម្ងន់សាច់សុទ្ធ (KG)";
-                                    LbNetWTitle.Font = new Font("Khmer OS Battambang", 14);
-                                    LbQtyTitle.Text = "សម្រាយចំនួន";
-                                    ShowBox();
-                                    if (dtMCDB.Rows[0][8].ToString() == "Reil")
-                                    {
-                                        LbBobbinsWTitle.Text = "ប្រវែងពេញ R1 (cm)";
-                                        LbNetWTitle.Text = "ប្រវែងគ្មានធើមីណល R2 (cm)";
-                                        LbNetWTitle.Font = new Font("Khmer OS Battambang", 11, FontStyle.Regular);
-                                        if (BobbinQty == 1)
-                                        {
-                                            LbBobbinQty.Text = "( " + BobbinQty.ToString() + " Reel )";
-                                        }
-                                        else
-                                        {
-                                            LbBobbinQty.Text = "( " + BobbinQty.ToString() + " Reels )";
-                                        }
-                                    }
-                                    else
-                                    {
-                                        LbBobbinsWTitle.Text = "ទម្ងន់ប៊ូប៊ីន (KG)";
-                                        LbNetWTitle.Text = "ទម្ងន់សាច់សុទ្ធ (KG)";
-                                        LbNetWTitle.Font = new Font("Khmer OS Battambang", 14);
-                                        if (BobbinQty == 1)
-                                        {
-                                            LbBobbinQty.Text = "( " + BobbinQty.ToString() + " Bobbin )";
-                                        }
-                                        else
-                                        {
-                                            LbBobbinQty.Text = "( " + BobbinQty.ToString() + " Bobbins )";
-                                        }
-                                    }
-                                }
-
-                                LbNetW.Text = Convert.ToDouble(dtMCDB.Rows[0][9].ToString()) + " = " + Convert.ToDouble(dtMCDB.Rows[0][10].ToString()).ToString("N0");
-                                txtQty.Text = dtMCDB.Rows[0][5].ToString();
-                                LbTotalQty.Text = Convert.ToDouble(dtMCDB.Rows[0][4].ToString()).ToString("N0");
-                                LabelNoSelected = Convert.ToInt32(txtBarcode.Text);
-                                LbCode.Text = LbCode.Text + "                                   លេខរៀងឡាប៊ែល   ៖   " + LabelNoSelected;
-                                txtBarcode.Text = "";
-                                btnDelete.Focus();
-                            }
-                            else
-                            {
-                                MessageBox.Show("មានបញ្ហា!\n" + ErrorText, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("គ្មានទិន្នន័យឡាប៊ែលនេះទេ!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            txtBarcode.Focus();
-                            txtBarcode.SelectAll();
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("មានបញ្ហា!\n" + ErrorText, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-        }
-
-        private void ShowWeight()
-        {
-            groupBox3.Text = "ព៌ត័មានរបស់វត្ថុធាតុដើម ( Count by " + CountType + " )";
-        }
-        private void ShowBox()
-        {
-            groupBox3.Text = "ព៌ត័មានរបស់វត្ថុធាតុដើម ( Count by " + CountType + " )";
-        }
-        private void ClearAllText()
-        {
-            LbCode.Text = "";
-            LbItems.Text = "";
-            LbMaker.Text = "";
-            LbType.Text = "";
-            CboBobbinW.Items.Clear();
-            CboBobbinW.Text = "";
-            LbNetW.Text = "";
+            txtscan.Clear();
+            txtcode.Text = "";
+            txtrmname.Text = "";
+            txtlabel.Text = "";
+            bobinQty.Text = "";
+            bobinw.Text = "";
             txtQty.Text = "";
-            LbTotalQty.Text = "";
-            LbBobbinQty.Text = "";
-        }
+            txtttlweight.Text = "";
+            txtlbinput.Clear();
+            txtscan.Enabled = true;
+            txtlbinput.Enabled = true;
+            txtscan.Focus();
 
+        }
     }
 }
