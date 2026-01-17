@@ -2202,3 +2202,6 @@ D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.Inventory.MC_SD.InventoryInpu
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCStock.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDCountingForm.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.SDMstPic.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDCountingForm.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.SDMstPic.resources
+D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.transaction.resources
