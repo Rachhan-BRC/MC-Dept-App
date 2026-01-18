@@ -2205,3 +2205,22 @@ D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.SDMstPic.resources
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDCountingForm.resources
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.SDMstPic.resources
 D:\Current Works\MC-Dept-App\obj\Debug\MachineDeptApp.transaction.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MC Dept App.exe.config
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDCountingForm.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.SDMstPic.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.AddPrint.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.balance.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\PP_Dept_App._4FinalPlan.ShipmentScheduleForm.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.budget.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.DoSummary.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.InvoiceForm.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.RMEstimateShortage.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.StockInOutComparisonForm.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.MCSDControl.WIR1__Wire_Stock_.ShortageDetail.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.PrintForm.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.SparePartControll.RequestForm.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.MstSparePart.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.RegUpdateForm.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.StockINOut.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.transaction.resources
+D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.TransferData.SemiTransferComparisonForm.resources
