@@ -43,6 +43,7 @@
             this.panelHeader = new System.Windows.Forms.Panel();
             this.btnSearch = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.txtRcode = new System.Windows.Forms.TextBox();
             this.chkRcode = new System.Windows.Forms.CheckBox();
@@ -54,7 +55,6 @@
             this.lbFound = new System.Windows.Forms.Label();
             this.LbStatus = new System.Windows.Forms.Label();
             this.dgvTTL = new System.Windows.Forms.DataGridView();
-            this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.Code = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.partno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.partname = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -104,16 +104,26 @@
             this.groupBox1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(0, 68);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1108, 123);
+            this.groupBox1.Size = new System.Drawing.Size(1108, 76);
             this.groupBox1.TabIndex = 55;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search Condition";
+            // 
+            // dtpDate
+            // 
+            this.dtpDate.CustomFormat = "MMM-yy";
+            this.dtpDate.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpDate.Location = new System.Drawing.Point(494, 27);
+            this.dtpDate.Name = "dtpDate";
+            this.dtpDate.Size = new System.Drawing.Size(108, 32);
+            this.dtpDate.TabIndex = 125;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(329, 59);
+            this.label1.Location = new System.Drawing.Point(447, 31);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 24);
             this.label1.TabIndex = 124;
@@ -122,7 +132,7 @@
             // txtRcode
             // 
             this.txtRcode.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRcode.Location = new System.Drawing.Point(144, 31);
+            this.txtRcode.Location = new System.Drawing.Point(99, 29);
             this.txtRcode.Name = "txtRcode";
             this.txtRcode.Size = new System.Drawing.Size(101, 30);
             this.txtRcode.TabIndex = 122;
@@ -141,7 +151,7 @@
             // txtRname
             // 
             this.txtRname.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRname.Location = new System.Drawing.Point(144, 76);
+            this.txtRname.Location = new System.Drawing.Point(320, 29);
             this.txtRname.Name = "txtRname";
             this.txtRname.Size = new System.Drawing.Size(101, 30);
             this.txtRname.TabIndex = 116;
@@ -150,7 +160,7 @@
             // 
             this.chkRname.AutoSize = true;
             this.chkRname.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkRname.Location = new System.Drawing.Point(35, 78);
+            this.chkRname.Location = new System.Drawing.Point(226, 33);
             this.chkRname.Name = "chkRname";
             this.chkRname.Size = new System.Drawing.Size(88, 26);
             this.chkRname.TabIndex = 118;
@@ -242,7 +252,7 @@
             this.stockremain});
             this.dgvTTL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTTL.EnableHeadersVisualStyles = false;
-            this.dgvTTL.Location = new System.Drawing.Point(0, 191);
+            this.dgvTTL.Location = new System.Drawing.Point(0, 144);
             this.dgvTTL.Name = "dgvTTL";
             this.dgvTTL.ReadOnly = true;
             this.dgvTTL.RowHeadersVisible = false;
@@ -253,18 +263,8 @@
             this.dgvTTL.RowsDefaultCellStyle = dataGridViewCellStyle11;
             this.dgvTTL.RowTemplate.Height = 25;
             this.dgvTTL.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvTTL.Size = new System.Drawing.Size(1108, 392);
+            this.dgvTTL.Size = new System.Drawing.Size(1108, 439);
             this.dgvTTL.TabIndex = 57;
-            // 
-            // dtpDate
-            // 
-            this.dtpDate.CustomFormat = "MMM-yy";
-            this.dtpDate.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpDate.Location = new System.Drawing.Point(376, 53);
-            this.dtpDate.Name = "dtpDate";
-            this.dtpDate.Size = new System.Drawing.Size(108, 32);
-            this.dtpDate.TabIndex = 125;
             // 
             // Code
             // 

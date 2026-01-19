@@ -2006,7 +2006,7 @@ namespace MachineDeptApp
                    dtOpenForm.Rows.Add("MstSparePart", "Master Spare Parts");
                }
            }
-           if (currentClkNode.Text == "Request")
+           if (currentClkNode.Text == "PO Request")
            {
                //Check if already open >> Focus on that Form
                int FoundOpened = 0;
@@ -2025,8 +2025,8 @@ namespace MachineDeptApp
                    RequestForm Uf = new RequestForm();
                    Uf.MdiParent = MenuFormV2.ActiveForm;
                    Uf.Show();
-                   tabControlOpenForm.TabPages.Add("Request");
-                   dtOpenForm.Rows.Add("RequestForm", "Request");
+                   tabControlOpenForm.TabPages.Add("PO Request");
+                   dtOpenForm.Rows.Add("RequestForm", "PO Request");
                }
 
            }
@@ -2126,7 +2126,7 @@ namespace MachineDeptApp
                }
 
            }
-           if (currentClkNode.Text == "Printing Form")
+           if (currentClkNode.Text == "Request Form")
            {
                //Check if already open >> Focus on that Form
                int FoundOpened = 0;
@@ -2141,12 +2141,13 @@ namespace MachineDeptApp
                }
 
                if (FoundOpened == 0)
-               {
-                   PrintForm Uf = new PrintForm();
+                {
+                    DataTable update = new DataTable();
+                    PrintForm Uf = new PrintForm(update);
                    Uf.MdiParent = MenuFormV2.ActiveForm;
                    Uf.Show();
-                   tabControlOpenForm.TabPages.Add("Printing Form");
-                   dtOpenForm.Rows.Add("PrintForm", "Printing Form");
+                   tabControlOpenForm.TabPages.Add("Request Form");
+                   dtOpenForm.Rows.Add("PrintForm", "Request Form");
                }
 
            }
@@ -2328,9 +2329,9 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(8, "Balance", "balance");
             dtChildRoot.Rows.Add(8, "Stock (In / Out)", "StockINOut");
             dtChildRoot.Rows.Add(8, "Invoice", "InvoiceForm");
-            dtChildRoot.Rows.Add(8, "Request", "RequestForm");
+            dtChildRoot.Rows.Add(8, "PO Request", "RequestForm");
             dtChildRoot.Rows.Add(8, "Budget", "budget");
-            dtChildRoot.Rows.Add(8, "Printing Form", "PrintForm");
+            dtChildRoot.Rows.Add(8, "Request Form", "PrintForm");
             dtChildRoot.Rows.Add(8, "Transaction", "transaction");
             //10
             dtChildRoot.Rows.Add(9, "POS Schedule", "ShipmentScheduleForm");

@@ -45,7 +45,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.txtpnumber = new System.Windows.Forms.TextBox();
-            this.txteta = new System.Windows.Forms.TextBox();
+            this.txtamount = new System.Windows.Forms.TextBox();
             this.txtpname = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.txtmachinename = new System.Windows.Forms.TextBox();
@@ -220,14 +220,14 @@
             this.txtpnumber.Size = new System.Drawing.Size(161, 32);
             this.txtpnumber.TabIndex = 167;
             // 
-            // txteta
+            // txtamount
             // 
-            this.txteta.Enabled = false;
-            this.txteta.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txteta.Location = new System.Drawing.Point(223, 546);
-            this.txteta.Name = "txteta";
-            this.txteta.Size = new System.Drawing.Size(160, 32);
-            this.txteta.TabIndex = 177;
+            this.txtamount.Enabled = false;
+            this.txtamount.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtamount.Location = new System.Drawing.Point(223, 546);
+            this.txtamount.Name = "txtamount";
+            this.txtamount.Size = new System.Drawing.Size(160, 32);
+            this.txtamount.TabIndex = 177;
             // 
             // txtpname
             // 
@@ -479,7 +479,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.txtpnumber);
-            this.Controls.Add(this.txteta);
+            this.Controls.Add(this.txtamount);
             this.Controls.Add(this.txtpname);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.txtmachinename);
@@ -518,7 +518,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txtpnumber;
-        private System.Windows.Forms.TextBox txteta;
+        private System.Windows.Forms.TextBox txtamount;
         private System.Windows.Forms.TextBox txtpname;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtmachinename;

@@ -68,7 +68,6 @@
             this.lbFound = new System.Windows.Forms.Label();
             this.LbStatus = new System.Windows.Forms.Label();
             this.dgvMst = new System.Windows.Forms.DataGridView();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.code = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Pno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Pname = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -84,6 +83,7 @@
             this.unitpricejp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.box = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGray)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -103,7 +103,7 @@
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelHeader.Location = new System.Drawing.Point(0, 0);
             this.panelHeader.Name = "panelHeader";
-            this.panelHeader.Size = new System.Drawing.Size(800, 68);
+            this.panelHeader.Size = new System.Drawing.Size(984, 68);
             this.panelHeader.TabIndex = 51;
             // 
             // btnDeleteGray
@@ -195,7 +195,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(0, 68);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(800, 123);
+            this.groupBox1.Size = new System.Drawing.Size(984, 71);
             this.groupBox1.TabIndex = 55;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search Condition";
@@ -203,7 +203,7 @@
             // txtPno
             // 
             this.txtPno.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPno.Location = new System.Drawing.Point(143, 72);
+            this.txtPno.Location = new System.Drawing.Point(317, 27);
             this.txtPno.Name = "txtPno";
             this.txtPno.Size = new System.Drawing.Size(101, 30);
             this.txtPno.TabIndex = 122;
@@ -212,7 +212,7 @@
             // 
             this.chkPno.AutoSize = true;
             this.chkPno.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkPno.Location = new System.Drawing.Point(34, 74);
+            this.chkPno.Location = new System.Drawing.Point(238, 29);
             this.chkPno.Name = "chkPno";
             this.chkPno.Size = new System.Drawing.Size(73, 26);
             this.chkPno.TabIndex = 117;
@@ -222,16 +222,16 @@
             // txtPname
             // 
             this.txtPname.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPname.Location = new System.Drawing.Point(377, 74);
+            this.txtPname.Location = new System.Drawing.Point(543, 27);
             this.txtPname.Name = "txtPname";
-            this.txtPname.Size = new System.Drawing.Size(101, 30);
+            this.txtPname.Size = new System.Drawing.Size(174, 30);
             this.txtPname.TabIndex = 122;
             // 
             // chkPname
             // 
             this.chkPname.AutoSize = true;
             this.chkPname.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkPname.Location = new System.Drawing.Point(274, 76);
+            this.chkPname.Location = new System.Drawing.Point(449, 29);
             this.chkPname.Name = "chkPname";
             this.chkPname.Size = new System.Drawing.Size(88, 26);
             this.chkPname.TabIndex = 117;
@@ -241,7 +241,7 @@
             // txtcode
             // 
             this.txtcode.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtcode.Location = new System.Drawing.Point(143, 27);
+            this.txtcode.Location = new System.Drawing.Point(107, 27);
             this.txtcode.Name = "txtcode";
             this.txtcode.Size = new System.Drawing.Size(101, 30);
             this.txtcode.TabIndex = 122;
@@ -264,9 +264,9 @@
             this.panel2.Controls.Add(this.lbFound);
             this.panel2.Controls.Add(this.LbStatus);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 407);
+            this.panel2.Location = new System.Drawing.Point(0, 518);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(800, 43);
+            this.panel2.Size = new System.Drawing.Size(984, 43);
             this.panel2.TabIndex = 56;
             // 
             // label3
@@ -274,7 +274,7 @@
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(671, 10);
+            this.label3.Location = new System.Drawing.Point(855, 10);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(0, 24);
             this.label3.TabIndex = 4;
@@ -284,7 +284,7 @@
             this.lberror.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lberror.AutoSize = true;
             this.lberror.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lberror.Location = new System.Drawing.Point(-1022, 10);
+            this.lberror.Location = new System.Drawing.Point(-838, 10);
             this.lberror.Name = "lberror";
             this.lberror.Size = new System.Drawing.Size(0, 24);
             this.lberror.TabIndex = 3;
@@ -294,7 +294,7 @@
             this.lbFound.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lbFound.AutoSize = true;
             this.lbFound.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbFound.Location = new System.Drawing.Point(665, 10);
+            this.lbFound.Location = new System.Drawing.Point(849, 10);
             this.lbFound.Name = "lbFound";
             this.lbFound.Size = new System.Drawing.Size(0, 24);
             this.lbFound.TabIndex = 2;
@@ -303,7 +303,7 @@
             // 
             this.LbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LbStatus.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbStatus.Location = new System.Drawing.Point(182, 4);
+            this.LbStatus.Location = new System.Drawing.Point(366, 4);
             this.LbStatus.Name = "LbStatus";
             this.LbStatus.Size = new System.Drawing.Size(614, 22);
             this.LbStatus.TabIndex = 1;
@@ -349,7 +349,7 @@
             this.box});
             this.dgvMst.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvMst.EnableHeadersVisualStyles = false;
-            this.dgvMst.Location = new System.Drawing.Point(0, 191);
+            this.dgvMst.Location = new System.Drawing.Point(0, 139);
             this.dgvMst.Name = "dgvMst";
             this.dgvMst.ReadOnly = true;
             this.dgvMst.RowHeadersVisible = false;
@@ -360,7 +360,7 @@
             this.dgvMst.RowsDefaultCellStyle = dataGridViewCellStyle18;
             this.dgvMst.RowTemplate.Height = 25;
             this.dgvMst.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvMst.Size = new System.Drawing.Size(800, 216);
+            this.dgvMst.Size = new System.Drawing.Size(984, 379);
             this.dgvMst.TabIndex = 57;
             // 
             // code
@@ -518,7 +518,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(984, 561);
             this.Controls.Add(this.dgvMst);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.groupBox1);
