@@ -71,7 +71,7 @@ namespace MachineDeptApp
                 Application.SetCompatibleTextRenderingDefault(false);
                 //Application.Run(new LoginForm());                
                 //For Design test
-                Application.Run(new StockINOut());                
+                Application.Run(new LoginForm());                
             }
         }
     }

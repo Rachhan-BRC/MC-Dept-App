@@ -24,6 +24,24 @@ namespace MachineDeptApp
             this.txtRcode.TextChanged += TxtRcode_TextChanged;
             this.txtRname.TextChanged += TxtRname_TextChanged;
             this.Load += Balance_Load;
+            this.chkRcode.CheckedChanged += ChkRcode_CheckedChanged;
+            this.chkRname.CheckedChanged += ChkRname_CheckedChanged;
+            this.dtpDate.ValueChanged += DtpDate_ValueChanged;
+        }
+
+        private void DtpDate_ValueChanged(object sender, EventArgs e)
+        {
+            btnSearch.PerformClick();
+        }
+
+        private void ChkRname_CheckedChanged(object sender, EventArgs e)
+        {
+            btnSearch.PerformClick();
+        }
+
+        private void ChkRcode_CheckedChanged(object sender, EventArgs e)
+        {
+            btnSearch.PerformClick();
         }
 
         private void Balance_Load(object sender, EventArgs e)
@@ -33,23 +51,34 @@ namespace MachineDeptApp
 
         private void TxtRname_TextChanged(object sender, EventArgs e)
         {
-            chkRname.Checked = true;
+            
 
             if (txtRname.Text.Trim() == "")
             {
+                btnSearch.PerformClick();
                 chkRname.Checked = false;
             }
-            btnSearch.PerformClick();
+            else
+            {
+                chkRname.Checked = true;
+                btnSearch.PerformClick();
+            }
+           
         }
 
         private void TxtRcode_TextChanged(object sender, EventArgs e)
         {
-            chkRcode.Checked = true;
+          
             if (txtRcode.Text.Trim() == "")
             {
                 chkRcode.Checked = false;
+                btnSearch.PerformClick();
             }
-            btnSearch.PerformClick();
+            else
+            {
+                chkRcode.Checked = true;
+                btnSearch.PerformClick();
+            }
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)
@@ -62,7 +91,7 @@ namespace MachineDeptApp
             if (chkRcode.Checked == true)
             {
                 string val = txtRcode.Text;
-                if (val != "")
+                if (val.Trim() != "")
                 {
                     cond.Rows.Add("tbTr.Code LIKE '%" + val + "%'");
                 }
@@ -70,7 +99,7 @@ namespace MachineDeptApp
             if (chkRname.Checked == true)
             {
                 string val = txtRname.Text;
-                if (val != "")
+                if (val.Trim() != "")
                 {
                     cond.Rows.Add("tbMst.Part_Name LIKE '%" + val + "%'");
                 }
@@ -104,10 +133,10 @@ namespace MachineDeptApp
                     "(SELECT Code,Supplier,Part_Name,Part_No FROM MstMCSparePart) tbMst ON tbMst.Code = tbTr.Code " +
                     "LEFT JOIN " +
                     "(SELECT Code, SUM(Stock_In) AS QtyIn,SUM(Stock_Out) AS QtyOut FROM SparePartTrans " +
-                    "WHERE RegDate BETWEEN '"+firstDay+"' AND '"+lastDay+"' AND Dept ='MC' GROUP BY Code ) tbPre ON tbPre.Code = tbTr.Code " +
+                    "WHERE RegDate BETWEEN '"+firstDay+"' AND '"+lastDay+"' AND Dept ='"+dept+"' GROUP BY Code ) tbPre ON tbPre.Code = tbTr.Code " +
                     "LEFT JOIN (SELECT Code, SUM(Stock_Value) AS PreQty FROM SparePartTrans " +
                     "WHERE CAST(RegDate AS date) <= '"+last+"' AND Dept ='MC' GROUP BY Code ) tbPreS ON tbPreS.Code = tbPre.Code " +
-                    "WHERE CAST(tbTr.RegDate AS DATE) > '"+last+"' AND tbtr.Dept ='MC' " +
+                    "WHERE CAST(tbTr.RegDate AS DATE) > '"+last+"' AND tbtr.Dept ='"+dept+"' "+Conds +" " +
                     "GROUP BY tbTr.Code, tbMst.Supplier,tbMst.Part_No, tbMst.Part_Name,tbPre.QtyIn,tbPre.QtyOut, tbPreS.PreQty " +
                     "Order by tbTr.Code";
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
