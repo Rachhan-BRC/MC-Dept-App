@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
+using System.Windows.Markup.Localizer;
 
 namespace MachineDeptApp
 {
@@ -18,14 +19,19 @@ namespace MachineDeptApp
     {
         SQLConnect con = new SQLConnect();
         DataTable dtMst = new DataTable();
+        double BeforeEdit = 0;
 
-        string Dept = "MC", ErrorText = "";
+
+        string Dept = "MC", RemarkBeforeEdit = "", ErrorText = "";
 
         public StockINOut()
         {
             InitializeComponent();
             this.con.Connection();
             this.Shown += StockINOut_Shown;
+            this.rdbStockOut.CheckedChanged += RdbStockOut_CheckedChanged;
+
+            //btn
             this.btnAdd.MouseEnter += BtnAdd_MouseEnter;
             this.btnAdd.MouseLeave += BtnAdd_MouseLeave;
             this.btnAddPic.MouseEnter += BtnAdd_MouseEnter;
@@ -34,12 +40,17 @@ namespace MachineDeptApp
             this.btnAddPic.Click += BtnAdd_Click;
             this.btnShowSearch.Click += BtnShowSearch_Click;
 
-
+            //Dgv
             this.dgvSearch.LostFocus += DgvSearch_LostFocus;
             this.dgvSearch.CellClick += DgvSearch_CellClick;
+            this.dgvInput.CellFormatting += DgvInput_CellFormatting;
+            this.dgvInput.CellClick += DgvInput_CellClick;
+            this.dgvInput.RowsAdded += DgvInput_RowsAdded;
+            this.dgvInput.RowsRemoved += DgvInput_RowsRemoved;
+            this.dgvInput.CellBeginEdit += DgvInput_CellBeginEdit;
+            this.dgvInput.CellEndEdit += DgvInput_CellEndEdit;
 
-            this.rdbStockOut.CheckedChanged += RdbStockOut_CheckedChanged;
-
+            //txt
             this.txtSearch.Enter += TxtSearch_Enter;
             this.txtSearch.Leave += TxtSearch_Leave;
             this.txtSearch.TextChanged += TxtSearch_TextChanged;
@@ -51,6 +62,191 @@ namespace MachineDeptApp
 
         }
 
+        private void DgvInput_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                DataGridViewRow CurrentRow = dgvInput.Rows[e.RowIndex];
+                if (dgvInput.Columns[e.ColumnIndex].Name == "ColStockIn")
+                {
+                    if (CurrentRow.Cells[e.ColumnIndex].Value != null || CurrentRow.Cells[e.ColumnIndex].Value.ToString().Trim() != "")
+                    {
+                        try
+                        {
+                            double Qty = Convert.ToDouble(CurrentRow.Cells[e.ColumnIndex].Value);
+                            if (Qty >= 0)
+                            {
+                                if (Qty > 0)
+                                {
+                                    CurrentRow.Cells[e.ColumnIndex].Value = Qty;
+                                    CurrentRow.Cells["ColStockOut"].Value = 0;
+                                }
+                                else 
+                                {
+                                    if (Qty == 0 && Convert.ToDouble(CurrentRow.Cells["ColStockOut"].Value) > 0)
+                                    {
+                                        CurrentRow.Cells[e.ColumnIndex].Value = Qty;
+                                    }
+                                    else if (Qty == 0 && Convert.ToDouble(CurrentRow.Cells["ColStockOut"].Value) == 0)
+                                    {
+                                        CurrentRow.Cells[e.ColumnIndex].Value = BeforeEdit;
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("ចំនួនត្រូវតែធំជាង ០!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                        CurrentRow.Cells[e.ColumnIndex].Value = BeforeEdit;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("ចំនួនត្រូវតែធំជាង ០!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                CurrentRow.Cells[e.ColumnIndex].Value = BeforeEdit;
+                            }
+                        }
+                        catch
+                        {
+                            MessageBox.Show("អ្នកបញ្ចូលខុសទម្រង់ហើយ!\nសូមបញ្ចូលជាចំនួនលេខ!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            CurrentRow.Cells[e.ColumnIndex].Value = BeforeEdit;
+                        }
+                    }
+                    else
+                        CurrentRow.Cells[e.ColumnIndex].Value = BeforeEdit;
+                }
+                if (dgvInput.Columns[e.ColumnIndex].Name == "ColStockOut")
+                {
+                    if (CurrentRow.Cells[e.ColumnIndex].Value != null || CurrentRow.Cells[e.ColumnIndex].Value.ToString().Trim() != "")
+                    {
+                        try
+                        {
+                            double Qty = Convert.ToDouble(CurrentRow.Cells[e.ColumnIndex].Value);
+                            if (Qty >= 0)
+                            {
+                                if (Qty > 0)
+                                {
+                                    CurrentRow.Cells[e.ColumnIndex].Value = Qty;
+                                    CurrentRow.Cells["ColStockIn"].Value = 0;
+                                }
+                                else
+                                {
+                                    if (Qty == 0 && Convert.ToDouble(CurrentRow.Cells["ColStockIn"].Value) > 0)
+                                    {
+                                        CurrentRow.Cells[e.ColumnIndex].Value = Qty;
+                                    }
+                                    else if (Qty == 0 && Convert.ToDouble(CurrentRow.Cells["ColStockIn"].Value) == 0)
+                                    {
+                                        CurrentRow.Cells[e.ColumnIndex].Value = BeforeEdit;
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("ចំនួនត្រូវតែធំជាង ០!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                        CurrentRow.Cells[e.ColumnIndex].Value = BeforeEdit;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("ចំនួនត្រូវតែធំជាង ០!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                CurrentRow.Cells[e.ColumnIndex].Value = BeforeEdit;
+                            }
+                        }
+                        catch
+                        {
+                            MessageBox.Show("អ្នកបញ្ចូលខុសទម្រង់ហើយ!\nសូមបញ្ចូលជាចំនួនលេខ!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            CurrentRow.Cells[e.ColumnIndex].Value = BeforeEdit;
+                        }
+                    }
+                    else
+                        CurrentRow.Cells[e.ColumnIndex].Value = BeforeEdit;
+                }
+                if (dgvInput.Columns[e.ColumnIndex].Name == "ColRemark")
+                {
+                    if (CurrentRow.Cells[e.ColumnIndex].Value == null || CurrentRow.Cells[e.ColumnIndex].Value.ToString().Trim() == "")
+                        CurrentRow.Cells[e.ColumnIndex].Value = RemarkBeforeEdit;
+                }
+            }
+        }
+        private void DgvInput_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                if (dgvInput.Columns[e.ColumnIndex].Name == "ColStockIn" || dgvInput.Columns[e.ColumnIndex].Name == "ColStockOut")
+                {
+                    BeforeEdit = Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
+                }
+                if (dgvInput.Columns[e.ColumnIndex].Name == "ColRemark")
+                    RemarkBeforeEdit = dgvInput.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            }
+        }
+        private void DgvInput_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            if (dgvInput.Rows.Count == 0)
+            {
+                btnSave.Enabled = false;
+                btnSaveGRAY.BringToFront();
+            }
+        }
+        private void DgvInput_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            btnSave.Enabled = true;
+            btnSaveGRAY.SendToBack();
+        }
+        private void DgvInput_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvInput.SelectedCells.Count>0 && e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                if (dgvInput.Columns[e.ColumnIndex].Name == "Remove")
+                {
+                    DialogResult DSL = MessageBox.Show("តើអ្នកចង់លុបទិន្នន័យនេះមែនដែរឬទេ?", MenuFormV2.MsgTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (DSL == DialogResult.Yes)
+                    {
+                        dgvInput.Rows.RemoveAt(e.RowIndex);
+                        foreach (DataGridViewRow row in dgvInput.Rows)
+                            row.HeaderCell.Value = (row.Index + 1).ToString();
+                        dgvInput.ClearSelection();
+                        dgvInput.CurrentCell = null;
+                    }
+                }
+            }
+        }
+        private void DgvInput_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                string ColName = dgvInput.Columns[e.ColumnIndex].Name;
+                if (ColName == "ColRemark")
+                    e.CellStyle.ForeColor = Color.Black;
+                if (ColName == "ColStockIn")
+                {
+                    try
+                    {
+                        if (Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells["ColStockIn"].Value) > 0)
+                        {
+                            e.CellStyle.ForeColor = Color.Green;
+                            dgvInput.Rows[e.RowIndex].Cells["ColStockOut"].Style.ForeColor = Color.Black;
+                        }
+                    }
+                    catch { }
+                }
+                if (ColName == "ColStockOut")
+                {
+                    try
+                    {
+                        if (Convert.ToDouble(dgvInput.Rows[e.RowIndex].Cells["ColStockOut"].Value) > 0)
+                        {
+                            e.CellStyle.ForeColor = Color.Red;
+                            dgvInput.Rows[e.RowIndex].Cells["ColStockIn"].Style.ForeColor = Color.Black;
+                        }
+                    }
+                    catch { }
+                }
+                if (ColName == "Remove")
+                {
+                    e.CellStyle.BackColor = Color.White;
+                    e.CellStyle.SelectionBackColor = Color.White;
+                }
+            }
+        }
         private void TxtRemark_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -251,7 +447,36 @@ namespace MachineDeptApp
             }
             if (FoundError == 0)
             {
+                string Code = txtCode.Text;
+                string PartNo = txtPartNo.Text;
+                string PartName = txtPartName.Text;
+                string Location = txtLocation.Text;
+                string Remark = txtRemark.Text;
+                DateTime TransDate = dtpTransDate.Value.Date;
+                double InQty = 0, OutQty = 0;
+                if (rdbStockIN.Checked)
+                    InQty = Convert.ToDouble(txtQty.Text);
+                else
+                    OutQty = Convert.ToDouble(txtQty.Text);
 
+                dgvInput.Rows.Add();
+                DataGridViewRow drow = dgvInput.Rows[dgvInput.Rows.Count-1];
+                drow.HeaderCell.Value = (drow.Index+1).ToString();
+                drow.Cells["ColCode"].Value = Code;
+                drow.Cells["ColPartNo"].Value = PartNo;
+                drow.Cells["ColPartName"].Value = PartName;
+                drow.Cells["ColLocation"].Value = Location;
+                drow.Cells["ColTransDate"].Value = TransDate;
+                drow.Cells["ColStockIn"].Value = InQty;
+                drow.Cells["ColStockOut"].Value = OutQty;
+                drow.Cells["ColRemark"].Value = Remark;
+                dgvInput.ClearSelection();
+                dgvInput.CurrentCell = null;
+                ClearInfoText();
+                txtCode.Text = "";
+                txtQty.Text = "";
+                txtRemark.Text = "";
+                txtCode.Focus();
             }
         }
         private void BtnAdd_MouseLeave(object sender, EventArgs e)
@@ -279,8 +504,9 @@ namespace MachineDeptApp
                     col.Frozen = true;
                 if (col.Name == "Remove")
                     col.Resizable = DataGridViewTriState.False;
-                if (col.Name != "ColStockIn" && col.Name == "ColStockOut" && col.Name == "ColRemark")
+                if (col.Name != "ColStockIn" && col.Name != "ColStockOut" && col.Name != "ColRemark")
                     col.ReadOnly = true;
+                //Console.WriteLine(col.Name);
             }
 
             TakingMst();
@@ -308,7 +534,7 @@ namespace MachineDeptApp
             PicAlertRemark.Visible = false;
             var tasksBlink = new List<Task>();
 
-            if (txtPartNo.Text.Trim() == "")
+            if (txtPartNo.Text.Trim() == "" || txtCode.Text.Trim()=="")
                 tasksBlink.Add(BlinkPictureBox(PicAlertCode));
 
             if (txtQty.Text.Trim() == "")
@@ -327,7 +553,10 @@ namespace MachineDeptApp
                         //Comparing Stock if > Transaction is Stock-Out
                         if (rdbStockOut.Checked)
                         {
-                            if (Qty > StockQty)
+                            double AlreadyInputQty = 0;
+                            foreach (DataGridViewRow row in dgvInput.Rows)
+                                AlreadyInputQty += Convert.ToDouble(row.Cells["ColStockOut"].Value);
+                            if (Qty+AlreadyInputQty > StockQty)
                             {
                                 toolTip1.SetToolTip(PicAlertQty, "ចំនួនស្តុកមិនគ្រប់គ្រាន់ទេ!");
                                 tasksBlink.Add(BlinkPictureBox(PicAlertQty));
