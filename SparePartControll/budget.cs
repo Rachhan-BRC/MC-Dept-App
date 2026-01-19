@@ -1,5 +1,6 @@
 ﻿using MachineDeptApp.Inventory.Inprocess;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,8 +11,8 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Media.Animation;
-using System.Windows.Forms.DataVisualization.Charting; 
 
 namespace MachineDeptApp
 {
@@ -24,28 +25,74 @@ namespace MachineDeptApp
         {
             this.con.Connection();
             InitializeComponent();
-            this.Load += Budget_Load;
+            this.Shown += Budget_Shown;
             this.btnSearch.Click += BtnSearch_Click;
             this.dgvBudget.CellClick += DgvBudget_CellClick;
             this.btnUpdate.Click += BtnUpdate_Click;
             this.btnSave.Click += BtnSave_Click;
-            dgvBudget.EditingControlShowing += DgvBudget_EditingControlShowing;
+            this.dgvBudget.EditingControlShowing += DgvBudget_EditingControlShowing;
             this.dgvBudget.CellEndEdit += DgvBudget_CellEndEdit;
             this.dtpyear.ValueChanged += Dtpyear_ValueChanged;
+            this.btnDelete.Click += BtnDelete_Click;
            
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            DialogResult ask = MessageBox.Show("Are you sure you want to delete data budget "+dtpyear.Value.Year+" ? ", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (ask == DialogResult.No)
+            {
+                return;
+            }
+            int erro = 0;
+            Cursor = Cursors.WaitCursor;
+            try
+            {
+                con.con.Open();
+                string query = "DELETE FROM SparePartBudget WHERE Budget_Year = @year AND Budget_Dept =@dept";
+                SqlCommand cmd = new SqlCommand(query, con.con);
+                cmd.Parameters.AddWithValue("@year", dtpyear.Value.Year);
+                cmd.Parameters.AddWithValue("@dept", dept);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while delete data !" + ex.Message, "Error delete ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                erro++;
+            }
+            con.con.Close();
+            if (erro == 0)
+            {
+                btnSearch.PerformClick();
+                btnDelete.Enabled = false;
+                btnDeleteGray.BringToFront();
+                MessageBox.Show("Deleted successfully !", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            Cursor = Cursors.Default;
+        }
+
+        private void Budget_Shown(object sender, EventArgs e)
+        {
+            btnSearch.PerformClick();
+            SetupChart();
         }
 
         private void Dtpyear_ValueChanged(object sender, EventArgs e)
         {
             btnSearch.PerformClick();
             SetupChart();
+            if (dgvBudget.Rows.Count >= 3)
+            {
+                btnDelete.Enabled = true;
+                btnDelete.BringToFront();
+            }
+            else
+            {
+                btnDelete.Enabled = false;
+                btnDeleteGray.BringToFront();
+            }
         }
 
-        private void Budget_Load(object sender, EventArgs e)
-        {
-            btnSearch.PerformClick();
-            SetupChart();
-        }
 
         private void SetupChart()
         {
@@ -132,54 +179,72 @@ namespace MachineDeptApp
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
+
             DialogResult ask = MessageBox.Show("Are you sure you want to update? ", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (ask == DialogResult.No)
             {
                 return;
             }
-
-            Cursor = Cursors.WaitCursor;
-            int err = 0;
+            DataTable dtbudget = new DataTable();
             try
             {
-                foreach (DataGridViewRow row1 in dgvBudget.Rows)
+                int yearnow = dtpyear.Value.Year;
+                con.con.Open();
+                string query = "SELECT * FROM SparePartBudget WHERE Budget_Dept = '" + dept + "' AND Budget_Year = " + yearnow;
+
+                SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
+                sda.Fill(dtbudget);
+
+                Console.WriteLine(dtbudget.Rows.Count);
+            }
+            catch (Exception ex)
             {
-                string year = row1.Cells["budgetyear"].Value.ToString();
-                string type = row1.Cells["budgettype"].Value.ToString();
-                double jan = Convert.ToDouble(row1.Cells["Jan"].Value);
-                double feb = Convert.ToDouble(row1.Cells["Feb"].Value);
-                double mar = Convert.ToDouble(row1.Cells["Mar"].Value);
-                double apr = Convert.ToDouble(row1.Cells["Apr"].Value);
-                double may = Convert.ToDouble(row1.Cells["May"].Value);
-                double jun = Convert.ToDouble(row1.Cells["Jun"].Value);
-                double jul = Convert.ToDouble(row1.Cells["Jul"].Value);
-                double aug = Convert.ToDouble(row1.Cells["Aug"].Value);
-                double sep = Convert.ToDouble(row1.Cells["Sep"].Value);
-                double oct = Convert.ToDouble(row1.Cells["Oct"].Value);
-                double nov = Convert.ToDouble(row1.Cells["Nov"].Value);
-                double dec = Convert.ToDouble(row1.Cells["Dec"].Value);
-                    try
+                MessageBox.Show("Error while taking data" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            con.con.Close();
+            //update and insert
+            if (dtbudget.Rows.Count > 0)
+            {
+                Cursor = Cursors.WaitCursor;
+                int err = 0;
+                try
+                {
+                    con.con.Open();
+
+                    decimal SafeDecimal(object val)
                     {
-                        con.con.Open();
-                        string query = "UPDATE SparePartBudget\r " +
-                       " SET " +
-                       "Budget_Year = @Year, " +
-                       "Jan = @Jan," +
-                       " Feb = @Feb, " +
-                       "Mar = @Mar,    " +
-                       "Apr = @Apr,   " +
-                       "May = @May, " +
-                       "Jun = @Jun,  " +
-                       "Jul = @Jul, " +
-                       "Aug = @Aug, " +
-                       "Sep = @Sep, " +
-                       "Oct = @Oct, " +
-                       "Nov = @Nov, " +
-                       "Dec = @Dec " +
-                       "WHERE " +
-                       "Budget_Dept = @Dept " +
-                       "AND Budget_Type = @Type; ";
+                        decimal result;
+                        return decimal.TryParse(val?.ToString(), out result) ? result : 0;
+                    }
+
+                    foreach (DataGridViewRow row1 in dgvBudget.Rows)
+                    {
+                        string year = row1.Cells["budgetyear"].Value?.ToString();
+                        string type = row1.Cells["budgettype"].Value?.ToString();
+                        decimal jan = SafeDecimal(row1.Cells["Jan"].Value);
+                        decimal feb = SafeDecimal(row1.Cells["Feb"].Value);
+                        decimal mar = SafeDecimal(row1.Cells["Mar"].Value);
+                        decimal apr = SafeDecimal(row1.Cells["Apr"].Value);
+                        decimal may = SafeDecimal(row1.Cells["May"].Value);
+                        decimal jun = SafeDecimal(row1.Cells["Jun"].Value);
+                        decimal jul = SafeDecimal(row1.Cells["Jul"].Value);
+                        decimal aug = SafeDecimal(row1.Cells["Aug"].Value);
+                        decimal sep = SafeDecimal(row1.Cells["Sep"].Value);
+                        decimal oct = SafeDecimal(row1.Cells["Oct"].Value);
+                        decimal nov = SafeDecimal(row1.Cells["Nov"].Value);
+                        decimal dec = SafeDecimal(row1.Cells["Dec"].Value);
+
+                        string query = "UPDATE SparePartBudget SET " +
+                                       "Budget_Year = @Year, Jan = @Jan, Feb = @Feb, Mar = @Mar, Apr = @Apr, " +
+                                       "May = @May, Jun = @Jun, Jul = @Jul, Aug = @Aug, Sep = @Sep, Oct = @Oct, " +
+                                       "Nov = @Nov, Dec = @Dec " +
+                                       "WHERE Budget_Dept = @Dept AND Budget_Type = @Type AND Budget_Year = @oldyear";
+
                         SqlCommand cmd = new SqlCommand(query, con.con);
+                        cmd.Parameters.AddWithValue("@Year", year);
+                        cmd.Parameters.AddWithValue("@oldyear", dtpyear.Value.Year);
+                        cmd.Parameters.AddWithValue("@Type", type);
+                        cmd.Parameters.AddWithValue("@Dept", dept);
                         cmd.Parameters.AddWithValue("@Jan", jan);
                         cmd.Parameters.AddWithValue("@Feb", feb);
                         cmd.Parameters.AddWithValue("@Mar", mar);
@@ -192,36 +257,96 @@ namespace MachineDeptApp
                         cmd.Parameters.AddWithValue("@Oct", oct);
                         cmd.Parameters.AddWithValue("@Nov", nov);
                         cmd.Parameters.AddWithValue("@Dec", dec);
-                        cmd.Parameters.AddWithValue("@Dept", dept);
-                        cmd.Parameters.AddWithValue("@Year", year);
-                        cmd.Parameters.AddWithValue("@Type", type);
                         cmd.ExecuteNonQuery();
-                        con.con.Close();
-                    }
-                    catch (Exception ex)
-                    {
-                        err++;
-                        MessageBox.Show("Error while updating budget1 !" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Cursor = Cursors.Default;
-                        return;
                     }
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error while updating budget2! " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    err++;
+                }
+                con.con.Close();
+
+                if (err == 0)
+                {
+                    MessageBox.Show("Update successfully !", "Done.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    btnSave.Enabled = false;
+                    btnSaveGrey.BringToFront();
+                    btnUpdate.Enabled = false;
+                    btnUpdateGrey.BringToFront();
+                    btnSearch.PerformClick();
+                }
+                Cursor = Cursors.Default;
             }
-            catch(Exception ex)
+            else
             {
-                MessageBox.Show("Error while updating budget2 !" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                err++;
+                int err = 0;
+                try
+                { 
+                    Cursor = Cursors.WaitCursor;
+                    con.con.Open();
+                    decimal SafeDecimal(object val)
+                    {
+                        decimal result;
+                        return decimal.TryParse(val?.ToString(), out result) ? result : 0;
+                    }
+                    foreach (DataGridViewRow row1 in dgvBudget.Rows)
+                    {
+                        string year = row1.Cells["budgetyear"].Value?.ToString();
+                        string type = row1.Cells["budgettype"].Value?.ToString();
+                        decimal jan = SafeDecimal(row1.Cells["Jan"].Value);
+                        decimal feb = SafeDecimal(row1.Cells["Feb"].Value);
+                        decimal mar = SafeDecimal(row1.Cells["Mar"].Value);
+                        decimal apr = SafeDecimal(row1.Cells["Apr"].Value);
+                        decimal may = SafeDecimal(row1.Cells["May"].Value);
+                        decimal jun = SafeDecimal(row1.Cells["Jun"].Value);
+                        decimal jul = SafeDecimal(row1.Cells["Jul"].Value);
+                        decimal aug = SafeDecimal(row1.Cells["Aug"].Value);
+                        decimal sep = SafeDecimal(row1.Cells["Sep"].Value);
+                        decimal oct = SafeDecimal(row1.Cells["Oct"].Value);
+                        decimal nov = SafeDecimal(row1.Cells["Nov"].Value);
+                        decimal dec = SafeDecimal(row1.Cells["Dec"].Value);
+
+                        string query = "INSERT INTO SparePartBudget (Budget_Year, Budget_Dept, Budget_Type, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec ) " +
+                                                                                 "VALUES (@Year, @Dept, @Type, @Jan, @Feb, @Mar, @Apr, @May, @Jun, @Jul, @Aug, @Sep, @Oct, @Nov, @Dec)";
+                        SqlCommand cmd = new SqlCommand(query, con.con);
+                        cmd.Parameters.AddWithValue("@Year", year);
+                        cmd.Parameters.AddWithValue("@Type", type);
+                        cmd.Parameters.AddWithValue("@Dept", dept);
+                        cmd.Parameters.AddWithValue("@Jan", jan);
+                        cmd.Parameters.AddWithValue("@Feb", feb);
+                        cmd.Parameters.AddWithValue("@Mar", mar);
+                        cmd.Parameters.AddWithValue("@Apr", apr);
+                        cmd.Parameters.AddWithValue("@May", may);
+                        cmd.Parameters.AddWithValue("@Jun", jun);
+                        cmd.Parameters.AddWithValue("@Jul", jul);
+                        cmd.Parameters.AddWithValue("@Aug", aug);
+                        cmd.Parameters.AddWithValue("@Sep", sep);
+                        cmd.Parameters.AddWithValue("@Oct", oct);
+                        cmd.Parameters.AddWithValue("@Nov", nov);
+                        cmd.Parameters.AddWithValue("@Dec", dec);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                }
+                catch (Exception ex) 
+                {
+                    MessageBox.Show("Error while inserting data !" + ex.Message, "Error saving", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    err++;
+                }
+                con.con.Close();
+                Cursor = Cursors.Default;
+                if (err == 0)
+                {
+                    MessageBox.Show("Insert successfully !", "Done.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    btnSave.Enabled = false;
+                    btnSaveGrey.BringToFront();
+                    btnUpdate.Enabled = false;
+                    btnUpdateGrey.BringToFront();
+                    btnSearch.PerformClick();
+                }
             }
-            if (err== 0)
-            {
-                MessageBox.Show("Update successfully !", "Done.", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                btnSave.Enabled = false;
-                btnSaveGrey.BringToFront();
-                btnUpdate.Enabled = false;
-                btnUpdateGrey.BringToFront();
-                btnSearch.PerformClick();
-            }
-            Cursor = Cursors.Default;
+
         }
         private void BtnUpdate_Click(object sender, EventArgs e)
         {
@@ -325,8 +450,39 @@ namespace MachineDeptApp
                 MessageBox.Show("Error while taking data" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             con.con.Close();
-            if (dtbudget.Rows.Count <= 0)
+            if (dtbudget.Rows.Count == 0)
             {
+                dgvBudget.Rows.Add();
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgetyear"].Value = dtpyear.Value.Year;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgettype"].Value = "Target";
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Jan"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Feb"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Mar"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Apr"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["May"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Jun"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Jul"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Aug"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Sep"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Oct"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Nov"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Dec"].Value = 0;
+
+                dgvBudget.Rows.Add();
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgetyear"].Value = dtpyear.Value.Year;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgettype"].Value = "Safety";
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Jan"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Feb"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Mar"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Apr"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["May"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Jun"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Jul"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Aug"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Sep"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Oct"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Nov"].Value = 0;
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Dec"].Value = 0;
                 Cursor = Cursors.Default;
                 return;
             }
@@ -367,24 +523,24 @@ namespace MachineDeptApp
                     dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Oct"].Value = oct;
                     dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Nov"].Value = nov;
                     dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Dec"].Value = dec;
-
-                }
+            }
                 if (dgvBudget.Rows.Count < 2 && dgvBudget.Rows[0].Cells[1].Value?.ToString() == "Target")
                 {
                     dgvBudget.Rows.Add();
                     dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgetyear"].Value = dgvBudget.Rows[dgvBudget.Rows.Count - 2].Cells["budgetyear"].Value;
                     dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgettype"].Value = "Safety";
-                }
-                else if (dgvBudget.Rows[0].Cells[1].Value?.ToString() == "Safety")
+
+            }
+                else if (dgvBudget.Rows.Count < 2 && dgvBudget.Rows[0].Cells[1].Value?.ToString() == "Safety")
                 {
                     dgvBudget.Rows.Add();
                     dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgetyear"].Value = dgvBudget.Rows[dgvBudget.Rows.Count - 2].Cells["budgetyear"].Value;
-                    dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgettype"].Value = "Safety";
-                }
-                    dgvBudget.Rows.Add();
+                    dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgettype"].Value = "Target";
+            }
+                 dgvBudget.Rows.Add();
                 dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgetyear"].Value = dgvBudget.Rows[dgvBudget.Rows.Count - 2].Cells["budgetyear"].Value;
                 dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgettype"].Value = "Actual";
-                for (int i = 2; i < dgvBudget.Columns.Count; i++)
+                for (int i = 2; i < 12; i++)
                 {
                     string monthName = dgvBudget.Columns[i].Name;
                     DateTime dt = DateTime.ParseExact(monthName, "MMM",
@@ -441,6 +597,16 @@ namespace MachineDeptApp
             con.con.Close();
             Cursor = Cursors.Default;
             lbFound.Text = "Found: " + dgvBudget.Rows.Count.ToString();
+            if (dgvBudget.Rows.Count >= 3 )
+            {
+                btnDelete.Enabled = true;
+                btnDelete.BringToFront();
+            }
+            else
+            {
+                btnDelete.Enabled = false;
+                btnDeleteGray.BringToFront();
+            }
         }
     }
 }

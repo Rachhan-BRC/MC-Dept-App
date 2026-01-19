@@ -16,489 +16,121 @@ namespace MachineDeptApp
     public partial class InvoiceForm : Form
     {
         SQLConnect con = new SQLConnect();
+        SQLConnectOBS conOBS = new SQLConnectOBS();
         string dept = "MC";
         public InvoiceForm()
         {
             this.con.Connection();
+            this.conOBS.Connection();
             InitializeComponent();
-            this.Load += InvoiceForm_Load;
-            this.btnImport.Click += BtnImport_Click;
+            /*this.Load += InvoiceForm_Load;
+            //this.btnImport.Click += BtnImport_Click;
+            //this.btnSave.Click += BtnSave_Click;
+            //this.dgvInvoice.CellClick += DgvInvoice_CellClick;
+            //this.dgvPo.CellClick += DgvPo_CellClick;
+            //this.btnDelete.Click += BtnDelete_Click;*/
             this.btnSave.Click += BtnSave_Click;
-            this.dgvInvoice.CellClick += DgvInvoice_CellClick;
-            this.dgvPo.CellClick += DgvPo_CellClick;
-            this.btnDelete.Click += BtnDelete_Click;
+            this.Load += InvoiceForm_Load;
+            this.txtInvoice.KeyDown += TxtInvoice_KeyDown;
+        }
 
+        private void TxtInvoice_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (!string.IsNullOrEmpty(txtInvoice.Text.Trim()))
+                {
+                    btnSave.Enabled = false;
+                    btnSaveGrey.BringToFront();
+                    dgvInvoice.Rows.Clear();
+                    Cursor = Cursors.WaitCursor;
+                    DataTable dtselectCompare = new DataTable();
+                    try
+                    {
+                        con.con.Open();
+                        string queryselect = "SELECT Invoice FROM SparePartTrans WHERE Invoice = '" + txtInvoice.Text + "'";
+                        SqlDataAdapter sdaselect = new SqlDataAdapter(queryselect, con.con);
+                        sdaselect.Fill(dtselectCompare);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Error while selecting compare !", "Error Select", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    con.con.Close();
+                    if (dtselectCompare.Rows.Count > 0)
+                    {
+                        Cursor = Cursors.Default;
+                        MessageBox.Show("This Invoice already receive !", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    else
+                    {
+                        DataTable dtfill = new DataTable();
+                        try
+                        {
+                            con.con.Open();
+                            string queryselectOBS = "SELECT tbInvoice.ItemCode,tbInvoice.DONo, tbName.Part_Name,tbName.Part_No, tbInvoice.Qty, tbInvoice.UnitPrice, tbInvoice.Amount, tbInvoice.RecvDate, tbType.ItemType, tbPono.PurchaseNo " +
+                                "FROM [" + conOBS.server + "].[" + conOBS.db + "].[dbo].[prgrecvresult] tbInvoice " +
+                                "INNER JOIN (SELECT  Code, Part_Name, Part_No FROM MstMCSparePart) tbName ON tbInvoice.ItemCode = tbName.Code " +
+                                "INNER JOIN (SELECT ItemCode, ItemType FROM [" + conOBS.server + "].[" + conOBS.db + "].[dbo].mstitem) tbType ON tbInvoice.ItemCode = tbType.ItemCode " +
+                                "INNER JOIN (SELECT PurchaseNo, PurchaseOrderCode FROM [" + conOBS.server + "].[" + conOBS.db + "].[dbo].prgpurchaseorderheader) tbPono ON tbInvoice.PurchaseOrderCode = tbPono.PurchaseOrderCode " +
+                                "WHERE ItemType = 4 AND tbInvoice.DONo LIKE '%" + txtInvoice.Text + "%'";
+                            Console.WriteLine(queryselectOBS);
+                            SqlDataAdapter sdaselect = new SqlDataAdapter(queryselectOBS, con.con);
+                            sdaselect.Fill(dtfill);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Error while selecting fill dgv !", "Error SelectFill", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        con.con.Close();
+                        if (dtfill.Rows.Count > 0)
+                        {
+                            foreach (DataRow row in dtfill.Rows)
+                            {
+                                dgvInvoice.Rows.Add();
+                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["description"].Value = "SPARE PART";
+                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["code"].Value = row["ItemCode"].ToString();
+                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["partname"].Value = row["Part_Name"].ToString();
+                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["Pno"].Value = row["Part_No"].ToString();
+                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["pono"].Value = row["PurchaseNo"].ToString();
+                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["qty"].Value = row["Qty"].ToString();
+                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["priceusd"].Value = row["UnitPrice"].ToString();
+                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["amountusd"].Value = row["Amount"].ToString();
+                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["invoiceno"].Value = row["DONo"].ToString();
+                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["invoicedate"].Value = row["RecvDate"].ToString();
+                            }
+                            btnSave.Enabled = true;
+                            btnSave.BringToFront();
+                            txtInvoice.Focus();
+                        }
+
+                    }
+                    con.con.Close();
+                    Cursor = Cursors.Default;
+                }
+            }
         }
 
         private void InvoiceForm_Load(object sender, EventArgs e)
         {
             btnSave.Enabled = false;
+            btnSaveGrey.BringToFront();
         }
 
-        private void DgvPo_CellClick(object sender, DataGridViewCellEventArgs e)
-        {       
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                btnDelete.Enabled = true;
-                btnDelete.BringToFront();
-            }
-        }
-        private void BtnDelete_Click(object sender, EventArgs e)
-        {
-            if (tabControl1.SelectedTab == tabPo)
-            {
-                int rowIndex1 = dgvPo.CurrentCell.RowIndex;
-                if (rowIndex1 >= 0 && rowIndex1 < dgvPo.Rows.Count)
-                {
-                    dgvPo.Rows.RemoveAt(rowIndex1);
-                    btnDelete.Enabled = false;
-                    btnDelete.SendToBack();
-                    dgvPo.ClearSelection();
-                }
-            }
-            if (tabControl1.SelectedTab == tabInvoice)
-            {
-                int rowIndex = dgvInvoice.CurrentCell.RowIndex;
-                if (rowIndex >= 0 && rowIndex < dgvInvoice.Rows.Count)
-                {
-                    dgvInvoice.Rows.RemoveAt(rowIndex);
-                    btnDelete.Enabled = false;
-                    btnDelete.SendToBack();
-                    dgvInvoice.ClearSelection();
-                }
-            }
-        }
-        private void DgvInvoice_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                btnDelete.Enabled = true;
-                btnDelete.BringToFront();
-            }
-        }
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            DialogResult save = MessageBox.Show("Do you want to save data to database?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (save == DialogResult.No)
+            if (dgvInvoice.Rows.Count > 0)
             {
-                return;
-            }
-            if (tabControl1.SelectedTab == tabInvoice)
-            {
+                DialogResult result = MessageBox.Show("Are you sur you want to save this invoice?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.No)
+                {
+                    return;
+                }
                 SaveToDBInvoice();
             }
-            if (tabControl1.SelectedTab == tabPo)
-            {
-                SaveToDbPo();
-            }
         }
-        private void BtnImport_Click(object sender, EventArgs e)
-        {
-            if (tabControl1.SelectedTab == tabInvoice)
-            {
-                ImportExcelToGrid(dgvInvoice);
-            }
-            if (tabControl1.SelectedTab == tabPo)
-            {
-                ImportExcelToGrid(dgvPo);
-            }
-        }
-        private void ImportExcelToGrid(DataGridView dgv)
-        {
 
-            dgv.Rows.Clear();
-
-            OpenFileDialog openFD = new OpenFileDialog
-            {
-                Title = "Choose an Excel file for Import",
-                Filter = "Excel Files|*.xls;*.xlsx;"
-            };
-
-            if (openFD.ShowDialog() != DialogResult.OK) return;
-
-            string strFileName = openFD.FileName;
-
-            Microsoft.Office.Interop.Excel.Application xlApp = null;
-            Microsoft.Office.Interop.Excel.Workbook xlWorkbook = null;
-            Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = null;
-            Microsoft.Office.Interop.Excel.Range xlRange = null;
-
-            int error = 0;
-            int cannot = 0;
-            int errCode = 0;
-            int errDoc = 0;
-            int errDate = 0;
-            int bigger = 0;
-            try
-            {
-                lbshow.Text = "សូមរង់ចាំ...(please wait)";
-                Cursor = Cursors.WaitCursor;
-                xlApp = new Microsoft.Office.Interop.Excel.Application();
-                xlWorkbook = xlApp.Workbooks.Open(strFileName);
-                xlWorksheet = xlWorkbook.Worksheets[1];
-                xlRange = xlWorksheet.UsedRange;
-
-                int rowCount = xlRange.Rows.Count;
-                int colCount = xlRange.Columns.Count;
-               
-                dgv.ResumeLayout();
-                dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-                // --- Fill rows starting from row 2 ---
-                string now = DateTime.Now.ToString("yyyy-MM-dd");
-                if (tabControl1.SelectedTab == tabInvoice)
-                {
-                    int startRow = 13; // Assuming data starts from row 12
-                    for (int i = startRow; i <= rowCount; i++)
-                    {
-                        string description = Convert.ToString((xlRange.Cells[i, 1] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-                        string code1 = Convert.ToString((xlRange.Cells[i, 2] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-                        string partno = Convert.ToString((xlRange.Cells[i, 3] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-                        string occ = Convert.ToString((xlRange.Cells[i, 4] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-                        string pono = Convert.ToString((xlRange.Cells[i, 5] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-                        string qty = Convert.ToString((xlRange.Cells[i, 6] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-                        string unit = Convert.ToString((xlRange.Cells[i, 7] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-                        string price = Convert.ToString((xlRange.Cells[i, 8] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-                        string amount = Convert.ToString((xlRange.Cells[i, 9] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-                        string invoiceno = Convert.ToString((xlRange.Cells[i, 10] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-
-                        if (!string.IsNullOrEmpty(description) &&
-                            !string.IsNullOrEmpty(code1) &&
-                            !string.IsNullOrEmpty(partno) &&
-                            !string.IsNullOrEmpty(qty) &&
-                            !string.IsNullOrEmpty(unit) &&
-                            !string.IsNullOrEmpty(price) &&
-                            !string.IsNullOrEmpty(amount))
-                        {
-                            dgv.Rows.Add();
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["description"].Value = description;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["code"].Value = code1;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["Pno"].Value = partno;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["ooc"].Value = occ;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["pono"].Value = pono;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["qty"].Value = qty;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["unit"].Value = unit;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["priceusd"].Value = price;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["amountusd"].Value = amount;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["invoicedate"].Value = now;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["invoiceno1"].Value = invoiceno;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["find"].Value = "Not";
-                        }
-                    }
-                    DataTable dtselect = new DataTable();
-                    DataTable dtMst = new DataTable();
-                    Cursor = Cursors.WaitCursor;
-                    List<string> code = new List<string>();
-                    foreach (DataGridViewRow row in dgvInvoice.Rows)
-                    {
-                        code.Add(row.Cells["code"].Value.ToString());
-                    }
-                    string codelist = "('" + string.Join("','", code) + "')";
-                    //select from request
-                    try
-                    {
-
-                        con.con.Open();
-                        string query = "SELECT * FROM MCSparePartRequest WHERE Dept = '" + dept + "' AND Code IN " + codelist + "ORDER BY Code";
-                        SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
-                        sda.Fill(dtselect);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error while selecting table request: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        lbshow.Text = "Error: " + ex.Message;
-                        error++;
-                    }
-                    con.con.Close();
-                    //select from master
-                    try
-                    {
-                        con.con.Open();
-                        string query = "SELECT Code, Part_No, Part_Name FROM MstMCSparePart WHERE Dept =  '" + dept + "' AND Code IN " + codelist + "ORDER BY Code";
-                        SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
-                        sda.Fill(dtMst);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error while selecting master: " + ex.Message);
-                        lbshow.Text = "Error: " + ex.Message;
-                        error++;
-                    }
-                    con.con.Close();
-                    if (dtselect.Rows.Count <= 0)
-                    {
-                        Cursor = Cursors.Default;
-                        MessageBox.Show("This spare part not have in request", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-                    foreach (DataGridViewRow row1 in dgv.Rows)
-                    {
-                        string code1 = row1.Cells["code"].Value.ToString();
-                        string pono = row1.Cells["pono"].Value.ToString();
-                        double qty = Convert.ToDouble(row1.Cells["qty"].Value);
-                        foreach (DataRow row in dtselect.Rows)
-                        {
-                            double bal = Convert.ToDouble(row["Balance"]);
-                            string pono1 = row["PO_No"].ToString();
-                            string code2 = row["Code"].ToString();  
-                            if (code1 == code2)
-                            {
-                                row1.Cells["find"].Value = "Pono";
-                            }
-                            if (pono == pono1)
-                            {
-                                row1.Cells["find"].Value = "Code";
-                            }
-                         
-                            if (code1 == code2 && pono == pono1)
-                            {
-                                if (qty > bal)
-                                {
-                                    row1.Cells["find"].Value = "Qty";
-                                }
-                                else
-                                {
-                                    row1.Cells["find"].Value = "Have";
-                                }
-                            }
-                        }
-                    }
-                    foreach (DataGridViewRow row1 in dgv.Rows)
-                    {
-                        if (row1.Cells["find"].Value?.ToString() == "Not")
-                        {
-                            row1.Cells["code"].Style.BackColor = Color.LightPink;
-                            row1.Cells["pono"].Style.BackColor = Color.LightPink;
-                            cannot++;
-                        }
-                        if (row1.Cells["find"].Value?.ToString() == "Code")
-                        {
-                            row1.Cells["code"].Style.BackColor = Color.LightPink;
-                            errCode++;
-                        }
-                        if (row1.Cells["find"].Value?.ToString() == "Pono")
-                        {
-                            row1.Cells["pono"].Style.BackColor = Color.LightPink;
-                            errDoc++;
-                        }
-                        if (row1.Cells["find"].Value?.ToString() == "Qty")
-                        {
-                            row1.Cells["qty"].Style.BackColor = Color.LightPink;
-                            bigger++;
-                        }
-                    }
-                    if (errCode > 0)
-                    {
-                        btnSave.Enabled = false;
-                        btnSave.SendToBack();
-                        lbshow.Text = "Code not have in request.";
-                    }
-                    if (errDoc > 0)
-                    {
-                        btnSave.Enabled = false;
-                        btnSave.SendToBack();
-                        lbshow.Text = "Po No. not have in request.";
-                    }
-                    if (bigger >0)
-                    {
-
-                        btnSave.Enabled = false;
-                        btnSave.SendToBack();
-                        lbshow.Text = "Receive Qty bigger than Order Qty.";
-                    }
-                    if (cannot > 0)
-                    {
-                        btnSave.Enabled = false;
-                        btnSave.SendToBack();
-                        lbshow.Text = "Po No and Code not have in request.";
-                    }
-                    if (error == 0 && dgv.Rows.Count > 0 && cannot == 0 && errCode == 0 && errDoc == 0 && bigger ==0 )
-                    {
-                        btnSave.Enabled = true;
-                        btnSave.BringToFront();
-                        lbfound.Text = "Found : " + dgv.Rows.Count;
-                        lbshow.Text = "រួចរាល់ (Done)";
-                    }
-                }
-                if (tabControl1.SelectedTab == tabPo)
-                {
-                    int startRow = 2; 
-                    for (int i = startRow; i <= rowCount; i++)
-                    {
-                        string pono = Convert.ToString((xlRange.Cells[i, 1] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-                        string code = Convert.ToString((xlRange.Cells[i, 2] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-                        string name = Convert.ToString((xlRange.Cells[i, 3] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-                        string plan = Convert.ToString((xlRange.Cells[i, 4] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-                        string remark = Convert.ToString((xlRange.Cells[i, 5] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-
-                        if (!string.IsNullOrEmpty(pono) &&
-                            !string.IsNullOrEmpty(code) &&
-                            !string.IsNullOrEmpty(name) &&
-                            !string.IsNullOrEmpty(plan))
-                        {
-                            dgv.Rows.Add();
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["pono1"].Value = pono;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["itemcode"].Value = code;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["docno"].Value = name;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["plan"].Value = plan;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["remark1"].Value = remark;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["find1"].Value = "Not";
-                        }
-                    }
-                    try
-                    {
-                        Cursor = Cursors.WaitCursor;
-                        DataTable dtselect = new DataTable();
-                        List<string> code = new List<string>();
-                        foreach (DataGridViewRow row in dgvPo.Rows)
-                        {
-                            code.Add(row.Cells["itemcode"].Value.ToString());
-                        }
-                        string codelist = "('" + string.Join("','", code) + "')";
-                        //select from request
-                        try
-                        {
-
-                            con.con.Open();
-                            string query = "SELECT * FROM MCSparePartRequest WHERE Dept = '" + dept + "' AND Code IN " + codelist + " AND Order_State <> 'Completed' ORDER BY Code";
-                            SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
-                            sda.Fill(dtselect);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Error while selecting table request: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            lbshow.Text = "Error: " + ex.Message;
-                        }
-                        con.con.Close();
-
-                        if (dtselect.Rows.Count <= 0)
-                        {
-                            lbshow.Text = " Spare part not have in request ";
-                            MessageBox.Show("This spare part not have in request", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            Cursor = Cursors.Default;
-                            return;
-                        }
-                        foreach (DataGridViewRow row1 in dgv.Rows)
-                        {
-                            string code1 = row1.Cells["itemcode"].Value?.ToString() ?? "";
-                            string docno = row1.Cells["docno"].Value?.ToString() ?? "";
-                            string raw = Convert.ToString(row1.Cells["plan"].Value);
-
-                          
-                            foreach (DataRow row in dtselect.Rows)
-                            {
-                                string code2 = row["Code"] == DBNull.Value ? string.Empty : row["Code"].ToString();
-                                string docno2 = row["PO_No"] == DBNull.Value ? string.Empty : row["PO_No"].ToString();
-                                if (code1 == code2)
-                                {
-                                    row1.Cells["find1"].Value = "Docno";
-                                }
-                                if (docno == docno2)
-                                {
-                                    row1.Cells["find1"].Value = "Code";
-                                }
-                                if (DateTime.TryParseExact(raw, "dd-MM-yy",
-System.Globalization.CultureInfo.InvariantCulture,
-System.Globalization.DateTimeStyles.None,
-out DateTime plan1))
-                                {
-
-                                }
-                                else
-                                {
-                                    row1.Cells["find1"].Value = "Date";
-                                }
-
-                                if (code1 == code2 && docno == docno2 && DateTime.TryParseExact(raw, "dd-MM-yy",
-                          System.Globalization.CultureInfo.InvariantCulture,
-                          System.Globalization.DateTimeStyles.None,
-                          out DateTime plan))
-                                {
-                                    row1.Cells["find1"].Value = "Have";
-                                    break;
-                                }
-                            
-                            }
-                        }
-                        foreach (DataGridViewRow row1 in dgv.Rows)
-                        {
-                            if (row1.Cells["find1"].Value?.ToString() == "Not")
-                            {
-                                cannot++;
-                            }
-                            if (row1.Cells["find1"].Value?.ToString() == "Code")
-                            {
-                                row1.Cells["itemcode"].Style.BackColor = Color.LightPink;
-                                errCode++;  
-                            }
-                            if (row1.Cells["find1"].Value?.ToString() == "Docno")
-                            {
-                                row1.Cells["docno"].Style.BackColor = Color.LightPink;
-                                errDoc++;
-                            }
-                            if (row1.Cells["find1"].Value?.ToString() == "Date")
-                            {
-                                row1.Cells["plan"].Style.BackColor = Color.LightPink;
-                                errDate++;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        error++;
-                    }
-                    if (errCode > 0)
-                    {
-                        btnSave.Enabled = false;
-                        btnSave.SendToBack();
-                        lbshow.Text = "Code not have in request.";
-                    }
-                    if (errDoc > 0)
-                    {
-                        btnSave.Enabled = false;
-                        btnSave.SendToBack();
-                        lbshow.Text = "Document No. not have in request.";
-                    }
-                    if (cannot > 0)
-                    {
-                        btnSave.Enabled = false;
-                        btnSave.SendToBack();
-                        lbshow.Text = "Document No And Code not have in request !";
-                    }
-                    if (error == 0 && dgv.Rows.Count > 0 && cannot == 0 && errCode == 0 && errDoc == 0 && errDate == 0)
-                    {
-                        btnSave.Enabled = true;
-                        btnSave.BringToFront();
-                        lbfound.Text = "Found : " + dgv.Rows.Count;
-                        lbshow.Text = "រួចរាល់ (Done)";
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-                lbshow.Text = "Error: " + ex.Message;
-            }
-            finally
-            {
-                if (xlWorkbook != null) xlWorkbook.Close(false);
-                if (xlApp != null) xlApp.Quit();
-                if (xlRange != null) Marshal.ReleaseComObject(xlRange);
-                if (xlWorksheet != null) Marshal.ReleaseComObject(xlWorksheet);
-                if (xlWorkbook != null) Marshal.ReleaseComObject(xlWorkbook);
-                if (xlApp != null) Marshal.ReleaseComObject(xlApp);
-
-                xlRange = null;
-                xlWorksheet = null;
-                xlWorkbook = null;
-                xlApp = null;
-
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-            }
-            dgv.ClearSelection();
-            Cursor = Cursors.Default;
-        }
         private void SaveToDBInvoice()
         {
             int error = 0;
@@ -514,10 +146,10 @@ out DateTime plan1))
             //select from request
             try
             {
-                
+
                 con.con.Open();
-                string query = "SELECT * FROM MCSparePartRequest WHERE Dept = '" +dept+"' AND Code IN " + codelist + "ORDER BY Code";
-                SqlDataAdapter sda =  new SqlDataAdapter(query, con.con);
+                string query = "SELECT * FROM MCSparePartRequest WHERE Dept = '" + dept + "' AND Code IN " + codelist + "ORDER BY Code";
+                SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtselect);
             }
             catch (Exception ex)
@@ -563,6 +195,7 @@ out DateTime plan1))
                     string invoicedate = row1.Cells["invoicedate"]?.Value?.ToString() ?? "";
                     foreach (DataRow row2 in dtselect.Rows)
                     {
+                        string MCdocNo = row2["MCDocNo"].ToString();
                         string CodeSelect = row2["Code"].ToString();
                         string ponoSelect = row2["PO_No"].ToString();
                         double orderqty = row2["Order_Qty"] != DBNull.Value ? Convert.ToDouble(row2["Order_Qty"]) : 0;
@@ -579,7 +212,7 @@ out DateTime plan1))
                         {
                             status = "Completed";
                         }
-                        if (CodeIN == CodeSelect && ponoIN == ponoSelect)
+                        if (CodeIN == CodeSelect &&  string.IsNullOrEmpty(MCdocNo))
                         {
                             if (recqty > balance)
                             {
@@ -593,8 +226,8 @@ out DateTime plan1))
                             {
                                 con.con.Open();
                                 string query = "UPDATE MCSparePartRequest SET ReceiveQTY =  @recqty, Balance = @balance, RemainAmount = @reamount, Receive_Date = @recdate, Order_State = @orderstate, " +
-                            " Remark = @remark, UpdateDate = @update " +
-                            " WHERE Code = @code AND PO_No = @pono AND Order_State <> 'Completed' AND Dept = @dept";
+                            " Remark = @remark, UpdateDate = @update, MCDocNo = @mcdocno, PO_No = @pono " +
+                            " WHERE Code = @code  AND Order_State <> 'Completed' AND Dept = @dept";
                                 SqlCommand cmd = new SqlCommand(query, con.con);
                                 cmd.Parameters.AddWithValue("@recqty", finalQty);
                                 cmd.Parameters.AddWithValue("@balance", finalBalance);
@@ -604,7 +237,8 @@ out DateTime plan1))
                                 cmd.Parameters.AddWithValue("@remark", "Update: " + now.ToString("dd-MM-yyyy"));
                                 cmd.Parameters.AddWithValue("@update", now);
                                 cmd.Parameters.AddWithValue("@code", CodeSelect);
-                                cmd.Parameters.AddWithValue("@pono", ponoSelect);
+                                cmd.Parameters.AddWithValue("@mcdocno", ponoSelect);
+                                cmd.Parameters.AddWithValue("@pono", ponoIN);
                                 cmd.Parameters.AddWithValue("@dept", dept);
                                 cmd.ExecuteNonQuery();
                             }
@@ -626,7 +260,7 @@ out DateTime plan1))
                     double recqty = double.TryParse(row1.Cells["qty"]?.Value?.ToString(), out var q) ? q : 0;
                     string PartNo = row1.Cells["Pno"]?.Value?.ToString() ?? "";
                     double amount = double.TryParse(row1.Cells["amountusd"]?.Value?.ToString(), out var a) ? a : 0;
-                    string invoice = row1.Cells["invoiceno1"]?.Value?.ToString() ?? "";
+                    string invoice = row1.Cells["invoiceno"]?.Value?.ToString() ?? "";
                     string pono = row1.Cells["pono"]?.Value?.ToString() ?? "";
                     foreach (DataRow row2 in dtMst.Rows)
                     {
@@ -702,7 +336,6 @@ out DateTime plan1))
             if (error == 0)
             {
                 MessageBox.Show("Save successfully !", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                btnDeleteGray.BringToFront();
                 dgvInvoice.Rows.Clear();
                 btnSave.Enabled = false;
                 btnSave.BringToFront();
@@ -714,97 +347,563 @@ out DateTime plan1))
             con.con.Close();
             Cursor = Cursors.Default;
         }
-        private void SaveToDbPo()
-        {
-            int success = 0;
-            DataTable dtselect = new DataTable();
-            Cursor = Cursors.WaitCursor;
-            List<string> code = new List<string>();
-            int cannot = 0;
-            DateTime now = DateTime.Now;
-            foreach (DataGridViewRow row in dgvPo.Rows)
-            {               
-                code.Add(row.Cells["itemcode"].Value.ToString());
-            }
-            string codelist = "('" + string.Join("','", code) + "')";
-            //select from request
-            try
-            {
-                con.con.Open();
-                string query = "SELECT * FROM MCSparePartRequest WHERE Dept = '" + dept + "' AND Code IN " + codelist + " AND Order_State <> 'Completed' ORDER BY Code";
-                Console.WriteLine(query);
-                SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
-                sda.Fill(dtselect);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error while selecting table request: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                lbshow.Text = "Error: " + ex.Message;
-            }
-            con.con.Close();
-            
-            if (dtselect.Rows.Count <= 0)
-            {
-                MessageBox.Show("This spare part not have in request", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cannot++;
-                return;
-            }
-            if (cannot == 0)
-            {
-                try
-                {
-                    con.con.Open();
-                    foreach (DataGridViewRow row in dgvPo.Rows)
-                    {
-                        string codePo = row.Cells["itemcode"].Value?.ToString();
-                        string pono = row.Cells["pono1"].Value?.ToString();
-                        string docno = row.Cells["docno"].Value?.ToString();
-                        DateTime plan = Convert.ToDateTime(row.Cells["plan"].Value);
-                        foreach (DataRow row2 in dtselect.Rows)
-                        {
-                            string codeselect = row2["Code"] == DBNull.Value ? string.Empty : row2["Code"].ToString();
-                            string docno2 = row2["PO_No"] == DBNull.Value ? string.Empty : row2["PO_No"].ToString();
-                            string cond = row2["Order_State"] == DBNull.Value ? string.Empty : row2["Order_State"].ToString();
-                            DateTime plan2 = row2["Receive_Date"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(row2["ETA"]);
-                            if (codePo == codeselect && docno == docno2 && cond != "Completed")
-                            {
-                                string query = "UPDATE MCSparePartRequest SET PO_No = @pono, ETA = @eta, Receive_Date = @recdate, Remark = @remark, UpdateDate = @update WHERE Code = @code AND Order_State <> 'Completed' AND Dept = @dept";
-                                SqlCommand cmd = new SqlCommand(query, con.con);
-                                cmd.Parameters.AddWithValue("@pono", pono);
-                                cmd.Parameters.AddWithValue("@eta", plan);
-                                cmd.Parameters.AddWithValue("@recdate", plan);
-                                cmd.Parameters.AddWithValue("@remark", "Updated by Minamikawa san on " + now.ToString("dd-MM-yyyy"));
-                                cmd.Parameters.AddWithValue("@update", now);
-                                cmd.Parameters.AddWithValue("@code", codeselect);
-                                cmd.Parameters.AddWithValue("@dept", dept);
-                                cmd.ExecuteNonQuery();
-                                success++;
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error while updating po " + ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                if (success > 0)
-                {
-                    dgvPo.Rows.Clear();
-                    btnSave.Enabled = false;
-                    btnSaveGrey.BringToFront();
-                    MessageBox.Show("Save successfully ! ", "Done.", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Wrong Document No or Code ! ", "Failed.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            else
-            {
-               lbshow.Text = "Wrong Document No or Code";
-            }
-            con.con.Close();
-            Cursor = Cursors.Default;
-        }
+        /*
+private void DgvPo_CellClick(object sender, DataGridViewCellEventArgs e)
+{       
+   if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+   {
+       btnDelete.Enabled = true;
+       btnDelete.BringToFront();
+   }
+}
+private void BtnDelete_Click(object sender, EventArgs e)
+{
+   if (tabControl1.SelectedTab == tabPo)
+   {
+       int rowIndex1 = dgvPo.CurrentCell.RowIndex;
+       if (rowIndex1 >= 0 && rowIndex1 < dgvPo.Rows.Count)
+       {
+           dgvPo.Rows.RemoveAt(rowIndex1);
+           btnDelete.Enabled = false;
+           btnDelete.SendToBack();
+           dgvPo.ClearSelection();
+       }
+   }
+   if (tabControl1.SelectedTab == tabInvoice)
+   {
+       int rowIndex = dgvInvoice.CurrentCell.RowIndex;
+       if (rowIndex >= 0 && rowIndex < dgvInvoice.Rows.Count)
+       {
+           dgvInvoice.Rows.RemoveAt(rowIndex);
+           btnDelete.Enabled = false;
+           btnDelete.SendToBack();
+           dgvInvoice.ClearSelection();
+       }
+   }
+}
+private void DgvInvoice_CellClick(object sender, DataGridViewCellEventArgs e)
+{
+   if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+   {
+       btnDelete.Enabled = true;
+       btnDelete.BringToFront();
+   }
+}
+private void BtnSave_Click(object sender, EventArgs e)
+{
+   DialogResult save = MessageBox.Show("Do you want to save data to database?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+   if (save == DialogResult.No)
+   {
+       return;
+   }
+   if (tabControl1.SelectedTab == tabInvoice)
+   {
+       SaveToDBInvoice();
+   }
+   if (tabControl1.SelectedTab == tabPo)
+   {
+       SaveToDbPo();
+   }
+}
+private void BtnImport_Click(object sender, EventArgs e)
+{
+   if (tabControl1.SelectedTab == tabInvoice)
+   {
+       ImportExcelToGrid(dgvInvoice);
+   }
+   if (tabControl1.SelectedTab == tabPo)
+   {
+       ImportExcelToGrid(dgvPo);
+   }
+}
+private void ImportExcelToGrid(DataGridView dgv)
+{
+
+   dgv.Rows.Clear();
+
+   OpenFileDialog openFD = new OpenFileDialog
+   {
+       Title = "Choose an Excel file for Import",
+       Filter = "Excel Files|*.xls;*.xlsx;"
+   };
+
+   if (openFD.ShowDialog() != DialogResult.OK) return;
+
+   string strFileName = openFD.FileName;
+
+   Microsoft.Office.Interop.Excel.Application xlApp = null;
+   Microsoft.Office.Interop.Excel.Workbook xlWorkbook = null;
+   Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = null;
+   Microsoft.Office.Interop.Excel.Range xlRange = null;
+
+   int error = 0;
+   int cannot = 0;
+   int errCode = 0;
+   int errDoc = 0;
+   int errDate = 0;
+   int bigger = 0;
+   try
+   {
+       lbshow.Text = "សូមរង់ចាំ...(please wait)";
+       Cursor = Cursors.WaitCursor;
+       xlApp = new Microsoft.Office.Interop.Excel.Application();
+       xlWorkbook = xlApp.Workbooks.Open(strFileName);
+       xlWorksheet = xlWorkbook.Worksheets[1];
+       xlRange = xlWorksheet.UsedRange;
+
+       int rowCount = xlRange.Rows.Count;
+       int colCount = xlRange.Columns.Count;
+
+       dgv.ResumeLayout();
+       dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+       // --- Fill rows starting from row 2 ---
+       string now = DateTime.Now.ToString("yyyy-MM-dd");
+       if (tabControl1.SelectedTab == tabInvoice)
+       {
+           int startRow = 13; // Assuming data starts from row 12
+           for (int i = startRow; i <= rowCount; i++)
+           {
+               string description = Convert.ToString((xlRange.Cells[i, 1] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
+               string code1 = Convert.ToString((xlRange.Cells[i, 2] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
+               string partno = Convert.ToString((xlRange.Cells[i, 3] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
+               string occ = Convert.ToString((xlRange.Cells[i, 4] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
+               string pono = Convert.ToString((xlRange.Cells[i, 5] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
+               string qty = Convert.ToString((xlRange.Cells[i, 6] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
+               string unit = Convert.ToString((xlRange.Cells[i, 7] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
+               string price = Convert.ToString((xlRange.Cells[i, 8] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
+               string amount = Convert.ToString((xlRange.Cells[i, 9] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
+               string invoiceno = Convert.ToString((xlRange.Cells[i, 10] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
+
+               if (!string.IsNullOrEmpty(description) &&
+                   !string.IsNullOrEmpty(code1) &&
+                   !string.IsNullOrEmpty(partno) &&
+                   !string.IsNullOrEmpty(qty) &&
+                   !string.IsNullOrEmpty(unit) &&
+                   !string.IsNullOrEmpty(price) &&
+                   !string.IsNullOrEmpty(amount))
+               {
+                   dgv.Rows.Add();
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["description"].Value = description;
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["code"].Value = code1;
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["Pno"].Value = partno;
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["ooc"].Value = occ;
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["pono"].Value = pono;
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["qty"].Value = qty;
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["unit"].Value = unit;
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["priceusd"].Value = price;
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["amountusd"].Value = amount;
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["invoicedate"].Value = now;
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["invoiceno1"].Value = invoiceno;
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["find"].Value = "Not";
+               }
+           }
+           DataTable dtselect = new DataTable();
+           DataTable dtMst = new DataTable();
+           Cursor = Cursors.WaitCursor;
+           List<string> code = new List<string>();
+           foreach (DataGridViewRow row in dgvInvoice.Rows)
+           {
+               code.Add(row.Cells["code"].Value.ToString());
+           }
+           string codelist = "('" + string.Join("','", code) + "')";
+           //select from request
+           try
+           {
+
+               con.con.Open();
+               string query = "SELECT * FROM MCSparePartRequest WHERE Dept = '" + dept + "' AND Code IN " + codelist + "ORDER BY Code";
+               SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
+               sda.Fill(dtselect);
+           }
+           catch (Exception ex)
+           {
+               MessageBox.Show("Error while selecting table request: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+               lbshow.Text = "Error: " + ex.Message;
+               error++;
+           }
+           con.con.Close();
+           //select from master
+           try
+           {
+               con.con.Open();
+               string query = "SELECT Code, Part_No, Part_Name FROM MstMCSparePart WHERE Dept =  '" + dept + "' AND Code IN " + codelist + "ORDER BY Code";
+               SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
+               sda.Fill(dtMst);
+           }
+           catch (Exception ex)
+           {
+               MessageBox.Show("Error while selecting master: " + ex.Message);
+               lbshow.Text = "Error: " + ex.Message;
+               error++;
+           }
+           con.con.Close();
+           if (dtselect.Rows.Count <= 0)
+           {
+               Cursor = Cursors.Default;
+               MessageBox.Show("This spare part not have in request", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+               return;
+           }
+           foreach (DataGridViewRow row1 in dgv.Rows)
+           {
+               string code1 = row1.Cells["code"].Value.ToString();
+               string pono = row1.Cells["pono"].Value.ToString();
+               double qty = Convert.ToDouble(row1.Cells["qty"].Value);
+               foreach (DataRow row in dtselect.Rows)
+               {
+                   double bal = Convert.ToDouble(row["Balance"]);
+                   string pono1 = row["PO_No"].ToString();
+                   string code2 = row["Code"].ToString();  
+                   if (code1 == code2)
+                   {
+                       row1.Cells["find"].Value = "Pono";
+                   }
+                   if (pono == pono1)
+                   {
+                       row1.Cells["find"].Value = "Code";
+                   }
+
+                   if (code1 == code2 && pono == pono1)
+                   {
+                       if (qty > bal)
+                       {
+                           row1.Cells["find"].Value = "Qty";
+                       }
+                       else
+                       {
+                           row1.Cells["find"].Value = "Have";
+                       }
+                   }
+               }
+           }
+           foreach (DataGridViewRow row1 in dgv.Rows)
+           {
+               if (row1.Cells["find"].Value?.ToString() == "Not")
+               {
+                   row1.Cells["code"].Style.BackColor = Color.LightPink;
+                   row1.Cells["pono"].Style.BackColor = Color.LightPink;
+                   cannot++;
+               }
+               if (row1.Cells["find"].Value?.ToString() == "Code")
+               {
+                   row1.Cells["code"].Style.BackColor = Color.LightPink;
+                   errCode++;
+               }
+               if (row1.Cells["find"].Value?.ToString() == "Pono")
+               {
+                   row1.Cells["pono"].Style.BackColor = Color.LightPink;
+                   errDoc++;
+               }
+               if (row1.Cells["find"].Value?.ToString() == "Qty")
+               {
+                   row1.Cells["qty"].Style.BackColor = Color.LightPink;
+                   bigger++;
+               }
+           }
+           if (errCode > 0)
+           {
+               btnSave.Enabled = false;
+               btnSave.SendToBack();
+               lbshow.Text = "Code not have in request.";
+           }
+           if (errDoc > 0)
+           {
+               btnSave.Enabled = false;
+               btnSave.SendToBack();
+               lbshow.Text = "Po No. not have in request.";
+           }
+           if (bigger >0)
+           {
+
+               btnSave.Enabled = false;
+               btnSave.SendToBack();
+               lbshow.Text = "Receive Qty bigger than Order Qty.";
+           }
+           if (cannot > 0)
+           {
+               btnSave.Enabled = false;
+               btnSave.SendToBack();
+               lbshow.Text = "Po No and Code not have in request.";
+           }
+           if (error == 0 && dgv.Rows.Count > 0 && cannot == 0 && errCode == 0 && errDoc == 0 && bigger ==0 )
+           {
+               btnSave.Enabled = true;
+               btnSave.BringToFront();
+               lbfound.Text = "Found : " + dgv.Rows.Count;
+               lbshow.Text = "រួចរាល់ (Done)";
+           }
+       }
+       if (tabControl1.SelectedTab == tabPo)
+       {
+           int startRow = 2; 
+           for (int i = startRow; i <= rowCount; i++)
+           {
+               string pono = Convert.ToString((xlRange.Cells[i, 1] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
+               string code = Convert.ToString((xlRange.Cells[i, 2] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
+               string name = Convert.ToString((xlRange.Cells[i, 3] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
+               string plan = Convert.ToString((xlRange.Cells[i, 4] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
+               string remark = Convert.ToString((xlRange.Cells[i, 5] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
+
+               if (!string.IsNullOrEmpty(pono) &&
+                   !string.IsNullOrEmpty(code) &&
+                   !string.IsNullOrEmpty(name) &&
+                   !string.IsNullOrEmpty(plan))
+               {
+                   dgv.Rows.Add();
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["pono1"].Value = pono;
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["itemcode"].Value = code;
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["docno"].Value = name;
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["plan"].Value = plan;
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["remark1"].Value = remark;
+                   dgv.Rows[dgv.Rows.Count - 1].Cells["find1"].Value = "Not";
+               }
+           }
+           try
+           {
+               Cursor = Cursors.WaitCursor;
+               DataTable dtselect = new DataTable();
+               List<string> code = new List<string>();
+               foreach (DataGridViewRow row in dgvPo.Rows)
+               {
+                   code.Add(row.Cells["itemcode"].Value.ToString());
+               }
+               string codelist = "('" + string.Join("','", code) + "')";
+               //select from request
+               try
+               {
+
+                   con.con.Open();
+                   string query = "SELECT * FROM MCSparePartRequest WHERE Dept = '" + dept + "' AND Code IN " + codelist + " AND Order_State <> 'Completed' ORDER BY Code";
+                   SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
+                   sda.Fill(dtselect);
+               }
+               catch (Exception ex)
+               {
+                   MessageBox.Show("Error while selecting table request: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                   lbshow.Text = "Error: " + ex.Message;
+               }
+               con.con.Close();
+
+               if (dtselect.Rows.Count <= 0)
+               {
+                   lbshow.Text = " Spare part not have in request ";
+                   MessageBox.Show("This spare part not have in request", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                   Cursor = Cursors.Default;
+                   return;
+               }
+               foreach (DataGridViewRow row1 in dgv.Rows)
+               {
+                   string code1 = row1.Cells["itemcode"].Value?.ToString() ?? "";
+                   string docno = row1.Cells["docno"].Value?.ToString() ?? "";
+                   string raw = Convert.ToString(row1.Cells["plan"].Value);
+
+
+                   foreach (DataRow row in dtselect.Rows)
+                   {
+                       string code2 = row["Code"] == DBNull.Value ? string.Empty : row["Code"].ToString();
+                       string docno2 = row["PO_No"] == DBNull.Value ? string.Empty : row["PO_No"].ToString();
+                       if (code1 == code2)
+                       {
+                           row1.Cells["find1"].Value = "Docno";
+                       }
+                       if (docno == docno2)
+                       {
+                           row1.Cells["find1"].Value = "Code";
+                       }
+                       if (DateTime.TryParseExact(raw, "dd-MM-yy",
+System.Globalization.CultureInfo.InvariantCulture,
+System.Globalization.DateTimeStyles.None,
+out DateTime plan1))
+                       {
+
+                       }
+                       else
+                       {
+                           row1.Cells["find1"].Value = "Date";
+                       }
+
+                       if (code1 == code2 && docno == docno2 && DateTime.TryParseExact(raw, "dd-MM-yy",
+                 System.Globalization.CultureInfo.InvariantCulture,
+                 System.Globalization.DateTimeStyles.None,
+                 out DateTime plan))
+                       {
+                           row1.Cells["find1"].Value = "Have";
+                           break;
+                       }
+
+                   }
+               }
+               foreach (DataGridViewRow row1 in dgv.Rows)
+               {
+                   if (row1.Cells["find1"].Value?.ToString() == "Not")
+                   {
+                       cannot++;
+                   }
+                   if (row1.Cells["find1"].Value?.ToString() == "Code")
+                   {
+                       row1.Cells["itemcode"].Style.BackColor = Color.LightPink;
+                       errCode++;  
+                   }
+                   if (row1.Cells["find1"].Value?.ToString() == "Docno")
+                   {
+                       row1.Cells["docno"].Style.BackColor = Color.LightPink;
+                       errDoc++;
+                   }
+                   if (row1.Cells["find1"].Value?.ToString() == "Date")
+                   {
+                       row1.Cells["plan"].Style.BackColor = Color.LightPink;
+                       errDate++;
+                   }
+               }
+           }
+           catch
+           {
+               error++;
+           }
+           if (errCode > 0)
+           {
+               btnSave.Enabled = false;
+               btnSave.SendToBack();
+               lbshow.Text = "Code not have in request.";
+           }
+           if (errDoc > 0)
+           {
+               btnSave.Enabled = false;
+               btnSave.SendToBack();
+               lbshow.Text = "Document No. not have in request.";
+           }
+           if (cannot > 0)
+           {
+               btnSave.Enabled = false;
+               btnSave.SendToBack();
+               lbshow.Text = "Document No And Code not have in request !";
+           }
+           if (error == 0 && dgv.Rows.Count > 0 && cannot == 0 && errCode == 0 && errDoc == 0 && errDate == 0)
+           {
+               btnSave.Enabled = true;
+               btnSave.BringToFront();
+               lbfound.Text = "Found : " + dgv.Rows.Count;
+               lbshow.Text = "រួចរាល់ (Done)";
+           }
+       }
+
+   }
+   catch (Exception ex)
+   {
+       MessageBox.Show("Error: " + ex.Message);
+       lbshow.Text = "Error: " + ex.Message;
+   }
+   finally
+   {
+       if (xlWorkbook != null) xlWorkbook.Close(false);
+       if (xlApp != null) xlApp.Quit();
+       if (xlRange != null) Marshal.ReleaseComObject(xlRange);
+       if (xlWorksheet != null) Marshal.ReleaseComObject(xlWorksheet);
+       if (xlWorkbook != null) Marshal.ReleaseComObject(xlWorkbook);
+       if (xlApp != null) Marshal.ReleaseComObject(xlApp);
+
+       xlRange = null;
+       xlWorksheet = null;
+       xlWorkbook = null;
+       xlApp = null;
+
+       GC.Collect();
+       GC.WaitForPendingFinalizers();
+   }
+   dgv.ClearSelection();
+   Cursor = Cursors.Default;
+}
+
+private void SaveToDbPo()
+{
+   int success = 0;
+   DataTable dtselect = new DataTable();
+   Cursor = Cursors.WaitCursor;
+   List<string> code = new List<string>();
+   int cannot = 0;
+   DateTime now = DateTime.Now;
+   foreach (DataGridViewRow row in dgvPo.Rows)
+   {               
+       code.Add(row.Cells["itemcode"].Value.ToString());
+   }
+   string codelist = "('" + string.Join("','", code) + "')";
+   //select from request
+   try
+   {
+       con.con.Open();
+       string query = "SELECT * FROM MCSparePartRequest WHERE Dept = '" + dept + "' AND Code IN " + codelist + " AND Order_State <> 'Completed' ORDER BY Code";
+       Console.WriteLine(query);
+       SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
+       sda.Fill(dtselect);
+   }
+   catch (Exception ex)
+   {
+       MessageBox.Show("Error while selecting table request: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+       lbshow.Text = "Error: " + ex.Message;
+   }
+   con.con.Close();
+
+   if (dtselect.Rows.Count <= 0)
+   {
+       MessageBox.Show("This spare part not have in request", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+       cannot++;
+       return;
+   }
+   if (cannot == 0)
+   {
+       try
+       {
+           con.con.Open();
+           foreach (DataGridViewRow row in dgvPo.Rows)
+           {
+               string codePo = row.Cells["itemcode"].Value?.ToString();
+               string pono = row.Cells["pono1"].Value?.ToString();
+               string docno = row.Cells["docno"].Value?.ToString();
+               DateTime plan = Convert.ToDateTime(row.Cells["plan"].Value);
+               foreach (DataRow row2 in dtselect.Rows)
+               {
+                   string codeselect = row2["Code"] == DBNull.Value ? string.Empty : row2["Code"].ToString();
+                   string docno2 = row2["PO_No"] == DBNull.Value ? string.Empty : row2["PO_No"].ToString();
+                   string cond = row2["Order_State"] == DBNull.Value ? string.Empty : row2["Order_State"].ToString();
+                   DateTime plan2 = row2["Receive_Date"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(row2["ETA"]);
+                   if (codePo == codeselect && docno == docno2 && cond != "Completed")
+                   {
+                       string query = "UPDATE MCSparePartRequest SET PO_No = @pono, ETA = @eta, Receive_Date = @recdate, Remark = @remark, UpdateDate = @update WHERE Code = @code AND Order_State <> 'Completed' AND Dept = @dept";
+                       SqlCommand cmd = new SqlCommand(query, con.con);
+                       cmd.Parameters.AddWithValue("@pono", pono);
+                       cmd.Parameters.AddWithValue("@eta", plan);
+                       cmd.Parameters.AddWithValue("@recdate", plan);
+                       cmd.Parameters.AddWithValue("@remark", "Updated by Minamikawa san on " + now.ToString("dd-MM-yyyy"));
+                       cmd.Parameters.AddWithValue("@update", now);
+                       cmd.Parameters.AddWithValue("@code", codeselect);
+                       cmd.Parameters.AddWithValue("@dept", dept);
+                       cmd.ExecuteNonQuery();
+                       success++;
+                   }
+               }
+           }
+       }
+       catch (Exception ex)
+       {
+           MessageBox.Show("Error while updating po " + ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+       }
+       if (success > 0)
+       {
+           dgvPo.Rows.Clear();
+           btnSave.Enabled = false;
+           btnSaveGrey.BringToFront();
+           MessageBox.Show("Save successfully ! ", "Done.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+       }
+       else
+       {
+           MessageBox.Show("Wrong Document No or Code ! ", "Failed.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+       }
+   }
+   else
+   {
+      lbshow.Text = "Wrong Document No or Code";
+   }
+   con.con.Close();
+   Cursor = Cursors.Default;
+}*/
     }
 }

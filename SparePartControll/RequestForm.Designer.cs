@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RequestForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -48,10 +48,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelHeader = new System.Windows.Forms.Panel();
+            this.btnUpdateGrey = new System.Windows.Forms.Button();
+            this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDeleteGray = new System.Windows.Forms.PictureBox();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.btnSearch = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtPno = new System.Windows.Forms.TextBox();
             this.chkPno = new System.Windows.Forms.CheckBox();
@@ -74,6 +76,7 @@
             this.amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.eta = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pono = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mcdocno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.receivedate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.receiveqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.balance = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -91,19 +94,47 @@
             // panelHeader
             // 
             this.panelHeader.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panelHeader.Controls.Add(this.btnUpdateGrey);
+            this.panelHeader.Controls.Add(this.btnUpdate);
             this.panelHeader.Controls.Add(this.btnDeleteGray);
             this.panelHeader.Controls.Add(this.btnDelete);
-            this.panelHeader.Controls.Add(this.btnSearch);
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelHeader.Location = new System.Drawing.Point(0, 0);
+            this.panelHeader.Location = new System.Drawing.Point(3, 3);
             this.panelHeader.Name = "panelHeader";
-            this.panelHeader.Size = new System.Drawing.Size(800, 68);
+            this.panelHeader.Size = new System.Drawing.Size(978, 68);
             this.panelHeader.TabIndex = 52;
+            // 
+            // btnUpdateGrey
+            // 
+            this.btnUpdateGrey.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnUpdateGrey.BackColor = System.Drawing.Color.Transparent;
+            this.btnUpdateGrey.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnUpdateGrey.BackgroundImage")));
+            this.btnUpdateGrey.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnUpdateGrey.Enabled = false;
+            this.btnUpdateGrey.Location = new System.Drawing.Point(13, 6);
+            this.btnUpdateGrey.Name = "btnUpdateGrey";
+            this.btnUpdateGrey.Size = new System.Drawing.Size(57, 56);
+            this.btnUpdateGrey.TabIndex = 36;
+            this.toolTip1.SetToolTip(this.btnUpdateGrey, "Update");
+            this.btnUpdateGrey.UseVisualStyleBackColor = false;
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnUpdate.BackColor = System.Drawing.Color.Transparent;
+            this.btnUpdate.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnUpdate.BackgroundImage")));
+            this.btnUpdate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnUpdate.Enabled = false;
+            this.btnUpdate.Location = new System.Drawing.Point(13, 6);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(57, 56);
+            this.btnUpdate.TabIndex = 37;
+            this.btnUpdate.UseVisualStyleBackColor = false;
             // 
             // btnDeleteGray
             // 
             this.btnDeleteGray.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteGray.Image")));
-            this.btnDeleteGray.Location = new System.Drawing.Point(72, 7);
+            this.btnDeleteGray.Location = new System.Drawing.Point(76, 6);
             this.btnDeleteGray.Name = "btnDeleteGray";
             this.btnDeleteGray.Size = new System.Drawing.Size(47, 55);
             this.btnDeleteGray.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -116,25 +147,12 @@
             this.btnDelete.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDelete.BackgroundImage")));
             this.btnDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnDelete.Enabled = false;
-            this.btnDelete.Location = new System.Drawing.Point(72, 6);
+            this.btnDelete.Location = new System.Drawing.Point(76, 5);
             this.btnDelete.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(46, 56);
             this.btnDelete.TabIndex = 30;
             this.btnDelete.UseVisualStyleBackColor = true;
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnSearch.BackColor = System.Drawing.Color.Transparent;
-            this.btnSearch.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSearch.BackgroundImage")));
-            this.btnSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSearch.Location = new System.Drawing.Point(12, 6);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(53, 56);
-            this.btnSearch.TabIndex = 29;
-            this.toolTip1.SetToolTip(this.btnSearch, "Search");
-            this.btnSearch.UseVisualStyleBackColor = false;
             // 
             // groupBox1
             // 
@@ -147,9 +165,9 @@
             this.groupBox1.Controls.Add(this.chkcode);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(0, 68);
+            this.groupBox1.Location = new System.Drawing.Point(3, 71);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(800, 123);
+            this.groupBox1.Size = new System.Drawing.Size(978, 73);
             this.groupBox1.TabIndex = 56;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search Condition";
@@ -157,7 +175,7 @@
             // txtPno
             // 
             this.txtPno.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPno.Location = new System.Drawing.Point(143, 72);
+            this.txtPno.Location = new System.Drawing.Point(286, 25);
             this.txtPno.Name = "txtPno";
             this.txtPno.Size = new System.Drawing.Size(101, 30);
             this.txtPno.TabIndex = 122;
@@ -166,7 +184,7 @@
             // 
             this.chkPno.AutoSize = true;
             this.chkPno.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkPno.Location = new System.Drawing.Point(34, 74);
+            this.chkPno.Location = new System.Drawing.Point(207, 29);
             this.chkPno.Name = "chkPno";
             this.chkPno.Size = new System.Drawing.Size(73, 26);
             this.chkPno.TabIndex = 117;
@@ -176,16 +194,16 @@
             // txtPname
             // 
             this.txtPname.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPname.Location = new System.Drawing.Point(377, 74);
+            this.txtPname.Location = new System.Drawing.Point(512, 25);
             this.txtPname.Name = "txtPname";
-            this.txtPname.Size = new System.Drawing.Size(101, 30);
+            this.txtPname.Size = new System.Drawing.Size(172, 30);
             this.txtPname.TabIndex = 122;
             // 
             // chkPname
             // 
             this.chkPname.AutoSize = true;
             this.chkPname.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkPname.Location = new System.Drawing.Point(274, 76);
+            this.chkPname.Location = new System.Drawing.Point(418, 29);
             this.chkPname.Name = "chkPname";
             this.chkPname.Size = new System.Drawing.Size(88, 26);
             this.chkPname.TabIndex = 117;
@@ -195,7 +213,7 @@
             // txtcode
             // 
             this.txtcode.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtcode.Location = new System.Drawing.Point(143, 27);
+            this.txtcode.Location = new System.Drawing.Point(87, 27);
             this.txtcode.Name = "txtcode";
             this.txtcode.Size = new System.Drawing.Size(101, 30);
             this.txtcode.TabIndex = 122;
@@ -204,7 +222,7 @@
             // 
             this.chkcode.AutoSize = true;
             this.chkcode.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkcode.Location = new System.Drawing.Point(34, 29);
+            this.chkcode.Location = new System.Drawing.Point(23, 29);
             this.chkcode.Name = "chkcode";
             this.chkcode.Size = new System.Drawing.Size(58, 26);
             this.chkcode.TabIndex = 117;
@@ -218,9 +236,9 @@
             this.panel2.Controls.Add(this.lbFound);
             this.panel2.Controls.Add(this.LbStatus);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 407);
+            this.panel2.Location = new System.Drawing.Point(3, 515);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(800, 43);
+            this.panel2.Size = new System.Drawing.Size(978, 43);
             this.panel2.TabIndex = 57;
             // 
             // label3
@@ -228,7 +246,7 @@
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(671, 10);
+            this.label3.Location = new System.Drawing.Point(849, 10);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(0, 24);
             this.label3.TabIndex = 4;
@@ -238,7 +256,7 @@
             this.lberror.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lberror.AutoSize = true;
             this.lberror.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lberror.Location = new System.Drawing.Point(-1022, 10);
+            this.lberror.Location = new System.Drawing.Point(-844, 10);
             this.lberror.Name = "lberror";
             this.lberror.Size = new System.Drawing.Size(0, 24);
             this.lberror.TabIndex = 3;
@@ -248,7 +266,7 @@
             this.lbFound.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lbFound.AutoSize = true;
             this.lbFound.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbFound.Location = new System.Drawing.Point(665, 10);
+            this.lbFound.Location = new System.Drawing.Point(843, 10);
             this.lbFound.Name = "lbFound";
             this.lbFound.Size = new System.Drawing.Size(0, 24);
             this.lbFound.TabIndex = 2;
@@ -257,7 +275,7 @@
             // 
             this.LbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LbStatus.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbStatus.Location = new System.Drawing.Point(182, 4);
+            this.LbStatus.Location = new System.Drawing.Point(360, 4);
             this.LbStatus.Name = "LbStatus";
             this.LbStatus.Size = new System.Drawing.Size(614, 22);
             this.LbStatus.TabIndex = 1;
@@ -295,6 +313,7 @@
             this.amount,
             this.eta,
             this.pono,
+            this.mcdocno,
             this.receivedate,
             this.receiveqty,
             this.balance,
@@ -303,18 +322,18 @@
             this.remark});
             this.dgvRequest.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvRequest.EnableHeadersVisualStyles = false;
-            this.dgvRequest.Location = new System.Drawing.Point(0, 191);
+            this.dgvRequest.Location = new System.Drawing.Point(3, 144);
             this.dgvRequest.Name = "dgvRequest";
             this.dgvRequest.ReadOnly = true;
             this.dgvRequest.RowHeadersVisible = false;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvRequest.RowsDefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvRequest.RowsDefaultCellStyle = dataGridViewCellStyle19;
             this.dgvRequest.RowTemplate.Height = 25;
             this.dgvRequest.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvRequest.Size = new System.Drawing.Size(800, 216);
+            this.dgvRequest.Size = new System.Drawing.Size(978, 371);
             this.dgvRequest.TabIndex = 58;
             // 
             // code
@@ -411,12 +430,21 @@
             this.pono.ReadOnly = true;
             this.pono.Width = 120;
             // 
+            // mcdocno
+            // 
+            this.mcdocno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.mcdocno.DefaultCellStyle = dataGridViewCellStyle12;
+            this.mcdocno.HeaderText = "MCDocNo";
+            this.mcdocno.Name = "mcdocno";
+            this.mcdocno.ReadOnly = true;
+            // 
             // receivedate
             // 
             this.receivedate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle12.Format = "dd-MMM-yyyy";
-            this.receivedate.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle13.Format = "dd-MMM-yyyy";
+            this.receivedate.DefaultCellStyle = dataGridViewCellStyle13;
             this.receivedate.HeaderText = "Receive Date";
             this.receivedate.Name = "receivedate";
             this.receivedate.ReadOnly = true;
@@ -425,10 +453,10 @@
             // receiveqty
             // 
             this.receiveqty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle13.Format = "N0";
-            dataGridViewCellStyle13.NullValue = null;
-            this.receiveqty.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle14.Format = "N0";
+            dataGridViewCellStyle14.NullValue = null;
+            this.receiveqty.DefaultCellStyle = dataGridViewCellStyle14;
             this.receiveqty.HeaderText = "Receive Qty";
             this.receiveqty.Name = "receiveqty";
             this.receiveqty.ReadOnly = true;
@@ -437,8 +465,8 @@
             // balance
             // 
             this.balance.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.balance.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.balance.DefaultCellStyle = dataGridViewCellStyle15;
             this.balance.HeaderText = "Balance";
             this.balance.Name = "balance";
             this.balance.ReadOnly = true;
@@ -446,9 +474,9 @@
             // remainamount
             // 
             this.remainamount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle15.Format = "N2";
-            this.remainamount.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle16.Format = "N2";
+            this.remainamount.DefaultCellStyle = dataGridViewCellStyle16;
             this.remainamount.HeaderText = "Remain Amount";
             this.remainamount.Name = "remainamount";
             this.remainamount.ReadOnly = true;
@@ -457,8 +485,8 @@
             // orderstatus
             // 
             this.orderstatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.orderstatus.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.orderstatus.DefaultCellStyle = dataGridViewCellStyle17;
             this.orderstatus.HeaderText = "Order State";
             this.orderstatus.Name = "orderstatus";
             this.orderstatus.ReadOnly = true;
@@ -467,8 +495,8 @@
             // remark
             // 
             this.remark.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.remark.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.remark.DefaultCellStyle = dataGridViewCellStyle18;
             this.remark.HeaderText = "Remark";
             this.remark.Name = "remark";
             this.remark.ReadOnly = true;
@@ -478,13 +506,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(984, 561);
             this.Controls.Add(this.dgvRequest);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panelHeader);
             this.Name = "RequestForm";
-            this.Text = "Request";
+            this.Padding = new System.Windows.Forms.Padding(3);
+            this.Text = "PO Request";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panelHeader.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGray)).EndInit();
@@ -502,7 +531,6 @@
         private System.Windows.Forms.Panel panelHeader;
         private System.Windows.Forms.PictureBox btnDeleteGray;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtPno;
         private System.Windows.Forms.CheckBox chkPno;
@@ -517,6 +545,8 @@
         private System.Windows.Forms.Label LbStatus;
         public System.Windows.Forms.DataGridView dgvRequest;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button btnUpdateGrey;
+        private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.DataGridViewTextBoxColumn code;
         private System.Windows.Forms.DataGridViewTextBoxColumn Pno;
         private System.Windows.Forms.DataGridViewTextBoxColumn Pname;
@@ -526,6 +556,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn amount;
         private System.Windows.Forms.DataGridViewTextBoxColumn eta;
         private System.Windows.Forms.DataGridViewTextBoxColumn pono;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mcdocno;
         private System.Windows.Forms.DataGridViewTextBoxColumn receivedate;
         private System.Windows.Forms.DataGridViewTextBoxColumn receiveqty;
         private System.Windows.Forms.DataGridViewTextBoxColumn balance;

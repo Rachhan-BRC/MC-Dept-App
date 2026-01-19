@@ -82,7 +82,7 @@ namespace MachineDeptApp.SparePartControll
             string moq = txtmoq.Text;
             string qty = txtqty.Text;
             string eta = dtpeta.Value.ToString("yyyy-MM-dd");
-            string amount = txteta.Text;
+            string amount = txtamount.Text;
             if (!string.IsNullOrWhiteSpace(code) &&
     !string.IsNullOrWhiteSpace(partNumber) &&
     !string.IsNullOrWhiteSpace(partName) &&
@@ -94,6 +94,7 @@ namespace MachineDeptApp.SparePartControll
     !string.IsNullOrWhiteSpace(eta) &&
     !string.IsNullOrWhiteSpace(amount))
             {
+                SaveToDb();
                 dgvPrint.Rows.Add();
                 dgvPrint.Rows[dgvPrint.Rows.Count - 1].Cells["Code"].Value = code;
                 dgvPrint.Rows[dgvPrint.Rows.Count - 1].Cells["partno"].Value = partNumber;
@@ -106,9 +107,10 @@ namespace MachineDeptApp.SparePartControll
                 dgvPrint.Rows[dgvPrint.Rows.Count - 1].Cells["qty"].Value = Convert.ToDouble(qty).ToString("N0");
                 dgvPrint.Rows[dgvPrint.Rows.Count - 1].Cells["eta"].Value = eta;
                 dgvPrint.Rows[dgvPrint.Rows.Count - 1].Cells["leadtime"].Value = leadTime;
+                dgvPrint.Rows[dgvPrint.Rows.Count - 1].Cells["status"].Value = "Pending";
                 dgvPrint.Rows[dgvPrint.Rows.Count - 1].Cells["find"].Value = "Not";
                 txtqty.Text = "";
-                txteta.Text = "";
+                txtamount.Text = "";
             }
         }
 
@@ -121,11 +123,11 @@ namespace MachineDeptApp.SparePartControll
             {
                 double total = unitPrice * qty;
                 string totalFormatted = total.ToString("N2");
-                txteta.Text = totalFormatted;
+                txtamount.Text = totalFormatted;
             }
             else
             {
-                txteta.Text = "";
+                txtamount.Text = "";
             }
 
         }
@@ -284,6 +286,49 @@ namespace MachineDeptApp.SparePartControll
             con.con.Close();
             Cursor = Cursors.Default;
         }
-
+        private void SaveToDb()
+        {
+            int success = 0;
+            DateTime now = DateTime.Now;
+            string code = txtcode.Text.Trim();
+            double orderqty = Convert.ToDouble(txtqty.Text.Trim());
+            double unitprice = Convert.ToDouble(txtunitprice.Text.Trim());
+            double amount = Convert.ToDouble(txtamount.Text.Trim());
+            int leadtime = Convert.ToInt32(txtleadtime.Text.Trim());
+            int leadm = leadtime / 4;
+            DateTime eta = DateTime.Now.AddMonths(leadm);
+            string partno = txtpnumber.Text.Trim();
+            string partname = txtpname.Text.Trim();
+            string mcname = txtmachinename.Text.Trim();
+            string supplier = cbsupplier.Text.Trim();
+            string maker = cbmaker.Text.Trim();
+            try
+            {
+                con.con.Open();
+                string query = "INSERT INTO tbPrintPending_temp (Code, PartNo, PartName, MCName, Supplier, Dept, ETA, OrderQty, UnitPrice, Amount, Status, Find, Maker) " +
+                                                                            " VALUES (@code, @partno, @partname, @mcname, @supplier, @dept, @eta, @orderqty, @unitprice, @amount, @status, @find, @maker)";
+                SqlCommand cmd = new SqlCommand(query, con.con);
+                cmd.Parameters.AddWithValue("@code", code);
+                cmd.Parameters.AddWithValue("@partno", partno);
+                cmd.Parameters.AddWithValue("@partname", partname);
+                cmd.Parameters.AddWithValue("@maker", maker);
+                cmd.Parameters.AddWithValue("@mcname", mcname);
+                cmd.Parameters.AddWithValue("@supplier", supplier);
+                cmd.Parameters.AddWithValue("@dept", dept);
+                cmd.Parameters.AddWithValue("@eta", leadtime);
+                cmd.Parameters.AddWithValue("@orderqty", orderqty);
+                cmd.Parameters.AddWithValue("@unitprice", unitprice);
+                cmd.Parameters.AddWithValue("@amount", amount);
+                cmd.Parameters.AddWithValue("@status", "Pending");
+                cmd.Parameters.AddWithValue("@find", "Not");
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                success++;
+                MessageBox.Show("Error while inserting pending! " + ex.Message, "Error insert", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            con.con.Close();
+        }
     }
 }

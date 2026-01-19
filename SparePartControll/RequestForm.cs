@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace MachineDeptApp.SparePartControll
 {
@@ -15,16 +18,68 @@ namespace MachineDeptApp.SparePartControll
     {
         SQLConnect con = new SQLConnect();
         string dept = "MC";
+        string nextdocno = "";
         public RequestForm()
         {
             this.con.Connection();
             InitializeComponent();
-            this.btnSearch.Click += BtnSearch_Click;
+            this.Shown += RequestForm_Shown;
             this.txtcode.TextChanged += Txtcode_TextChanged;
             this.txtPname.TextChanged += TxtPname_TextChanged;
             this.txtPno.TextChanged += TxtPno_TextChanged;
             this.dgvRequest.CellClick += DgvRequest_CellClick;
             this.btnDelete.Click += BtnDelete_Click;
+            this.btnUpdate.Click += BtnUpdate_Click;
+            this.chkcode.CheckedChanged += Chkcode_CheckedChanged;
+            this.chkPname.CheckedChanged += ChkPname_CheckedChanged;
+            this.chkPno.CheckedChanged += ChkPno_CheckedChanged;
+        }
+
+        private void ChkPno_CheckedChanged(object sender, EventArgs e)
+        {
+            Search();
+        }
+
+        private void ChkPname_CheckedChanged(object sender, EventArgs e)
+        {
+            Search();
+        }
+
+        private void Chkcode_CheckedChanged(object sender, EventArgs e)
+        {
+            Search();
+        }
+
+        private void RequestForm_Shown(object sender, EventArgs e)
+        {
+            Search();
+        }
+
+        private void BtnUpdate_Click(object sender, EventArgs e)
+        {
+           if (dgvRequest.Rows.Count > 0)
+            {
+                if (dgvRequest.Rows[dgvRequest.CurrentCell.RowIndex].Cells["mcdocno"].Value.ToString().Trim() == "")
+                {
+                    DataTable update = new DataTable();
+                    string mcdocno = dgvRequest.Rows[dgvRequest.CurrentCell.RowIndex].Cells["pono"].Value.ToString();
+                    PrintForm prf = new PrintForm(update);
+                    string queryselect = "SELECT * FROM MCSparePartRequest WHERE PO_No = '" + mcdocno + "'";
+                    SqlDataAdapter sda = new SqlDataAdapter(queryselect, con.con);
+                    sda.Fill(update);
+                    prf.WindowState = FormWindowState.Normal;
+                    prf.FormBorderStyle = FormBorderStyle.FixedSingle;
+                    prf.StartPosition = FormStartPosition.CenterScreen;
+                    prf.Text = "Update";
+                    prf.ShowDialog();
+                    Search();
+                }
+                else
+                {
+                    MessageBox.Show("This Document already receive !", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            
         }
 
         private void DgvRequest_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -37,8 +92,9 @@ namespace MachineDeptApp.SparePartControll
                 {
                     btnDelete.Enabled = true;
                     btnDelete.BringToFront();
+                    btnUpdate.Enabled = true;
+                    btnUpdate.BringToFront();
                 }
-                
             }
         }
 
@@ -82,7 +138,7 @@ namespace MachineDeptApp.SparePartControll
                     btnDelete.Enabled = false;
                     btnDeleteGray.BringToFront();
                     dgvRequest.ClearSelection();
-                    btnSearch.PerformClick();
+                    Search();
                 }
              
             }
@@ -90,35 +146,57 @@ namespace MachineDeptApp.SparePartControll
 
         private void TxtPno_TextChanged(object sender, EventArgs e)
         {
-            chkPno.Checked = true;
+            
             if (txtPno.Text.Trim() == "")
             {
                 chkPno.Checked = false;
+                Search();
+            }
+            else
+
+            {
+                chkPno.Checked = true;
+                Search();
             }
         }
 
         private void TxtPname_TextChanged(object sender, EventArgs e)
         {
-            chkPname.Checked = true;
+           
             if (txtPname.Text.Trim() == "")
             {
                 chkPname.Checked = false;
+                Search();
+            }
+            else
+            {
+                chkPname.Checked = true;
+                Search();
             }
         }
 
         private void Txtcode_TextChanged(object sender, EventArgs e)
         {
-          chkcode.Checked = true;
+          
             if (txtcode.Text.Trim() == "")
             {
                chkcode.Checked = false;
+                Search();
+            }
+            else
+            {
+                chkcode.Checked = true;
+                Search();
             }
         }
 
-        private void BtnSearch_Click(object sender, EventArgs e)
+       private void Search()
         {
+
             dgvRequest.Rows.Clear();
             Cursor = Cursors.WaitCursor;
+
+            con.con.Close();
             try
             {
                 DataTable cond = new DataTable();
@@ -164,16 +242,17 @@ namespace MachineDeptApp.SparePartControll
                     }
                 }
                 con.con.Open();
-                DataTable dt = new DataTable(); 
+                DataTable dt = new DataTable();
                 string query = "SELECT R.Code, R.PO_No, R.IssueDate, R.ETA, R.Order_Qty, R.UnitPrice, R.Amount, R.ReceiveQTY, " +
-                    " R.Balance, R.RemainAmount, R.Receive_Date, R.Order_State, R.Remark, R.UpdateDate, M.Part_No, M.Part_Name FROM MCSparePartRequest R " +
-                    " LEFT JOIN MstMCSparePart M ON R.Code = M.Code where R.Dept = '"+dept+"'" + Conds;
+                    " R.Balance, R.RemainAmount, R.Receive_Date, R.Order_State, R.Remark, R.UpdateDate, R.MCDocNo, M.Part_No, M.Part_Name FROM MCSparePartRequest R " +
+                    " LEFT JOIN MstMCSparePart M ON R.Code = M.Code where R.Dept = '" + dept + "'" + Conds;
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dt);
 
                 foreach (DataRow row in dt.Rows)
                 {
                     string code = row["Code"]?.ToString() ?? string.Empty;
+                    string Docno = row["MCDocNo"]?.ToString() ?? string.Empty;
                     string Pono = row["PO_No"]?.ToString() ?? string.Empty;
                     string pno = row["Part_No"]?.ToString() ?? string.Empty;
                     string pname = row["Part_Name"]?.ToString() ?? string.Empty;
@@ -205,13 +284,13 @@ namespace MachineDeptApp.SparePartControll
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["amount"].Value = amount;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["eta"].Value = eta;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["pono"].Value = Pono;
+                    dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["mcdocno"].Value = Docno;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["receivedate"].Value = receivedate;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["receiveqty"].Value = receiveqty;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["balance"].Value = balance;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["remainamount"].Value = remainamount;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["orderstatus"].Value = orderstate;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["remark"].Value = remark;
-
                 }
             }
             catch (Exception ex)
@@ -219,9 +298,11 @@ namespace MachineDeptApp.SparePartControll
                 MessageBox.Show("Error while select data" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             dgvRequest.ClearSelection();
+            btnUpdate.Enabled = false;
+            btnUpdateGrey.BringToFront();
             con.con.Close();
             Cursor = Cursors.Default;
-            lbFound.Text = "Found: " + dgvRequest.Rows.Count.ToString();    
+            lbFound.Text = "Found: " + dgvRequest.Rows.Count.ToString();
         }
     }
 }
