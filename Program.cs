@@ -69,10 +69,9 @@ namespace MachineDeptApp
                 }
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new LoginForm());
-                //Application.Run(new RMEstimateShortage());
+                //Application.Run(new LoginForm());                
                 //For Design test
-                //Application.Run(new CreditForm());                
+                Application.Run(new StockINOut());                
             }
         }
     }

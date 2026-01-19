@@ -17,702 +17,376 @@ namespace MachineDeptApp
     public partial class StockINOut : Form
     {
         SQLConnect con = new SQLConnect();
-        string dept = "MC";
+        DataTable dtMst = new DataTable();
+
+        string Dept = "MC", ErrorText = "";
+
         public StockINOut()
         {
-            con.Connection();
-            InitializeComponent();      
-            this.btnImport.Click += BtnImport_Click;
-            this.dgvIn.CellClick += DgvIn_CellClick;
-            this.dgvOut.CellClick += DgvOut_CellClick;
-            this.btnDelete.Click += BtnDelete_Click;
-            this.btnSave.Click += BtnSave_Click;
-        }
+            InitializeComponent();
+            this.con.Connection();
+            this.Shown += StockINOut_Shown;
+            this.btnAdd.MouseEnter += BtnAdd_MouseEnter;
+            this.btnAdd.MouseLeave += BtnAdd_MouseLeave;
+            this.btnAddPic.MouseEnter += BtnAdd_MouseEnter;
+            this.btnAddPic.MouseLeave += BtnAdd_MouseLeave;
+            this.btnAdd.Click += BtnAdd_Click;
+            this.btnAddPic.Click += BtnAdd_Click;
+            this.btnShowSearch.Click += BtnShowSearch_Click;
 
-        private void BtnSave_Click(object sender, EventArgs e)
-        {
-            if (tabControl1.SelectedTab == tabIN)
-            {
-                if (dgvIn.Rows.Count <= 0)
-                {
-                    MessageBox.Show("Please Import data first !", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                DialogResult ask = MessageBox.Show("Are you sure you want to save this data?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (ask == DialogResult.No)
-                {
-                    return; 
-                }   
-                SaveToDB(dgvIn);    
-            }
-            if (tabControl1.SelectedTab == tabOut)
-            {
-                if (dgvOut.Rows.Count <= 0)
-                {
-                    MessageBox.Show("Please Import data first !", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                DialogResult ask = MessageBox.Show("Are you sure you want to save this data?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (ask == DialogResult.No)
-                {
-                    return;
-                }
-                SaveToDB(dgvOut);
-            }
-        }
-        private void DgvOut_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                btnDelete.Enabled = true;
-                btnDelete.BringToFront();
-            }
-        }
-        private void BtnDelete_Click(object sender, EventArgs e)
-        {
-           if (tabControl1.SelectedTab == tabIN)
-            {
-                int rowIndex = dgvIn.CurrentCell.RowIndex;
-                if (rowIndex >= 0 && rowIndex < dgvIn.Rows.Count)
-                {
-                    dgvIn.Rows.RemoveAt(rowIndex);
-                    btnDelete.Enabled = false;
-                    btnDelete.SendToBack();
-                    dgvIn.ClearSelection();
-                    afterdelete(dgvIn);
-                }
-            }
-           if (tabControl1.SelectedTab == tabOut)
-            {
-                int rowIndex = dgvOut.CurrentCell.RowIndex;
-                if (rowIndex >= 0 && rowIndex < dgvOut.Rows.Count)
-                {
-                    dgvOut.Rows.RemoveAt(rowIndex);
-                    btnDelete.Enabled = false;
-                    btnDelete.SendToBack();
-                    dgvOut.ClearSelection();
-                    afterdelete(dgvOut);
-                }
-            }
-        }
-        private void DgvIn_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                btnDelete.Enabled = true;
-                btnDelete.BringToFront();
-            }
-        }
-        private void BtnImport_Click(object sender, EventArgs e)
-        {
-            if (tabControl1.SelectedTab == tabIN)
-            {
-                ImportExcel(dgvIn);
-                lbfound1.Text = "Found: " + dgvIn.Rows.Count;
-                dgvIn.ClearSelection();
-            }
-            if (tabControl1.SelectedTab ==tabOut)
-            {
-                ImportExcel(dgvOut);
-                lbfound2.Text = "Found: " + dgvOut.Rows.Count;
-                dgvOut.ClearSelection();
-            }
+
+            this.dgvSearch.LostFocus += DgvSearch_LostFocus;
+            this.dgvSearch.CellClick += DgvSearch_CellClick;
+
+            this.rdbStockOut.CheckedChanged += RdbStockOut_CheckedChanged;
+
+            this.txtSearch.Enter += TxtSearch_Enter;
+            this.txtSearch.Leave += TxtSearch_Leave;
+            this.txtSearch.TextChanged += TxtSearch_TextChanged;
+            this.txtSearch.LostFocus += DgvSearch_LostFocus;
+            this.txtCode.KeyDown += TxtCode_KeyDown;
+            this.txtQty.KeyPress += TxtQty_KeyPress;
+            this.txtQty.KeyDown += TxtQty_KeyDown;
+            this.txtRemark.KeyDown += TxtRemark_KeyDown;
 
         }
-        private void SaveToDB(DataGridView dgv)
+
+        private void TxtRemark_KeyDown(object sender, KeyEventArgs e)
         {
-          if (tabControl1.SelectedTab == tabIN)
+            if (e.KeyCode == Keys.Enter)
             {
+                btnAdd.Focus();
+                btnAdd.PerformClick();
+            }
+        }
+        private void TxtQty_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtRemark.Focus();
+                txtRemark.Select(txtRemark.Text.Length,0);
+            }
+        }
+        private void TxtQty_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow control keys (Backspace, Delete, etc.)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+                e.Handled = true; // Block non-numeric input
+        }
+        private void TxtCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && txtCode.Text.Trim()!="")
+            {
+                ErrorText = "";
                 Cursor = Cursors.WaitCursor;
-                int success = 0;
+
+                //Taking Info
+                ClearInfoText();
+                DataTable dtInfo = new DataTable();
                 try
                 {
-                    foreach (DataGridViewRow row in dgv.Rows)
+                    con.con.Open();
+                    string SQLQuery = "SELECT I.Code, I.Part_No, I.Part_Name, Use_For, Maker, Box, COALESCE(SUM(T.Stock_Value),0) AS StockRemain " +
+                        "\r\nFROM [MstMCSparePart] I " +
+                        "\r\nLEFT JOIN SparePartTrans T ON I.Code = T.Code AND T.Dept = '"+Dept+"' " +
+                        "\r\nWHERE I.Code = '"+txtCode.Text+"' " +
+                        "\r\nGROUP BY I.Code, I.Part_No, I.Part_Name, Use_For, Maker, Box";
+
+                    SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, con.con);
+                    sda.Fill(dtInfo);
+
+                    if (dtInfo.Rows.Count > 0)
                     {
-                        string Code = row.Cells["code"]?.Value?.ToString() ?? "";
-                        string partnumber = row.Cells["partnumber"]?.Value?.ToString() ?? "";
-                        string partname = row.Cells["partname"]?.Value?.ToString() ?? "";
-                        double recqty = double.TryParse(row.Cells["Qty"]?.Value?.ToString(), out double val) ? val : 0;
-                        DateTime now = DateTime.Now;
-                        string tranNo = "TR-A0000001";
-                        try
-                        {
-                            DataTable dtTran = new DataTable();
-                            con.con.Open();
-                            string query = "SELECT MAX(TransNo) As TranNo FROM SparePartTrans ";
-                            SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
-                            sda.Fill(dtTran);
-                            if (dtTran.Rows.Count > 0 && dtTran.Rows[0]["TranNo"] != DBNull.Value)
-                            {
-                                string last = dtTran.Rows[0]["TranNo"].ToString();
-                                string prefix = last.Substring(0, 4);
-                                if (int.TryParse(last.Substring(4), out int number))
-                                {
-                                    tranNo = prefix + (number + 1).ToString("D7");
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Error while selecting TransNo" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                            Cursor = Cursors.Default;
-                            return;
-                        }
-                        con.con.Close();
-                        try
-                        {
-                            con.con.Open();
-                            string query = "INSERT INTO SparePartTrans (TransNo, Code, Part_No, Part_Name, Dept, Stock_In, Stock_Out, Stock_Value, Stock_Amount, Status, RegDate, PIC, Remark) " +
-                                                                                  " VALUES (@TransNo, @code, @partno, @partname, @dept, @stockIn, @stockOut, @stockVal, @stockAmount, @status, @Rd, @pic, @remark )";
-
-                            SqlCommand cmd = new SqlCommand(query, con.con);
-                            cmd.Parameters.AddWithValue("@TransNo", tranNo);
-                            cmd.Parameters.AddWithValue("@code", Code);
-                            cmd.Parameters.AddWithValue("@partno", partnumber);
-                            cmd.Parameters.AddWithValue("@partname", partname);
-                            cmd.Parameters.AddWithValue("@dept", dept);
-                            cmd.Parameters.AddWithValue("@stockIn", recqty);
-                            cmd.Parameters.AddWithValue("@stockOut", 0);
-                            cmd.Parameters.AddWithValue("@stockVal", recqty);
-                            cmd.Parameters.AddWithValue("@stockAmount", 0);
-                            cmd.Parameters.AddWithValue("@status", 1);
-                            cmd.Parameters.AddWithValue("@Rd", now);
-                            cmd.Parameters.AddWithValue("@pic", MenuFormV2.UserForNextForm);
-                            cmd.Parameters.AddWithValue("@remark", "Update: " + now.ToString("dd-MM-yyyy"));
-                            cmd.ExecuteNonQuery();
-                            success++;
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Error while insert" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                            Cursor = Cursors.Default;
-                            return;
-                        }
-                        con.con.Close();
+                        DataRow row = dtInfo.Rows[0];
+                        txtCode.Text = row["Code"].ToString();
+                        txtPartName.Text = row["Part_Name"].ToString();
+                        txtPartNo.Text = row["Part_No"].ToString();
+                        txtMCName.Text = row["Use_For"].ToString();
+                        txtMaker.Text = row["Maker"].ToString();
+                        txtLocation.Text = row["Box"].ToString();
+                        LbStockRemain.Text = "/ "+ Convert.ToDouble(row["StockRemain"]).ToString("N0");
+                        LbStockRemain.Refresh();
                     }
+
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error while inserting data!" + ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Cursor = Cursors.Default;
-                    return;
-                }
-                if (success > 0)
-                {
-                    MessageBox.Show("Save successfully !", "Done..", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    dgv.Rows.Clear();
-                    lbshow.Text = "Save successfully !";
+                    ErrorText = "Taking Info : "+ex.Message;
                 }
                 con.con.Close();
+
                 Cursor = Cursors.Default;
-            }
-          if (tabControl1.SelectedTab == tabOut)
-            {
-                Cursor = Cursors.WaitCursor;
-                int success = 0;
-                try
-                {
-                    foreach (DataGridViewRow row in dgv.Rows)
-                    {
-                        string Code = row.Cells["code2"]?.Value?.ToString() ?? "";
-                        string partnumber = row.Cells["partnumber2"]?.Value?.ToString() ?? "";
-                        string partname = row.Cells["partname2"]?.Value?.ToString() ?? "";
-                        double recqty = double.TryParse(row.Cells["Qty2"]?.Value?.ToString(), out double val) ? val : 0;
-                        DateTime now = DateTime.Now;
-                        string tranNo = "TR-A0000001";
-                        try
-                        {
-                            DataTable dtTran = new DataTable();
-                            con.con.Open();
-                            string query = "SELECT MAX(TransNo) As TranNo FROM SparePartTrans ";
-                            SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
-                            sda.Fill(dtTran);
-                            if (dtTran.Rows.Count > 0 && dtTran.Rows[0]["TranNo"] != DBNull.Value)
-                            {
-                                string last = dtTran.Rows[0]["TranNo"].ToString();
-                                string prefix = last.Substring(0, 4);
-                                if (int.TryParse(last.Substring(4), out int number))
-                                {
-                                    tranNo = prefix + (number + 1).ToString("D7");
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Error while selecting TransNo" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                            Cursor = Cursors.Default;
-                            return;
-                        }
-                        con.con.Close();
-                        try
-                        {
-                            con.con.Open();
-                            string query = "INSERT INTO SparePartTrans (TransNo, Code, Part_No, Part_Name, Dept, Stock_In, Stock_Out, Stock_Value, Stock_Amount, Status, RegDate, PIC, Remark) " +
-                                                                                  " VALUES (@TransNo, @code, @partno, @partname, @dept, @stockIn, @stockOut, @stockVal, @stockAmount, @status, @Rd, @pic, @remark )";
-
-                            SqlCommand cmd = new SqlCommand(query, con.con);
-                            cmd.Parameters.AddWithValue("@TransNo", tranNo);
-                            cmd.Parameters.AddWithValue("@code", Code);
-                            cmd.Parameters.AddWithValue("@partno", partnumber);
-                            cmd.Parameters.AddWithValue("@partname", partname);
-                            cmd.Parameters.AddWithValue("@dept", dept);
-                            cmd.Parameters.AddWithValue("@stockIn", 0);
-                            cmd.Parameters.AddWithValue("@stockOut", -recqty);
-                            cmd.Parameters.AddWithValue("@stockVal", -recqty);
-                            cmd.Parameters.AddWithValue("@stockAmount", 0);
-                            cmd.Parameters.AddWithValue("@status", 1);
-                            cmd.Parameters.AddWithValue("@Rd", now);
-                            cmd.Parameters.AddWithValue("@pic", MenuFormV2.UserForNextForm);
-                            cmd.Parameters.AddWithValue("@remark", "Update: " + now.ToString("dd-MM-yyyy"));
-                            cmd.ExecuteNonQuery();
-                            success++;
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Error while insert" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                            Cursor = Cursors.Default;
-                            return;
-                        }
-                        con.con.Close();
-                    }
-                }
-                catch (Exception ex)
+                if (ErrorText.Trim() == "")
                 {
-                    MessageBox.Show("Error while inserting data!" + ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Cursor = Cursors.Default;
-                    return;
+                    txtQty.Focus();
+                    txtQty.Select(txtQty.Text.Length, 0);
                 }
-                if (success > 0)
-                {
-                    MessageBox.Show("Save successfully !", "Done..", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    lbshow2.Text = "Save successfully ! ";
-                    dgv.Rows.Clear();
-                }
-                con.con.Close();
-                Cursor = Cursors.Default;
+                else
+                    MessageBox.Show("មានបញ្ហា!\n"+ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void ImportExcel(DataGridView dgv)
+        private void DgvSearch_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            DataTable dtMaster = new DataTable();
-            int err = 0;
-            int err1 = 0;
-            int err2 = 0;
-            OpenFileDialog openFD = new OpenFileDialog
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                Title = "Choose an Excel file for Import",
-                Filter = "Excel Files|*.xls;*.xlsx;"
-            };
-
-            if (openFD.ShowDialog() != DialogResult.OK) return;
-
-            string strFileName = openFD.FileName;
-
-            Microsoft.Office.Interop.Excel.Application xlApp = null;
-            Microsoft.Office.Interop.Excel.Workbook xlWorkbook = null;
-            Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = null;
-            Microsoft.Office.Interop.Excel.Range xlRange = null;
-            try
+                txtCode.Text = dgvSearch.CurrentRow.Cells["ColCodeS"].Value.ToString();
+                txtPartName.Text = dgvSearch.CurrentRow.Cells["ColPartNameS"].Value.ToString();
+                txtPartNo.Text = dgvSearch.CurrentRow.Cells["ColPartNumberS"].Value.ToString();
+                TxtCode_KeyDown(sender, new KeyEventArgs(Keys.Enter));
+            }
+        }
+        private void DgvSearch_LostFocus(object sender, EventArgs e)
+        {
+            if (dgvSearch.Focused == false && txtSearch.Focused == false && btnShowSearch.Focused == false)
+                panelSearch.Visible = false;
+        }
+        private void TxtSearch_Enter(object sender, EventArgs e)
+        {
+            if (txtSearch.Text.ToString().Contains("ដើម្បីស្វែងរក"))
             {
-                dgv.Rows.Clear();
-                Cursor = Cursors.WaitCursor;
-                xlApp = new Microsoft.Office.Interop.Excel.Application();
-                xlWorkbook = xlApp.Workbooks.Open(strFileName);
-                xlWorksheet = xlWorkbook.Worksheets[1];
-                xlRange = xlWorksheet.UsedRange;
-
-                int rowCount = xlRange.Rows.Count;
-                int colCount = xlRange.Columns.Count;
-
-                dgv.ResumeLayout();
-                dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-                // --- Fill rows starting from row 2 ---
-                ///Stock In
-                if (tabControl1.SelectedTab == tabIN)
+                txtSearch.Text = "";
+            }
+        }
+        private void TxtSearch_TextChanged(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+            dgvSearch.Rows.Clear();
+            if (txtSearch.Text.Trim() == "" || txtSearch.Text.ToString().Contains("ដើម្បីស្វែងរក"))
+            {
+                if (txtSearch.Text.ToString().Contains("ដើម្បីស្វែងរក"))
                 {
-                    lbshow.Text = "សូមរង់ចាំ...(please wait)";
-                    int startRow = 2;
-                    for (int i = startRow; i <= rowCount; i++)
-                    {
-                        string code = Convert.ToString((xlRange.Cells[i, 1] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-                        string instockqty = Convert.ToString((xlRange.Cells[i, 2] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-                        string remark = Convert.ToString((xlRange.Cells[i, 3] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-
-                        if (!string.IsNullOrEmpty(code) &&
-                            !string.IsNullOrEmpty(instockqty)
-                            )
-                        {
-                            dgv.Rows.Add();
-                            dgv.Rows[dgv.Rows.Count -1].Cells["code"].Value = code;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["Qty"].Value = instockqty;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["remark"].Value = remark;
-                        }
-                    }
-                    if (dgv.Rows.Count == 0)
-                    {
-                        lbshow.Text = "No data !";
-                        MessageBox.Show("No data import, Please check!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    
-                        Cursor = Cursors.Default;
-                        return;
-                    }   
-                    List<string> codelist1 = new List<string>();
-                    foreach (DataGridViewRow row in dgv.Rows)
-                    {
-                        codelist1.Add(row.Cells["code"].Value.ToString());
-                    }
-                    string codelist = "('" + string.Join("','", codelist1) + "')";
-                    try
-                    {
-                        con.con.Open();
-                        string query = "SELECT Code, Part_No, Part_Name, Maker, Use_For FROM MstMCSparePart WHERE Dept = '" + dept + "' AND Code IN "+ codelist;
-                        SqlDataAdapter sda = new SqlDataAdapter(query, con.con); 
-                        sda.Fill(dtMaster);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error while selecting master" + ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    con.con.Close();
-                    foreach (DataGridViewRow row1 in dgv.Rows)
-                    {
-                        string code1 = row1.Cells["code"]?.Value?.ToString() ?? "";
-                        foreach (DataRow row2 in dtMaster.Rows)
-                        {
-                            string code2 = row2["Code"]?.ToString() ?? "";
-                            if (code1 == code2)
-                            {
-                                row1.Cells["partnumber"].Value = row2["Part_No"].ToString();
-                                row1.Cells["partname"].Value = row2["Part_Name"].ToString();
-                                row1.Cells["maker"].Value = row2["Maker"].ToString();
-                                row1.Cells["machinename"].Value = row2["Use_For"].ToString();
-                            }
-                        }
-                    }
-                    foreach (DataGridViewRow row in dgv.Rows)
-                    {
-                        string partnumber = row.Cells["partnumber"]?.Value?.ToString() ?? "";
-                        string partname = row.Cells["partname"]?.Value?.ToString() ?? "";
-                        string maker = row.Cells["maker"]?.Value?.ToString() ?? "";
-                        string machinename = row.Cells["machinename"]?.Value?.ToString() ?? "";
-                        
-
-                        if (string.IsNullOrEmpty(partname) &&
-                            string.IsNullOrEmpty(partnumber)&&
-                            string.IsNullOrEmpty(maker) &&
-                            string.IsNullOrEmpty(machinename)
-                            )
-                        {
-                            row.Cells["code"].Style.BackColor = Color.LightPink;
-                            err++;
-                        }
-                        if (!double.TryParse(row.Cells["Qty"]?.Value?.ToString(), out double cellValue))
-                        {
-                            row.Cells["Qty"].Style.BackColor = Color.LightPink;
-                            err1++;
-                        }
-                    }
-                }
-                //Stock Out
-                if (tabControl1.SelectedTab == tabOut)
+                    txtSearch.Font = new Font(txtSearch.Font, FontStyle.Regular | FontStyle.Italic);
+                    txtSearch.ForeColor = Color.Silver;
+                }                
+                foreach (DataRow row in dtMst.Rows)
                 {
-                    lbshow2.Text = "សូមរង់ចាំ...(please wait)";
-                    int startRow = 2;
-                    for (int i = startRow; i <= rowCount; i++)
-                    {
-                        string code = Convert.ToString((xlRange.Cells[i, 1] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-                        string instockqty = Convert.ToString((xlRange.Cells[i, 2] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-                        string remark = Convert.ToString((xlRange.Cells[i, 3] as Microsoft.Office.Interop.Excel.Range)?.Text)?.Trim();
-
-                        if (!string.IsNullOrEmpty(code) &&
-                            !string.IsNullOrEmpty(instockqty)
-                            )
-                        {
-                            dgv.Rows.Add();
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["code2"].Value = code;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["Qty2"].Value = instockqty;
-                            dgv.Rows[dgv.Rows.Count - 1].Cells["remark2"].Value = remark;
-                        }
-                    }
-                    if (dgv.Rows.Count == 0)
-                    {
-                        lbshow.Text = "No data !";
-                        MessageBox.Show("No data import, Please check!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);    
-                        Cursor = Cursors.Default;
-                        return;
-                    } 
-                    List<string> codelist1 = new List<string>();
-                    foreach (DataGridViewRow row in dgv.Rows)
-                    {
-                        codelist1.Add(row.Cells["code2"].Value.ToString());
-                    }
-                    string codelist = "('" + string.Join("','", codelist1) + "')";
-                    try
-                    {
-                        con.con.Open();
-                        string query = "SELECT tbTr.Code, tbTr.Part_No, tbTr.Part_Name, SUM(tbTr.Stock_Value) AS Balance, tbMst.Use_For, tbMst.Maker FROM SparePartTrans tbTr " +
-                            " LEFT JOIN  MstMCSparePart tbMst ON tbTr.Code = tbMst.Code WHERE tbTr.Dept = '"+dept+  "' AND tbTr.Code IN " +codelist+ "  Group BY tbTr.Code, TbTr.Part_No, tbTr.Part_Name, tbMst.Use_For, tbMst.Maker  ORDER BY tbTr.Code";
-                        SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
-                        sda.Fill(dtMaster);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error while selecting master" + ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    con.con.Close();
-                    foreach (DataGridViewRow row1 in dgv.Rows)
-                    {
-                        string code1 = row1.Cells["code2"]?.Value?.ToString() ?? "";
-                        foreach (DataRow row2 in dtMaster.Rows)
-                        {
-                            string code2 = row2["Code"]?.ToString() ?? "";
-                            if (code1 == code2)
-                            {
-                                row1.Cells["partnumber2"].Value = row2["Part_No"].ToString();
-                                row1.Cells["partname2"].Value = row2["Part_Name"].ToString();
-                                row1.Cells["maker2"].Value = row2["Maker"].ToString();
-                                row1.Cells["machinename2"].Value = row2["Use_For"].ToString();
-                                row1.Cells["stockremain2"].Value = row2["Balance"].ToString();
-                            }
-                        }
-                    }
-                    foreach (DataGridViewRow row in dgv.Rows)
-                    {
-                        string partnumber = row.Cells["partnumber2"]?.Value?.ToString() ?? "";
-                        string partname = row.Cells["partname2"]?.Value?.ToString() ?? "";
-                        string maker = row.Cells["maker2"]?.Value?.ToString() ?? "";
-                        string machinename = row.Cells["machinename2"]?.Value?.ToString() ?? "";
-                        double stockout = double.TryParse(row.Cells["Qty2"]?.Value?.ToString(), out double val) ? val : 0;
-                        double remain = double.TryParse(row.Cells["stockremain2"]?.Value?.ToString(), out double val1) ? val1 : 0;
-                        if (string.IsNullOrEmpty(partname) &&
-                            string.IsNullOrEmpty(partnumber) &&
-                            string.IsNullOrEmpty(maker) &&
-                            string.IsNullOrEmpty(machinename)
-                            )
-                        {
-                            row.Cells["code2"].Style.BackColor = Color.LightPink;
-                            err++;
-                        }
-                        else
-                        {
-                            if (stockout > remain)
-                            {
-                                row.Cells["stockremain2"].Style.BackColor = Color.LightPink;
-                                row.Cells["Qty2"].Style.BackColor = Color.LightPink;
-                                err2++;
-                            }   
-                        }
-                        // Highlight qty2 if not a number
-                        if (!double.TryParse(row.Cells["Qty2"]?.Value?.ToString(), out double cellValue))
-                        {
-                            row.Cells["Qty2"].Style.BackColor = Color.LightPink;
-                            err1++;
-                        }
-                       
-                    }
+                    dgvSearch.Rows.Add(row["Code"].ToString(), row["Part_No"].ToString(), row["Part_Name"].ToString());
                 }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Error while read excel: " + ex.Message);
-                err++;
-            }
-            finally
-            {
-                if (xlWorkbook != null) xlWorkbook.Close(false);
-                if (xlApp != null) xlApp.Quit();
-                if (xlRange != null) Marshal.ReleaseComObject(xlRange);
-                if (xlWorksheet != null) Marshal.ReleaseComObject(xlWorksheet);
-                if (xlWorkbook != null) Marshal.ReleaseComObject(xlWorkbook);
-                if (xlApp != null) Marshal.ReleaseComObject(xlApp);
+                txtSearch.Font = new Font(txtSearch.Font, FontStyle.Regular);
+                txtSearch.ForeColor = Color.Black;
 
-                xlRange = null;
-                xlWorksheet = null;
-                xlWorkbook = null;
-                xlApp = null;
+                string SValue = txtSearch.Text.ToUpper();
+                foreach (DataRow row in dtMst.Rows)
+                {
+                    int OKToAdd = 0;
+                    if (txtSearch.Text.Trim() != "")
+                    {
+                        if (row["Code"].ToString().ToUpper().Contains(SValue) ||
+                            row["Part_No"].ToString().ToUpper().Contains(SValue) ||
+                            row["Part_Name"].ToString().ToUpper().Contains(SValue))
+                            OKToAdd++;
+                    }
+                    else
+                        OKToAdd++;
 
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
+                    if (OKToAdd > 0)
+                        dgvSearch.Rows.Add(row["Code"].ToString(), row["Part_No"].ToString(), row["Part_Name"].ToString());
+                }
+
             }
-            if (tabControl1.SelectedTab == tabIN)
-            {
-                if (err == 0)
-                {
-                    btnSave.Enabled = true;
-                    btnSave.BringToFront();
-                    lbshow.Text = "Import success, Please save!";
-                }
-                else
-                {
-                    btnSave.Enabled = false;
-                    btnSaveGrey.BringToFront();
-                    lbshow.Text = "Wrong Code, Please check!";
-                }
-                if (err1 > 0)
-                {
-                    btnSave.Enabled = false;
-                    btnSaveGrey.BringToFront();
-                    lbNum2.Text = "Qty must be number, Please check!";
-                }
-            }
-            if (tabControl1.SelectedTab == tabOut)
-            {
-                if (err == 0)
-                {
-                    btnSave.Enabled = true;
-                    btnSave.BringToFront();
-                    lbshow2.Text = "Import success, Please save!";
-                  
-                }
-                else
-                {
-                    btnSave.Enabled = false;
-                    btnSaveGrey.BringToFront();
-                    lbshow2.Text = "Wrong Code or Not have Instock, Please check!";
-                }
-                if (err1 > 0)
-                {
-                    btnSave.Enabled = false;
-                    btnSaveGrey.BringToFront();
-                    lbNum.Text = "Qty must be number, Please check!";
-                }
-                if (err2 > 0)
-                {
-                    btnSave.Enabled = false;
-                    btnSaveGrey.BringToFront();
-                    lbstock.Text = "Not enough stock, Please check!";
-                }
-            
-            }
+            dgvSearch.ClearSelection();
             Cursor = Cursors.Default;
-          
         }
-        private void afterdelete(DataGridView dgv)
+        private void TxtSearch_Leave(object sender, EventArgs e)
         {
-            try
+            if (txtSearch.Text.ToString().Contains("ដើម្បីស្វែងរក") || txtSearch.Text.Trim() == "")
+                txtSearch.Text = "បំពេញព័ត៌មានដើម្បីស្វែងរក";
+        }
+        private void BtnShowSearch_Click(object sender, EventArgs e)
+        {
+            if (panelSearch.Visible)
+                panelSearch.Visible = false;
+            else
             {
-                if (tabControl1.SelectedTab == tabIN)
+                //TakingMst();
+                if (dtMst.Rows.Count >= 10)
                 {
-                    int err = 0;
-                    int err1 = 0;
-                    foreach (DataGridViewRow row in dgv.Rows)
-                    {
-                        string partnumber = row.Cells["partnumber"]?.Value?.ToString() ?? "";
-                        string partname = row.Cells["partname"]?.Value?.ToString() ?? "";
-                        string maker = row.Cells["maker"]?.Value?.ToString() ?? "";
-                        string machinename = row.Cells["machinename"]?.Value?.ToString() ?? "";
-
-                        if (string.IsNullOrEmpty(partname) &&
-                            string.IsNullOrEmpty(partnumber) &&
-                            string.IsNullOrEmpty(maker) &&
-                            string.IsNullOrEmpty(machinename)
-                            )
-                        {
-                            row.Cells["code"].Style.BackColor = Color.LightPink;
-                            err++;
-                        }
-                        // Highlight qty2 if not a number
-                        if (!double.TryParse(row.Cells["Qty"]?.Value?.ToString(), out double cellValue))
-                        {
-                            row.Cells["Qty"].Style.BackColor = Color.LightPink;
-                            err1++;
-                        }
-                    }
-                    if (err == 0)
-                    {
-                        lbshow.Text = "";
-                    }
-                    if (err1 == 0)
-                    {
-                        lbNum2.Text = "";
-                    }
-                    if (err == 0 && err1 == 0)
-                    {
-                        btnSave.BringToFront();
-                        btnSave.Enabled = true;
-                        lbshow.Text = "Success, Please save!";
-                    }
-                    if (dgv.Rows.Count == 0)
-                    {
-                        lbshow.Text = "";
-                        lbNum2.Text = "";
-                    }
-                    lbfound1.Text = "Found: " + dgv.Rows.Count;
+                    panelSearch.Size = new Size(549, 282);
+                    txtSearch.Visible = true;
                 }
-                if (tabControl1.SelectedTab == tabOut)
+                else
                 {
-                    int err = 0;
-                    int err1 = 0;   
-                    int err2 = 0;
-                    foreach (DataGridViewRow row in dgv.Rows)
-                    {
-                        string partnumber = row.Cells["partnumber2"]?.Value?.ToString() ?? "";
-                        string partname = row.Cells["partname2"]?.Value?.ToString() ?? "";
-                        string maker = row.Cells["maker2"]?.Value?.ToString() ?? "";
-                        string machinename = row.Cells["machinename2"]?.Value?.ToString() ?? "";
-                        double stockout = double.TryParse(row.Cells["Qty2"]?.Value?.ToString(), out double val) ? val : 0;
-                        double remain = double.TryParse(row.Cells["stockremain2"]?.Value?.ToString(), out double val1) ? val1 : 0;
+                    panelSearch.Size = new Size(549, (dtMst.Rows.Count * 25) + dtMst.Rows.Count + splitter1.Size.Height + 2);
+                    txtSearch.Visible = false;
+                }
+                //Console.WriteLine("Location : " + panelSearch.Location.X + ", "+ panelSearch.Location.Y);
+                //Console.WriteLine("PanelComAndMini H : " + panelSearch.Size.Height);
+                //Console.WriteLine("PanelBody H : " + panelBody.Size.Height);
+                //Console.WriteLine("tabEdit H : " + tabContrlEdit.Size.Height);
+                //panelSearch.Location = new Point(131, panelBody.Size.Height - tabContrlEdit.Size.Height - panelSearch.Height + 73);
+                panelSearch.Visible = true;
+                dgvSearch.ClearSelection();
+                dgvSearch.Focus();
+            }
+        }
+        private void RdbStockOut_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdbStockOut.Checked)
+            {
+                LbQty.Text = rdbStockOut.Text +" Qty";
+                LbQty.ForeColor = Color.Red;
+                LbStockRemain.Visible = true;
+            }
+            else
+            {
+                LbQty.Text = rdbStockIN.Text + " Qty";
+                LbQty.ForeColor = Color.Green;
+                LbStockRemain.Visible = false;
+            }
+        }
+        private void BtnAdd_Click(object sender, EventArgs e)
+        {
+            CheckBeforeAdd();
+            int FoundError = 0;
+            foreach (Control ctrl in GrbAdd.Controls)
+            {
+                if (ctrl is PictureBox pic && ctrl.Name.ToUpper().Contains("PICALERT") && pic.Visible == true)
+                {
+                    FoundError++;
+                }
+            }
+            if (FoundError == 0)
+            {
 
-                        if (string.IsNullOrEmpty(partname) &&
-                            string.IsNullOrEmpty(partnumber) &&
-                            string.IsNullOrEmpty(maker) &&
-                            string.IsNullOrEmpty(machinename)
-                            )
+            }
+        }
+        private void BtnAdd_MouseLeave(object sender, EventArgs e)
+        {
+            Color NewColor = Color.White;
+            btnAdd.BackColor = NewColor;
+            btnAddPic.BackColor = NewColor;
+        }
+        private void BtnAdd_MouseEnter(object sender, EventArgs e)
+        {
+            Color NewColor = Color.LightBlue;
+            btnAdd.BackColor = NewColor;
+            btnAddPic.BackColor = NewColor;
+        }
+
+
+        private void StockINOut_Shown(object sender, EventArgs e)
+        {
+            ErrorText = "";
+            Cursor = Cursors.WaitCursor;
+            this.panelSearch.BringToFront();
+            foreach (DataGridViewColumn col in dgvInput.Columns)
+            {
+                if (col.Index < 3)
+                    col.Frozen = true;
+                if (col.Name == "Remove")
+                    col.Resizable = DataGridViewTriState.False;
+                if (col.Name != "ColStockIn" && col.Name == "ColStockOut" && col.Name == "ColRemark")
+                    col.ReadOnly = true;
+            }
+
+            TakingMst();
+            if (ErrorText.Trim() == "")
+            {
+                foreach (DataRow row in dtMst.Rows)
+                {
+                    dgvSearch.Rows.Add(row["Code"].ToString(), row["Part_No"].ToString(), row["Part_Name"].ToString());
+                }
+            }
+
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim() != "")
+                MessageBox.Show("មានបញ្ហា!\n"+ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+        }
+
+
+        //Method
+        private async void CheckBeforeAdd()
+        {
+            PicAlertCode.Visible = false;
+            PicAlertQty.Visible = false;
+            PicAlertRemark.Visible = false;
+            var tasksBlink = new List<Task>();
+
+            if (txtPartNo.Text.Trim() == "")
+                tasksBlink.Add(BlinkPictureBox(PicAlertCode));
+
+            if (txtQty.Text.Trim() == "")
+            {
+                toolTip1.SetToolTip(PicAlertQty, "សូមបញ្ចូល " + LbQty.Text);
+                tasksBlink.Add(BlinkPictureBox(PicAlertQty));
+            }
+            else
+            {
+                try
+                {
+                    double Qty = Convert.ToDouble(txtQty.Text);
+                    double StockQty = Convert.ToDouble(LbStockRemain.Text.Replace("/ ", ""));
+                    if (Qty > 0)
+                    {
+                        //Comparing Stock if > Transaction is Stock-Out
+                        if (rdbStockOut.Checked)
                         {
-                            row.Cells["code2"].Style.BackColor = Color.LightPink;
-                            err++;
-                        }
-                        else
-                        {
-                            if (stockout > remain)
+                            if (Qty > StockQty)
                             {
-                                err2++;
+                                toolTip1.SetToolTip(PicAlertQty, "ចំនួនស្តុកមិនគ្រប់គ្រាន់ទេ!");
+                                tasksBlink.Add(BlinkPictureBox(PicAlertQty));
                             }
                         }
-                        if (!double.TryParse(row.Cells["Qty2"]?.Value?.ToString(), out double cellValue))
-                        {
-                            row.Cells["Qty2"].Style.BackColor = Color.LightPink;
-                            err1++;
-                        }
                     }
-                    if (err == 0)
+                    else
                     {
-                        lbshow2.Text = "";
+                        toolTip1.SetToolTip(PicAlertQty, "ចំនួនត្រូវតែធំជាង 0!");
+                        tasksBlink.Add(BlinkPictureBox(PicAlertQty));
                     }
-                    if (err1 == 0)
-                    {
-                        lbNum.Text = "";
-                    }
-                    if (err2 == 0)
-                    {
-                        lbstock.Text = "";
-                    }
-                    if (err == 0 && err1 == 0 && err2 == 0)
-                    {
-                       btnSave.Enabled= true;
-                        btnSave.BringToFront();
-                        lbshow2.Text = "Success, Please save!";
-                        lbNum.Text = "";
-                        lbstock.Text = "";
-                    }
-                    if (dgv.Rows.Count == 0)
-                    {
-                        lbshow2.Text = "";
-                        lbNum.Text =  "";
-                        lbstock.Text = "";
-                    }
-                    lbfound2.Text = "Found: " + dgv.Rows.Count;
                 }
+                catch
+                {
+                    toolTip1.SetToolTip(PicAlertQty, "អ្នកបញ្ចូលខុសទម្រង់ហើយ!\nសូមបញ្ចូលជាចំនួនលេខ!");
+                    tasksBlink.Add(BlinkPictureBox(PicAlertQty));
+                }
+            }
+
+            if (txtRemark.Text.Trim() == "")
+                tasksBlink.Add(BlinkPictureBox(PicAlertRemark));
+
+            await Task.WhenAll(tasksBlink);
+        }
+        private async Task BlinkPictureBox(PictureBox pictureBox)
+        {
+            pictureBox.Visible = false;
+            for (int i = 0; i < 7; i++)
+            {
+                pictureBox.Visible = !pictureBox.Visible;
+                await Task.Delay(300);
+            }
+            pictureBox.Visible = true;
+        }
+        private void TakingMst()
+        {
+            //Taking Mst
+            dtMst = new DataTable();
+            try
+            {
+                con.con.Open();
+                string SQLQuery = "SELECT * FROM MstMCSparePart WHERE Dept = '" + Dept + "' ORDER BY Code";
+                SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, con.con);
+                sda.Fill(dtMst);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Something wrong with delete" + ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);  
+                ErrorText = "Taking Mst : " + ex.Message;
             }
+            con.con.Close();
         }
-
+        private void ClearInfoText()
+        {
+            txtPartNo.Text = "";
+            txtPartName.Text = "";
+            txtLocation.Text = "";
+            txtMCName.Text = "";
+            txtMaker.Text = "";
+            LbStockRemain.Text = "";
+        }
     }
 }
