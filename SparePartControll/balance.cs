@@ -24,8 +24,6 @@ namespace MachineDeptApp
             this.txtRcode.TextChanged += TxtRcode_TextChanged;
             this.txtRname.TextChanged += TxtRname_TextChanged;
             this.Load += Balance_Load;
-            this.chkRcode.CheckedChanged += ChkRcode_CheckedChanged;
-            this.chkRname.CheckedChanged += ChkRname_CheckedChanged;
             this.dtpDate.ValueChanged += DtpDate_ValueChanged;
         }
 
@@ -34,15 +32,6 @@ namespace MachineDeptApp
             btnSearch.PerformClick();
         }
 
-        private void ChkRname_CheckedChanged(object sender, EventArgs e)
-        {
-            btnSearch.PerformClick();
-        }
-
-        private void ChkRcode_CheckedChanged(object sender, EventArgs e)
-        {
-            btnSearch.PerformClick();
-        }
 
         private void Balance_Load(object sender, EventArgs e)
         {

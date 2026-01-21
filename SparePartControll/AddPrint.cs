@@ -94,6 +94,8 @@ namespace MachineDeptApp.SparePartControll
     !string.IsNullOrWhiteSpace(eta) &&
     !string.IsNullOrWhiteSpace(amount))
             {
+                DateTime seteta = Convert.ToDateTime(eta);
+                string set = seteta.ToString("MM-yyyy");
                 SaveToDb();
                 dgvPrint.Rows.Add();
                 dgvPrint.Rows[dgvPrint.Rows.Count - 1].Cells["Code"].Value = code;
@@ -105,10 +107,11 @@ namespace MachineDeptApp.SparePartControll
                 dgvPrint.Rows[dgvPrint.Rows.Count - 1].Cells["unitprice"].Value = unitPrice;
                 dgvPrint.Rows[dgvPrint.Rows.Count - 1].Cells["amount"].Value = amount;
                 dgvPrint.Rows[dgvPrint.Rows.Count - 1].Cells["qty"].Value = Convert.ToDouble(qty).ToString("N0");
-                dgvPrint.Rows[dgvPrint.Rows.Count - 1].Cells["eta"].Value = eta;
+                dgvPrint.Rows[dgvPrint.Rows.Count - 1].Cells["eta"].Value = set;
                 dgvPrint.Rows[dgvPrint.Rows.Count - 1].Cells["leadtime"].Value = leadTime;
                 dgvPrint.Rows[dgvPrint.Rows.Count - 1].Cells["status"].Value = "Pending";
                 dgvPrint.Rows[dgvPrint.Rows.Count - 1].Cells["find"].Value = "Not";
+                dgvPrint.Rows[dgvPrint.Rows.Count - 1].Cells["seteta"].Value = set;
                 txtqty.Text = "";
                 txtamount.Text = "";
             }

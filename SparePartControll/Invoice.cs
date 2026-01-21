@@ -32,8 +32,26 @@ namespace MachineDeptApp
             this.btnSave.Click += BtnSave_Click;
             this.Load += InvoiceForm_Load;
             this.txtInvoice.KeyDown += TxtInvoice_KeyDown;
+            this.btnNew.Click += BtnNew_Click;
+            this.dgvInvoice.CellValueChanged += DgvInvoice_CellValueChanged;
         }
 
+        private void DgvInvoice_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            lbfound.Text = "Found : " + dgvInvoice.Rows.Count;
+        }
+
+        private void BtnNew_Click(object sender, EventArgs e)
+        {
+            if (dgvInvoice.Rows.Count > 0)
+            {
+                DialogResult ask = MessageBox.Show("Are you want to clear all data?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (ask == DialogResult.No)
+                    return;
+                else
+                    dgvInvoice.Rows.Clear();
+            }
+        }
         private void TxtInvoice_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -74,7 +92,7 @@ namespace MachineDeptApp
                                 "INNER JOIN (SELECT  Code, Part_Name, Part_No FROM MstMCSparePart) tbName ON tbInvoice.ItemCode = tbName.Code " +
                                 "INNER JOIN (SELECT ItemCode, ItemType FROM [" + conOBS.server + "].[" + conOBS.db + "].[dbo].mstitem) tbType ON tbInvoice.ItemCode = tbType.ItemCode " +
                                 "INNER JOIN (SELECT PurchaseNo, PurchaseOrderCode FROM [" + conOBS.server + "].[" + conOBS.db + "].[dbo].prgpurchaseorderheader) tbPono ON tbInvoice.PurchaseOrderCode = tbPono.PurchaseOrderCode " +
-                                "WHERE ItemType = 4 AND tbInvoice.DONo LIKE '%" + txtInvoice.Text + "%'";
+                                "WHERE ItemType = 4 AND tbInvoice.DONo = '" + txtInvoice.Text + "'";
                             Console.WriteLine(queryselectOBS);
                             SqlDataAdapter sdaselect = new SqlDataAdapter(queryselectOBS, con.con);
                             sdaselect.Fill(dtfill);
@@ -94,11 +112,27 @@ namespace MachineDeptApp
                                 dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["partname"].Value = row["Part_Name"].ToString();
                                 dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["Pno"].Value = row["Part_No"].ToString();
                                 dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["pono"].Value = row["PurchaseNo"].ToString();
-                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["qty"].Value = row["Qty"].ToString();
-                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["priceusd"].Value = row["UnitPrice"].ToString();
-                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["amountusd"].Value = row["Amount"].ToString();
+                                double qty;
+                                if (double.TryParse(row["Qty"].ToString(), out qty))
+                                {
+                                    dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["qty"].Value = qty;
+                                }
+                                double priceusd;
+                                if (double.TryParse(row["UnitPrice"].ToString(), out priceusd))
+                                {
+                                    dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["priceusd"].Value = priceusd;
+                                }
+                                double amt;
+                                if (double.TryParse(row["Amount"].ToString(), out amt))
+                                {
+                                    dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["amountusd"].Value = amt;
+                                }
                                 dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["invoiceno"].Value = row["DONo"].ToString();
-                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["invoicedate"].Value = row["RecvDate"].ToString();
+                                DateTime date;
+                                if (DateTime.TryParse(row["RecvDate"].ToString(), out date))
+                                {
+                                    dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["invoicedate"].Value = date;
+                                }
                             }
                             btnSave.Enabled = true;
                             btnSave.BringToFront();
@@ -155,7 +189,7 @@ namespace MachineDeptApp
             catch (Exception ex)
             {
                 MessageBox.Show("Error while selecting table request: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                lbshow.Text = "Error: " + ex.Message;
+       
                 error++;
             }
             con.con.Close();
@@ -170,7 +204,6 @@ namespace MachineDeptApp
             catch (Exception ex)
             {
                 MessageBox.Show("Error while selecting master: " + ex.Message);
-                lbshow.Text = "Error: " + ex.Message;
                 error++;
             }
             con.con.Close();
@@ -180,7 +213,41 @@ namespace MachineDeptApp
                 Cursor = Cursors.Default;
                 return;
             }
-            //Save to db
+            //Compare stock
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                DateTime now = DateTime.Now;
+                //Loop Compare
+                foreach (DataGridViewRow row1 in dgvInvoice.Rows)
+                {
+                    string CodeIN = row1.Cells["code"]?.Value?.ToString() ?? "";
+                    double recqty = double.TryParse(row1.Cells["qty"]?.Value?.ToString(), out var q) ? q : 0;
+                    foreach (DataRow row2 in dtselect.Rows)
+                    {
+                        string MCdocNo = row2["MCDocNo"].ToString();
+                        string CodeSelect = row2["Code"].ToString();
+                        string ponoSelect = row2["PO_No"].ToString();
+                        double balance = row2["Balance"] != DBNull.Value ? Convert.ToDouble(row2["Balance"]) : 0;
+
+                        if (CodeIN == CodeSelect && string.IsNullOrEmpty(MCdocNo))
+                        {
+                            if (recqty > balance)
+                            {
+                                MessageBox.Show("Receive Qty cannot bigger than balance !", "Please check.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                con.con.Close();
+                                Cursor = Cursors.Default;
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Saving" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                error++;
+            }
             try
             {
                 Cursor = Cursors.WaitCursor;
@@ -214,13 +281,6 @@ namespace MachineDeptApp
                         }
                         if (CodeIN == CodeSelect &&  string.IsNullOrEmpty(MCdocNo))
                         {
-                            if (recqty > balance)
-                            {
-                                MessageBox.Show("Receive Qty cannot bigger than balance !", "Please check.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                con.con.Close();
-                                Cursor = Cursors.Default;
-                                return;
-                            }
                             //Update
                             try
                             {

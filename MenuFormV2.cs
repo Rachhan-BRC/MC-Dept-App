@@ -2078,7 +2078,7 @@ namespace MachineDeptApp
                }
 
            }
-           if (currentClkNode.Text == "Stock (In / Out)")
+           if (currentClkNode.Text == "Stock Return")
            {
                //Check if already open >> Focus on that Form
                int FoundOpened = 0;
@@ -2097,10 +2097,9 @@ namespace MachineDeptApp
                    StockINOut Uf = new StockINOut();
                    Uf.MdiParent = MenuFormV2.ActiveForm;
                    Uf.Show();
-                   tabControlOpenForm.TabPages.Add("Stock (In / Out)");
-                   dtOpenForm.Rows.Add("StockINOut", "Stock (In / Out)");
+                   tabControlOpenForm.TabPages.Add("Stock Return");
+                   dtOpenForm.Rows.Add("StockINOut", "Stock Return");
                }
-
            }
            if (currentClkNode.Text == "Budget")
            {
@@ -2327,7 +2326,7 @@ namespace MachineDeptApp
             
             dtChildRoot.Rows.Add(8, "Master Spare Parts", "MstSparePart");
             dtChildRoot.Rows.Add(8, "Balance", "balance");
-            dtChildRoot.Rows.Add(8, "Stock (In / Out)", "StockINOut");
+            dtChildRoot.Rows.Add(8, "Stock Return", "StockINOut");
             dtChildRoot.Rows.Add(8, "Invoice", "InvoiceForm");
             dtChildRoot.Rows.Add(8, "PO Request", "RequestForm");
             dtChildRoot.Rows.Add(8, "Budget", "budget");

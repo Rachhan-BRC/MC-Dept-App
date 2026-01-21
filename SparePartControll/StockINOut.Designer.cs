@@ -34,6 +34,10 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -41,10 +45,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.btnSaveGRAY = new System.Windows.Forms.PictureBox();
             this.btnNew = new System.Windows.Forms.Button();
@@ -54,6 +54,15 @@
             this.panelBody = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvInput = new System.Windows.Forms.DataGridView();
+            this.ColCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColPartNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColPartName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColTransDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColStockIn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColStockOut = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColRemark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Remove = new System.Windows.Forms.DataGridViewImageColumn();
             this.GrbAdd = new System.Windows.Forms.GroupBox();
             this.PicAlertRemark = new System.Windows.Forms.PictureBox();
             this.PicAlertQty = new System.Windows.Forms.PictureBox();
@@ -91,15 +100,6 @@
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.ColCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColPartNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColPartName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColTransDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColStockIn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColStockOut = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColRemark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Remove = new System.Windows.Forms.DataGridViewImageColumn();
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnSaveGRAY)).BeginInit();
             this.panelFooter.SuspendLayout();
@@ -263,6 +263,87 @@
             this.dgvInput.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvInput.Size = new System.Drawing.Size(1032, 165);
             this.dgvInput.TabIndex = 16;
+            // 
+            // ColCode
+            // 
+            this.ColCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColCode.HeaderText = "Code";
+            this.ColCode.Name = "ColCode";
+            this.ColCode.Width = 80;
+            // 
+            // ColPartNo
+            // 
+            this.ColPartNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColPartNo.HeaderText = "Part No";
+            this.ColPartNo.Name = "ColPartNo";
+            this.ColPartNo.Width = 150;
+            // 
+            // ColPartName
+            // 
+            this.ColPartName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColPartName.HeaderText = "Part Name";
+            this.ColPartName.Name = "ColPartName";
+            this.ColPartName.Width = 200;
+            // 
+            // ColLocation
+            // 
+            this.ColLocation.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColLocation.HeaderText = "ទីតាំង";
+            this.ColLocation.Name = "ColLocation";
+            this.ColLocation.Width = 70;
+            // 
+            // ColTransDate
+            // 
+            this.ColTransDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.Format = "dd-MM-yyyy";
+            this.ColTransDate.DefaultCellStyle = dataGridViewCellStyle3;
+            this.ColTransDate.HeaderText = "Transaction Date";
+            this.ColTransDate.Name = "ColTransDate";
+            // 
+            // ColStockIn
+            // 
+            this.ColStockIn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.Format = "N0";
+            dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.ColStockIn.DefaultCellStyle = dataGridViewCellStyle4;
+            this.ColStockIn.HeaderText = "Stock-In Qty";
+            this.ColStockIn.Name = "ColStockIn";
+            this.ColStockIn.Width = 90;
+            // 
+            // ColStockOut
+            // 
+            this.ColStockOut.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "N0";
+            dataGridViewCellStyle5.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.ColStockOut.DefaultCellStyle = dataGridViewCellStyle5;
+            this.ColStockOut.HeaderText = "Stock-Out Qty";
+            this.ColStockOut.Name = "ColStockOut";
+            this.ColStockOut.Width = 90;
+            // 
+            // ColRemark
+            // 
+            this.ColRemark.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColRemark.HeaderText = "Remark";
+            this.ColRemark.Name = "ColRemark";
+            this.ColRemark.Width = 150;
+            // 
+            // Remove
+            // 
+            this.Remove.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle6.NullValue")));
+            dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(5);
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.White;
+            this.Remove.DefaultCellStyle = dataGridViewCellStyle6;
+            this.Remove.HeaderText = "";
+            this.Remove.Image = ((System.Drawing.Image)(resources.GetObject("Remove.Image")));
+            this.Remove.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.Remove.Name = "Remove";
+            this.Remove.Width = 30;
             // 
             // GrbAdd
             // 
@@ -734,87 +815,6 @@
             this.txtSearch.TabIndex = 3;
             this.txtSearch.Text = "បំពេញព័ត៌មានដើម្បីស្វែងរក";
             // 
-            // ColCode
-            // 
-            this.ColCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColCode.HeaderText = "Code";
-            this.ColCode.Name = "ColCode";
-            this.ColCode.Width = 80;
-            // 
-            // ColPartNo
-            // 
-            this.ColPartNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColPartNo.HeaderText = "Part No";
-            this.ColPartNo.Name = "ColPartNo";
-            this.ColPartNo.Width = 150;
-            // 
-            // ColPartName
-            // 
-            this.ColPartName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColPartName.HeaderText = "Part Name";
-            this.ColPartName.Name = "ColPartName";
-            this.ColPartName.Width = 200;
-            // 
-            // ColLocation
-            // 
-            this.ColLocation.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColLocation.HeaderText = "ទីតាំង";
-            this.ColLocation.Name = "ColLocation";
-            this.ColLocation.Width = 70;
-            // 
-            // ColTransDate
-            // 
-            this.ColTransDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.Format = "dd-MM-yyyy";
-            this.ColTransDate.DefaultCellStyle = dataGridViewCellStyle3;
-            this.ColTransDate.HeaderText = "Transaction Date";
-            this.ColTransDate.Name = "ColTransDate";
-            // 
-            // ColStockIn
-            // 
-            this.ColStockIn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "N0";
-            dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.ColStockIn.DefaultCellStyle = dataGridViewCellStyle4;
-            this.ColStockIn.HeaderText = "Stock-In Qty";
-            this.ColStockIn.Name = "ColStockIn";
-            this.ColStockIn.Width = 90;
-            // 
-            // ColStockOut
-            // 
-            this.ColStockOut.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "N0";
-            dataGridViewCellStyle5.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.ColStockOut.DefaultCellStyle = dataGridViewCellStyle5;
-            this.ColStockOut.HeaderText = "Stock-Out Qty";
-            this.ColStockOut.Name = "ColStockOut";
-            this.ColStockOut.Width = 90;
-            // 
-            // ColRemark
-            // 
-            this.ColRemark.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColRemark.HeaderText = "Remark";
-            this.ColRemark.Name = "ColRemark";
-            this.ColRemark.Width = 150;
-            // 
-            // Remove
-            // 
-            this.Remove.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle6.NullValue")));
-            dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(5);
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.White;
-            this.Remove.DefaultCellStyle = dataGridViewCellStyle6;
-            this.Remove.HeaderText = "";
-            this.Remove.Image = ((System.Drawing.Image)(resources.GetObject("Remove.Image")));
-            this.Remove.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.Remove.Name = "Remove";
-            this.Remove.Width = 30;
-            // 
             // StockINOut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -825,7 +825,7 @@
             this.Controls.Add(this.panelFooter);
             this.Controls.Add(this.panelHeader);
             this.Name = "StockINOut";
-            this.Text = "Stock (In / Out)";
+            this.Text = "Stock Return";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panelHeader.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnSaveGRAY)).EndInit();
