@@ -1,2 +1,0 @@
-PosNo		BoxNo	ErrorDetails
-25-0301553	1	Stock not enough ( 0102 )
