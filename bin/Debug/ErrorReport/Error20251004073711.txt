@@ -1,3 +1,0 @@
-Save to DB : The variable name '@ItemCode' has already been declared. Variable names must be unique within a query batch or stored procedure.
-The variable name '@POSNo' has already been declared. Variable names must be unique within a query batch or stored procedure.
-The variable name '@AddQty' has already been declared. Variable names must be unique within a query batch or stored procedure.

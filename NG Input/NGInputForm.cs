@@ -62,6 +62,10 @@ namespace MachineDeptApp.NG_Input
                     LbExportStatus.Text = "កំពុងបង្កើត File​ . . . .";
                     LbExportStatus.Refresh();
                     ErrorText = "";
+                    DateTime RegDate = DateTime.Now;
+                    string RegBy = MenuFormV2.UserForNextForm;
+
+
                     string fName = "";
                     string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\NG";
                     //ឆែករកមើល Folder បើគ្មាន => បង្កើត
@@ -76,7 +80,11 @@ namespace MachineDeptApp.NG_Input
                     DataTable dtPrint = new DataTable();
                     dtPrint.Columns.Add("RMCode", typeof(string));
                     dtPrint.Columns.Add("RMName", typeof(string));
+                    dtPrint.Columns.Add("MatCalcFlag", typeof(string));
+                    dtPrint.Columns.Add("Maker", typeof(string));
+                    dtPrint.Columns.Add("Type", typeof(string));
                     dtPrint.Columns.Add("Qty", typeof(double));
+                    dtPrint.Columns.Add("UnitPrice", typeof(double));
 
                     foreach (DataGridViewRow row in dgvNGalready.Rows)
                     {
@@ -115,11 +123,6 @@ namespace MachineDeptApp.NG_Input
                         }
                     }
 
-                    //Convert total
-                    //for (int i = 0; i < dtPrint.Rows.Count; i++)
-                    //{
-                    //    dtPrint.Rows[i][2] = Math.Round(Convert.ToDouble(dtPrint.Rows[i][2].ToString()), 0, MidpointRounding.AwayFromZero);
-                    //}
 
                     //Add type of Count/Uncount
                     if (dtPrint.Rows.Count > 0)
@@ -140,7 +143,16 @@ namespace MachineDeptApp.NG_Input
                         try
                         {
                             cnnOBS.conOBS.Open();
-                            SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM mstitem WHERE DelFlag=0 AND ItemCode IN (" + RMCodeIN + ") ORDER BY ItemCode ASC;", cnnOBS.conOBS);
+                            SqlDataAdapter sda = new SqlDataAdapter(@"SELECT T1.ItemCode AS RMCode, ItemName, MatTypeName, MatCalcFlag, RESV1 AS Maker, COALESCE(T3.UnitPrice, 0) AS UnitPrice FROM 
+                                     (SELECT * FROM mstitem WHERE DelFlag=0 AND ItemType=2) T1 
+                                     LEFT JOIN (SELECT * FROM MstMatType) T2 
+                                     ON T1.MatTypeCode=T2.MatTypeCode 
+                                     LEFT JOIN (SELECT ItemCode, EffDate, UnitPrice FROM mstpurchaseprice) T3 
+                                     ON T1.ItemCode=T3.ItemCode 
+                                     INNER JOIN (SELECT ItemCode, MAX(EffDate) AS EffDate FROM mstpurchaseprice GROUP BY ItemCode) T4 
+                                     ON T3.ItemCode=T4.ItemCode AND T3.EffDate=T4.EffDate 
+                                     WHERE T1.ItemCode IN ( "+RMCodeIN+ @") 
+                                     ORDER BY T1.ItemCode ASC", cnnOBS.conOBS);
                             sda.Fill(dtOBS);
                         }
                         catch (Exception ex)
@@ -151,15 +163,16 @@ namespace MachineDeptApp.NG_Input
 
                         if (ErrorText.Trim() == "")
                         {
-                            dtPrint.Columns.Add("MatCalcFlag");
                             foreach (DataRow row in dtPrint.Rows)
                             {
-                                row["MatCalcFlag"] = "0";
                                 foreach (DataRow rowOBS in dtOBS.Rows)
                                 {
-                                    if (row["RMCode"].ToString() == rowOBS["ItemCode"].ToString())
+                                    if (row["RMCode"].ToString() == rowOBS["RMCode"].ToString())
                                     {
                                         row["MatCalcFlag"] = rowOBS["MatCalcFlag"].ToString();
+                                        row["Maker"] = rowOBS["Maker"].ToString();
+                                        row["Type"] = rowOBS["MatTypeName"].ToString();
+                                        row["UnitPrice"] = Convert.ToDouble(rowOBS["UnitPrice"]);
                                         break;
                                     }
                                 }
@@ -193,91 +206,171 @@ namespace MachineDeptApp.NG_Input
                     //Print to Excel
                     if (ErrorText.Trim() == "" && dtPrint.Rows.Count>0)
                     {
-                        //Print excel
-                        Excel.Application excelApp = new Excel.Application();
-                        Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(Filename: Environment.CurrentDirectory + @"\Template\NG_Calculate.xlsx", Editable: true);
+                        //Sort dtPrint
+                        DataView dataView = dtPrint.DefaultView;//datatable to dataview
+                        dataView.Sort = "MatCalcFlag ASC, RMCode ASC";//string that contains the column name  followed by "ASC" (ascending) or "DESC" (descending)
+                        dtPrint = dataView.ToTable();
+                        dtPrint.AcceptChanges();
 
+                        //Print to Excel
+                        var CDirectory = Environment.CurrentDirectory;
+                        Excel.Application excelApp = new Excel.Application();
+                        Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(Filename: CDirectory.ToString() + @"\Template\NGReq_Template.xlsx", Editable: true);
                         try
                         {
-                            //Countable
-                            Excel.Worksheet wsCount = (Excel.Worksheet)xlWorkBook.Sheets["Countable"];
-                            int Countable = 0;
+                            //Write to Countable
+                            Excel.Worksheet worksheetCountable = (Excel.Worksheet)xlWorkBook.Sheets["Countable"];
+                            //Header
+                            worksheetCountable.Cells[4, 10] = RegDate;
+                            worksheetCountable.Cells[1, 9] = "";
+                            worksheetCountable.Cells[5, 10] = RegBy;
+                            int WriteItems = 0;
                             foreach (DataRow row in dtPrint.Rows)
                             {
                                 if (row["MatCalcFlag"].ToString() == "0")
                                 {
-                                    Countable++;
+                                    WriteItems = WriteItems + 1;
                                 }
                             }
-                            if (Countable > 1)
+                            if (WriteItems > 1)
                             {
-                                wsCount.Range["5:" + (Countable - 1 + 4)].Insert();
-                                wsCount.Range["A4:C" + (Countable - 1 + 4)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
-                            }
-                            wsCount.Cells[2, 2] = DateTime.Now;
-                            int RowIndex = 4;
-                            for (int i = 0; i < dtPrint.Rows.Count; i++)
-                            {
-                                if (dtPrint.Rows[i]["MatCalcFlag"].ToString() == "0")
+                                //Insert More Rows
+                                // Define the range that you want to copy.
+                                Excel.Range sourceRange = worksheetCountable.Range["A14:M14"];
+                                // Perform the copy operation.
+                                sourceRange.Copy(Type.Missing);
+                                // Specify the range where you want to insert the copied rows.
+                                Excel.Range destinationRange = worksheetCountable.Range["A15:A" + (14 + WriteItems - 1)];
+                                // Insert the copied cells and shift the existing cells down.
+                                destinationRange.Insert(Excel.XlInsertShiftDirection.xlShiftDown, sourceRange.Copy());
+                                worksheetCountable.Range["15:" + (14 + WriteItems - 1)].RowHeight = 18;
+
+                                //Write Data to cells
+                                int WriteCellsIndex = 14;
+                                foreach (DataRow row in dtPrint.Rows)
                                 {
-                                    for (int j = 0; j < dtPrint.Columns.Count - 1; j++)
+                                    if (row["MatCalcFlag"].ToString() == "0")
                                     {
-                                        if (dtPrint.Rows[i][j] != null)
-                                        {
-                                            wsCount.Cells[RowIndex, j + 1] = dtPrint.Rows[i][j];
-                                        }
+                                        worksheetCountable.Cells[WriteCellsIndex, 1] = (WriteCellsIndex - 14) + 1;
+                                        worksheetCountable.Cells[WriteCellsIndex, 4] = row["RMCode"].ToString();
+                                        worksheetCountable.Cells[WriteCellsIndex, 5] = row["RMName"].ToString();
+                                        worksheetCountable.Cells[WriteCellsIndex, 7] = row["Maker"].ToString();
+                                        worksheetCountable.Cells[WriteCellsIndex, 8] = row["Type"].ToString();
+                                        worksheetCountable.Cells[WriteCellsIndex, 9] = row["Qty"].ToString();
+                                        worksheetCountable.Cells[WriteCellsIndex, 10] = row["UnitPrice"].ToString();
+                                        worksheetCountable.Cells[WriteCellsIndex, 11] = "=I" + WriteCellsIndex + "*J" + WriteCellsIndex;
+
+                                        WriteCellsIndex = WriteCellsIndex + 1;
                                     }
-                                    RowIndex++;
+                                }
+                                //Subtotal
+                                worksheetCountable.Cells[WriteCellsIndex, 11] = "=SUM(K14:K" + (WriteCellsIndex - 1) + ")";
+                                worksheetCountable.Range[WriteCellsIndex + ":" + WriteCellsIndex].RowHeight = 30;
+                            }
+                            else
+                            {
+                                foreach (DataRow row in dtPrint.Rows)
+                                {
+                                    if (row["MatCalcFlag"].ToString() == "0")
+                                    {
+                                        worksheetCountable.Cells[14, 1] = 1;
+                                        worksheetCountable.Cells[14, 4] = row["RMCode"].ToString();
+                                        worksheetCountable.Cells[14, 5] = row["RMName"].ToString();
+                                        worksheetCountable.Cells[14, 7] = row["Maker"].ToString();
+                                        worksheetCountable.Cells[14, 8] = row["Type"].ToString();
+                                        worksheetCountable.Cells[14, 9] = row["Qty"].ToString();
+                                        worksheetCountable.Cells[14, 10] = row["UnitPrice"].ToString();
+                                        worksheetCountable.Cells[14, 11] = "=I14*J14";
+
+                                    }
                                 }
                             }
 
-                            //Uncount
-                            Excel.Worksheet wsUncount = (Excel.Worksheet)xlWorkBook.Sheets["Uncountable"];
-                            int Uncountable = 0;
+                            //Write to Uncountable
+                            Excel.Worksheet worksheetUncountable = (Excel.Worksheet)xlWorkBook.Sheets["Uncountable"];
+                            //Header
+                            worksheetUncountable.Cells[4, 10] = RegDate;
+                            worksheetUncountable.Cells[1, 9] = "";
+                            worksheetUncountable.Cells[5, 10] = RegBy;
+                            WriteItems = 0;
                             foreach (DataRow row in dtPrint.Rows)
                             {
-                                if (row["MatCalcFlag"].ToString() == "1")
+                                if (row["MatCalcFlag"].ToString() != "0")
                                 {
-                                    Uncountable++;
+                                    WriteItems = WriteItems + 1;
                                 }
                             }
-                            if (Uncountable > 1)
+                            if (WriteItems > 1)
                             {
-                                wsUncount.Range["5:" + (Uncountable - 1 + 4)].Insert();
-                                wsUncount.Range["A4:C" + (Uncountable - 1 + 4)].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
-                            }
-                            wsUncount.Cells[2, 2] = DateTime.Now;
-                            RowIndex = 4;
-                            for (int i = 0; i < dtPrint.Rows.Count; i++)
-                            {
-                                if (dtPrint.Rows[i]["MatCalcFlag"].ToString() == "1")
+                                //Insert More Rows
+                                // Define the range that you want to copy.
+                                Excel.Range sourceRange = worksheetUncountable.Range["A14:M14"];
+                                // Perform the copy operation.
+                                sourceRange.Copy(Type.Missing);
+                                // Specify the range where you want to insert the copied rows.
+                                Excel.Range destinationRange = worksheetUncountable.Range["A15:A" + (14 + WriteItems - 1)];
+                                // Insert the copied cells and shift the existing cells down.
+                                destinationRange.Insert(Excel.XlInsertShiftDirection.xlShiftDown, sourceRange.Copy());
+                                worksheetUncountable.Range["15:" + (14 + WriteItems - 1)].RowHeight = 18;
+
+                                //Write Data to cells
+                                int WriteCellsIndex = 14;
+                                foreach (DataRow row in dtPrint.Rows)
                                 {
-                                    for (int j = 0; j < dtPrint.Columns.Count - 1; j++)
+                                    if (row["MatCalcFlag"].ToString() != "0")
                                     {
-                                        if (dtPrint.Rows[i][j] != null)
-                                        {
-                                            wsUncount.Cells[RowIndex, j + 1] = dtPrint.Rows[i][j];
-                                        }
+                                        worksheetUncountable.Cells[WriteCellsIndex, 1] = (WriteCellsIndex - 14) + 1;
+                                        worksheetUncountable.Cells[WriteCellsIndex, 4] = row["RMCode"].ToString();
+                                        worksheetUncountable.Cells[WriteCellsIndex, 5] = row["RMName"].ToString();
+                                        worksheetUncountable.Cells[WriteCellsIndex, 7] = row["Maker"].ToString();
+                                        worksheetUncountable.Cells[WriteCellsIndex, 8] = row["Type"].ToString();
+                                        worksheetUncountable.Cells[WriteCellsIndex, 9] = row["Qty"].ToString();
+                                        worksheetUncountable.Cells[WriteCellsIndex, 10] = row["UnitPrice"].ToString();
+                                        worksheetUncountable.Cells[WriteCellsIndex, 11] = "=I" + WriteCellsIndex + "*J" + WriteCellsIndex;
+
+                                        WriteCellsIndex = WriteCellsIndex + 1;
                                     }
-                                    RowIndex++;
+                                }
+                                //Subtotal
+                                worksheetUncountable.Cells[WriteCellsIndex, 11] = "=SUM(K14:K" + (WriteCellsIndex - 1) + ")";
+                                worksheetUncountable.Range[WriteCellsIndex + ":" + WriteCellsIndex].RowHeight = 30;
+
+                            }
+                            else
+                            {
+                                foreach (DataRow row in dtPrint.Rows)
+                                {
+                                    if (row["MatCalcFlag"].ToString() != "0")
+                                    {
+                                        worksheetUncountable.Cells[14, 1] = 1;
+                                        worksheetUncountable.Cells[14, 4] = row["RMCode"].ToString();
+                                        worksheetUncountable.Cells[14, 5] = row["RMName"].ToString();
+                                        worksheetUncountable.Cells[14, 7] = row["Maker"].ToString();
+                                        worksheetUncountable.Cells[14, 8] = row["Type"].ToString();
+                                        worksheetUncountable.Cells[14, 9] = row["Qty"].ToString();
+                                        worksheetUncountable.Cells[14, 10] = row["UnitPrice"].ToString();
+                                        worksheetUncountable.Cells[14, 11] = "=I14*J14";
+                                    }
                                 }
                             }
 
-                            // Saving the modified Excel file
+                            // Saving the modified Excel file                        
                             string file = "NG_Calculated ";
                             fName = file + "( " + DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss") + " )";
-                            wsCount.SaveAs(SavePath + @"\" + fName + ".xlsx");
+                            worksheetCountable.SaveAs(SavePath + @"\" + fName + ".xlsx");
+                            xlWorkBook.Save();
+                            xlWorkBook.Close();
+                            excelApp.Quit();
+
                         }
                         catch (Exception ex)
                         {
-                            ErrorText = ex.Message;
+                            excelApp.DisplayAlerts = false;
+                            xlWorkBook.Close();
+                            excelApp.DisplayAlerts = true;
+                            excelApp.Quit();
+                            ErrorText += "\n" + ex.Message;
                         }
-
-                        //Close Excel
-                        excelApp.DisplayAlerts = false;
-                        xlWorkBook.Close();
-                        excelApp.DisplayAlerts = true;
-                        excelApp.Quit();
 
                         //Kill all Excel background process
                         var processes = from p in Process.GetProcessesByName("EXCEL")
@@ -320,7 +413,7 @@ namespace MachineDeptApp.NG_Input
                     {
                         LbExportStatus.Text = "ព្រីនមានបញ្ហា​ !";
                         LbExportStatus.Refresh();
-                        EMsg.AlertText = "ព្រីនមានបញ្ហា​ !";
+                        EMsg.AlertText = "ព្រីនមានបញ្ហា​ !"+ErrorText;
                         EMsg.ShowingMsg();
                     }
                 }
