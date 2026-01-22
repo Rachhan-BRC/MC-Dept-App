@@ -50,15 +50,32 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelHeader = new System.Windows.Forms.Panel();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.btnUpdateGrey = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDeleteGray = new System.Windows.Forms.PictureBox();
             this.btnDelete = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cbstatus = new System.Windows.Forms.ComboBox();
+            this.dtpissueto = new System.Windows.Forms.DateTimePicker();
+            this.dtprecdateto = new System.Windows.Forms.DateTimePicker();
+            this.dtpissuefrom = new System.Windows.Forms.DateTimePicker();
+            this.dtprecdatefrom = new System.Windows.Forms.DateTimePicker();
+            this.txtpono = new System.Windows.Forms.TextBox();
             this.txtPno = new System.Windows.Forms.TextBox();
+            this.chkpono = new System.Windows.Forms.CheckBox();
             this.chkPno = new System.Windows.Forms.CheckBox();
+            this.chkissue = new System.Windows.Forms.CheckBox();
+            this.txtremark = new System.Windows.Forms.TextBox();
+            this.chkrecdate = new System.Windows.Forms.CheckBox();
+            this.chkstatus = new System.Windows.Forms.CheckBox();
+            this.chkremark = new System.Windows.Forms.CheckBox();
             this.txtPname = new System.Windows.Forms.TextBox();
+            this.txtdocno = new System.Windows.Forms.TextBox();
             this.chkPname = new System.Windows.Forms.CheckBox();
+            this.chkdocno = new System.Windows.Forms.CheckBox();
             this.txtcode = new System.Windows.Forms.TextBox();
             this.chkcode = new System.Windows.Forms.CheckBox();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -94,6 +111,7 @@
             // panelHeader
             // 
             this.panelHeader.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panelHeader.Controls.Add(this.btnSearch);
             this.panelHeader.Controls.Add(this.btnUpdateGrey);
             this.panelHeader.Controls.Add(this.btnUpdate);
             this.panelHeader.Controls.Add(this.btnDeleteGray);
@@ -101,8 +119,21 @@
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelHeader.Location = new System.Drawing.Point(3, 3);
             this.panelHeader.Name = "panelHeader";
-            this.panelHeader.Size = new System.Drawing.Size(978, 68);
+            this.panelHeader.Size = new System.Drawing.Size(1478, 68);
             this.panelHeader.TabIndex = 52;
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnSearch.BackColor = System.Drawing.Color.Transparent;
+            this.btnSearch.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSearch.BackgroundImage")));
+            this.btnSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSearch.Location = new System.Drawing.Point(13, 6);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(53, 56);
+            this.btnSearch.TabIndex = 38;
+            this.toolTip1.SetToolTip(this.btnSearch, "Search");
+            this.btnSearch.UseVisualStyleBackColor = false;
             // 
             // btnUpdateGrey
             // 
@@ -111,7 +142,7 @@
             this.btnUpdateGrey.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnUpdateGrey.BackgroundImage")));
             this.btnUpdateGrey.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnUpdateGrey.Enabled = false;
-            this.btnUpdateGrey.Location = new System.Drawing.Point(13, 6);
+            this.btnUpdateGrey.Location = new System.Drawing.Point(72, 6);
             this.btnUpdateGrey.Name = "btnUpdateGrey";
             this.btnUpdateGrey.Size = new System.Drawing.Size(57, 56);
             this.btnUpdateGrey.TabIndex = 36;
@@ -125,7 +156,7 @@
             this.btnUpdate.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnUpdate.BackgroundImage")));
             this.btnUpdate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnUpdate.Enabled = false;
-            this.btnUpdate.Location = new System.Drawing.Point(13, 6);
+            this.btnUpdate.Location = new System.Drawing.Point(72, 6);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(57, 56);
             this.btnUpdate.TabIndex = 37;
@@ -134,7 +165,7 @@
             // btnDeleteGray
             // 
             this.btnDeleteGray.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteGray.Image")));
-            this.btnDeleteGray.Location = new System.Drawing.Point(76, 6);
+            this.btnDeleteGray.Location = new System.Drawing.Point(135, 6);
             this.btnDeleteGray.Name = "btnDeleteGray";
             this.btnDeleteGray.Size = new System.Drawing.Size(47, 55);
             this.btnDeleteGray.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -147,7 +178,7 @@
             this.btnDelete.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDelete.BackgroundImage")));
             this.btnDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnDelete.Enabled = false;
-            this.btnDelete.Location = new System.Drawing.Point(76, 5);
+            this.btnDelete.Location = new System.Drawing.Point(135, 5);
             this.btnDelete.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(46, 56);
@@ -157,20 +188,111 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.cbstatus);
+            this.groupBox1.Controls.Add(this.dtpissueto);
+            this.groupBox1.Controls.Add(this.dtprecdateto);
+            this.groupBox1.Controls.Add(this.dtpissuefrom);
+            this.groupBox1.Controls.Add(this.dtprecdatefrom);
+            this.groupBox1.Controls.Add(this.txtpono);
             this.groupBox1.Controls.Add(this.txtPno);
+            this.groupBox1.Controls.Add(this.chkpono);
             this.groupBox1.Controls.Add(this.chkPno);
+            this.groupBox1.Controls.Add(this.chkissue);
+            this.groupBox1.Controls.Add(this.txtremark);
+            this.groupBox1.Controls.Add(this.chkrecdate);
+            this.groupBox1.Controls.Add(this.chkstatus);
+            this.groupBox1.Controls.Add(this.chkremark);
             this.groupBox1.Controls.Add(this.txtPname);
+            this.groupBox1.Controls.Add(this.txtdocno);
             this.groupBox1.Controls.Add(this.chkPname);
+            this.groupBox1.Controls.Add(this.chkdocno);
             this.groupBox1.Controls.Add(this.txtcode);
             this.groupBox1.Controls.Add(this.chkcode);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(3, 71);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(978, 73);
+            this.groupBox1.Size = new System.Drawing.Size(1478, 105);
             this.groupBox1.TabIndex = 56;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search Condition";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(952, 65);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(15, 22);
+            this.label2.TabIndex = 125;
+            this.label2.Text = "-";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(952, 29);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(15, 22);
+            this.label1.TabIndex = 125;
+            this.label1.Text = "-";
+            // 
+            // cbstatus
+            // 
+            this.cbstatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbstatus.FormattingEnabled = true;
+            this.cbstatus.Items.AddRange(new object[] {
+            "",
+            "Completed",
+            "Not Completed"});
+            this.cbstatus.Location = new System.Drawing.Point(1222, 42);
+            this.cbstatus.Name = "cbstatus";
+            this.cbstatus.Size = new System.Drawing.Size(121, 30);
+            this.cbstatus.TabIndex = 124;
+            // 
+            // dtpissueto
+            // 
+            this.dtpissueto.CustomFormat = "     dd-MMM-yy";
+            this.dtpissueto.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpissueto.Location = new System.Drawing.Point(973, 25);
+            this.dtpissueto.Name = "dtpissueto";
+            this.dtpissueto.Size = new System.Drawing.Size(138, 30);
+            this.dtpissueto.TabIndex = 123;
+            // 
+            // dtprecdateto
+            // 
+            this.dtprecdateto.CustomFormat = "     dd-MMM-yy";
+            this.dtprecdateto.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtprecdateto.Location = new System.Drawing.Point(973, 63);
+            this.dtprecdateto.Name = "dtprecdateto";
+            this.dtprecdateto.Size = new System.Drawing.Size(138, 30);
+            this.dtprecdateto.TabIndex = 123;
+            // 
+            // dtpissuefrom
+            // 
+            this.dtpissuefrom.CustomFormat = "     dd-MMM-yy";
+            this.dtpissuefrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpissuefrom.Location = new System.Drawing.Point(808, 25);
+            this.dtpissuefrom.Name = "dtpissuefrom";
+            this.dtpissuefrom.Size = new System.Drawing.Size(138, 30);
+            this.dtpissuefrom.TabIndex = 123;
+            // 
+            // dtprecdatefrom
+            // 
+            this.dtprecdatefrom.CustomFormat = "     dd-MMM-yy";
+            this.dtprecdatefrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtprecdatefrom.Location = new System.Drawing.Point(808, 63);
+            this.dtprecdatefrom.Name = "dtprecdatefrom";
+            this.dtprecdatefrom.Size = new System.Drawing.Size(138, 30);
+            this.dtprecdatefrom.TabIndex = 123;
+            // 
+            // txtpono
+            // 
+            this.txtpono.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtpono.Location = new System.Drawing.Point(286, 61);
+            this.txtpono.Name = "txtpono";
+            this.txtpono.Size = new System.Drawing.Size(101, 30);
+            this.txtpono.TabIndex = 122;
             // 
             // txtPno
             // 
@@ -179,6 +301,17 @@
             this.txtPno.Name = "txtPno";
             this.txtPno.Size = new System.Drawing.Size(101, 30);
             this.txtPno.TabIndex = 122;
+            // 
+            // chkpono
+            // 
+            this.chkpono.AutoSize = true;
+            this.chkpono.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkpono.Location = new System.Drawing.Point(207, 65);
+            this.chkpono.Name = "chkpono";
+            this.chkpono.Size = new System.Drawing.Size(68, 26);
+            this.chkpono.TabIndex = 117;
+            this.chkpono.Text = "PO No.";
+            this.chkpono.UseVisualStyleBackColor = true;
             // 
             // chkPno
             // 
@@ -191,24 +324,95 @@
             this.chkPno.Text = "Part No.";
             this.chkPno.UseVisualStyleBackColor = true;
             // 
+            // chkissue
+            // 
+            this.chkissue.AutoSize = true;
+            this.chkissue.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkissue.Location = new System.Drawing.Point(699, 27);
+            this.chkissue.Name = "chkissue";
+            this.chkissue.Size = new System.Drawing.Size(88, 26);
+            this.chkissue.TabIndex = 117;
+            this.chkissue.Text = "Issue Date";
+            this.chkissue.UseVisualStyleBackColor = true;
+            // 
+            // txtremark
+            // 
+            this.txtremark.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtremark.Location = new System.Drawing.Point(502, 59);
+            this.txtremark.Name = "txtremark";
+            this.txtremark.Size = new System.Drawing.Size(172, 30);
+            this.txtremark.TabIndex = 122;
+            // 
+            // chkrecdate
+            // 
+            this.chkrecdate.AutoSize = true;
+            this.chkrecdate.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkrecdate.Location = new System.Drawing.Point(699, 65);
+            this.chkrecdate.Name = "chkrecdate";
+            this.chkrecdate.Size = new System.Drawing.Size(103, 26);
+            this.chkrecdate.TabIndex = 117;
+            this.chkrecdate.Text = "Receive Date";
+            this.chkrecdate.UseVisualStyleBackColor = true;
+            // 
+            // chkstatus
+            // 
+            this.chkstatus.AutoSize = true;
+            this.chkstatus.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkstatus.Location = new System.Drawing.Point(1144, 46);
+            this.chkstatus.Name = "chkstatus";
+            this.chkstatus.Size = new System.Drawing.Size(63, 26);
+            this.chkstatus.TabIndex = 117;
+            this.chkstatus.Text = "Status";
+            this.chkstatus.UseVisualStyleBackColor = true;
+            // 
+            // chkremark
+            // 
+            this.chkremark.AutoSize = true;
+            this.chkremark.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkremark.Location = new System.Drawing.Point(408, 63);
+            this.chkremark.Name = "chkremark";
+            this.chkremark.Size = new System.Drawing.Size(72, 26);
+            this.chkremark.TabIndex = 117;
+            this.chkremark.Text = "Remark";
+            this.chkremark.UseVisualStyleBackColor = true;
+            // 
             // txtPname
             // 
             this.txtPname.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPname.Location = new System.Drawing.Point(512, 25);
+            this.txtPname.Location = new System.Drawing.Point(502, 23);
             this.txtPname.Name = "txtPname";
             this.txtPname.Size = new System.Drawing.Size(172, 30);
             this.txtPname.TabIndex = 122;
+            // 
+            // txtdocno
+            // 
+            this.txtdocno.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtdocno.Location = new System.Drawing.Point(87, 63);
+            this.txtdocno.Name = "txtdocno";
+            this.txtdocno.Size = new System.Drawing.Size(101, 30);
+            this.txtdocno.TabIndex = 122;
             // 
             // chkPname
             // 
             this.chkPname.AutoSize = true;
             this.chkPname.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkPname.Location = new System.Drawing.Point(418, 29);
+            this.chkPname.Location = new System.Drawing.Point(408, 27);
             this.chkPname.Name = "chkPname";
             this.chkPname.Size = new System.Drawing.Size(88, 26);
             this.chkPname.TabIndex = 117;
             this.chkPname.Text = "Part Name";
             this.chkPname.UseVisualStyleBackColor = true;
+            // 
+            // chkdocno
+            // 
+            this.chkdocno.AutoSize = true;
+            this.chkdocno.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkdocno.Location = new System.Drawing.Point(23, 65);
+            this.chkdocno.Name = "chkdocno";
+            this.chkdocno.Size = new System.Drawing.Size(68, 26);
+            this.chkdocno.TabIndex = 117;
+            this.chkdocno.Text = "PR No.";
+            this.chkdocno.UseVisualStyleBackColor = true;
             // 
             // txtcode
             // 
@@ -238,7 +442,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(3, 515);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(978, 43);
+            this.panel2.Size = new System.Drawing.Size(1478, 43);
             this.panel2.TabIndex = 57;
             // 
             // label3
@@ -246,7 +450,7 @@
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(849, 10);
+            this.label3.Location = new System.Drawing.Point(1349, 10);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(0, 24);
             this.label3.TabIndex = 4;
@@ -256,7 +460,7 @@
             this.lberror.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lberror.AutoSize = true;
             this.lberror.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lberror.Location = new System.Drawing.Point(-844, 10);
+            this.lberror.Location = new System.Drawing.Point(-344, 10);
             this.lberror.Name = "lberror";
             this.lberror.Size = new System.Drawing.Size(0, 24);
             this.lberror.TabIndex = 3;
@@ -266,7 +470,7 @@
             this.lbFound.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lbFound.AutoSize = true;
             this.lbFound.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbFound.Location = new System.Drawing.Point(843, 10);
+            this.lbFound.Location = new System.Drawing.Point(1343, 10);
             this.lbFound.Name = "lbFound";
             this.lbFound.Size = new System.Drawing.Size(0, 24);
             this.lbFound.TabIndex = 2;
@@ -275,7 +479,7 @@
             // 
             this.LbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LbStatus.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbStatus.Location = new System.Drawing.Point(360, 4);
+            this.LbStatus.Location = new System.Drawing.Point(860, 4);
             this.LbStatus.Name = "LbStatus";
             this.LbStatus.Size = new System.Drawing.Size(614, 22);
             this.LbStatus.TabIndex = 1;
@@ -322,7 +526,7 @@
             this.remark});
             this.dgvRequest.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvRequest.EnableHeadersVisualStyles = false;
-            this.dgvRequest.Location = new System.Drawing.Point(3, 144);
+            this.dgvRequest.Location = new System.Drawing.Point(3, 176);
             this.dgvRequest.Name = "dgvRequest";
             this.dgvRequest.ReadOnly = true;
             this.dgvRequest.RowHeadersVisible = false;
@@ -333,7 +537,7 @@
             this.dgvRequest.RowsDefaultCellStyle = dataGridViewCellStyle19;
             this.dgvRequest.RowTemplate.Height = 25;
             this.dgvRequest.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvRequest.Size = new System.Drawing.Size(978, 371);
+            this.dgvRequest.Size = new System.Drawing.Size(1478, 339);
             this.dgvRequest.TabIndex = 58;
             // 
             // code
@@ -506,7 +710,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 561);
+            this.ClientSize = new System.Drawing.Size(1484, 561);
             this.Controls.Add(this.dgvRequest);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.groupBox1);
@@ -563,5 +767,22 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn remainamount;
         private System.Windows.Forms.DataGridViewTextBoxColumn orderstatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn remark;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.DateTimePicker dtprecdatefrom;
+        private System.Windows.Forms.TextBox txtpono;
+        private System.Windows.Forms.CheckBox chkpono;
+        private System.Windows.Forms.TextBox txtremark;
+        private System.Windows.Forms.CheckBox chkremark;
+        private System.Windows.Forms.TextBox txtdocno;
+        private System.Windows.Forms.CheckBox chkdocno;
+        private System.Windows.Forms.ComboBox cbstatus;
+        private System.Windows.Forms.DateTimePicker dtpissuefrom;
+        private System.Windows.Forms.CheckBox chkissue;
+        private System.Windows.Forms.CheckBox chkrecdate;
+        private System.Windows.Forms.CheckBox chkstatus;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DateTimePicker dtpissueto;
+        private System.Windows.Forms.DateTimePicker dtprecdateto;
     }
 }

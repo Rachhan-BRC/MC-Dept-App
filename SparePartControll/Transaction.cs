@@ -256,7 +256,52 @@ namespace MachineDeptApp
                         cond.Rows.Add($"Part_No LIKE '%{val}%'");
                     }
                 }
+                if (chkpono.Checked == true)
+                {
+                    string val = txtpono.Text;
+                    if (!string.IsNullOrEmpty(val))
+                    {
+                        cond.Rows.Add($"PO_No LIKE '%{val}%'");
+                    }
+                }
+                if (chkinvoice.Checked == true)
+                {
+                    string val = txtinvoice.Text;
+                    if (!string.IsNullOrEmpty(val))
+                    {
+                        cond.Rows.Add($"Invoice LIKE '%{val}%'");
+                    }
+                }
+                if (chkremark.Checked == true)
+                {
+                    string val = txtremark.Text;
+                    if (!string.IsNullOrEmpty(val))
+                    {
+                        cond.Rows.Add($"Remark LIKE '%{val}%'");
+                    }
+                }
+                if (chkrecdate.Checked == true)
+                {
+                    DateTime from = dtprecdatefrom.Value;
+                    DateTime to = dtprecdateto.Value;
+                    cond.Rows.Add($"RegDate BETWEEN '{from.ToString("yyyy-MM-dd")}' AND '{to.ToString("yyyy-MM-dd")}'");
+                }
+                if (chkstatus.Checked == true)
+                {
+                    string val = cbtype.Text;
+                    if (!string.IsNullOrEmpty(val))
+                    {
+                        if (val == "Stock In")
+                        {
+                            cond.Rows.Add($"Stock_Out = 0");
+                        }
+                        else if (val == "Stock Out")
+                        {
+                            cond.Rows.Add($"Stock_In = 0");
+                        }
 
+                    }
+                }
                 string Conds = "";
                 foreach (DataRow row in cond.Rows)
                 {
@@ -287,28 +332,32 @@ namespace MachineDeptApp
             foreach (DataRow row in dt.Rows)
             {
                 string transactionID = row["TransNo"].ToString();
-                string Code = row["Code"].ToString();
+                string code = row["Code"].ToString();
                 string remark = row["Remark"].ToString();
                 string partno = row["Part_No"].ToString();
                 string partname = row["Part_Name"].ToString();
-                double stokin = Convert.ToDouble(row["Stock_In"]);
-                double stokout = Convert.ToDouble(row["Stock_Out"]);
-                DateTime regdate = Convert.ToDateTime(row["RegDate"]);
+                double stokin = row["Stock_In"] is DBNull ? 0 : Convert.ToDouble(row["Stock_In"]);
+                double stockamount = row["Stock_Amount"] is DBNull ? 0 : Convert.ToDouble(row["Stock_Amount"]);
+                double stokout = row["Stock_Out"] is DBNull ? 0 : Convert.ToDouble(row["Stock_Out"]);
+                DateTime regdate = row["RegDate"] is DBNull ? DateTime.MinValue : Convert.ToDateTime(row["RegDate"]);
                 string regby = row["PIC"].ToString();
-                double amount =  Convert.ToDouble(row["Stock_Amount"]);
-                string pono = row["PO_No"] == DBNull.Value ? null : row["PO_No"].ToString();
+                string pono = row["PO_No"]?.ToString();
+                string invoice = row["Invoice"]?.ToString();
                 dgvTTL.Rows.Add();
                 dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["TranNo"].Value = transactionID;
-                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["Code"].Value = Code;
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["Code"].Value = code;
                 dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partno"].Value = partno;
                 dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partname"].Value = partname;
                 dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockin"].Value = stokin;
                 dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockout"].Value = stokout;
-                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockamount"].Value = amount;
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockamount"].Value = stockamount.ToString("N2");
                 dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["pono"].Value = pono;
                 dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["regdate"].Value = regdate.ToString("yyyy-MM-dd HH:mm:ss");
                 dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["regby"].Value = regby;
                 dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["remark"].Value = remark;
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["invoice"].Value = invoice;
+
+
 
             }
 

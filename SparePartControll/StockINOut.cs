@@ -39,7 +39,8 @@ namespace MachineDeptApp
             this.btnAdd.Click += BtnAdd_Click;
             this.btnAddPic.Click += BtnAdd_Click;
             this.btnShowSearch.Click += BtnShowSearch_Click;
-
+            this.btnSave.Click += BtnSave_Click;
+            this.btnNew.Click += BtnNew_Click;
             //Dgv
             this.dgvSearch.LostFocus += DgvSearch_LostFocus;
             this.dgvSearch.CellClick += DgvSearch_CellClick;
@@ -62,6 +63,105 @@ namespace MachineDeptApp
 
         }
 
+        private void BtnNew_Click(object sender, EventArgs e)
+        {
+            if (dgvInput.Rows.Count > 0)
+            {
+                DialogResult ask = MessageBox.Show("Are you want to clear all data?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (ask == DialogResult.No)
+                    return;
+                else
+                    dgvInput.Rows.Clear();
+            }
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            DialogResult DR = MessageBox.Show("Are you want to save this data?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (DR == DialogResult.No)
+            {
+                return;
+            }
+            Cursor = Cursors.WaitCursor;
+            string transno = "TR-A0000001";
+            DataTable dtTran = new DataTable();
+            try
+            {
+                con.con.Open();
+                string querySelect = "SELECT MAX(TransNo) AS TransNo FROM SparePartTrans";
+                SqlDataAdapter sda = new SqlDataAdapter(querySelect, con.con);
+                sda.Fill(dtTran);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while selecting transno data " + ex.Message, "Error TransNo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            con.con.Close();
+            if (dtTran.Rows[0]["TransNo"] != DBNull.Value)
+            {
+                string lastTransNo = dtTran.Rows[0]["TransNo"].ToString();
+                int num = int.Parse(lastTransNo.Substring(4));
+                transno = "TR-A" + (num + 1).ToString("D7");
+            }
+            else
+            {
+                transno = "TR-A0000001";
+            }
+            try
+            {
+                    con.con.Open();
+                    foreach (DataGridViewRow row in dgvInput.Rows)
+                    {
+                        if (row.Cells["ColCode"].Value != null &&
+                            row.Cells["ColPartNo"].Value != null &&
+                            row.Cells["ColPartName"].Value != null)
+                        {
+                            string code = row.Cells["ColCode"].Value.ToString();
+                            string partno = row.Cells["ColPartNo"].Value.ToString();
+                            string partname = row.Cells["ColPartName"].Value.ToString();
+                            decimal stockin = Convert.ToDecimal(row.Cells["ColStockIn"].Value ?? 0);
+                            decimal stockout = Convert.ToDecimal(row.Cells["ColStockOut"].Value ?? 0);
+                            decimal stockvalue = stockin - stockout;
+                            DateTime regdate = DateTime.Now;
+                            DateTime updatedate = DateTime.Now;
+                            string pic = MenuFormV2.UserForNextForm;
+                            string remark = row.Cells["ColRemark"].Value?.ToString() ?? "";
+
+                            string query = "INSERT INTO SparePartTrans (TransNo, Code, Part_No, Part_Name, Dept, Stock_In, Stock_Out, Stock_Value, Stock_Amount, PO_No, Invoice, Status, RegDate, UpdateDate, PIC, Remark) " +
+                                           "VALUES (@transno, @code, @partno, @partname, @dept, @stockin, @stockout, @stockvalue, @stockamount, @pono, @invoice, @status, @regdate, @updatedate, @pic, @remark)";
+                            using (SqlCommand cmd = new SqlCommand(query, con.con))
+                            {
+                                cmd.Parameters.AddWithValue("@transno", transno);
+                                cmd.Parameters.AddWithValue("@code", code);
+                                cmd.Parameters.AddWithValue("@partno", partno);
+                                cmd.Parameters.AddWithValue("@partname", partname);
+                                cmd.Parameters.AddWithValue("@dept", Dept);
+                                cmd.Parameters.AddWithValue("@stockin", stockin);
+                                cmd.Parameters.AddWithValue("@stockout", stockout);
+                                cmd.Parameters.AddWithValue("@stockvalue", stockvalue);
+                                cmd.Parameters.AddWithValue("@stockamount", DBNull.Value);
+                                cmd.Parameters.AddWithValue("@pono", DBNull.Value);
+                                cmd.Parameters.AddWithValue("@invoice", DBNull.Value);
+                                cmd.Parameters.AddWithValue("@status", "1");
+                                cmd.Parameters.AddWithValue("@regdate", regdate);
+                                cmd.Parameters.AddWithValue("@updatedate", updatedate);
+                                cmd.Parameters.AddWithValue("@pic", pic);
+                                cmd.Parameters.AddWithValue("@remark", remark);
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error while saving data " + ex.Message, "Error SaveDB", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            con.con.Close();
+                dgvInput.Rows.Clear();
+            MessageBox.Show("Save Successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Cursor = Cursors.Default;
+            }
+
         private void DgvInput_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
@@ -69,7 +169,7 @@ namespace MachineDeptApp
                 DataGridViewRow CurrentRow = dgvInput.Rows[e.RowIndex];
                 if (dgvInput.Columns[e.ColumnIndex].Name == "ColStockIn")
                 {
-                    if (CurrentRow.Cells[e.ColumnIndex].Value != null || CurrentRow.Cells[e.ColumnIndex].Value.ToString().Trim() != "")
+                    if (CurrentRow.Cells[e.ColumnIndex].Value != null && CurrentRow.Cells[e.ColumnIndex].Value.ToString().Trim() != "")
                     {
                         try
                         {
@@ -115,7 +215,7 @@ namespace MachineDeptApp
                 }
                 if (dgvInput.Columns[e.ColumnIndex].Name == "ColStockOut")
                 {
-                    if (CurrentRow.Cells[e.ColumnIndex].Value != null || CurrentRow.Cells[e.ColumnIndex].Value.ToString().Trim() != "")
+                    if (CurrentRow.Cells[e.ColumnIndex].Value != null && CurrentRow.Cells[e.ColumnIndex].Value.ToString().Trim() != "")
                     {
                         try
                         {
@@ -124,6 +224,26 @@ namespace MachineDeptApp
                             {
                                 if (Qty > 0)
                                 {
+                                    //select compare 
+                                    DataTable dtStock = new DataTable();
+                                    string code = CurrentRow.Cells["ColCode"].Value.ToString();
+                                    string queryStock = "SELECT COALESCE(SUM(Stock_Value),0) AS StockRemain FROM SparePartTrans WHERE Code = '" + code + "' AND Dept = '" + Dept + "'";
+                                    SqlDataAdapter sdaStock = new SqlDataAdapter(queryStock, con.con);
+                                    sdaStock.Fill(dtStock);
+                                    double StockRemain = Convert.ToDouble(dtStock.Rows[0]["StockRemain"]);
+                                    foreach (DataGridViewRow row in dgvInput.Rows)
+                                    {
+                                        if (row.Index != e.RowIndex && row.Cells["ColCode"].Value.ToString() == code)
+                                        {
+                                            StockRemain -= Convert.ToDouble(row.Cells["ColStockOut"].Value);
+                                        }
+                                    }
+                                    if (Qty > StockRemain)
+                                    {
+                                        MessageBox.Show("ចំនួនស្តុកនៅសល់មិនគ្រប់គ្រាន់សម្រាប់ដកចេញទេ!\nស្តុកនៅសល់មានតែ " + StockRemain.ToString("N0") + " តែប៉ុណ្ណោះ!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                        CurrentRow.Cells[e.ColumnIndex].Value = BeforeEdit;
+                                        return;
+                                    }
                                     CurrentRow.Cells[e.ColumnIndex].Value = Qty;
                                     CurrentRow.Cells["ColStockIn"].Value = 0;
                                 }
@@ -491,8 +611,6 @@ namespace MachineDeptApp
             btnAdd.BackColor = NewColor;
             btnAddPic.BackColor = NewColor;
         }
-
-
         private void StockINOut_Shown(object sender, EventArgs e)
         {
             ErrorText = "";
@@ -524,7 +642,6 @@ namespace MachineDeptApp
                 MessageBox.Show("មានបញ្ហា!\n"+ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
         }
-
 
         //Method
         private async void CheckBeforeAdd()

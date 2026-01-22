@@ -91,7 +91,7 @@
             this.btnSaveGrey.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSaveGrey.BackgroundImage")));
             this.btnSaveGrey.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnSaveGrey.Enabled = false;
-            this.btnSaveGrey.Location = new System.Drawing.Point(128, 7);
+            this.btnSaveGrey.Location = new System.Drawing.Point(67, 6);
             this.btnSaveGrey.Name = "btnSaveGrey";
             this.btnSaveGrey.Size = new System.Drawing.Size(53, 56);
             this.btnSaveGrey.TabIndex = 131;
@@ -115,7 +115,7 @@
             this.btnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSave.BackgroundImage")));
             this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnSave.Enabled = false;
-            this.btnSave.Location = new System.Drawing.Point(128, 7);
+            this.btnSave.Location = new System.Drawing.Point(67, 6);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(53, 56);
             this.btnSave.TabIndex = 132;
@@ -159,7 +159,7 @@
             this.btnUpdateGrey.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnUpdateGrey.BackgroundImage")));
             this.btnUpdateGrey.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnUpdateGrey.Enabled = false;
-            this.btnUpdateGrey.Location = new System.Drawing.Point(13, 8);
+            this.btnUpdateGrey.Location = new System.Drawing.Point(126, 7);
             this.btnUpdateGrey.Name = "btnUpdateGrey";
             this.btnUpdateGrey.Size = new System.Drawing.Size(57, 56);
             this.btnUpdateGrey.TabIndex = 128;
@@ -172,7 +172,7 @@
             this.btnUpdate.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnUpdate.BackgroundImage")));
             this.btnUpdate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnUpdate.Enabled = false;
-            this.btnUpdate.Location = new System.Drawing.Point(13, 7);
+            this.btnUpdate.Location = new System.Drawing.Point(126, 6);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(57, 56);
             this.btnUpdate.TabIndex = 129;
@@ -202,7 +202,7 @@
             this.btnDeletColor.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDeletColor.BackgroundImage")));
             this.btnDeletColor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnDeletColor.Enabled = false;
-            this.btnDeletColor.Location = new System.Drawing.Point(74, 8);
+            this.btnDeletColor.Location = new System.Drawing.Point(13, 7);
             this.btnDeletColor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnDeletColor.Name = "btnDeletColor";
             this.btnDeletColor.Size = new System.Drawing.Size(47, 56);
@@ -272,7 +272,7 @@
             // 
             this.btndelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btndelete.Image = ((System.Drawing.Image)(resources.GetObject("btndelete.Image")));
-            this.btndelete.Location = new System.Drawing.Point(74, 8);
+            this.btndelete.Location = new System.Drawing.Point(13, 7);
             this.btndelete.Name = "btndelete";
             this.btndelete.Size = new System.Drawing.Size(47, 55);
             this.btndelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -421,6 +421,7 @@
             // 
             this.qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle10.Format = "N0";
             this.qty.DefaultCellStyle = dataGridViewCellStyle10;
             this.qty.HeaderText = "Qty";

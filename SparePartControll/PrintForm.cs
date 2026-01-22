@@ -44,7 +44,6 @@ namespace MachineDeptApp.SparePartControll
             this.chkPname.CheckedChanged += ChkPname_CheckedChanged;
             this.chkPno.CheckedChanged += ChkPno_CheckedChanged;
         }
-
         private void ChkPno_CheckedChanged(object sender, EventArgs e)
         {
             Search();
@@ -174,27 +173,27 @@ namespace MachineDeptApp.SparePartControll
         }
         private void BtnUpdate_Click(object sender, EventArgs e)
         {
-            dgvTTL.CurrentCell = dgvTTL.Rows[dgvTTL.CurrentCell.RowIndex].Cells["qty"];
-            var mcdocValue = dgvTTL.Rows[0].Cells["mcdocno"].Value as string;
-            if (string.IsNullOrWhiteSpace(mcdocValue))
+            if (dgvTTL.Rows.Count > 0)
             {
-                var row = dgvTTL.Rows[dgvTTL.CurrentCell.RowIndex];
-                row.Cells["eta"].ReadOnly = false;
-                row.Cells["qty"].ReadOnly = false;
-                row.Cells["unitprice"].ReadOnly = false;
-                row.Cells["leadtime"].ReadOnly = false;
-            }
-            else
-            {
-                foreach (DataGridViewRow row in dgvTTL.Rows)
+                if (dtup.Rows.Count == 0)
                 {
+                    var row = dgvTTL.Rows[dgvTTL.CurrentCell.RowIndex];
                     row.Cells["eta"].ReadOnly = false;
                     row.Cells["qty"].ReadOnly = false;
                     row.Cells["unitprice"].ReadOnly = false;
                     row.Cells["leadtime"].ReadOnly = false;
                 }
+                else
+                {
+                    foreach (DataGridViewRow row in dgvTTL.Rows)
+                    {
+                        row.Cells["eta"].ReadOnly = false;
+                        row.Cells["qty"].ReadOnly = false;
+                        row.Cells["unitprice"].ReadOnly = false;
+                        row.Cells["leadtime"].ReadOnly = false;
+                    }
+                }
             }
-
         }
         private void BtnSave_Click(object sender, EventArgs e)
         {
@@ -438,12 +437,14 @@ namespace MachineDeptApp.SparePartControll
         }
         private void PrintForm_Shown(object sender, EventArgs e)
         {
+            Search();
            rdnormal.Checked = true;
             if (dtup.Rows.Count > 0)
             {
                 gpboxsearch.Visible = false;
                 btnUpdate.Enabled = true;
                 btnUpdate.BringToFront();
+                
                 btnAddColor.Visible = false; 
                 btnPrint.Visible = false;
 
@@ -465,6 +466,9 @@ namespace MachineDeptApp.SparePartControll
                     dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["eta"].Value = eta.ToString("dd-MM-yy");
                     dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["mcdocno"].Value = row["PO_No"].ToString();
                 }
+                btnUpdate.PerformClick();
+                btnUpdate.Visible = false;
+                btnUpdateGrey.Visible = false;
             }
             else
             {
@@ -478,8 +482,8 @@ namespace MachineDeptApp.SparePartControll
                 dgvTTL.Columns["maker"].Visible = true;
                 dgvTTL.Columns["leadtime"].Visible = true;
                 Search();
-
             }
+         
         }
         private void BtnDeletColor_Click(object sender, EventArgs e)
         {
@@ -573,6 +577,7 @@ namespace MachineDeptApp.SparePartControll
         {
             AddPrint ad = new AddPrint(dgvTTL);
             ad.ShowDialog();
+            Search();
         }
         private void ExportToExcelFromTemplate()
         {
@@ -858,7 +863,7 @@ namespace MachineDeptApp.SparePartControll
                     dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["supplier"].Value = supplier;
                     dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["maker"].Value = maker;
                     dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["qty"].Value = orderqty;
-                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["unitprice"].Value = orderqty;
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["unitprice"].Value = unitprice;
                     dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["amount"].Value = amount;
                     dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["seteta"].Value = lead.ToString("MM-yyyy");
                     if (seteta != null)
@@ -898,6 +903,10 @@ namespace MachineDeptApp.SparePartControll
                 row.Cells["unitprice"].ReadOnly = true;
                 row.Cells["eta"].ReadOnly = true;
                 row.Cells["leadtime"].ReadOnly = true;
+                row.Cells["eta"].Style.ForeColor = Color.Black;
+                row.Cells["qty"].Style.ForeColor = Color.Black;
+                row.Cells["unitprice"].Style.ForeColor = Color.Black;
+                row.Cells["leadtime"].Style.ForeColor = Color.Black;
             }
         }
         private void delete()

@@ -27,39 +27,91 @@ namespace MachineDeptApp.SparePartControll
             this.txtcode.TextChanged += Txtcode_TextChanged;
             this.txtPname.TextChanged += TxtPname_TextChanged;
             this.txtPno.TextChanged += TxtPno_TextChanged;
+            this.txtdocno.TextChanged += Txtdocno_TextChanged;
+            this.txtpono.TextChanged += Txtpono_TextChanged;
+            this.txtremark.TextChanged += Txtremark_TextChanged;
+            this.dtpissuefrom.ValueChanged += Dtpissuefrom_ValueChanged;
+            this.dtpissueto.ValueChanged += Dtpissueto_ValueChanged;
+            this.dtprecdatefrom.ValueChanged += Dtprecdatefrom_ValueChanged;
+            this.dtprecdateto.ValueChanged += Dtprecdateto_ValueChanged;
             this.dgvRequest.CellClick += DgvRequest_CellClick;
             this.btnDelete.Click += BtnDelete_Click;
             this.btnUpdate.Click += BtnUpdate_Click;
-            this.chkcode.CheckedChanged += Chkcode_CheckedChanged;
-            this.chkPname.CheckedChanged += ChkPname_CheckedChanged;
-            this.chkPno.CheckedChanged += ChkPno_CheckedChanged;
+            this.btnSearch.Click += BtnSearch_Click;
         }
 
-        private void ChkPno_CheckedChanged(object sender, EventArgs e)
+        private void Dtpissueto_ValueChanged(object sender, EventArgs e)
         {
-            Search();
+            chkissue.Checked = true;
         }
 
-        private void ChkPname_CheckedChanged(object sender, EventArgs e)
+        private void Dtprecdateto_ValueChanged(object sender, EventArgs e)
         {
-            Search();
+            chkrecdate.Checked = true;
         }
 
-        private void Chkcode_CheckedChanged(object sender, EventArgs e)
+        private void Dtprecdatefrom_ValueChanged(object sender, EventArgs e)
+        {
+            chkrecdate.Checked = true;
+        }
+
+        private void Dtpissuefrom_ValueChanged(object sender, EventArgs e)
+        {
+            chkissue.Checked = true;
+        }
+
+        private void Txtremark_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtremark.Text))
+            {
+                chkremark.Checked = true;
+            }
+            else
+            {
+                chkremark.Checked = false;
+            }
+        }
+
+        private void Txtpono_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtpono.Text))
+            {
+                chkpono.Checked = true;
+            }
+            else
+            {
+                chkpono.Checked = false;
+            }
+        }
+
+        private void Txtdocno_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtdocno.Text))
+            {
+                chkdocno.Checked = true;
+            }
+            else
+            {
+                chkdocno.Checked = false;
+            }
+        }
+
+        private void BtnSearch_Click(object sender, EventArgs e)
         {
             Search();
         }
 
         private void RequestForm_Shown(object sender, EventArgs e)
         {
-            Search();
+            btnSearch.PerformClick();
         }
 
         private void BtnUpdate_Click(object sender, EventArgs e)
         {
            if (dgvRequest.Rows.Count > 0)
             {
-                if (dgvRequest.Rows[dgvRequest.CurrentCell.RowIndex].Cells["mcdocno"].Value.ToString().Trim() == "")
+                int rec = Convert.ToInt32(dgvRequest.Rows[dgvRequest.CurrentCell.RowIndex].Cells["receiveqty"].Value);
+                if ( rec == 0)
                 {
                     DataTable update = new DataTable();
                     string mcdocno = dgvRequest.Rows[dgvRequest.CurrentCell.RowIndex].Cells["pono"].Value.ToString();
@@ -72,7 +124,7 @@ namespace MachineDeptApp.SparePartControll
                     prf.StartPosition = FormStartPosition.CenterScreen;
                     prf.Text = "Update";
                     prf.ShowDialog();
-                    Search();
+                    
                 }
                 else
                 {
@@ -95,6 +147,7 @@ namespace MachineDeptApp.SparePartControll
                     btnUpdate.Enabled = true;
                     btnUpdate.BringToFront();
                 }
+
             }
         }
 
@@ -138,7 +191,7 @@ namespace MachineDeptApp.SparePartControll
                     btnDelete.Enabled = false;
                     btnDeleteGray.BringToFront();
                     dgvRequest.ClearSelection();
-                    Search();
+                    
                 }
              
             }
@@ -150,13 +203,13 @@ namespace MachineDeptApp.SparePartControll
             if (txtPno.Text.Trim() == "")
             {
                 chkPno.Checked = false;
-                Search();
+                
             }
             else
 
             {
                 chkPno.Checked = true;
-                Search();
+                
             }
         }
 
@@ -166,12 +219,12 @@ namespace MachineDeptApp.SparePartControll
             if (txtPname.Text.Trim() == "")
             {
                 chkPname.Checked = false;
-                Search();
+                
             }
             else
             {
                 chkPname.Checked = true;
-                Search();
+                
             }
         }
 
@@ -181,12 +234,12 @@ namespace MachineDeptApp.SparePartControll
             if (txtcode.Text.Trim() == "")
             {
                chkcode.Checked = false;
-                Search();
+                
             }
             else
             {
                 chkcode.Checked = true;
-                Search();
+                
             }
         }
 
@@ -227,6 +280,58 @@ namespace MachineDeptApp.SparePartControll
                         // Exact match for Part_No
                         cond.Rows.Add($"M.Part_No = '{val}'");
                     }
+                }
+                if (chkdocno.Checked == true) 
+                {
+                    string val = txtdocno.Text;
+                    if (!string.IsNullOrEmpty(val))
+                    {
+                        cond.Rows.Add($"R.MCDocNo LIKE '%{val}%'");
+                    }
+                }
+                if (chkpono.Checked == true)
+                {
+                    string val = txtpono.Text;
+                    if (!string.IsNullOrEmpty(val))
+                    {
+                        cond.Rows.Add($"R.PO_No LIKE '%{val}%'");
+                    }
+                }
+                if (chkremark.Checked == true)
+                {
+                    string val = txtremark.Text;
+                    if (!string.IsNullOrEmpty(val))
+                    {
+                        cond.Rows.Add($"R.Remark LIKE '%{val}%'");
+                    }
+                }
+                if (chkstatus.Checked == true)
+                {
+                    string val = cbstatus.Text;
+                    if (!string.IsNullOrEmpty(val))
+                    {
+                        if (val == "Completed")
+                        {
+                            cond.Rows.Add($"R.Balance = 0");
+                        }
+                        else if(val == "Not Completed")
+                        {
+                            cond.Rows.Add($"R.Balance > 0");
+                        }
+                       
+                    }
+                }
+                if (chkissue.Checked == true)
+                {
+                    DateTime from = dtpissuefrom.Value;
+                    DateTime to = dtpissueto.Value;
+                    cond.Rows.Add($"R.IssueDate BETWEEN '{from.ToString("yyyy-MM-dd")}' AND '{to.ToString("yyyy-MM-dd")}'");
+                }
+                if (chkrecdate.Checked == true)
+                {
+                    DateTime from = dtprecdatefrom.Value;
+                    DateTime to = dtprecdateto.Value;
+                    cond.Rows.Add($"R.receive_Date BETWEEN '{from.ToString("yyyy-MM-dd")}' AND '{to.ToString("yyyy-MM-dd")}'");
                 }
 
                 string Conds = "";

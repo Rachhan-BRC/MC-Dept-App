@@ -2078,7 +2078,7 @@ namespace MachineDeptApp
                }
 
            }
-           if (currentClkNode.Text == "Stock (In / Out)")
+           if (currentClkNode.Text == "Stock Return")
            {
                //Check if already open >> Focus on that Form
                int FoundOpened = 0;
@@ -2097,10 +2097,9 @@ namespace MachineDeptApp
                    StockINOut Uf = new StockINOut();
                    Uf.MdiParent = MenuFormV2.ActiveForm;
                    Uf.Show();
-                   tabControlOpenForm.TabPages.Add("Stock (In / Out)");
-                   dtOpenForm.Rows.Add("StockINOut", "Stock (In / Out)");
+                   tabControlOpenForm.TabPages.Add("Stock Return");
+                   dtOpenForm.Rows.Add("StockINOut", "Stock Return");
                }
-
            }
            if (currentClkNode.Text == "Budget")
            {
@@ -2254,7 +2253,7 @@ namespace MachineDeptApp
             dtRoot.Rows.Add("គ្រប់គ្រងទិន្នន័យ SD MC");
             dtRoot.Rows.Add("គ្រប់គ្រងគម្រោងរបស់ម៉ាស៊ីន");
             dtRoot.Rows.Add("រាប់ស្តុក");
-            dtRoot.Rows.Add("គ្រប់គ្រង Spare Parts");
+            //dtRoot.Rows.Add("គ្រប់គ្រង Spare Parts");
             dtRoot.Rows.Add("PP Data");
             dtRoot.Rows.Add("Admin");
             foreach (DataRow row in dtRoot.Rows)
@@ -2325,17 +2324,17 @@ namespace MachineDeptApp
 
             //9
             
-            dtChildRoot.Rows.Add(8, "Master Spare Parts", "MstSparePart");
-            dtChildRoot.Rows.Add(8, "Balance", "balance");
-            dtChildRoot.Rows.Add(8, "Stock (In / Out)", "StockINOut");
-            dtChildRoot.Rows.Add(8, "Invoice", "InvoiceForm");
-            dtChildRoot.Rows.Add(8, "PO Request", "RequestForm");
-            dtChildRoot.Rows.Add(8, "Budget", "budget");
-            dtChildRoot.Rows.Add(8, "Request Form", "PrintForm");
-            dtChildRoot.Rows.Add(8, "Transaction", "transaction");
+            //dtChildRoot.Rows.Add(8, "Master Spare Parts", "MstSparePart");
+            //dtChildRoot.Rows.Add(8, "Balance", "balance");
+            //dtChildRoot.Rows.Add(8, "Stock Return", "StockINOut");
+            //dtChildRoot.Rows.Add(8, "Invoice", "InvoiceForm");
+            //dtChildRoot.Rows.Add(8, "PO Request", "RequestForm");
+            //dtChildRoot.Rows.Add(8, "Budget", "budget");
+            //dtChildRoot.Rows.Add(8, "Request Form", "PrintForm");
+            //dtChildRoot.Rows.Add(8, "Transaction", "transaction");
             //10
-            dtChildRoot.Rows.Add(9, "POS Schedule", "ShipmentScheduleForm");
-            dtChildRoot.Rows.Add(9, "ទិន្នន័យDo Summary", "DoSummary");
+            dtChildRoot.Rows.Add(8, "POS Schedule", "ShipmentScheduleForm");
+            dtChildRoot.Rows.Add(8, "ទិន្នន័យDo Summary", "DoSummary");
 
             //8
             //dtChildRoot.Rows.Add(7, "បញ្ចូលទិន្នន័យវេរ", "AllSectionMCTransferForm");
@@ -2344,13 +2343,13 @@ namespace MachineDeptApp
             //dtChildRoot.Rows.Add(7, "ស្ថានភាពទូទៅ", "AllSectionMCOverviewForm");
 
             //The last one
-            dtChildRoot.Rows.Add(10, "User Account", "UserForm");
-            dtChildRoot.Rows.Add(10, "MC List", "MachineTypeMasterForm");
-            dtChildRoot.Rows.Add(10, "MC Type vs Item", "MasterItemForm");
-            dtChildRoot.Rows.Add(10, "SLOT List", "SLOTMasterForm");
-            dtChildRoot.Rows.Add(10, "Master Check (MC vs Item)", "MasterItemCheckForm");
-            dtChildRoot.Rows.Add(10, "Master RM Uncountable", "UncountableRMMasterForm");
-            dtChildRoot.Rows.Add(10, "អ្នកទទួលបន្ទុករាប់ស្តុក SD", "SDMstPic");
+            dtChildRoot.Rows.Add(9, "User Account", "UserForm");
+            dtChildRoot.Rows.Add(9, "MC List", "MachineTypeMasterForm");
+            dtChildRoot.Rows.Add(9, "MC Type vs Item", "MasterItemForm");
+            dtChildRoot.Rows.Add(9, "SLOT List", "SLOTMasterForm");
+            dtChildRoot.Rows.Add(9, "Master Check (MC vs Item)", "MasterItemCheckForm");
+            dtChildRoot.Rows.Add(9, "Master RM Uncountable", "UncountableRMMasterForm");
+            dtChildRoot.Rows.Add(9, "អ្នកទទួលបន្ទុករាប់ស្តុក SD", "SDMstPic");
 
             foreach (DataRow row1 in dtChildRoot.Rows) 
             {
