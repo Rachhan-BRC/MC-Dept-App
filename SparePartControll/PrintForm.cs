@@ -43,6 +43,19 @@ namespace MachineDeptApp.SparePartControll
             this.chkcode.CheckedChanged += Chkcode_CheckedChanged;
             this.chkPname.CheckedChanged += ChkPname_CheckedChanged;
             this.chkPno.CheckedChanged += ChkPno_CheckedChanged;
+            this.btnExport.Click += BtnExport_Click;
+        }
+
+        private void BtnExport_Click(object sender, EventArgs e)
+        {
+            if (rdnormal.Checked == true)
+            {
+                ExportToExcelFromTemplate();
+            }
+            if (rdMTH.Checked == true)
+            {
+                ExportToExcelFromTemplateMTH();
+            }
         }
         private void ChkPno_CheckedChanged(object sender, EventArgs e)
         {
@@ -199,9 +212,8 @@ namespace MachineDeptApp.SparePartControll
         {
             Cursor = Cursors.WaitCursor;
 
-            var mcdocValue = dgvTTL.Rows[0].Cells["mcdocno"].Value as string;
 
-            if (!string.IsNullOrWhiteSpace(mcdocValue))
+            if (dtup.Rows.Count > 0)
             {
                 int error = 0;
                 try
@@ -234,12 +246,13 @@ namespace MachineDeptApp.SparePartControll
                     error++;
                     MessageBox.Show("Error while updating data !"+ ex.Message, "Error update", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
                 }
+
+                con.con.Close();
                 if (error == 0)
                 {
                     Search();
                     MessageBox.Show("Save successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                con.con.Close();
             }
            else
             {
@@ -369,11 +382,12 @@ namespace MachineDeptApp.SparePartControll
                             try
                             {
                                 con.con.Open();
-                                string query = "INSERT INTO MCSparePartRequest (Code, PO_No, Dept, IssueDate, ETA, Order_Qty, UnitPrice, Amount, ReceiveQTY, Balance, RemainAmount, Receive_Date, Order_State, Remark) " +
-                                                                                            " VALUES (@code, @pono, @dept, @issuedate, @eta, @orderqty, @unitprice, @amount, @receiveqty, @balance, @reAmount, @recdate, @orderstate, @remark)";
+                                string query = "INSERT INTO MCSparePartRequest (Code, PO_No, MCDocNo, Dept, IssueDate, ETA, Order_Qty, UnitPrice, Amount, ReceiveQTY, Balance, RemainAmount, Receive_Date, Order_State, Remark) " +
+                                                                                            " VALUES (@code, @pono, @mcdocno, @dept, @issuedate, @eta, @orderqty, @unitprice, @amount, @receiveqty, @balance, @reAmount, @recdate, @orderstate, @remark)";
                                 SqlCommand cmd = new SqlCommand(query, con.con);
                                 cmd.Parameters.AddWithValue("@code", code);
                                 cmd.Parameters.AddWithValue("@pono", pono);
+                                cmd.Parameters.AddWithValue("@mcdocno", pono);
                                 cmd.Parameters.AddWithValue("@dept", dept);
                                 cmd.Parameters.AddWithValue("@issuedate", now);
                                 cmd.Parameters.AddWithValue("@orderqty", orderqty);
@@ -630,8 +644,6 @@ namespace MachineDeptApp.SparePartControll
                     worksheet.Cells[startRow + i, 8] = row.Cells["unitprice"].Value?.ToString();
                     worksheet.Cells[startRow + i, 9] = row.Cells["amount"].Value?.ToString();
 
-                    worksheet.Cells[startRow + i, 11] = row.Cells["leadtime"].Value?.ToString();
-                    worksheet.Cells[startRow + 4 + i, 8] = "Date:   " + date + "  /  " + month + "  /  " + year + "";
                 }
                 // Save Excel
 
@@ -716,8 +728,6 @@ namespace MachineDeptApp.SparePartControll
                     worksheet.Cells[startRow + i, 8] = row.Cells["unitprice"].Value?.ToString();
                     worksheet.Cells[startRow + i, 9] = row.Cells["amount"].Value?.ToString();
 
-                    worksheet.Cells[startRow + i, 11] = row.Cells["leadtime"].Value?.ToString();
-                    worksheet.Cells[startRow + 4 + i, 8] = "Date:   " + date + "  /  " + month + "  /  " + year + "";
                 }
                 // Save Excel
                 string nextDocNo = nextdocno;
@@ -827,70 +837,71 @@ namespace MachineDeptApp.SparePartControll
 
             dgvTTL.Rows.Clear();
             Cursor = Cursors.WaitCursor;
+            DataTable dt = new DataTable();
             try
             {
                 con.con.Open();
-                DataTable dt = new DataTable();
                 string query = " SELECT * FROM tbPrintPending_temp WHERE Dept = '" + dept + "'" + WHERE;
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dt);
 
-                foreach (DataRow row in dt.Rows)
-                {
-                    DateTime? seteta = string.IsNullOrEmpty(row["SetETA"]?.ToString())
-                     ? (DateTime?)null
-                     : Convert.ToDateTime(row["SetETA"]);
-                    string machinename = row["MCName"]?.ToString() ?? string.Empty;
-                    string code = row["Code"]?.ToString() ?? string.Empty;
-                    string pno = row["PartNo"]?.ToString() ?? string.Empty;
-                    string pname = row["PartName"]?.ToString() ?? string.Empty;
-                    string supplier = row["Supplier"]?.ToString() ?? string.Empty;
-                    string Leadtime = row["ETA"]?.ToString() ?? string.Empty;
-                    int ld = Convert.ToInt32(Leadtime);
-                    int totalmonth = ld / 4;
-                    DateTime lead = DateTime.Now.AddMonths(totalmonth);
-                    double orderqty = row["OrderQty"] == DBNull.Value ? 0 : Convert.ToDouble(row["OrderQty"]);
-                    double unitprice = row["UnitPrice"] == DBNull.Value ? 0 : Convert.ToDouble(row["UnitPrice"]);
-                    double amount = row["Amount"] == DBNull.Value ? 0 : Convert.ToDouble(row["Amount"]);
-                    string status = row["Status"]?.ToString() ?? string.Empty;
-                    string maker = row["Maker"]?.ToString() ?? string.Empty;
-                    dgvTTL.Rows.Add();
-                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["status"].Value = status;
-                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["Code"].Value = code;
-                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partno"].Value = pno;
-                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partname"].Value = pname;
-                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["machinename"].Value = machinename;
-                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["supplier"].Value = supplier;
-                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["maker"].Value = maker;
-                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["qty"].Value = orderqty;
-                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["unitprice"].Value = unitprice;
-                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["amount"].Value = amount;
-                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["seteta"].Value = lead.ToString("MM-yyyy");
-                    if (seteta != null)
-                    {
-                        DateTime now = DateTime.Now;
-                        DateTime a = Convert.ToDateTime(seteta);
-                        int monthDiff = (a.Year - now.Year) * 12 + (a.Month - now.Month);
-                        int LT = monthDiff * 4;
-                        dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["eta"].Value = a.ToString("MM-yyyy");
-                        dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["leadtime"].Value = LT;
-                    }
-                    else
-                    {
-                        dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["eta"].Value = lead.ToString("MM-yyyy");
-                        dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["leadtime"].Value = Leadtime;
-                    }
-
-                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error while select data pending" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            con.con.Close();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                DateTime? seteta = string.IsNullOrEmpty(row["SetETA"]?.ToString())
+                 ? (DateTime?)null
+                 : Convert.ToDateTime(row["SetETA"]);
+                string machinename = row["MCName"]?.ToString() ?? string.Empty;
+                string code = row["Code"]?.ToString() ?? string.Empty;
+                string pno = row["PartNo"]?.ToString() ?? string.Empty;
+                string pname = row["PartName"]?.ToString() ?? string.Empty;
+                string supplier = row["Supplier"]?.ToString() ?? string.Empty;
+                string Leadtime = row["ETA"]?.ToString() ?? string.Empty;
+                int ld = Convert.ToInt32(Leadtime);
+                int totalmonth = ld / 4;
+                DateTime lead = DateTime.Now.AddMonths(totalmonth);
+                double orderqty = row["OrderQty"] == DBNull.Value ? 0 : Convert.ToDouble(row["OrderQty"]);
+                double unitprice = row["UnitPrice"] == DBNull.Value ? 0 : Convert.ToDouble(row["UnitPrice"]);
+                double amount = row["Amount"] == DBNull.Value ? 0 : Convert.ToDouble(row["Amount"]);
+                string status = row["Status"]?.ToString() ?? string.Empty;
+                string maker = row["Maker"]?.ToString() ?? string.Empty;
+                dgvTTL.Rows.Add();
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["status"].Value = status;
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["Code"].Value = code;
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partno"].Value = pno;
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partname"].Value = pname;
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["machinename"].Value = machinename;
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["supplier"].Value = supplier;
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["maker"].Value = maker;
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["qty"].Value = orderqty;
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["unitprice"].Value = unitprice;
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["amount"].Value = amount;
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["seteta"].Value = lead.ToString("MM-yyyy");
+                if (seteta != null)
+                {
+                    DateTime now = DateTime.Now;
+                    DateTime a = Convert.ToDateTime(seteta);
+                    int monthDiff = (a.Year - now.Year) * 12 + (a.Month - now.Month);
+                    int LT = monthDiff * 4;
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["eta"].Value = a.ToString("MM-yyyy");
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["leadtime"].Value = LT;
+                }
+                else
+                {
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["eta"].Value = lead.ToString("MM-yyyy");
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["leadtime"].Value = Leadtime;
+                }
+
+            }
             btnSave.Enabled = false;
             btnSaveGrey.BringToFront();
             dgvTTL.ClearSelection();
-            con.con.Close();
             Cursor = Cursors.Default;
             btnDeletColor.Enabled = false;
             btndelete.BringToFront();

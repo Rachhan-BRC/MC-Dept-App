@@ -54,6 +54,7 @@
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
             this.panelBody = new System.Windows.Forms.Panel();
             this.GroupBoxResult = new System.Windows.Forms.GroupBox();
             this.dgvSearchResult = new System.Windows.Forms.DataGridView();
@@ -66,7 +67,6 @@
             this.panelFooter = new System.Windows.Forms.Panel();
             this.LbStatus = new System.Windows.Forms.Label();
             this.panelHeader = new System.Windows.Forms.Panel();
-            this.btnExport = new System.Windows.Forms.Button();
             this.tabPage4.SuspendLayout();
             this.panel6.SuspendLayout();
             this.tabContrlEdit.SuspendLayout();
@@ -261,6 +261,20 @@
             this.toolTip1.SetToolTip(this.btnDelete, "លុបម៉ាស៊ីន");
             this.btnDelete.UseVisualStyleBackColor = false;
             // 
+            // btnExport
+            // 
+            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExport.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnExport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnExport.BackgroundImage")));
+            this.btnExport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnExport.Location = new System.Drawing.Point(745, 4);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(50, 50);
+            this.btnExport.TabIndex = 32;
+            this.toolTip1.SetToolTip(this.btnExport, "Print UnitPrice");
+            this.btnExport.UseVisualStyleBackColor = false;
+            // 
             // panelBody
             // 
             this.panelBody.Controls.Add(this.GroupBoxResult);
@@ -429,20 +443,6 @@
             this.panelHeader.Name = "panelHeader";
             this.panelHeader.Size = new System.Drawing.Size(800, 58);
             this.panelHeader.TabIndex = 23;
-            // 
-            // btnExport
-            // 
-            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExport.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnExport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnExport.BackgroundImage")));
-            this.btnExport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnExport.Location = new System.Drawing.Point(745, 4);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(50, 50);
-            this.btnExport.TabIndex = 32;
-            this.toolTip1.SetToolTip(this.btnExport, "ទាញជាឯកសារ Excel");
-            this.btnExport.UseVisualStyleBackColor = false;
             // 
             // MachineTypeMasterForm
             // 

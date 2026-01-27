@@ -284,7 +284,7 @@ namespace MachineDeptApp
                 {
                     DateTime from = dtprecdatefrom.Value;
                     DateTime to = dtprecdateto.Value;
-                    cond.Rows.Add($"RegDate BETWEEN '{from.ToString("yyyy-MM-dd")}' AND '{to.ToString("yyyy-MM-dd")}'");
+                    cond.Rows.Add($"RegDate BETWEEN '{from.ToString("yyyy-MM-dd 00:00:00.000")}' AND '{to.ToString("yyyy-MM-dd 23:59:59.000")}'");
                 }
                 if (chkstatus.Checked == true)
                 {

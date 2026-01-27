@@ -60,7 +60,16 @@ namespace MachineDeptApp
             this.txtQty.KeyPress += TxtQty_KeyPress;
             this.txtQty.KeyDown += TxtQty_KeyDown;
             this.txtRemark.KeyDown += TxtRemark_KeyDown;
+            this.txtpic.KeyDown += Txtpic_KeyDown;
 
+        }
+
+        private void Txtpic_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtCode.Focus();
+            }
         }
 
         private void BtnNew_Click(object sender, EventArgs e)
@@ -109,59 +118,66 @@ namespace MachineDeptApp
             }
             try
             {
-                    con.con.Open();
-                    foreach (DataGridViewRow row in dgvInput.Rows)
+                con.con.Open();
+                foreach (DataGridViewRow row in dgvInput.Rows)
+                {
+                    if (row.Cells["ColCode"].Value != null &&
+                        row.Cells["ColPartNo"].Value != null &&
+                        row.Cells["ColPartName"].Value != null)
                     {
-                        if (row.Cells["ColCode"].Value != null &&
-                            row.Cells["ColPartNo"].Value != null &&
-                            row.Cells["ColPartName"].Value != null)
+                        string code = row.Cells["ColCode"].Value.ToString();
+                        string partno = row.Cells["ColPartNo"].Value.ToString();
+                        string partname = row.Cells["ColPartName"].Value.ToString();
+                        decimal stockin = Convert.ToDecimal(row.Cells["ColStockIn"].Value ?? 0);
+                        decimal stockout = Convert.ToDecimal(row.Cells["ColStockOut"].Value ?? 0);
+                        decimal stockvalue = stockin - stockout;
+                        DateTime regdate = DateTime.Now;
+                        DateTime updatedate = DateTime.Now;
+                        string pic = "";
+                        if (stockin > 0)
                         {
-                            string code = row.Cells["ColCode"].Value.ToString();
-                            string partno = row.Cells["ColPartNo"].Value.ToString();
-                            string partname = row.Cells["ColPartName"].Value.ToString();
-                            decimal stockin = Convert.ToDecimal(row.Cells["ColStockIn"].Value ?? 0);
-                            decimal stockout = Convert.ToDecimal(row.Cells["ColStockOut"].Value ?? 0);
-                            decimal stockvalue = stockin - stockout;
-                            DateTime regdate = DateTime.Now;
-                            DateTime updatedate = DateTime.Now;
-                            string pic = MenuFormV2.UserForNextForm;
-                            string remark = row.Cells["ColRemark"].Value?.ToString() ?? "";
+                          pic = txtpic.Text.Trim();
+                        }
+                        else
+                        {
+                            pic = txtpic.Text.Trim();
+                        }
+                        string remark = row.Cells["ColRemark"].Value?.ToString() ?? "";
 
-                            string query = "INSERT INTO SparePartTrans (TransNo, Code, Part_No, Part_Name, Dept, Stock_In, Stock_Out, Stock_Value, Stock_Amount, PO_No, Invoice, Status, RegDate, UpdateDate, PIC, Remark) " +
-                                           "VALUES (@transno, @code, @partno, @partname, @dept, @stockin, @stockout, @stockvalue, @stockamount, @pono, @invoice, @status, @regdate, @updatedate, @pic, @remark)";
-                            using (SqlCommand cmd = new SqlCommand(query, con.con))
-                            {
-                                cmd.Parameters.AddWithValue("@transno", transno);
-                                cmd.Parameters.AddWithValue("@code", code);
-                                cmd.Parameters.AddWithValue("@partno", partno);
-                                cmd.Parameters.AddWithValue("@partname", partname);
-                                cmd.Parameters.AddWithValue("@dept", Dept);
-                                cmd.Parameters.AddWithValue("@stockin", stockin);
-                                cmd.Parameters.AddWithValue("@stockout", stockout);
-                                cmd.Parameters.AddWithValue("@stockvalue", stockvalue);
-                                cmd.Parameters.AddWithValue("@stockamount", DBNull.Value);
-                                cmd.Parameters.AddWithValue("@pono", DBNull.Value);
-                                cmd.Parameters.AddWithValue("@invoice", DBNull.Value);
-                                cmd.Parameters.AddWithValue("@status", "1");
-                                cmd.Parameters.AddWithValue("@regdate", regdate);
-                                cmd.Parameters.AddWithValue("@updatedate", updatedate);
-                                cmd.Parameters.AddWithValue("@pic", pic);
-                                cmd.Parameters.AddWithValue("@remark", remark);
-                                cmd.ExecuteNonQuery();
-                            }
+                        string query = "INSERT INTO SparePartTrans (TransNo, Code, Part_No, Part_Name, Dept, Stock_In, Stock_Out, Stock_Value, Stock_Amount, PO_No, Invoice, Status, RegDate, UpdateDate, PIC, Remark) " +
+                                       "VALUES (@transno, @code, @partno, @partname, @dept, @stockin, @stockout, @stockvalue, @stockamount, @pono, @invoice, @status, @regdate, @updatedate, @pic, @remark)";
+                        using (SqlCommand cmd = new SqlCommand(query, con.con))
+                        {
+                            cmd.Parameters.AddWithValue("@transno", transno);
+                            cmd.Parameters.AddWithValue("@code", code);
+                            cmd.Parameters.AddWithValue("@partno", partno);
+                            cmd.Parameters.AddWithValue("@partname", partname);
+                            cmd.Parameters.AddWithValue("@dept", Dept);
+                            cmd.Parameters.AddWithValue("@stockin", stockin);
+                            cmd.Parameters.AddWithValue("@stockout", stockout);
+                            cmd.Parameters.AddWithValue("@stockvalue", stockvalue);
+                            cmd.Parameters.AddWithValue("@stockamount", DBNull.Value);
+                            cmd.Parameters.AddWithValue("@pono", DBNull.Value);
+                            cmd.Parameters.AddWithValue("@invoice", DBNull.Value);
+                            cmd.Parameters.AddWithValue("@status", "1");
+                            cmd.Parameters.AddWithValue("@regdate", regdate);
+                            cmd.Parameters.AddWithValue("@updatedate", updatedate);
+                            cmd.Parameters.AddWithValue("@pic", pic);
+                            cmd.Parameters.AddWithValue("@remark", remark);
+                            cmd.ExecuteNonQuery();
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error while saving data " + ex.Message, "Error SaveDB", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while saving data " + ex.Message, "Error SaveDB", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             con.con.Close();
-                dgvInput.Rows.Clear();
+            dgvInput.Rows.Clear();
             MessageBox.Show("Save Successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Cursor = Cursors.Default;
-            }
-
+        }
         private void DgvInput_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
@@ -422,6 +438,7 @@ namespace MachineDeptApp
                         txtLocation.Text = row["Box"].ToString();
                         LbStockRemain.Text = "/ "+ Convert.ToDouble(row["StockRemain"]).ToString("N0");
                         LbStockRemain.Refresh();
+                        
                     }
 
                 }
@@ -543,12 +560,17 @@ namespace MachineDeptApp
         {
             if (rdbStockOut.Checked)
             {
+
                 LbQty.Text = rdbStockOut.Text +" Qty";
                 LbQty.ForeColor = Color.Red;
                 LbStockRemain.Visible = true;
+                txtpic.ReadOnly = false;
+                txtpic.Text = "";
             }
             else
             {
+                txtpic.ReadOnly = true;
+                txtpic.Text = MenuFormV2.UserForNextForm;
                 LbQty.Text = rdbStockIN.Text + " Qty";
                 LbQty.ForeColor = Color.Green;
                 LbStockRemain.Visible = false;
@@ -614,6 +636,7 @@ namespace MachineDeptApp
         private void StockINOut_Shown(object sender, EventArgs e)
         {
             ErrorText = "";
+            txtpic.Text = MenuFormV2.UserForNextForm;
             Cursor = Cursors.WaitCursor;
             this.panelSearch.BringToFront();
             foreach (DataGridViewColumn col in dgvInput.Columns)
@@ -649,6 +672,7 @@ namespace MachineDeptApp
             PicAlertCode.Visible = false;
             PicAlertQty.Visible = false;
             PicAlertRemark.Visible = false;
+            PicAlertPic.Visible = false;
             var tasksBlink = new List<Task>();
 
             if (txtPartNo.Text.Trim() == "" || txtCode.Text.Trim()=="")
@@ -695,6 +719,9 @@ namespace MachineDeptApp
 
             if (txtRemark.Text.Trim() == "")
                 tasksBlink.Add(BlinkPictureBox(PicAlertRemark));
+
+            if (txtpic.Text.Trim() == "")
+                tasksBlink.Add(BlinkPictureBox(PicAlertPic));
 
             await Task.WhenAll(tasksBlink);
         }

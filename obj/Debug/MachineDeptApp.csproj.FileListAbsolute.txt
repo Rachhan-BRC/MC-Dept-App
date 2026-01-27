@@ -2224,3 +2224,4 @@ D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.RegUpdateForm.r
 D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.StockINOut.resources
 D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.transaction.resources
 D:\My Project\My C# project\MC-Dept-App\obj\Debug\MachineDeptApp.TransferData.SemiTransferComparisonForm.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.UpdateIPO.resources

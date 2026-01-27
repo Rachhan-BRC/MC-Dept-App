@@ -88,7 +88,6 @@ namespace MachineDeptApp.SparePartControll
     !string.IsNullOrWhiteSpace(partName) &&
     !string.IsNullOrWhiteSpace(machineName) &&
     !string.IsNullOrWhiteSpace(supplier) &&
-    !string.IsNullOrWhiteSpace(maker) &&
     !string.IsNullOrWhiteSpace(unitPrice) &&
     !string.IsNullOrWhiteSpace(qty) &&
     !string.IsNullOrWhiteSpace(eta) &&

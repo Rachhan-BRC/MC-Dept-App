@@ -42,17 +42,17 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelHeader = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.lberror = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnNew = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.btnSaveGrey = new System.Windows.Forms.Button();
-            this.txtInvoice = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.lbfound = new System.Windows.Forms.Label();
+            this.lberror = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtInvoice = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvInvoice = new System.Windows.Forms.DataGridView();
-            this.lbfound = new System.Windows.Forms.Label();
             this.description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.code = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Pno = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -63,9 +63,10 @@
             this.amountusd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.invoiceno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.invoicedate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.panelHeader.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInvoice)).BeginInit();
             this.SuspendLayout();
@@ -79,26 +80,6 @@
             this.panelHeader.Name = "panelHeader";
             this.panelHeader.Size = new System.Drawing.Size(1015, 67);
             this.panelHeader.TabIndex = 53;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.lbfound);
-            this.panel2.Controls.Add(this.lberror);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 518);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1015, 43);
-            this.panel2.TabIndex = 58;
-            // 
-            // lberror
-            // 
-            this.lberror.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.lberror.AutoSize = true;
-            this.lberror.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lberror.Location = new System.Drawing.Point(-807, 10);
-            this.lberror.Name = "lberror";
-            this.lberror.Size = new System.Drawing.Size(0, 24);
-            this.lberror.TabIndex = 3;
             // 
             // groupBox1
             // 
@@ -123,16 +104,6 @@
             this.btnNew.TabIndex = 68;
             this.btnNew.UseVisualStyleBackColor = false;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(23, 35);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(76, 24);
-            this.label1.TabIndex = 67;
-            this.label1.Text = "Invoice No.";
-            // 
             // btnSaveGrey
             // 
             this.btnSaveGrey.BackColor = System.Drawing.SystemColors.ButtonHighlight;
@@ -145,15 +116,6 @@
             this.btnSaveGrey.TabIndex = 64;
             this.btnSaveGrey.UseVisualStyleBackColor = false;
             // 
-            // txtInvoice
-            // 
-            this.txtInvoice.Font = new System.Drawing.Font("Khmer OS Battambang", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtInvoice.Location = new System.Drawing.Point(105, 28);
-            this.txtInvoice.Name = "txtInvoice";
-            this.txtInvoice.Size = new System.Drawing.Size(135, 37);
-            this.txtInvoice.TabIndex = 66;
-            this.txtInvoice.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // btnSave
             // 
             this.btnSave.BackColor = System.Drawing.SystemColors.Control;
@@ -165,8 +127,57 @@
             this.btnSave.TabIndex = 65;
             this.btnSave.UseVisualStyleBackColor = false;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.lbfound);
+            this.panel2.Controls.Add(this.lberror);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(0, 518);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1015, 43);
+            this.panel2.TabIndex = 58;
+            // 
+            // lbfound
+            // 
+            this.lbfound.AutoSize = true;
+            this.lbfound.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbfound.Location = new System.Drawing.Point(882, 10);
+            this.lbfound.Name = "lbfound";
+            this.lbfound.Size = new System.Drawing.Size(0, 24);
+            this.lbfound.TabIndex = 4;
+            // 
+            // lberror
+            // 
+            this.lberror.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lberror.AutoSize = true;
+            this.lberror.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lberror.Location = new System.Drawing.Point(-807, 10);
+            this.lberror.Name = "lberror";
+            this.lberror.Size = new System.Drawing.Size(0, 24);
+            this.lberror.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(23, 35);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(76, 24);
+            this.label1.TabIndex = 67;
+            this.label1.Text = "Invoice No.";
+            // 
+            // txtInvoice
+            // 
+            this.txtInvoice.Font = new System.Drawing.Font("Khmer OS Battambang", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtInvoice.Location = new System.Drawing.Point(105, 28);
+            this.txtInvoice.Name = "txtInvoice";
+            this.txtInvoice.Size = new System.Drawing.Size(135, 37);
+            this.txtInvoice.TabIndex = 66;
+            this.txtInvoice.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnSearch);
             this.groupBox2.Controls.Add(this.txtInvoice);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
@@ -225,15 +236,6 @@
             this.dgvInvoice.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvInvoice.Size = new System.Drawing.Size(1015, 374);
             this.dgvInvoice.TabIndex = 68;
-            // 
-            // lbfound
-            // 
-            this.lbfound.AutoSize = true;
-            this.lbfound.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbfound.Location = new System.Drawing.Point(882, 10);
-            this.lbfound.Name = "lbfound";
-            this.lbfound.Size = new System.Drawing.Size(0, 24);
-            this.lbfound.TabIndex = 4;
             // 
             // description
             // 
@@ -335,6 +337,18 @@
             this.invoicedate.ReadOnly = true;
             this.invoicedate.Width = 150;
             // 
+            // btnSearch
+            // 
+            this.btnSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnSearch.BackColor = System.Drawing.Color.Transparent;
+            this.btnSearch.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSearch.BackgroundImage")));
+            this.btnSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSearch.Location = new System.Drawing.Point(243, 29);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(37, 36);
+            this.btnSearch.TabIndex = 68;
+            this.btnSearch.UseVisualStyleBackColor = false;
+            // 
             // InvoiceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -346,12 +360,12 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelHeader);
             this.Name = "InvoiceForm";
-            this.Text = "Invoice";
+            this.Text = "Receive Invoice";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panelHeader.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInvoice)).EndInit();
@@ -383,5 +397,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn amountusd;
         private System.Windows.Forms.DataGridViewTextBoxColumn invoiceno;
         private System.Windows.Forms.DataGridViewTextBoxColumn invoicedate;
+        private System.Windows.Forms.Button btnSearch;
     }
 }
