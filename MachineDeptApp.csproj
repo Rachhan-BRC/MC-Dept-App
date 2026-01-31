@@ -157,6 +157,12 @@
     <Compile Include="SparePartControll\AddPrint.Designer.cs">
       <DependentUpon>AddPrint.cs</DependentUpon>
     </Compile>
+    <Compile Include="SparePartControll\balancestockform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SparePartControll\balancestockform.Designer.cs">
+      <DependentUpon>balancestockform.cs</DependentUpon>
+    </Compile>
     <Compile Include="SparePartControll\budget.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -861,6 +867,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SparePartControll\balance.resx">
       <DependentUpon>balance.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CreditForm.resx">
       <DependentUpon>CreditForm.cs</DependentUpon>
@@ -882,6 +889,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\Inprocess\InprocessInventoryDataForm.resx">
       <DependentUpon>InprocessInventoryDataForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\Inprocess\InprocessUpdateForm.resx">
       <DependentUpon>InprocessUpdateForm.cs</DependentUpon>
@@ -915,6 +923,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PPData\ShipmentScheduleForm.resx">
       <DependentUpon>ShipmentScheduleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SparePartControll\balancestockform.resx">
+      <DependentUpon>balancestockform.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SparePartControll\budget.resx">
       <DependentUpon>budget.cs</DependentUpon>

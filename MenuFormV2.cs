@@ -2070,7 +2070,7 @@ namespace MachineDeptApp
 
                if (FoundOpened == 0)
                {
-                   balance Uf = new balance();
+                    balance Uf = new balance();
                    Uf.MdiParent = MenuFormV2.ActiveForm;
                    Uf.Show();
                    tabControlOpenForm.TabPages.Add("Balance");
