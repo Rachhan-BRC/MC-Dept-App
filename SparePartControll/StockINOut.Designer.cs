@@ -100,6 +100,9 @@
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtpic = new System.Windows.Forms.TextBox();
+            this.PicAlertPic = new System.Windows.Forms.PictureBox();
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnSaveGRAY)).BeginInit();
             this.panelFooter.SuspendLayout();
@@ -113,6 +116,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnAddPic)).BeginInit();
             this.panelSearch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSearch)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAlertPic)).BeginInit();
             this.SuspendLayout();
             // 
             // panelHeader
@@ -347,8 +351,11 @@
             // 
             // GrbAdd
             // 
+            this.GrbAdd.Controls.Add(this.label6);
             this.GrbAdd.Controls.Add(this.PicAlertRemark);
+            this.GrbAdd.Controls.Add(this.txtpic);
             this.GrbAdd.Controls.Add(this.PicAlertQty);
+            this.GrbAdd.Controls.Add(this.PicAlertPic);
             this.GrbAdd.Controls.Add(this.PicAlertCode);
             this.GrbAdd.Controls.Add(this.label1);
             this.GrbAdd.Controls.Add(this.label9);
@@ -815,6 +822,40 @@
             this.txtSearch.TabIndex = 3;
             this.txtSearch.Text = "បំពេញព័ត៌មានដើម្បីស្វែងរក";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Font = new System.Drawing.Font("Kh Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(375, 20);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(59, 22);
+            this.label6.TabIndex = 24;
+            this.label6.Text = "អ្នកទទួល";
+            // 
+            // txtpic
+            // 
+            this.txtpic.BackColor = System.Drawing.Color.White;
+            this.txtpic.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtpic.ForeColor = System.Drawing.Color.Blue;
+            this.txtpic.Location = new System.Drawing.Point(371, 39);
+            this.txtpic.Name = "txtpic";
+            this.txtpic.ReadOnly = true;
+            this.txtpic.Size = new System.Drawing.Size(188, 32);
+            this.txtpic.TabIndex = 25;
+            this.txtpic.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // PicAlertPic
+            // 
+            this.PicAlertPic.Image = ((System.Drawing.Image)(resources.GetObject("PicAlertPic.Image")));
+            this.PicAlertPic.Location = new System.Drawing.Point(552, 20);
+            this.PicAlertPic.Name = "PicAlertPic";
+            this.PicAlertPic.Size = new System.Drawing.Size(18, 18);
+            this.PicAlertPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicAlertPic.TabIndex = 46;
+            this.PicAlertPic.TabStop = false;
+            this.PicAlertPic.Visible = false;
+            // 
             // StockINOut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -825,7 +866,7 @@
             this.Controls.Add(this.panelFooter);
             this.Controls.Add(this.panelHeader);
             this.Name = "StockINOut";
-            this.Text = "Stock Return";
+            this.Text = "Stock Return (In/Out)";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panelHeader.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnSaveGRAY)).EndInit();
@@ -842,6 +883,7 @@
             this.panelSearch.ResumeLayout(false);
             this.panelSearch.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSearch)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicAlertPic)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -902,5 +944,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColStockOut;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColRemark;
         private System.Windows.Forms.DataGridViewImageColumn Remove;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtpic;
+        private System.Windows.Forms.PictureBox PicAlertPic;
     }
 }

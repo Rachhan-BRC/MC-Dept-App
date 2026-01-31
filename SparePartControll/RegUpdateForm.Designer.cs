@@ -462,7 +462,7 @@
             this.cbstatus.FormattingEnabled = true;
             this.cbstatus.Items.AddRange(new object[] {
             "Active ",
-            "Closed"});
+            "EOL"});
             this.cbstatus.Location = new System.Drawing.Point(64, 408);
             this.cbstatus.Name = "cbstatus";
             this.cbstatus.Size = new System.Drawing.Size(85, 32);
