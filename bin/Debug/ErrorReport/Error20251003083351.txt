@@ -1,2 +1,0 @@
-POSNo		ErrorText
-25-1000092	Shortage RM Stock!
