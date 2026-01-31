@@ -1,12 +1,14 @@
-﻿using Excel = Microsoft.Office.Interop.Excel;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Management.Instrumentation;
 using System.Text;
 using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
 namespace MachineDeptApp
 {
     public partial class balance : Form
@@ -150,7 +152,6 @@ namespace MachineDeptApp
                     "WHERE CAST(tbTr.RegDate AS DATE) > '" + preStockLastDay + "' AND tbTr.Dept ='" + dept + "' " +
                     "GROUP BY tbTr.Code, tbMst.Supplier, tbMst.Part_No, tbMst.Part_Name, tbPre.StockIn, tbPre.StockOut, tbPreS.PreStock " +
                     "ORDER BY tbTr.Code";
-                //Console.WriteLine(query);
               
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtselect);
@@ -258,6 +259,7 @@ namespace MachineDeptApp
             DataTable cond = new DataTable();
             DataTable dtselect = new DataTable();
             DataTable dtmaster = new DataTable();
+            DataTable dtbalance = new DataTable();
             cond.Columns.Add("Value");
             if (chkRcode.Checked == true)
             {
@@ -319,9 +321,6 @@ namespace MachineDeptApp
                     "Order by tbTr.Code";
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtselect);
-                Console.WriteLine(firstDay);
-                Console.WriteLine(lastDay);
-                Console.WriteLine(preStockLastDay);
             }
             catch (Exception ex)
             {
@@ -340,9 +339,26 @@ namespace MachineDeptApp
                 MessageBox.Show("Error while selecting master ! " + ex.Message, "Error master", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             con.con.Close();
+            List<string> codellist = new List<string>();
+            foreach (DataGridViewRow row in dgvTTL.Rows)
+            {
+                codellist.Add(row.Cells["code"].Value.ToString());
+            }
+            string codelist = "('" + string.Join("','", codellist) + "')";
+            try
+            {
+                con.con.Open();
+                string querybalance = "SELECT Code, Balance, Receive_Date FROM MCSparePartRequest WHERE Code IN "+codelist+"";
+                SqlDataAdapter sda = new SqlDataAdapter (querybalance, con.con);
+                sda.Fill(dtbalance);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while select balance !" + ex.Message, "Error balance", MessageBoxButtons.OK, MessageBoxIcon.Error );
+            }
+            con.con.Close();
             if (dtmaster.Rows.Count > 0 && dtselect.Rows.Count > 0)
             {
-
                 if (dtselect.Rows.Count > 0)
                 {
                     foreach (DataRow row in dtselect.Rows)
@@ -379,7 +395,7 @@ namespace MachineDeptApp
                                 string box = row["Box"]?.ToString() ?? "";
                                 int weeks = row["Lead_Time_Week"] is DBNull ? 0 : Convert.ToInt32(row["Lead_Time_Week"]);
                                 int days = weeks * 7; // exact conversion
-                                DateTime eta = DateTime.Now.AddDays(days);
+                                DateTime ? eta = null;
                                 int safety = row["Safety_Stock"] is DBNull ? 0 : Convert.ToInt32(row["Safety_Stock"]);
 
                                 double stockremain = Convert.ToDouble(row1.Cells["stockremain"].Value);
@@ -388,10 +404,12 @@ namespace MachineDeptApp
                                 if (qty < 0)
                                 {
                                     order = "" + qty * (-1) + "";
+                                    eta = DateTime.Now.AddDays(days);
+                                   
                                 }
                                 row1.Cells["box"].Value = box;
                                 row1.Cells["leadtime"].Value = weeks;
-                                row1.Cells["eta"].Value = eta.ToString("dd-MMM-yyyy");
+                                row1.Cells["eta"].Value = eta;
                                 row1.Cells["safetystock"].Value = safety;
                                 row1.Cells["orderqty"].Value = order;
                                 double status = double.TryParse(order, out var v) ? v : 0;
@@ -411,6 +429,30 @@ namespace MachineDeptApp
                         }
                     }
                 }
+                if (dtbalance.Rows.Count > 0)
+                {
+                    foreach (DataGridViewRow row3 in dgvTTL.Rows)
+                    {
+                        string code3 = row3.Cells["code"].Value.ToString();
+                        double orderqty = 0;
+                        var rowqty = row3.Cells["orderqty"].Value.ToString();
+                        if (!string.IsNullOrEmpty(rowqty))
+                        {
+                            orderqty = Convert.ToDouble(row3.Cells["orderqty"].Value);
+                        }
+                            foreach (DataRow row4 in dtbalance.Rows)
+                            {
+                                string code4 = row4["Code"].ToString();
+                                if (code3 == code4 && orderqty > 0)
+                                {
+                                    row3.Cells["balanceorder"].Value = row4["Balance"].ToString();
+                                    row3.Cells["receivedate"].Value = Convert.ToDateTime(row4["Receive_Date"].ToString());
+                                }
+                            }
+                    }
+
+                }
+
             }
             lbFound.Text = "Found : " + dgvTTL.Rows.Count.ToString();
             con.con.Close();

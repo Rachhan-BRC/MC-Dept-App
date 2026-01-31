@@ -24,20 +24,102 @@ namespace MachineDeptApp.SparePartControll
             this.con.Connection();
             InitializeComponent();
             this.Shown += RequestForm_Shown;
+
+            //txt
             this.txtcode.TextChanged += Txtcode_TextChanged;
             this.txtPname.TextChanged += TxtPname_TextChanged;
             this.txtPno.TextChanged += TxtPno_TextChanged;
             this.txtdocno.TextChanged += Txtdocno_TextChanged;
             this.txtpono.TextChanged += Txtpono_TextChanged;
             this.txtremark.TextChanged += Txtremark_TextChanged;
+
+            //dtp
             this.dtpissuefrom.ValueChanged += Dtpissuefrom_ValueChanged;
             this.dtpissueto.ValueChanged += Dtpissueto_ValueChanged;
             this.dtprecdatefrom.ValueChanged += Dtprecdatefrom_ValueChanged;
             this.dtprecdateto.ValueChanged += Dtprecdateto_ValueChanged;
+
+            //dgv
             this.dgvRequest.CellClick += DgvRequest_CellClick;
+
+            //button
             this.btnDelete.Click += BtnDelete_Click;
             this.btnUpdate.Click += BtnUpdate_Click;
             this.btnSearch.Click += BtnSearch_Click;
+            this.btnExport.Click += BtnExport_Click;
+        }
+
+        private void BtnExport_Click(object sender, EventArgs e)
+        {
+            if (dgvRequest.Rows.Count > 0)
+            {
+                DialogResult DLS = MessageBox.Show("Are yoiu want to export data?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (DLS == DialogResult.Yes)
+                {
+                    SaveFileDialog saveDialog = new SaveFileDialog();
+                    saveDialog.Filter = "CSV file (*.csv)|*.csv";
+                    saveDialog.FileName = "PO Request" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".csv";
+                    if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        Cursor = Cursors.WaitCursor;
+                        try
+                        {
+                            //Write Column name
+                            int columnCount = 0;
+                            foreach (DataGridViewColumn DgvCol in dgvRequest.Columns)
+                            {
+                                if (DgvCol.Visible == true)
+                                {
+                                    columnCount = columnCount + 1;
+                                }
+                            }
+                            string columnNames = "";
+
+                            //String array for Csv
+                            string[] outputCsv;
+                            outputCsv = new string[dgvRequest.Rows.Count + 1];
+
+                            //Set Column Name
+                            for (int i = 0; i < columnCount; i++)
+                            {
+                                if (dgvRequest.Columns[i].Visible == true)
+                                {
+                                    columnNames += dgvRequest.Columns[i].HeaderText.ToString() + ",";
+                                }
+                            }
+                            outputCsv[0] += columnNames;
+
+                            //Row of data 
+                            for (int i = 1; (i - 1) < dgvRequest.Rows.Count; i++)
+                            {
+                                for (int j = 0; j < columnCount; j++)
+                                {
+                                    if (dgvRequest.Columns[j].Visible == true)
+                                    {
+                                        string Value = "";
+                                        if (dgvRequest.Rows[i - 1].Cells[j].Value != null)
+                                        {
+                                            Value = dgvRequest.Rows[i - 1].Cells[j].Value.ToString();
+                                        }
+                                        //Fix don't separate if it contain '\n' or ','
+                                        Value = "\"" + Value.Replace("\"", "\"\"") + "\"";
+                                        outputCsv[i] += Value + ",";
+                                    }
+                                }
+                            }
+
+                            File.WriteAllLines(saveDialog.FileName, outputCsv, Encoding.UTF8);
+                            Cursor = Cursors.Default;
+                            MessageBox.Show("Export successfully !", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (Exception ex)
+                        {
+                            Cursor = Cursors.Default;
+                            MessageBox.Show("មានបញ្ហា!\n" + ex.Message, "Error Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
         }
 
         private void Dtpissueto_ValueChanged(object sender, EventArgs e)

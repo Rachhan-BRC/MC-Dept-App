@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RequestForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -49,6 +48,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RequestForm));
             this.panelHeader = new System.Windows.Forms.Panel();
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnUpdateGrey = new System.Windows.Forms.Button();
@@ -101,6 +101,7 @@
             this.orderstatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnExport = new System.Windows.Forms.Button();
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGray)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -111,6 +112,7 @@
             // panelHeader
             // 
             this.panelHeader.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panelHeader.Controls.Add(this.btnExport);
             this.panelHeader.Controls.Add(this.btnSearch);
             this.panelHeader.Controls.Add(this.btnUpdateGrey);
             this.panelHeader.Controls.Add(this.btnUpdate);
@@ -188,8 +190,6 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.cbstatus);
             this.groupBox1.Controls.Add(this.dtpissueto);
             this.groupBox1.Controls.Add(this.dtprecdateto);
@@ -210,6 +210,8 @@
             this.groupBox1.Controls.Add(this.chkdocno);
             this.groupBox1.Controls.Add(this.txtcode);
             this.groupBox1.Controls.Add(this.chkcode);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(3, 71);
@@ -222,7 +224,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(952, 65);
+            this.label2.Location = new System.Drawing.Point(859, 63);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(15, 22);
             this.label2.TabIndex = 125;
@@ -231,7 +233,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(952, 29);
+            this.label1.Location = new System.Drawing.Point(859, 27);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(15, 22);
             this.label1.TabIndex = 125;
@@ -245,7 +247,7 @@
             "",
             "Completed",
             "Not Completed"});
-            this.cbstatus.Location = new System.Drawing.Point(1222, 42);
+            this.cbstatus.Location = new System.Drawing.Point(1084, 39);
             this.cbstatus.Name = "cbstatus";
             this.cbstatus.Size = new System.Drawing.Size(121, 30);
             this.cbstatus.TabIndex = 124;
@@ -254,7 +256,7 @@
             // 
             this.dtpissueto.CustomFormat = "     dd-MMM-yy";
             this.dtpissueto.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpissueto.Location = new System.Drawing.Point(973, 25);
+            this.dtpissueto.Location = new System.Drawing.Point(872, 23);
             this.dtpissueto.Name = "dtpissueto";
             this.dtpissueto.Size = new System.Drawing.Size(138, 30);
             this.dtpissueto.TabIndex = 123;
@@ -263,7 +265,7 @@
             // 
             this.dtprecdateto.CustomFormat = "     dd-MMM-yy";
             this.dtprecdateto.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtprecdateto.Location = new System.Drawing.Point(973, 63);
+            this.dtprecdateto.Location = new System.Drawing.Point(872, 61);
             this.dtprecdateto.Name = "dtprecdateto";
             this.dtprecdateto.Size = new System.Drawing.Size(138, 30);
             this.dtprecdateto.TabIndex = 123;
@@ -272,7 +274,7 @@
             // 
             this.dtpissuefrom.CustomFormat = "     dd-MMM-yy";
             this.dtpissuefrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpissuefrom.Location = new System.Drawing.Point(808, 25);
+            this.dtpissuefrom.Location = new System.Drawing.Point(723, 23);
             this.dtpissuefrom.Name = "dtpissuefrom";
             this.dtpissuefrom.Size = new System.Drawing.Size(138, 30);
             this.dtpissuefrom.TabIndex = 123;
@@ -281,7 +283,7 @@
             // 
             this.dtprecdatefrom.CustomFormat = "     dd-MMM-yy";
             this.dtprecdatefrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtprecdatefrom.Location = new System.Drawing.Point(808, 63);
+            this.dtprecdatefrom.Location = new System.Drawing.Point(723, 61);
             this.dtprecdatefrom.Name = "dtprecdatefrom";
             this.dtprecdatefrom.Size = new System.Drawing.Size(138, 30);
             this.dtprecdatefrom.TabIndex = 123;
@@ -289,7 +291,7 @@
             // txtpono
             // 
             this.txtpono.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtpono.Location = new System.Drawing.Point(286, 61);
+            this.txtpono.Location = new System.Drawing.Point(253, 61);
             this.txtpono.Name = "txtpono";
             this.txtpono.Size = new System.Drawing.Size(101, 30);
             this.txtpono.TabIndex = 122;
@@ -297,7 +299,7 @@
             // txtPno
             // 
             this.txtPno.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPno.Location = new System.Drawing.Point(286, 25);
+            this.txtPno.Location = new System.Drawing.Point(253, 25);
             this.txtPno.Name = "txtPno";
             this.txtPno.Size = new System.Drawing.Size(101, 30);
             this.txtPno.TabIndex = 122;
@@ -306,7 +308,7 @@
             // 
             this.chkpono.AutoSize = true;
             this.chkpono.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkpono.Location = new System.Drawing.Point(207, 65);
+            this.chkpono.Location = new System.Drawing.Point(183, 66);
             this.chkpono.Name = "chkpono";
             this.chkpono.Size = new System.Drawing.Size(68, 26);
             this.chkpono.TabIndex = 117;
@@ -317,7 +319,7 @@
             // 
             this.chkPno.AutoSize = true;
             this.chkPno.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkPno.Location = new System.Drawing.Point(207, 29);
+            this.chkPno.Location = new System.Drawing.Point(183, 30);
             this.chkPno.Name = "chkPno";
             this.chkPno.Size = new System.Drawing.Size(73, 26);
             this.chkPno.TabIndex = 117;
@@ -328,7 +330,7 @@
             // 
             this.chkissue.AutoSize = true;
             this.chkissue.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkissue.Location = new System.Drawing.Point(699, 27);
+            this.chkissue.Location = new System.Drawing.Point(625, 25);
             this.chkissue.Name = "chkissue";
             this.chkissue.Size = new System.Drawing.Size(88, 26);
             this.chkissue.TabIndex = 117;
@@ -338,7 +340,7 @@
             // txtremark
             // 
             this.txtremark.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtremark.Location = new System.Drawing.Point(502, 59);
+            this.txtremark.Location = new System.Drawing.Point(447, 61);
             this.txtremark.Name = "txtremark";
             this.txtremark.Size = new System.Drawing.Size(172, 30);
             this.txtremark.TabIndex = 122;
@@ -347,7 +349,7 @@
             // 
             this.chkrecdate.AutoSize = true;
             this.chkrecdate.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkrecdate.Location = new System.Drawing.Point(699, 65);
+            this.chkrecdate.Location = new System.Drawing.Point(625, 63);
             this.chkrecdate.Name = "chkrecdate";
             this.chkrecdate.Size = new System.Drawing.Size(103, 26);
             this.chkrecdate.TabIndex = 117;
@@ -358,7 +360,7 @@
             // 
             this.chkstatus.AutoSize = true;
             this.chkstatus.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkstatus.Location = new System.Drawing.Point(1144, 46);
+            this.chkstatus.Location = new System.Drawing.Point(1024, 43);
             this.chkstatus.Name = "chkstatus";
             this.chkstatus.Size = new System.Drawing.Size(63, 26);
             this.chkstatus.TabIndex = 117;
@@ -369,7 +371,7 @@
             // 
             this.chkremark.AutoSize = true;
             this.chkremark.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkremark.Location = new System.Drawing.Point(408, 63);
+            this.chkremark.Location = new System.Drawing.Point(363, 66);
             this.chkremark.Name = "chkremark";
             this.chkremark.Size = new System.Drawing.Size(72, 26);
             this.chkremark.TabIndex = 117;
@@ -379,7 +381,7 @@
             // txtPname
             // 
             this.txtPname.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPname.Location = new System.Drawing.Point(502, 23);
+            this.txtPname.Location = new System.Drawing.Point(447, 25);
             this.txtPname.Name = "txtPname";
             this.txtPname.Size = new System.Drawing.Size(172, 30);
             this.txtPname.TabIndex = 122;
@@ -387,7 +389,7 @@
             // txtdocno
             // 
             this.txtdocno.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtdocno.Location = new System.Drawing.Point(87, 63);
+            this.txtdocno.Location = new System.Drawing.Point(72, 64);
             this.txtdocno.Name = "txtdocno";
             this.txtdocno.Size = new System.Drawing.Size(101, 30);
             this.txtdocno.TabIndex = 122;
@@ -396,7 +398,7 @@
             // 
             this.chkPname.AutoSize = true;
             this.chkPname.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkPname.Location = new System.Drawing.Point(408, 27);
+            this.chkPname.Location = new System.Drawing.Point(363, 27);
             this.chkPname.Name = "chkPname";
             this.chkPname.Size = new System.Drawing.Size(88, 26);
             this.chkPname.TabIndex = 117;
@@ -407,7 +409,7 @@
             // 
             this.chkdocno.AutoSize = true;
             this.chkdocno.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkdocno.Location = new System.Drawing.Point(23, 65);
+            this.chkdocno.Location = new System.Drawing.Point(8, 66);
             this.chkdocno.Name = "chkdocno";
             this.chkdocno.Size = new System.Drawing.Size(68, 26);
             this.chkdocno.TabIndex = 117;
@@ -417,7 +419,7 @@
             // txtcode
             // 
             this.txtcode.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtcode.Location = new System.Drawing.Point(87, 27);
+            this.txtcode.Location = new System.Drawing.Point(72, 28);
             this.txtcode.Name = "txtcode";
             this.txtcode.Size = new System.Drawing.Size(101, 30);
             this.txtcode.TabIndex = 122;
@@ -426,7 +428,7 @@
             // 
             this.chkcode.AutoSize = true;
             this.chkcode.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkcode.Location = new System.Drawing.Point(23, 29);
+            this.chkcode.Location = new System.Drawing.Point(8, 30);
             this.chkcode.Name = "chkcode";
             this.chkcode.Size = new System.Drawing.Size(58, 26);
             this.chkcode.TabIndex = 117;
@@ -706,6 +708,18 @@
             this.remark.ReadOnly = true;
             this.remark.Width = 150;
             // 
+            // btnExport
+            // 
+            this.btnExport.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.btnExport.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnExport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnExport.BackgroundImage")));
+            this.btnExport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnExport.Location = new System.Drawing.Point(1412, 5);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(48, 56);
+            this.btnExport.TabIndex = 144;
+            this.btnExport.UseVisualStyleBackColor = false;
+            // 
             // RequestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -784,5 +798,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dtpissueto;
         private System.Windows.Forms.DateTimePicker dtprecdateto;
+        private System.Windows.Forms.Button btnExport;
     }
 }
