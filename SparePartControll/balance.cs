@@ -29,10 +29,15 @@ namespace MachineDeptApp
             this.txtRname.TextChanged += TxtRname_TextChanged;
 
             //form
-            this.Load += Balance_Load;
+            this.Shown += Balance_Shown;
 
             //dgv
             this.dtpDate.ValueChanged += DtpDate_ValueChanged;
+        }
+
+        private void Balance_Shown(object sender, EventArgs e)
+        {
+            btnSearch.PerformClick();
         }
 
         private void BtnPrint_Click(object sender, EventArgs e)
@@ -254,7 +259,6 @@ namespace MachineDeptApp
         private void BtnSearch_Click(object sender, EventArgs e)
         {
             con.con.Close();
-            dgvTTL.Rows.Clear();
             Cursor = Cursors.WaitCursor;
             DataTable cond = new DataTable();
             DataTable dtselect = new DataTable();
@@ -313,13 +317,15 @@ namespace MachineDeptApp
                     "(SELECT Code,Supplier,Part_Name,Part_No FROM MstMCSparePart) tbMst ON tbMst.Code = tbTr.Code " +
                     "LEFT JOIN " +
                     "(SELECT Code, SUM(Stock_In) AS QtyIn,SUM(Stock_Out) AS QtyOut FROM SparePartTrans " +
-                    "WHERE RegDate BETWEEN '" + firstDay + "' AND '" + lastDay + "' AND Dept ='" + dept + "' GROUP BY Code ) tbPre ON tbPre.Code = tbTr.Code " +
+                    "WHERE CAST (RegDate AS date) >= '" + lastDay + "' AND Dept ='" + dept + "' GROUP BY Code ) tbPre ON tbPre.Code = tbTr.Code " +
                     "LEFT JOIN (SELECT Code, SUM(Stock_Value) AS PreQty FROM SparePartTrans " +
                     "WHERE CAST(RegDate AS date) <= '" + preStockLastDay + "' AND Dept ='MC' GROUP BY Code ) tbPreS ON tbPreS.Code = tbPre.Code " +
-                    "WHERE CAST(tbTr.RegDate AS DATE) > '" + preStockLastDay + "' AND tbtr.Dept ='" + dept + "' " + Conds + " " +
+                    "WHERE CAST(tbTr.RegDate AS DATE) <= '" + preStockLastDay + "' AND tbtr.Dept ='" + dept + "' " + Conds + " " +
                     "GROUP BY tbTr.Code, tbMst.Supplier,tbMst.Part_No, tbMst.Part_Name,tbPre.QtyIn,tbPre.QtyOut, tbPreS.PreQty " +
                     "Order by tbTr.Code";
+                Console.WriteLine(query);
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
+               
                 sda.Fill(dtselect);
             }
             catch (Exception ex)
@@ -357,6 +363,7 @@ namespace MachineDeptApp
                 MessageBox.Show("Error while select balance !" + ex.Message, "Error balance", MessageBoxButtons.OK, MessageBoxIcon.Error );
             }
             con.con.Close();
+            dgvTTL.Rows.Clear();
             if (dtmaster.Rows.Count > 0 && dtselect.Rows.Count > 0)
             {
                 if (dtselect.Rows.Count > 0)
@@ -450,7 +457,6 @@ namespace MachineDeptApp
                                 }
                             }
                     }
-
                 }
 
             }
@@ -463,11 +469,7 @@ namespace MachineDeptApp
         {
             btnSearch.PerformClick();
         }
-        //form
-        private void Balance_Load(object sender, EventArgs e)
-        {
-            btnSearch.PerformClick();
-        }
+        
         //txt
         private void TxtRname_TextChanged(object sender, EventArgs e)
         {
