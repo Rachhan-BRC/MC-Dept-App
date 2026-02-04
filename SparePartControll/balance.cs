@@ -317,7 +317,7 @@ namespace MachineDeptApp
                     "(SELECT Code,Supplier,Part_Name,Part_No FROM MstMCSparePart) tbMst ON tbMst.Code = tbTr.Code " +
                     "LEFT JOIN " +
                     "(SELECT Code, SUM(Stock_In) AS QtyIn,SUM(Stock_Out) AS QtyOut FROM SparePartTrans " +
-                    "WHERE CAST (RegDate AS date) >= '" + lastDay + "' AND Dept ='" + dept + "' GROUP BY Code ) tbPre ON tbPre.Code = tbTr.Code " +
+                    "WHERE CAST (RegDate AS date) <= '" + lastDay + "' AND Dept ='" + dept + "' GROUP BY Code ) tbPre ON tbPre.Code = tbTr.Code " +
                     "LEFT JOIN (SELECT Code, SUM(Stock_Value) AS PreQty FROM SparePartTrans " +
                     "WHERE CAST(RegDate AS date) <= '" + preStockLastDay + "' AND Dept ='MC' GROUP BY Code ) tbPreS ON tbPreS.Code = tbPre.Code " +
                     "WHERE CAST(tbTr.RegDate AS DATE) <= '" + preStockLastDay + "' AND tbtr.Dept ='" + dept + "' " + Conds + " " +
@@ -377,7 +377,7 @@ namespace MachineDeptApp
                         double prestock = double.TryParse(row["PreQty"]?.ToString(), out var ps) ? ps : 0;
                         double stockout = double.TryParse(row["QtyOut"]?.ToString(), out var so) ? so : 0;
                         double stockin = double.TryParse(row["QtyIn"]?.ToString(), out var si) ? si : 0;
-                        double stockremain = prestock + stockin + stockout;
+                        double stockremain = stockin - stockout;
                         dgvTTL.Rows.Add();
                         dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["code"].Value = code;
                         dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partno"].Value = partno;
