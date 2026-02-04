@@ -80,7 +80,7 @@
             this.eta = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.balanceorder = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.receivedate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.planeta = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelHeader.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -300,7 +300,7 @@
             this.eta,
             this.status,
             this.balanceorder,
-            this.receivedate});
+            this.planeta});
             this.dgvTTL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTTL.EnableHeadersVisualStyles = false;
             this.dgvTTL.Location = new System.Drawing.Point(0, 144);
@@ -469,16 +469,16 @@
             this.balanceorder.ReadOnly = true;
             this.balanceorder.Width = 130;
             // 
-            // receivedate
+            // planeta
             // 
-            this.receivedate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.planeta.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle18.Format = "dd-MMM-yyyy";
-            this.receivedate.DefaultCellStyle = dataGridViewCellStyle18;
-            this.receivedate.HeaderText = "Receive Date";
-            this.receivedate.Name = "receivedate";
-            this.receivedate.ReadOnly = true;
-            this.receivedate.Width = 130;
+            this.planeta.DefaultCellStyle = dataGridViewCellStyle18;
+            this.planeta.HeaderText = "Plan ETA";
+            this.planeta.Name = "planeta";
+            this.planeta.ReadOnly = true;
+            this.planeta.Width = 130;
             // 
             // balance
             // 
@@ -536,6 +536,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn eta;
         private System.Windows.Forms.DataGridViewTextBoxColumn status;
         private System.Windows.Forms.DataGridViewTextBoxColumn balanceorder;
-        private System.Windows.Forms.DataGridViewTextBoxColumn receivedate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn planeta;
     }
 }

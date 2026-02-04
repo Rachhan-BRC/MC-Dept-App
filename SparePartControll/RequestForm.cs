@@ -478,6 +478,7 @@ namespace MachineDeptApp.SparePartControll
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["remainamount"].Value = remainamount;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["orderstatus"].Value = orderstate;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["remark"].Value = remark;
+                    dgvRequest.Columns["code"].Frozen = true;
                 }
             }
             catch (Exception ex)

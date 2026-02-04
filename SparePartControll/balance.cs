@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Management.Instrumentation;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -31,8 +32,6 @@ namespace MachineDeptApp
             //form
             this.Shown += Balance_Shown;
 
-            //dgv
-            this.dtpDate.ValueChanged += DtpDate_ValueChanged;
         }
 
         private void Balance_Shown(object sender, EventArgs e)
@@ -258,7 +257,7 @@ namespace MachineDeptApp
         }
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            con.con.Close();
+            dgvTTL.Rows.Clear();
             Cursor = Cursors.WaitCursor;
             DataTable cond = new DataTable();
             DataTable dtselect = new DataTable();
@@ -309,7 +308,7 @@ namespace MachineDeptApp
                 int prevMonth = prevMonthDate.Month;
                 int prevDay = DateTime.DaysInMonth(prevYear, prevMonth);
                 DateTime preStockLastDay = new DateTime(prevYear, prevMonth, prevDay);
-                dtpDate.Value = lastDay;
+               
 
                 string query = "SELECT tbTr.Code, tbMSt.Supplier, tbMst.Part_No, tbMst.Part_Name, tbPre.QtyIn, tbPre.QtyOut , tbPreS.PreQty " +
                     "FROM SparePartTrans tbTr " +
@@ -325,14 +324,15 @@ namespace MachineDeptApp
                     "Order by tbTr.Code";
                 Console.WriteLine(query);
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
-               
                 sda.Fill(dtselect);
+                dtpDate.Value = lastDay;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error while selecting data !" + ex.Message, "Error tbTrans.", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             con.con.Close(); 
+
             try
             {
                 con.con.Open();
@@ -345,25 +345,8 @@ namespace MachineDeptApp
                 MessageBox.Show("Error while selecting master ! " + ex.Message, "Error master", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             con.con.Close();
-            List<string> codellist = new List<string>();
-            foreach (DataGridViewRow row in dgvTTL.Rows)
-            {
-                codellist.Add(row.Cells["code"].Value.ToString());
-            }
-            string codelist = "('" + string.Join("','", codellist) + "')";
-            try
-            {
-                con.con.Open();
-                string querybalance = "SELECT Code, Balance, Receive_Date FROM MCSparePartRequest WHERE Code IN "+codelist+"";
-                SqlDataAdapter sda = new SqlDataAdapter (querybalance, con.con);
-                sda.Fill(dtbalance);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error while select balance !" + ex.Message, "Error balance", MessageBoxButtons.OK, MessageBoxIcon.Error );
-            }
+           
             con.con.Close();
-            dgvTTL.Rows.Clear();
             if (dtmaster.Rows.Count > 0 && dtselect.Rows.Count > 0)
             {
                 if (dtselect.Rows.Count > 0)
@@ -436,6 +419,25 @@ namespace MachineDeptApp
                         }
                     }
                 }
+                List<string> codellist = new List<string>();
+                foreach (DataGridViewRow row in dgvTTL.Rows)
+                {
+                    codellist.Add(row.Cells["code"].Value.ToString());
+                }
+                string codelist1 = "('" + string.Join("','", codellist) + "')";
+                Console.WriteLine(codelist1);
+                try
+                {
+                    con.con.Open();
+                    string querybalance = "SELECT Code, Balance, ETA FROM MCSparePartRequest WHERE Code IN " + codelist1 + "";
+                    SqlDataAdapter sda = new SqlDataAdapter(querybalance, con.con);
+
+                    sda.Fill(dtbalance);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error while select balance !" + ex.Message, "Error balance", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 if (dtbalance.Rows.Count > 0)
                 {
                     foreach (DataGridViewRow row3 in dgvTTL.Rows)
@@ -453,23 +455,21 @@ namespace MachineDeptApp
                                 if (code3 == code4 && orderqty > 0)
                                 {
                                     row3.Cells["balanceorder"].Value = row4["Balance"].ToString();
-                                    row3.Cells["receivedate"].Value = Convert.ToDateTime(row4["Receive_Date"].ToString());
+                                    row3.Cells["planeta"].Value = Convert.ToDateTime(row4["ETA"].ToString());
                                 }
                             }
                     }
                 }
-
+                dgvTTL.Columns["Code"].Frozen = true;
+                dgvTTL.Columns["partno"].Frozen = true;
+                dgvTTL.Columns["partname"].Frozen = true;
+                dgvTTL.Columns["supplier"].Frozen = true;
             }
             lbFound.Text = "Found : " + dgvTTL.Rows.Count.ToString();
             con.con.Close();
             Cursor = Cursors.Default;
         }
-        //date
-        private void DtpDate_ValueChanged(object sender, EventArgs e)
-        {
-            btnSearch.PerformClick();
-        }
-        
+       
         //txt
         private void TxtRname_TextChanged(object sender, EventArgs e)
         {
