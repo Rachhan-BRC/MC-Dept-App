@@ -39,6 +39,8 @@ namespace MachineDeptApp
             btnSearch.PerformClick();
         }
 
+
+        //btn
         private void BtnPrint_Click(object sender, EventArgs e)
         {
             if (dgvTTL.Rows.Count == 0)
@@ -95,12 +97,14 @@ namespace MachineDeptApp
                     worksheet.Cells[startRow + i, 12] = row.Cells["leadtime"].Value?.ToString();
                     worksheet.Cells[startRow + i, 13] = row.Cells["eta"].Value?.ToString();
                     worksheet.Cells[startRow + i, 14] = row.Cells["status"].Value?.ToString();
+                    worksheet.Cells[startRow + i, 15] = row.Cells["balanceorder"].Value?.ToString();
+                    worksheet.Cells[startRow + i, 16] = row.Cells["planeta"].Value?.ToString();
 
                 }
                 // Save Excel
 
                 string DateExcel = DateTime.Now.ToString("yyMMdd");
-                string fileName = "Spare - Part Balance"+DateTime.Now.ToString("yyyy-MM-dd HHmmss")+".xlsx";
+                string fileName = "Spare - Part Balance" + DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ".xlsx";
 
                 string fullPath = Path.Combine(SavePath, fileName);
                 xlWorkBook.SaveAs(fullPath);
@@ -126,8 +130,6 @@ namespace MachineDeptApp
             }
             Cursor = Cursors.Default;
         }
-
-        //btn
         private void BtnExport_Click(object sender, EventArgs e) 
         {
             DataTable dtselect = new DataTable();
@@ -269,7 +271,7 @@ namespace MachineDeptApp
                 string val = txtRcode.Text;
                 if (val.Trim() != "")
                 {
-                    cond.Rows.Add("tbTr.Code LIKE '%" + val + "%'");
+                    cond.Rows.Add("Code LIKE '%" + val + "%'");
                 }
             }
             if (chkRname.Checked == true)
@@ -277,7 +279,7 @@ namespace MachineDeptApp
                 string val = txtRname.Text;
                 if (val.Trim() != "")
                 {
-                    cond.Rows.Add("tbMst.Part_Name LIKE '%" + val + "%'");
+                    cond.Rows.Add("Part_Name LIKE '%" + val + "%'");
                 }
             }
             string Conds = "";
@@ -319,10 +321,9 @@ namespace MachineDeptApp
                     "WHERE CAST (RegDate AS date) <= '" + lastDay + "' AND Dept ='" + dept + "' GROUP BY Code ) tbPre ON tbPre.Code = tbTr.Code " +
                     "LEFT JOIN (SELECT Code, SUM(Stock_Value) AS PreQty FROM SparePartTrans " +
                     "WHERE CAST(RegDate AS date) <= '" + preStockLastDay + "' AND Dept ='MC' GROUP BY Code ) tbPreS ON tbPreS.Code = tbPre.Code " +
-                    "WHERE CAST(tbTr.RegDate AS DATE) <= '" + preStockLastDay + "' AND tbtr.Dept ='" + dept + "' " + Conds + " " +
+                    "WHERE CAST(tbTr.RegDate AS DATE) <= '" + preStockLastDay + "' AND tbtr.Dept ='" + dept + "'" +
                     "GROUP BY tbTr.Code, tbMst.Supplier,tbMst.Part_No, tbMst.Part_Name,tbPre.QtyIn,tbPre.QtyOut, tbPreS.PreQty " +
                     "Order by tbTr.Code";
-                Console.WriteLine(query);
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtselect);
                 dtpDate.Value = lastDay;
@@ -336,7 +337,7 @@ namespace MachineDeptApp
             try
             {
                 con.con.Open();
-                string querymaster = "SELECT * FROM MstMCSparePart WHERE Dept = '" + dept + "'";
+                string querymaster = "SELECT * FROM MstMCSparePart WHERE Dept = '" + dept + "' AND Status = 'Active'" + Conds;
                 SqlDataAdapter sda = new SqlDataAdapter(querymaster, con.con);
                 sda.Fill(dtmaster);
             }
@@ -349,122 +350,233 @@ namespace MachineDeptApp
             con.con.Close();
             if (dtmaster.Rows.Count > 0 && dtselect.Rows.Count > 0)
             {
-                if (dtselect.Rows.Count > 0)
+                foreach (DataRow row in dtmaster.Rows)
                 {
+                    string code = row["Code"]?.ToString() ?? "";
+                    string partno = row["Part_No"]?.ToString() ?? "";
+                    string partname = row["Part_Name"]?.ToString() ?? "";
+                    string supplier = row["Supplier"]?.ToString() ?? "";
+                    string box = row["Box"]?.ToString() ?? "";
+                    int safety = row["Safety_Stock"] is DBNull ? 0 : Convert.ToInt32(row["Safety_Stock"]);
+                    int weeks = row["Lead_Time_Week"] is DBNull ? 0 : Convert.ToInt32(row["Lead_Time_Week"]);
+
+                    dgvTTL.Rows.Add();
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["code"].Value = code;
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partno"].Value = partno;
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partname"].Value = partname;
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["supplier"].Value = supplier;
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["safetystock"].Value = safety;
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["leadtime"].Value = weeks;
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["box"].Value = box;
+
+                }
+            }
+            if (dtselect.Rows.Count > 0)
+            {
+                foreach (DataGridViewRow row1 in dgvTTL.Rows)
+                {
+                    string code1 = row1.Cells["code"].Value.ToString();
+                    int safety = row1.Cells["safetystock"].Value as int? ?? 0; 
                     foreach (DataRow row in dtselect.Rows)
                     {
                         string code = row["Code"]?.ToString() ?? "";
-                        string partno = row["Part_No"]?.ToString() ?? "";
-                        string partname = row["Part_Name"]?.ToString() ?? "";
-                        string supplier = row["Supplier"]?.ToString() ?? "";
-                        double prestock = double.TryParse(row["PreQty"]?.ToString(), out var ps) ? ps : 0;
-                        double stockout = double.TryParse(row["QtyOut"]?.ToString(), out var so) ? so : 0;
-                        double stockin = double.TryParse(row["QtyIn"]?.ToString(), out var si) ? si : 0;
-                        double stockremain = stockin - stockout;
-                        dgvTTL.Rows.Add();
-                        dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["code"].Value = code;
-                        dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partno"].Value = partno;
-                        dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partname"].Value = partname;
-                        dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["supplier"].Value = supplier;
-                        dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["prestock"].Value = prestock;
-                        dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockin"].Value = stockin;
-                        dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockout"].Value = stockout;
-                        dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockremain"].Value = stockremain;
-                    }
-                }
-                if (dtmaster.Rows.Count > 0)
-                {
-                    foreach (DataGridViewRow row1 in dgvTTL.Rows)
-                    {
-                        string code1 = row1.Cells["code"].Value.ToString();
-                        foreach (DataRow row in dtmaster.Rows)
+                        if (code1 == code)
                         {
-                            string code = row["Code"]?.ToString() ?? "";
-                            if (code1 == code)
+                            double stockin = row["QtyIn"] is DBNull ? 0 : Convert.ToInt32(row["QtyIn"]);
+                            double stockout = row["QtyOut"] is DBNull ? 0 : Convert.ToInt32(row["QtyOut"]);
+                            double prestock = row["PreQty"] is DBNull ? 0 : Convert.ToInt32(row["PreQty"]);
+                            double stockremain = stockin - stockout;
+                             double qty = stockremain - safety;
+                            string order = "";
+                            int weeks = row1.Cells["leadtime"].Value as int? ?? 0;
+                            int days = weeks * 7; // exact conversion
+                            DateTime? eta = null;
+
+                            if (qty < 0)
                             {
-                                string box = row["Box"]?.ToString() ?? "";
-                                int weeks = row["Lead_Time_Week"] is DBNull ? 0 : Convert.ToInt32(row["Lead_Time_Week"]);
-                                int days = weeks * 7; // exact conversion
-                                DateTime ? eta = null;
-                                int safety = row["Safety_Stock"] is DBNull ? 0 : Convert.ToInt32(row["Safety_Stock"]);
-
-                                double stockremain = Convert.ToDouble(row1.Cells["stockremain"].Value);
-                                double qty = stockremain - safety;
-                                string order = "";
-                                if (qty < 0)
-                                {
-                                    order = "" + qty * (-1) + "";
-                                    eta = DateTime.Now.AddDays(days);
-                                   
-                                }
-                                row1.Cells["box"].Value = box;
-                                row1.Cells["leadtime"].Value = weeks;
-                                row1.Cells["eta"].Value = eta;
-                                row1.Cells["safetystock"].Value = safety;
-                                row1.Cells["orderqty"].Value = order;
-                                double status = double.TryParse(order, out var v) ? v : 0;
-                                if (status > 0)
-                                {
-                                    row1.Cells["status"].Value = "Order";
-                                    row1.Cells["status"].Style.BackColor = Color.LightPink;
-
-                                }
-                                else
-                                {
-                                    row1.Cells["status"].Value = "No Order";
-                                    row1.Cells["status"].Style.BackColor = Color.LightGreen;
-                                }
+                                order = "" + qty * (-1) + "";
+                                eta = DateTime.Now.AddDays(days);
                             }
+                            row1.Cells["prestock"].Value = prestock;
+                            row1.Cells["stockout"].Value = stockout;
+                            row1.Cells["stockin"].Value = stockin;
+                            row1.Cells["stockremain"].Value = stockremain;
+                            row1.Cells["orderqty"].Value = order;
+                            row1.Cells["safetystock"].Value = safety;
+                            row1.Cells["orderqty"].Value = order;
+                            row1.Cells["eta"].Value = eta;
 
-                        }
-                    }
-                }
-                List<string> codellist = new List<string>();
-                foreach (DataGridViewRow row in dgvTTL.Rows)
-                {
-                    codellist.Add(row.Cells["code"].Value.ToString());
-                }
-                string codelist1 = "('" + string.Join("','", codellist) + "')";
-                Console.WriteLine(codelist1);
-                try
-                {
-                    con.con.Open();
-                    string querybalance = "SELECT Code, Balance, ETA FROM MCSparePartRequest WHERE Code IN " + codelist1 + "";
-                    SqlDataAdapter sda = new SqlDataAdapter(querybalance, con.con);
-
-                    sda.Fill(dtbalance);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error while select balance !" + ex.Message, "Error balance", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                if (dtbalance.Rows.Count > 0)
-                {
-                    foreach (DataGridViewRow row3 in dgvTTL.Rows)
-                    {
-                        string code3 = row3.Cells["code"].Value.ToString();
-                        double orderqty = 0;
-                        var rowqty = row3.Cells["orderqty"].Value.ToString();
-                        if (!string.IsNullOrEmpty(rowqty))
-                        {
-                            orderqty = Convert.ToDouble(row3.Cells["orderqty"].Value);
-                        }
-                            foreach (DataRow row4 in dtbalance.Rows)
+                            double status = double.TryParse(order, out var v) ? v : 0;
+                            if (status > 0)
                             {
-                                string code4 = row4["Code"].ToString();
-                                if (code3 == code4 && orderqty > 0)
-                                {
-                                    row3.Cells["balanceorder"].Value = row4["Balance"].ToString();
-                                    row3.Cells["planeta"].Value = Convert.ToDateTime(row4["ETA"].ToString());
-                                }
+                                row1.Cells["status"].Value = "Order";
+                                row1.Cells["status"].Style.BackColor = Color.LightPink;
+
                             }
+                            else
+                            {
+                                row1.Cells["status"].Value = "No Order";
+                                row1.Cells["status"].Style.BackColor = Color.LightGreen;
+                            }
+                        }
+
                     }
+
                 }
-                dgvTTL.Columns["Code"].Frozen = true;
-                dgvTTL.Columns["partno"].Frozen = true;
-                dgvTTL.Columns["partname"].Frozen = true;
-                dgvTTL.Columns["supplier"].Frozen = true;
             }
+            try
+            {
+                con.con.Open();
+                string querybalance = "SELECT Code, Balance, ETA FROM MCSparePartRequest WHERE Balance > 0 AND Dept = 'MC' ";
+                SqlDataAdapter sda = new SqlDataAdapter(querybalance, con.con);
+                sda.Fill(dtbalance);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while select balance !" + ex.Message, "Error balance", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            if (dtbalance.Rows.Count > 0)
+            {
+                foreach (DataGridViewRow row3 in dgvTTL.Rows)
+                {
+                    string code3 = row3.Cells["Code"].Value.ToString();
+                  
+                    foreach (DataRow row4 in dtbalance.Rows)
+                    {
+                        string code4 = row4["Code"].ToString();
+                        string status = row3.Cells["status"].Value?.ToString() ?? "";
+                        if (code3 == code4 && status == "Order")
+                        {
+                            row3.Cells["balanceorder"].Value = row4["Balance"].ToString();
+                            row3.Cells["planeta"].Value = (row4["ETA"] as DateTime?)?.ToString("dd-MMM-yyyy") ?? string.Empty;
+
+                            break;
+                        }
+                    }
+                }
+            }
+            dgvTTL.Columns["Code"].Frozen = true;
+            dgvTTL.Columns["partno"].Frozen = true;
+            dgvTTL.Columns["partname"].Frozen = true;
+            dgvTTL.Columns["supplier"].Frozen = true;
+            /*  if (dtmaster.Rows.Count > 0 && dtselect.Rows.Count > 0)
+          {
+              if (dtselect.Rows.Count > 0)
+              {
+                  foreach (DataRow row in dtselect.Rows)
+                  {
+                      string code = row["Code"]?.ToString() ?? "";
+                      string partno = row["Part_No"]?.ToString() ?? "";
+                      string partname = row["Part_Name"]?.ToString() ?? "";
+                      string supplier = row["Supplier"]?.ToString() ?? "";
+                      double prestock = double.TryParse(row["PreQty"]?.ToString(), out var ps) ? ps : 0;
+                      double stockout = double.TryParse(row["QtyOut"]?.ToString(), out var so) ? so : 0;
+                      double stockin = double.TryParse(row["QtyIn"]?.ToString(), out var si) ? si : 0;
+                      double stockremain = stockin - stockout;
+                      dgvTTL.Rows.Add();
+                      dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["code"].Value = code;
+                      dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partno"].Value = partno;
+                      dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partname"].Value = partname;
+                      dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["supplier"].Value = supplier;
+                      dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["prestock"].Value = prestock;
+                      dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockin"].Value = stockin;
+                      dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockout"].Value = stockout;
+                      dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockremain"].Value = stockremain;
+                  }
+              }
+              if (dtmaster.Rows.Count > 0)
+              {
+                  foreach (DataGridViewRow row1 in dgvTTL.Rows)
+                  {
+                      string code1 = row1.Cells["code"].Value.ToString();
+                      foreach (DataRow row in dtmaster.Rows)
+                      {
+                          string code = row["Code"]?.ToString() ?? "";
+                          if (code1 == code)
+                          {
+                              string box = row["Box"]?.ToString() ?? "";
+                              int weeks = row["Lead_Time_Week"] is DBNull ? 0 : Convert.ToInt32(row["Lead_Time_Week"]);
+                              int days = weeks * 7; // exact conversion
+                              DateTime ? eta = null;
+                              int safety = row["Safety_Stock"] is DBNull ? 0 : Convert.ToInt32(row["Safety_Stock"]);
+
+                              double stockremain = Convert.ToDouble(row1.Cells["stockremain"].Value);
+                              double qty = stockremain - safety;
+                              string order = "";
+                              if (qty < 0)
+                              {
+                                  order = "" + qty * (-1) + "";
+                                  eta = DateTime.Now.AddDays(days);
+
+                              }
+                              row1.Cells["box"].Value = box;
+                              row1.Cells["leadtime"].Value = weeks;
+                              row1.Cells["eta"].Value = eta;
+                              row1.Cells["safetystock"].Value = safety;
+                              row1.Cells["orderqty"].Value = order;
+                              double status = double.TryParse(order, out var v) ? v : 0;
+                              if (status > 0)
+                              {
+                                  row1.Cells["status"].Value = "Order";
+                                  row1.Cells["status"].Style.BackColor = Color.LightPink;
+
+                              }
+                              else
+                              {
+                                  row1.Cells["status"].Value = "No Order";
+                                  row1.Cells["status"].Style.BackColor = Color.LightGreen;
+                              }
+                          }
+
+                      }
+                  }
+              }
+              List<string> codellist = new List<string>();
+              foreach (DataGridViewRow row in dgvTTL.Rows)
+              {
+                  codellist.Add(row.Cells["code"].Value.ToString());
+              }
+              string codelist1 = "('" + string.Join("','", codellist) + "')";
+              Console.WriteLine(codelist1);
+              try
+              {
+                  con.con.Open();
+                  string querybalance = "SELECT Code, Balance, ETA FROM MCSparePartRequest WHERE Code IN " + codelist1 + " AND Balance > 0";
+                  SqlDataAdapter sda = new SqlDataAdapter(querybalance, con.con);
+
+                  sda.Fill(dtbalance);
+              }
+              catch (Exception ex)
+              {
+                  MessageBox.Show("Error while select balance !" + ex.Message, "Error balance", MessageBoxButtons.OK, MessageBoxIcon.Error);
+              }
+              if (dtbalance.Rows.Count > 0)
+              {
+                  foreach (DataGridViewRow row3 in dgvTTL.Rows)
+                  {
+                      string code3 = row3.Cells["code"].Value.ToString();
+                      double orderqty = 0;
+                      var rowqty = row3.Cells["orderqty"].Value.ToString();
+                      if (!string.IsNullOrEmpty(rowqty))
+                      {
+                          orderqty = Convert.ToDouble(row3.Cells["orderqty"].Value);
+                      }
+                          foreach (DataRow row4 in dtbalance.Rows)
+                          {
+                              string code4 = row4["Code"].ToString();
+                              if (code3 == code4 && orderqty > 0)
+                              {
+                                  row3.Cells["balanceorder"].Value = row4["Balance"].ToString();
+                                  row3.Cells["planeta"].Value = Convert.ToDateTime(row4["ETA"].ToString());
+                              }
+                          }
+                  }
+              }
+              dgvTTL.Columns["Code"].Frozen = true;
+              dgvTTL.Columns["partno"].Frozen = true;
+              dgvTTL.Columns["partname"].Frozen = true;
+              dgvTTL.Columns["supplier"].Frozen = true;
+          }*/
             lbFound.Text = "Found : " + dgvTTL.Rows.Count.ToString();
             con.con.Close();
             Cursor = Cursors.Default;
@@ -473,17 +585,13 @@ namespace MachineDeptApp
         //txt
         private void TxtRname_TextChanged(object sender, EventArgs e)
         {
-            
-
             if (txtRname.Text.Trim() == "")
             {
-                btnSearch.PerformClick();
                 chkRname.Checked = false;
             }
             else
             {
                 chkRname.Checked = true;
-                btnSearch.PerformClick();
             }
            
         }
@@ -493,12 +601,10 @@ namespace MachineDeptApp
             if (txtRcode.Text.Trim() == "")
             {
                 chkRcode.Checked = false;
-                btnSearch.PerformClick();
             }
             else
             {
                 chkRcode.Checked = true;
-                btnSearch.PerformClick();
             }
         }
 

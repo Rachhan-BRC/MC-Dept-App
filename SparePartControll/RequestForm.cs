@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Media.Animation;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace MachineDeptApp.SparePartControll
@@ -47,6 +49,95 @@ namespace MachineDeptApp.SparePartControll
             this.btnUpdate.Click += BtnUpdate_Click;
             this.btnSearch.Click += BtnSearch_Click;
             this.btnExport.Click += BtnExport_Click;
+            this.btnPrint.Click += BtnPrint_Click;
+        }
+
+        private void BtnPrint_Click(object sender, EventArgs e)
+        {
+            if (dgvRequest.SelectedCells.Count > 0)
+            {
+                DataTable dtdoc = new DataTable();
+                DataTable dtmst = new DataTable();
+                DataTable dtexcel = new DataTable();
+                dtexcel.Columns.Add("code");
+                dtexcel.Columns.Add("partno");
+                dtexcel.Columns.Add("partname");
+                dtexcel.Columns.Add("usefor");
+                dtexcel.Columns.Add("supplier");
+                dtexcel.Columns.Add("maker");
+                dtexcel.Columns.Add("qty");
+                dtexcel.Columns.Add("unitprice");
+                dtexcel.Columns.Add("amount");
+                Cursor = Cursors.WaitCursor;
+                con.con.Open();
+
+                string docId = dgvRequest.Rows[dgvRequest.CurrentCell.RowIndex].Cells["pono"].Value?.ToString() ?? "";
+                string sqldoc = @"SELECT Code, Order_Qty, UnitPrice, Amount FROM MCSparePartRequest WHERE Po_No = @docId";
+                SqlDataAdapter sda = new SqlDataAdapter(sqldoc, con.con);
+                sda.SelectCommand.Parameters.AddWithValue("@docId", docId);
+                sda.Fill(dtdoc);
+                //condition
+                List<string> codellist = new List<string>();
+                foreach (DataRow row in dtdoc.Rows)
+                {
+                    codellist.Add(row["Code"].ToString());
+                }
+                string codelist1 = "('" + string.Join("','", codellist) + "')";
+                string sqlmaster = @"SELECT Code,  Part_No, Part_Name, Use_For, Supplier, Maker
+                           FROM MstMCSparePart WHERE Code IN " + codelist1;
+                SqlDataAdapter sdamaster = new SqlDataAdapter(sqlmaster, con.con);
+                sdamaster.Fill(dtmst);
+                //Combine table 
+                foreach (DataRow row1 in dtdoc.Rows)
+                {
+                    string code1 = row1["Code"]?.ToString() ?? "";
+                    double qty = row1["Order_Qty"] == DBNull.Value || row1["Order_Qty"] == null
+                      ? 0
+                      : Convert.ToDouble(row1["Order_Qty"]);
+                    double unitprice = row1["UnitPrice"] == DBNull.Value || row1["UnitPrice"] == null
+                     ? 0
+                     : Convert.ToDouble(row1["UnitPrice"]);
+                    double amount = row1["Amount"] == DBNull.Value || row1["Amount"] == null
+                   ? 0
+                   : Convert.ToDouble(row1["Amount"]);
+
+                    foreach (DataRow row2 in dtmst.Rows)
+                    {
+                        string partno = row2["Part_No"]?.ToString() ?? "";
+                        string partname = row2["Part_Name"]?.ToString() ?? "";
+                        string usefor = row2["Use_For"]?.ToString() ?? "";
+                        string supplier = row2["Supplier"]?.ToString() ?? "";
+                        string maker = row2["Maker"]?.ToString() ?? "";
+                        string code2 = row2["Code"]?.ToString() ?? "";
+                        if (code1 == code2)
+                        {
+
+                            dtexcel.Rows.Add(code1, partno, partname, usefor, supplier, maker, qty, unitprice, amount);
+                            break;
+                        }
+                    }
+                }
+                Excel.Application xlApp = new Excel.Application(); 
+                Excel.Workbook xlWorkBook = xlApp.Workbooks.Open(Path.Combine(Environment.CurrentDirectory, @"Template\SparePartRequestSheetIPO.xlsx"), Editable: true); 
+                Excel.Worksheet xlWorkSheet = (Excel.Worksheet)xlWorkBook.Sheets[1];
+                int rowIndex = 4;
+                xlWorkSheet.Cells[ 2, 10] = docId.ToString();
+                for (int i = 0; i < dtexcel.Rows.Count; i++) 
+                {
+                    DataRow row = dtexcel.Rows[i]; 
+                    if (i > 0) 
+                    {
+                        Excel.Range sourceRow = xlWorkSheet.Rows[rowIndex]; 
+                        sourceRow.Copy(); Excel.Range insertRow = xlWorkSheet.Rows[rowIndex + i]; 
+                        insertRow.Insert(Excel.XlInsertShiftDirection.xlShiftDown); 
+                    }
+                    for (int colIndex = 0; colIndex < dtexcel.Columns.Count; colIndex++) 
+                    {
+                        xlWorkSheet.Cells[rowIndex + i, colIndex + 1] = row[colIndex]?.ToString(); 
+                    }
+                }
+                xlApp.Visible = true; con.con.Close(); Cursor = Cursors.Default;
+            }
         }
 
         private void BtnExport_Click(object sender, EventArgs e)
@@ -123,7 +214,7 @@ namespace MachineDeptApp.SparePartControll
         }
 
         private void Dtpissueto_ValueChanged(object sender, EventArgs e)
-        {
+        { 
             chkissue.Checked = true;
         }
 
