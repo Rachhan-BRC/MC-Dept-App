@@ -80,7 +80,7 @@
             this.eta = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.balanceorder = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.receivedate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.planeta = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelHeader.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -277,7 +277,7 @@
             this.dgvTTL.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
@@ -300,7 +300,7 @@
             this.eta,
             this.status,
             this.balanceorder,
-            this.receivedate});
+            this.planeta});
             this.dgvTTL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTTL.EnableHeadersVisualStyles = false;
             this.dgvTTL.Location = new System.Drawing.Point(0, 144);
@@ -354,6 +354,7 @@
             this.supplier.HeaderText = "Supplyer";
             this.supplier.Name = "supplier";
             this.supplier.ReadOnly = true;
+            this.supplier.Width = 90;
             // 
             // prestock
             // 
@@ -364,7 +365,7 @@
             this.prestock.HeaderText = "Pre-Stock";
             this.prestock.Name = "prestock";
             this.prestock.ReadOnly = true;
-            this.prestock.Width = 120;
+            this.prestock.Width = 80;
             // 
             // stockout
             // 
@@ -375,7 +376,7 @@
             this.stockout.HeaderText = "Stock Out ";
             this.stockout.Name = "stockout";
             this.stockout.ReadOnly = true;
-            this.stockout.Width = 120;
+            this.stockout.Width = 85;
             // 
             // stockin
             // 
@@ -386,7 +387,7 @@
             this.stockin.HeaderText = "Stock In";
             this.stockin.Name = "stockin";
             this.stockin.ReadOnly = true;
-            this.stockin.Width = 120;
+            this.stockin.Width = 80;
             // 
             // stockremain
             // 
@@ -397,7 +398,7 @@
             this.stockremain.HeaderText = "Stock Remain";
             this.stockremain.Name = "stockremain";
             this.stockremain.ReadOnly = true;
-            this.stockremain.Width = 130;
+            this.stockremain.Width = 105;
             // 
             // safetystock
             // 
@@ -408,14 +409,14 @@
             this.safetystock.HeaderText = "Safety";
             this.safetystock.Name = "safetystock";
             this.safetystock.ReadOnly = true;
-            this.safetystock.Width = 90;
+            this.safetystock.Width = 70;
             // 
             // box
             // 
             this.box.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             this.box.DefaultCellStyle = dataGridViewCellStyle12;
-            this.box.HeaderText = "Box No.";
+            this.box.HeaderText = "Loc No.";
             this.box.Name = "box";
             this.box.ReadOnly = true;
             this.box.Width = 80;
@@ -429,6 +430,7 @@
             this.orderqty.HeaderText = "Order Qty";
             this.orderqty.Name = "orderqty";
             this.orderqty.ReadOnly = true;
+            this.orderqty.Width = 80;
             // 
             // leadtime
             // 
@@ -438,6 +440,7 @@
             this.leadtime.HeaderText = "LT (Week)";
             this.leadtime.Name = "leadtime";
             this.leadtime.ReadOnly = true;
+            this.leadtime.Width = 85;
             // 
             // eta
             // 
@@ -448,7 +451,7 @@
             this.eta.HeaderText = "Estimate Arrival";
             this.eta.Name = "eta";
             this.eta.ReadOnly = true;
-            this.eta.Width = 130;
+            this.eta.Width = 115;
             // 
             // status
             // 
@@ -467,21 +470,22 @@
             this.balanceorder.HeaderText = "Balance Order";
             this.balanceorder.Name = "balanceorder";
             this.balanceorder.ReadOnly = true;
-            this.balanceorder.Width = 130;
+            this.balanceorder.Width = 115;
             // 
-            // receivedate
+            // planeta
             // 
-            this.receivedate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.planeta.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle18.Format = "dd-MMM-yyyy";
-            this.receivedate.DefaultCellStyle = dataGridViewCellStyle18;
-            this.receivedate.HeaderText = "Receive Date";
-            this.receivedate.Name = "receivedate";
-            this.receivedate.ReadOnly = true;
-            this.receivedate.Width = 130;
+            this.planeta.DefaultCellStyle = dataGridViewCellStyle18;
+            this.planeta.HeaderText = "Plan ETA";
+            this.planeta.Name = "planeta";
+            this.planeta.ReadOnly = true;
+            this.planeta.Width = 115;
             // 
             // balance
             // 
+            this.AcceptButton = this.btnSearch;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1284, 626);
@@ -536,6 +540,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn eta;
         private System.Windows.Forms.DataGridViewTextBoxColumn status;
         private System.Windows.Forms.DataGridViewTextBoxColumn balanceorder;
-        private System.Windows.Forms.DataGridViewTextBoxColumn receivedate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn planeta;
     }
 }

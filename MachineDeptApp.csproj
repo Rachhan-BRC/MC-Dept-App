@@ -951,6 +951,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MCPlans\GenerateMCPlansForm.resx">
       <DependentUpon>GenerateMCPlansForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MCPlans\MCPlanStatusSearchForm.resx">
       <DependentUpon>MCPlanStatusSearchForm.cs</DependentUpon>

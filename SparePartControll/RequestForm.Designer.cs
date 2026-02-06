@@ -50,14 +50,13 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RequestForm));
             this.panelHeader = new System.Windows.Forms.Panel();
+            this.btnExport = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnUpdateGrey = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDeleteGray = new System.Windows.Forms.PictureBox();
             this.btnDelete = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.cbstatus = new System.Windows.Forms.ComboBox();
             this.dtpissueto = new System.Windows.Forms.DateTimePicker();
             this.dtprecdateto = new System.Windows.Forms.DateTimePicker();
@@ -78,6 +77,8 @@
             this.chkdocno = new System.Windows.Forms.CheckBox();
             this.txtcode = new System.Windows.Forms.TextBox();
             this.chkcode = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.lberror = new System.Windows.Forms.Label();
@@ -101,7 +102,7 @@
             this.orderstatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.btnExport = new System.Windows.Forms.Button();
+            this.btnPrint = new System.Windows.Forms.Button();
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGray)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -112,6 +113,7 @@
             // panelHeader
             // 
             this.panelHeader.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panelHeader.Controls.Add(this.btnPrint);
             this.panelHeader.Controls.Add(this.btnExport);
             this.panelHeader.Controls.Add(this.btnSearch);
             this.panelHeader.Controls.Add(this.btnUpdateGrey);
@@ -123,6 +125,18 @@
             this.panelHeader.Name = "panelHeader";
             this.panelHeader.Size = new System.Drawing.Size(1478, 68);
             this.panelHeader.TabIndex = 52;
+            // 
+            // btnExport
+            // 
+            this.btnExport.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.btnExport.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnExport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnExport.BackgroundImage")));
+            this.btnExport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnExport.Location = new System.Drawing.Point(1412, 5);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(48, 56);
+            this.btnExport.TabIndex = 144;
+            this.btnExport.UseVisualStyleBackColor = false;
             // 
             // btnSearch
             // 
@@ -220,24 +234,6 @@
             this.groupBox1.TabIndex = 56;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search Condition";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(859, 63);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(15, 22);
-            this.label2.TabIndex = 125;
-            this.label2.Text = "-";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(859, 27);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(15, 22);
-            this.label1.TabIndex = 125;
-            this.label1.Text = "-";
             // 
             // cbstatus
             // 
@@ -434,6 +430,24 @@
             this.chkcode.TabIndex = 117;
             this.chkcode.Text = "Code";
             this.chkcode.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(859, 63);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(15, 22);
+            this.label2.TabIndex = 125;
+            this.label2.Text = "-";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(859, 27);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(15, 22);
+            this.label1.TabIndex = 125;
+            this.label1.Text = "-";
             // 
             // panel2
             // 
@@ -708,17 +722,16 @@
             this.remark.ReadOnly = true;
             this.remark.Width = 150;
             // 
-            // btnExport
+            // btnPrint
             // 
-            this.btnExport.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnExport.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnExport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnExport.BackgroundImage")));
-            this.btnExport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnExport.Location = new System.Drawing.Point(1412, 5);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(48, 56);
-            this.btnExport.TabIndex = 144;
-            this.btnExport.UseVisualStyleBackColor = false;
+            this.btnPrint.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnPrint.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnPrint.BackgroundImage")));
+            this.btnPrint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnPrint.Location = new System.Drawing.Point(188, 5);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(57, 56);
+            this.btnPrint.TabIndex = 145;
+            this.btnPrint.UseVisualStyleBackColor = false;
             // 
             // RequestForm
             // 
@@ -799,5 +812,6 @@
         private System.Windows.Forms.DateTimePicker dtpissueto;
         private System.Windows.Forms.DateTimePicker dtprecdateto;
         private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.Button btnPrint;
     }
 }

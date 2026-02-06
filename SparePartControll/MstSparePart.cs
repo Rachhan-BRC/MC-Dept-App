@@ -223,6 +223,7 @@ namespace MachineDeptApp
                 dgvMst.Rows[dgvMst.Rows.Count - 1].Cells["unitpricejp"].Value = UpJP;
                 dgvMst.Rows[dgvMst.Rows.Count - 1].Cells["box"].Value = box;
                 dgvMst.Rows[dgvMst.Rows.Count - 1].Cells["status"].Value = status;
+                dgvMst.Columns["code"].Frozen = true;
             }
             dgvMst.ClearSelection();
             Cursor = Cursors.Default;

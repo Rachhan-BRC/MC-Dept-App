@@ -41,65 +41,71 @@ namespace MachineDeptApp
 
         private void Cbusefor_TextChanged(object sender, EventArgs e)
         {
-            Cursor = Cursors.WaitCursor;
-            DataTable dtselect = new DataTable();
-            try
+           if (AddOrUpdate == "Add")
             {
-                con.con.Open();
-                string queryusefor = "SELECT prefix, Use_For from (SELECT Code, left(code,cast((len(code)-4) as int)) as prefix, Use_For FROM MstMCSparePart " +
-                    " WHERE Code <> 'n/a' AND Use_For is not null AND Use_For = '"+cbusefor.Text+"' ) t1 " +
-                    " GROUP BY prefix, Use_For";
-                SqlDataAdapter sdaselect = new SqlDataAdapter(queryusefor, con.con);
-                sdaselect.Fill(dtselect);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error while select Usefor !" + ex.Message , "Error 1", MessageBoxButtons.OK, MessageBoxIcon.Error );
-            }
-            con.con.Close();
-            if (dtselect.Rows.Count > 0)
-            {
-                cbcodeprefix.Text = dtselect.Rows[0][0].ToString();
-            }
+                Cursor = Cursors.WaitCursor;
+                DataTable dtselect = new DataTable();
+                try
+                {
+                    con.con.Open();
+                    string queryusefor = "SELECT prefix, Use_For from (SELECT Code, left(code,cast((len(code)-4) as int)) as prefix, Use_For FROM MstMCSparePart " +
+                        " WHERE Code <> 'n/a' AND Use_For is not null AND Use_For = '" + cbusefor.Text + "' ) t1 " +
+                        " GROUP BY prefix, Use_For";
+                    SqlDataAdapter sdaselect = new SqlDataAdapter(queryusefor, con.con);
+                    sdaselect.Fill(dtselect);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error while select Usefor !" + ex.Message, "Error 1", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                con.con.Close();
+                if (dtselect.Rows.Count > 0)
+                {
+                    cbcodeprefix.Text = dtselect.Rows[0][0].ToString();
+                }
 
                 Cursor = Cursors.Default;
+            }
         }
 
         private void Cbcodeprefix_TextChanged(object sender, EventArgs e)
         {
-            Cursor = Cursors.WaitCursor;
-            DataTable dtselect = new DataTable();
-            string Code = "";
-            try
+            if (AddOrUpdate == "Add")
             {
-                con.con.Open();
-                string SQLQuery = "DECLARE @LastID VARCHAR(6); " +
-                    " DECLARE @Number int; " +
-                    " DECLARE @NewID VARCHAR(6) ; " +
-                    " DECLARE @PreFix VARCHAR(6) ='" + cbcodeprefix.Text.Trim().ToString() + "'; " +
-                    " Select @LastID = Max(Code) from MstMCSparePart where Code like @PreFix + '%' AND ISNUMERIC(SUBSTRING(Code, LEN(@PreFix) + 1, LEN(Code))) = 1 " +
-                    " IF @LastID IS NULL    BEGIN        SET @NewID = @PreFix+'0001' " +
-                    " END " +
-                    " ELSE " +
-                    "    BEGIN  SET @Number = CAST(right(@LastID,4) AS INT)+1" +
-                    "  SET @NewID = CONCAT(@PreFix, format(@Number, '0000')) " +
-                    " END " +
-                    " Select @NewID as NextCode ";
-                SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, con.con);
-                Console.WriteLine(SQLQuery);
-                sda.Fill(dtselect);
+                Cursor = Cursors.WaitCursor;
+                DataTable dtselect = new DataTable();
+                string Code = "";
+                try
+                {
+                    con.con.Open();
+                    string SQLQuery = "DECLARE @LastID VARCHAR(6); " +
+                        " DECLARE @Number int; " +
+                        " DECLARE @NewID VARCHAR(6) ; " +
+                        " DECLARE @PreFix VARCHAR(6) ='" + cbcodeprefix.Text.Trim().ToString() + "'; " +
+                        " Select @LastID = Max(Code) from MstMCSparePart where Code like @PreFix + '%' AND ISNUMERIC(SUBSTRING(Code, LEN(@PreFix) + 1, LEN(Code))) = 1 " +
+                        " IF @LastID IS NULL    BEGIN        SET @NewID = @PreFix+'0001' " +
+                        " END " +
+                        " ELSE " +
+                        "    BEGIN  SET @Number = CAST(right(@LastID,4) AS INT)+1" +
+                        "  SET @NewID = CONCAT(@PreFix, format(@Number, '0000')) " +
+                        " END " +
+                        " Select @NewID as NextCode ";
+                    SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, con.con);
+                    Console.WriteLine(SQLQuery);
+                    sda.Fill(dtselect);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error while select code !\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                con.con.Close();
+                foreach (DataRow row in dtselect.Rows)
+                {
+                    Code = row["NextCode"].ToString();
+                }
+                Cursor = Cursors.Default;
+                txtcode.Text = Code;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error while select code !\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            con.con.Close();
-            foreach (DataRow row in dtselect.Rows)
-            {
-                Code = row["NextCode"].ToString();
-            }
-            Cursor = Cursors.Default;
-            txtcode.Text = Code;
         }
 
         private void Txtleadtime_KeyPress(object sender, KeyPressEventArgs e)
@@ -165,7 +171,6 @@ namespace MachineDeptApp
                     moq.Trim() != "")
             {
               
-
                 if (AddOrUpdate == "Add")
                 {
                     foreach (DataGridViewRow row in dgvMain.Rows)
@@ -253,92 +258,78 @@ namespace MachineDeptApp
                 //Update
                 else
                 {
-                    int success = 0;
-                    foreach (DataGridViewRow row in dgvMain.Rows)
+                    try
                     {
-                        string dgvcode = row.Cells["code"].Value.ToString();
-                        string textcode = txtcode.Text.Trim().ToString();
-                        if (dgvcode == textcode)
+                        int success = 0;
+                        string Up = "";
+                        double upUPDATE = 0;
+                        if (chkup.Checked)
                         {
-                            string Up = "";
-                            double upUPDATE = 0;
-                            if (chkup.Checked)
-                            {
-                                Up = "Unit_Price ";
-                                upUPDATE = Convert.ToDouble(txtunitprice.Text.Trim());
-                            }
-                            else if (chkupcn.Checked)
-                            {
-                                Up = "Unit_Price_CN ";
-                                upUPDATE = Convert.ToDouble(txtunitprice.Text.Trim());
-                            }
-                            else if (chkupjp.Checked)
-                            {
-                                Up = "Unit_Price_JP ";
-                                upUPDATE = Convert.ToDouble(txtunitprice.Text.Trim());
-                            }
-                            DateTime date2 = DateTime.Now;
-                            string rm = "Update: " + date2.ToString("dd-MM-yyyy");
-                            Cursor = Cursors.WaitCursor;
+                            Up = "Unit_Price ";
+                            upUPDATE = Convert.ToDouble(txtunitprice.Text.Trim());
+                        }
+                        else if (chkupcn.Checked)
+                        {
+                            Up = "Unit_Price_CN ";
+                            upUPDATE = Convert.ToDouble(txtunitprice.Text.Trim());
+                        }
+                        else if (chkupjp.Checked)
+                        {
+                            Up = "Unit_Price_JP ";
+                            upUPDATE = Convert.ToDouble(txtunitprice.Text.Trim());
+                        }
+                        DateTime date2 = DateTime.Now;
+                        string rm = "Update: " + date2.ToString("dd-MM-yyyy");
+                        Cursor = Cursors.WaitCursor;
 
-                            con.con.Open();
-                            string query = "UPDATE MstMCSparePart SET " +
-                       "Part_No = @pno, " +
-                       "Part_Name = @pname, " +
-                       "Dept = @dept, " +
-                       "Category = @cate, " +
-                       "Maker = @maker, " +
-                       "Use_For = @usefor, " +
-                       "Supplier = @sup, " +
-                       "Safety_Stock = @safe, " +
-                       "Lead_Time_Week = @LT, " +
-                       "MOQ = @moq, " +
-                       " " + Up + " = @up, " +
-                       "Remark = @rm " +
-                        "Box = @box " +
-                         "Status = @st " +
-                       "WHERE Code = @code";
-                            SqlCommand cmd = new SqlCommand(query, con.con);
-                            cmd.Parameters.AddWithValue("@code", Code);
-                            cmd.Parameters.AddWithValue("@pno", pnum);
-                            cmd.Parameters.AddWithValue("@pname", pname);
-                            cmd.Parameters.AddWithValue("@dept", dept);
-                            cmd.Parameters.AddWithValue("@cate", cate);
-                            cmd.Parameters.AddWithValue("@maker", maker);
-                            cmd.Parameters.AddWithValue("@usefor", use);
-                            cmd.Parameters.AddWithValue("@sup", sup);
-                            cmd.Parameters.AddWithValue("@safe", safe);
-                            cmd.Parameters.AddWithValue("@LT", LT);
-                            cmd.Parameters.AddWithValue("@moq", moq);
-                            cmd.Parameters.AddWithValue("@rm", rm);
-                            cmd.Parameters.AddWithValue("@up", upUPDATE);
-                            cmd.ExecuteNonQuery();
-                            //Update the DataGridView
-                            dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["code"].Value = Code;
-                            dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["Pno"].Value = pnum;
-                            dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["Pname"].Value = pname;
-                            dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["category"].Value = cate;
-                            dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["maker"].Value = maker;
-                            dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["usefor"].Value = use;
-                            dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["supplier"].Value = sup;
-                            dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["safetystock"].Value = safe;
-                            dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["LTWeek"].Value = LT;
-                            dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["moq"].Value = moq;
-                            dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["unitprice"].Value = up;
-                            dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["unitpricecn"].Value = upcn;
-                            dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["unitpricejp"].Value = upjp;
-
-                            dgvMain.ClearSelection();
-                            dgvMain.CurrentCell = null;
-                            con.con.Close();
-                            Cursor = Cursors.Default;
-                            MessageBox.Show(" Updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            success++;
+                        con.con.Open();
+                        string queryUpdate = "UPDATE MstMCSparePart SET Part_No = @pno, Part_Name = @pname, Category = @cate, Maker = @maker, Use_For = @usefor, " +
+                            "Supplier = @sup, Safety_Stock = @safe, Lead_Time_Week = @LT, MOQ = @moq, Remark = @rm, "+ Up + " = @up, Box = @box, Status = @st WHERE Code = @code AND Dept = @dept";
+                        SqlCommand cmd = new SqlCommand(queryUpdate, con.con);
+                        cmd.Parameters.AddWithValue("@code", Code);
+                        cmd.Parameters.AddWithValue("@pno", pnum);
+                        cmd.Parameters.AddWithValue("@dept", dept);
+                        cmd.Parameters.AddWithValue("@pname", pname);
+                        cmd.Parameters.AddWithValue("@cate", cate);
+                        cmd.Parameters.AddWithValue("@maker", maker);
+                        cmd.Parameters.AddWithValue("@usefor", use);
+                        cmd.Parameters.AddWithValue("@sup", sup);
+                        cmd.Parameters.AddWithValue("@safe", safe);
+                        cmd.Parameters.AddWithValue("@LT", LT);
+                        cmd.Parameters.AddWithValue("@moq", moq);
+                        cmd.Parameters.AddWithValue("@rm", rm);
+                        cmd.Parameters.AddWithValue("@up", upUPDATE);
+                        cmd.Parameters.AddWithValue("@box", txtbox.Text);
+                        cmd.Parameters.AddWithValue("@st", cbstatus.Text);
+                        cmd.ExecuteNonQuery();
+                        //Update the DataGridView
+                        dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["code"].Value = Code;
+                        dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["Pno"].Value = pnum;
+                        dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["Pname"].Value = pname;
+                        dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["category"].Value = cate;
+                        dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["maker"].Value = maker;
+                        dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["usefor"].Value = use;
+                        dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["supplier"].Value = sup;
+                        dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["safetystock"].Value = safe;
+                        dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["LTWeek"].Value = LT;
+                        dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["moq"].Value = moq;
+                        dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["unitprice"].Value = up;
+                        dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["unitpricecn"].Value = upcn;
+                        dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["unitpricejp"].Value = upjp;
+                        dgvMain.ClearSelection();
+                        dgvMain.CurrentCell = null;
+                        con.con.Close();
+                        Cursor = Cursors.Default;
+                        success++;
+                        MessageBox.Show(" Updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (success > 0)
+                        {
+                            this.Close();
                         }
                     }
-                    if (success>0)
+                    catch (Exception ex)
                     {
-                        this.Close();
+                        MessageBox.Show("Error While updating " + ex.Message, "Error Update", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -348,18 +339,19 @@ namespace MachineDeptApp
 
         private void BtnClear_Click(object sender, EventArgs e)
         {
-            txtcode.Text = "";
+           
             txtpname.Text = "";
             txtpnumber.Text = "";
             txtleadtime.Text =  "";
             txtmoq.Text = "";
             txtsafetystock.Text = "";
             txtunitprice.Text = "";
-            cbcodeprefix.Text = "";
+            txtbox.Text = "'";
             cbcategory.Text = "";
             cbmaker.Text = "";
             cbsupplier.Text = "";
-            cbusefor.Text = "";
+            cbstatus.Text = "";
+
         }
 
         private void RegUpdateForm_Load(object sender, EventArgs e)
@@ -383,6 +375,8 @@ namespace MachineDeptApp
                 txtleadtime.Text = dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["LTWeek"].Value.ToString();
                 txtmoq.Text = dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["moq"].Value.ToString();
                  txtunitprice.Text = dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["unitprice"].Value.ToString();
+                txtbox.Text = dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["box"].Value.ToString();
+                cbstatus.Text = dgvMain.Rows[dgvMain.CurrentCell.RowIndex].Cells["status"].Value.ToString();
             }
         }
     }
