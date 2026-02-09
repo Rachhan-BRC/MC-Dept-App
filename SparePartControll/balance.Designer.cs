@@ -29,25 +29,25 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(balance));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle57 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle46 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle47 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle48 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle49 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle50 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle51 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle52 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle53 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle54 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle55 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle56 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.btnPrint = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
@@ -81,6 +81,8 @@
             this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.balanceorder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.planeta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.chkstatus = new System.Windows.Forms.CheckBox();
+            this.cbstatus = new System.Windows.Forms.ComboBox();
             this.panelHeader.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -137,11 +139,13 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.groupBox1.Controls.Add(this.cbstatus);
             this.groupBox1.Controls.Add(this.dtpDate);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtRcode);
             this.groupBox1.Controls.Add(this.chkRcode);
             this.groupBox1.Controls.Add(this.txtRname);
+            this.groupBox1.Controls.Add(this.chkstatus);
             this.groupBox1.Controls.Add(this.chkRname);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -157,7 +161,7 @@
             this.dtpDate.CustomFormat = "MMM-yyyy";
             this.dtpDate.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDate.Location = new System.Drawing.Point(494, 29);
+            this.dtpDate.Location = new System.Drawing.Point(457, 32);
             this.dtpDate.Name = "dtpDate";
             this.dtpDate.Size = new System.Drawing.Size(123, 30);
             this.dtpDate.TabIndex = 125;
@@ -166,7 +170,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(447, 31);
+            this.label1.Location = new System.Drawing.Point(410, 34);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 24);
             this.label1.TabIndex = 124;
@@ -175,7 +179,7 @@
             // txtRcode
             // 
             this.txtRcode.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRcode.Location = new System.Drawing.Point(99, 29);
+            this.txtRcode.Location = new System.Drawing.Point(80, 32);
             this.txtRcode.Name = "txtRcode";
             this.txtRcode.Size = new System.Drawing.Size(101, 30);
             this.txtRcode.TabIndex = 122;
@@ -184,7 +188,7 @@
             // 
             this.chkRcode.AutoSize = true;
             this.chkRcode.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkRcode.Location = new System.Drawing.Point(35, 33);
+            this.chkRcode.Location = new System.Drawing.Point(28, 34);
             this.chkRcode.Name = "chkRcode";
             this.chkRcode.Size = new System.Drawing.Size(58, 26);
             this.chkRcode.TabIndex = 117;
@@ -194,7 +198,7 @@
             // txtRname
             // 
             this.txtRname.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRname.Location = new System.Drawing.Point(320, 29);
+            this.txtRname.Location = new System.Drawing.Point(285, 30);
             this.txtRname.Name = "txtRname";
             this.txtRname.Size = new System.Drawing.Size(101, 30);
             this.txtRname.TabIndex = 116;
@@ -203,7 +207,7 @@
             // 
             this.chkRname.AutoSize = true;
             this.chkRname.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkRname.Location = new System.Drawing.Point(226, 33);
+            this.chkRname.Location = new System.Drawing.Point(201, 34);
             this.chkRname.Name = "chkRname";
             this.chkRname.Size = new System.Drawing.Size(88, 26);
             this.chkRname.TabIndex = 118;
@@ -267,22 +271,22 @@
             this.dgvTTL.AllowUserToAddRows = false;
             this.dgvTTL.AllowUserToDeleteRows = false;
             this.dgvTTL.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Lavender;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvTTL.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle39.BackColor = System.Drawing.Color.Lavender;
+            dataGridViewCellStyle39.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle39.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle39.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle39.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvTTL.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle39;
             this.dgvTTL.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvTTL.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvTTL.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle40.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle40.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle40.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle40.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle40.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle40.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvTTL.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle40;
             this.dgvTTL.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTTL.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Code,
@@ -307,11 +311,11 @@
             this.dgvTTL.Name = "dgvTTL";
             this.dgvTTL.ReadOnly = true;
             this.dgvTTL.RowHeadersVisible = false;
-            dataGridViewCellStyle19.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvTTL.RowsDefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle57.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle57.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle57.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle57.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvTTL.RowsDefaultCellStyle = dataGridViewCellStyle57;
             this.dgvTTL.RowTemplate.Height = 25;
             this.dgvTTL.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvTTL.Size = new System.Drawing.Size(1284, 439);
@@ -320,8 +324,8 @@
             // Code
             // 
             this.Code.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Code.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Code.DefaultCellStyle = dataGridViewCellStyle41;
             this.Code.HeaderText = "Code";
             this.Code.Name = "Code";
             this.Code.ReadOnly = true;
@@ -329,8 +333,8 @@
             // partno
             // 
             this.partno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.partno.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle42.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.partno.DefaultCellStyle = dataGridViewCellStyle42;
             this.partno.HeaderText = "Part No.";
             this.partno.Name = "partno";
             this.partno.ReadOnly = true;
@@ -339,8 +343,8 @@
             // partname
             // 
             this.partname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.partname.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.partname.DefaultCellStyle = dataGridViewCellStyle43;
             this.partname.HeaderText = "Part Name";
             this.partname.Name = "partname";
             this.partname.ReadOnly = true;
@@ -349,8 +353,8 @@
             // supplier
             // 
             this.supplier.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.supplier.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.supplier.DefaultCellStyle = dataGridViewCellStyle44;
             this.supplier.HeaderText = "Supplyer";
             this.supplier.Name = "supplier";
             this.supplier.ReadOnly = true;
@@ -359,9 +363,9 @@
             // prestock
             // 
             this.prestock.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle7.Format = "N0";
-            this.prestock.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle45.Format = "N0";
+            this.prestock.DefaultCellStyle = dataGridViewCellStyle45;
             this.prestock.HeaderText = "Pre-Stock";
             this.prestock.Name = "prestock";
             this.prestock.ReadOnly = true;
@@ -370,9 +374,9 @@
             // stockout
             // 
             this.stockout.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle8.Format = "N0";
-            this.stockout.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle46.Format = "N0";
+            this.stockout.DefaultCellStyle = dataGridViewCellStyle46;
             this.stockout.HeaderText = "Stock Out ";
             this.stockout.Name = "stockout";
             this.stockout.ReadOnly = true;
@@ -381,9 +385,9 @@
             // stockin
             // 
             this.stockin.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle9.Format = "N0";
-            this.stockin.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle47.Format = "N0";
+            this.stockin.DefaultCellStyle = dataGridViewCellStyle47;
             this.stockin.HeaderText = "Stock In";
             this.stockin.Name = "stockin";
             this.stockin.ReadOnly = true;
@@ -392,9 +396,9 @@
             // stockremain
             // 
             this.stockremain.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle10.Format = "N0";
-            this.stockremain.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle48.Format = "N0";
+            this.stockremain.DefaultCellStyle = dataGridViewCellStyle48;
             this.stockremain.HeaderText = "Stock Remain";
             this.stockremain.Name = "stockremain";
             this.stockremain.ReadOnly = true;
@@ -403,9 +407,9 @@
             // safetystock
             // 
             this.safetystock.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle11.Format = "N0";
-            this.safetystock.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle49.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle49.Format = "N0";
+            this.safetystock.DefaultCellStyle = dataGridViewCellStyle49;
             this.safetystock.HeaderText = "Safety";
             this.safetystock.Name = "safetystock";
             this.safetystock.ReadOnly = true;
@@ -414,8 +418,8 @@
             // box
             // 
             this.box.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.box.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.box.DefaultCellStyle = dataGridViewCellStyle50;
             this.box.HeaderText = "Loc No.";
             this.box.Name = "box";
             this.box.ReadOnly = true;
@@ -424,9 +428,9 @@
             // orderqty
             // 
             this.orderqty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle13.Format = "N0";
-            this.orderqty.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle51.Format = "N0";
+            this.orderqty.DefaultCellStyle = dataGridViewCellStyle51;
             this.orderqty.HeaderText = "Order Qty";
             this.orderqty.Name = "orderqty";
             this.orderqty.ReadOnly = true;
@@ -435,8 +439,8 @@
             // leadtime
             // 
             this.leadtime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.leadtime.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.leadtime.DefaultCellStyle = dataGridViewCellStyle52;
             this.leadtime.HeaderText = "LT (Week)";
             this.leadtime.Name = "leadtime";
             this.leadtime.ReadOnly = true;
@@ -445,9 +449,9 @@
             // eta
             // 
             this.eta.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle15.Format = "dd-MMM-yyyy";
-            this.eta.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle53.Format = "dd-MMM-yyyy";
+            this.eta.DefaultCellStyle = dataGridViewCellStyle53;
             this.eta.HeaderText = "Estimate Arrival";
             this.eta.Name = "eta";
             this.eta.ReadOnly = true;
@@ -456,8 +460,8 @@
             // status
             // 
             this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.status.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.status.DefaultCellStyle = dataGridViewCellStyle54;
             this.status.HeaderText = "Status";
             this.status.Name = "status";
             this.status.ReadOnly = true;
@@ -465,8 +469,8 @@
             // balanceorder
             // 
             this.balanceorder.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.balanceorder.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.balanceorder.DefaultCellStyle = dataGridViewCellStyle55;
             this.balanceorder.HeaderText = "Balance Order";
             this.balanceorder.Name = "balanceorder";
             this.balanceorder.ReadOnly = true;
@@ -475,13 +479,38 @@
             // planeta
             // 
             this.planeta.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle18.Format = "dd-MMM-yyyy";
-            this.planeta.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle56.Format = "dd-MMM-yyyy";
+            this.planeta.DefaultCellStyle = dataGridViewCellStyle56;
             this.planeta.HeaderText = "Plan ETA";
             this.planeta.Name = "planeta";
             this.planeta.ReadOnly = true;
             this.planeta.Width = 115;
+            // 
+            // chkstatus
+            // 
+            this.chkstatus.AutoSize = true;
+            this.chkstatus.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkstatus.Location = new System.Drawing.Point(611, 32);
+            this.chkstatus.Name = "chkstatus";
+            this.chkstatus.Size = new System.Drawing.Size(63, 26);
+            this.chkstatus.TabIndex = 118;
+            this.chkstatus.Text = "Status";
+            this.chkstatus.UseVisualStyleBackColor = true;
+            // 
+            // cbstatus
+            // 
+            this.cbstatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbstatus.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbstatus.FormattingEnabled = true;
+            this.cbstatus.Items.AddRange(new object[] {
+            "",
+            "Order",
+            "No Order"});
+            this.cbstatus.Location = new System.Drawing.Point(680, 30);
+            this.cbstatus.Name = "cbstatus";
+            this.cbstatus.Size = new System.Drawing.Size(98, 32);
+            this.cbstatus.TabIndex = 126;
             // 
             // balance
             // 
@@ -541,5 +570,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn status;
         private System.Windows.Forms.DataGridViewTextBoxColumn balanceorder;
         private System.Windows.Forms.DataGridViewTextBoxColumn planeta;
+        private System.Windows.Forms.CheckBox chkstatus;
+        private System.Windows.Forms.ComboBox cbstatus;
     }
 }
