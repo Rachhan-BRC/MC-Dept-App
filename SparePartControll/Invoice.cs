@@ -30,11 +30,18 @@ namespace MachineDeptApp
             //this.dgvPo.CellClick += DgvPo_CellClick;
             //this.btnDelete.Click += BtnDelete_Click;*/
             this.btnSave.Click += BtnSave_Click;
+            this.btnCancel.Click += BtnCancel_Click;
             this.btnSearch.Click += BtnSearch_Click;
             this.Load += InvoiceForm_Load;
             this.txtInvoice.KeyDown += TxtInvoice_KeyDown;
             this.btnNew.Click += BtnNew_Click;
             this.dgvInvoice.CellValueChanged += DgvInvoice_CellValueChanged;
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            gpproblem.Visible = false;
+            btnCancel.Visible = false;
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)
@@ -215,7 +222,6 @@ namespace MachineDeptApp
             catch (Exception ex)
             {
                 MessageBox.Show("Error while selecting table request: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-       
                 error++;
             }
             con.con.Close();
@@ -242,31 +248,49 @@ namespace MachineDeptApp
             //Compare stock
             try
             {
+                int big = 0;
                 Cursor = Cursors.WaitCursor;
                 DateTime now = DateTime.Now;
                 //Loop Compare
+                DataTable dtBigger = new DataTable();
+                dtBigger.Columns.Add("Code");
+                dtBigger.Columns.Add("IPO");
+                dgvbig.Rows.Clear();
                 foreach (DataGridViewRow row1 in dgvInvoice.Rows)
                 {
                     string CodeIN = row1.Cells["code"]?.Value?.ToString() ?? "";
+                    string ponoIN = row1.Cells["pono"]?.Value?.ToString() ?? "";
                     double recqty = double.TryParse(row1.Cells["qty"]?.Value?.ToString(), out var q) ? q : 0;
                     foreach (DataRow row2 in dtselect.Rows)
                     {
-                        string MCdocNo = row2["MCDocNo"].ToString();
                         string CodeSelect = row2["Code"].ToString();
                         string ponoSelect = row2["PO_No"].ToString();
                         double balance = row2["Balance"] != DBNull.Value ? Convert.ToDouble(row2["Balance"]) : 0;
 
-                        if (CodeIN == CodeSelect && string.IsNullOrEmpty(MCdocNo))
+                        if (CodeIN == CodeSelect && ponoIN == ponoSelect)
                         {
                             if (recqty > balance)
                             {
-                                MessageBox.Show("Receive Qty cannot bigger than balance !", "Please check.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                con.con.Close();
-                                Cursor = Cursors.Default;
-                                return;
+                                dtBigger.Rows.Add(CodeIN, ponoIN);
+                                big++;
                             }
                         }
                     }
+                }
+                if (big > 0)
+                {
+                    MessageBox.Show("Receive Qty cannot bigger than balance \n!", "Please check.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    gpproblem.Visible = true;
+                    btnCancel.Visible = true;
+                    foreach (DataRow row in dtBigger.Rows)
+                    {
+                        dgvbig.Rows.Add();
+                        dgvbig.Rows[dgvbig.Rows.Count -1].Cells["codebig"].Value = row["Code"].ToString();
+                        dgvbig.Rows[dgvbig.Rows.Count - 1].Cells["ipobig"].Value = row["IPO"].ToString();
+                    }
+                    con.con.Close();
+                    Cursor = Cursors.Default;
+                    return;
                 }
             }
             catch (Exception ex)
