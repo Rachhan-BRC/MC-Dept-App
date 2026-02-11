@@ -28,10 +28,23 @@ namespace MachineDeptApp
             ////txt
             this.txtRcode.TextChanged += TxtRcode_TextChanged;
             this.txtRname.TextChanged += TxtRname_TextChanged;
+            this.cbstatus.TextChanged += Cbstatus_TextChanged;
 
             //form
             this.Shown += Balance_Shown;
 
+        }
+
+        private void Cbstatus_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(cbstatus.Text.Trim()))
+            {
+                chkstatus.Checked = true;
+            }
+            else
+            {
+                chkstatus.Checked = false;
+            }
         }
 
         private void Balance_Shown(object sender, EventArgs e)
@@ -357,19 +370,18 @@ namespace MachineDeptApp
                 string partno = row["PartNo"]?.ToString() ?? "";
                 string supplier = row["Supplier"]?.ToString() ?? "";
                 string partName = row["PartName"]?.ToString() ?? "";
-                int qtyIn = int.TryParse(row["QtyIn"]?.ToString(), out var In) ? In : 0;
-                int qtyOut = int.TryParse(row["QtyOut"]?.ToString(), out var Out) ? Out : 0;
+                double qtyIn = double.TryParse(row["QtyIn"]?.ToString(), out var In) ? In : 0;
+                double qtyOut = double.TryParse(row["QtyOut"]?.ToString(), out var Out) ? Out : 0;
                 int preQty = int.TryParse(row["PreQty"]?.ToString(), out var pre) ? pre : 0;
-                int remain = int.TryParse(row["StockRemain"]?.ToString(), out var re) ? re : 0;
+                double remain = double.TryParse(row["StockRemain"]?.ToString(), out var re) ? re : 0;
                 int safety = int.TryParse(row["Safety"]?.ToString(), out var safe) ? safe : 0;
                 int balance = int.TryParse(row["Balance"]?.ToString(), out var bal) ? bal : 0;
                 int LT = int.TryParse(row["LT"]?.ToString(), out var val) ? val : 0;
                 string box = row["Box"]?.ToString() ?? "";
-                int statval = Convert.ToInt32(qtyIn - qtyOut - safety);
+                double statval = Convert.ToDouble(qtyIn - qtyOut - safety);
                 DateTime? planeta = row["PlanEta"] == DBNull.Value
     ? null
     : (DateTime?)row["PlanEta"];
-
 
 
                 dgvTTL.Rows.Add();
@@ -377,11 +389,11 @@ namespace MachineDeptApp
                 dgvTTL.Rows[dgvTTL.Rows.Count -1].Cells["partno"].Value = partno;
                 dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partname"].Value = partName;
                 dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["supplier"].Value = supplier;
-                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockin"].Value = Convert.ToDouble(qtyIn);
-                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockout"].Value = Convert.ToDouble(qtyOut);
-                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["prestock"].Value = Convert.ToDouble(preQty);
-                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockremain"].Value = Convert.ToDouble(remain);
-                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["safetystock"].Value = Convert.ToDouble(safety);
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockin"].Value = qtyIn;
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockout"].Value =qtyOut;
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["prestock"].Value = preQty;
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["stockremain"].Value =remain;
+                dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["safetystock"].Value = safety;
                 dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["Leadtime"].Value = LT;
                 int lead = (LT / 4);
                 DateTime eta = DateTime.Now.AddMonths(lead);

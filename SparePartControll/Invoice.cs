@@ -90,6 +90,7 @@ namespace MachineDeptApp
                     else
                     {
                         DataTable dtfill = new DataTable();
+                        DataTable dtmaster = new DataTable();
                         try
                         {
                             con.con.Open();
@@ -108,38 +109,60 @@ namespace MachineDeptApp
                             MessageBox.Show("Error while selecting fill dgv !", "Error SelectFill", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         con.con.Close();
+                        try
+                        {
+                            con.con.Open();
+                            string querymaster = "SELECT Code FROM MstMCSparePart WHERE Dept = '" + dept+"'" ;
+                            SqlDataAdapter sda = new SqlDataAdapter(querymaster, con.con);
+                            sda.Fill(dtmaster);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error while select compare master !"+ex.Message, "Error master", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        con.con.Close();
                         if (dtfill.Rows.Count > 0)
                         {
                             foreach (DataRow row in dtfill.Rows)
                             {
-                                dgvInvoice.Rows.Add();
-                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["description"].Value = "SPARE PART";
-                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["code"].Value = row["ItemCode"].ToString();
-                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["partname"].Value = row["Part_Name"].ToString();
-                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["Pno"].Value = row["Part_No"].ToString();
-                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["pono"].Value = row["PurchaseNo"].ToString();
-                                double qty;
-                                if (double.TryParse(row["Qty"].ToString(), out qty))
+                                string code1 = row["ItemCode"].ToString();
+                              foreach (DataRow row1 in dtmaster.Rows)
                                 {
-                                    dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["qty"].Value = qty;
-                                }
-                                double priceusd;
-                                if (double.TryParse(row["UnitPrice"].ToString(), out priceusd))
-                                {
-                                    dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["priceusd"].Value = priceusd;
-                                }
-                                double amt;
-                                if (double.TryParse(row["Amount"].ToString(), out amt))
-                                {
-                                    dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["amountusd"].Value = amt;
-                                }
-                                dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["invoiceno"].Value = row["DONo"].ToString();
-                                DateTime date;
-                                if (DateTime.TryParse(row["RecvDate"].ToString(), out date))
-                                {
-                                    dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["invoicedate"].Value = date;
+                                    string code2 = row1["Code"].ToString();
+                                    if (code1 == code2)
+                                    {
+                                        dgvInvoice.Rows.Add();
+                                        dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["description"].Value = "SPARE PART";
+                                        dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["code"].Value = row["ItemCode"].ToString();
+                                        dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["partname"].Value = row["Part_Name"].ToString();
+                                        dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["Pno"].Value = row["Part_No"].ToString();
+                                        dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["pono"].Value = row["PurchaseNo"].ToString();
+                                        double qty;
+                                        if (double.TryParse(row["Qty"].ToString(), out qty))
+                                        {
+                                            dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["qty"].Value = qty;
+                                        }
+                                        double priceusd;
+                                        if (double.TryParse(row["UnitPrice"].ToString(), out priceusd))
+                                        {
+                                            dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["priceusd"].Value = priceusd;
+                                        }
+                                        double amt;
+                                        if (double.TryParse(row["Amount"].ToString(), out amt))
+                                        {
+                                            dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["amountusd"].Value = amt;
+                                        }
+                                        dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["invoiceno"].Value = row["DONo"].ToString();
+                                        DateTime date;
+                                        if (DateTime.TryParse(row["RecvDate"].ToString(), out date))
+                                        {
+                                            dgvInvoice.Rows[dgvInvoice.Rows.Count - 1].Cells["invoicedate"].Value = date;
+                                        }
+
+                                    }
                                 }
                             }
+
                             btnSave.Enabled = true;
                             btnSave.BringToFront();
                             txtInvoice.Focus();
