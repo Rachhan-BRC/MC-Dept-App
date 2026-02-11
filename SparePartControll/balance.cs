@@ -324,7 +324,7 @@ namespace MachineDeptApp
                 int year = dtpDate.Value.Year;
                 int month = dtpDate.Value.Month;
                 int day = DateTime.DaysInMonth(year, month);
-                DateTime firstDay = new DateTime(year, month, 1);
+                DateTime firstDay = new DateTime(year, month,1);
                 DateTime lastDay = new DateTime(year, month, day);
 
                 //for pre stockint 
@@ -352,11 +352,13 @@ namespace MachineDeptApp
                 using (SqlCommand cmd = new SqlCommand(query, con.con)) 
                 {
                     cmd.Parameters.AddWithValue("@preStockLastDay", preStockLastDay); 
-                    cmd.Parameters.AddWithValue("@firstDay", firstDay); 
+                    cmd.Parameters.AddWithValue("@firstDay", lastDay); 
                     SqlDataAdapter sda = new SqlDataAdapter(cmd); 
                     sda.Fill(dtselect); 
                 }
                 Console.WriteLine(query);
+                Console.WriteLine(firstDay);
+                Console.WriteLine(preStockLastDay);
                 dtpDate.Value = lastDay;
             }
             catch (Exception ex)
