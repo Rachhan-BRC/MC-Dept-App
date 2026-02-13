@@ -130,7 +130,7 @@ namespace MachineDeptApp
 
             var safetySeries = new Series("Safety") { ChartType = SeriesChartType.Line, Color = Color.Gold, BorderWidth = 2 };
             var targetSeries = new Series("Target") { ChartType = SeriesChartType.Line, Color = Color.Red, BorderWidth = 2 };
-            var actualSeries = new Series("Actual Order") { ChartType = SeriesChartType.Column, IsValueShownAsLabel = true, LabelForeColor = Color.Blue, Font = new Font("Arial", 10, FontStyle.Bold), Color = Color.SteelBlue };
+            var actualSeries = new Series("Actual Order") { ChartType = SeriesChartType.Column, IsValueShownAsLabel = true, LabelForeColor = Color.Blue, Font = new Font("Arial", 10, FontStyle.Bold), Color = Color.LightGreen };
 
             for (int i = 0; i < months.Length; i++)
             {
@@ -443,14 +443,15 @@ namespace MachineDeptApp
             try
             {
                 con.con.Open();
-                string query = "SELECT FORMAT(IssueDate, 'yyyy-MM') AS YearMonth, " +
+                string query = "SELECT FORMAT(Receive_Date, 'yyyy-MM') AS YearMonth, " +
                     "SUM(Amount) AS ActualOrder " +
                     "FROM MCSparePartRequest " +
                     "WHERE Dept = '"+dept+"' " +
-                    "GROUP BY FORMAT(IssueDate, 'yyyy-MM') " +
+                    "GROUP BY FORMAT(Receive_Date, 'yyyy-MM') " +
                     "ORDER BY YearMonth;";
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtActual);
+                Console.WriteLine(query);
             }
             catch (Exception ex)
             {
@@ -460,10 +461,10 @@ namespace MachineDeptApp
             try
             {
                 con.con.Open();
-                string query = "SELECT FORMAT(IssueDate, 'yyyy-MM') AS YearMonth, SUM(RemainAmount) AS TotalRemain " +
+                string query = "SELECT FORMAT(Receive_Date, 'yyyy-MM') AS YearMonth, SUM(RemainAmount) AS TotalRemain " +
                     "FROM MCSparePartRequest " +
                     "WHERE Dept = '"+dept+"'" +
-                    "GROUP BY FORMAT(IssueDate, 'yyyy-MM') " +
+                    "GROUP BY FORMAT(Receive_Date, 'yyyy-MM') " +
                     "ORDER BY YearMonth;";
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtRemain);
@@ -652,9 +653,9 @@ namespace MachineDeptApp
                 //gap
                 for (int i = 2; i < 14; i++)
                 {
-                    double  target = Convert.ToDouble(dgvBudget.Rows[dgvBudget.Rows.Count - 5].Cells[i].Value);
+                    double  target = Convert.ToDouble(dgvBudget.Rows[dgvBudget.Rows.Count - 6].Cells[i].Value);
                     double actualorder = Convert.ToDouble(dgvBudget.Rows[dgvBudget.Rows.Count - 4].Cells[i].Value);
-                    double gap = Convert.ToDouble(target - actualorder);
+                    double gap = Convert.ToDouble(actualorder - target);
                     dgvBudget.Rows[dgvBudget.Rows.Count -3].Cells[i].Value = gap;
                 }
                 //actual receive
