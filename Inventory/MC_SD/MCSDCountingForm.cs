@@ -4,14 +4,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.TextFormatting;
-using System.IO;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace MachineDeptApp
 {
@@ -33,29 +35,129 @@ namespace MachineDeptApp
             this.txtcode.KeyDown += Txtcode_KeyDown;
             this.txtremainL.TextChanged += TxtremainL_TextChanged;
             this.txtses.TextChanged += Txtses_TextChanged;
+            this.txtbobin.TextChanged += Txtbobin_TextChanged;
             this.btnPrint.Click += BtnPrint_Click;
 
         }
 
+        private void Txtbobin_TextChanged(object sender, EventArgs e)
+        {
+            double remainL;
+            double bobin;
+            int ses;
+            if (!double.TryParse(txtremainL.Text.Trim(), out remainL))
+                remainL = 0; // or handle invalid input
+
+            if (!double.TryParse(txtbobin.Text.Trim(), out bobin))
+                bobin = 0;
+
+            if (!int.TryParse(txtses.Text.Trim(), out ses))
+                ses = 0;
+
+            double qty = 0;
+            qty = (remainL * bobin) + ses;
+            txtremainL2.Text = qty.ToString("N3");
+            txtremainL3.Text = qty.ToString("N3");
+        }
         private void BtnPrint_Click(object sender, EventArgs e)
         {
             if (tabControl1.SelectedTab == tablabel)
             {
-                for (int i = 0; i < numPrintQty.Value; i ++)
+                for (int i = 0; i < numPrintQty.Value; i++)
                 {
+                    Cursor = Cursors.WaitCursor;
+                    try
+                    {
+                        // Ensure folder exists
+                        string SavePath = Path.Combine(Environment.CurrentDirectory, @"Report\LabelSDInventory");
+                        Directory.CreateDirectory(SavePath);
 
+                        // Open Excel template
+                        Excel.Application excelApp = new Excel.Application();
+                        Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(
+                            Path.Combine(Environment.CurrentDirectory, @"Template\LabelSDInventory.xlsx"), Editable: true);
+                        Excel.Worksheet worksheet = (Excel.Worksheet)xlWorkBook.Sheets[1];
+                        worksheet.Cells[1, 4] = txtlabel.Text;
+                        worksheet.Cells[4, 4] = txtsysno.Text;
+                        worksheet.Cells[7, 4] = txtname.Text;
+                        worksheet.Cells[10, 4] = txtttlremain.Text;
+                        worksheet.Cells[13, 4] = txtremainw.Text;
+
+                        // Save Excel
+
+                        string DateExcel = DateTime.Now.ToString("yyMMdd");
+                        string fileName = "LabelSDInventory" + DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ".xlsx";
+
+                        string fullPath = Path.Combine(SavePath, fileName);
+                        xlWorkBook.SaveAs(fullPath);
+
+                        // Cleanup
+                        excelApp.DisplayAlerts = false;
+                        xlWorkBook.Close();
+                        excelApp.Quit();
+                        excelApp.DisplayAlerts = true;
+
+                        Process.Start(fullPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        Cursor = Cursors.Default;
+                        MessageBox.Show("File excel នេះកំពុងបើក, សូមបិទជាមុនសិន​ រួច Print ម្ដងទៀត!" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    Cursor = Cursors.Default;
                 }
             }
             if (tabControl1.SelectedTab == tabcode)
             {
                 for (int i = 0; i < numPrintQty.Value; i++)
                 {
+                    Cursor = Cursors.WaitCursor;
+                    try
+                    {
+                        // Ensure folder exists
+                        string SavePath = Path.Combine(Environment.CurrentDirectory, @"Report\LabelSDInventory");
+                        Directory.CreateDirectory(SavePath);
 
+                        // Open Excel template
+                        Excel.Application excelApp = new Excel.Application();
+                        Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(
+                            Path.Combine(Environment.CurrentDirectory, @"Template\LabelSDInventory.xlsx"), Editable: true);
+                        Excel.Worksheet worksheet = (Excel.Worksheet)xlWorkBook.Sheets[1];
+                        worksheet.Cells[1, 4] = txtlabel.Text;
+                        worksheet.Cells[4, 4] = txtcode.Text;
+                        worksheet.Cells[7, 4] = txtrmname2.Text;
+                        worksheet.Cells[10, 4] = txtremainL2.Text;
+                        worksheet.Cells[13, 4] = txtbobin.Text;
+
+
+                        // Save Excel
+
+                        string DateExcel = DateTime.Now.ToString("yyMMdd");
+                        string fileName = "LabelSDInventory" + DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ".xlsx";
+
+                        string fullPath = Path.Combine(SavePath, fileName);
+                        xlWorkBook.SaveAs(fullPath);
+
+                        // Cleanup
+                        excelApp.DisplayAlerts = false;
+                        xlWorkBook.Close();
+                        excelApp.Quit();
+                        excelApp.DisplayAlerts = true;
+
+                        Process.Start(fullPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        Cursor = Cursors.Default;
+                        MessageBox.Show("File excel នេះកំពុងបើក, សូមបិទជាមុនសិន​ រួច Print ម្ដងទៀត!" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    Cursor = Cursors.Default;
                 }
             }
 
         }
-
         private void Txtses_TextChanged(object sender, EventArgs e)
         {
             if (txtses.Text.Trim() != "")
@@ -69,7 +171,6 @@ namespace MachineDeptApp
                 txtremainL3.Text = qty.ToString("N3");
             }
         }
-
         private void TxtremainL_TextChanged(object sender, EventArgs e)
         {
             if (txtremainL.Text.Trim() != "" && txtbobin.Text.Trim() != "")
@@ -83,7 +184,6 @@ namespace MachineDeptApp
                 txtremainL3.Text = qty.ToString("N3");
             }
         }
-
         private void Txtcode_KeyDown(object sender, KeyEventArgs e)
         {
             string txtpic = cbPic.Text.Trim();
@@ -211,7 +311,6 @@ namespace MachineDeptApp
             }
             Cursor = Cursors.Default;
         }
-
         private void BtnSave_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
@@ -265,13 +364,11 @@ namespace MachineDeptApp
             }
             Cursor = Cursors.Default;
         }
-
         private void MCSDCountingForm_Shown(object sender, EventArgs e)
         {
             btnChange.Enabled = false;
             MessageBox.Show("សូមជ្រើសរើសអ្នករាប់ មុននឹងប្រើប្រាស់ !", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
         private void Txtttllenght_TextChanged(object sender, EventArgs e)
         {
             if (txtttllenght.Text.Trim() != "" && txtstockcard.Text.Trim() != "")
@@ -289,7 +386,6 @@ namespace MachineDeptApp
                 }
             }
         }
-
         private void CbPic_TextChanged(object sender, EventArgs e)
         {
             string selectedPic = cbPic.Text.Trim();
@@ -317,7 +413,6 @@ namespace MachineDeptApp
                 con.con.Close();
             }
         }
-
         private void BtnChange_Click(object sender, EventArgs e)
         {
             cbPic.Enabled = true;
@@ -325,7 +420,6 @@ namespace MachineDeptApp
             btnOk.Enabled = true;
             btnOk.BringToFront();
         }
-
         private void BtnOk_Click(object sender, EventArgs e)
         {
             if (cbPic.Text.Trim() != "" && lbstart.Text.Trim() != "" && lbend.Text.Trim() != "")
@@ -339,7 +433,6 @@ namespace MachineDeptApp
                 txtscan.Focus();
             }
         }
-
         private void Txtscan_KeyDown(object sender, KeyEventArgs e)
         {
             Cursor = Cursors.WaitCursor;

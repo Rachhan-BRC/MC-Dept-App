@@ -210,12 +210,19 @@ namespace MachineDeptApp
                 code.Add(row.Cells["code"].Value.ToString());
             }
             string codelist = "('" + string.Join("','", code) + "')";
+            List<string> ponol = new List<string>();
+            foreach (DataGridViewRow row in dgvInvoice.Rows)
+            {
+                ponol.Add(row.Cells["pono"].Value.ToString());
+            }
+            string ponolist = "('" + string.Join("','", ponol) + "')";
             //select from request
             try
             {
 
                 con.con.Open();
-                string query = "SELECT * FROM MCSparePartRequest WHERE Dept = '" + dept + "' AND Code IN " + codelist + "ORDER BY Code";
+                string query = "SELECT * FROM MCSparePartRequest WHERE Dept = '" + dept + "' AND Code IN " + codelist + " AND PO_No IN "+ponolist+" ORDER BY Code";
+                Console.WriteLine("Select1" + query);
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtselect);
             }
@@ -329,15 +336,16 @@ namespace MachineDeptApp
                         {
                             status = "Completed";
                         }
-                        if (CodeIN == CodeSelect &&  string.IsNullOrEmpty(MCdocNo))
+                        if (CodeIN == CodeSelect &&  ponoIN == ponoSelect)
                         {
                             //Update
                             try
                             {
+                                Console.WriteLine("Code " + CodeIN+" : " + CodeSelect +" PONO " + ponoIN + " : " +ponoSelect );
                                 con.con.Open();
                                 string query = "UPDATE MCSparePartRequest SET ReceiveQTY =  @recqty, Balance = @balance, RemainAmount = @reamount, Receive_Date = @recdate, Order_State = @orderstate, " +
                             " Remark = @remark, UpdateDate = @update" +
-                            " WHERE Code = @code AND PO_No = @pono AND Order_State <> 'Completed' AND Dept = @dept";
+                            " WHERE Code = @code AND PO_No = @pono AND Dept = @dept AND Order_State <> 'Completed' ";
                                 SqlCommand cmd = new SqlCommand(query, con.con);
                                 cmd.Parameters.AddWithValue("@recqty", finalQty);
                                 cmd.Parameters.AddWithValue("@balance", finalBalance);
