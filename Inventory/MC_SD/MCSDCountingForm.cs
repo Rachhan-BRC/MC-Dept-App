@@ -93,7 +93,7 @@ namespace MachineDeptApp
                         string fullPath = Path.Combine(SavePath, fileName);
                         xlWorkBook.SaveAs(fullPath);
 
-                       //worksheet.PrintOutEx(); // Print the worksheet
+                       worksheet.PrintOutEx(); // Print the worksheet
                         // Cleanup
                         excelApp.DisplayAlerts = false;
                         xlWorkBook.Close();
@@ -144,7 +144,7 @@ namespace MachineDeptApp
                         string fullPath = Path.Combine(SavePath, fileName);
                         xlWorkBook.SaveAs(fullPath);
 
-                        //worksheet.PrintOutEx(); // Print the worksheet
+                        worksheet.PrintOutEx(); // Print the worksheet
                         // Cleanup
                         excelApp.DisplayAlerts = false;
                         xlWorkBook.Close();
