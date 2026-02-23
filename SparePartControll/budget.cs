@@ -443,11 +443,11 @@ namespace MachineDeptApp
             try
             {
                 con.con.Open();
-                string query = "SELECT FORMAT(Receive_Date, 'yyyy-MM') AS YearMonth, " +
+                string query = "SELECT FORMAT(ETA, 'yyyy-MM') AS YearMonth, " +
                     "SUM(Amount) AS ActualOrder " +
                     "FROM MCSparePartRequest " +
                     "WHERE Dept = '"+dept+"' " +
-                    "GROUP BY FORMAT(Receive_Date, 'yyyy-MM') " +
+                    "GROUP BY FORMAT(ETA, 'yyyy-MM') " +
                     "ORDER BY YearMonth;";
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtActual);
