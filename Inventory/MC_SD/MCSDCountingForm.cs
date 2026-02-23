@@ -63,26 +63,28 @@ namespace MachineDeptApp
         {
             if (tabControl1.SelectedTab == tablabel)
             {
+
                 for (int i = 0; i < numPrintQty.Value; i++)
                 {
+                    // Open Excel template
+                    Excel.Application excelApp = new Excel.Application();
+                    Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(
+                             Path.Combine(Environment.CurrentDirectory, @"Template\LabelSDInventory.xlsx"), Editable: false);
+                    Excel.Worksheet worksheet = (Excel.Worksheet)xlWorkBook.Sheets[1];
+                    // Ensure folder exists
+                    string SavePath = Path.Combine(Environment.CurrentDirectory, @"Report\LabelSDInventory");
+                    Directory.CreateDirectory(SavePath);
                     Cursor = Cursors.WaitCursor;
                     try
                     {
-                        // Ensure folder exists
-                        string SavePath = Path.Combine(Environment.CurrentDirectory, @"Report\LabelSDInventory");
-                        Directory.CreateDirectory(SavePath);
-
-                        // Open Excel template
-                        Excel.Application excelApp = new Excel.Application();
-                        Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(
-                            Path.Combine(Environment.CurrentDirectory, @"Template\LabelSDInventory.xlsx"), Editable: true);
-                        Excel.Worksheet worksheet = (Excel.Worksheet)xlWorkBook.Sheets[1];
-                        worksheet.Cells[1, 4] = txtlabel.Text;
-                        worksheet.Cells[4, 4] = txtsysno.Text;
-                        worksheet.Cells[7, 4] = txtname.Text;
-                        worksheet.Cells[10, 4] = txtttlremain.Text;
-                        worksheet.Cells[13, 4] = txtremainw.Text;
-
+                        worksheet.Cells[1, 2] = "Date : " + DateTime.Now.Date.ToString("dd-MM-yyyy");
+                        worksheet.Cells[2, 3] = txtlabel.Text;
+                        worksheet.Cells[4, 1] = "*"+txtsysno.Text+"*";
+                        worksheet.Cells[6, 2] = txtcodeun.Text;
+                        worksheet.Cells[7, 2] = txtname.Text;
+                        worksheet.Cells[8, 2] = txtttlremain.Text;
+                        worksheet.Cells[9, 2] = txtremainw.Text;
+                        worksheet.Cells[14, 6] = cbPic.Text;
                         // Save Excel
 
                         string DateExcel = DateTime.Now.ToString("yyMMdd");
@@ -91,16 +93,19 @@ namespace MachineDeptApp
                         string fullPath = Path.Combine(SavePath, fileName);
                         xlWorkBook.SaveAs(fullPath);
 
+                        //worksheet.PrintOutEx(); // Print the worksheet
                         // Cleanup
                         excelApp.DisplayAlerts = false;
                         xlWorkBook.Close();
                         excelApp.Quit();
                         excelApp.DisplayAlerts = true;
-
-                        Process.Start(fullPath);
                     }
                     catch (Exception ex)
                     {
+                        excelApp.DisplayAlerts = false;
+                        xlWorkBook.Close();
+                        excelApp.Quit();
+                        excelApp.DisplayAlerts = true;
                         Cursor = Cursors.Default;
                         MessageBox.Show("File excel នេះកំពុងបើក, សូមបិទជាមុនសិន​ រួច Print ម្ដងទៀត!" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
@@ -112,25 +117,25 @@ namespace MachineDeptApp
             {
                 for (int i = 0; i < numPrintQty.Value; i++)
                 {
+                    Excel.Application excelApp = new Excel.Application();
+                    Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(
+                             Path.Combine(Environment.CurrentDirectory, @"Template\LabelSDInventory.xlsx"), Editable: false);
+                    Excel.Worksheet worksheet = (Excel.Worksheet)xlWorkBook.Sheets[1];
+                    // Ensure folder exists
+                    string SavePath = Path.Combine(Environment.CurrentDirectory, @"Report\LabelSDInventory");
+                    Directory.CreateDirectory(SavePath);
                     Cursor = Cursors.WaitCursor;
                     try
                     {
-                        // Ensure folder exists
-                        string SavePath = Path.Combine(Environment.CurrentDirectory, @"Report\LabelSDInventory");
-                        Directory.CreateDirectory(SavePath);
+                        worksheet.Cells[1, 2] = "Date : " + DateTime.Now.Date.ToString("dd-MM-yyyy");
+                        worksheet.Cells[2, 3] = txtlabel.Text;
+                        worksheet.Cells[4, 1] = "*" + txtlabel.Text + "*";
 
-                        // Open Excel template
-                        Excel.Application excelApp = new Excel.Application();
-                        Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(
-                            Path.Combine(Environment.CurrentDirectory, @"Template\LabelSDInventory.xlsx"), Editable: true);
-                        Excel.Worksheet worksheet = (Excel.Worksheet)xlWorkBook.Sheets[1];
-                        worksheet.Cells[1, 4] = txtlabel.Text;
-                        worksheet.Cells[4, 4] = txtcode.Text;
-                        worksheet.Cells[7, 4] = txtrmname2.Text;
-                        worksheet.Cells[10, 4] = txtremainL2.Text;
-                        worksheet.Cells[13, 4] = txtbobin.Text;
-
-
+                        worksheet.Cells[6, 2] = txtcode.Text;
+                        worksheet.Cells[7, 2] = txtrmname2.Text;
+                        worksheet.Cells[8, 2] = txtremainL2.Text;
+                        worksheet.Cells[9, 2] = txtbobin.Text;
+                        worksheet.Cells[14, 6] = cbPic.Text;
                         // Save Excel
 
                         string DateExcel = DateTime.Now.ToString("yyMMdd");
@@ -139,16 +144,19 @@ namespace MachineDeptApp
                         string fullPath = Path.Combine(SavePath, fileName);
                         xlWorkBook.SaveAs(fullPath);
 
+                        //worksheet.PrintOutEx(); // Print the worksheet
                         // Cleanup
                         excelApp.DisplayAlerts = false;
                         xlWorkBook.Close();
                         excelApp.Quit();
                         excelApp.DisplayAlerts = true;
-
-                        Process.Start(fullPath);
                     }
                     catch (Exception ex)
                     {
+                        excelApp.DisplayAlerts = false;
+                        xlWorkBook.Close();
+                        excelApp.Quit();
+                        excelApp.DisplayAlerts = true;
                         Cursor = Cursors.Default;
                         MessageBox.Show("File excel នេះកំពុងបើក, សូមបិទជាមុនសិន​ រួច Print ម្ដងទៀត!" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
@@ -360,6 +368,10 @@ namespace MachineDeptApp
                     string soundPath = Path.Combine(Environment.CurrentDirectory, @"Sound\OK.wav");
                     SoundPlayer player = new SoundPlayer(soundPath);
                     player.Play();
+                    if (chkauto.Checked == true)
+                    {
+                        btnPrint.PerformClick();
+                    }
                 }
             }
             Cursor = Cursors.Default;
@@ -565,7 +577,11 @@ namespace MachineDeptApp
                     txtremainL3.Text = remainl.ToString("N2");
                     txtstockcard.Text = dtstock.Rows[0]["StockRemain"].ToString();
                     txtlabel.Text = labelNo.ToString();
-                    
+                    txtcodeun.Text = code;
+                    if (chkauto.Checked == true)
+                    {
+                        btnPrint.PerformClick();
+                    }
                     txtscan.Text = "";
                     //Insert data to tbSDMCStockInventory
                     int success = 0;

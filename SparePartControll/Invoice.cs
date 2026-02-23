@@ -341,7 +341,6 @@ namespace MachineDeptApp
                             //Update
                             try
                             {
-                                Console.WriteLine("Code " + CodeIN+" : " + CodeSelect +" PONO " + ponoIN + " : " +ponoSelect );
                                 con.con.Open();
                                 string query = "UPDATE MCSparePartRequest SET ReceiveQTY =  @recqty, Balance = @balance, RemainAmount = @reamount, Receive_Date = @recdate, Order_State = @orderstate, " +
                             " Remark = @remark, UpdateDate = @update" +
