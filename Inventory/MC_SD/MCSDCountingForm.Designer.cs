@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lberror = new System.Windows.Forms.Label();
             this.lbfound = new System.Windows.Forms.Label();
@@ -102,6 +102,7 @@
             this.bbqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lbno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pic = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtcodeun = new System.Windows.Forms.TextBox();
             this.panel2.SuspendLayout();
             this.Panelstatus.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -170,11 +171,11 @@
             // 
             this.labelstatus.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelstatus.AutoSize = true;
-            this.labelstatus.Font = new System.Drawing.Font("Khmer OS Battambang", 84F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelstatus.Font = new System.Drawing.Font("Khmer OS Battambang", 80.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelstatus.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.labelstatus.Location = new System.Drawing.Point(168, 95);
+            this.labelstatus.Location = new System.Drawing.Point(27, 138);
             this.labelstatus.Name = "labelstatus";
-            this.labelstatus.Size = new System.Drawing.Size(0, 203);
+            this.labelstatus.Size = new System.Drawing.Size(0, 194);
             this.labelstatus.TabIndex = 65;
             // 
             // tabControl1
@@ -198,6 +199,7 @@
             this.tablabel.Controls.Add(this.txtttlremain);
             this.tablabel.Controls.Add(this.label23);
             this.tablabel.Controls.Add(this.label2);
+            this.tablabel.Controls.Add(this.txtcodeun);
             this.tablabel.Controls.Add(this.txtscan);
             this.tablabel.Controls.Add(this.txtname);
             this.tablabel.Controls.Add(this.txtremainw);
@@ -865,23 +867,23 @@
             this.dgvSd.AllowUserToAddRows = false;
             this.dgvSd.AllowUserToDeleteRows = false;
             this.dgvSd.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Lavender;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvSd.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle17.BackColor = System.Drawing.Color.Lavender;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvSd.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle17;
             this.dgvSd.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvSd.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.dgvSd.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSd.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSd.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle18;
             this.dgvSd.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSd.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.sysno,
@@ -899,11 +901,11 @@
             this.dgvSd.Name = "dgvSd";
             this.dgvSd.ReadOnly = true;
             this.dgvSd.RowHeadersVisible = false;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvSd.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle20.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvSd.RowsDefaultCellStyle = dataGridViewCellStyle20;
             this.dgvSd.RowTemplate.Height = 25;
             this.dgvSd.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvSd.Size = new System.Drawing.Size(1684, 65);
@@ -912,8 +914,8 @@
             // sysno
             // 
             this.sysno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.sysno.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.sysno.DefaultCellStyle = dataGridViewCellStyle19;
             this.sysno.HeaderText = "SysNo";
             this.sysno.Name = "sysno";
             this.sysno.ReadOnly = true;
@@ -979,6 +981,17 @@
             this.pic.HeaderText = "PIC";
             this.pic.Name = "pic";
             this.pic.ReadOnly = true;
+            // 
+            // txtcodeun
+            // 
+            this.txtcodeun.Font = new System.Drawing.Font("Khmer OS Battambang", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtcodeun.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.txtcodeun.Location = new System.Drawing.Point(376, 50);
+            this.txtcodeun.Name = "txtcodeun";
+            this.txtcodeun.Size = new System.Drawing.Size(77, 43);
+            this.txtcodeun.TabIndex = 83;
+            this.txtcodeun.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtcodeun.Visible = false;
             // 
             // MCSDCountingForm
             // 
@@ -1083,5 +1096,6 @@
         private System.Windows.Forms.TextBox txtlabel;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.NumericUpDown numPrintQty;
+        private System.Windows.Forms.TextBox txtcodeun;
     }
 }
