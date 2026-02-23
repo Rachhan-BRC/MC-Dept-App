@@ -236,11 +236,11 @@ namespace MachineDeptApp.TransferData
             if (IdSelected != "")
             {
                 //check ID first 
-                if (LoginForm.IDValueForNextForm == "3913" || LoginForm.IDValueForNextForm == "3132")
+                if (LoginForm.IDValueForNextForm == "3913" || LoginForm.IDValueForNextForm == "3132" || LoginForm.IDValueForNextForm == "2641")
                 {
                     //Enter the Password
                     string PassDel = Interaction.InputBox("សូមបញ្ចូលពាក្យសម្ងាត់ដើម្បីលុបទិន្នន័យនេះ !", "Rachhan System", "");
-                    if (PassDel.Trim() == "3913" || PassDel.Trim() == "123" || PassDel.Trim().ToUpper() == "ADMIN")
+                    if (PassDel.Trim() == "3913" || PassDel.Trim() == "123" || PassDel.Trim().ToUpper() == "ADMIN" || PassDel.Trim() == "2641")
                     {
                         DialogResult DLR = MessageBox.Show("តើអ្នកចង់លុបទិន្នន័យនេះមែនដែរ ឬទេ ?", "Rachhan System", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (DLR == DialogResult.Yes)

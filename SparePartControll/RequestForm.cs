@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Media.Animation;
@@ -506,6 +507,12 @@ namespace MachineDeptApp.SparePartControll
                     DateTime to = dtprecdateto.Value;
                     cond.Rows.Add($"R.receive_Date BETWEEN '{from.ToString("yyyy-MM-dd")}' AND '{to.ToString("yyyy-MM-dd")}'");
                 }
+                if (chketa.Checked == true)
+                {
+                    DateTime from = dtpetafrom.Value;
+                    DateTime to = dtpetato.Value;
+                    cond.Rows.Add($"R.ETA BETWEEN '{from.ToString("yyyy-MM-dd")}' AND '{to.ToString("yyyy-MM-dd")}'");
+                }
 
                 string Conds = "";
                 foreach (DataRow row in cond.Rows)
@@ -576,6 +583,39 @@ namespace MachineDeptApp.SparePartControll
             {
                 MessageBox.Show("Error while select data" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            double ordera = 0;
+            double amounta = 0;
+            double receiveqtya = 0;
+            double balancea = 0;
+            double reamounta = 0;
+            foreach (DataGridViewRow row in dgvRequest.Rows) 
+            {
+                if (row.Cells["orderqty"].Value != null) 
+                    ordera += Convert.ToDouble(row.Cells["orderqty"].Value); 
+                
+                if (row.Cells["amount"].Value != null) 
+                    amounta += Convert.ToDouble(row.Cells["amount"].Value); 
+
+                if (row.Cells["receiveqty"].Value != null) 
+                    receiveqtya += Convert.ToDouble(row.Cells["receiveqty"].Value);
+                
+                if (row.Cells["balance"].Value != null)
+                    balancea += Convert.ToDouble(row.Cells["balance"].Value); 
+                
+                if (row.Cells["remainamount"].Value != null) reamounta += Convert.ToDouble(row.Cells["remainamount"].Value); 
+            }
+
+            //total
+            dgvRequest.Rows.Add();
+            dgvRequest.Rows[dgvRequest.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGreen;
+            dgvRequest.Rows[dgvRequest.Rows.Count - 1].DefaultCellStyle.ForeColor = Color.DarkOrange;
+            dgvRequest.Rows[dgvRequest.Rows.Count - 1].DefaultCellStyle.Font = new Font(dgvRequest.Font, FontStyle.Bold);
+            dgvRequest.Rows[dgvRequest.Rows.Count -1].Cells["Pname"].Value = "Total";
+            dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["orderqty"].Value = ordera;
+            dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["amount"].Value = amounta;
+            dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["receiveqty"].Value = receiveqtya;
+            dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["balance"].Value = balancea;
+            dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["remainamount"].Value = reamounta;
             dgvRequest.ClearSelection();
             btnUpdate.Enabled = false;
             btnUpdateGrey.BringToFront();
