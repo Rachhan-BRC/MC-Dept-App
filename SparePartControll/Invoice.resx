@@ -3258,7 +3258,7 @@
   <data name="btnCancel.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EAAACxABrSO9dQAABv1JREFUeF7tnUmM3EQUhgexilUCsYjtAoRF5MASllMugAZlMu3/NSaRCOSWEyKC
+        DwAACw8BkvkDpQAABv1JREFUeF7tnUmM3EQUhgexilUCsYjtAoRF5MASllMugAZlMu3/NSaRCOSWEyKC
         sN1AAgQKAsQJEsIEgsSZIDYJEBIQDiTimgtKDhwIiwhbki4PYPRq3KPhbzfjble52+76pF+Kptt+r55j
         V/nVq+qpqUAgEAgEAoFAIBAIBOpCGsdnJ+32zabd3pAAjxmRZ4zIiwmwTaX/NsDT9jPgniSKbtJj+DyB
         IUg3bToxiaJbs8C/Z0R+TkTSYWREftJzJCKPJsAtem62F8ghXb36hPkoujMBdhmR3zmwrmSA3xKRN+eB
@@ -3319,12 +3319,6 @@
     <value>True</value>
   </metadata>
   <metadata name="invoicedate.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="codebig.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="ipobig.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="codebig.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
