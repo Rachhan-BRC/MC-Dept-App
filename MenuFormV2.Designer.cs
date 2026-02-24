@@ -35,6 +35,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnCredit = new System.Windows.Forms.Button();
             this.panelHeader = new System.Windows.Forms.Panel();
+            this.PicUpdate = new System.Windows.Forms.PictureBox();
             this.panelHeaderTable = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.LbLogo = new System.Windows.Forms.Label();
@@ -50,13 +51,12 @@
             this.panelOpenTab = new System.Windows.Forms.Panel();
             this.tabControlOpenForm = new System.Windows.Forms.TabControl();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.PicUpdate = new System.Windows.Forms.PictureBox();
             this.panelFooter.SuspendLayout();
             this.panelHeader.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicUpdate)).BeginInit();
             this.panelHeaderTable.SuspendLayout();
             this.panelLeft.SuspendLayout();
             this.panelOpenTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicUpdate)).BeginInit();
             this.SuspendLayout();
             // 
             // panelFooter
@@ -115,6 +115,21 @@
             this.panelHeader.Name = "panelHeader";
             this.panelHeader.Size = new System.Drawing.Size(1184, 52);
             this.panelHeader.TabIndex = 1;
+            // 
+            // PicUpdate
+            // 
+            this.PicUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.PicUpdate.BackColor = System.Drawing.Color.White;
+            this.PicUpdate.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PicUpdate.BackgroundImage")));
+            this.PicUpdate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PicUpdate.Location = new System.Drawing.Point(1135, 9);
+            this.PicUpdate.Name = "PicUpdate";
+            this.PicUpdate.Size = new System.Drawing.Size(7, 7);
+            this.PicUpdate.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicUpdate.TabIndex = 38;
+            this.PicUpdate.TabStop = false;
+            this.toolTip1.SetToolTip(this.PicUpdate, "New update are available");
+            this.PicUpdate.Visible = false;
             // 
             // panelHeaderTable
             // 
@@ -298,21 +313,6 @@
             this.tabControlOpenForm.TabIndex = 0;
             this.toolTip1.SetToolTip(this.tabControlOpenForm, "មុខងារដែលធ្លាប់បានបើក");
             // 
-            // PicUpdate
-            // 
-            this.PicUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.PicUpdate.BackColor = System.Drawing.Color.White;
-            this.PicUpdate.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PicUpdate.BackgroundImage")));
-            this.PicUpdate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PicUpdate.Location = new System.Drawing.Point(1135, 9);
-            this.PicUpdate.Name = "PicUpdate";
-            this.PicUpdate.Size = new System.Drawing.Size(7, 7);
-            this.PicUpdate.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicUpdate.TabIndex = 38;
-            this.PicUpdate.TabStop = false;
-            this.toolTip1.SetToolTip(this.PicUpdate, "New update are available");
-            this.PicUpdate.Visible = false;
-            // 
             // MenuFormV2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -333,11 +333,11 @@
             this.panelFooter.ResumeLayout(false);
             this.panelFooter.PerformLayout();
             this.panelHeader.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PicUpdate)).EndInit();
             this.panelHeaderTable.ResumeLayout(false);
             this.panelHeaderTable.PerformLayout();
             this.panelLeft.ResumeLayout(false);
             this.panelOpenTab.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PicUpdate)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -51,6 +51,24 @@ namespace MachineDeptApp.SparePartControll
             this.btnSearch.Click += BtnSearch_Click;
             this.btnExport.Click += BtnExport_Click;
             this.btnPrint.Click += BtnPrint_Click;
+            this.btnHide.Click += BtnHide_Click;
+            this.btnUnhide.Click += BtnUnhide_Click;
+        }
+
+        private void BtnUnhide_Click(object sender, EventArgs e)
+        {
+            panelHeader.Visible = true;
+            btnHide.Visible = true;
+            btnUnhide.Visible = false;
+            gpbsearch.Size = new Size(1478, 150);
+        }
+
+        private void BtnHide_Click(object sender, EventArgs e)
+        {
+            panelHeader.Visible = false;
+            btnHide.Visible = false;
+            btnUnhide.Visible = true;
+            gpbsearch.Size = new Size(1478, 27);
         }
 
         private void BtnPrint_Click(object sender, EventArgs e)
