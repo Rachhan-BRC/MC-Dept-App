@@ -439,7 +439,9 @@ namespace MachineDeptApp
             DataTable dtbudget = new DataTable();
             DataTable dtActual = new DataTable();
             DataTable dtRemain = new DataTable();
+            DataTable dtReceive = new DataTable();
             Cursor = Cursors.WaitCursor;
+            //Actual Order
             try
             {
                 con.con.Open();
@@ -451,13 +453,13 @@ namespace MachineDeptApp
                     "ORDER BY YearMonth;";
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtActual);
-                Console.WriteLine(query);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error while taking data" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             con.con.Close();
+            //over due
             try
             {
                 con.con.Open();
@@ -468,12 +470,14 @@ namespace MachineDeptApp
                     "ORDER BY YearMonth;";
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtRemain);
+                Console.WriteLine(query);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error while taking data" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             con.con.Close();
+            //budget
             try
             {
                 int yearnow = dtpyear.Value.Year;
@@ -483,6 +487,23 @@ namespace MachineDeptApp
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtbudget);
                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while taking data" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            con.con.Close();
+            //Actual receive
+            try
+            {
+                con.con.Open();
+                string query = "SELECT FORMAT(Receive_Date, 'yyyy-MM') AS YearMonth, SUM(Amount) AS TotalAmount " +
+                    "FROM MCSparePartRequest WHERE Dept = '"+dept+"' AND Order_State = 'Completed' " +
+                    "GROUP BY FORMAT(Receive_Date, 'yyyy-MM') ORDER BY YearMonth";
+
+                SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
+                sda.Fill(dtReceive);
+
 
             }
             catch (Exception ex)
@@ -590,8 +611,9 @@ namespace MachineDeptApp
                 dgvBudget.Rows.Add();
                 dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgetyear"].Value = dgvBudget.Rows[dgvBudget.Rows.Count - 2].Cells["budgetyear"].Value;
                 dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgettype"].Value = "Actual Order";
+                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgettype"].ToolTipText = "TTL Amount based on ETA";
 
-                dgvBudget.Rows.Add();
+               dgvBudget.Rows.Add();
                 dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgetyear"].Value = dgvBudget.Rows[dgvBudget.Rows.Count - 2].Cells["budgetyear"].Value;
                 dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgettype"].Value = "GAP";
 
@@ -666,7 +688,7 @@ namespace MachineDeptApp
                     DateTime dt = DateTime.ParseExact(monthName, "MMM",
                         System.Globalization.CultureInfo.InvariantCulture);
                     string Colname = $"{dtpyear.Value.Year}-{dt:MM}";
-                    foreach (DataRow row in dtRemain.Rows)
+                    foreach (DataRow row in dtReceive.Rows)
                     {
                         string Date = row["YearMonth"].ToString();
                         DateTime now = Convert.ToDateTime(DateTime.Now);
@@ -676,9 +698,7 @@ namespace MachineDeptApp
                         string Yearmonth = $"{now.Year}-{now:MM}";
                         if (Date == Colname)
                         {
-                            double overdue = Convert.ToDouble(row["TotalRemain"]);
-                            double actualorder = Convert.ToDouble(dgvBudget.Rows[dgvBudget.Rows.Count - 4].Cells[i].Value);
-                            double actrec = Convert.ToDouble(actualorder - overdue);
+                            double actrec = Convert.ToDouble(row["TotalAmount"]);
                             dgvBudget.Rows[dgvBudget.Rows.Count - 2].Cells[i].Value = actrec;
                             break;
 
@@ -748,7 +768,6 @@ namespace MachineDeptApp
             dgvBudget.ClearSelection();
             con.con.Close();
             Cursor = Cursors.Default;
-            lbFound.Text = "Found: " + dgvBudget.Rows.Count.ToString();
             if (dgvBudget.Rows.Count >= 3 )
             {
                 btnDelete.Enabled = true;

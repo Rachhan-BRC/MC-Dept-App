@@ -47,11 +47,6 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.lberror = new System.Windows.Forms.Label();
-            this.lbFound = new System.Windows.Forms.Label();
-            this.LbStatus = new System.Windows.Forms.Label();
             this.dgvBudget = new System.Windows.Forms.DataGridView();
             this.budgetyear = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.budgettype = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -79,70 +74,12 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBudget)).BeginInit();
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGray)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.lberror);
-            this.panel2.Controls.Add(this.lbFound);
-            this.panel2.Controls.Add(this.LbStatus);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 428);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1013, 79);
-            this.panel2.TabIndex = 58;
-            // 
-            // label3
-            // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(841, 18);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(0, 24);
-            this.label3.TabIndex = 4;
-            // 
-            // lberror
-            // 
-            this.lberror.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.lberror.AutoSize = true;
-            this.lberror.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lberror.Location = new System.Drawing.Point(-1417, 18);
-            this.lberror.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lberror.Name = "lberror";
-            this.lberror.Size = new System.Drawing.Size(0, 24);
-            this.lberror.TabIndex = 3;
-            // 
-            // lbFound
-            // 
-            this.lbFound.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.lbFound.AutoSize = true;
-            this.lbFound.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbFound.Location = new System.Drawing.Point(833, 18);
-            this.lbFound.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lbFound.Name = "lbFound";
-            this.lbFound.Size = new System.Drawing.Size(0, 24);
-            this.lbFound.TabIndex = 2;
-            // 
-            // LbStatus
-            // 
-            this.LbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.LbStatus.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbStatus.Location = new System.Drawing.Point(189, 7);
-            this.LbStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LbStatus.Name = "LbStatus";
-            this.LbStatus.Size = new System.Drawing.Size(819, 41);
-            this.LbStatus.TabIndex = 1;
-            this.LbStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // dgvBudget
             // 
@@ -184,7 +121,7 @@
             this.dec});
             this.dgvBudget.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dgvBudget.EnableHeadersVisualStyles = false;
-            this.dgvBudget.Location = new System.Drawing.Point(0, 241);
+            this.dgvBudget.Location = new System.Drawing.Point(0, 326);
             this.dgvBudget.Name = "dgvBudget";
             this.dgvBudget.RowHeadersVisible = false;
             dataGridViewCellStyle15.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -194,7 +131,7 @@
             this.dgvBudget.RowsDefaultCellStyle = dataGridViewCellStyle15;
             this.dgvBudget.RowTemplate.Height = 25;
             this.dgvBudget.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvBudget.Size = new System.Drawing.Size(1013, 187);
+            this.dgvBudget.Size = new System.Drawing.Size(1013, 181);
             this.dgvBudget.TabIndex = 61;
             // 
             // budgetyear
@@ -463,7 +400,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(1013, 123);
+            this.chart1.Size = new System.Drawing.Size(1013, 208);
             this.chart1.TabIndex = 64;
             this.chart1.Text = "chart1";
             // 
@@ -477,14 +414,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.dgvBudget);
             this.Controls.Add(this.panelHeader);
-            this.Controls.Add(this.panel2);
             this.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.Name = "budget";
             this.Text = "Budget ";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBudget)).EndInit();
             this.panelHeader.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGray)).EndInit();
@@ -496,11 +430,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label lberror;
-        private System.Windows.Forms.Label lbFound;
-        private System.Windows.Forms.Label LbStatus;
         public System.Windows.Forms.DataGridView dgvBudget;
         private System.Windows.Forms.Panel panelHeader;
         private System.Windows.Forms.Button btnSaveGrey;
