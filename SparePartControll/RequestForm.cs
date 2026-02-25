@@ -55,6 +55,29 @@ namespace MachineDeptApp.SparePartControll
             this.btnUnhide.Click += BtnUnhide_Click;
         }
 
+        private void DgvRequest_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && e.RowIndex != dgvRequest.Rows.Count - 1)
+            {
+                double receive = Convert.ToDouble(dgvRequest.Rows[e.RowIndex].Cells["receiveqty"].Value);
+                if (receive == 0)
+                {
+                    btnDelete.Enabled = true;
+                    btnDelete.BringToFront();
+                    btnUpdate.Enabled = true;
+                    btnUpdate.BringToFront();
+                }
+                else
+                {
+                    btnDelete.Enabled = false;
+                    btnDeleteGray.BringToFront();
+                    btnUpdate.Enabled = false;
+                    btnUpdateGrey.BringToFront();
+                }
+
+            }
+        }
+
         private void BtnUnhide_Click(object sender, EventArgs e)
         {
             panelHeader.Visible = true;
@@ -300,15 +323,16 @@ namespace MachineDeptApp.SparePartControll
 
         private void BtnUpdate_Click(object sender, EventArgs e)
         {
-           if (dgvRequest.Rows.Count > 0)
+           if (dgvRequest.Rows.Count > 0 )
             {
                 int rec = Convert.ToInt32(dgvRequest.Rows[dgvRequest.CurrentCell.RowIndex].Cells["receiveqty"].Value);
+                string code = dgvRequest.Rows[dgvRequest.CurrentCell.RowIndex].Cells["code"].Value.ToString();
                 if ( rec == 0)
                 {
                     DataTable update = new DataTable();
                     string mcdocno = dgvRequest.Rows[dgvRequest.CurrentCell.RowIndex].Cells["pono"].Value.ToString();
                     PrintForm prf = new PrintForm(update);
-                    string queryselect = "SELECT * FROM MCSparePartRequest WHERE PO_No = '" + mcdocno + "'";
+                    string queryselect = "SELECT * FROM MCSparePartRequest WHERE PO_No = '" + mcdocno + "' AND Code = '"+code+"'";
                     SqlDataAdapter sda = new SqlDataAdapter(queryselect, con.con);
                     sda.Fill(update);
                     prf.WindowState = FormWindowState.Normal;
@@ -326,22 +350,6 @@ namespace MachineDeptApp.SparePartControll
             
         }
 
-        private void DgvRequest_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-       
-            if (e.RowIndex >= 0 && e.ColumnIndex >=0)
-            {
-                double receive = Convert.ToDouble(dgvRequest.Rows[e.RowIndex].Cells["receiveqty"].Value);
-                if (receive == 0)
-                {
-                    btnDelete.Enabled = true;
-                    btnDelete.BringToFront();
-                    btnUpdate.Enabled = true;
-                    btnUpdate.BringToFront();
-                }
-
-            }
-        }
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
@@ -510,7 +518,6 @@ namespace MachineDeptApp.SparePartControll
                         {
                             cond.Rows.Add($"R.Balance > 0");
                         }
-                       
                     }
                 }
                 if (chkissue.Checked == true)
@@ -547,8 +554,9 @@ namespace MachineDeptApp.SparePartControll
                 con.con.Open();
                 DataTable dt = new DataTable();
                 string query = "SELECT R.Code, R.PO_No, R.IssueDate, R.ETA, R.Order_Qty, R.UnitPrice, R.Amount, R.ReceiveQTY, " +
-                    " R.Balance, R.RemainAmount, R.Receive_Date, R.Order_State, R.Remark, R.UpdateDate, R.MCDocNo, M.Part_No, M.Part_Name FROM MCSparePartRequest R " +
-                    " LEFT JOIN MstMCSparePart M ON R.Code = M.Code where R.Dept = '" + dept + "'" + Conds;
+                    "R.Balance, R.RemainAmount, R.Receive_Date, R.Order_State, R.Remark, R.UpdateDate, R.MCDocNo, (R.UnitPrice * R.ReceiveQTY) AS ReceiveAmount," +
+                    " M.Part_No, M.Part_Name " +
+                    "FROM MCSparePartRequest R  LEFT JOIN MstMCSparePart M ON R.Code = M.Code where R.Dept = '" + dept + "'" + Conds;
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dt);
 
@@ -575,7 +583,7 @@ namespace MachineDeptApp.SparePartControll
                     string orderstate = row["Order_State"]?.ToString() ?? string.Empty;
                     string remark = row["Remark"]?.ToString() ?? string.Empty;
                     string updatedate = row["UpdateDate"]?.ToString() ?? string.Empty;
-
+                    double recamount = row["ReceiveAmount"] == DBNull.Value ? 0 : Convert.ToDouble(row["ReceiveAmount"]);
 
                     dgvRequest.Rows.Add();
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["code"].Value = code;
@@ -583,57 +591,65 @@ namespace MachineDeptApp.SparePartControll
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["Pname"].Value = pname;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["issuedate"].Value = issuedate;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["orderqty"].Value = orderqty;
-                    dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["unitprice"].Value = unitprice;
-                    dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["amount"].Value = amount;
+                    dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["unitprice"].Value = unitprice.ToString("N4");
+                    dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["amount"].Value = amount.ToString("N2");
+                    dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["receiveamount"].Value = recamount.ToString("N2");
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["eta"].Value = eta;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["pono"].Value = Pono;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["mcdocno"].Value = Docno;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["receivedate"].Value = receivedate;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["receiveqty"].Value = receiveqty;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["balance"].Value = balance;
-                    dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["remainamount"].Value = remainamount;
+                    dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["remainamount"].Value = remainamount.ToString("N2");
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["orderstatus"].Value = orderstate;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["remark"].Value = remark;
                     dgvRequest.Columns["code"].Frozen = true;
                 }
+                double ordera = 0;
+                double amounta = 0;
+                double receiveqtya = 0;
+                double balancea = 0;
+                double reamounta = 0;
+                double receiveamount = 0;
+                foreach (DataRow row in dt.Rows)
+                {
+                    if (row["Order_Qty"] != null)
+                        ordera += Convert.ToDouble(row["Order_Qty"]);
+
+                    if (row["Amount"] != null)
+                        amounta += Convert.ToDouble(row["Amount"]);
+
+                    if (row["ReceiveQTY"] != null)
+                        receiveqtya += Convert.ToDouble(row["ReceiveQTY"]);
+
+                    if (row["Balance"] != null)
+                        balancea += Convert.ToDouble(row["Balance"]);
+
+                    if (row["RemainAmount"] != null) 
+                        reamounta += Convert.ToDouble(row["RemainAmount"]);
+
+                    if (row["ReceiveAmount"] != null)
+                        receiveamount += Convert.ToDouble(row["ReceiveAmount"]);
+                }
+                //total
+                dgvRequest.Rows.Add();
+                dgvRequest.Rows[dgvRequest.Rows.Count - 1].DefaultCellStyle.BackColor = Color.White;
+                dgvRequest.Rows[dgvRequest.Rows.Count - 1].DefaultCellStyle.ForeColor = Color.Orange;
+                dgvRequest.Rows[dgvRequest.Rows.Count - 1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["Pname"].Value = "Total";
+                dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["orderqty"].Value = ordera.ToString("N0");
+                dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["amount"].Value = amounta.ToString("N2");
+                dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["receiveqty"].Value = receiveqtya;
+                dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["balance"].Value = balancea;
+                dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["remainamount"].Value = reamounta.ToString("N2");
+                dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["receiveamount"].Value = receiveamount.ToString("N2");
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error while select data" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            double ordera = 0;
-            double amounta = 0;
-            double receiveqtya = 0;
-            double balancea = 0;
-            double reamounta = 0;
-            foreach (DataGridViewRow row in dgvRequest.Rows) 
-            {
-                if (row.Cells["orderqty"].Value != null) 
-                    ordera += Convert.ToDouble(row.Cells["orderqty"].Value); 
-                
-                if (row.Cells["amount"].Value != null) 
-                    amounta += Convert.ToDouble(row.Cells["amount"].Value); 
-
-                if (row.Cells["receiveqty"].Value != null) 
-                    receiveqtya += Convert.ToDouble(row.Cells["receiveqty"].Value);
-                
-                if (row.Cells["balance"].Value != null)
-                    balancea += Convert.ToDouble(row.Cells["balance"].Value); 
-                
-                if (row.Cells["remainamount"].Value != null) reamounta += Convert.ToDouble(row.Cells["remainamount"].Value); 
-            }
-
-            //total
-            dgvRequest.Rows.Add();
-            dgvRequest.Rows[dgvRequest.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGreen;
-            dgvRequest.Rows[dgvRequest.Rows.Count - 1].DefaultCellStyle.ForeColor = Color.DarkOrange;
-            dgvRequest.Rows[dgvRequest.Rows.Count - 1].DefaultCellStyle.Font = new Font(dgvRequest.Font, FontStyle.Bold);
-            dgvRequest.Rows[dgvRequest.Rows.Count -1].Cells["Pname"].Value = "Total";
-            dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["orderqty"].Value = ordera;
-            dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["amount"].Value = amounta;
-            dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["receiveqty"].Value = receiveqtya;
-            dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["balance"].Value = balancea;
-            dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["remainamount"].Value = reamounta;
+          
+           
             dgvRequest.ClearSelection();
             btnUpdate.Enabled = false;
             btnUpdateGrey.BringToFront();

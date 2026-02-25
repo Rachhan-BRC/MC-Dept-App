@@ -154,7 +154,7 @@ namespace MachineDeptApp.SparePartControll
                 if (DateTime.TryParse(row.Cells["eta"].Value?.ToString(), out DateTime eta))
                 {
 
-                    row.Cells["eta"].Value = eta.ToString("MM-yyyy");
+                    row.Cells["eta"].Value = eta.ToString("dd-MMM-yyyy");
                     DateTime now = DateTime.Now;
                     DateTime a = Convert.ToDateTime(eta);
                     int monthDiff = (a.Year - now.Year) * 12 + (a.Month - now.Month);
@@ -164,7 +164,7 @@ namespace MachineDeptApp.SparePartControll
                 else
                 {
                     MessageBox.Show("Please input date only !", "Only date", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    row.Cells["eta"].Value = DateTime.Now.ToString("MM-yyyy");
+                    row.Cells["eta"].Value = DateTime.Now.ToString("dd-MMM-yyyy");
                 }
             }
             if (dgvTTL.Columns[e.ColumnIndex].Name == "leadtime")
@@ -180,7 +180,7 @@ namespace MachineDeptApp.SparePartControll
                 else
                 {
                     MessageBox.Show("Please input date only !", "Only date", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    row.Cells["eta"].Value = DateTime.Now.ToString("MM-yyyy");
+                    row.Cells["eta"].Value = DateTime.Now.ToString("dd-MMM-yyyy");
                 }
             }
         }
@@ -250,7 +250,7 @@ namespace MachineDeptApp.SparePartControll
                 con.con.Close();
                 if (error == 0)
                 {
-                    Search();
+                    dgvTTL.Rows.Clear();
                     MessageBox.Show("Save successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -455,6 +455,7 @@ namespace MachineDeptApp.SparePartControll
            rdnormal.Checked = true;
             if (dtup.Rows.Count > 0)
             {
+                dgvTTL.Rows.Clear();
                 gpboxsearch.Visible = false;
                 btnUpdate.Enabled = true;
                 btnUpdate.BringToFront();
@@ -477,7 +478,7 @@ namespace MachineDeptApp.SparePartControll
                     dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["qty"].Value = row["Order_Qty"].ToString();
                     dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["unitprice"].Value = row["UnitPrice"].ToString();
                     dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["amount"].Value = row["Amount"].ToString();
-                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["eta"].Value = eta.ToString("dd-MM-yy");
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["eta"].Value = eta.ToString("dd-MMM-yyyy");
                     dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["mcdocno"].Value = row["PO_No"].ToString();
                 }
                 btnUpdate.PerformClick();
