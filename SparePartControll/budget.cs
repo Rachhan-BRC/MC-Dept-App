@@ -470,7 +470,6 @@ namespace MachineDeptApp
                     "ORDER BY YearMonth;";
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtRemain);
-                Console.WriteLine(query);
             }
             catch (Exception ex)
             {
@@ -497,10 +496,10 @@ namespace MachineDeptApp
             try
             {
                 con.con.Open();
-                string query = "SELECT FORMAT(Receive_Date, 'yyyy-MM') AS YearMonth, SUM(Amount) AS TotalAmount " +
-                    "FROM MCSparePartRequest WHERE Dept = '"+dept+"' AND Order_State = 'Completed' " +
+                string query = "SELECT FORMAT(Receive_Date, 'yyyy-MM') AS YearMonth, SUM(UnitPrice*ReceiveQTY) AS TotalAmount " +
+                    "FROM MCSparePartRequest WHERE Dept = '"+dept+"' " +
                     "GROUP BY FORMAT(Receive_Date, 'yyyy-MM') ORDER BY YearMonth";
-
+                Console.WriteLine(query);
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtReceive);
 
@@ -637,7 +636,7 @@ namespace MachineDeptApp
                         double total = Convert.ToDouble(row["ActualOrder"]);
                         if (Date == Colname)
                         {
-                            dgvBudget.Rows[dgvBudget.Rows.Count - 4].Cells[i].Value = total;
+                            dgvBudget.Rows[dgvBudget.Rows.Count - 4].Cells[i].Value = total.ToString("N2");
                             break;
 
                         }
@@ -665,7 +664,7 @@ namespace MachineDeptApp
                             if (now2 > col)
                             {
 
-                                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells[i].Value = total;
+                                dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells[i].Value = total.ToString("N2");
                             }
                             break;
 
@@ -678,7 +677,7 @@ namespace MachineDeptApp
                     double  target = Convert.ToDouble(dgvBudget.Rows[dgvBudget.Rows.Count - 6].Cells[i].Value);
                     double actualorder = Convert.ToDouble(dgvBudget.Rows[dgvBudget.Rows.Count - 4].Cells[i].Value);
                     double gap = Convert.ToDouble(actualorder - target);
-                    dgvBudget.Rows[dgvBudget.Rows.Count -3].Cells[i].Value = gap;
+                    dgvBudget.Rows[dgvBudget.Rows.Count -3].Cells[i].Value = gap.ToString("N2");
                 }
                 //actual receive
                 for (int i = 2; i < 14; i++)
@@ -699,7 +698,7 @@ namespace MachineDeptApp
                         if (Date == Colname)
                         {
                             double actrec = Convert.ToDouble(row["TotalAmount"]);
-                            dgvBudget.Rows[dgvBudget.Rows.Count - 2].Cells[i].Value = actrec;
+                            dgvBudget.Rows[dgvBudget.Rows.Count - 2].Cells[i].Value = actrec.ToString("N2");
                             break;
 
                         }
