@@ -333,8 +333,8 @@ namespace MachineDeptApp
                 int prevMonth = prevMonthDate.Month;
                 int prevDay = DateTime.DaysInMonth(prevYear, prevMonth);
                 DateTime preStockLastDay = new DateTime(prevYear, prevMonth, prevDay);
-               
-
+                string prelastd = preStockLastDay.ToString("yyyy-MM-dd 23:59:59.000");
+                string lastd = lastDay.ToString("yyyy-MM-dd 23:59:59.000");
                 string query = @"SELECT tbMst.Code, tbMst.Supplier, tbMst.Part_No AS PartNo, tbMst.Part_Name AS PartName, tbPre.PreQty, tbTran.QtyIn, tbTran.QtyOut, 
                                         (tbTran.QtyIn - tbTran.QtyOut) AS StockRemain, tbMst.Safety_Stock AS Safety,tbMst.Lead_Time_Week AS LT,tbMst.Box, tbReq.Balance, 
                                         (tbTran.QtyIn - tbTran.QtyOut - tbMst.Safety_Stock) AS Status,tbReq.ETA AS PlanEta FROM MstMCSparePart tbMst
@@ -351,14 +351,14 @@ namespace MachineDeptApp
                                         "GROUP BY tbMst.Code, tbMst.Supplier, tbMst.Part_No, tbMst.Part_Name,tbTran.QtyIn,tbTran.QtyOut, tbPre.PreQty, tbMst.Box, tbMst.Safety_Stock, tbMst.Lead_Time_Week, tbReq.Balance, tbReq.ETA Order by tbMst.Code";
                 using (SqlCommand cmd = new SqlCommand(query, con.con)) 
                 {
-                    cmd.Parameters.AddWithValue("@preStockLastDay", preStockLastDay); 
-                    cmd.Parameters.AddWithValue("@firstDay", lastDay); 
+                    cmd.Parameters.AddWithValue("@preStockLastDay", prelastd); 
+                    cmd.Parameters.AddWithValue("@firstDay", lastd); 
                     SqlDataAdapter sda = new SqlDataAdapter(cmd); 
                     sda.Fill(dtselect); 
                 }
                 Console.WriteLine(query);
-                Console.WriteLine(firstDay);
-                Console.WriteLine(preStockLastDay);
+                Console.WriteLine(prelastd);
+                Console.WriteLine(lastd);
                 dtpDate.Value = lastDay;
             }
             catch (Exception ex)
