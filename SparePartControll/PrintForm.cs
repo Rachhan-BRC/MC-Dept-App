@@ -621,6 +621,7 @@ namespace MachineDeptApp.SparePartControll
                 string date = DateTime.Now.ToString("dd");
                 string month = DateTime.Now.ToString("MM");
                 string year = DateTime.Now.ToString("yyyy");
+                double totalAmount = 0;
                 for (int i = 0; i < dgvTTL.Rows.Count; i++)
                 {
                     DataGridViewRow row = dgvTTL.Rows[i];
@@ -634,7 +635,7 @@ namespace MachineDeptApp.SparePartControll
                         Excel.Range insertRow = worksheet.Rows[startRow + i];
                         insertRow.Insert(Excel.XlInsertShiftDirection.xlShiftDown);
                     }
-
+                    totalAmount += Convert.ToDouble(row.Cells["amount"].Value);
                     worksheet.Cells[startRow + i, 1] = row.Cells["Code"].Value?.ToString();
                     worksheet.Cells[startRow + i, 2] = row.Cells["partno"].Value?.ToString();
                     worksheet.Cells[startRow + i, 3] = row.Cells["partname"].Value?.ToString();
@@ -644,6 +645,7 @@ namespace MachineDeptApp.SparePartControll
                     worksheet.Cells[startRow + i, 7] = row.Cells["qty"].Value?.ToString();
                     worksheet.Cells[startRow + i, 8] = row.Cells["unitprice"].Value?.ToString();
                     worksheet.Cells[startRow + i, 9] = row.Cells["amount"].Value?.ToString();
+                    worksheet.Cells[startRow + i + 1, 9] = totalAmount.ToString();
 
                 }
                 // Save Excel
@@ -705,6 +707,7 @@ namespace MachineDeptApp.SparePartControll
                 string date = DateTime.Now.ToString("dd");
                 string month = DateTime.Now.ToString("MM");
                 string year = DateTime.Now.ToString("yyyy");
+                double totalAmount = 0;
                 for (int i = 0; i < dgvTTL.Rows.Count; i++)
                 {
                     DataGridViewRow row = dgvTTL.Rows[i];
@@ -718,7 +721,7 @@ namespace MachineDeptApp.SparePartControll
                         Excel.Range insertRow = worksheet.Rows[startRow + i];
                         insertRow.Insert(Excel.XlInsertShiftDirection.xlShiftDown);
                     }
-
+                    totalAmount += Convert.ToDouble(row.Cells["amount"].Value);
                     worksheet.Cells[startRow + i, 1] = row.Cells["Code"].Value?.ToString();
                     worksheet.Cells[startRow + i, 2] = row.Cells["partno"].Value?.ToString();
                     worksheet.Cells[startRow + i, 3] = row.Cells["partname"].Value?.ToString();
@@ -728,6 +731,7 @@ namespace MachineDeptApp.SparePartControll
                     worksheet.Cells[startRow + i, 7] = row.Cells["qty"].Value?.ToString();
                     worksheet.Cells[startRow + i, 8] = row.Cells["unitprice"].Value?.ToString();
                     worksheet.Cells[startRow + i, 9] = row.Cells["amount"].Value?.ToString();
+                    worksheet.Cells[startRow + i + 1, 9] = totalAmount.ToString();
 
                 }
                 // Save Excel

@@ -723,6 +723,7 @@
             // 
             this.receiveamount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopRight;
+            dataGridViewCellStyle10.Format = "N2";
             this.receiveamount.DefaultCellStyle = dataGridViewCellStyle10;
             this.receiveamount.HeaderText = "Receive Amount";
             this.receiveamount.Name = "receiveamount";
