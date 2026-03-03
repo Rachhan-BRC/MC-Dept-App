@@ -129,6 +129,7 @@ namespace MachineDeptApp.SparePartControll
                            FROM MstMCSparePart WHERE Code IN " + codelist1;
                 SqlDataAdapter sdamaster = new SqlDataAdapter(sqlmaster, con.con);
                 sdamaster.Fill(dtmst);
+                double totalAmount = 0;
                 //Combine table 
                 foreach (DataRow row1 in dtdoc.Rows)
                 {
@@ -142,6 +143,8 @@ namespace MachineDeptApp.SparePartControll
                     double amount = row1["Amount"] == DBNull.Value || row1["Amount"] == null
                    ? 0
                    : Convert.ToDouble(row1["Amount"]);
+
+                    totalAmount += amount;
 
                     foreach (DataRow row2 in dtmst.Rows)
                     {
@@ -164,6 +167,7 @@ namespace MachineDeptApp.SparePartControll
                 Excel.Worksheet xlWorkSheet = (Excel.Worksheet)xlWorkBook.Sheets[1];
                 int rowIndex = 4;
                 xlWorkSheet.Cells[ 2, 10] = docId.ToString();
+
                 for (int i = 0; i < dtexcel.Rows.Count; i++) 
                 {
                     DataRow row = dtexcel.Rows[i]; 
@@ -177,8 +181,11 @@ namespace MachineDeptApp.SparePartControll
                     {
                         xlWorkSheet.Cells[rowIndex + i, colIndex + 1] = row[colIndex]?.ToString(); 
                     }
+                    xlWorkSheet.Cells[rowIndex + i + 1, 9] = totalAmount;
                 }
-                xlApp.Visible = true; con.con.Close(); Cursor = Cursors.Default;
+                xlApp.Visible = true; 
+                con.con.Close(); 
+                Cursor = Cursors.Default;
             }
         }
 
@@ -562,7 +569,7 @@ namespace MachineDeptApp.SparePartControll
 
                 foreach (DataRow row in dt.Rows)
                 {
-                    string code = row["Code"]?.ToString() ?? string.Empty;
+                    string code = row["Code"]?.ToString() ?? string.Empty;    
                     string Docno = row["MCDocNo"]?.ToString() ?? string.Empty;
                     string Pono = row["PO_No"]?.ToString() ?? string.Empty;
                     string pno = row["Part_No"]?.ToString() ?? string.Empty;
@@ -591,16 +598,16 @@ namespace MachineDeptApp.SparePartControll
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["Pname"].Value = pname;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["issuedate"].Value = issuedate;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["orderqty"].Value = orderqty;
-                    dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["unitprice"].Value = unitprice.ToString("N4");
-                    dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["amount"].Value = amount.ToString("N2");
-                    dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["receiveamount"].Value = recamount.ToString("N2");
+                    dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["unitprice"].Value = unitprice;
+                    dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["amount"].Value = amount;
+                    dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["receiveamount"].Value = recamount;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["eta"].Value = eta;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["pono"].Value = Pono;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["mcdocno"].Value = Docno;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["receivedate"].Value = receivedate;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["receiveqty"].Value = receiveqty;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["balance"].Value = balance;
-                    dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["remainamount"].Value = remainamount.ToString("N2");
+                    dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["remainamount"].Value = remainamount;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["orderstatus"].Value = orderstate;
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["remark"].Value = remark;
                     dgvRequest.Columns["code"].Frozen = true;
@@ -637,12 +644,12 @@ namespace MachineDeptApp.SparePartControll
                 dgvRequest.Rows[dgvRequest.Rows.Count - 1].DefaultCellStyle.ForeColor = Color.Orange;
                 dgvRequest.Rows[dgvRequest.Rows.Count - 1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["Pname"].Value = "Total";
-                dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["orderqty"].Value = ordera.ToString("N0");
-                dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["amount"].Value = amounta.ToString("N2");
+                dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["orderqty"].Value = ordera;
+                dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["amount"].Value = amounta;
                 dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["receiveqty"].Value = receiveqtya;
                 dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["balance"].Value = balancea;
-                dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["remainamount"].Value = reamounta.ToString("N2");
-                dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["receiveamount"].Value = receiveamount.ToString("N2");
+                dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["remainamount"].Value = reamounta;
+                dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["receiveamount"].Value = receiveamount;
             }
             catch (Exception ex)
             {

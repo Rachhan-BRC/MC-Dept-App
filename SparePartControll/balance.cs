@@ -290,7 +290,7 @@ namespace MachineDeptApp
                 string val = txtRname.Text;
                 if (val.Trim() != "")
                 {
-                    cond.Rows.Add("tbMst.Part_Name LIKE '%" + val + "%'");
+                    cond.Rows.Add("tbMst.Part_Name LIKE '%"+val+"%'");
                 }
             }
             if (chkstatus.Checked == true)
@@ -346,8 +346,7 @@ namespace MachineDeptApp
                                         (SELECT Code, SUM(Stock_Value) AS PreQty FROM SparePartTrans WHERE CAST(RegDate AS date) <= @preStockLastDay AND Dept ='MC' GROUP BY Code ) 
                                         tbPre ON tbMst.Code  = tbPre.Code
                                         LEFT JOIN 
-                                        (SELECT Code, Balance, ETA FROM MCSparePartRequest WHERE Balance > 0 AND Dept = 'MC' ) tbReq ON tbMst.Code = tbReq.Code  WHERE Dept = 'MC' AND Status = 'Active'
-                                       " + Conds+
+                                        (SELECT Code, Balance, ETA FROM MCSparePartRequest WHERE Balance > 0 AND Dept = 'MC' ) tbReq ON tbMst.Code = tbReq.Code  WHERE Dept = 'MC' AND Status = 'Active' "+Conds+
                                         "GROUP BY tbMst.Code, tbMst.Supplier, tbMst.Part_No, tbMst.Part_Name,tbTran.QtyIn,tbTran.QtyOut, tbPre.PreQty, tbMst.Box, tbMst.Safety_Stock, tbMst.Lead_Time_Week, tbReq.Balance, tbReq.ETA Order by tbMst.Code";
                 using (SqlCommand cmd = new SqlCommand(query, con.con)) 
                 {
