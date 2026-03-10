@@ -117,11 +117,22 @@ namespace MachineDeptApp
         }
         private void Txtunitprice_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true; // Block the key
-            }
+            // Allow control keys (Backspace, Delete, etc.)
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(e.KeyChar))
+                return;
+
+            // Allow one decimal point
+            if (e.KeyChar == '.' && !((TextBox)sender).Text.Contains("."))
+                return;
+
+            // Block everything else
+            e.Handled = true;
         }
+
         private void Txtsafetystock_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
