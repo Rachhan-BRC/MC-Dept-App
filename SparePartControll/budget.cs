@@ -463,10 +463,10 @@ namespace MachineDeptApp
             try
             {
                 con.con.Open();
-                string query = "SELECT FORMAT(Receive_Date, 'yyyy-MM') AS YearMonth, SUM(RemainAmount) AS TotalRemain " +
+                string query = "SELECT FORMAT(ETA, 'yyyy-MM') AS YearMonth, SUM(RemainAmount) AS TotalRemain " +
                     "FROM MCSparePartRequest " +
                     "WHERE Dept = '"+dept+"'" +
-                    "GROUP BY FORMAT(Receive_Date, 'yyyy-MM') " +
+                    "GROUP BY FORMAT(ETA, 'yyyy-MM') " +
                     "ORDER BY YearMonth;";
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtRemain);
@@ -663,7 +663,6 @@ namespace MachineDeptApp
                         {
                             if (now2 > col)
                             {
-
                                 dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells[i].Value = total.ToString("N2");
                             }
                             break;
