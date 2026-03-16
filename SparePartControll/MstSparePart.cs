@@ -30,6 +30,34 @@ namespace MachineDeptApp
             this.txtcode.TextChanged += Txtcode_TextChanged;
             this.txtPname.TextChanged += TxtPname_TextChanged;
             this.txtPno.TextChanged += TxtPno_TextChanged;
+            this.txtLoc.TextChanged += TxtLoc_TextChanged;
+            this.txtusefor.TextChanged += Txtusefor_TextChanged;
+        }
+
+        private void Txtusefor_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtusefor.Text))
+            {
+                chkusefor.Checked = true;
+            }
+            else
+            {
+                chkusefor.Checked = false;
+            }
+            btnSearch.PerformClick();
+        }
+
+        private void TxtLoc_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtLoc.Text))
+            {
+                chkloc.Checked = true;
+            }
+            else
+            {
+                chkloc.Checked = false;
+            }
+            btnSearch.PerformClick();
         }
 
         private void MstSparePart_Load(object sender, EventArgs e)
@@ -162,12 +190,22 @@ namespace MachineDeptApp
                 string no = txtPno.Text.Trim();
                 conds.Rows.Add("Part_No LIKE '%" + no + "%'");
             }
+            if (chkloc.Checked == true)
+            {
+                string loc = txtLoc.Text.Trim();
+                conds.Rows.Add("Box LIKE '%" + loc + "%'");
+            }
+            if (chkusefor.Checked == true)
+            {
+                string usefor = txtusefor.Text.Trim();
+                conds.Rows.Add("Use_For LIKE '%" + usefor + "%'");
+            }
             string where = "";
 
             foreach (DataRow row in conds.Rows)
             {
                 if (where == "")
-                {
+                {   
                     where = " AND " + row["Val"].ToString();
                 }
                 else

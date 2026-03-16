@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace MachineDeptApp.NG_Input
 {
@@ -65,9 +66,11 @@ namespace MachineDeptApp.NG_Input
                     DateTime RegDate = DateTime.Now;
                     string RegBy = MenuFormV2.UserForNextForm;
 
-
+                    //////////Print Original
                     string fName = "";
                     string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\NG";
+                    string fName2 = "";
+                    string SavePath2 = (Environment.CurrentDirectory).ToString() + @"\Report\NG";
                     //ឆែករកមើល Folder បើគ្មាន => បង្កើត
                     if (!Directory.Exists(SavePath))
                     {
@@ -361,7 +364,6 @@ namespace MachineDeptApp.NG_Input
                             xlWorkBook.Save();
                             xlWorkBook.Close();
                             excelApp.Quit();
-
                         }
                         catch (Exception ex)
                         {
@@ -372,15 +374,125 @@ namespace MachineDeptApp.NG_Input
                             ErrorText += "\n" + ex.Message;
                         }
 
-                        //Kill all Excel background process
-                        var processes = from p in Process.GetProcessesByName("EXCEL")
-                                        select p;
-                        foreach (var process in processes)
-                        {
-                            if (process.MainWindowTitle.ToString().Trim() == "")
-                                process.Kill();
-                        }
 
+                        //New OBS Priint
+                        var CDirectory2 = Environment.CurrentDirectory;
+                        Excel.Application excelApp2 = new Excel.Application();
+                        Excel.Workbook xlWorkBook2 = excelApp2.Workbooks.Open(Filename: CDirectory2.ToString() + @"\Template\ReciveIssueImport.xlsx", Editable: true);
+                        try
+                        {
+                            //Uncount
+                            Excel.Worksheet worksheetobs = (Excel.Worksheet)xlWorkBook2.Sheets["Import"];
+                            int WriteItems2 = 0;
+                            foreach (DataRow row in dtPrint.Rows)
+                            {
+                                if (row["MatCalcFlag"].ToString() != "0")
+                                {
+                                    WriteItems2 = WriteItems2 + 1;
+                                }
+                            }
+                            if (WriteItems2 > 1)
+                            {
+                                //ឆែករកមើល Folder បើគ្មាន => បង្កើត
+                                if (!Directory.Exists(SavePath2))
+                                {
+                                    Directory.CreateDirectory(SavePath2);
+                                }
+
+                                int startrow = 2;
+                                foreach (DataRow row in dtPrint.Rows)
+                                {
+                                    worksheetobs.Cells[startrow, 1] = DateTime.Now.Date.ToString("yyyyMMdd");
+                                    worksheetobs.Cells[startrow, 2] = 0;
+                                    worksheetobs.Cells[startrow, 3] = "MC1";
+                                    worksheetobs.Cells[startrow, 4] = row["RMCode"].ToString();
+                                    worksheetobs.Cells[startrow, 6] = row["Qty"].ToString();
+                                    startrow = startrow + 1;
+                                }
+                            }
+                            else
+                            {
+                                foreach (DataRow row in dtPrint.Rows)
+                                {
+                                    if (row["MatCalcFlag"].ToString() != "0")
+                                    {
+                                        worksheetobs.Cells[2, 1] = DateTime.Now.Date.ToString("yyyyMMdd");
+                                        worksheetobs.Cells[2, 2] = 0;
+                                        worksheetobs.Cells[2, 3] = "MC1";
+                                        worksheetobs.Cells[2, 4] = row["RMCode"].ToString();
+                                        worksheetobs.Cells[2, 6] = row["Qty"].ToString();
+                                    }
+                                }
+                            }
+
+                            //Count
+                            Excel.Worksheet worksheetobsCount = (Excel.Worksheet)xlWorkBook2.Sheets["Countable"];
+                            WriteItems2 = 0;
+                            foreach (DataRow row in dtPrint.Rows)
+                            {
+                                if (row["MatCalcFlag"].ToString() != "0")
+                                {
+                                    WriteItems2 = WriteItems2 + 1;
+                                }
+                            }
+                            if (WriteItems2 > 1)
+                            {
+
+                                //ឆែករកមើល Folder បើគ្មាន => បង្កើត
+                                if (!Directory.Exists(SavePath2))
+                                {
+                                    Directory.CreateDirectory(SavePath2);
+                                }
+
+                                int startrow = 2;
+                                foreach (DataRow row in dtPrint.Rows)
+                                {
+                                    worksheetobsCount.Cells[startrow, 1] = DateTime.Now.Date.ToString("yyyyMMdd");
+                                    worksheetobsCount.Cells[startrow, 2] = 0;
+                                    worksheetobsCount.Cells[startrow, 3] = "MC1";
+                                    worksheetobsCount.Cells[startrow, 4] = row["RMCode"].ToString();
+                                    worksheetobsCount.Cells[startrow, 6] = row["Qty"].ToString();
+                                    startrow = startrow + 1;
+                                }
+                            }
+                            else
+                            {
+                                foreach (DataRow row in dtPrint.Rows)
+                                {
+                                    if (row["MatCalcFlag"].ToString() == "0")
+                                    {
+                                        worksheetobsCount.Cells[2, 1] = DateTime.Now.Date.ToString("yyyyMMdd");
+                                        worksheetobsCount.Cells[2, 2] = 0;
+                                        worksheetobsCount.Cells[2, 3] = "MC1";
+                                        worksheetobsCount.Cells[2, 4] = row["RMCode"].ToString();
+                                        worksheetobsCount.Cells[2, 6] = row["Qty"].ToString();
+                                    }
+
+                                }
+                            }
+                            string file2 = "NG_Calculated_OBS ";
+                            fName2 = file2 + "( " + DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss") + " )";
+                            worksheetobs.SaveAs(SavePath2 + @"\" + fName2 + ".xlsx");
+                            xlWorkBook2.Save();
+                            xlWorkBook2.Close();
+                            excelApp2.Quit();
+                        }
+                        catch (Exception ex)
+                        {
+                            excelApp2.DisplayAlerts = false;
+                            xlWorkBook2.Close();
+                            excelApp2.DisplayAlerts = true;
+                            excelApp2.Quit();
+                            ErrorText += "\n" + ex.Message;
+                        }                       
+                    }
+                    //Kill all Excel background process
+                    var processes = from p in Process.GetProcessesByName("EXCEL")
+                                    select p;
+                    foreach (var process in processes)
+                    {
+                        if (process.MainWindowTitle.ToString().Trim() == "")
+                            process.Kill();
                     }
 
                     //Refres dgv
@@ -408,6 +520,7 @@ namespace MachineDeptApp.NG_Input
                         InfoMsg.InfoText = "ការព្រីនបានជោគជ័យ​ !";
                         InfoMsg.ShowingMsg();
                         System.Diagnostics.Process.Start(SavePath + @"\" + fName + ".xlsx");
+                        System.Diagnostics.Process.Start(SavePath2 + @"\" + fName2 + ".xlsx");
                     }
                     else
                     {
@@ -627,5 +740,9 @@ namespace MachineDeptApp.NG_Input
             }
         }
 
+        private void NGInputForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

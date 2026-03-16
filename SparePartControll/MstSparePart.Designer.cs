@@ -68,7 +68,6 @@
             this.lbFound = new System.Windows.Forms.Label();
             this.LbStatus = new System.Windows.Forms.Label();
             this.dgvMst = new System.Windows.Forms.DataGridView();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.code = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Pno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Pname = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -84,6 +83,11 @@
             this.unitpricejp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.box = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.chkloc = new System.Windows.Forms.CheckBox();
+            this.txtLoc = new System.Windows.Forms.TextBox();
+            this.chkusefor = new System.Windows.Forms.CheckBox();
+            this.txtusefor = new System.Windows.Forms.TextBox();
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGray)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -185,17 +189,21 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.groupBox1.Controls.Add(this.txtusefor);
+            this.groupBox1.Controls.Add(this.chkusefor);
             this.groupBox1.Controls.Add(this.txtPno);
             this.groupBox1.Controls.Add(this.chkPno);
             this.groupBox1.Controls.Add(this.txtPname);
+            this.groupBox1.Controls.Add(this.txtLoc);
             this.groupBox1.Controls.Add(this.chkPname);
+            this.groupBox1.Controls.Add(this.chkloc);
             this.groupBox1.Controls.Add(this.txtcode);
             this.groupBox1.Controls.Add(this.chkcode);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(0, 68);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(984, 71);
+            this.groupBox1.Size = new System.Drawing.Size(984, 99);
             this.groupBox1.TabIndex = 55;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search Condition";
@@ -203,7 +211,7 @@
             // txtPno
             // 
             this.txtPno.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPno.Location = new System.Drawing.Point(317, 27);
+            this.txtPno.Location = new System.Drawing.Point(317, 25);
             this.txtPno.Name = "txtPno";
             this.txtPno.Size = new System.Drawing.Size(101, 30);
             this.txtPno.TabIndex = 122;
@@ -212,7 +220,7 @@
             // 
             this.chkPno.AutoSize = true;
             this.chkPno.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkPno.Location = new System.Drawing.Point(238, 29);
+            this.chkPno.Location = new System.Drawing.Point(238, 27);
             this.chkPno.Name = "chkPno";
             this.chkPno.Size = new System.Drawing.Size(73, 26);
             this.chkPno.TabIndex = 117;
@@ -222,7 +230,7 @@
             // txtPname
             // 
             this.txtPname.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPname.Location = new System.Drawing.Point(543, 27);
+            this.txtPname.Location = new System.Drawing.Point(540, 41);
             this.txtPname.Name = "txtPname";
             this.txtPname.Size = new System.Drawing.Size(174, 30);
             this.txtPname.TabIndex = 122;
@@ -231,7 +239,7 @@
             // 
             this.chkPname.AutoSize = true;
             this.chkPname.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkPname.Location = new System.Drawing.Point(449, 29);
+            this.chkPname.Location = new System.Drawing.Point(446, 43);
             this.chkPname.Name = "chkPname";
             this.chkPname.Size = new System.Drawing.Size(88, 26);
             this.chkPname.TabIndex = 117;
@@ -241,7 +249,7 @@
             // txtcode
             // 
             this.txtcode.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtcode.Location = new System.Drawing.Point(107, 27);
+            this.txtcode.Location = new System.Drawing.Point(107, 25);
             this.txtcode.Name = "txtcode";
             this.txtcode.Size = new System.Drawing.Size(101, 30);
             this.txtcode.TabIndex = 122;
@@ -250,7 +258,7 @@
             // 
             this.chkcode.AutoSize = true;
             this.chkcode.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkcode.Location = new System.Drawing.Point(34, 29);
+            this.chkcode.Location = new System.Drawing.Point(34, 27);
             this.chkcode.Name = "chkcode";
             this.chkcode.Size = new System.Drawing.Size(58, 26);
             this.chkcode.TabIndex = 117;
@@ -349,7 +357,7 @@
             this.box});
             this.dgvMst.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvMst.EnableHeadersVisualStyles = false;
-            this.dgvMst.Location = new System.Drawing.Point(0, 139);
+            this.dgvMst.Location = new System.Drawing.Point(0, 167);
             this.dgvMst.Name = "dgvMst";
             this.dgvMst.ReadOnly = true;
             this.dgvMst.RowHeadersVisible = false;
@@ -360,7 +368,7 @@
             this.dgvMst.RowsDefaultCellStyle = dataGridViewCellStyle18;
             this.dgvMst.RowTemplate.Height = 25;
             this.dgvMst.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvMst.Size = new System.Drawing.Size(984, 379);
+            this.dgvMst.Size = new System.Drawing.Size(984, 351);
             this.dgvMst.TabIndex = 57;
             // 
             // code
@@ -514,6 +522,44 @@
             this.box.Name = "box";
             this.box.ReadOnly = true;
             // 
+            // chkloc
+            // 
+            this.chkloc.AutoSize = true;
+            this.chkloc.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkloc.Location = new System.Drawing.Point(34, 61);
+            this.chkloc.Name = "chkloc";
+            this.chkloc.Size = new System.Drawing.Size(48, 26);
+            this.chkloc.TabIndex = 117;
+            this.chkloc.Text = "Loc";
+            this.chkloc.UseVisualStyleBackColor = true;
+            // 
+            // txtLoc
+            // 
+            this.txtLoc.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLoc.Location = new System.Drawing.Point(107, 59);
+            this.txtLoc.Name = "txtLoc";
+            this.txtLoc.Size = new System.Drawing.Size(101, 30);
+            this.txtLoc.TabIndex = 122;
+            // 
+            // chkusefor
+            // 
+            this.chkusefor.AutoSize = true;
+            this.chkusefor.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkusefor.Location = new System.Drawing.Point(238, 61);
+            this.chkusefor.Name = "chkusefor";
+            this.chkusefor.Size = new System.Drawing.Size(72, 26);
+            this.chkusefor.TabIndex = 117;
+            this.chkusefor.Text = "Use For";
+            this.chkusefor.UseVisualStyleBackColor = true;
+            // 
+            // txtusefor
+            // 
+            this.txtusefor.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtusefor.Location = new System.Drawing.Point(317, 59);
+            this.txtusefor.Name = "txtusefor";
+            this.txtusefor.Size = new System.Drawing.Size(101, 30);
+            this.txtusefor.TabIndex = 122;
+            // 
             // MstSparePart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -575,5 +621,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn unitpricejp;
         private System.Windows.Forms.DataGridViewTextBoxColumn status;
         private System.Windows.Forms.DataGridViewTextBoxColumn box;
+        private System.Windows.Forms.TextBox txtusefor;
+        private System.Windows.Forms.CheckBox chkusefor;
+        private System.Windows.Forms.TextBox txtLoc;
+        private System.Windows.Forms.CheckBox chkloc;
     }
 }

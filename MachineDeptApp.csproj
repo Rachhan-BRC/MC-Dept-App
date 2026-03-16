@@ -139,11 +139,23 @@
     <Compile Include="AllSection\AllSectionMCTransferForm.Designer.cs">
       <DependentUpon>AllSectionMCTransferForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomMessageBox.Designer.cs">
+      <DependentUpon>CustomMessageBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Inventory\MC_SD\MCSDCountingForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Inventory\MC_SD\MCSDCountingForm.Designer.cs">
       <DependentUpon>MCSDCountingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NG Input\NGCalculateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NG Input\NGCalculateForm.Designer.cs">
+      <DependentUpon>NGCalculateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SDMstPic.cs">
       <SubType>Form</SubType>
@@ -850,8 +862,14 @@
     <EmbeddedResource Include="AllSection\AllSectionMCTransferForm.resx">
       <DependentUpon>AllSectionMCTransferForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CustomMessageBox.resx">
+      <DependentUpon>CustomMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Inventory\MC_SD\MCSDCountingForm.resx">
       <DependentUpon>MCSDCountingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NG Input\NGCalculateForm.resx">
+      <DependentUpon>NGCalculateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SDMstPic.resx">
       <DependentUpon>SDMstPic.cs</DependentUpon>
