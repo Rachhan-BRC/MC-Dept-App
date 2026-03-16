@@ -353,7 +353,7 @@ namespace MachineDeptApp.NG_Input
                         "\nWHERE T1.ItemCode IN (" + RMCodeIN + ") " +
                         "\nORDER BY ItemCode ASC ";
                     SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnnOBS.conOBS);
-                    //Console.WriteLine(SQLQuery);
+                    Console.WriteLine(SQLQuery);
                     sda.Fill(dtOBS);
                 }
                 catch (Exception ex)
