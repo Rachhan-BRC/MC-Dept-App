@@ -1279,6 +1279,5 @@ namespace MachineDeptApp.NG_Input
             dtForPrintExcel.Columns.Add("Qty");
             dtForPrintExcel.Columns.Add("UnitPrice");
         }
-
     }
 }

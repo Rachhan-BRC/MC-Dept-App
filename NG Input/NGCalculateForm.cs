@@ -20,7 +20,6 @@ using System.Windows.Media.Animation;
 using  Excel = Microsoft.Office.Interop.Excel;
 namespace MachineDeptApp
 {
-
     public partial class NGCalculateForm : Form
     {
         SQLConnectOBS OBS = new SQLConnectOBS();
@@ -187,7 +186,15 @@ namespace MachineDeptApp
             if (ask == DialogResult.Yes)
             {
 
-                string error = "";
+                string error = ""; 
+                string SavePath1 = "";
+                string SavePath2 = "";
+                string SavePath3 = "";
+                string SavePath4 = "";
+                string fName1 = "";
+                string fName2 = "";
+                string fName3 = "";
+                string fName4 = "";
                 Cursor = Cursors.WaitCursor;
                 //print obs countable
                 try
@@ -274,10 +281,10 @@ namespace MachineDeptApp
                         Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(
                             Path.Combine(Environment.CurrentDirectory, @"Template\ReciveIssueImport.xlsx"), Editable: true);
 
-                        string SavePath = Path.Combine(Environment.CurrentDirectory, @"Report\NGCalculate");
-                        if (!Directory.Exists(SavePath))
+                         SavePath1= Path.Combine(Environment.CurrentDirectory, @"Report\NGCalculate");
+                        if (!Directory.Exists(SavePath1))
                         {
-                            Directory.CreateDirectory(SavePath);
+                            Directory.CreateDirectory(SavePath1);
                         }
                         //add to count sheet
                         try
@@ -288,7 +295,7 @@ namespace MachineDeptApp
                             {
                                 double matflag = Convert.ToDouble(row["MatCalcFlag"]);
 
-                                if (matflag != 0)
+                                if (matflag == 0)
                                 {
                                     worksheetCountable.Cells[startrow, 1] = DateTime.Now.ToString("yyyyMMdd");
                                     worksheetCountable.Cells[startrow, 2] = 2;
@@ -304,7 +311,9 @@ namespace MachineDeptApp
                             error = ex.Message;
                             MessageBox.Show("Error while fill print count" + ex.Message, "Errorwhile fill print Count", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                        xlWorkBook.SaveAs(SavePath + "/" + "NG_Import_OBS(UnCountable)" + (DateTime.Now.ToString(" dd-MM-yyyy hh_mm_ss ")) + "" + ".xlsx");
+                        fName1 = "NG_Import_OBS(UnCountable)" + (DateTime.Now.ToString(" dd-MM-yyyy hh_mm_ss ")) + "";
+                        xlWorkBook.SaveAs(SavePath1 + @"\" +fName1 + ".xlsx");
+                        
                         excelApp.DisplayAlerts = false;
                         xlWorkBook.Close();
                         excelApp.Quit();
@@ -318,12 +327,14 @@ namespace MachineDeptApp
                             if (process.MainWindowTitle.ToString().Trim() == "")
                                 process.Kill();
                         }
+                       
                     }
                     catch (Exception ex)
                     {
                         error = ex.Message;
                         MessageBox.Show("Error print Search Result Count" + ex.Message, "Error Search Count", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+
                 }
                 catch (Exception ex)
                 {
@@ -415,12 +426,12 @@ namespace MachineDeptApp
                         Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(
                             Path.Combine(Environment.CurrentDirectory, @"Template\ReciveIssueImport.xlsx"), Editable: true);
 
-                        string SavePath = Path.Combine(Environment.CurrentDirectory, @"Report\NGCalculate");
-                        if (!Directory.Exists(SavePath))
+                         SavePath2 = Path.Combine(Environment.CurrentDirectory, @"Report\NGCalculate");
+                        if (!Directory.Exists(SavePath2))
                         {
-                            Directory.CreateDirectory(SavePath);
+                            Directory.CreateDirectory(SavePath2);
                         }
-                        //add to count sheet
+                        //add to uncount sheet
                         try
                         {
                             Excel.Worksheet worksheetCountable = (Excel.Worksheet)xlWorkBook.Sheets["Import"];
@@ -429,7 +440,7 @@ namespace MachineDeptApp
                             {
                                 double matflag = Convert.ToDouble(row["MatCalcFlag"]);
 
-                                if (matflag == 0)
+                                if (matflag != 0)
                                 {
                                     worksheetCountable.Cells[startrow, 1] = DateTime.Now.ToString("yyyyMMdd");
                                     worksheetCountable.Cells[startrow, 2] = 2;
@@ -445,7 +456,9 @@ namespace MachineDeptApp
                             error = ex.Message;
                             MessageBox.Show("Error while fill print uncount" + ex.Message, "Error while fill print UnCount", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                        xlWorkBook.SaveAs(SavePath + "/" + "NG_Import_OBS(Countable)" + (DateTime.Now.ToString(" dd-MM-yyyy hh_mm_ss ")) + "" + ".xlsx");
+                        fName2 = "NG_Import_OBS(Countable)" + (DateTime.Now.ToString(" dd-MM-yyyy hh_mm_ss ")) + "";
+                        xlWorkBook.SaveAs(SavePath2 + @"\" +fName2+ ".xlsx");
+                      
                         excelApp.DisplayAlerts = false;
                         xlWorkBook.Close();
                         excelApp.Quit();
@@ -459,6 +472,8 @@ namespace MachineDeptApp
                             if (process.MainWindowTitle.ToString().Trim() == "")
                                 process.Kill();
                         }
+                        
+                       
                     }
                     catch (Exception ex)
                     {
@@ -557,10 +572,10 @@ namespace MachineDeptApp
                         Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(
                             Path.Combine(Environment.CurrentDirectory, @"Template\NGReq_Template.xlsx"), Editable: true);
 
-                        string SavePath = Path.Combine(Environment.CurrentDirectory, @"Report\NGCalculate");
-                        if (!Directory.Exists(SavePath))
+                         SavePath3 = Path.Combine(Environment.CurrentDirectory, @"Report\NGCalculate");
+                        if (!Directory.Exists(SavePath3))
                         {
-                            Directory.CreateDirectory(SavePath);
+                            Directory.CreateDirectory(SavePath3);
                         }
                         //add to count sheet
                         try
@@ -638,7 +653,9 @@ namespace MachineDeptApp
                             error = ex.Message;
                             MessageBox.Show("Error while fill print count" + ex.Message, "Errorwhile fill print Count", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                        xlWorkBook.SaveAs(SavePath + "/" + "NG_Req_Result" + (DateTime.Now.ToString(" dd-MM-yyyy hh_mm_ss ")) + "" + ".xlsx");
+                        fName3 = "NG_Req_Result" + (DateTime.Now.ToString(" dd-MM-yyyy hh_mm_ss ")) + "";
+                        xlWorkBook.SaveAs(SavePath3 + @"\" +fName3+ ".xlsx");
+                       
                         excelApp.DisplayAlerts = false;
                         xlWorkBook.Close();
                         excelApp.Quit();
@@ -652,6 +669,8 @@ namespace MachineDeptApp
                             if (process.MainWindowTitle.ToString().Trim() == "")
                                 process.Kill();
                         }
+                        
+                      
                     }
                     catch (Exception ex)
                     {
@@ -675,12 +694,11 @@ namespace MachineDeptApp
                     Excel.Range sourceRange = worksheetCountable.Range["A14:M14"];
                     try
                     {
-                        string SavePath = Path.Combine(Environment.CurrentDirectory, @"Report\NGCalculate");
-
+                         SavePath4 = Path.Combine(Environment.CurrentDirectory, @"Report\NGCalculate");
                         // Create folder if not exists
-                        if (!Directory.Exists(SavePath))
+                        if (!Directory.Exists(SavePath4))
                         {
-                            Directory.CreateDirectory(SavePath);
+                            Directory.CreateDirectory(SavePath4);
                         }
                         int startrow = 14;
                         worksheetCountable.Cells[4, 10] = DateTime.Now.ToString("dd-MMM-yy");
@@ -707,7 +725,9 @@ namespace MachineDeptApp
                                 copy++;
                             }
                         }
-                        worksheetCountable.SaveAs(SavePath + "/" + "NGAdjustResult" + (DateTime.Now.ToString(" dd-MM-yyyy hh_mm_ss ")) + "" + ".xlsx");
+                         fName4 = "NGAdjustResult" + (DateTime.Now.ToString(" dd-MM-yyyy hh_mm_ss ")) + "";
+                        worksheetCountable.SaveAs(SavePath4 + @"\" +fName4 + ".xlsx");
+                       
                         excelApp.DisplayAlerts = false;
                         xlWorkBook.Close();
                         excelApp.Quit();
@@ -721,6 +741,8 @@ namespace MachineDeptApp
                             if (process.MainWindowTitle.ToString().Trim() == "")
                                 process.Kill();
                         }
+                       
+                     
                     }
                     catch (Exception ex)
                     {
@@ -748,6 +770,7 @@ namespace MachineDeptApp
                     MessageBox.Show("Error print Adjust Result" + ex.Message, "Error Adjust", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
+
                 if (error == "")
                 {
                     btnPrint.Enabled = false;
@@ -756,7 +779,13 @@ namespace MachineDeptApp
                     btnExportGrey.BringToFront();
                     dgvNGCal.Rows.Clear();
                     dgvResult.Rows.Clear();
+                    txtadd.Text = "'";
+                    txtsearch.Text = "'";
                     MessageBox.Show("Print Sucessfully !", "Sucess.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    System.Diagnostics.Process.Start(SavePath1 + @"\" + fName1 + ".xlsx");
+                    System.Diagnostics.Process.Start(SavePath2 + @"\" + fName2 + ".xlsx");
+                    System.Diagnostics.Process.Start(SavePath3 + @"\" + fName3 + ".xlsx");
+                    System.Diagnostics.Process.Start(SavePath4 + @"\" + fName4 + ".xlsx");
                 }
                 Cursor = Cursors.Default;
             }
@@ -768,8 +797,11 @@ namespace MachineDeptApp
                 DialogResult ask = MessageBox.Show("តើអ្នកមិនចង់ព្រីនសិនទេ? សម្អាតទិន្ន័យទាំងអស់ !", "Clear Data", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (ask == DialogResult.Yes)
                 {
+
                     dgvNGCal.Rows.Clear();
                     dgvResult.Rows.Clear();
+                    txtsearch.Text = "'";
+                    txtadd.Text = "'";
                     lbfound.Text = "Found : " + dgvNGCal.Rows.Count.ToString();
                     btnPrint.Enabled = false;
                     btnPrint.SendToBack();
