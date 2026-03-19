@@ -191,10 +191,12 @@ namespace MachineDeptApp
                 string SavePath2 = "";
                 string SavePath3 = "";
                 string SavePath4 = "";
+                string SavePath5 = "";
                 string fName1 = "";
                 string fName2 = "";
                 string fName3 = "";
                 string fName4 = "";
+                string fName5 = "";
                 Cursor = Cursors.WaitCursor;
                 //print obs countable
                 try
@@ -770,7 +772,82 @@ namespace MachineDeptApp
                     MessageBox.Show("Error print Adjust Result" + ex.Message, "Error Adjust", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
+                //print AdjustResult import to OBS
+                try
+                {
+                    Excel.Application excelApp = new Excel.Application();
+                    Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(
+                        Path.Combine(Environment.CurrentDirectory, @"Template\ReciveIssueImport.xlsx"), Editable: true);
+                    Excel.Worksheet worksheetCountable = (Excel.Worksheet)xlWorkBook.Sheets["Import"];
+                    try
+                    {
+                        SavePath5 = Path.Combine(Environment.CurrentDirectory, @"Report\NGCalculate");
+                        // Create folder if not exists
+                        if (!Directory.Exists(SavePath5))
+                        {
+                            Directory.CreateDirectory(SavePath4);
+                        }
+                        int startrow = 2;
+                        string date = DateTime.Now.ToString("yyyyMMdd");
+                        foreach (DataGridViewRow row in dgvResult.Rows)
+                        {
+                            double qty4 = Convert.ToDouble(row.Cells["qty4"].Value);
+                            if (qty4 > 0)
+                            {
+                                worksheetCountable.Cells[startrow, 1] = date;
+                                worksheetCountable.Cells[startrow, 2] = 0;
+                                worksheetCountable.Cells[startrow, 3] = "MC1";
+                                worksheetCountable.Cells[startrow, 4] = row.Cells["rmcode3"].Value?.ToString();
+                                worksheetCountable.Cells[startrow, 6] = row.Cells["qty4"].Value?.ToString();
+                                startrow = startrow + 1;
+                            }
+                        }
+                        fName5 = "Adjust_Import_OBS" + (DateTime.Now.ToString(" dd-MM-yyyy hh_mm_ss ")) + "";
+                        worksheetCountable.SaveAs(SavePath5 + @"\" + fName5 + ".xlsx");
 
+                        excelApp.DisplayAlerts = false;
+                        xlWorkBook.Close();
+                        excelApp.Quit();
+                        excelApp.DisplayAlerts = true;
+
+                        //Kill all Excel background process
+                        var processes = from p in Process.GetProcessesByName("EXCEL")
+                                        select p;
+                        foreach (var process in processes)
+                        {
+                            if (process.MainWindowTitle.ToString().Trim() == "")
+                                process.Kill();
+                        }
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        error = ex.Message;
+                        excelApp.DisplayAlerts = false;
+                        xlWorkBook.Close();
+                        excelApp.Quit();
+                        excelApp.DisplayAlerts = true;
+
+                        //Kill all Excel background process
+                        var processes = from p in Process.GetProcessesByName("EXCEL")
+                                        select p;
+                        foreach (var process in processes)
+                        {
+                            if (process.MainWindowTitle.ToString().Trim() == "")
+                                process.Kill();
+                        }
+                        error = ex.Message;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    error = ex.Message;
+                    MessageBox.Show("Error print Adjust Result" + ex.Message, "Error Adjust", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+                Console.WriteLine(error);
                 if (error == "")
                 {
                     btnPrint.Enabled = false;
@@ -786,6 +863,7 @@ namespace MachineDeptApp
                     System.Diagnostics.Process.Start(SavePath2 + @"\" + fName2 + ".xlsx");
                     System.Diagnostics.Process.Start(SavePath3 + @"\" + fName3 + ".xlsx");
                     System.Diagnostics.Process.Start(SavePath4 + @"\" + fName4 + ".xlsx");
+                    System.Diagnostics.Process.Start(SavePath5 + @"\" + fName5 + ".xlsx");
                 }
                 Cursor = Cursors.Default;
             }

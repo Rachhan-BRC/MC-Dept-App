@@ -39,8 +39,6 @@ namespace MachineDeptApp.NG_Input
             this.dgvNGalready.KeyDown += DgvNGalready_KeyDown;
 
         }
-
-        
         private void BtnPrint_Click(object sender, EventArgs e)
         {
             int FoundChecked = 0;
@@ -65,7 +63,6 @@ namespace MachineDeptApp.NG_Input
                     ErrorText = "";
                     DateTime RegDate = DateTime.Now;
                     string RegBy = MenuFormV2.UserForNextForm;
-
                     //////////Print Original
                     string fName = "";
                     string SavePath = (Environment.CurrentDirectory).ToString() + @"\Report\NG";
@@ -76,7 +73,6 @@ namespace MachineDeptApp.NG_Input
                     {
                         Directory.CreateDirectory(SavePath);
                     }
-
                     DataTable dtStatus = new DataTable();
                     dtStatus.Columns.Add("SysNo", typeof(string));
                     dtStatus.Columns.Add("RMCode", typeof(string));
