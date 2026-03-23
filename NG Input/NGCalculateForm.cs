@@ -34,7 +34,6 @@ namespace MachineDeptApp
             this.btnNew.Click += BtnNew_Click;
             this.btnPrint.Click += BtnPrint_Click;
             this.btnExport.Click += BtnExport_Click;
-           
         }
         private void BtnExport_Click(object sender, EventArgs e)
         {
@@ -572,7 +571,7 @@ namespace MachineDeptApp
 
                         Excel.Application excelApp = new Excel.Application();
                         Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(
-                            Path.Combine(Environment.CurrentDirectory, @"Template\NGReq_Template.xlsx"), Editable: true);
+                            Path.Combine(Environment.CurrentDirectory, @"Template\NGReq_TemplateV2.xlsx"), Editable: true);
 
                          SavePath3 = Path.Combine(Environment.CurrentDirectory, @"Report\NGCalculate");
                         if (!Directory.Exists(SavePath3))
@@ -607,6 +606,21 @@ namespace MachineDeptApp
                                     worksheetCountable.Cells[startrow, 9] = row["Qty"];
                                     worksheetCountable.Cells[startrow, 10] = row["Up"];
                                     worksheetCountable.Cells[startrow, 11] = row["Amount"];
+                                    Excel.Range targetCell = (Excel.Range)worksheetCountable.Cells[startrow + 1, 11];
+                                    double currentValue = 0;
+
+                                    // Safely convert the existing cell value
+                                    if (targetCell.Value2 != null)
+                                    {
+                                        currentValue = Convert.ToDouble(targetCell.Value2);
+                                    }
+
+                                    // Add your amount
+                                    currentValue += Convert.ToDouble(row["Amount"]);
+
+                                    // Write back to the cell
+                                    targetCell.Value2 = currentValue;
+
                                     startrow = startrow + 1;
                                     copy++;
                                 }
@@ -645,6 +659,21 @@ namespace MachineDeptApp
                                     worksheetUnCountable.Cells[startrow, 9] = row["Qty"];
                                     worksheetUnCountable.Cells[startrow, 10] = row["Up"];
                                     worksheetUnCountable.Cells[startrow, 11] = row["Amount"];
+                                    Excel.Range targetCell = (Excel.Range)worksheetUnCountable.Cells[startrow + 1, 11];
+                                    double currentValue = 0;
+
+                                    // Safely convert the existing cell value
+                                    if (targetCell.Value2 != null)
+                                    {
+                                        currentValue = Convert.ToDouble(targetCell.Value2);
+                                    }
+
+                                    // Add your amount
+                                    currentValue += Convert.ToDouble(row["Amount"]);
+
+                                    // Write back to the cell
+                                    targetCell.Value2 = currentValue;
+
                                     startrow = startrow + 1;
                                     copy++;
                                 }
@@ -723,6 +752,21 @@ namespace MachineDeptApp
                                 worksheetCountable.Cells[startrow, 9] = row.Cells["qty4"].Value?.ToString();
                                 worksheetCountable.Cells[startrow, 10] = row.Cells["up4"].Value?.ToString();
                                 worksheetCountable.Cells[startrow, 11] = row.Cells["amount4"].Value?.ToString();
+                                Excel.Range targetCell = (Excel.Range)worksheetCountable.Cells[startrow + 1, 11];
+                                double currentValue = 0;
+
+                                // Safely convert the existing cell value
+                                if (targetCell.Value2 != null)
+                                {
+                                    currentValue = Convert.ToDouble(targetCell.Value2);
+                                }
+
+                                // Add your amount
+                                currentValue += Convert.ToDouble(row.Cells["amount4"].Value);
+
+                                // Write back to the cell
+                                targetCell.Value2 = currentValue;
+
                                 startrow = startrow + 1;
                                 copy++;
                             }
@@ -763,6 +807,7 @@ namespace MachineDeptApp
                                 process.Kill();
                         }
                         error = ex.Message;
+                        MessageBox.Show("Error while print NGAdjustResult" + ex.Message, "Error NGAdjustResult", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
                 }
