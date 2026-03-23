@@ -571,7 +571,7 @@ namespace MachineDeptApp
 
                         Excel.Application excelApp = new Excel.Application();
                         Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(
-                            Path.Combine(Environment.CurrentDirectory, @"Template\NGReq_Template.xlsx"), Editable: true);
+                            Path.Combine(Environment.CurrentDirectory, @"Template\NGReq_TemplateV2.xlsx"), Editable: true);
 
                          SavePath3 = Path.Combine(Environment.CurrentDirectory, @"Report\NGCalculate");
                         if (!Directory.Exists(SavePath3))
