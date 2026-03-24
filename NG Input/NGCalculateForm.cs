@@ -562,7 +562,6 @@ namespace MachineDeptApp
                                 }
                             }
                         }
-
                     }
 
                     //print to excel count

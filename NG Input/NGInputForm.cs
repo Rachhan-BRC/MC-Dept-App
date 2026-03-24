@@ -391,15 +391,14 @@ namespace MachineDeptApp.NG_Input
                                 foreach (DataRow row in dtPrint.Rows)
                                 {
                                     worksheetobs.Cells[startrow, 1] = DateTime.Now.Date.ToString("yyyyMMdd");
-                                    worksheetobs.Cells[startrow, 2] = 0;
+                                    worksheetobs.Cells[startrow, 2] = 2;
                                     worksheetobs.Cells[startrow, 3] = "MC1";
                                     worksheetobs.Cells[startrow, 4] = row["RMCode"].ToString();
                                     worksheetobs.Cells[startrow, 6] = row["Qty"].ToString();
-                                    worksheetobs.Cells[startrow, 7] ="MC Req Adj";
                                     startrow = startrow + 1;
                                 }
                              
-                                string file2 = "Adjust_Import_OBS";
+                                string file2 = "NG_Req_Import_OBS";
                                 fName2 = file2 + "( " + DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss") + " )";
                                 worksheetobs.SaveAs(SavePath2 + @"\" + fName2 + ".xlsx");
                                 xlWorkBook2.Save();
