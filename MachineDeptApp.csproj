@@ -157,6 +157,48 @@
     <Compile Include="NG Input\NGCalculateForm.Designer.cs">
       <DependentUpon>NGCalculateForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RMConnector\BalanceStockConnectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RMConnector\BalanceStockConnectorForm.Designer.cs">
+      <DependentUpon>BalanceStockConnectorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RMConnector\RMConnectorAddForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RMConnector\RMConnectorAddForm.Designer.cs">
+      <DependentUpon>RMConnectorAddForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RMConnector\RMConnectorEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RMConnector\RMConnectorEditForm.Designer.cs">
+      <DependentUpon>RMConnectorEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RMConnector\RMConnectorMasterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RMConnector\RMConnectorMasterForm.Designer.cs">
+      <DependentUpon>RMConnectorMasterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RMConnector\TransactionConnector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RMConnector\TransactionConnector.Designer.cs">
+      <DependentUpon>TransactionConnector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RMConnector\TransactionConnectorAddForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RMConnector\TransactionConnectorAddForm.Designer.cs">
+      <DependentUpon>TransactionConnectorAddForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RMConnector\TransactionConnectorEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RMConnector\TransactionConnectorEditForm.Designer.cs">
+      <DependentUpon>TransactionConnectorEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SDMstPic.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -870,6 +912,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NG Input\NGCalculateForm.resx">
       <DependentUpon>NGCalculateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RMConnector\BalanceStockConnectorForm.resx">
+      <DependentUpon>BalanceStockConnectorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RMConnector\RMConnectorAddForm.resx">
+      <DependentUpon>RMConnectorAddForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RMConnector\RMConnectorEditForm.resx">
+      <DependentUpon>RMConnectorEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RMConnector\RMConnectorMasterForm.resx">
+      <DependentUpon>RMConnectorMasterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RMConnector\TransactionConnector.resx">
+      <DependentUpon>TransactionConnector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RMConnector\TransactionConnectorAddForm.resx">
+      <DependentUpon>TransactionConnectorAddForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RMConnector\TransactionConnectorEditForm.resx">
+      <DependentUpon>TransactionConnectorEditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SDMstPic.resx">
       <DependentUpon>SDMstPic.cs</DependentUpon>
