@@ -23,13 +23,8 @@ using MachineDeptApp.TransferData;
 using PP_Dept_App._4FinalPlan;
 using System;
 using System.Data;
-using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MachineDeptApp
