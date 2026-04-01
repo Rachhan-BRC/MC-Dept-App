@@ -348,7 +348,7 @@ namespace MachineDeptApp
                                         (SELECT Code, SUM(Stock_Value) AS PreQty FROM SparePartTrans WHERE CAST(RegDate AS date) <= @preStockLastDay AND Dept ='MC' GROUP BY Code ) 
                                         tbPre ON tbMst.Code  = tbPre.Code
                                         LEFT JOIN 
---    
+                                        --Remain
                                         (SELECT Code, SUM(Stock_Value) AS Remain FROM SparePartTrans WHERE CAST(RegDate AS date) <= @firstDay AND Dept ='MC' GROUP BY Code ) 
                                         tbRemain ON tbMst.Code = tbRemain.Code
                                         

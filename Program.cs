@@ -19,6 +19,7 @@ using System.Diagnostics;
 using MachineDeptApp.Inventory;
 using MachineDeptApp.TransferData;
 using MachineDeptApp.SparePartControll;
+using MachineDeptApp.RMConnector;
 
 namespace MachineDeptApp
 {
@@ -69,7 +70,7 @@ namespace MachineDeptApp
                 }
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                //Application.Run(new LoginForm());                
+             //   Application.Run(new TransactionConnector());                
                 //For Design test
                 Application.Run(new LoginForm());                
             }

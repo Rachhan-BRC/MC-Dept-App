@@ -11,6 +11,7 @@ using MachineDeptApp.MCSDControl.SDRec;
 using MachineDeptApp.MCSDControl.WIR1__Wire_Stock_;
 using MachineDeptApp.NG_Input;
 using MachineDeptApp.OBS;
+using MachineDeptApp.RMConnector;
 using MachineDeptApp.SemiNGReq;
 using MachineDeptApp.SemiPress;
 using MachineDeptApp.SemiPress.SemiPress1;
@@ -22,13 +23,8 @@ using MachineDeptApp.TransferData;
 using PP_Dept_App._4FinalPlan;
 using System;
 using System.Data;
-using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MachineDeptApp
@@ -2246,6 +2242,80 @@ namespace MachineDeptApp
                 }
 
             }
+            if (currentClkNode.Text == "វេរចេញ/ចូល Connector")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+
+                if (FoundOpened == 0)
+                {
+                    TransactionConnector Uf = new TransactionConnector();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("វេរចេញ/ចូល Connector");
+                    dtOpenForm.Rows.Add("TransactionConnector", "វេរចេញ/ចូល Connector");
+                }
+
+            }
+            if (currentClkNode.Text == "RM Connector Master")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    RMConnectorMasterForm Uf = new RMConnectorMasterForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("RM Connector Master");
+                    dtOpenForm.Rows.Add("RMConnectorMasterForm", "RM Connector Master");
+                }
+
+            }
+            if (currentClkNode.Text == "ទិន្នន័យ Stock Connector")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+
+                if (FoundOpened == 0)
+                {
+                    BalanceStockConnectorForm Uf = new BalanceStockConnectorForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("ទិន្នន័យ Stock Connector");
+                    dtOpenForm.Rows.Add("BalanceStockConnectorForm", "ទិន្នន័យ Stock Connector");
+                }
+
+            }
             int After = dtOpenForm.Rows.Count;
 
             if (Before < After)
@@ -2279,6 +2349,7 @@ namespace MachineDeptApp
             dtRoot.Rows.Add("រាប់ស្តុក");
             dtRoot.Rows.Add("គ្រប់គ្រង Spare Parts");
             dtRoot.Rows.Add("PP Data");
+            dtRoot.Rows.Add("RM over SPQ");
             dtRoot.Rows.Add("Admin");
             foreach (DataRow row in dtRoot.Rows)
             {
@@ -2346,7 +2417,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(7, "MC SD  Inventory", "");
             dtChildRoot.Rows.Add(7, "MC Inprocess Inventory", "");
             dtChildRoot.Rows.Add(7, "Combine Inventory", "InventoryCombineForm");
-
+         
             //9
 
             dtChildRoot.Rows.Add(8, "Master Spare Parts", "MstSparePart");
@@ -2367,14 +2438,18 @@ namespace MachineDeptApp
             //dtChildRoot.Rows.Add(7, "ទិន្នន័យវេរ/ទទួល", "AllSectionMCTransactionForm");
             //dtChildRoot.Rows.Add(7, "ស្ថានភាពទូទៅ", "AllSectionMCOverviewForm");
 
+            // 10 
+            dtChildRoot.Rows.Add(10, "វេរចេញ/ចូល Connector", "TransactionConnector");
+            dtChildRoot.Rows.Add(10, "ទិន្នន័យ Stock Connector", "BalanceStockConnectorForm");
             //The last one
-            dtChildRoot.Rows.Add(10, "User Account", "UserForm");
-            dtChildRoot.Rows.Add(10, "MC List", "MachineTypeMasterForm");
-            dtChildRoot.Rows.Add(10, "MC Type vs Item", "MasterItemForm");
-            dtChildRoot.Rows.Add(10, "SLOT List", "SLOTMasterForm");
-            dtChildRoot.Rows.Add(10, "Master Check (MC vs Item)", "MasterItemCheckForm");
-            dtChildRoot.Rows.Add(10, "Master RM Uncountable", "UncountableRMMasterForm");
-            dtChildRoot.Rows.Add(10, "អ្នកទទួលបន្ទុករាប់ស្តុក SD", "SDMstPic");
+            dtChildRoot.Rows.Add(dtRoot.Rows.Count -1 , "User Account", "UserForm");
+            dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "MC List", "MachineTypeMasterForm");
+            dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "MC Type vs Item", "MasterItemForm");
+            dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "SLOT List", "SLOTMasterForm");
+            dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "Master Check (MC vs Item)", "MasterItemCheckForm");
+            dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "Master RM Uncountable", "UncountableRMMasterForm");
+            dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "RM Connector Master", "RMConnectorMasterForm");
+            dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "អ្នកទទួលបន្ទុករាប់ស្តុក SD", "SDMstPic");
 
             foreach (DataRow row1 in dtChildRoot.Rows) 
             {
