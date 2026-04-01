@@ -397,7 +397,6 @@ namespace MachineDeptApp.NG_Input
                                     worksheetobs.Cells[startrow, 6] = row["Qty"].ToString();
                                     startrow = startrow + 1;
                                 }
-                             
                                 string file2 = "NG_Req_Import_OBS";
                                 fName2 = file2 + "( " + DateTime.Now.ToString("dd-MM-yyyy HH_mm_ss") + " )";
                                 worksheetobs.SaveAs(SavePath2 + @"\" + fName2 + ".xlsx");
@@ -442,9 +441,7 @@ namespace MachineDeptApp.NG_Input
                         dgvNGalready.CurrentCell = null;
                         CheckForEnableBtn();
                     }
-
                     Cursor = Cursors.Default;
-
                     if (ErrorText.Trim() == "")
                     {
                         LbExportStatus.Text = "ព្រីនបានជោគជ័យ​ !";
