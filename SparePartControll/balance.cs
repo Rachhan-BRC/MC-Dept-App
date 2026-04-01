@@ -298,11 +298,11 @@ namespace MachineDeptApp
                 string val = cbstatus.Text;
                 if (val.Trim() == "Order")
                 {
-                    cond.Rows.Add("(tbTran.QtyIn - tbTran.QtyOut - tbMst.Safety_Stock) < 0");
+                    cond.Rows.Add("Remain < Safety_Stock");
                 }
                 else if (val.Trim() == "No Order")
                 {
-                    cond.Rows.Add("(tbTran.QtyIn - tbTran.QtyOut - tbMst.Safety_Stock) > 0");
+                    cond.Rows.Add("Safety_Stock = 0");
                 }
             }
             string Conds = "";
@@ -326,7 +326,8 @@ namespace MachineDeptApp
                 int day = DateTime.DaysInMonth(year, month);
                 DateTime firstDay = new DateTime(year, month,1);
                 DateTime lastDay = new DateTime(year, month, day);
-
+                string day1 = firstDay.ToString("yyyy-MM-dd 00:00:00.000");
+                Console.WriteLine(day1);
                 //for pre stockint 
                 DateTime prevMonthDate = dtpDate.Value.AddMonths(-1);
                 int prevYear = prevMonthDate.Year;
@@ -335,23 +336,30 @@ namespace MachineDeptApp
                 DateTime preStockLastDay = new DateTime(prevYear, prevMonth, prevDay);
                 string prelastd = preStockLastDay.ToString("yyyy-MM-dd 23:59:59.000");
                 string lastd = lastDay.ToString("yyyy-MM-dd 23:59:59.000");
-                string query = @"SELECT tbMst.Code, tbMst.Supplier, tbMst.Part_No AS PartNo, tbMst.Part_Name AS PartName, tbPre.PreQty, tbTran.QtyIn, tbTran.QtyOut, 
-                                        (tbTran.QtyIn - tbTran.QtyOut) AS StockRemain, tbMst.Safety_Stock AS Safety,tbMst.Lead_Time_Week AS LT,tbMst.Box, tbReq.Balance, 
+                string query = @"SELECT tbMst.Code, tbMst.Supplier, tbMst.Part_No AS PartNo, tbMst.Part_Name AS PartName, tbPre.PreQty, tbTran.QtyIn, tbTran.QtyOut, tbRemain.Remain, 
+                                        tbMst.Safety_Stock AS Safety,tbMst.Lead_Time_Week AS LT,tbMst.Box, tbReq.Balance, 
                                         (tbTran.QtyIn - tbTran.QtyOut - tbMst.Safety_Stock) AS Status,tbReq.ETA AS PlanEta FROM MstMCSparePart tbMst
-
                                         LEFT JOIN 
-                                        (SELECT Code, SUM(Stock_In) AS QtyIn,SUM(Stock_Out) AS QtyOut FROM SparePartTrans WHERE CAST (RegDate AS date) <= @firstDay AND Dept ='MC' GROUP BY Code )
+                                        --STOCK IN OUT
+                                        (SELECT Code, SUM(Stock_In) AS QtyIn,SUM(Stock_Out) AS QtyOut FROM SparePartTrans WHERE RegDate BETWEEN @day1 AND @firstDay AND Dept ='MC' GROUP BY Code )
                                         tbTran ON tbMst.Code = tbTran.Code
                                         LEFT JOIN
+                                        --PRE
                                         (SELECT Code, SUM(Stock_Value) AS PreQty FROM SparePartTrans WHERE CAST(RegDate AS date) <= @preStockLastDay AND Dept ='MC' GROUP BY Code ) 
                                         tbPre ON tbMst.Code  = tbPre.Code
                                         LEFT JOIN 
-                                        (SELECT Code, Balance, ETA FROM MCSparePartRequest WHERE Balance > 0 AND Dept = 'MC' ) tbReq ON tbMst.Code = tbReq.Code  WHERE Dept = 'MC' AND Status = 'Active' "+Conds+
-                                        "GROUP BY tbMst.Code, tbMst.Supplier, tbMst.Part_No, tbMst.Part_Name,tbTran.QtyIn,tbTran.QtyOut, tbPre.PreQty, tbMst.Box, tbMst.Safety_Stock, tbMst.Lead_Time_Week, tbReq.Balance, tbReq.ETA Order by tbMst.Code";
+--    
+                                        (SELECT Code, SUM(Stock_Value) AS Remain FROM SparePartTrans WHERE CAST(RegDate AS date) <= @firstDay AND Dept ='MC' GROUP BY Code ) 
+                                        tbRemain ON tbMst.Code = tbRemain.Code
+                                        
+                                        LEFT JOIN 
+                                        (SELECT Code, Balance, ETA FROM MCSparePartRequest WHERE Balance > 0 AND Dept = 'MC' ) tbReq ON tbMst.Code = tbReq.Code  WHERE Dept = 'MC' AND Status = 'Active' " + Conds + " " +
+                                        "GROUP BY tbMst.Code, tbMst.Supplier, tbMst.Part_No, tbMst.Part_Name,tbTran.QtyIn,tbTran.QtyOut, tbPre.PreQty, tbRemain.Remain, tbMst.Box, tbMst.Safety_Stock, tbMst.Lead_Time_Week, tbReq.Balance, tbReq.ETA Order by tbMst.Code";
                 using (SqlCommand cmd = new SqlCommand(query, con.con)) 
                 {
                     cmd.Parameters.AddWithValue("@preStockLastDay", prelastd); 
                     cmd.Parameters.AddWithValue("@firstDay", lastd); 
+                    cmd.Parameters.AddWithValue("@day1", day1); 
                     SqlDataAdapter sda = new SqlDataAdapter(cmd); 
                     sda.Fill(dtselect); 
                 }
@@ -374,7 +382,7 @@ namespace MachineDeptApp
                 double qtyIn = double.TryParse(row["QtyIn"]?.ToString(), out var In) ? In : 0;
                 double qtyOut = double.TryParse(row["QtyOut"]?.ToString(), out var Out) ? Out : 0;
                 int preQty = int.TryParse(row["PreQty"]?.ToString(), out var pre) ? pre : 0;
-                double remain = double.TryParse(row["StockRemain"]?.ToString(), out var re) ? re : 0;
+                double remain = double.TryParse(row["Remain"]?.ToString(), out var re) ? re : 0;
                 int safety = int.TryParse(row["Safety"]?.ToString(), out var safe) ? safe : 0;
                 int balance = int.TryParse(row["Balance"]?.ToString(), out var bal) ? bal : 0;
                 int LT = int.TryParse(row["LT"]?.ToString(), out var val) ? val : 0;
