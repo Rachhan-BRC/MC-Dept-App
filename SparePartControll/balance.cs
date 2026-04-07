@@ -381,7 +381,7 @@ namespace MachineDeptApp
                 string partName = row["PartName"]?.ToString() ?? "";
                 double qtyIn = double.TryParse(row["QtyIn"]?.ToString(), out var In) ? In : 0;
                 double qtyOut = double.TryParse(row["QtyOut"]?.ToString(), out var Out) ? Out : 0;
-                int preQty = int.TryParse(row["PreQty"]?.ToString(), out var pre) ? pre : 0;
+                double preQty = double.TryParse(row["PreQty"]?.ToString(), out var pre) ? pre : 0;
                 double remain = double.TryParse(row["Remain"]?.ToString(), out var re) ? re : 0;
                 int safety = int.TryParse(row["Safety"]?.ToString(), out var safe) ? safe : 0;
                 int balance = int.TryParse(row["Balance"]?.ToString(), out var bal) ? bal : 0;
