@@ -124,7 +124,7 @@
   <data name="btnSave.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAADbcAZoAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EAAACxABrSO9dQAA/7JJREFUeF7snQV8VVfWtzNWV6hM3aaKRUiAtrRl3vq0pcTQBJd2rK44wYtLqRsa
+        DwAACw8BkvkDpQAA/7JJREFUeF7snQV8VVfWtzNWV6hM3aaKRUiAtrRl3vq0pcTQBJd2rK44wYtLqRsa
         pC11x+JB4sRdbtwV+H+/teWcfc69gYSGDvPNvu/vede6+557cwg08Mxaa283AG4ajUaj0Wg0Go1G81vg
         tKDRaDQajUaj0Wg0pwqnBY1Go9FoNBqNRqM5VTgtaDQajUaj0Wg0Gs2pwmlBo9FoNBqNRqPRaE4VTgsa
         jUaj0Wg0Go1Gc6pwWtBoNBqNRqPRaDSaU4XTgkaj0Wg0Go1Go9GcKpwWNBqNRqPRaDQajeZU4bSg0Wg0
@@ -6742,10 +6742,13 @@
         DAaDwWAwGO4X/x/+9gAWT3ip3gAAAABJRU5ErkJggg==
 </value>
   </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="btnImport.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAADbcAZoAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DwAACw8BkvkDpQAA/7JJREFUeF7snQV4VGf2/++E4NTdbXfb3a3b1mi79VKlXihSXEM8AYK7BKKEkAR3
+        DgAACw4BQL7hQQAA/7JJREFUeF7snQV4VGf2/++E4NTdbXfb3a3b1mi79VKlXihSXEM8AYK7BKKEkAR3
         J0ET4u7u7m7jer//572S3LkzASrL/7fLPX2+z515r0xapO9nzvecQwGgJEmSJEmSJEmSJEmSJOl6yGJB
         kiRJkiRJkiRJkiRJkv5TsliQJEmSJEmSJEmSJEmSpP+ULBYkSZIkSZIkSZIkSZIk6T8liwVJkiRJkiRJ
         kiRJkiRJ+k/JYkGSJEmSJEmSJEmSJEmS/lOyWJAkSZIkSZIkSZIkSZKk/5QsFiRJkiRJkiRJkiRJkiTp
