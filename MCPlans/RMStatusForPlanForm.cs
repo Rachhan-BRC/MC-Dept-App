@@ -451,15 +451,10 @@ namespace MachineDeptApp.MCPlans
 
                     }
 
-                    SqlDataAdapter sda1 = new SqlDataAdapter("SELECT T1.DONo, T2.ItemCode, T3.ItemName, T2.DONo, T3.Remark2, T3.Remark3, T3.Remark4, T2.SemiQty, PlanQty, Remark FROM " +
-                                                                                        "(SELECT ProductNo, DONo FROM prgproductionorder WHERE DONo IN("+ AllPOS + ")) T1 "+
-                                                                                        "INNER JOIN "+
-                                                                                        "(SELECT ProductNo, ItemCode, DONo, SemiQty, PlanQty, Remark FROM prgproductionorder WHERE LineCode = 'MC1') T2 " +
-                                                                                        "ON T1.ProductNo = T2.ProductNo "+
-                                                                                        "INNER JOIN "+
-                                                                                        "(SELECT ItemCode, ItemName, Remark2, Remark3, Remark4 FROM mstitem WHERE  ItemType='1') T3 " +
-                                                                                        "ON T3.ItemCode = T2.ItemCode "+
-                                                                                        "ORDER BY T1.DONo ASC, T2.DONo ASC", cnnOBS.conOBS);
+                    SqlDataAdapter sda1 = new SqlDataAdapter(@"SELECT PPOSNO, P.ItemCode, ItemName, DONo, Remark2, Remark3, Remark4, SemiQty, PlanQty, P.Remark FROM prgproductionorder P 
+	                        INNER JOIN mstitem M ON P.ItemCode = M.ItemCode AND M.ItemType=1 
+	                        WHERE P.LineCode = 'MC1' AND PPOSNO IN( "+AllPOS+@" )
+	                        ORDER BY PPOSNO, DONo", cnnOBS.conOBS);
                     dtChild = new DataTable();
                     sda1.Fill(dtChild);
                     dtChild.Columns.Add("KIT Promise");
@@ -828,14 +823,10 @@ namespace MachineDeptApp.MCPlans
                     {
                         cnnOBS.conOBS.Open();
                         //Search for SemiPress1
-                        SqlDataAdapter sda = new SqlDataAdapter("SELECT t1.ItemCode, t1.PlanQty  FROM( " +
-                                                                                            "(SELECT ProductNo, ItemCode, PlanQty FROM prgproductionorder WHERE LineCode = 'MC1') t1 " +
-                                                                                            "INNER JOIN " +
-                                                                                            "(SELECT ProductNo, DONo, ItemCode, PlanQty, POSDeliveryDate FROM prgproductionorder " +
-                                                                                            "WHERE DONo = '" + POSParent + "') t2 " +
-                                                                                            "ON t2.ProductNo = t1.ProductNo)", cnnOBS.conOBS);
+                        SqlDataAdapter sda = new SqlDataAdapter("SELECT ItemCode, PlanQty FROM prgproductionorder WHERE LineCode = 'MC1' AND PPOSNO = '" + POSParent + "' ", cnnOBS.conOBS);
                         DataTable dtTemp = new DataTable();
                         sda.Fill(dtTemp);
+                        Console.WriteLine(POSParent +"\t : "+dtTemp.Rows.Count.ToString());
                         if (dtTemp.Rows.Count > 0)
                         {
                             double Count = 0;
