@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QualityControlForm));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
@@ -129,9 +129,9 @@
             // panel2
             // 
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 709);
+            this.panel2.Location = new System.Drawing.Point(0, 721);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1182, 22);
+            this.panel2.Size = new System.Drawing.Size(1182, 10);
             this.panel2.TabIndex = 2;
             // 
             // panel3
@@ -143,7 +143,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 63);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1182, 646);
+            this.panel3.Size = new System.Drawing.Size(1182, 658);
             this.panel3.TabIndex = 3;
             // 
             // dgvQualityControl
@@ -160,7 +160,7 @@
             this.dgvQualityControl.Name = "dgvQualityControl";
             this.dgvQualityControl.ReadOnly = true;
             this.dgvQualityControl.RowHeadersVisible = false;
-            this.dgvQualityControl.Size = new System.Drawing.Size(1182, 119);
+            this.dgvQualityControl.Size = new System.Drawing.Size(1182, 168);
             this.dgvQualityControl.TabIndex = 0;
             // 
             // colNo
@@ -187,7 +187,7 @@
             // splitter1
             // 
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.splitter1.Location = new System.Drawing.Point(0, 179);
+            this.splitter1.Location = new System.Drawing.Point(0, 228);
             this.splitter1.Name = "splitter1";
             this.splitter1.Size = new System.Drawing.Size(1182, 10);
             this.splitter1.TabIndex = 2;
@@ -201,52 +201,52 @@
             this.tableLayoutPanel1.Controls.Add(this.chartCrimping, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.chartPressing, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 189);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 238);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1182, 457);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1182, 420);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // chartCrimping
             // 
-            chartArea3.Name = "ChartArea";
-            this.chartCrimping.ChartAreas.Add(chartArea3);
+            chartArea1.Name = "ChartArea";
+            this.chartCrimping.ChartAreas.Add(chartArea1);
             this.chartCrimping.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend3.Name = "Legend1";
-            this.chartCrimping.Legends.Add(legend3);
+            legend1.Name = "Legend1";
+            this.chartCrimping.Legends.Add(legend1);
             this.chartCrimping.Location = new System.Drawing.Point(3, 3);
             this.chartCrimping.Name = "chartCrimping";
-            series3.ChartArea = "ChartArea";
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.chartCrimping.Series.Add(series3);
-            this.chartCrimping.Size = new System.Drawing.Size(585, 451);
+            series1.ChartArea = "ChartArea";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chartCrimping.Series.Add(series1);
+            this.chartCrimping.Size = new System.Drawing.Size(585, 414);
             this.chartCrimping.TabIndex = 1;
             this.chartCrimping.Text = "chart1";
-            title3.Name = "Title1";
-            title3.Text = "Crimping NG PPM";
-            this.chartCrimping.Titles.Add(title3);
+            title1.Name = "Title1";
+            title1.Text = "Crimping NG PPM";
+            this.chartCrimping.Titles.Add(title1);
             // 
             // chartPressing
             // 
-            chartArea4.Name = "ChartArea";
-            this.chartPressing.ChartAreas.Add(chartArea4);
+            chartArea2.Name = "ChartArea";
+            this.chartPressing.ChartAreas.Add(chartArea2);
             this.chartPressing.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend4.Name = "Legend1";
-            this.chartPressing.Legends.Add(legend4);
+            legend2.Name = "Legend1";
+            this.chartPressing.Legends.Add(legend2);
             this.chartPressing.Location = new System.Drawing.Point(594, 3);
             this.chartPressing.Name = "chartPressing";
-            series4.ChartArea = "ChartArea";
-            series4.Legend = "Legend1";
-            series4.Name = "Series1";
-            this.chartPressing.Series.Add(series4);
-            this.chartPressing.Size = new System.Drawing.Size(585, 451);
+            series2.ChartArea = "ChartArea";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chartPressing.Series.Add(series2);
+            this.chartPressing.Size = new System.Drawing.Size(585, 414);
             this.chartPressing.TabIndex = 2;
             this.chartPressing.Text = "chart2";
-            title4.Name = "Title1";
-            title4.Text = "Pressing NG PPM";
-            this.chartPressing.Titles.Add(title4);
+            title2.Name = "Title1";
+            title2.Text = "Pressing NG PPM";
+            this.chartPressing.Titles.Add(title2);
             // 
             // groupBox1
             // 

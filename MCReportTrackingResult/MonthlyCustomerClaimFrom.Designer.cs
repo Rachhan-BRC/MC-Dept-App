@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MonthlyCustomerClaimFrom));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
@@ -119,9 +119,9 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.dgvMonthlyCustomerClaim);
             this.panel2.Controls.Add(this.splitter1);
             this.panel2.Controls.Add(this.chartMonthlyCustomerClaim);
-            this.panel2.Controls.Add(this.dgvMonthlyCustomerClaim);
             this.panel2.Controls.Add(this.groupBox1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 63);
@@ -140,17 +140,17 @@
             // 
             // chartMonthlyCustomerClaim
             // 
-            chartArea6.Name = "ChartArea1";
-            this.chartMonthlyCustomerClaim.ChartAreas.Add(chartArea6);
+            chartArea7.Name = "ChartArea1";
+            this.chartMonthlyCustomerClaim.ChartAreas.Add(chartArea7);
             this.chartMonthlyCustomerClaim.Dock = System.Windows.Forms.DockStyle.Bottom;
-            legend6.Name = "Legend1";
-            this.chartMonthlyCustomerClaim.Legends.Add(legend6);
+            legend7.Name = "Legend1";
+            this.chartMonthlyCustomerClaim.Legends.Add(legend7);
             this.chartMonthlyCustomerClaim.Location = new System.Drawing.Point(0, 118);
             this.chartMonthlyCustomerClaim.Name = "chartMonthlyCustomerClaim";
-            series6.ChartArea = "ChartArea1";
-            series6.Legend = "Legend1";
-            series6.Name = "Series1";
-            this.chartMonthlyCustomerClaim.Series.Add(series6);
+            series7.ChartArea = "ChartArea1";
+            series7.Legend = "Legend1";
+            series7.Name = "Series1";
+            this.chartMonthlyCustomerClaim.Series.Add(series7);
             this.chartMonthlyCustomerClaim.Size = new System.Drawing.Size(972, 509);
             this.chartMonthlyCustomerClaim.TabIndex = 2;
             this.chartMonthlyCustomerClaim.Text = "chart1";
@@ -169,7 +169,7 @@
             this.dgvMonthlyCustomerClaim.Name = "dgvMonthlyCustomerClaim";
             this.dgvMonthlyCustomerClaim.ReadOnly = true;
             this.dgvMonthlyCustomerClaim.RowHeadersVisible = false;
-            this.dgvMonthlyCustomerClaim.Size = new System.Drawing.Size(972, 573);
+            this.dgvMonthlyCustomerClaim.Size = new System.Drawing.Size(972, 54);
             this.dgvMonthlyCustomerClaim.TabIndex = 1;
             // 
             // groupBox1
