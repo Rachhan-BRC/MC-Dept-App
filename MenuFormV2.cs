@@ -6,6 +6,7 @@ using MachineDeptApp.Inventory.Inprocess;
 using MachineDeptApp.Inventory.KIT;
 using MachineDeptApp.Inventory.MC_SD;
 using MachineDeptApp.MCPlans;
+using MachineDeptApp.MCReportTrackingResult;
 using MachineDeptApp.MCSDControl;
 using MachineDeptApp.MCSDControl.SDRec;
 using MachineDeptApp.MCSDControl.WIR1__Wire_Stock_;
@@ -2316,6 +2317,82 @@ namespace MachineDeptApp
                 }
 
             }
+
+            if (currentClkNode.Text == "Customer Zero Claim")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+
+                if (FoundOpened == 0)
+                {
+                    CustomerZeroClaimForm Uf = new CustomerZeroClaimForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("Customer Zero Claim");
+                    dtOpenForm.Rows.Add("CustomerZeroClaimForm", "Customer Zero Claim");
+                }
+
+            }
+            if (currentClkNode.Text == "Quality Control")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+
+                if (FoundOpened == 0)
+                {
+                    QualityControlForm Uf = new QualityControlForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("Quality Control");
+                    dtOpenForm.Rows.Add("QualityControlForm", "Quality Control");
+                }
+
+            }
+            if (currentClkNode.Text == "Monthly Customer Claim")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+
+                if (FoundOpened == 0)
+                {
+                    MonthlyCustomerClaimFrom Uf = new MonthlyCustomerClaimFrom();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("Monthly Customer Claim");
+                    dtOpenForm.Rows.Add("MonthlyCustomerClaimFrom", "Monthly Customer Claim");
+                }
+
+            }
             int After = dtOpenForm.Rows.Count;
 
             if (Before < After)
@@ -2350,6 +2427,7 @@ namespace MachineDeptApp
             dtRoot.Rows.Add("គ្រប់គ្រង Spare Parts");
             dtRoot.Rows.Add("PP Data");
             dtRoot.Rows.Add("RM over SPQ");
+            dtRoot.Rows.Add("MC Monthly Report");
             dtRoot.Rows.Add("Admin");
             foreach (DataRow row in dtRoot.Rows)
             {
@@ -2441,6 +2519,10 @@ namespace MachineDeptApp
             // 10 
             dtChildRoot.Rows.Add(10, "វេរចេញ/ចូល Connector", "TransactionConnector");
             dtChildRoot.Rows.Add(10, "ទិន្នន័យ Stock Connector", "BalanceStockConnectorForm");
+            // 11
+            dtChildRoot.Rows.Add(11, "Customer Zero Claim", "CustomerZeroClaimForm");
+            dtChildRoot.Rows.Add(11, "Quality Control", "QualityControlForm");
+            dtChildRoot.Rows.Add(11, "Monthly Customer Claim", "MonthlyCustomerClaimFrom");
             //The last one
             dtChildRoot.Rows.Add(dtRoot.Rows.Count -1 , "User Account", "UserForm");
             dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "MC List", "MachineTypeMasterForm");

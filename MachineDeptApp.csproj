@@ -151,6 +151,60 @@
     <Compile Include="Inventory\MC_SD\MCSDCountingForm.Designer.cs">
       <DependentUpon>MCSDCountingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MCReportTrackingResult\AddCustomerClaimForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCReportTrackingResult\AddCustomerClaimForm.Designer.cs">
+      <DependentUpon>AddCustomerClaimForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCReportTrackingResult\AddQCReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCReportTrackingResult\AddQCReport.Designer.cs">
+      <DependentUpon>AddQCReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCReportTrackingResult\AddCustomerZeroClaim.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCReportTrackingResult\AddCustomerZeroClaim.Designer.cs">
+      <DependentUpon>AddCustomerZeroClaim.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCReportTrackingResult\CustomerZeroClaimForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCReportTrackingResult\CustomerZeroClaimForm.Designer.cs">
+      <DependentUpon>CustomerZeroClaimForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCReportTrackingResult\EditCustomerClaim.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCReportTrackingResult\EditCustomerClaim.Designer.cs">
+      <DependentUpon>EditCustomerClaim.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCReportTrackingResult\EditCustomerZeroClaim.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCReportTrackingResult\EditCustomerZeroClaim.Designer.cs">
+      <DependentUpon>EditCustomerZeroClaim.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCReportTrackingResult\EditQCForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCReportTrackingResult\EditQCForm.Designer.cs">
+      <DependentUpon>EditQCForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCReportTrackingResult\MonthlyCustomerClaimFrom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCReportTrackingResult\MonthlyCustomerClaimFrom.Designer.cs">
+      <DependentUpon>MonthlyCustomerClaimFrom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCReportTrackingResult\QualityControlForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCReportTrackingResult\QualityControlForm.Designer.cs">
+      <DependentUpon>QualityControlForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="NG Input\NGCalculateForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -909,6 +963,33 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\MC_SD\MCSDCountingForm.resx">
       <DependentUpon>MCSDCountingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCReportTrackingResult\AddCustomerClaimForm.resx">
+      <DependentUpon>AddCustomerClaimForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCReportTrackingResult\AddQCReport.resx">
+      <DependentUpon>AddQCReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCReportTrackingResult\AddCustomerZeroClaim.resx">
+      <DependentUpon>AddCustomerZeroClaim.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCReportTrackingResult\CustomerZeroClaimForm.resx">
+      <DependentUpon>CustomerZeroClaimForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCReportTrackingResult\EditCustomerClaim.resx">
+      <DependentUpon>EditCustomerClaim.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCReportTrackingResult\EditCustomerZeroClaim.resx">
+      <DependentUpon>EditCustomerZeroClaim.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCReportTrackingResult\EditQCForm.resx">
+      <DependentUpon>EditQCForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCReportTrackingResult\MonthlyCustomerClaimFrom.resx">
+      <DependentUpon>MonthlyCustomerClaimFrom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCReportTrackingResult\QualityControlForm.resx">
+      <DependentUpon>QualityControlForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NG Input\NGCalculateForm.resx">
       <DependentUpon>NGCalculateForm.cs</DependentUpon>
