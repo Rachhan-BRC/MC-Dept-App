@@ -242,12 +242,7 @@ namespace MachineDeptApp.MCPlans
                     {
                         cnnOBS.conOBS.Open();
                         //Search for SemiPress1
-                        SqlDataAdapter sda = new SqlDataAdapter("SELECT t1.ItemCode, t1.PlanQty  FROM( "+
-                                                                                            "(SELECT ProductNo, ItemCode, PlanQty FROM prgproductionorder WHERE LineCode = 'MC1') t1 "+
-                                                                                            "INNER JOIN "+
-                                                                                            "(SELECT ProductNo, DONo, ItemCode, PlanQty, POSDeliveryDate FROM prgproductionorder "+
-                                                                                            "WHERE DONo = '" + POSParent +"') t2 "+
-                                                                                            "ON t2.ProductNo = t1.ProductNo)", cnnOBS.conOBS);
+                        SqlDataAdapter sda = new SqlDataAdapter("SELECT ItemCode, PlanQty FROM prgproductionorder WHERE LineCode = 'MC1' AND PPOSNO = '" + POSParent + "' ", cnnOBS.conOBS);
                         DataTable dtTemp = new DataTable();
                         sda.Fill(dtTemp);
                         if (dtTemp.Rows.Count > 0)
