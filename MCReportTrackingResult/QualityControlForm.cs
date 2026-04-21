@@ -157,9 +157,9 @@ namespace MachineDeptApp.MCReportTrackingResult
             {
                 ChartType = SeriesChartType.Line,
                 Color = Color.Orange,
-                BorderWidth = 3,
+                BorderWidth = 5,
                 MarkerStyle = MarkerStyle.Diamond,
-                MarkerSize = 10,
+                MarkerSize = 15,
                 MarkerColor = Color.OrangeRed
             };
 
@@ -210,10 +210,27 @@ namespace MachineDeptApp.MCReportTrackingResult
             area.BackColor = Color.FromArgb(230, 255, 255);
 
             // Y axis
-            double max = plan.Max() ?? 0;
+            double max = 45;
+            double maxPlan = plan.Max() ?? 0;
+            double maxActual = actual.Max() ?? 0;
+            if (maxActual > maxPlan)
+            {
+                max = maxActual;
+            } else
+            {
+                max = maxPlan;
+            }
+            double interval = 5;
+            if (max > 50)
+            {
+                interval = 10;
+            } else if (max > 100)
+            {
+                interval = 20;
+            }
             area.AxisY.Minimum = 0;
             area.AxisY.Maximum = max + 2;
-            area.AxisY.Interval = 5;
+            area.AxisY.Interval = interval;
             area.AxisY.LabelStyle.Font = new Font("Arial", 10F);
             area.AxisY.LabelStyle.ForeColor = Color.Black;
 
@@ -246,9 +263,9 @@ namespace MachineDeptApp.MCReportTrackingResult
             {
                 ChartType = SeriesChartType.Line,
                 Color = Color.LimeGreen,
-                BorderWidth = 3,
+                BorderWidth = 5,
                 MarkerStyle = MarkerStyle.Star5,
-                MarkerSize = 10,
+                MarkerSize = 15,
                 MarkerColor = Color.LimeGreen
             };
             var monthCols = dgvQualityControl.Columns
@@ -297,7 +314,26 @@ namespace MachineDeptApp.MCReportTrackingResult
             area.BackColor = Color.FromArgb(255, 230, 204);
 
             // Y axis
-            double max = plan.Max() ?? 0;
+            Double max = 250;
+            double maxPlan = plan.Max() ?? 0;
+            double maxActual = actual.Max() ?? 0;
+            if (maxActual > maxPlan)
+            {
+                max = maxActual;
+            }
+            else
+            {
+                max = maxPlan;
+            }
+            double interval = 50;
+            if (max > 500)
+            {
+                interval = 100;
+            }
+            else if (max > 1000)
+            {
+                interval = 200;
+            }
             area.AxisY.Minimum = 0;
             area.AxisY.Maximum = max + 10;
             area.AxisY.Interval = 50;
@@ -423,6 +459,8 @@ namespace MachineDeptApp.MCReportTrackingResult
 
                 dgvQualityControl.Rows[0].Cells["colQC"].Style.BackColor = Color.LightGreen;
                 dgvQualityControl.Rows[2].Cells["colQC"].Style.BackColor = Color.Red;
+                dgvQualityControl.Rows[3].Cells["colQC"].Style.BackColor = Color.LightGreen;
+                dgvQualityControl.Rows[5].Cells["colQC"].Style.BackColor = Color.Red;
                 for (int i = 3; i < dgvQualityControl.ColumnCount - 1; i++)
                 {
                     var typeCell = dgvQualityControl.Rows[2].Cells[i];

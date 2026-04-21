@@ -151,8 +151,13 @@ namespace MachineDeptApp.MCReportTrackingResult
             {
                 area.AxisY.Maximum = 50;
             }
+            double interval = 10;
+            if (max > 100)
+            {
+                interval = 20;
+            }
             //area.AxisY.Maximum = max + 5;
-            area.AxisY.Interval = 10;
+            area.AxisY.Interval = interval;
             area.AxisY.LabelStyle.ForeColor = Color.Red;
             area.AxisY.LabelStyle.Font = new Font("Arial", 9F);
             area.AxisY.LabelStyle.Format = "00 Day";
