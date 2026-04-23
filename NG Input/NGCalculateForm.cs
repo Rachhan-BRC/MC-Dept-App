@@ -765,6 +765,7 @@ namespace MachineDeptApp
                                 {
                                     currentValue = Convert.ToDouble(targetCell.Value2);
                                 }
+
                                 // Add your amount
                                 currentValue += Convert.ToDouble(row.Cells["amount4"].Value);
 
