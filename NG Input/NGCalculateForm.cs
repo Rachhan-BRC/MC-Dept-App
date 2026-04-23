@@ -587,6 +587,7 @@ namespace MachineDeptApp
                             worksheetCountable.Cells[5, 10] = MenuFormV2.UserForNextForm;
                             int copy = 0;
                             int startrow = 14;
+                            int num = 1;
                             foreach (DataRow row in dtPtrint.Rows)
                             {
                                 double matflag = Convert.ToDouble(row["MatCalcFlag"]);
@@ -598,6 +599,7 @@ namespace MachineDeptApp
                                         Excel.Range row1 = (Excel.Range)worksheetCountable.Rows[startrow];
                                         row1.Insert(Excel.XlInsertShiftDirection.xlShiftDown, sourceRange.Copy());
                                     }
+                                    worksheetCountable.Cells[startrow, 1] = num++;
                                     worksheetCountable.Cells[startrow, 4] = row["RMCode"].ToString();
                                     worksheetCountable.Cells[startrow, 5] = row["RMDes"];
                                     worksheetCountable.Cells[startrow, 7] = row["Maker"];
@@ -640,6 +642,7 @@ namespace MachineDeptApp
                             worksheetUnCountable.Cells[5, 10] = MenuFormV2.UserForNextForm;
                             int copy = 0;
                             int startrow = 14;
+                            int num = 1;
                             foreach (DataRow row in dtPtrint.Rows)
                             {
                                 double matflag = Convert.ToDouble(row["MatCalcFlag"]);
@@ -651,6 +654,7 @@ namespace MachineDeptApp
                                         Excel.Range row1 = (Excel.Range)worksheetUnCountable.Rows[startrow];
                                         row1.Insert(Excel.XlInsertShiftDirection.xlShiftDown, sourceRange.Copy());
                                     }
+                                    worksheetUnCountable.Cells[startrow, 1] = num++;
                                     worksheetUnCountable.Cells[startrow, 4] = row["RMCode"].ToString();
                                     worksheetUnCountable.Cells[startrow, 5] = row["RMDes"];
                                     worksheetUnCountable.Cells[startrow, 7] = row["Maker"];
@@ -734,6 +738,7 @@ namespace MachineDeptApp
                         worksheetCountable.Cells[4, 10] = DateTime.Now.ToString("dd-MMM-yy");
                         worksheetCountable.Cells[5, 10] = MenuFormV2.UserForNextForm;
                         int copy = 0;
+                        int num = 1;
                         foreach (DataGridViewRow row in dgvResult.Rows)
                         {
                             double qty4 = Convert.ToDouble(row.Cells["qty4"].Value);
@@ -744,6 +749,7 @@ namespace MachineDeptApp
                                     Excel.Range row1 = (Excel.Range)worksheetCountable.Rows[startrow];
                                     row1.Insert(Excel.XlInsertShiftDirection.xlShiftDown, sourceRange.Copy());
                                 }
+                                worksheetCountable.Cells[startrow, 1] = num++;
                                 worksheetCountable.Cells[startrow, 4] = row.Cells["rmcode3"].Value?.ToString();
                                 worksheetCountable.Cells[startrow, 5] = row.Cells["rmdes3"].Value?.ToString();
                                 worksheetCountable.Cells[startrow, 7] = row.Cells["maker3"].Value?.ToString();
