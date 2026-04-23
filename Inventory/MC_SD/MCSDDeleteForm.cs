@@ -35,7 +35,7 @@ namespace MachineDeptApp.Inventory.MC_SD
                 !string.IsNullOrEmpty(txtQty.Text.Trim()) &&
                  !string.IsNullOrEmpty(txtttlweight.Text.Trim()))
                 {
-                DialogResult dr = MessageBox.Show("តើអ្នកចង់លុបព័ត៌មាននេះមែនទេ?", "Confirm Delete'", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult dr = MessageBox.Show("តើអ្នកចង់លុបព័ត៌មាននេះមែនទេ?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dr == DialogResult.No)
                 {
                     return;
@@ -65,11 +65,11 @@ namespace MachineDeptApp.Inventory.MC_SD
                     txtscan.Enabled = true;
                     txtlbinput.Enabled = true;
                     txtscan.Focus();
-                    MessageBox.Show("លុបបានជោគជ័យ!", "Success'", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("លុបបានជោគជ័យ!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 3 !" + ex.Message, "Error Delete'", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 3 !" + ex.Message, "Error Delete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 txtscan.Enabled = true;
                 txtlbinput.Enabled = true;
@@ -98,7 +98,7 @@ namespace MachineDeptApp.Inventory.MC_SD
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 2 !" + ex.Message, "Error ScanUpdateText'", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 2 !" + ex.Message, "Error ScanUpdateText", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     con.con.Close();
                     if (dtselect.Rows.Count <= 0)
@@ -106,7 +106,7 @@ namespace MachineDeptApp.Inventory.MC_SD
                         string soundPath = Path.Combine(Environment.CurrentDirectory, @"Sound\NoCode.wav");
                         SoundPlayer player = new SoundPlayer(soundPath);
                         player.Play();
-                        MessageBox.Show("មិនមានឡាប៊ែលប្រភេទនេះទេ !", "Alert'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("មិនមានឡាប៊ែលប្រភេទនេះទេ !", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         Cursor = Cursors.Default;
                         return;
                     }
@@ -143,7 +143,7 @@ namespace MachineDeptApp.Inventory.MC_SD
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 1 !" + ex.Message, "Error ScanUpdateText'", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 1 !" + ex.Message, "Error ScanUpdateText", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     con.con.Close();
                     if (dtselect.Rows.Count <= 0)
@@ -151,7 +151,7 @@ namespace MachineDeptApp.Inventory.MC_SD
                         string soundPath = Path.Combine(Environment.CurrentDirectory, @"Sound\WrongSysNo.wav");
                         SoundPlayer player = new SoundPlayer(soundPath);
                         player.Play();
-                        MessageBox.Show("មិនមានឡាប៊ែលប្រភេទនេះទេ !", "Error'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("មិនមានឡាប៊ែលប្រភេទនេះទេ !", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         Cursor = Cursors.Default;
                         return;
                     }

@@ -64,10 +64,11 @@ namespace MachineDeptApp.Inventory.MC_SD
                 try
                 {
                     con.con.Open();
-                    string queryUpdate = "UPDATE tbSDMCStockInventory SET Qty = @Qty, TotalWeight = @TotalWeight, UpdateBy = @uby, UpdateDate = @ud WHERE SysNo = @SysNo AND Code = @code AND LabelNo = @lbno";
+                    string queryUpdate = "UPDATE tbSDMCStockInventory SET Qty = @Qty, TotalWeight = @TotalWeight, BobinWeight = @bobinw, UpdateBy = @uby, UpdateDate = @ud WHERE SysNo = @SysNo AND Code = @code AND LabelNo = @lbno";
                     SqlCommand cmdUpdate = new SqlCommand(queryUpdate, con.con);
                     cmdUpdate.Parameters.AddWithValue("@Qty", txtQty.Text.Trim());
                     cmdUpdate.Parameters.AddWithValue("@TotalWeight", txtttlweight.Text.Trim());
+                    cmdUpdate.Parameters.AddWithValue("@bobinw", bobinw.Text.Trim());
                     cmdUpdate.Parameters.AddWithValue("@SysNo", txtscan.Text.Trim());
                     cmdUpdate.Parameters.AddWithValue("@Code", txtcode.Text.Trim());
                     cmdUpdate.Parameters.AddWithValue("@lbno", txtlabel.Text.Trim());
@@ -77,7 +78,7 @@ namespace MachineDeptApp.Inventory.MC_SD
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 3!" + ex.Message, "ErrorSaveData'", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 3!" + ex.Message, "ErrorSaveData", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Cursor = Cursors.Default;
                     return;
                 }
@@ -96,7 +97,7 @@ namespace MachineDeptApp.Inventory.MC_SD
                 txtlbinput.Enabled = true;
 
                 txtscan.Focus();
-                MessageBox.Show("ធ្វើការកែប្រែទិន្នន័យបានជោគជ័យ !", "Success'", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("ធ្វើការកែប្រែទិន្នន័យបានជោគជ័យ !", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
           
         }
@@ -119,7 +120,7 @@ namespace MachineDeptApp.Inventory.MC_SD
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 2 !" + ex.Message, "Error ScanUpdateText'", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 2 !" + ex.Message, "Error ScanUpdateText", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     con.con.Close();
                     if (dtselect.Rows.Count <= 0)
@@ -127,7 +128,7 @@ namespace MachineDeptApp.Inventory.MC_SD
                         string soundPath = Path.Combine(Environment.CurrentDirectory, @"Sound\NoCode.wav");
                         SoundPlayer player = new SoundPlayer(soundPath);
                         player.Play();
-                        MessageBox.Show("មិនមានឡាប៊ែលប្រភេទនេះទេ !", "Alert'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("មិនមានឡាប៊ែលប្រភេទនេះទេ !", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         Cursor = Cursors.Default;
                         return;
                     }
@@ -164,7 +165,7 @@ namespace MachineDeptApp.Inventory.MC_SD
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 1 !" + ex.Message, "Error ScanUpdateText'", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 1 !" + ex.Message, "Error ScanUpdateText", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     con.con.Close();
                     if (dtselect.Rows.Count <= 0)
@@ -172,7 +173,7 @@ namespace MachineDeptApp.Inventory.MC_SD
                         string soundPath = Path.Combine(Environment.CurrentDirectory, @"Sound\WrongSysNo.wav");
                         SoundPlayer player = new SoundPlayer(soundPath);
                         player.Play();
-                        MessageBox.Show("មិនមានឡាប៊ែលប្រភេទនេះទេ !", "Error'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("មិនមានឡាប៊ែលប្រភេទនេះទេ !", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         Cursor = Cursors.Default;
                         return;
                     }
