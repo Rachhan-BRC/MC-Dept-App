@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SDMstPic));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -38,12 +39,14 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SDMstPic));
             this.panel2 = new System.Windows.Forms.Panel();
             this.lberror = new System.Windows.Forms.Label();
             this.lbfound = new System.Windows.Forms.Label();
             this.lbshow = new System.Windows.Forms.Label();
             this.panelHeader = new System.Windows.Forms.Panel();
+            this.btnDeleteGray = new System.Windows.Forms.PictureBox();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnSaveGrey = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
@@ -54,9 +57,8 @@
             this.txtlbendno = new System.Windows.Forms.TextBox();
             this.txtlbstartno = new System.Windows.Forms.TextBox();
             this.txtpic = new System.Windows.Forms.TextBox();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.dgvPic = new System.Windows.Forms.DataGridView();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.btnAdd = new System.Windows.Forms.Button();
             this.location = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pic = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lbstartno = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -65,14 +67,12 @@
             this.regdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.updateby = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UpdateDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnDeleteGray = new System.Windows.Forms.PictureBox();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel2.SuspendLayout();
             this.panelHeader.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGray)).BeginInit();
             this.panelRegUp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPic)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGray)).BeginInit();
             this.SuspendLayout();
             // 
             // panel2
@@ -128,6 +128,41 @@
             this.panelHeader.Name = "panelHeader";
             this.panelHeader.Size = new System.Drawing.Size(984, 68);
             this.panelHeader.TabIndex = 67;
+            // 
+            // btnDeleteGray
+            // 
+            this.btnDeleteGray.Enabled = false;
+            this.btnDeleteGray.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteGray.Image")));
+            this.btnDeleteGray.Location = new System.Drawing.Point(134, 7);
+            this.btnDeleteGray.Name = "btnDeleteGray";
+            this.btnDeleteGray.Size = new System.Drawing.Size(47, 55);
+            this.btnDeleteGray.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnDeleteGray.TabIndex = 41;
+            this.btnDeleteGray.TabStop = false;
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDelete.BackgroundImage")));
+            this.btnDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnDelete.Enabled = false;
+            this.btnDelete.Location = new System.Drawing.Point(134, 6);
+            this.btnDelete.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(47, 56);
+            this.btnDelete.TabIndex = 40;
+            this.btnDelete.UseVisualStyleBackColor = true;
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnAdd.BackColor = System.Drawing.Color.Transparent;
+            this.btnAdd.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnAdd.BackgroundImage")));
+            this.btnAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnAdd.Location = new System.Drawing.Point(71, 6);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(57, 56);
+            this.btnAdd.TabIndex = 39;
+            this.btnAdd.UseVisualStyleBackColor = false;
             // 
             // btnSearch
             // 
@@ -238,6 +273,18 @@
             this.txtpic.Size = new System.Drawing.Size(136, 32);
             this.txtpic.TabIndex = 37;
             // 
+            // btnCancel
+            // 
+            this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnCancel.BackColor = System.Drawing.SystemColors.Control;
+            this.btnCancel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnCancel.BackgroundImage")));
+            this.btnCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnCancel.Location = new System.Drawing.Point(920, 56);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(37, 37);
+            this.btnCancel.TabIndex = 35;
+            this.btnCancel.UseVisualStyleBackColor = false;
+            // 
             // dgvPic
             // 
             this.dgvPic.AllowUserToAddRows = false;
@@ -284,18 +331,6 @@
             this.dgvPic.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvPic.Size = new System.Drawing.Size(984, 351);
             this.dgvPic.TabIndex = 70;
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnAdd.BackColor = System.Drawing.Color.Transparent;
-            this.btnAdd.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnAdd.BackgroundImage")));
-            this.btnAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnAdd.Location = new System.Drawing.Point(71, 6);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(57, 56);
-            this.btnAdd.TabIndex = 39;
-            this.btnAdd.UseVisualStyleBackColor = false;
             // 
             // location
             // 
@@ -373,40 +408,6 @@
             this.UpdateDate.ReadOnly = true;
             this.UpdateDate.Width = 130;
             // 
-            // btnDeleteGray
-            // 
-            this.btnDeleteGray.Enabled = false;
-            this.btnDeleteGray.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteGray.Image")));
-            this.btnDeleteGray.Location = new System.Drawing.Point(134, 6);
-            this.btnDeleteGray.Name = "btnDeleteGray";
-            this.btnDeleteGray.Size = new System.Drawing.Size(47, 55);
-            this.btnDeleteGray.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.btnDeleteGray.TabIndex = 41;
-            this.btnDeleteGray.TabStop = false;
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDelete.BackgroundImage")));
-            this.btnDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnDelete.Location = new System.Drawing.Point(134, 4);
-            this.btnDelete.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(46, 56);
-            this.btnDelete.TabIndex = 40;
-            this.btnDelete.UseVisualStyleBackColor = true;
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnCancel.BackColor = System.Drawing.SystemColors.Control;
-            this.btnCancel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnCancel.BackgroundImage")));
-            this.btnCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnCancel.Location = new System.Drawing.Point(920, 56);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(37, 37);
-            this.btnCancel.TabIndex = 35;
-            this.btnCancel.UseVisualStyleBackColor = false;
-            // 
             // SDMstPic
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -422,10 +423,10 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panelHeader.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGray)).EndInit();
             this.panelRegUp.ResumeLayout(false);
             this.panelRegUp.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPic)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnDeleteGray)).EndInit();
             this.ResumeLayout(false);
 
         }
