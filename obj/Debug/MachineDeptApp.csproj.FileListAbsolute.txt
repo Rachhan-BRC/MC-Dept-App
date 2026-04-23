@@ -2,7 +2,6 @@ G:\Marunix Desktop App\MC-Dept-App\bin\Debug\MC Dept App.exe.config
 G:\Marunix Desktop App\MC-Dept-App\bin\Debug\MC Dept App.exe
 G:\Marunix Desktop App\MC-Dept-App\bin\Debug\MC Dept App.pdb
 G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.AssemblyReference.cache
-G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MC Dept App.exe.config
 G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.MachineTypeMasterForm.resources
 G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.MasterItemCheckForm.resources
 G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.Admin.MasterItemForm.resources
@@ -423,3 +422,12 @@ D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.GenerateResource.cache
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.csproj.CoreCompileInputs.cache
 D:\IT-Project\MC-Dept-App\obj\Debug\MC Dept App.exe
 D:\IT-Project\MC-Dept-App\obj\Debug\MC Dept App.pdb
+G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.CustomerZeroClaimForm.resources
+G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.AddCustomerZeroClaim.resources
+G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.EditCustomerZeroClaim.resources
+G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.QualityControlForm.resources
+G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.AddQCReport.resources
+G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.EditQCForm.resources
+G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.MonthlyCustomerClaimFrom.resources
+G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.AddCustomerClaimForm.resources
+G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.EditCustomerClaim.resources
