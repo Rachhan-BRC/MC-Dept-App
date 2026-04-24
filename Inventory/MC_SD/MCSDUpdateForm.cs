@@ -29,7 +29,6 @@ namespace MachineDeptApp.Inventory.MC_SD
             this.btnSave.Click += BtnSave_Click;
             this.btnNew.Click += BtnNew_Click;
         }
-
         private void BtnNew_Click(object sender, EventArgs e)
         {
             txtscan.Clear();
@@ -46,7 +45,6 @@ namespace MachineDeptApp.Inventory.MC_SD
             txtscan.Focus();
 
         }
-
         private void BtnSave_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(bobinQty.Text.Trim()) &&
@@ -64,11 +62,12 @@ namespace MachineDeptApp.Inventory.MC_SD
                 try
                 {
                     con.con.Open();
-                    string queryUpdate = "UPDATE tbSDMCStockInventory SET Qty = @Qty, TotalWeight = @TotalWeight, BobinWeight = @bobinw, UpdateBy = @uby, UpdateDate = @ud WHERE SysNo = @SysNo AND Code = @code AND LabelNo = @lbno";
+                    string queryUpdate = "UPDATE tbSDMCStockInventory SET Qty = @Qty, TotalWeight = @TotalWeight, BobinWeight = @bobinw, BobbinQty = @bobinQty, UpdateBy = @uby, UpdateDate = @ud WHERE SysNo = @SysNo AND Code = @code AND LabelNo = @lbno";
                     SqlCommand cmdUpdate = new SqlCommand(queryUpdate, con.con);
                     cmdUpdate.Parameters.AddWithValue("@Qty", txtQty.Text.Trim());
                     cmdUpdate.Parameters.AddWithValue("@TotalWeight", txtttlweight.Text.Trim());
                     cmdUpdate.Parameters.AddWithValue("@bobinw", bobinw.Text.Trim());
+                    cmdUpdate.Parameters.AddWithValue("@bobinQty", bobinQty.Text.Trim());
                     cmdUpdate.Parameters.AddWithValue("@SysNo", txtscan.Text.Trim());
                     cmdUpdate.Parameters.AddWithValue("@Code", txtcode.Text.Trim());
                     cmdUpdate.Parameters.AddWithValue("@lbno", txtlabel.Text.Trim());
