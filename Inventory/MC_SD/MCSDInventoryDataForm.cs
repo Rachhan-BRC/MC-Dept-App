@@ -93,7 +93,7 @@ namespace MachineDeptApp.Inventory.MC_SD
             }
             catch (Exception ex)
             {
-                MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 1 !" + ex.Message, "Error SearchAll'", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 1 !" + ex.Message, "Error SearchAll", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             foreach (DataRow row in dtselect.Rows)
             {
