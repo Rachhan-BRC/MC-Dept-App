@@ -271,10 +271,10 @@
     <Compile Include="RMConnector\TransactionConnectorEditForm.Designer.cs">
       <DependentUpon>TransactionConnectorEditForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SDMstPic.cs">
+    <Compile Include="Inventory\MC_SD\SDMstPic.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SDMstPic.Designer.cs">
+    <Compile Include="Inventory\MC_SD\SDMstPic.Designer.cs">
       <DependentUpon>SDMstPic.cs</DependentUpon>
     </Compile>
     <Compile Include="SparePartControll\AddPrint.cs">
@@ -1042,7 +1042,7 @@
     <EmbeddedResource Include="RMConnector\TransactionConnectorEditForm.resx">
       <DependentUpon>TransactionConnectorEditForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SDMstPic.resx">
+    <EmbeddedResource Include="Inventory\MC_SD\SDMstPic.resx">
       <DependentUpon>SDMstPic.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SparePartControll\AddPrint.resx">

@@ -431,6 +431,18 @@ G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResu
 G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.MonthlyCustomerClaimFrom.resources
 G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.AddCustomerClaimForm.resources
 G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.EditCustomerClaim.resources
+<<<<<<< HEAD
 G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.DefectOutFlow.resources
 G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.InsertDefectOutFlow.resources
 G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.EditDefectOutFlow.resources
+=======
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.AddCustomerClaimForm.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.AddQCReport.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.AddCustomerZeroClaim.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.CustomerZeroClaimForm.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.EditCustomerClaim.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.EditCustomerZeroClaim.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.EditQCForm.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.MonthlyCustomerClaimFrom.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.QualityControlForm.resources
+>>>>>>> b6422b014bbcfb10306a4dbfd112994d5c593ad6
