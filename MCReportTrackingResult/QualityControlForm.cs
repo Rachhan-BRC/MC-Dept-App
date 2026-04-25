@@ -129,8 +129,7 @@ namespace MachineDeptApp.MCReportTrackingResult
             else
                 BuildGrid(new DateTime(DateTime.Now.Year, 1, 1), new DateTime(DateTime.Now.Year, 12, 1));
             Btnserch_Click(null, null);
-            DesignChart();
-            CalculateTotals();
+            
         }
         private void DesignChart()
         {
@@ -238,7 +237,7 @@ namespace MachineDeptApp.MCReportTrackingResult
             area.AxisX.Interval = 1;
             area.AxisX.LabelStyle.Font = new Font("Arial", 10F);
             area.AxisX.LabelStyle.ForeColor = Color.Black;
-
+            
             // Legend
             chart.Legends.Clear();
             chart.Legends.Add(new Legend());
@@ -336,7 +335,7 @@ namespace MachineDeptApp.MCReportTrackingResult
             }
             area.AxisY.Minimum = 0;
             area.AxisY.Maximum = max + 10;
-            area.AxisY.Interval = 50;
+            area.AxisY.Interval = interval;
             area.AxisY.LabelStyle.Font = new Font("Arial", 10F);
             area.AxisY.LabelStyle.ForeColor = Color.Black;
 
