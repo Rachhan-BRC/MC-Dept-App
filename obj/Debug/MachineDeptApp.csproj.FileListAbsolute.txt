@@ -431,3 +431,6 @@ G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResu
 G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.MonthlyCustomerClaimFrom.resources
 G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.AddCustomerClaimForm.resources
 G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.EditCustomerClaim.resources
+G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.DefectOutFlow.resources
+G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.InsertDefectOutFlow.resources
+G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.EditDefectOutFlow.resources
