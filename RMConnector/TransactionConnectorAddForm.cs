@@ -88,6 +88,7 @@ namespace MachineDeptApp.RMConnector
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
+
             if (tbItemCode.Text.Trim() == "" || tbReceiveQty.Text.Trim() == "" ||
                 tbIssuedQty.Text.Trim() == "")
             {

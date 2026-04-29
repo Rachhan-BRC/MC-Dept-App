@@ -26,13 +26,49 @@ namespace MachineDeptApp
             this.txtlbendno.TextChanged += Txtlbendno_TextChanged;
             this.txtlbstartno.TextChanged += Txtlbstartno_TextChanged;
             this.txtpic.TextChanged += Txtpic_TextChanged;
+            this.btnDelete.Click += BtnDelete_Click;
+            this.dgvPic.CellClick += DgvPic_CellClick;
+        }
+
+        private void DgvPic_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                btnDelete.Enabled = true;
+                btnDelete.BringToFront();
+            }
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            DialogResult ask =  MessageBox.Show("តើអ្នកប្រាកដថាលុបចេញមែនទេ ?", "បញ្ជាក់", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            if (ask == DialogResult.Yes)
+            {
+                Cursor = Cursors.WaitCursor;
+                try
+                {
+                    string pic = dgvPic.Rows[dgvPic.CurrentCell.RowIndex].Cells["pic"].Value.ToString();
+                    con.con.Open();
+                    string query = "DELETE FROM tbMstInventoryPic WHERE PIC = @pic ";
+                    SqlCommand amd = new SqlCommand(query, con.con);
+                    amd.Parameters.AddWithValue("@pic", pic);
+                    amd.ExecuteNonQuery();
+                    MessageBox.Show("បានលុបដោយជោគជ័យ!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("មានបញ្ហាបច្ចេកទេស សូមទាក់ទងទៅ IT (Phanun) " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                con.con.Close();
+                Cursor = Cursors.Default;
+                btnSearch.PerformClick();
+            }
         }
 
         private void Txtpic_TextChanged(object sender, EventArgs e)
         {
             if (txtpic.Text.Trim() != "" && txtlbstartno.Text.Trim() != "" && txtlbendno.Text.Trim() != "")
             {
-                btnSave.Enabled = true;
                 btnSave.BringToFront();
             }
         }
@@ -192,6 +228,7 @@ namespace MachineDeptApp
                 MessageBox.Show("មានបញ្ហាបច្ចេកទេស សូមទាក់ទងទៅ IT (Phanun) 1" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             Cursor = Cursors.Default;
+            dgvPic.ClearSelection();
         }
 
         private void SDMstPic_Load(object sender, EventArgs e)

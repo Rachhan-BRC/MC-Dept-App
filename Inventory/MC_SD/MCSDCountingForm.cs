@@ -228,7 +228,7 @@ namespace MachineDeptApp
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 9 !" + ex.Message, "Error CodeTextdown'", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 9 !" + ex.Message, "Error CodeTextdown", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     con.con.Close();
                     if (dtcompare.Rows.Count <= 0)
@@ -236,7 +236,7 @@ namespace MachineDeptApp
                         string soundPath = Path.Combine(Environment.CurrentDirectory, @"Sound\NoCode.wav");
                         SoundPlayer player = new SoundPlayer(soundPath);
                         player.Play();
-                        MessageBox.Show("មិនមានកូដប្រភេទនេះទេ !", "Alert'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("មិនមានកូដប្រភេទនេះទេ !", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         Cursor = Cursors.Default;
                         return;
                     }
@@ -251,7 +251,7 @@ namespace MachineDeptApp
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 10 !" + ex.Message, "Error Scantextdown'", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 10 !" + ex.Message, "Error Scantextdown", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     if (dtlabel.Rows.Count > 0 && dtlabel.Rows[0][0] != DBNull.Value)
                     {
@@ -478,7 +478,7 @@ namespace MachineDeptApp
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 8 !" + ex.Message, "Error Scantextdown'", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 8 !" + ex.Message, "Error Scantextdown", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     con.con.Close();
                     if (dtcompare.Rows.Count > 0)
@@ -488,7 +488,7 @@ namespace MachineDeptApp
                         string soundPath = Path.Combine(Environment.CurrentDirectory, @"Sound\AlreadyScan.wav");
                         SoundPlayer player = new SoundPlayer(soundPath);
                         player.Play();
-                        MessageBox.Show("ឡាប៊ែលនេះស្កេនរួចហើយ !", "Alert'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("ឡាប៊ែលនេះស្កេនរួចហើយ !", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         Cursor = Cursors.Default;
                         return;
                     }
@@ -507,7 +507,7 @@ namespace MachineDeptApp
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 3 !" + ex.Message, "Error Scantextdown'", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 3 !" + ex.Message, "Error Scantextdown", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     con.con.Close();
                     if (datafill.Rows.Count <= 0)
@@ -517,7 +517,7 @@ namespace MachineDeptApp
                         string soundPath = Path.Combine(Environment.CurrentDirectory, @"Sound\WrongSysNo.wav");
                         SoundPlayer player = new SoundPlayer(soundPath);
                         player.Play();
-                        MessageBox.Show("មិនមានឡាប៊ែលប្រភេទនេះទេ !", "Error'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("មិនមានឡាប៊ែលប្រភេទនេះទេ !", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         Cursor = Cursors.Default;
                         return;
                     }
@@ -532,7 +532,7 @@ namespace MachineDeptApp
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 5 !" + ex.Message, "Error Scantextdown'", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 5 !" + ex.Message, "Error Scantextdown", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     if (dtlabel.Rows.Count > 0 && dtlabel.Rows[0][0] != DBNull.Value)
                     {
@@ -695,7 +695,7 @@ namespace MachineDeptApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 6 !" + ex.Message, "Error Method'", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 6 !" + ex.Message, "Error Method", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             con.con.Close();
              foreach (DataRow row in dtdgv.Rows)
@@ -710,7 +710,6 @@ namespace MachineDeptApp
                 dgvSd.Rows[dgvSd.Rows.Count - 1].Cells["bbqty"].Value = row["BobbinQty"].ToString();
                 dgvSd.Rows[dgvSd.Rows.Count - 1].Cells["lbno"].Value = row["LabelNo"].ToString();
                dgvSd.Rows[dgvSd.Rows.Count - 1].Cells["pic"].Value = row["PIC"].ToString();
-
             }
         }
         private void ClearFields()
