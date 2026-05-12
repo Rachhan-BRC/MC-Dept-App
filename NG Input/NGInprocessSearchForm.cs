@@ -309,8 +309,16 @@ namespace MachineDeptApp.NG_Input
                     "\nLEFT JOIN (SELECT * FROM tbPOSDetailofMC) T2 ON TBNG.PosCNo=T2.PosCNo " +
                     "\nLEFT JOIN (SELECT * FROM tbMasterItem WHERE ItemType = 'Material') TBMaster ON TBNG.RMCode=TBMaster.ItemCode " +
                     "\nLEFT JOIN (SELECT  MAX(SysNo) AS SDNo,POSNo FROM tbSDAllocateStock GROUP BY POSNo) TBSD ON TBNG.PosCNo = TBSD.POSNo " +
-                    "\nLEFT JOIN (SELECT POSNo, MAX(RegDate) AS SDLastTransfer FROM tbSDMCAllTransaction " +
-                    "\nWHERE LocCode='MC1' AND StockValue<0 AND POSNo LIKE 'SD%' AND Remarks LIKE '%MC Inprocess return%' GROUP BY POSNo) T5 ON TBSD.SDNo=T5.POSNo \n" +SQLConds;
+                    "\nLEFT JOIN (SELECT H.DocumentNo, POSNo, D.LastRDate AS SDLastTransfer FROM tbSDAllocateReturnH H " +
+                    "\r\nLEFT JOIN " +
+                    "\r\n(" +
+                    "\r\n\tSELECT F.[DocumentNo], MAX(R.[LastRDate]) AS [LastRDate], COUNT(F.Code) AS TTLItems , " +
+                    "\r\n\tCOUNT(R.[LastRDate]) TTLRec, COUNT(N.[LastRDate]) TTLNotYet FROM vw_SDRecInfo F " +
+                    "\r\n\tLEFT JOIN vw_SDRecInfo R ON  F.[DocumentNo] = R.[DocumentNo] AND R.[LastRDate] IS NOT NULL " +
+                    "\r\n\tLEFT JOIN vw_SDRecInfo N ON  F.[DocumentNo] = N.[DocumentNo] AND N.[LastRDate] IS NULL " +
+                    "\r\n\tGROUP BY F.[DocumentNo] " +
+                    "\r\n) D ON H.DocumentNo = D.DocumentNo AND D.TTLItems = D.TTLRec " +
+                    "\r\nWHERE H.[DocumentNo] LIKE 'SD%') T5 ON TBSD.SDNo=T5.DocumentNo AND TBSD.POSNo = T5.POSNo  \n" + SQLConds;
                 SQLQuery += " ORDER BY PosCNo ASC, MCSeqNo ASC, ItemCode ASC";
                 //Console.WriteLine(SQLQuery);
                 SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
