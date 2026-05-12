@@ -61,7 +61,7 @@
             this.comboxStatus.Items.AddRange(new object[] {
             "",
             "Fixed",
-            "Padding"});
+            "Pending"});
             this.comboxStatus.Location = new System.Drawing.Point(106, 320);
             this.comboxStatus.Name = "comboxStatus";
             this.comboxStatus.Size = new System.Drawing.Size(187, 30);

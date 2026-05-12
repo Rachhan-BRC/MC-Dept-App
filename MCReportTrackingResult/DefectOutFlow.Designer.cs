@@ -29,40 +29,40 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DefectOutFlow));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title6 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnserch = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.dgvDefectOutFlow = new System.Windows.Forms.DataGridView();
+            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.chartAssy = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chartS3n = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dtpEnd = new System.Windows.Forms.DateTimePicker();
             this.dtpStart = new System.Windows.Forms.DateTimePicker();
             this.cbStartDate = new System.Windows.Forms.CheckBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.chartAssy = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.chartS3n = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.splitter1 = new System.Windows.Forms.Splitter();
-            this.dgvDefectOutFlow = new System.Windows.Forms.DataGridView();
             this.colNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colQC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDefectOutFlow)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartAssy)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartS3n)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDefectOutFlow)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -74,7 +74,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1073, 63);
+            this.panel1.Size = new System.Drawing.Size(1139, 63);
             this.panel1.TabIndex = 2;
             // 
             // btnDelete
@@ -134,8 +134,89 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 63);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1073, 615);
+            this.panel2.Size = new System.Drawing.Size(1139, 615);
             this.panel2.TabIndex = 3;
+            // 
+            // dgvDefectOutFlow
+            // 
+            this.dgvDefectOutFlow.AllowUserToAddRows = false;
+            this.dgvDefectOutFlow.AllowUserToDeleteRows = false;
+            this.dgvDefectOutFlow.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDefectOutFlow.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colNo,
+            this.colCategory,
+            this.colQC});
+            this.dgvDefectOutFlow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvDefectOutFlow.Location = new System.Drawing.Point(0, 60);
+            this.dgvDefectOutFlow.Name = "dgvDefectOutFlow";
+            this.dgvDefectOutFlow.ReadOnly = true;
+            this.dgvDefectOutFlow.RowHeadersVisible = false;
+            this.dgvDefectOutFlow.Size = new System.Drawing.Size(1139, 176);
+            this.dgvDefectOutFlow.TabIndex = 4;
+            // 
+            // splitter1
+            // 
+            this.splitter1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.splitter1.Location = new System.Drawing.Point(0, 236);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(1139, 10);
+            this.splitter1.TabIndex = 3;
+            this.splitter1.TabStop = false;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.chartAssy, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.chartS3n, 1, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 246);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1139, 369);
+            this.tableLayoutPanel1.TabIndex = 2;
+            // 
+            // chartAssy
+            // 
+            chartArea1.Name = "ChartArea";
+            this.chartAssy.ChartAreas.Add(chartArea1);
+            this.chartAssy.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend1";
+            this.chartAssy.Legends.Add(legend1);
+            this.chartAssy.Location = new System.Drawing.Point(3, 3);
+            this.chartAssy.Name = "chartAssy";
+            series1.ChartArea = "ChartArea";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chartAssy.Series.Add(series1);
+            this.chartAssy.Size = new System.Drawing.Size(563, 363);
+            this.chartAssy.TabIndex = 1;
+            this.chartAssy.Text = "chart1";
+            title1.Name = "Title1";
+            title1.Text = "Defect Out Flow to Assy";
+            this.chartAssy.Titles.Add(title1);
+            // 
+            // chartS3n
+            // 
+            chartArea2.Name = "ChartArea";
+            this.chartS3n.ChartAreas.Add(chartArea2);
+            this.chartS3n.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend2.Name = "Legend1";
+            this.chartS3n.Legends.Add(legend2);
+            this.chartS3n.Location = new System.Drawing.Point(572, 3);
+            this.chartS3n.Name = "chartS3n";
+            series2.ChartArea = "ChartArea";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chartS3n.Series.Add(series2);
+            this.chartS3n.Size = new System.Drawing.Size(564, 363);
+            this.chartS3n.TabIndex = 2;
+            this.chartS3n.Text = "chart2";
+            title2.Name = "Title1";
+            title2.Text = "Defect Out Flow to S3N";
+            this.chartS3n.Titles.Add(title2);
             // 
             // groupBox1
             // 
@@ -146,7 +227,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1073, 60);
+            this.groupBox1.Size = new System.Drawing.Size(1139, 60);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search Condition";
@@ -186,87 +267,6 @@
             this.cbStartDate.Text = "Start Date";
             this.cbStartDate.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.chartAssy, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.chartS3n, 1, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 246);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1073, 369);
-            this.tableLayoutPanel1.TabIndex = 2;
-            // 
-            // chartAssy
-            // 
-            chartArea5.Name = "ChartArea";
-            this.chartAssy.ChartAreas.Add(chartArea5);
-            this.chartAssy.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend5.Name = "Legend1";
-            this.chartAssy.Legends.Add(legend5);
-            this.chartAssy.Location = new System.Drawing.Point(3, 3);
-            this.chartAssy.Name = "chartAssy";
-            series5.ChartArea = "ChartArea";
-            series5.Legend = "Legend1";
-            series5.Name = "Series1";
-            this.chartAssy.Series.Add(series5);
-            this.chartAssy.Size = new System.Drawing.Size(530, 363);
-            this.chartAssy.TabIndex = 1;
-            this.chartAssy.Text = "chart1";
-            title5.Name = "Title1";
-            title5.Text = "Defect Out Flow to Assy";
-            this.chartAssy.Titles.Add(title5);
-            // 
-            // chartS3n
-            // 
-            chartArea6.Name = "ChartArea";
-            this.chartS3n.ChartAreas.Add(chartArea6);
-            this.chartS3n.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend6.Name = "Legend1";
-            this.chartS3n.Legends.Add(legend6);
-            this.chartS3n.Location = new System.Drawing.Point(539, 3);
-            this.chartS3n.Name = "chartS3n";
-            series6.ChartArea = "ChartArea";
-            series6.Legend = "Legend1";
-            series6.Name = "Series1";
-            this.chartS3n.Series.Add(series6);
-            this.chartS3n.Size = new System.Drawing.Size(531, 363);
-            this.chartS3n.TabIndex = 2;
-            this.chartS3n.Text = "chart2";
-            title6.Name = "Title1";
-            title6.Text = "Defect Out Flow to S3N";
-            this.chartS3n.Titles.Add(title6);
-            // 
-            // splitter1
-            // 
-            this.splitter1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.splitter1.Location = new System.Drawing.Point(0, 236);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(1073, 10);
-            this.splitter1.TabIndex = 3;
-            this.splitter1.TabStop = false;
-            // 
-            // dgvDefectOutFlow
-            // 
-            this.dgvDefectOutFlow.AllowUserToAddRows = false;
-            this.dgvDefectOutFlow.AllowUserToDeleteRows = false;
-            this.dgvDefectOutFlow.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDefectOutFlow.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colNo,
-            this.colCategory,
-            this.colQC});
-            this.dgvDefectOutFlow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvDefectOutFlow.Location = new System.Drawing.Point(0, 60);
-            this.dgvDefectOutFlow.Name = "dgvDefectOutFlow";
-            this.dgvDefectOutFlow.ReadOnly = true;
-            this.dgvDefectOutFlow.RowHeadersVisible = false;
-            this.dgvDefectOutFlow.Size = new System.Drawing.Size(1073, 176);
-            this.dgvDefectOutFlow.TabIndex = 4;
-            // 
             // colNo
             // 
             this.colNo.HeaderText = "No .";
@@ -280,6 +280,7 @@
             this.colCategory.MinimumWidth = 50;
             this.colCategory.Name = "colCategory";
             this.colCategory.ReadOnly = true;
+            this.colCategory.Width = 150;
             // 
             // colQC
             // 
@@ -292,22 +293,22 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1073, 678);
+            this.ClientSize = new System.Drawing.Size(1139, 678);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "DefectOutFlow";
             this.Text = "Defect Out Flow";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDefectOutFlow)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartAssy)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartS3n)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDefectOutFlow)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }

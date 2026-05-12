@@ -47,10 +47,10 @@ namespace MachineDeptApp.RMConnector
                 cmd.Parameters.AddWithValue("@UpdateBy",   MenuFormV2.UserForNextForm);
                 cmd.Parameters.AddWithValue("@UpdateDate", DateTime.Now);
                 cmd.ExecuteNonQuery();
-
                 // Add new row to dgv
                 int no = dgvMain.Rows.Count + 1;
-                dgvMain.Rows.Add(no,
+                dgvMain.Rows.Add(
+                    no,
                     tbRMCode.Text.Trim(),
                     tbRMDescription.Text.Trim(),
                     tbType.Text.Trim(),
@@ -58,7 +58,8 @@ namespace MachineDeptApp.RMConnector
                     MenuFormV2.UserForNextForm,
                     DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                     MenuFormV2.UserForNextForm,
-                    DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                 );
 
                 MessageBox.Show("Added successfully!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
