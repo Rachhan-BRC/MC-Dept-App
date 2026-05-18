@@ -582,6 +582,32 @@ namespace MachineDeptApp
                         {
                             Excel.Worksheet worksheetCountable = (Excel.Worksheet)xlWorkBook.Sheets["Countable"];
                             Excel.Range sourceRange = worksheetCountable.Range["A14:M14"];
+                            foreach (Excel.Shape shape in worksheetCountable.Shapes)
+                            {
+                                //if (shape.Name == "BarcodeText")
+                                //{
+                                //    shape.TextFrame.Characters().Text = "*" + DocNo + "*";
+                                //}
+                                try
+                                {
+                                    foreach (Excel.Shape childShape in shape.GroupItems) // Iterate through the grouped items
+                                    {
+                                        if (childShape.Name == "FromLocCode") // Check for your shape by name
+                                        {
+                                            childShape.TextFrame.Characters().Text = "";
+                                        }
+                                        if (childShape.Name == "FromLocName") // Check for your shape by name
+                                        {
+                                            childShape.TextFrame.Characters().Text = "";
+                                        }
+                                    }
+                                }
+                                catch
+                                {
+
+                                }
+                            }
+
                             worksheetCountable.Cells[1, 9] = Tranno.Text;
                             worksheetCountable.Cells[4, 10] = DateTime.Now.ToString("dd-MMM-yy");
                             worksheetCountable.Cells[5, 10] = MenuFormV2.UserForNextForm;
@@ -637,6 +663,32 @@ namespace MachineDeptApp
                         {
                             Excel.Worksheet worksheetUnCountable = (Excel.Worksheet)xlWorkBook.Sheets["Uncountable"];
                             Excel.Range sourceRange = worksheetUnCountable.Range["A14:M14"];
+                            foreach (Excel.Shape shape in worksheetUnCountable.Shapes)
+                            {
+
+                                //if (shape.Name == "BarcodeText")
+                                //{
+                                //    shape.TextFrame.Characters().Text = "*" + DocNo + "*";
+                                //}
+                                try
+                                {
+                                    foreach (Excel.Shape childShape in shape.GroupItems) // Iterate through the grouped items
+                                    {
+                                        if (childShape.Name == "FromLocCode") // Check for your shape by name
+                                        {
+                                            childShape.TextFrame.Characters().Text = "";
+                                        }
+                                        if (childShape.Name == "FromLocName") // Check for your shape by name
+                                        {
+                                            childShape.TextFrame.Characters().Text = "";
+                                        }
+                                    }
+                                }
+                                catch
+                                {
+
+                                }
+                            }
                             worksheetUnCountable.Cells[1, 9] = Tranno.Text;
                             worksheetUnCountable.Cells[4, 10] = DateTime.Now.ToString("dd-MMM-yy");
                             worksheetUnCountable.Cells[5, 10] = MenuFormV2.UserForNextForm;
