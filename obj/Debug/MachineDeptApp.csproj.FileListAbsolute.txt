@@ -446,3 +446,6 @@ D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.EditQC
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.MonthlyCustomerClaimFrom.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.QualityControlForm.resources
 >>>>>>> b6422b014bbcfb10306a4dbfd112994d5c593ad6
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.DefectOutFlow.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.EditDefectOutFlow.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.InsertDefectOutFlow.resources

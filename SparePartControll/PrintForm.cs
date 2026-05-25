@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -44,8 +45,24 @@ namespace MachineDeptApp.SparePartControll
             this.chkPname.CheckedChanged += ChkPname_CheckedChanged;
             this.chkPno.CheckedChanged += ChkPno_CheckedChanged;
             this.btnExport.Click += BtnExport_Click;
+            this.btnImport.Click += BtnImport_Click;
         }
-
+        private void BtnImport_Click(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+            try
+            {
+                con.con.Open();
+                Import();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while importing data !" + ex.Message, "Error !", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            con.con.Close();
+            Cursor = Cursors.Default;
+            Search();
+        }
         private void BtnExport_Click(object sender, EventArgs e)
         {
             if (rdnormal.Checked == true)
@@ -211,8 +228,6 @@ namespace MachineDeptApp.SparePartControll
         private void BtnSave_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
-
-
             if (dtup.Rows.Count > 0)
             {
                 int error = 0;
@@ -947,6 +962,126 @@ namespace MachineDeptApp.SparePartControll
             }
             con.con.Close();
             Search();
+        }
+        private void Import()
+        {
+            OpenFileDialog openFD = new OpenFileDialog
+            {
+                Title = "Choose an Excel file for Import",
+                Filter = "Excel Files|*.xlsx;*.xlsx;"
+            };
+
+            if (openFD.ShowDialog() != DialogResult.OK) return;
+            Cursor = Cursors.WaitCursor;
+            string strFileName = openFD.FileName;
+
+            Microsoft.Office.Interop.Excel.Application xlApp = null;
+            Microsoft.Office.Interop.Excel.Workbook xlWorkbook = null;
+            Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = null;
+            Microsoft.Office.Interop.Excel.Range xlRange = null;
+
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                xlApp = new Microsoft.Office.Interop.Excel.Application();
+                xlWorkbook = xlApp.Workbooks.Open(strFileName);
+                xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets[1];
+                xlRange = xlWorksheet.UsedRange;
+                int rowCount = xlRange.Rows.Count;
+                int CellCount = xlRange.Columns.Count;
+                for (int row = 2; row <= rowCount; row++)
+                {
+                    string code = Convert.ToString((xlRange.Cells[row, 1] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                    string partno = Convert.ToString((xlRange.Cells[row, 2] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                    string partname = Convert.ToString((xlRange.Cells[row, 3] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                    string mcname = Convert.ToString((xlRange.Cells[row, 4] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                    string supplier = Convert.ToString((xlRange.Cells[row, 5] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                    string maker = Convert.ToString((xlRange.Cells[row, 6] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                    string qty = Convert.ToString((xlRange.Cells[row, 7] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                    string unitprice = Convert.ToString((xlRange.Cells[row, 8] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                    string amount = Convert.ToString((xlRange.Cells[row, 9] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                    string eta = Convert.ToString((xlRange.Cells[row, 10] as Microsoft.Office.Interop.Excel.Range)?.Text);
+
+                    dgvTTL.Rows.Add();
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["status"].Value = "Pending";
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["code"].Value = code;
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partno"].Value = partno;
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["partname"].Value = partname;
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["machinename"].Value = mcname;
+                     dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["supplier"].Value = supplier;
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["maker"].Value = maker;
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["qty"].Value = qty;
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["unitprice"].Value = unitprice;
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["amount"].Value = amount;
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["eta"].Value = eta;
+                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["leadtime"].Value = leadtime;
+                }
+                DialogResult ask = MessageBox.Show("Are you sure to save this?", "Confirm Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (ask == DialogResult.Yes)
+                {
+                    for (int row = 2; row <= rowCount; row++)
+                    {
+                        string code = Convert.ToString((xlRange.Cells[row, 1] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                        string partno = Convert.ToString((xlRange.Cells[row, 2] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                        string partname = Convert.ToString((xlRange.Cells[row, 3] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                        string mcname = Convert.ToString((xlRange.Cells[row, 4] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                        string supplier = Convert.ToString((xlRange.Cells[row, 5] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                        string maker = Convert.ToString((xlRange.Cells[row, 6] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                        string qty = Convert.ToString((xlRange.Cells[row, 7] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                        string unitprice = Convert.ToString((xlRange.Cells[row, 8] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                        string amount = Convert.ToString((xlRange.Cells[row, 9] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                        string eta = Convert.ToString((xlRange.Cells[row, 10] as Microsoft.Office.Interop.Excel.Range)?.Text);
+                        if (!string.IsNullOrEmpty(code) &&
+                            !string.IsNullOrEmpty(partno) &&
+                            !string.IsNullOrEmpty(partname) &&
+                            !string.IsNullOrEmpty(mcname) &&
+                            !string.IsNullOrEmpty(supplier) &&
+                            !string.IsNullOrEmpty(qty) &&
+                            !string.IsNullOrEmpty(unitprice) &&
+                            !string.IsNullOrEmpty(amount) &&
+                            !string.IsNullOrEmpty(eta))
+                        {
+                            string query = "INSERT INTO tbPrintPending_temp (Code, PartNo, PartName, MCName, Supplier, Maker, OrderQty, UnitPrice, Amount, ETA, Status, Dept, Find) " +
+                                "VALUES (@code, @partno, @partname, @mcname, @supplier, @maker, @orderqty, @unitprice, @amount, @eta, @status, @dept, @Not)";
+                            SqlCommand cmd = new SqlCommand(query, con.con);
+                            cmd.Parameters.AddWithValue("@code", code);
+                            cmd.Parameters.AddWithValue("@partno", partno);
+                            cmd.Parameters.AddWithValue("@partname", partname);
+                            cmd.Parameters.AddWithValue("@mcname", mcname);
+                            cmd.Parameters.AddWithValue("@supplier", supplier);
+                            cmd.Parameters.AddWithValue("@maker", maker);
+                            cmd.Parameters.AddWithValue("@orderqty", qty);
+                            cmd.Parameters.AddWithValue("@unitprice", unitprice);
+                            cmd.Parameters.AddWithValue("@amount", amount);
+                            cmd.Parameters.AddWithValue("@eta", eta);
+                            cmd.Parameters.AddWithValue("@status", "Pending");
+                            cmd.Parameters.AddWithValue("@dept", dept);
+                            cmd.Parameters.AddWithValue("@Not", "Not");
+
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+                // Clean up
+                xlApp.DisplayAlerts = false;
+                xlWorkbook.Close(false);
+                xlApp.Quit();
+                xlApp.DisplayAlerts = true;
+                Marshal.ReleaseComObject(xlRange);
+                Marshal.ReleaseComObject(xlWorksheet);
+                Marshal.ReleaseComObject(xlWorkbook);
+                Marshal.ReleaseComObject(xlApp);
+                foreach (var process in Process.GetProcessesByName("EXCEL"))
+                {
+                    if (string.IsNullOrEmpty(process.MainWindowTitle))
+                        process.Kill();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Wrong Template." + ex.Message, "Error import", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            Cursor = Cursors.Default;
         }
     }
 }

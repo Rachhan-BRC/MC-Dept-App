@@ -66,7 +66,6 @@
             this.btndelete = new System.Windows.Forms.PictureBox();
             this.gpboxsearch = new System.Windows.Forms.GroupBox();
             this.dgvTTL = new System.Windows.Forms.DataGridView();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Code = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.partno = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -82,6 +81,8 @@
             this.find = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mcdocno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.seteta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnImport = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btndelete)).BeginInit();
             this.gpboxsearch.SuspendLayout();
@@ -260,6 +261,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnImport);
             this.panel1.Controls.Add(this.btnExport);
             this.panel1.Controls.Add(this.btndelete);
             this.panel1.Controls.Add(this.btnSaveGrey);
@@ -515,6 +517,17 @@
             this.seteta.Name = "seteta";
             this.seteta.Visible = false;
             // 
+            // btnImport
+            // 
+            this.btnImport.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnImport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnImport.BackgroundImage")));
+            this.btnImport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnImport.Location = new System.Drawing.Point(313, 6);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(57, 56);
+            this.btnImport.TabIndex = 146;
+            this.btnImport.UseVisualStyleBackColor = false;
+            // 
             // PrintForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -575,5 +588,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn find;
         private System.Windows.Forms.DataGridViewTextBoxColumn mcdocno;
         private System.Windows.Forms.DataGridViewTextBoxColumn seteta;
+        private System.Windows.Forms.Button btnImport;
     }
 }
