@@ -963,6 +963,7 @@ namespace MachineDeptApp.SparePartControll
             con.con.Close();
             Search();
         }
+
         private void Import()
         {
             OpenFileDialog openFD = new OpenFileDialog
@@ -1014,7 +1015,6 @@ namespace MachineDeptApp.SparePartControll
                     dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["unitprice"].Value = unitprice;
                     dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["amount"].Value = amount;
                     dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["eta"].Value = eta;
-                    dgvTTL.Rows[dgvTTL.Rows.Count - 1].Cells["leadtime"].Value = leadtime;
                 }
                 DialogResult ask = MessageBox.Show("Are you sure to save this?", "Confirm Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (ask == DialogResult.Yes)
@@ -1057,7 +1057,6 @@ namespace MachineDeptApp.SparePartControll
                             cmd.Parameters.AddWithValue("@status", "Pending");
                             cmd.Parameters.AddWithValue("@dept", dept);
                             cmd.Parameters.AddWithValue("@Not", "Not");
-
                             cmd.ExecuteNonQuery();
                         }
                     }
