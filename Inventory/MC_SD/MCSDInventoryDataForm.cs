@@ -28,6 +28,79 @@ namespace MachineDeptApp.Inventory.MC_SD
             this.txtCode.TextChanged += TxtCode_TextChanged;
             this.txtLabelNo.TextChanged += TxtLabelNo_TextChanged;
             this.txtName.TextChanged += TxtName_TextChanged;
+            this.btnExport.Click += BtnExport_Click;
+        }
+
+        private void BtnExport_Click(object sender, EventArgs e)
+        {
+            DialogResult DLS = MessageBox.Show("Are you sure you want to export?", "Confirm Export", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (DLS == DialogResult.Yes)
+            {
+                SaveFileDialog saveDialog = new SaveFileDialog();
+                saveDialog.Filter = "CSV file (*.csv)|*.csv";
+                saveDialog.FileName = "DataImportMulti" + DateTime.Now.ToString("yyyyMMddHHmm") + ".csv";
+                if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+
+                    Cursor = Cursors.WaitCursor;
+                    try
+                    {
+                        //Write Column name
+                        int columnCount = 0;
+                        foreach (DataGridViewColumn DgvCol in dgvSearchResult.Columns)
+                        {
+                            if (DgvCol.Visible == true)
+                            {
+                                columnCount = columnCount + 1;
+                            }
+                        }
+                        string columnNames = "";
+
+                        //String array for Csv
+                        string[] outputCsv;
+                        outputCsv = new string[dgvSearchResult.Rows.Count + 1];
+
+                        //Set Column Name
+                        for (int i = 0; i < columnCount; i++)
+                        {
+                            if (dgvSearchResult.Columns[i].Visible == true)
+                            {
+                                columnNames += dgvSearchResult.Columns[i].HeaderText.ToString().Replace("\n", " ") + ",";
+                            }
+                        }
+                        outputCsv[0] += columnNames;
+
+                        //Row of data 
+                        for (int i = 1; (i - 1) < dgvSearchResult.Rows.Count; i++)
+                        {
+                            for (int j = 0; j < columnCount; j++)
+                            {
+                                if (dgvSearchResult.Columns[j].Visible == true)
+                                {
+                                    string Value = "";
+                                    if (dgvSearchResult.Rows[i - 1].Cells[j].Value != null)
+                                    {
+                                        Value = dgvSearchResult.Rows[i - 1].Cells[j].Value.ToString();
+                                    }
+                                    //Fix don't separate if it contain '\n' or ','
+                                    Value = "\"" + Value.Replace("\"", "\"\"") + "\"";
+                                    outputCsv[i] += Value + ",";
+                                }
+                            }
+                        }
+
+                        File.WriteAllLines(saveDialog.FileName, outputCsv, Encoding.UTF8);
+                        Cursor = Cursors.Default;
+                        MessageBox.Show("Export success!", "Success.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Process.Start(saveDialog.FileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        Cursor = Cursors.Default;
+                        MessageBox.Show("Error while export !\n" + ex.Message, "Error exporting plan !", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
 
         private void TxtName_TextChanged(object sender, EventArgs e)
