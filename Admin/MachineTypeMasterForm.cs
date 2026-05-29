@@ -233,7 +233,7 @@ namespace MachineDeptApp.Admin
                 sda.Fill(dt);
                 foreach (DataRow row in dt.Rows)
                 {
-                    dgvSearchResult.Rows.Add(row[0], row[1], Convert.ToDateTime(row[2].ToString()), row[3], Convert.ToDateTime(row[4].ToString()), row[5]);
+                    dgvSearchResult.Rows.Add(row[0], row[1], row["Target"], Convert.ToDateTime(row[2].ToString()), row[3], Convert.ToDateTime(row[4].ToString()), row[5]);
                 }
                 dgvSearchResult.ClearSelection();
                 LbStatus.Text = "រកឃើញទិន្នន័យចំនួន " + dgvSearchResult.Rows.Count.ToString("N0") + " !";
@@ -296,6 +296,7 @@ namespace MachineDeptApp.Admin
         {
             CboMCTypeEdit.Text = "";
             txtMCNameEdit.Text = "";
+            txtTargetEdit.Text = "";
             CboMCTypeEdit.Focus();
 
         }
@@ -323,17 +324,25 @@ namespace MachineDeptApp.Admin
                     try
                     {
                         cnn.con.Open();
-                        cmd = new SqlCommand("INSERT INTO tbMasterMCType (MCType, MCName, RegDate, RegBy, UpdateDate, UpdateBy) " +
-                                                                        "VALUES (@McT, @McN, @RegD, @RegB, @UpD, @UpB)", cnn.con);
+                        cmd = new SqlCommand("INSERT INTO tbMasterMCType (MCType, MCName, Target, RegDate, RegBy, UpdateDate, UpdateBy) " +
+                                                                        "VALUES (@McT, @McN,@Target, @RegD, @RegB, @UpD, @UpB)", cnn.con);
 
                         cmd.Parameters.AddWithValue("@McT", CboMCTypeEdit.Text);
+                        if (txtTargetEdit.Text.Trim() == "")
+                        {
+                            cmd.Parameters.AddWithValue("@Target", DBNull.Value);
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@Target", txtTargetEdit.Text);
+                        }
                         cmd.Parameters.AddWithValue("@McN", txtMCNameEdit.Text);
                         cmd.Parameters.AddWithValue("@RegD", DateTime.Now);
                         cmd.Parameters.AddWithValue("@RegB", MenuFormV2.UserForNextForm);
                         cmd.Parameters.AddWithValue("@UpD", DateTime.Now);
                         cmd.Parameters.AddWithValue("@UpB", MenuFormV2.UserForNextForm);
                         cmd.ExecuteNonQuery();
-                        dgvSearchResult.Rows.Add(CboMCTypeEdit.Text, txtMCNameEdit.Text, DateTime.Now, MenuFormV2.UserForNextForm, DateTime.Now, MenuFormV2.UserForNextForm);
+                        dgvSearchResult.Rows.Add(CboMCTypeEdit.Text, txtMCNameEdit.Text, txtTargetEdit.Text, DateTime.Now, MenuFormV2.UserForNextForm, DateTime.Now, MenuFormV2.UserForNextForm);
                         MessageBox.Show("បន្ថែមម៉ាស៊ីនថ្មីរួចរាល់!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         dgvSearchResult.ClearSelection();
                         ClearAdd();
@@ -364,6 +373,7 @@ namespace MachineDeptApp.Admin
                         string query = "UPDATE tbMasterMCType SET " +
                                             "MCType='" + CboMCTypeEdit.Text + "'," +
                                             "MCName='" + txtMCNameEdit.Text + "'," +
+                                             "Target='" + txtTargetEdit.Text + "'," +
                                             "UpdateDate='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
                                             "UpdateBy=N'" + MenuFormV2.UserForNextForm + "' " +
                                             "WHERE MCType = '" + dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[0].Value.ToString() + "' AND MCName='" + dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[1].Value.ToString() +"' ;";
@@ -372,8 +382,11 @@ namespace MachineDeptApp.Admin
                         MessageBox.Show("អាប់ដេតរួចរាល់!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         dgvSearchResult.CurrentRow.Cells[0].Value = CboMCTypeEdit.Text;
                         dgvSearchResult.CurrentRow.Cells[1].Value = txtMCNameEdit.Text;
-                        dgvSearchResult.CurrentRow.Cells[4].Value = DateTime.Now;
-                        dgvSearchResult.CurrentRow.Cells[5].Value = MenuFormV2.UserForNextForm;
+                        dgvSearchResult.CurrentRow.Cells[2].Value = txtTargetEdit.Text;
+                        //dgvSearchResult.CurrentRow.Cells[3].Value = DateTime.Now;
+                        //dgvSearchResult.CurrentRow.Cells[4].Value = MenuFormV2.UserForNextForm;
+                        dgvSearchResult.CurrentRow.Cells[5].Value = DateTime.Now;
+                        dgvSearchResult.CurrentRow.Cells[6].Value = MenuFormV2.UserForNextForm;
                         ClearAdd();
                     }
                     catch (Exception ex)
@@ -388,7 +401,6 @@ namespace MachineDeptApp.Admin
                 MessageBox.Show("សូមបំពេញព័ត៌មានទាំងអស់!", "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
-
 
     }
 }
