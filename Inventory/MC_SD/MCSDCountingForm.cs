@@ -193,6 +193,7 @@ namespace MachineDeptApp
                 qty = remainL * bobin + ses;
                 txtremainL2.Text = qty.ToString("N3");
                 txtremainL3.Text = (qty + ttl).ToString("N3");
+
             }
         }
         private void Txtcode_KeyDown(object sender, KeyEventArgs e)
