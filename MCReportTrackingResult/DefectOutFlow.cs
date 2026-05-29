@@ -345,6 +345,7 @@ namespace MachineDeptApp.MCReportTrackingResult
             
             for (int i = 0; i < monthCols.Count; i++)
             {
+
                 // PLAN (row 0 for Pressing PPM)
                 var planVal = dgvDefectOutFlow.Rows[0].Cells[monthCols[i].Name].Value;
                 if (planVal != null && double.TryParse(planVal.ToString(), out double p))
@@ -366,12 +367,15 @@ namespace MachineDeptApp.MCReportTrackingResult
                 else
                     planCrimping[i] = null;
 
+
+
                 // ACTUAL Crimping (row 1 for  PPM)
                 var actualValCrimping = dgvDefectOutFlow.Rows[4].Cells[monthCols[i].Name].Value;
                 if (actualValCrimping != null && double.TryParse(actualValCrimping.ToString(), out double aCrimping))
                     actualCrimping[i] = aCrimping;
                 else
                     actualCrimping[i] = null;
+
             }
 
             for (int i = 0; i < 12; i++)
@@ -406,13 +410,17 @@ namespace MachineDeptApp.MCReportTrackingResult
              maxActual = Math.Max(actualCrimping.Max() ?? 0, actual.Max() ?? 0);
              max = Math.Max(maxPlan, maxActual);
             double interval = 5;
-            if (max > 50)
+            if (max > 50 && max < 100)
             {
                 interval = 10;
             }
-            else if (max > 100)
+            else if (max > 100 && max < 200)
             {
                 interval = 20;
+            }
+            else if (max > 200)
+            {
+                interval = 40;
             }
             area.AxisY.Minimum = 0;
             area.AxisY.Maximum = max + 2;
@@ -546,13 +554,17 @@ namespace MachineDeptApp.MCReportTrackingResult
             maxActual = Math.Max(actualCrimping.Max() ?? 0, actual.Max() ?? 0);
             max = Math.Max(maxPlan, maxActual);
             double interval = 10;
-            if (max > 50)
+            if (max > 50 && max <= 150)
             {
                 interval = 20;
             }
-            else if (max > 150)
+            else if (max > 150 && max <= 200)
             {
                 interval = 30;
+            }
+            else if (max > 200)
+            {
+                interval = 50;
             }
             area.AxisY.Minimum = 0;
             area.AxisY.Maximum = max + 10;
