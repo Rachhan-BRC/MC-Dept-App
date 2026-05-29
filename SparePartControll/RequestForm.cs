@@ -55,6 +55,8 @@ namespace MachineDeptApp.SparePartControll
             this.btnUnhide.Click += BtnUnhide_Click;
         }
 
+       
+
         private void DgvRequest_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && e.RowIndex != dgvRequest.Rows.Count - 1)
