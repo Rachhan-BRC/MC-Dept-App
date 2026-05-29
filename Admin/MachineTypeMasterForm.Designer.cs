@@ -58,15 +58,18 @@
             this.panelBody = new System.Windows.Forms.Panel();
             this.GroupBoxResult = new System.Windows.Forms.GroupBox();
             this.dgvSearchResult = new System.Windows.Forms.DataGridView();
+            this.panelFooter = new System.Windows.Forms.Panel();
+            this.LbStatus = new System.Windows.Forms.Label();
+            this.panelHeader = new System.Windows.Forms.Panel();
             this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Target = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panelFooter = new System.Windows.Forms.Panel();
-            this.LbStatus = new System.Windows.Forms.Label();
-            this.panelHeader = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtTargetEdit = new System.Windows.Forms.TextBox();
             this.tabPage4.SuspendLayout();
             this.panel6.SuspendLayout();
             this.tabContrlEdit.SuspendLayout();
@@ -90,6 +93,8 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.txtTargetEdit);
+            this.tabPage4.Controls.Add(this.label1);
             this.tabPage4.Controls.Add(this.panel6);
             this.tabPage4.Controls.Add(this.CboMCTypeEdit);
             this.tabPage4.Controls.Add(this.LbItemTypeUpdate);
@@ -327,6 +332,7 @@
             this.dgvSearchResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn11,
             this.dataGridViewTextBoxColumn12,
+            this.Target,
             this.dataGridViewTextBoxColumn17,
             this.dataGridViewTextBoxColumn18,
             this.dataGridViewTextBoxColumn19,
@@ -347,66 +353,6 @@
             this.dgvSearchResult.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSearchResult.Size = new System.Drawing.Size(778, 119);
             this.dgvSearchResult.TabIndex = 11;
-            // 
-            // dataGridViewTextBoxColumn11
-            // 
-            this.dataGridViewTextBoxColumn11.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.NullValue = null;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn11.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dataGridViewTextBoxColumn11.FillWeight = 160F;
-            this.dataGridViewTextBoxColumn11.HeaderText = "ប្រភេទម៉ាស៊ីន";
-            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
-            this.dataGridViewTextBoxColumn11.ReadOnly = true;
-            this.dataGridViewTextBoxColumn11.Width = 180;
-            // 
-            // dataGridViewTextBoxColumn12
-            // 
-            this.dataGridViewTextBoxColumn12.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn12.DefaultCellStyle = dataGridViewCellStyle4;
-            this.dataGridViewTextBoxColumn12.FillWeight = 190F;
-            this.dataGridViewTextBoxColumn12.HeaderText = "ឈ្មោះម៉ាស៊ីន";
-            this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
-            this.dataGridViewTextBoxColumn12.ReadOnly = true;
-            this.dataGridViewTextBoxColumn12.Width = 280;
-            // 
-            // dataGridViewTextBoxColumn17
-            // 
-            this.dataGridViewTextBoxColumn17.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle5.Format = "dd-MMM-yy hh:mm:ss tt";
-            dataGridViewCellStyle5.NullValue = null;
-            this.dataGridViewTextBoxColumn17.DefaultCellStyle = dataGridViewCellStyle5;
-            this.dataGridViewTextBoxColumn17.HeaderText = "ថ្ងៃខែឆ្នាំបញ្ចូល";
-            this.dataGridViewTextBoxColumn17.Name = "dataGridViewTextBoxColumn17";
-            this.dataGridViewTextBoxColumn17.ReadOnly = true;
-            this.dataGridViewTextBoxColumn17.Width = 140;
-            // 
-            // dataGridViewTextBoxColumn18
-            // 
-            this.dataGridViewTextBoxColumn18.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dataGridViewTextBoxColumn18.HeaderText = "បញ្ចូលដោយ";
-            this.dataGridViewTextBoxColumn18.Name = "dataGridViewTextBoxColumn18";
-            this.dataGridViewTextBoxColumn18.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn19
-            // 
-            this.dataGridViewTextBoxColumn19.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle6.Format = "dd-MMM-yy hh:mm:ss tt";
-            this.dataGridViewTextBoxColumn19.DefaultCellStyle = dataGridViewCellStyle6;
-            this.dataGridViewTextBoxColumn19.HeaderText = "ថ្ងៃខែឆ្នាំអាប់ដេត";
-            this.dataGridViewTextBoxColumn19.Name = "dataGridViewTextBoxColumn19";
-            this.dataGridViewTextBoxColumn19.ReadOnly = true;
-            this.dataGridViewTextBoxColumn19.Width = 140;
-            // 
-            // dataGridViewTextBoxColumn20
-            // 
-            this.dataGridViewTextBoxColumn20.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dataGridViewTextBoxColumn20.HeaderText = "អាប់ដេតដោយ";
-            this.dataGridViewTextBoxColumn20.Name = "dataGridViewTextBoxColumn20";
-            this.dataGridViewTextBoxColumn20.ReadOnly = true;
             // 
             // panelFooter
             // 
@@ -443,6 +389,93 @@
             this.panelHeader.Name = "panelHeader";
             this.panelHeader.Size = new System.Drawing.Size(800, 58);
             this.panelHeader.TabIndex = 23;
+            // 
+            // dataGridViewTextBoxColumn11
+            // 
+            this.dataGridViewTextBoxColumn11.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.NullValue = null;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn11.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dataGridViewTextBoxColumn11.FillWeight = 160F;
+            this.dataGridViewTextBoxColumn11.HeaderText = "ប្រភេទម៉ាស៊ីន";
+            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
+            this.dataGridViewTextBoxColumn11.ReadOnly = true;
+            this.dataGridViewTextBoxColumn11.Width = 180;
+            // 
+            // dataGridViewTextBoxColumn12
+            // 
+            this.dataGridViewTextBoxColumn12.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn12.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dataGridViewTextBoxColumn12.FillWeight = 190F;
+            this.dataGridViewTextBoxColumn12.HeaderText = "ឈ្មោះម៉ាស៊ីន";
+            this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
+            this.dataGridViewTextBoxColumn12.ReadOnly = true;
+            this.dataGridViewTextBoxColumn12.Width = 280;
+            // 
+            // Target
+            // 
+            this.Target.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Target.HeaderText = "គោលដៅ";
+            this.Target.MinimumWidth = 100;
+            this.Target.Name = "Target";
+            this.Target.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn17
+            // 
+            this.dataGridViewTextBoxColumn17.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle5.Format = "dd-MMM-yy hh:mm:ss tt";
+            dataGridViewCellStyle5.NullValue = null;
+            this.dataGridViewTextBoxColumn17.DefaultCellStyle = dataGridViewCellStyle5;
+            this.dataGridViewTextBoxColumn17.HeaderText = "ថ្ងៃខែឆ្នាំបញ្ចូល";
+            this.dataGridViewTextBoxColumn17.Name = "dataGridViewTextBoxColumn17";
+            this.dataGridViewTextBoxColumn17.ReadOnly = true;
+            this.dataGridViewTextBoxColumn17.Width = 140;
+            // 
+            // dataGridViewTextBoxColumn18
+            // 
+            this.dataGridViewTextBoxColumn18.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dataGridViewTextBoxColumn18.HeaderText = "បញ្ចូលដោយ";
+            this.dataGridViewTextBoxColumn18.Name = "dataGridViewTextBoxColumn18";
+            this.dataGridViewTextBoxColumn18.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn19
+            // 
+            this.dataGridViewTextBoxColumn19.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle6.Format = "dd-MMM-yy hh:mm:ss tt";
+            this.dataGridViewTextBoxColumn19.DefaultCellStyle = dataGridViewCellStyle6;
+            this.dataGridViewTextBoxColumn19.HeaderText = "ថ្ងៃខែឆ្នាំអាប់ដេត";
+            this.dataGridViewTextBoxColumn19.Name = "dataGridViewTextBoxColumn19";
+            this.dataGridViewTextBoxColumn19.ReadOnly = true;
+            this.dataGridViewTextBoxColumn19.Width = 140;
+            // 
+            // dataGridViewTextBoxColumn20
+            // 
+            this.dataGridViewTextBoxColumn20.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dataGridViewTextBoxColumn20.HeaderText = "អាប់ដេតដោយ";
+            this.dataGridViewTextBoxColumn20.Name = "dataGridViewTextBoxColumn20";
+            this.dataGridViewTextBoxColumn20.ReadOnly = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(348, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(58, 24);
+            this.label1.TabIndex = 39;
+            this.label1.Text = "គោលដៅ";
+            // 
+            // txtTargetEdit
+            // 
+            this.txtTargetEdit.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTargetEdit.Location = new System.Drawing.Point(434, 12);
+            this.txtTargetEdit.MaxLength = 150;
+            this.txtTargetEdit.Name = "txtTargetEdit";
+            this.txtTargetEdit.Size = new System.Drawing.Size(224, 32);
+            this.txtTargetEdit.TabIndex = 40;
             // 
             // MachineTypeMasterForm
             // 
@@ -498,12 +531,15 @@
         private System.Windows.Forms.Panel panelFooter;
         private System.Windows.Forms.Label LbStatus;
         private System.Windows.Forms.Panel panelHeader;
+        private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Target;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn17;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn18;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn19;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn20;
-        private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.TextBox txtTargetEdit;
+        private System.Windows.Forms.Label label1;
     }
 }
