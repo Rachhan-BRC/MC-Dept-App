@@ -630,17 +630,17 @@ namespace MachineDeptApp.SparePartControll
                     Path.Combine(Environment.CurrentDirectory, @"Template\SparePartRequestSheetIPO.xlsx"), Editable: true);
                 Excel.Worksheet worksheet = (Excel.Worksheet)xlWorkBook.Sheets[1];
 
-                int startRow = 4;
+                int startRow = 5;
 
                 // Fill Excel from DataGridView
                 string date = DateTime.Now.ToString("dd");
-                string month = DateTime.Now.ToString("MM");
+                string month = DateTime.Now.ToString("MMM");
                 string year = DateTime.Now.ToString("yyyy");
                 double totalAmount = 0;
                 for (int i = 0; i < dgvTTL.Rows.Count; i++)
                 {
                     DataGridViewRow row = dgvTTL.Rows[i];
-
+                  
                     if (i > 0)
                     {
                         // Insert new row with same format
@@ -650,27 +650,31 @@ namespace MachineDeptApp.SparePartControll
                         Excel.Range insertRow = worksheet.Rows[startRow + i];
                         insertRow.Insert(Excel.XlInsertShiftDirection.xlShiftDown);
                     }
+                    worksheet.Cells[startRow + i, 1] = i+1;
                     totalAmount += Convert.ToDouble(row.Cells["amount"].Value);
-                    worksheet.Cells[startRow + i, 1] = row.Cells["Code"].Value?.ToString();
-                    worksheet.Cells[startRow + i, 2] = row.Cells["partno"].Value?.ToString();
-                    worksheet.Cells[startRow + i, 3] = row.Cells["partname"].Value?.ToString();
-                    worksheet.Cells[startRow + i, 4] = row.Cells["machinename"].Value?.ToString();
-                    worksheet.Cells[startRow + i, 5] = row.Cells["supplier"].Value?.ToString();
-                    worksheet.Cells[startRow + i, 6] = row.Cells["maker"].Value?.ToString();
-                    worksheet.Cells[startRow + i, 7] = row.Cells["qty"].Value?.ToString();
-                    worksheet.Cells[startRow + i, 8] = row.Cells["unitprice"].Value?.ToString();
-                    worksheet.Cells[startRow + i, 9] = row.Cells["amount"].Value?.ToString();
-                    worksheet.Cells[startRow + i + 1, 9] = totalAmount.ToString();
-
+                    worksheet.Cells[startRow + i, 2] = row.Cells["Code"].Value?.ToString();
+                    worksheet.Cells[startRow + i, 3] = row.Cells["partno"].Value?.ToString();
+                    worksheet.Cells[startRow + i, 4] = row.Cells["partname"].Value?.ToString();
+                    worksheet.Cells[startRow + i, 5] = row.Cells["machinename"].Value?.ToString();
+                    worksheet.Cells[startRow + i, 6] = row.Cells["supplier"].Value?.ToString();
+                    worksheet.Cells[startRow + i, 7] = row.Cells["maker"].Value?.ToString();
+                    worksheet.Cells[startRow + i, 8] = Convert.ToDateTime(row.Cells["eta"].Value).ToString("01-MMM-yyyy");
+                    worksheet.Cells[startRow + i, 9] = row.Cells["qty"].Value?.ToString();
+                    worksheet.Cells[startRow + i, 11] = row.Cells["unitprice"].Value?.ToString();
+                    worksheet.Cells[startRow + i, 12] = row.Cells["amount"].Value?.ToString();
+                    worksheet.Cells[startRow + i + 1, 12] = totalAmount.ToString();
                 }
                 // Save Excel
 
-                string DateExcel = DateTime.Now.ToString("yyMMdd");
+                string DateExcel = DateTime.Now.ToString("dd-MMMM-yyyy");
                 string fileName = "Unit Price Request " + nextdocno + ").xlsx";
 
                 string fullPath = Path.Combine(SavePath, fileName);
 
-                worksheet.Cells[2, 10] = nextdocno;
+                worksheet.Cells[3, 6] = nextdocno;
+                worksheet.Cells[3, 4] = "Expend In: "+month;
+                worksheet.Cells[3, 2] = "MC";
+                worksheet.Cells[2, 2] = DateExcel;
 
                 xlWorkBook.SaveAs(fullPath);
 
