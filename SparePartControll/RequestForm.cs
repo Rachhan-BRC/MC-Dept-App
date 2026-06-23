@@ -98,97 +98,208 @@ namespace MachineDeptApp.SparePartControll
 
         private void BtnPrint_Click(object sender, EventArgs e)
         {
-            if (dgvRequest.SelectedCells.Count > 0)
+            if (dgvRequest.Rows.Count == 0)
             {
-                DataTable dtdoc = new DataTable();
-                DataTable dtmst = new DataTable();
-                DataTable dtexcel = new DataTable();
-                dtexcel.Columns.Add("code");
-                dtexcel.Columns.Add("partno");
-                dtexcel.Columns.Add("partname");
-                dtexcel.Columns.Add("usefor");
-                dtexcel.Columns.Add("supplier");
-                dtexcel.Columns.Add("maker");
-                dtexcel.Columns.Add("qty");
-                dtexcel.Columns.Add("unitprice");
-                dtexcel.Columns.Add("amount");
+                MessageBox.Show("No data to export!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            string docid = txtpono.Text.Trim();
+            if (docid == "")
+            {
+                docid = txtdocno.Text.Trim();
+            }
+          if (docid != "")
+            {
                 Cursor = Cursors.WaitCursor;
-                con.con.Open();
-
-                string docId = dgvRequest.Rows[dgvRequest.CurrentCell.RowIndex].Cells["pono"].Value?.ToString() ?? "";
-                string sqldoc = @"SELECT Code, Order_Qty, UnitPrice, Amount FROM MCSparePartRequest WHERE Po_No = @docId";
-                SqlDataAdapter sda = new SqlDataAdapter(sqldoc, con.con);
-                sda.SelectCommand.Parameters.AddWithValue("@docId", docId);
-                sda.Fill(dtdoc);
-                //condition
-                List<string> codellist = new List<string>();
-                foreach (DataRow row in dtdoc.Rows)
+                try
                 {
-                    codellist.Add(row["Code"].ToString());
-                }
-                string codelist1 = "('" + string.Join("','", codellist) + "')";
-                string sqlmaster = @"SELECT Code,  Part_No, Part_Name, Use_For, Supplier, Maker
-                           FROM MstMCSparePart WHERE Code IN " + codelist1;
-                SqlDataAdapter sdamaster = new SqlDataAdapter(sqlmaster, con.con);
-                sdamaster.Fill(dtmst);
-                double totalAmount = 0;
-                //Combine table 
-                foreach (DataRow row1 in dtdoc.Rows)
-                {
-                    string code1 = row1["Code"]?.ToString() ?? "";
-                    double qty = row1["Order_Qty"] == DBNull.Value || row1["Order_Qty"] == null
-                      ? 0
-                      : Convert.ToDouble(row1["Order_Qty"]);
-                    double unitprice = row1["UnitPrice"] == DBNull.Value || row1["UnitPrice"] == null
-                     ? 0
-                     : Convert.ToDouble(row1["UnitPrice"]);
-                    double amount = row1["Amount"] == DBNull.Value || row1["Amount"] == null
-                   ? 0
-                   : Convert.ToDouble(row1["Amount"]);
+                    // Ensure folder exists
+                    string SavePath = Path.Combine(Environment.CurrentDirectory, @"Report\SparePartRequestSheetIPO");
+                    Directory.CreateDirectory(SavePath);
 
-                    totalAmount += amount;
+                    // Open Excel template
+                    Excel.Application excelApp = new Excel.Application();
+                    Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(
+                        Path.Combine(Environment.CurrentDirectory, @"Template\SparePartRequestSheetIPO.xlsx"), Editable: true);
+                    Excel.Worksheet worksheet = (Excel.Worksheet)xlWorkBook.Sheets[1];
 
-                    foreach (DataRow row2 in dtmst.Rows)
+                    int startRow = 5;
+
+                    // Fill Excel from DataGridView
+                    string date = DateTime.Now.ToString("dd");
+                    string month = DateTime.Now.ToString("MMM");
+                    string year = DateTime.Now.ToString("yyyy");
+                    double totalAmount = 0;
+                    for (int i = 0; i < dgvRequest.Rows.Count - 1; i++)
                     {
-                        string partno = row2["Part_No"]?.ToString() ?? "";
-                        string partname = row2["Part_Name"]?.ToString() ?? "";
-                        string usefor = row2["Use_For"]?.ToString() ?? "";
-                        string supplier = row2["Supplier"]?.ToString() ?? "";
-                        string maker = row2["Maker"]?.ToString() ?? "";
-                        string code2 = row2["Code"]?.ToString() ?? "";
-                        if (code1 == code2)
-                        {
+                        DataGridViewRow row = dgvRequest.Rows[i];
 
-                            dtexcel.Rows.Add(code1, partno, partname, usefor, supplier, maker, qty, unitprice, amount);
-                            break;
+                        if (i > 0)
+                        {
+                            // Insert new row with same format
+                            Excel.Range sourceRow = worksheet.Rows[startRow];
+                            sourceRow.Copy();
+
+                            Excel.Range insertRow = worksheet.Rows[startRow + i];
+                            insertRow.Insert(Excel.XlInsertShiftDirection.xlShiftDown);
+                        }
+                        string code = row.Cells["Code"].Value?.ToString();
+                        worksheet.Cells[startRow + i, 1] = i + 1;
+                        totalAmount += Convert.ToDouble(row.Cells["amount"].Value);
+                        worksheet.Cells[startRow + i, 2] = row.Cells["Code"].Value?.ToString();
+                        worksheet.Cells[startRow + i, 3] = row.Cells["Pno"].Value?.ToString();
+                        worksheet.Cells[startRow + i, 4] = row.Cells["Pname"].Value?.ToString();
+                        worksheet.Cells[startRow + i, 8] = Convert.ToDateTime(row.Cells["eta"].Value).ToString("01-MMM-yyyy");
+                        worksheet.Cells[startRow + i, 9] = row.Cells["orderqty"].Value?.ToString();
+                        worksheet.Cells[startRow + i, 11] = row.Cells["unitprice"].Value?.ToString();
+                        worksheet.Cells[startRow + i, 12] = row.Cells["amount"].Value?.ToString();
+                        worksheet.Cells[startRow + i + 1, 12] = totalAmount.ToString();
+                        DataTable dtmaster = new DataTable();
+                        string querymaster = "SELECT Use_For, Supplier, Maker FROM MstMCSparePart WHERE Code = '" + code + "'";
+                        SqlDataAdapter sda = new SqlDataAdapter(querymaster, con.con);
+                        sda.Fill(dtmaster);
+                        if (dtmaster.Rows.Count > 0)
+                        {
+                            worksheet.Cells[startRow + i, 5] = dtmaster.Rows[0]["Use_For"].ToString();
+                            worksheet.Cells[startRow + i, 6] = dtmaster.Rows[0]["Supplier"].ToString();
+                            worksheet.Cells[startRow + i, 7] = dtmaster.Rows[0]["Maker"].ToString();
                         }
                     }
-                }
-                Excel.Application xlApp = new Excel.Application(); 
-                Excel.Workbook xlWorkBook = xlApp.Workbooks.Open(Path.Combine(Environment.CurrentDirectory, @"Template\SparePartRequestSheetIPO.xlsx"), Editable: true); 
-                Excel.Worksheet xlWorkSheet = (Excel.Worksheet)xlWorkBook.Sheets[1];
-                int rowIndex = 4;
-                xlWorkSheet.Cells[ 2, 10] = docId.ToString();
 
-                for (int i = 0; i < dtexcel.Rows.Count; i++) 
-                {
-                    DataRow row = dtexcel.Rows[i]; 
-                    if (i > 0) 
-                    {
-                        Excel.Range sourceRow = xlWorkSheet.Rows[rowIndex]; 
-                        sourceRow.Copy(); Excel.Range insertRow = xlWorkSheet.Rows[rowIndex + i]; 
-                        insertRow.Insert(Excel.XlInsertShiftDirection.xlShiftDown); 
-                    }
-                    for (int colIndex = 0; colIndex < dtexcel.Columns.Count; colIndex++) 
-                    {
-                        xlWorkSheet.Cells[rowIndex + i, colIndex + 1] = row[colIndex]?.ToString(); 
-                    }
-                    xlWorkSheet.Cells[rowIndex + i + 1, 9] = totalAmount;
+                    // Save Excel
+                    string DateExcel = DateTime.Now.ToString("dd-MMMM-yyyy");
+                    string fileName = "Unit Price Request (" + docid.Trim() + ").xlsx";
+
+                    string fullPath = Path.Combine(SavePath, fileName);
+
+                    worksheet.Cells[3, 7] = docid.Trim();
+                    worksheet.Cells[3, 4] = "Expend In: " + month;
+                    worksheet.Cells[3, 2] = "MC";
+                    worksheet.Cells[2, 2] = DateExcel;
+
+                    xlWorkBook.SaveAs(fullPath);
+
+                    // Cleanup
+                    excelApp.DisplayAlerts = false;
+                    xlWorkBook.Close();
+                    excelApp.Quit();
+                    excelApp.DisplayAlerts = true;
+
+                    // Release COM objects to avoid leaving Excel.exe open
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(worksheet);
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(xlWorkBook);
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+                    MessageBox.Show("Print Successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Process.Start(fullPath);
                 }
-                xlApp.Visible = true; 
-                con.con.Close(); 
+                catch (Exception ex)
+                {
+                    Cursor = Cursors.Default;
+                    MessageBox.Show("File excel នេះកំពុងបើក, សូមបិទជាមុនសិន​ រួច Print ម្ដងទៀត!" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 Cursor = Cursors.Default;
             }
+
+
+            //Old code
+            /*  if (dgvRequest.SelectedCells.Count > 0)
+              {
+                  DataTable dtdoc = new DataTable();
+                  DataTable dtmst = new DataTable();
+                  DataTable dtexcel = new DataTable();
+                  dtexcel.Columns.Add("code");
+                  dtexcel.Columns.Add("partno");
+                  dtexcel.Columns.Add("partname");
+                  dtexcel.Columns.Add("usefor");
+                  dtexcel.Columns.Add("supplier");
+                  dtexcel.Columns.Add("maker");
+                  dtexcel.Columns.Add("qty");
+                  dtexcel.Columns.Add("unitprice");
+                  dtexcel.Columns.Add("amount");
+                  Cursor = Cursors.WaitCursor;
+                  con.con.Open();
+
+                  string docId = dgvRequest.Rows[dgvRequest.CurrentCell.RowIndex].Cells["pono"].Value?.ToString() ?? "";
+                  string sqldoc = @"SELECT Code, Order_Qty, UnitPrice, Amount FROM MCSparePartRequest WHERE Po_No = @docId";
+                  SqlDataAdapter sda = new SqlDataAdapter(sqldoc, con.con);
+                  sda.SelectCommand.Parameters.AddWithValue("@docId", docId);
+                  sda.Fill(dtdoc);
+                  //condition
+                  List<string> codellist = new List<string>();
+                  foreach (DataRow row in dtdoc.Rows)
+                  {
+                      codellist.Add(row["Code"].ToString());
+                  }
+                  string codelist1 = "('" + string.Join("','", codellist) + "')";
+                  string sqlmaster = @"SELECT Code,  Part_No, Part_Name, Use_For, Supplier, Maker
+                             FROM MstMCSparePart WHERE Code IN " + codelist1;
+                  SqlDataAdapter sdamaster = new SqlDataAdapter(sqlmaster, con.con);
+                  sdamaster.Fill(dtmst);
+                  double totalAmount = 0;
+                  //Combine table 
+                  foreach (DataRow row1 in dtdoc.Rows)
+                  {
+                      string code1 = row1["Code"]?.ToString() ?? "";
+                      double qty = row1["Order_Qty"] == DBNull.Value || row1["Order_Qty"] == null
+                        ? 0
+                        : Convert.ToDouble(row1["Order_Qty"]);
+                      double unitprice = row1["UnitPrice"] == DBNull.Value || row1["UnitPrice"] == null
+                       ? 0
+                       : Convert.ToDouble(row1["UnitPrice"]);
+                      double amount = row1["Amount"] == DBNull.Value || row1["Amount"] == null
+                     ? 0
+                     : Convert.ToDouble(row1["Amount"]);
+
+                      totalAmount += amount;
+
+                      foreach (DataRow row2 in dtmst.Rows)
+                      {
+                          string partno = row2["Part_No"]?.ToString() ?? "";
+                          string partname = row2["Part_Name"]?.ToString() ?? "";
+                          string usefor = row2["Use_For"]?.ToString() ?? "";
+                          string supplier = row2["Supplier"]?.ToString() ?? "";
+                          string maker = row2["Maker"]?.ToString() ?? "";
+                          string code2 = row2["Code"]?.ToString() ?? "";
+                          if (code1 == code2)
+                          {
+
+                              dtexcel.Rows.Add(code1, partno, partname, usefor, supplier, maker, qty, unitprice, amount);
+                              break;
+                          }
+                      }
+                  }
+                  Excel.Application xlApp = new Excel.Application(); 
+                  Excel.Workbook xlWorkBook = xlApp.Workbooks.Open(Path.Combine(Environment.CurrentDirectory, @"Template\SparePartRequestSheetIPO.xlsx"), Editable: true); 
+                  Excel.Worksheet xlWorkSheet = (Excel.Worksheet)xlWorkBook.Sheets[1];
+                  DateTime now = DateTime.Now;
+                  string month = now.ToString("MMMM");
+                  string date = now.ToString("dd-MMMM-yyyy");
+                  int rowIndex = 5;
+                  xlWorkSheet.Cells[ 3, 7] = docId.ToString();
+                  xlWorkSheet.Cells[3, 4] = "Expend In: " + month;
+                  xlWorkSheet.Cells[3, 2] = "MC";
+                  xlWorkSheet.Cells[2, 2] = date;
+
+                  for (int i = 0; i < dtexcel.Rows.Count; i++) 
+                  {
+                      DataRow row = dtexcel.Rows[i]; 
+                      if (i > 0) 
+                      {
+                          Excel.Range sourceRow = xlWorkSheet.Rows[rowIndex]; 
+                          sourceRow.Copy(); Excel.Range insertRow = xlWorkSheet.Rows[rowIndex + i]; 
+                          insertRow.Insert(Excel.XlInsertShiftDirection.xlShiftDown); 
+                      }
+                      for (int colIndex = 1; colIndex < dtexcel.Columns.Count; colIndex++) 
+                      {
+                          xlWorkSheet.Cells[rowIndex + i, colIndex + 1] = row[colIndex]?.ToString(); 
+                      }
+                      xlWorkSheet.Cells[rowIndex + i + 1, 9] = totalAmount;
+                  }
+                  xlApp.Visible = true; 
+                  con.con.Close(); 
+                  Cursor = Cursors.Default;
+              }*/
         }
 
         private void BtnExport_Click(object sender, EventArgs e)
@@ -664,7 +775,7 @@ namespace MachineDeptApp.SparePartControll
             btnUpdateGrey.BringToFront();
             con.con.Close();
             Cursor = Cursors.Default;
-            lbFound.Text = "Found: " + dgvRequest.Rows.Count.ToString();
+            lbFound.Text = "Found: " + Convert.ToInt32(dgvRequest.Rows.Count -1);
         }
     }
 }
