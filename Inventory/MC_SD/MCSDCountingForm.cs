@@ -262,7 +262,6 @@ namespace MachineDeptApp
                     if (dtlabel.Rows.Count > 0 && dtlabel.Rows[0][1] != DBNull.Value)
                     {
                         int lb = Convert.ToInt32(dtlabel.Rows[0][1]);
-                        labelNo = lb;
                     }
                     else
                     {
@@ -335,7 +334,7 @@ namespace MachineDeptApp
                     txtremainL3.Text = "0";
                     txtcount.Text = count.ToString();
                     txtstockcard.Text = dtstock.Rows[0]["StockRemain"].ToString();
-                    txtlabel.Text = labelNo.ToString();
+                    txtlabel.Text = labelNo.ToString("D4");
                     txtremainL.Focus();
                 }
             }
@@ -365,7 +364,7 @@ namespace MachineDeptApp
                     cmdInsert.Parameters.AddWithValue("@BobinWeight", Convert.ToDouble(0));
                     cmdInsert.Parameters.AddWithValue("@Qty", Convert.ToDouble(txtremainL2.Text.Trim()));
                     cmdInsert.Parameters.AddWithValue("@BobbinQty", Convert.ToDouble(txtbobin.Text.Trim()));
-                    cmdInsert.Parameters.AddWithValue("@LabelNo", Convert.ToInt32(txtlabel.Text.Trim()));
+                    cmdInsert.Parameters.AddWithValue("@LabelNo", Convert.ToDouble(txtlabel.Text.Trim()));
                     cmdInsert.Parameters.AddWithValue("@PIC", cbPic.Text.Trim());
                     cmdInsert.Parameters.AddWithValue("@st", "Active");
                     cmdInsert.Parameters.AddWithValue("@Regby", MenuFormV2.UserForNextForm);
@@ -584,7 +583,7 @@ namespace MachineDeptApp
                     con.con.Close();
                     //Get Stock from tbSDMCAllTransaction
                     DataTable dtstock = new DataTable();
-                  
+                   labelNo.ToString("D4");
                     try
                     {
                         con.con.Open();
@@ -618,8 +617,9 @@ namespace MachineDeptApp
                     txtttlremain.Text = remainl.ToString("N2");
                     txtremainL3.Text = remainl.ToString("N2");
                     txtstockcard.Text = dtstock.Rows[0]["StockRemain"].ToString();
-                    txtlabel.Text = labelNo.ToString();
+                    txtlabel.Text = labelNo.ToString("D4");
                     txtcodeun.Text = code;
+
                     if (chkauto.Checked == true)
                     {
                         btnPrint.PerformClick();
