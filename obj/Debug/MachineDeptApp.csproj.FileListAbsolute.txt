@@ -449,3 +449,4 @@ D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.Qualit
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.DefectOutFlow.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.EditDefectOutFlow.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.InsertDefectOutFlow.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.RegisterMasterNGType.resources
