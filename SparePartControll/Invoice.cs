@@ -79,7 +79,7 @@ namespace MachineDeptApp
                     try
                     {
                         con.con.Open();
-                        string queryselect = "SELECT Invoice FROM SparePartTrans WHERE Invoice = '" + txtInvoice.Text + "'";
+                        string queryselect = "SELECT Invoice FROM SparePartTrans WHERE Invoice = '" + txtInvoice.Text + "' AND Dept = 'MC'";
                         SqlDataAdapter sdaselect = new SqlDataAdapter(queryselect, con.con);
                         sdaselect.Fill(dtselectCompare);
                     }
