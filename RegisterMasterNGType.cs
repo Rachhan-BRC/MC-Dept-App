@@ -29,6 +29,24 @@ namespace MachineDeptApp
             this.picadd.Click += BtnSearchAdd_Click;
             this.picsearch.Click += BtnSearchAdd_Click;
             this.dgvData.CellClick += DgvData_CellClick;
+            this.tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
+        }
+
+        private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl.SelectedTab == tabPage2)
+            {
+                dgvData.Columns["type"].HeaderText = "Name";
+                dgvData.Columns["funct"].HeaderText = "Position";
+                search();
+            }
+
+            else
+            {
+                dgvData.Columns["type"].HeaderText = "Type";
+                dgvData.Columns["funct"].HeaderText = "Function";
+                search();
+            }
         }
 
         private void DgvData_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -53,6 +71,12 @@ namespace MachineDeptApp
                         MessageBox.Show("Cannot delete this row. \nPlease contact Phanun for support.", "Something went wrong", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     con.con.Close();
+                    search();
+                    if (dgvData.Rows.Count > 0)
+                    {
+                        dgvData.Rows[dgvData.Rows.Count - 1].Cells["sysno"].Selected = true;
+                    }
+                    dgvData.ClearSelection();
                 }
             }
         }
@@ -76,48 +100,97 @@ namespace MachineDeptApp
         {
             if (btnSearchAdd.Text == "បន្ថែម / Add")
             {
-                if (txttype.Text.Trim() != "" && cbfunct.Text.Trim() != "")
+              if (tabControl.SelectedTab == tabPage1)
                 {
-                    DialogResult ask = MessageBox.Show("Are you sure you want to add this?", "Confirm Add", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (ask == DialogResult.Yes)
+                    if (txttype.Text.Trim() != "" && cbfunct.Text.Trim() != "")
                     {
-                        try
+                        DialogResult ask = MessageBox.Show("Are you sure you want to add this?", "Confirm Add", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (ask == DialogResult.Yes)
                         {
-                            int cb = 0;
-                            if (cbfunct.SelectedIndex == 1)
+                            try
                             {
-                                cb =1;
+                                int cb = 0;
+                                if (cbfunct.SelectedIndex == 1)
+                                {
+                                    cb = 1;
+                                }
+                                else if (cbfunct.SelectedIndex == 2)
+                                {
+                                    cb = 2;
+                                }
+                                con.con.Open();
+                                string queryadd = "INSERT INTO tbNGTypeMst (Name, Type, RegDate, RegBy, UpdateDate, UpdateBy, Funct) VALUES (@Name, @Type, @RegDate, @RegBy, @UpdateDate, @UpdateBy, @Funct)";
+                                SqlCommand cmd = new SqlCommand(queryadd, con.con);
+                                cmd.Parameters.AddWithValue("@Name", txttype.Text.Trim());
+                                cmd.Parameters.AddWithValue("@Type", cbfunct.Text.Trim());
+                                cmd.Parameters.AddWithValue("@RegDate", DateTime.Now);
+                                cmd.Parameters.AddWithValue("@RegBy", MenuFormV2.UserForNextForm);
+                                cmd.Parameters.AddWithValue("@UpdateDate", DateTime.Now);
+                                cmd.Parameters.AddWithValue("@UpdateBy", MenuFormV2.UserForNextForm);
+                                cmd.Parameters.AddWithValue("@Funct", cb);
+                                cmd.ExecuteNonQuery();
+                                MessageBox.Show("Row added successfully.", "Add Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                txttype.Text = "";
+                                cbfunct.SelectedIndex = 0;
+                                txttype.Focus();
+
                             }
-                            else if (cbfunct.SelectedIndex == 2)
+                            catch (Exception ex)
                             {
-                                cb = 2;
+                                MessageBox.Show("Cannot add this row. \nPlease contact Phanun for support. \n " + ex.Message, "Something went wrong", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
-                            con.con.Open();
-                            string queryadd = "INSERT INTO tbNGTypeMst (NGType, NGFunct, RegDate, RegBy, UpdateDate, UpdateBy, Funct) VALUES (@NGType, @NGFunct, @RegDate, @RegBy, @UpdateDate, @UpdateBy, @Funct)";
-                            SqlCommand cmd = new SqlCommand(queryadd, con.con);
-                            cmd.Parameters.AddWithValue("@NGType", txttype.Text.Trim());
-                            cmd.Parameters.AddWithValue("@NGFunct", cbfunct.Text.Trim());
-                            cmd.Parameters.AddWithValue("@RegDate", DateTime.Now);
-                            cmd.Parameters.AddWithValue("@RegBy", MenuFormV2.UserForNextForm);
-                            cmd.Parameters.AddWithValue("@UpdateDate", DateTime.Now);
-                            cmd.Parameters.AddWithValue("@UpdateBy", MenuFormV2.UserForNextForm);
-                            cmd.Parameters.AddWithValue("@Funct", cb);
-                            cmd.ExecuteNonQuery();
-                            MessageBox.Show("Row added successfully.", "Add Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            con.con.Close();
                             search();
                             dgvData.Rows[dgvData.Rows.Count - 1].Cells["sysno"].Selected = true;
                             dgvData.ClearSelection();
                         }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Cannot add this row. \nPlease contact Phanun for support. \n " + ex.Message, "Something went wrong", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        con.con.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please fill in all required fields.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
-                else
+              else
                 {
-                    MessageBox.Show("Please fill in all required fields.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    if (txtname.Text.Trim() != "" && cbposition.Text.Trim() != "")
+                    {
+                        DialogResult ask = MessageBox.Show("Are you sure you want to add this?", "Confirm Add", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (ask == DialogResult.Yes)
+                        {
+                            try
+                            {
+                                int cb = 3;
+                                con.con.Open();
+                                string queryadd = "INSERT INTO tbNGTypeMst (Name, Type, RegDate, RegBy, UpdateDate, UpdateBy, Funct) VALUES (@Name, @Type, @RegDate, @RegBy, @UpdateDate, @UpdateBy, @Funct)";
+                                SqlCommand cmd = new SqlCommand(queryadd, con.con);
+                                cmd.Parameters.AddWithValue("@Name", txtname.Text.Trim());
+                                cmd.Parameters.AddWithValue("@Type", cbposition.Text.Trim());
+                                cmd.Parameters.AddWithValue("@RegDate", DateTime.Now);
+                                cmd.Parameters.AddWithValue("@RegBy", MenuFormV2.UserForNextForm);
+                                cmd.Parameters.AddWithValue("@UpdateDate", DateTime.Now);
+                                cmd.Parameters.AddWithValue("@UpdateBy", MenuFormV2.UserForNextForm);
+                                cmd.Parameters.AddWithValue("@Funct", cb);
+                                cmd.ExecuteNonQuery();
+                                MessageBox.Show("Row added successfully.", "Add Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                txtname.Text = "";
+                                cbposition.SelectedIndex = 0;
+                                txtname.Focus();
+
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Cannot add this row. \nPlease contact Phanun for support. \n " + ex.Message, "Something went wrong", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                            con.con.Close();
+                            search();
+                            dgvData.Rows[dgvData.Rows.Count - 1].Cells["sysno"].Selected = true;
+                            dgvData.ClearSelection();
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please fill in all required fields.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
             }
             else
@@ -132,7 +205,6 @@ namespace MachineDeptApp
                 }
             }
         }
-
         private void BtnSwitch_Click(object sender, EventArgs e)
         {
             if (btnSearchAdd.Text == "ស្វែងរក / Search")
@@ -151,8 +223,38 @@ namespace MachineDeptApp
         {
             dgvData.Rows.Clear();
             con.con.Open();
+            string where = "";
+            DataTable dtcond = new DataTable();
             DataTable dtsearch = new DataTable();
-            string querysearch = "SELECT * FROM tbNGTypeMst";
+            dtcond.Columns.Add("Val");
+            if (txttype.Text.Trim() != "")
+            {
+                dtcond.Rows.Add("Name Like '%"+txttype.Text.Trim()+"%'");
+            }
+            if (cbfunct.Text.Trim() != "")
+            {
+                dtcond.Rows.Add("Type Like '%"+cbfunct.Text.Trim()+"%'");
+            }
+            foreach (DataRow row in dtcond.Rows)
+            {
+                if (where == "")
+                {
+                    where = " AND " +  row["Val"].ToString();
+                }
+                else
+                {
+                    where +=" AND " +  row["Val"].ToString();
+                }
+            }
+            string querysearch = "'";
+            if (tabControl.SelectedTab == tabPage2)
+            {
+                 querysearch = "SELECT * FROM tbNGTypeMst WHERE Funct = 3" + where;
+            }
+            else
+            {
+                querysearch = "SELECT * FROM tbNGTypeMst WHERE Funct <> 3" + where;
+            }
             SqlDataAdapter sda = new SqlDataAdapter(querysearch, con.con);
             sda.Fill(dtsearch);
 
@@ -160,8 +262,8 @@ namespace MachineDeptApp
             {
                 dgvData.Rows.Add();
                 dgvData.Rows[dgvData.Rows.Count - 1].Cells["sysno"].Value = row["SysNo"].ToString();
-                dgvData.Rows[dgvData.Rows.Count - 1].Cells["type"].Value = row["NGType"].ToString();
-                dgvData.Rows[dgvData.Rows.Count - 1].Cells["funct"].Value = row["NGFunct"].ToString();
+                dgvData.Rows[dgvData.Rows.Count - 1].Cells["type"].Value = row["Name"].ToString();
+                dgvData.Rows[dgvData.Rows.Count - 1].Cells["funct"].Value = row["Type"].ToString();
                 dgvData.Rows[dgvData.Rows.Count - 1].Cells["regdate"].Value = row["RegDate"].ToString();
                 dgvData.Rows[dgvData.Rows.Count - 1].Cells["regby"].Value = row["RegBy"].ToString();
                 dgvData.Rows[dgvData.Rows.Count - 1].Cells["update"].Value = row["UpdateDate"].ToString();
@@ -169,6 +271,7 @@ namespace MachineDeptApp
             }
 
             con.con.Close();
+            dgvData.ClearSelection();
         }
     }
 }
