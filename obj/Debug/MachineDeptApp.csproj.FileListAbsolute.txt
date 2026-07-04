@@ -450,3 +450,4 @@ D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.Defect
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.EditDefectOutFlow.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.InsertDefectOutFlow.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.RegisterMasterNGType.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.ReportNGList.resources
