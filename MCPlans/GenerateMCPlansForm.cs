@@ -369,7 +369,6 @@ namespace MachineDeptApp.MCPlans
                 {
                     xlWorksheet = xlWorkbook.Worksheets["MC"];
                     xlRange = xlWorksheet.UsedRange;
-
                     int xlDataRange = 5;
                     for (xlRow = 5; xlRow <= xlRange.Rows.Count; xlRow++)
                     {
@@ -390,7 +389,6 @@ namespace MachineDeptApp.MCPlans
                             break;
                         }
                     }
-
                     for (xlRow = 5; xlRow < xlDataRange; xlRow++)
                     {
 
@@ -399,7 +397,6 @@ namespace MachineDeptApp.MCPlans
                                                             xlRange.Cells[xlRow, 4].Text,
                                                             Convert.ToDouble(xlRange.Cells[xlRow, 5].Text),
                                                             Convert.ToDateTime(xlRange.Cells[xlRow, 6].Text));
-
                     }
                     
                     //close excel after import to dgv success

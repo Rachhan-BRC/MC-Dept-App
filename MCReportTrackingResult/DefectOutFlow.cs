@@ -62,8 +62,8 @@ namespace MachineDeptApp.MCReportTrackingResult
                 category = dgvDefectOutFlow.Rows[3].Cells["colCategory"].Value?.ToString() ?? "";
             else if (rowIndex >= 6 && rowIndex < 9)
                 category = dgvDefectOutFlow.Rows[6].Cells["colCategory"].Value?.ToString() ?? "";
-            else if (rowIndex >= 9 && rowIndex < 12)
-                category = dgvDefectOutFlow.Rows[9].Cells["colCategory"].Value?.ToString() ?? "";
+            //else if (rowIndex >= 9 && rowIndex < 12)
+            //    category = dgvDefectOutFlow.Rows[9].Cells["colCategory"].Value?.ToString() ?? "";
             if (category == "") return;
             string mmyyyy = colName.Replace("col_", "");
             if (!DateTime.TryParseExact(mmyyyy, "MMyyyy",
@@ -78,7 +78,6 @@ namespace MachineDeptApp.MCReportTrackingResult
                     cmd.Parameters.AddWithValue("@Category", category);
                     cmd.Parameters.AddWithValue("@Type", type);
                     cmd.Parameters.AddWithValue("@MonthYear", new DateTime(monthYear.Year, monthYear.Month, 1));
-
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Record deleted successfully.");
                     Btnserch_Click(null, null); // Refresh the data grid view
@@ -136,9 +135,7 @@ namespace MachineDeptApp.MCReportTrackingResult
                 category = dgvDefectOutFlow.Rows[3].Cells["colCategory"].Value?.ToString() ?? "";
             else if (rowIndex >= 6 && rowIndex < 9)
                 category = dgvDefectOutFlow.Rows[6].Cells["colCategory"].Value?.ToString() ?? "";
-            else if (rowIndex >= 9 && rowIndex < 12)
-                category = dgvDefectOutFlow.Rows[9].Cells["colCategory"].Value?.ToString() ?? "";
-
+         
             if (category == "") return;
             string mmyyyy = colName.Replace("col_", "");
             if (!DateTime.TryParseExact(mmyyyy, "MMyyyy",
@@ -201,8 +198,8 @@ namespace MachineDeptApp.MCReportTrackingResult
                 category = dgvDefectOutFlow.Rows[3].Cells["colCategory"].Value?.ToString() ?? "";
             else if (rowIndex >= 6 && rowIndex < 9)
                 category = dgvDefectOutFlow.Rows[6].Cells["colCategory"].Value?.ToString() ?? "";
-            else if (rowIndex >= 9 && rowIndex <12)
-                category = dgvDefectOutFlow.Rows[9].Cells["colCategory"].Value?.ToString() ?? "";
+            //else if (rowIndex >= 9 && rowIndex <12)
+            //    category = dgvDefectOutFlow.Rows[9].Cells["colCategory"].Value?.ToString() ?? "";
 
             if (category == "") return;
 
@@ -256,15 +253,11 @@ namespace MachineDeptApp.MCReportTrackingResult
                                 {
                                     dgvDefectOutFlow.Rows[j].Cells[colName].Value = dt.Rows[i]["Qty"];
                                 }
-                                if (j >= 3 && j < 6 && dt.Rows[i]["Category"].ToString() == dgvDefectOutFlow.Rows[3].Cells["colCategory"].Value.ToString() && dt.Rows[i]["Type"].ToString() == dgvDefectOutFlow.Rows[j].Cells["colQC"].Value.ToString())
-                                {
-                                    dgvDefectOutFlow.Rows[j].Cells[colName].Value = dt.Rows[i]["Qty"];
-                                }
+                                    if (j >= 3 && j < 6 && dt.Rows[i]["Category"].ToString() == dgvDefectOutFlow.Rows[3].Cells["colCategory"].Value.ToString() && dt.Rows[i]["Type"].ToString() == dgvDefectOutFlow.Rows[j].Cells["colQC"].Value.ToString())
+                                    {
+                                        dgvDefectOutFlow.Rows[j].Cells[colName].Value = dt.Rows[i]["Qty"];
+                                    }
                                 if ( j >= 6 && j < 9 && dt.Rows[i]["Category"].ToString() == dgvDefectOutFlow.Rows[6].Cells["colCategory"].Value.ToString() && dt.Rows[i]["Type"].ToString() == dgvDefectOutFlow.Rows[j].Cells["colQC"].Value.ToString())
-                                {
-                                    dgvDefectOutFlow.Rows[j].Cells[colName].Value = dt.Rows[i]["Qty"];
-                                }
-                                if (j >= 9 && j < 12 && dt.Rows[i]["Category"].ToString() == dgvDefectOutFlow.Rows[9].Cells["colCategory"].Value.ToString() && dt.Rows[i]["Type"].ToString() == dgvDefectOutFlow.Rows[j].Cells["colQC"].Value.ToString())
                                 {
                                     dgvDefectOutFlow.Rows[j].Cells[colName].Value = dt.Rows[i]["Qty"];
                                 }
@@ -273,9 +266,9 @@ namespace MachineDeptApp.MCReportTrackingResult
                     }
                 }
             }
-            catch
-            {
-
+            catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             CalculateGap();
             DesignChart();
@@ -314,7 +307,7 @@ namespace MachineDeptApp.MCReportTrackingResult
 
 
             // PLAN as Bar (Column)
-            var planSeriesCrimping = new Series("flow out to Assy (Crimping) PLAN")
+            var planSeriesCrimping = new Series("flow out to S3N (Pressing) PLAN")
             {
                 ChartType = SeriesChartType.Column,
                 Color = Color.Gold,
@@ -322,7 +315,7 @@ namespace MachineDeptApp.MCReportTrackingResult
             };
 
             // ACTUAL as Line with markers
-            var actualSeriesCrimping = new Series("flow out to Assy (Crimping) ACTUAL")
+            var actualSeriesCrimping = new Series("flow out to S3N (Pressing) ACTUAL")
             {
                 ChartType = SeriesChartType.Line,
                 Color = Color.BlueViolet,
@@ -367,15 +360,12 @@ namespace MachineDeptApp.MCReportTrackingResult
                 else
                     planCrimping[i] = null;
 
-
-
                 // ACTUAL Crimping (row 1 for  PPM)
                 var actualValCrimping = dgvDefectOutFlow.Rows[4].Cells[monthCols[i].Name].Value;
                 if (actualValCrimping != null && double.TryParse(actualValCrimping.ToString(), out double aCrimping))
                     actualCrimping[i] = aCrimping;
                 else
                     actualCrimping[i] = null;
-
             }
 
             for (int i = 0; i < 12; i++)
@@ -393,7 +383,7 @@ namespace MachineDeptApp.MCReportTrackingResult
 
             // Title
             chart.Titles.Clear();
-            chart.Titles.Add("Defect Outflow To Assy");
+            chart.Titles.Add("Defect Outflow Pressing");
             chart.Titles[0].Font = new Font("Arial", 16F, FontStyle.Bold);
             chart.Titles[0].ForeColor = Color.Green;
 
@@ -445,7 +435,7 @@ namespace MachineDeptApp.MCReportTrackingResult
             chart.Series.Clear();
 
             // PLAN as Bar (Column)
-            var planSeries = new Series("flow out to S3N (Pressing) PLAN")
+            var planSeries = new Series("flow out to MQC (Crimping) PLAN")
             {
                 ChartType = SeriesChartType.Column,
                 Color = Color.SkyBlue,
@@ -453,7 +443,7 @@ namespace MachineDeptApp.MCReportTrackingResult
             };
 
             // ACTUAL as Line with markers
-            var actualSeries = new Series("flow out to S3N (Pressing) ACTUAL")
+            var actualSeries = new Series("Flow out to MQC (Crimping) ACTUAL")
             {
                 ChartType = SeriesChartType.Line,
                 Color = Color.LimeGreen,
@@ -463,24 +453,8 @@ namespace MachineDeptApp.MCReportTrackingResult
                 MarkerColor = Color.LimeGreen
             };
 
-            // PLAN as Bar (Column)
-            var planSeriesCrimping = new Series("flow out to S3N (Crimping) PLAN")
-            {
-                ChartType = SeriesChartType.Column,
-                Color = Color.BlueViolet,
-                BorderWidth = 2
-            };
 
-            // ACTUAL as Line with markers
-            var actualSeriesCrimping = new Series("flow out to S3N (Crimping) ACTUAL")
-            {
-                ChartType = SeriesChartType.Line,
-                Color = Color.Orange,
-                BorderWidth = 5,
-                MarkerStyle = MarkerStyle.Square,
-                MarkerSize = 15,
-                MarkerColor = Color.OrangeRed
-            };
+           
             var monthCols = dgvDefectOutFlow.Columns
              .Cast<DataGridViewColumn>()
             .Where(c => c.Name.StartsWith("col_") && c.Name != "colTotal")
@@ -488,9 +462,7 @@ namespace MachineDeptApp.MCReportTrackingResult
 
             double?[] plan = new double?[monthCols.Count];
             double?[] actual = new double?[monthCols.Count];
-            double?[] planCrimping = new double?[monthCols.Count];
-            double?[] actualCrimping = new double?[monthCols.Count];
-
+         
             for (int i = 0; i < monthCols.Count; i++)
             {
                 // PLAN (row 3 for Pressing PPM)
@@ -507,38 +479,25 @@ namespace MachineDeptApp.MCReportTrackingResult
                 else
                     actual[i] = null;
                 // PLAN Crimping (row 0 for  PPM)
-                var planValCrimping = dgvDefectOutFlow.Rows[9].Cells[monthCols[i].Name].Value;
-                if (planValCrimping != null && double.TryParse(planValCrimping.ToString(), out double pCrimping))
-                    planCrimping[i] = pCrimping;
-                else
-                    planCrimping[i] = null;
-
-                // ACTUAL Crimping (row 1 for  PPM)
-                var actualValCrimping = dgvDefectOutFlow.Rows[10].Cells[monthCols[i].Name].Value;
-                if (actualValCrimping != null && double.TryParse(actualValCrimping.ToString(), out double aCrimping))
-                    actualCrimping[i] = aCrimping;
-                else
-                    actualCrimping[i] = null;
-
+               
+      
             }
 
             for (int i = 0; i < 12; i++)
             {
                 planSeries.Points.AddXY(i + 1, plan[i] ?? 0);
                 actualSeries.Points.AddXY(i + 1, actual[i] ?? double.NaN);
-                planSeriesCrimping.Points.AddXY(i + 1, planCrimping[i] ?? 0);
-                actualSeriesCrimping.Points.AddXY(i + 1, actualCrimping[i] ?? double.NaN);
+            
                 
 
             }
 
             chart.Series.Add(planSeries);
             chart.Series.Add(actualSeries);
-            chart.Series.Add(planSeriesCrimping);
-            chart.Series.Add(actualSeriesCrimping);
+            
             // Title
             chart.Titles.Clear();
-            chart.Titles.Add("Defect Outflow To S3N");
+            chart.Titles.Add("Defect Outflow To MQC (Crimping)");
             chart.Titles[0].Font = new Font("Arial", 16F, FontStyle.Bold);
             chart.Titles[0].ForeColor = Color.RoyalBlue;
 
@@ -550,8 +509,8 @@ namespace MachineDeptApp.MCReportTrackingResult
             // Y axis
             Double max = 250;
             double maxPlan, maxActual;
-            maxPlan = Math.Max(planCrimping.Max() ?? 0, plan.Max() ?? 0);
-            maxActual = Math.Max(actualCrimping.Max() ?? 0, actual.Max() ?? 0);
+            maxPlan = plan.Max() ?? 0;
+            maxActual = actual.Max() ?? 0;
             max = Math.Max(maxPlan, maxActual);
             double interval = 10;
             if (max > 50 && max <= 150)
@@ -636,8 +595,7 @@ namespace MachineDeptApp.MCReportTrackingResult
                 dgvDefectOutFlow.Rows[5].Cells["colQC"].Style.BackColor = Color.Red;
                 dgvDefectOutFlow.Rows[6].Cells["colQC"].Style.BackColor = Color.LightGreen;
                 dgvDefectOutFlow.Rows[8].Cells["colQC"].Style.BackColor = Color.Red;
-                dgvDefectOutFlow.Rows[9].Cells["colQC"].Style.BackColor = Color.LightGreen;
-                dgvDefectOutFlow.Rows[11].Cells["colQC"].Style.BackColor = Color.Red;
+             
                 for (int i = 3; i < dgvDefectOutFlow.ColumnCount - 1; i++)
                 {
                     var typeCell = dgvDefectOutFlow.Rows[2].Cells[i];
@@ -701,7 +659,7 @@ namespace MachineDeptApp.MCReportTrackingResult
 
             // Rebuild rows
             dgvDefectOutFlow.Rows.Clear();
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < 9; i++)
                 dgvDefectOutFlow.Rows.Add();
 
             dgvDefectOutFlow.Rows[0].Cells["colNo"].Value = "1";
@@ -711,22 +669,18 @@ namespace MachineDeptApp.MCReportTrackingResult
             dgvDefectOutFlow.Rows[2].Cells["colQC"].Value = "Gap";
 
          //   dgvDefectOutFlow.Rows[3].Cells["colNo"].Value = "2";
-            dgvDefectOutFlow.Rows[3].Cells["colCategory"].Value = "Flow out to ASSY (Crimping)";
+            dgvDefectOutFlow.Rows[3].Cells["colCategory"].Value = "Flow out to S3N (Pressing)";
             dgvDefectOutFlow.Rows[3].Cells["colQC"].Value = "Plan";
             dgvDefectOutFlow.Rows[4].Cells["colQC"].Value = "Actual";
             dgvDefectOutFlow.Rows[5].Cells["colQC"].Value = "Gap";
 
 
             dgvDefectOutFlow.Rows[6].Cells["colNo"].Value = "2";
-            dgvDefectOutFlow.Rows[6].Cells["colCategory"].Value = "Flow out to S3N (Pressing)";
+            dgvDefectOutFlow.Rows[6].Cells["colCategory"].Value = "Flow out to MQC (Crimping)";
             dgvDefectOutFlow.Rows[6].Cells["colQC"].Value = "Plan";
             dgvDefectOutFlow.Rows[7].Cells["colQC"].Value = "Actual";
             dgvDefectOutFlow.Rows[8].Cells["colQC"].Value = "Gap";
-            //dgvDefectOutFlow.Rows[3].Cells["colNo"].Value = "2";
-            dgvDefectOutFlow.Rows[9].Cells["colCategory"].Value = "Flow out to S3N (Crimping)";
-            dgvDefectOutFlow.Rows[9].Cells["colQC"].Value = "Plan";
-            dgvDefectOutFlow.Rows[10].Cells["colQC"].Value = "Actual";
-            dgvDefectOutFlow.Rows[11].Cells["colQC"].Value = "Gap";
+           
         }
         private void DefectOutFlow_Load(object sender, EventArgs e)
         {
