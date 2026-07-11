@@ -229,6 +229,18 @@
     <Compile Include="NG Input\NGCalculateForm.Designer.cs">
       <DependentUpon>NGCalculateForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RegisterMasterNGType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegisterMasterNGType.Designer.cs">
+      <DependentUpon>RegisterMasterNGType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReportNGList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReportNGList.Designer.cs">
+      <DependentUpon>ReportNGList.cs</DependentUpon>
+    </Compile>
     <Compile Include="RMConnector\BalanceStockConnectorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1020,6 +1032,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NG Input\NGCalculateForm.resx">
       <DependentUpon>NGCalculateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegisterMasterNGType.resx">
+      <DependentUpon>RegisterMasterNGType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportNGList.resx">
+      <DependentUpon>ReportNGList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RMConnector\BalanceStockConnectorForm.resx">
       <DependentUpon>BalanceStockConnectorForm.cs</DependentUpon>

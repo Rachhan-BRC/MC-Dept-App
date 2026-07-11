@@ -45,6 +45,7 @@ namespace MachineDeptApp
             double remainL;
             double bobin;
             int ses;
+            int count;
             if (!double.TryParse(txtremainL.Text.Trim(), out remainL))
                 remainL = 0; // or handle invalid input
 
@@ -54,16 +55,20 @@ namespace MachineDeptApp
             if (!int.TryParse(txtses.Text.Trim(), out ses))
                 ses = 0;
 
+            if (!int.TryParse(txtcount.Text.Trim(), out count))
+                count = 0;
+
             double qty = 0;
             qty = (remainL * bobin) + ses;
+            double ttl = Convert.ToDouble(txtttllenght.Text.Trim());
             txtremainL2.Text = qty.ToString("N3");
-            txtremainL3.Text = qty.ToString("N3");
+            txtremainL3.Text = (qty + ttl).ToString("N3");
+            txtcount.Text = (count + bobin).ToString();
         }
         private void BtnPrint_Click(object sender, EventArgs e)
         {
             if (tabControl1.SelectedTab == tablabel)
             {
-
                 for (int i = 0; i < numPrintQty.Value; i++)
                 {
                     // Open Excel template
@@ -82,8 +87,8 @@ namespace MachineDeptApp
                         worksheet.Cells[4, 1] = "*"+txtsysno.Text+"*";
                         worksheet.Cells[6, 2] = txtcodeun.Text;
                         worksheet.Cells[7, 2] = txtname.Text;
-                        worksheet.Cells[8, 2] = txtttlremain.Text;
-                        worksheet.Cells[9, 2] = txtremainw.Text;
+                        worksheet.Cells[8, 2] = txtttllenght.Text;
+                        worksheet.Cells[9, 2] = txtcount.Text;
                         worksheet.Cells[14, 6] = cbPic.Text;
                         // Save Excel
 
@@ -133,11 +138,10 @@ namespace MachineDeptApp
 
                         worksheet.Cells[6, 2] = txtcode.Text;
                         worksheet.Cells[7, 2] = txtrmname2.Text;
-                        worksheet.Cells[8, 2] = txtremainL2.Text;
-                        worksheet.Cells[9, 2] = txtbobin.Text;
+                        worksheet.Cells[8, 2] = txtttllenght.Text;
+                        worksheet.Cells[9, 2] = txtcount.Text;
                         worksheet.Cells[14, 6] = cbPic.Text;
                         // Save Excel
-
                         string DateExcel = DateTime.Now.ToString("yyMMdd");
                         string fileName = "LabelSDInventory" + DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ".xlsx";
 
@@ -170,26 +174,62 @@ namespace MachineDeptApp
         {
             if (txtses.Text.Trim() != "")
             {
-                double remainL = Convert.ToDouble(txtremainL.Text.Trim());
-                double bobin = Convert.ToDouble(txtbobin.Text.Trim());
-                double ses = Convert.ToDouble(txtses.Text.Trim());
+                double remainL;
+                double bobin;
+                int ses;
+                int count;
+                int ttl;
+                if (!double.TryParse(txtremainL.Text.Trim(), out remainL))
+                    remainL = 0; // or handle invalid input
+
+                if (!double.TryParse(txtbobin.Text.Trim(), out bobin))
+                    bobin = 0;
+
+                if (!int.TryParse(txtses.Text.Trim(), out ses))
+                    ses = 0;
+
+                if (!int.TryParse(txtcount.Text.Trim(), out count))
+                    count = 0;
+
+                if (!int.TryParse(txtttllenght.Text.Trim(), out ttl))
+                    ttl = 0;
+
                 double qty = 0;
                 qty = remainL * bobin + ses;
                 txtremainL2.Text = qty.ToString("N3");
-                txtremainL3.Text = qty.ToString("N3");
+                txtremainL3.Text = (qty + ttl).ToString("N3");
             }
         }
         private void TxtremainL_TextChanged(object sender, EventArgs e)
         {
             if (txtremainL.Text.Trim() != "" && txtbobin.Text.Trim() != "")
             {
-                double remainL = Convert.ToDouble(txtremainL.Text.Trim());
-                double bobin = Convert.ToDouble(txtbobin.Text.Trim());
-                double ses = Convert.ToDouble(txtses.Text.Trim());
+
+                double remainL;
+                double bobin;
+                int ses;
+                int count;
+                int ttl;
+                if (!double.TryParse(txtremainL.Text.Trim(), out remainL))
+                    remainL = 0; // or handle invalid input
+
+                if (!double.TryParse(txtbobin.Text.Trim(), out bobin))
+                    bobin = 0;
+
+                if (!int.TryParse(txtses.Text.Trim(), out ses))
+                    ses = 0;
+
+                if (!int.TryParse(txtcount.Text.Trim(), out count))
+                    count = 0;
+
+                if (!int.TryParse(txtttllenght.Text.Trim(), out ttl))
+                    ttl = 0;
+
                 double qty = 0;
                 qty = remainL * bobin + ses;
                 txtremainL2.Text = qty.ToString("N3");
-                txtremainL3.Text = qty.ToString("N3");
+                txtremainL3.Text = (qty + ttl).ToString("N3");
+
             }
         }
         private void Txtcode_KeyDown(object sender, KeyEventArgs e)
@@ -220,9 +260,7 @@ namespace MachineDeptApp
                     try
                     {
                         con.con.Open();
-                        string queryCompare = "SELECT * FROM tbMasterItem " +
-                            "WHERE ItemType='Material' AND (RMTypeName IS NOT NULL AND RMTypeName <> 'Connector') AND ItemCode = '"+input+"' " +
-                            "ORDER BY ItemCode ";
+                        string queryCompare = "SELECT * FROM tbMasterItem  WHERE ItemType='Material' AND (RMTypeName IS NOT NULL AND RMTypeName <> 'Connector') AND ItemCode = '"+input.Trim() +"' ORDER BY ItemCode ";
                         SqlDataAdapter sdaCompare = new SqlDataAdapter(queryCompare, con.con);
                         sdaCompare.Fill(dtcompare);
                     }
@@ -242,10 +280,12 @@ namespace MachineDeptApp
                     }
                     //Get Max LabelNo
                     DataTable dtlabel = new DataTable();
+                    DataTable dtlabelnocode = new DataTable();
                     try
                     {
                         con.con.Open();
-                        string selectquery = " SELECT MAX(LabelNo) FROM tbSDMCStockInventory WHERE PIC = '" + txtpic + "'";
+                        string selectquery = "SELECT Code, MAX(LabelNo) AS LabelNo FROM tbSDMCStockInventory WHERE PIC = '" + txtpic.Trim() + "' AND Code = '" + input.Trim() + "' GROUP BY Code, LabelNo";
+                        Console.WriteLine("Query : " + selectquery);
                         SqlDataAdapter sdaselect = new SqlDataAdapter(selectquery, con.con);
                         sdaselect.Fill(dtlabel);
                     }
@@ -253,10 +293,28 @@ namespace MachineDeptApp
                     {
                         MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 10 !" + ex.Message, "Error Scantextdown", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    if (dtlabel.Rows.Count > 0 && dtlabel.Rows[0][0] != DBNull.Value)
+                    if (dtlabel.Rows.Count > 0)
                     {
-                        int lb = Convert.ToInt32(dtlabel.Rows[0][0]);
-                        labelNo = lb + 1;
+                        int lb = Convert.ToInt32(dtlabel.Rows[0][1]);
+                        labelNo = lb;
+                    }
+                    else
+                    {
+                        string selectquery = " SELECT Code, MAX(LabelNo) FROM tbSDMCStockInventory WHERE PIC = '" + txtpic.Trim() + "' GROUP BY Code";
+                        Console.WriteLine(selectquery);
+                        SqlDataAdapter sdaselect = new SqlDataAdapter(selectquery, con.con);
+                        sdaselect.Fill(dtlabelnocode);
+                        if (dtlabelnocode.Rows.Count > 0 && dtlabelnocode.Rows[0][0] != DBNull.Value)
+                        {
+                          
+                            int lb = Convert.ToInt32(dtlabelnocode.Rows[0][0]);
+                            labelNo = lb + 1;
+                        }
+                        else
+                        {
+                            
+                            labelNo = Convert.ToInt32(lbstart.Text);
+                        }
                     }
                     con.con.Close();
                     //Get Stock from tbSDMCAllTransaction
@@ -266,6 +324,7 @@ namespace MachineDeptApp
                         con.con.Open();
                         string queryStock = "SELECT SUM(StockValue) AS StockRemain FROM [MachineDB].[dbo].[tbSDMCAllTransaction] " +
                             "WHERE LocCode = 'WIR1' AND CancelStatus = 0  AND Code ='" + input + "'";
+                        Console.WriteLine("queryStock" + queryStock);
                         SqlDataAdapter sdastock = new SqlDataAdapter(queryStock, con.con);
                         sdastock.Fill(dtstock);
                     }
@@ -281,7 +340,7 @@ namespace MachineDeptApp
                     try
                     {
                         con.con.Open();
-                        string queryCount = " SELECT SUM(Qty) AS StockCount FROM [MachineDB].[dbo].[tbSDMCStockInventory] WHERE Code = '" + input + "'";
+                        string queryCount = " SELECT SUM(Qty) AS StockCount FROM [MachineDB].[dbo].[tbSDMCStockInventory] WHERE Code = '" + input + "' AND Status = 'Active'";
                         SqlDataAdapter sdacount = new SqlDataAdapter(queryCount, con.con);
                         sdacount.Fill(dtCount);
                     }
@@ -302,7 +361,7 @@ namespace MachineDeptApp
                         txtttllenght.Text = stoccount.ToString("N2");
                     }
                     con.con.Close();
-                    int count = Convert.ToInt32(dgvSd.Rows.Count) + 1;
+                   
                     //fill data grid
                     ClearFields();
                     txtrmname2.Text = dtcompare.Rows[0]["ItemName"].ToString();
@@ -311,11 +370,24 @@ namespace MachineDeptApp
                     txtses.Text = "0";
                     txtremainL2.Text = "0";
                     txtremainL3.Text = "0";
+                    int count = 0;
+                    if (dgvSd.Rows.Count > 0)
+                    {
+                        foreach (DataGridViewRow row in dgvSd.Rows)
+                        {
+                            if (row.Cells["code"].Value.ToString() == txtcode.Text.Trim())
+                            {
+                                count += Convert.ToInt32(row.Cells["bbqty"].Value);
+                            }
+                        }
+                    }
+
                     txtcount.Text = count.ToString();
                     txtstockcard.Text = dtstock.Rows[0]["StockRemain"].ToString();
-                    txtlabel.Text = labelNo.ToString();
+                    txtlabel.Text = labelNo.ToString("D4");
                     txtremainL.Focus();
                 }
+
             }
             Cursor = Cursors.Default;
         }
@@ -343,7 +415,7 @@ namespace MachineDeptApp
                     cmdInsert.Parameters.AddWithValue("@BobinWeight", Convert.ToDouble(0));
                     cmdInsert.Parameters.AddWithValue("@Qty", Convert.ToDouble(txtremainL2.Text.Trim()));
                     cmdInsert.Parameters.AddWithValue("@BobbinQty", Convert.ToDouble(txtbobin.Text.Trim()));
-                    cmdInsert.Parameters.AddWithValue("@LabelNo", Convert.ToInt32(txtlabel.Text.Trim()));
+                    cmdInsert.Parameters.AddWithValue("@LabelNo", Convert.ToDouble(txtlabel.Text.Trim()));
                     cmdInsert.Parameters.AddWithValue("@PIC", cbPic.Text.Trim());
                     cmdInsert.Parameters.AddWithValue("@st", "Active");
                     cmdInsert.Parameters.AddWithValue("@Regby", MenuFormV2.UserForNextForm);
@@ -463,6 +535,7 @@ namespace MachineDeptApp
                     return;
                 }
                 string input = txtscan.Text.Trim();
+               
                 if (!string.IsNullOrEmpty(input))
                 {
                     int labelNo = Convert.ToInt32(lbstart.Text.Trim());
@@ -472,7 +545,7 @@ namespace MachineDeptApp
                     try
                     {
                         con.con.Open();
-                        string queryCompare = "SELECT SysNo FROM tbSDMCStockInventory WHERE SysNo = '" + input + "' AND Status = 'Active'";
+                        string queryCompare = "SELECT SysNo FROM tbSDMCStockInventory WHERE SysNo = '" + input.Trim() + "' AND Status = 'Active'";
                         SqlDataAdapter sdaCompare = new SqlDataAdapter(queryCompare, con.con);
                         sdaCompare.Fill(dtcompare);
                     }
@@ -523,10 +596,12 @@ namespace MachineDeptApp
                     }
                     //Get Max LabelNo
                     DataTable dtlabel = new DataTable();
+                    DataTable dtlabelnocode = new DataTable();
+                    string code = datafill.Rows[0]["RMCode"].ToString();
                     try
                     {
                         con.con.Open();
-                        string selectquery = " SELECT MAX(LabelNo) FROM tbSDMCStockInventory WHERE PIC = '"+txtpic+"' AND Status = 'Active'";
+                        string selectquery = " SELECT Code, MAX(LabelNo) AS LabelNo FROM tbSDMCStockInventory WHERE PIC = '"+txtpic.Trim() +"' AND Code = '"+code.Trim() +"' GROUP BY Code, LabelNo";
                         SqlDataAdapter sdaselect = new SqlDataAdapter(selectquery, con.con);
                        sdaselect.Fill(dtlabel);
                     }
@@ -534,20 +609,37 @@ namespace MachineDeptApp
                     {
                         MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 5 !" + ex.Message, "Error Scantextdown", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    if (dtlabel.Rows.Count > 0 && dtlabel.Rows[0][0] != DBNull.Value)
+                    if (dtlabel.Rows.Count > 0 && dtlabel.Rows[0][1] != DBNull.Value)
                     {
-                        int lb = Convert.ToInt32(dtlabel.Rows[0][0]);
-                        labelNo = lb + 1;
+                        int lb = Convert.ToInt32(dtlabel.Rows[0][1]);
+                        labelNo = lb;
+                    }
+                    else
+                    {
+                        string selectquery = " SELECT MAX(LabelNo) FROM tbSDMCStockInventory WHERE PIC = '" + txtpic.Trim() + "'";
+                        SqlDataAdapter sdaselect = new SqlDataAdapter(selectquery, con.con);
+                        sdaselect.Fill(dtlabelnocode);
+                        if (dtlabelnocode.Rows.Count > 0 && dtlabelnocode.Rows[0][0] != DBNull.Value)
+                        {
+                            int lb = Convert.ToInt32(dtlabelnocode.Rows[0][0]);
+                            labelNo = lb+1;
+                        }
+                        else
+                        {
+                            labelNo = Convert.ToInt32(lbstart.Text);
+                        }
+                       
+
                     }
                     con.con.Close();
                     //Get Stock from tbSDMCAllTransaction
                     DataTable dtstock = new DataTable();
-                    string code = datafill.Rows[0]["RMCode"].ToString();
+                   labelNo.ToString("D4");
                     try
                     {
                         con.con.Open();
                         string queryStock = "SELECT SUM(StockValue) AS StockRemain FROM [MachineDB].[dbo].[tbSDMCAllTransaction] " +
-                            "WHERE LocCode = 'WIR1' AND CancelStatus = 0  AND Code ='" + code + "'";
+                            "WHERE LocCode = 'WIR1' AND CancelStatus = 0  AND Code ='" + code.Trim() + "'";
                         SqlDataAdapter sdastock = new SqlDataAdapter(queryStock, con.con);
                         sdastock.Fill(dtstock);
                     }
@@ -557,6 +649,7 @@ namespace MachineDeptApp
                         Cursor = Cursors.Default;
                         return;
                     }
+
                     con.con.Close();
                     txtcode.Clear();
                     ClearFields();
@@ -576,12 +669,14 @@ namespace MachineDeptApp
                     txtttlremain.Text = remainl.ToString("N2");
                     txtremainL3.Text = remainl.ToString("N2");
                     txtstockcard.Text = dtstock.Rows[0]["StockRemain"].ToString();
-                    txtlabel.Text = labelNo.ToString();
+                    txtlabel.Text = labelNo.ToString("D4");
                     txtcodeun.Text = code;
+
                     if (chkauto.Checked == true)
                     {
                         btnPrint.PerformClick();
                     }
+
                     txtscan.Text = "";
                     //Insert data to tbSDMCStockInventory
                     int success = 0;
@@ -616,7 +711,18 @@ namespace MachineDeptApp
                     if (success > 0)
                     {
                         SelectData();
-                        txtcount.Text = dgvSd.Rows.Count.ToString();
+                        int count = 0;
+                        if (dgvSd.Rows.Count > 0)
+                        {
+                            foreach (DataGridViewRow row in dgvSd.Rows)
+                            {
+                                if (row.Cells["code"].Value.ToString() == txtcodeun.Text.Trim())
+                                {
+                                    count += Convert.ToInt32(row.Cells["bbqty"].Value);
+                                }
+                            }
+                        }
+                        txtcount.Text = count.ToString();
                         labelstatus.Text = "OK";
                         Panelstatus.BackColor = Color.LimeGreen;
                         string soundPath = Path.Combine(Environment.CurrentDirectory, @"Sound\OK.wav");

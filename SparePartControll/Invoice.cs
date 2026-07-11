@@ -79,7 +79,7 @@ namespace MachineDeptApp
                     try
                     {
                         con.con.Open();
-                        string queryselect = "SELECT Invoice FROM SparePartTrans WHERE Invoice = '" + txtInvoice.Text + "'";
+                        string queryselect = "SELECT Invoice FROM SparePartTrans WHERE Invoice = '" + txtInvoice.Text + "' AND Dept = 'MC'";
                         SqlDataAdapter sdaselect = new SqlDataAdapter(queryselect, con.con);
                         sdaselect.Fill(dtselectCompare);
                     }
@@ -200,6 +200,7 @@ namespace MachineDeptApp
         }
         private void SaveToDBInvoice()
         {
+            string err = "";
             int error = 0;
             DataTable dtselect = new DataTable();
             DataTable dtMst = new DataTable();
@@ -222,7 +223,7 @@ namespace MachineDeptApp
 
                 con.con.Open();
                 string query = "SELECT * FROM MCSparePartRequest WHERE Dept = '" + dept + "' AND Code IN " + codelist + " AND PO_No IN "+ponolist+" ORDER BY Code";
-                Console.WriteLine("Select1" + query);
+               // Console.WriteLine("Select1" + query);
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtselect);
             }
@@ -246,219 +247,223 @@ namespace MachineDeptApp
                 error++;
             }
             con.con.Close();
-            if (dtselect.Rows.Count <= 0)
+            if (dtselect.Rows.Count < dgvInvoice.Rows.Count)
             {
-                MessageBox.Show("This spare part not have in request", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Spare part not have in request", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 Cursor = Cursors.Default;
+                err = "Not have";
                 return;
             }
             //Compare stock
-            try
+           if (err == "")
             {
-                int big = 0;
-                Cursor = Cursors.WaitCursor;
-                DateTime now = DateTime.Now;
-                //Loop Compare
-                DataTable dtBigger = new DataTable();
-                dtBigger.Columns.Add("Code");
-                dtBigger.Columns.Add("IPO");
-                dgvbig.Rows.Clear();
-                foreach (DataGridViewRow row1 in dgvInvoice.Rows)
+                try
                 {
-                    string CodeIN = row1.Cells["code"]?.Value?.ToString() ?? "";
-                    string ponoIN = row1.Cells["pono"]?.Value?.ToString() ?? "";
-                    double recqty = double.TryParse(row1.Cells["qty"]?.Value?.ToString(), out var q) ? q : 0;
-                    foreach (DataRow row2 in dtselect.Rows)
+                    int big = 0;
+                    Cursor = Cursors.WaitCursor;
+                    DateTime now = DateTime.Now;
+                    //Loop Compare
+                    DataTable dtBigger = new DataTable();
+                    dtBigger.Columns.Add("Code");
+                    dtBigger.Columns.Add("IPO");
+                    dgvbig.Rows.Clear();
+                    foreach (DataGridViewRow row1 in dgvInvoice.Rows)
                     {
-                        string CodeSelect = row2["Code"].ToString();
-                        string ponoSelect = row2["PO_No"].ToString();
-                        double balance = row2["Balance"] != DBNull.Value ? Convert.ToDouble(row2["Balance"]) : 0;
+                        string CodeIN = row1.Cells["code"]?.Value?.ToString() ?? "";
+                        string ponoIN = row1.Cells["pono"]?.Value?.ToString() ?? "";
+                        double recqty = double.TryParse(row1.Cells["qty"]?.Value?.ToString(), out var q) ? q : 0;
+                        foreach (DataRow row2 in dtselect.Rows)
+                        {
+                            string CodeSelect = row2["Code"].ToString();
+                            string ponoSelect = row2["PO_No"].ToString();
+                            double balance = row2["Balance"] != DBNull.Value ? Convert.ToDouble(row2["Balance"]) : 0;
 
-                        if (CodeIN == CodeSelect && ponoIN == ponoSelect)
-                        {
-                            if (recqty > balance)
+                            if (CodeIN == CodeSelect && ponoIN == ponoSelect)
                             {
-                                dtBigger.Rows.Add(CodeIN, ponoIN);
-                                big++;
-                            }
-                        }
-                    }
-                }
-                if (big > 0)
-                {
-                    MessageBox.Show("Receive Qty cannot bigger than balance \n!", "Please check.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    gpproblem.Visible = true;
-                    btnCancel.Visible = true;
-                    foreach (DataRow row in dtBigger.Rows)
-                    {
-                        dgvbig.Rows.Add();
-                        dgvbig.Rows[dgvbig.Rows.Count -1].Cells["codebig"].Value = row["Code"].ToString();
-                        dgvbig.Rows[dgvbig.Rows.Count - 1].Cells["ipobig"].Value = row["IPO"].ToString();
-                    }
-                    con.con.Close();
-                    Cursor = Cursors.Default;
-                    return;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error Saving" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                error++;
-            }
-            try
-            {
-                Cursor = Cursors.WaitCursor;
-                DateTime now = DateTime.Now;
-                //Loop Update 
-                foreach (DataGridViewRow row1 in dgvInvoice.Rows)
-                {
-                    string CodeIN = row1.Cells["code"]?.Value?.ToString() ?? "";
-                    string ponoIN = row1.Cells["pono"]?.Value?.ToString() ?? "";
-                    double recqty = double.TryParse(row1.Cells["qty"]?.Value?.ToString(), out var q) ? q : 0;
-                    double amount = double.TryParse(row1.Cells["amountusd"]?.Value?.ToString(), out var a) ? a : 0;
-                    string invoicedate = row1.Cells["invoicedate"]?.Value?.ToString() ?? "";
-                    foreach (DataRow row2 in dtselect.Rows)
-                    {
-                        string MCdocNo = row2["MCDocNo"].ToString();
-                        string CodeSelect = row2["Code"].ToString();
-                        string ponoSelect = row2["PO_No"].ToString();
-                        double orderqty = row2["Order_Qty"] != DBNull.Value ? Convert.ToDouble(row2["Order_Qty"]) : 0;
-                        double qtyZin = row2["ReceiveQTY"] != DBNull.Value ? Convert.ToDouble(row2["ReceiveQTY"]) : 0;
-                        double balance = row2["Balance"] != DBNull.Value ? Convert.ToDouble(row2["Balance"]) : 0;
-                        double unitPrice = row2["UnitPrice"] != DBNull.Value ? Convert.ToDouble(row2["UnitPrice"]) : 0;
-
-                        double finalQty = qtyZin + recqty;
-                        double finalBalance = orderqty - finalQty;
-                        double reAmount = finalBalance * unitPrice;
-
-                        string status = "Waiting for PO Update";
-                        if (finalBalance == 0)
-                        {
-                            status = "Completed";
-                        }
-                        if (CodeIN == CodeSelect &&  ponoIN == ponoSelect)
-                        {
-                            //Update
-                            try
-                            {
-                                con.con.Open();
-                                string query = "UPDATE MCSparePartRequest SET ReceiveQTY =  @recqty, Balance = @balance, RemainAmount = @reamount, Receive_Date = @recdate, Order_State = @orderstate, " +
-                            " Remark = @remark, UpdateDate = @update" +
-                            " WHERE Code = @code AND PO_No = @pono AND Dept = @dept AND Order_State <> 'Completed' ";
-                                SqlCommand cmd = new SqlCommand(query, con.con);
-                                cmd.Parameters.AddWithValue("@recqty", finalQty);
-                                cmd.Parameters.AddWithValue("@balance", finalBalance);
-                                cmd.Parameters.AddWithValue("@reamount", reAmount);
-                                cmd.Parameters.AddWithValue("@recdate", invoicedate);
-                                cmd.Parameters.AddWithValue("@orderstate", status);
-                                cmd.Parameters.AddWithValue("@remark", "Update: " + now.ToString("dd-MM-yyyy"));
-                                cmd.Parameters.AddWithValue("@update", now);
-                                cmd.Parameters.AddWithValue("@code", CodeSelect);
-                                cmd.Parameters.AddWithValue("@pono", ponoIN);
-                                cmd.Parameters.AddWithValue("@dept", dept);
-                                cmd.ExecuteNonQuery();
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show("Error while Update data" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                error++;
-                            }
-                            con.con.Close();
-                            break;
-                        }
-                    }
-                }
-                //Loop insert
-                foreach (DataGridViewRow row1 in dgvInvoice.Rows)
-                {
-                    string CodeIN = row1.Cells["code"]?.Value?.ToString() ?? "";
-                    string ponoIN = row1.Cells["pono"]?.Value?.ToString() ?? "";
-                    double recqty = double.TryParse(row1.Cells["qty"]?.Value?.ToString(), out var q) ? q : 0;
-                    string PartNo = row1.Cells["Pno"]?.Value?.ToString() ?? "";
-                    double amount = double.TryParse(row1.Cells["amountusd"]?.Value?.ToString(), out var a) ? a : 0;
-                    string invoice = row1.Cells["invoiceno"]?.Value?.ToString() ?? "";
-                    string pono = row1.Cells["pono"]?.Value?.ToString() ?? "";
-                    foreach (DataRow row2 in dtMst.Rows)
-                    {
-                        string CodeSelect = row2["Code"]?.ToString() ?? "";
-                        string Partname = row2["Part_Name"]?.ToString() ?? "";
-                        if (CodeIN == CodeSelect)
-                        {
-                            DataTable dtTran = new DataTable();
-                            string tranNo = "TR-A0000001";
-                            try
-                            {
-                                con.con.Open();
-                                string query = "SELECT MAX(TransNo) As TranNo FROM SparePartTrans ";
-                                SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
-                                sda.Fill(dtTran);
-                                if (dtTran.Rows.Count > 0 && dtTran.Rows[0]["TranNo"] != DBNull.Value)
+                                if (recqty > balance)
                                 {
-                                    string last = dtTran.Rows[0]["TranNo"].ToString();
-                                    string prefix = last.Substring(0, 4);
-                                    if (int.TryParse(last.Substring(4), out int number))
-                                    {
-                                        tranNo = prefix + (number + 1).ToString("D7");
-                                    }
+                                    dtBigger.Rows.Add(CodeIN, ponoIN);
+                                    big++;
                                 }
                             }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show("Error while selecting TransNo" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                error++;
-                            }
-                            con.con.Close();
-                            //Insert
-                            try
-                            {
-                                con.con.Open();
-                                string query = "INSERT INTO SparePartTrans (TransNo, Code, Part_No, Part_Name, Dept, Stock_In, Stock_Out, Stock_Value, Stock_Amount, PO_No, Invoice, Status, RegDate, PIC, Remark) " +
-                                                                                      " VALUES (@TransNo, @code, @partno, @partname, @dept, @stockIn, @stockOut, @stockVal, @stockAmount, @pono, @invoice, @status, @Rd, @pic, @remark )";
-
-                                SqlCommand cmd = new SqlCommand(query, con.con);
-                                cmd.Parameters.AddWithValue("@TransNo", tranNo);
-                                cmd.Parameters.AddWithValue("@code", CodeSelect);
-                                cmd.Parameters.AddWithValue("@partno", PartNo);
-                                cmd.Parameters.AddWithValue("@partname", Partname);
-                                cmd.Parameters.AddWithValue("@dept", dept);
-                                cmd.Parameters.AddWithValue("@stockIn", recqty);
-                                cmd.Parameters.AddWithValue("@stockOut", 0);
-                                cmd.Parameters.AddWithValue("@stockVal", recqty);
-                                cmd.Parameters.AddWithValue("@stockAmount", amount);
-                                cmd.Parameters.AddWithValue("@pono", pono);
-                                cmd.Parameters.AddWithValue("@invoice", invoice);
-                                cmd.Parameters.AddWithValue("@status", 1);
-                                cmd.Parameters.AddWithValue("@Rd", now);
-                                cmd.Parameters.AddWithValue("@pic", MenuFormV2.UserForNextForm);
-                                cmd.Parameters.AddWithValue("@remark", "Update: " + now.ToString("dd-MM-yyyy"));
-                                cmd.ExecuteNonQuery();
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show("Error while Update data" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                error++;
-                            }
-                            con.con.Close();
                         }
                     }
+                    if (big > 0)
+                    {
+                        MessageBox.Show("Receive Qty cannot bigger than balance \n!", "Please check.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        gpproblem.Visible = true;
+                        btnCancel.Visible = true;
+                        foreach (DataRow row in dtBigger.Rows)
+                        {
+                            dgvbig.Rows.Add();
+                            dgvbig.Rows[dgvbig.Rows.Count - 1].Cells["codebig"].Value = row["Code"].ToString();
+                            dgvbig.Rows[dgvbig.Rows.Count - 1].Cells["ipobig"].Value = row["IPO"].ToString();
+                        }
+                        con.con.Close();
+                        Cursor = Cursors.Default;
+                        return;
+                    }
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error Saving" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    error++;
+                }
+                try
+                {
+                    Cursor = Cursors.WaitCursor;
+                    DateTime now = DateTime.Now;
+                    //Loop Update 
+                    foreach (DataGridViewRow row1 in dgvInvoice.Rows)
+                    {
+                        string CodeIN = row1.Cells["code"]?.Value?.ToString() ?? "";
+                        string ponoIN = row1.Cells["pono"]?.Value?.ToString() ?? "";
+                        double recqty = double.TryParse(row1.Cells["qty"]?.Value?.ToString(), out var q) ? q : 0;
+                        double amount = double.TryParse(row1.Cells["amountusd"]?.Value?.ToString(), out var a) ? a : 0;
+                        string invoicedate = row1.Cells["invoicedate"]?.Value?.ToString() ?? "";
+                        foreach (DataRow row2 in dtselect.Rows)
+                        {
+                            string MCdocNo = row2["MCDocNo"].ToString();
+                            string CodeSelect = row2["Code"].ToString();
+                            string ponoSelect = row2["PO_No"].ToString();
+                            double orderqty = row2["Order_Qty"] != DBNull.Value ? Convert.ToDouble(row2["Order_Qty"]) : 0;
+                            double qtyZin = row2["ReceiveQTY"] != DBNull.Value ? Convert.ToDouble(row2["ReceiveQTY"]) : 0;
+                            double balance = row2["Balance"] != DBNull.Value ? Convert.ToDouble(row2["Balance"]) : 0;
+                            double unitPrice = row2["UnitPrice"] != DBNull.Value ? Convert.ToDouble(row2["UnitPrice"]) : 0;
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error Saving" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                error++;
-            }
-            if (error == 0)
-            {
-                MessageBox.Show("Save successfully !", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                dgvInvoice.Rows.Clear();
-                btnSave.Enabled = false;
-                btnSave.BringToFront();
-            }
-            else
-            {
-                MessageBox.Show("Error Saving", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            double finalQty = qtyZin + recqty;
+                            double finalBalance = orderqty - finalQty;
+                            double reAmount = finalBalance * unitPrice;
+
+                            string status = "Waiting for PO Update";
+                            if (finalBalance == 0)
+                            {
+                                status = "Completed";
+                            }
+                            if (CodeIN == CodeSelect && ponoIN == ponoSelect)
+                            {
+                                //Update
+                                try
+                                {
+                                    con.con.Open();
+                                    string query = "UPDATE MCSparePartRequest SET ReceiveQTY =  @recqty, Balance = @balance, RemainAmount = @reamount, Receive_Date = @recdate, Order_State = @orderstate, " +
+                                " Remark = @remark, UpdateDate = @update" +
+                                " WHERE Code = @code AND PO_No = @pono AND Dept = @dept AND Order_State <> 'Completed' ";
+                                    SqlCommand cmd = new SqlCommand(query, con.con);
+                                    cmd.Parameters.AddWithValue("@recqty", finalQty);
+                                    cmd.Parameters.AddWithValue("@balance", finalBalance);
+                                    cmd.Parameters.AddWithValue("@reamount", reAmount);
+                                    cmd.Parameters.AddWithValue("@recdate", invoicedate);
+                                    cmd.Parameters.AddWithValue("@orderstate", status);
+                                    cmd.Parameters.AddWithValue("@remark", "Update: " + now.ToString("dd-MM-yyyy"));
+                                    cmd.Parameters.AddWithValue("@update", now);
+                                    cmd.Parameters.AddWithValue("@code", CodeSelect);
+                                    cmd.Parameters.AddWithValue("@pono", ponoIN);
+                                    cmd.Parameters.AddWithValue("@dept", dept);
+                                    cmd.ExecuteNonQuery();
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show("Error while Update data" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    error++;
+                                }
+                                con.con.Close();
+                                break;
+                            }
+                        }
+                    }
+                    //Loop insert
+                    foreach (DataGridViewRow row1 in dgvInvoice.Rows)
+                    {
+                        string CodeIN = row1.Cells["code"]?.Value?.ToString() ?? "";
+                        string ponoIN = row1.Cells["pono"]?.Value?.ToString() ?? "";
+                        double recqty = double.TryParse(row1.Cells["qty"]?.Value?.ToString(), out var q) ? q : 0;
+                        string PartNo = row1.Cells["Pno"]?.Value?.ToString() ?? "";
+                        double amount = double.TryParse(row1.Cells["amountusd"]?.Value?.ToString(), out var a) ? a : 0;
+                        string invoice = row1.Cells["invoiceno"]?.Value?.ToString() ?? "";
+                        string pono = row1.Cells["pono"]?.Value?.ToString() ?? "";
+                        foreach (DataRow row2 in dtMst.Rows)
+                        {
+                            string CodeSelect = row2["Code"]?.ToString() ?? "";
+                            string Partname = row2["Part_Name"]?.ToString() ?? "";
+                            if (CodeIN == CodeSelect)
+                            {
+                                DataTable dtTran = new DataTable();
+                                string tranNo = "TR-A0000001";
+                                try
+                                {
+                                    con.con.Open();
+                                    string query = "SELECT MAX(TransNo) As TranNo FROM SparePartTrans ";
+                                    SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
+                                    sda.Fill(dtTran);
+                                    if (dtTran.Rows.Count > 0 && dtTran.Rows[0]["TranNo"] != DBNull.Value)
+                                    {
+                                        string last = dtTran.Rows[0]["TranNo"].ToString();
+                                        string prefix = last.Substring(0, 4);
+                                        if (int.TryParse(last.Substring(4), out int number))
+                                        {
+                                            tranNo = prefix + (number + 1).ToString("D7");
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show("Error while selecting TransNo" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    error++;
+                                }
+                                con.con.Close();
+                                //Insert
+                                try
+                                {
+                                    con.con.Open();
+                                    string query = "INSERT INTO SparePartTrans (TransNo, Code, Part_No, Part_Name, Dept, Stock_In, Stock_Out, Stock_Value, Stock_Amount, PO_No, Invoice, Status, RegDate, PIC, Remark) " +
+                                                                                          " VALUES (@TransNo, @code, @partno, @partname, @dept, @stockIn, @stockOut, @stockVal, @stockAmount, @pono, @invoice, @status, @Rd, @pic, @remark )";
+
+                                    SqlCommand cmd = new SqlCommand(query, con.con);
+                                    cmd.Parameters.AddWithValue("@TransNo", tranNo);
+                                    cmd.Parameters.AddWithValue("@code", CodeSelect);
+                                    cmd.Parameters.AddWithValue("@partno", PartNo);
+                                    cmd.Parameters.AddWithValue("@partname", Partname);
+                                    cmd.Parameters.AddWithValue("@dept", dept);
+                                    cmd.Parameters.AddWithValue("@stockIn", recqty);
+                                    cmd.Parameters.AddWithValue("@stockOut", 0);
+                                    cmd.Parameters.AddWithValue("@stockVal", recqty);
+                                    cmd.Parameters.AddWithValue("@stockAmount", amount);
+                                    cmd.Parameters.AddWithValue("@pono", pono);
+                                    cmd.Parameters.AddWithValue("@invoice", invoice);
+                                    cmd.Parameters.AddWithValue("@status", 1);
+                                    cmd.Parameters.AddWithValue("@Rd", now);
+                                    cmd.Parameters.AddWithValue("@pic", MenuFormV2.UserForNextForm);
+                                    cmd.Parameters.AddWithValue("@remark", "Update: " + now.ToString("dd-MM-yyyy"));
+                                    cmd.ExecuteNonQuery();
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show("Error while Update data" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    error++;
+                                }
+                                con.con.Close();
+                            }
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error Saving" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    error++;
+                }
+                if (error == 0)
+                {
+                    MessageBox.Show("Save successfully !", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    dgvInvoice.Rows.Clear();
+                    btnSave.Enabled = false;
+                    btnSave.BringToFront();
+                }
+                else
+                {
+                    MessageBox.Show("Error Saving", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             con.con.Close();
             Cursor = Cursors.Default;
