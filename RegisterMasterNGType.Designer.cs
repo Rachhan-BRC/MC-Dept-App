@@ -55,10 +55,13 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cbposition = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.txtid = new System.Windows.Forms.TextBox();
             this.txtname = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -187,7 +190,7 @@
             "",
             "NG Inprocess",
             "NG OutFlow"});
-            this.cbfunct.Location = new System.Drawing.Point(128, 90);
+            this.cbfunct.Location = new System.Drawing.Point(128, 92);
             this.cbfunct.Name = "cbfunct";
             this.cbfunct.Size = new System.Drawing.Size(142, 42);
             this.cbfunct.TabIndex = 2;
@@ -196,7 +199,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(63, 30);
+            this.label2.Location = new System.Drawing.Point(63, 32);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(45, 24);
             this.label2.TabIndex = 1;
@@ -206,7 +209,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Khmer OS Bokor", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(63, 47);
+            this.label4.Location = new System.Drawing.Point(63, 49);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(43, 29);
             this.label4.TabIndex = 1;
@@ -216,7 +219,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(59, 108);
+            this.label5.Location = new System.Drawing.Point(59, 110);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(63, 24);
             this.label5.TabIndex = 1;
@@ -226,7 +229,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(64, 90);
+            this.label3.Location = new System.Drawing.Point(64, 92);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(45, 24);
             this.label3.TabIndex = 1;
@@ -235,7 +238,7 @@
             // txttype
             // 
             this.txttype.Font = new System.Drawing.Font("Kh Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txttype.Location = new System.Drawing.Point(128, 30);
+            this.txttype.Location = new System.Drawing.Point(128, 32);
             this.txttype.Name = "txttype";
             this.txttype.Size = new System.Drawing.Size(296, 43);
             this.txttype.TabIndex = 0;
@@ -255,10 +258,13 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.cbposition);
+            this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.txtid);
             this.groupBox3.Controls.Add(this.txtname);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
@@ -279,26 +285,46 @@
             "Sub Leader",
             "Leader",
             "MT Leader"});
-            this.cbposition.Location = new System.Drawing.Point(128, 90);
+            this.cbposition.Location = new System.Drawing.Point(362, 33);
             this.cbposition.Name = "cbposition";
             this.cbposition.Size = new System.Drawing.Size(142, 42);
             this.cbposition.TabIndex = 2;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(49, 33);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(71, 24);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "លេខអាយឌី";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(62, 27);
+            this.label6.Location = new System.Drawing.Point(61, 89);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(42, 24);
             this.label6.TabIndex = 1;
             this.label6.Text = "ឈ្មោះ";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Khmer OS Bokor", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(70, 52);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(24, 29);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "ID";
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Khmer OS Bokor", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(62, 44);
+            this.label7.Location = new System.Drawing.Point(61, 106);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(46, 29);
             this.label7.TabIndex = 1;
@@ -308,7 +334,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(59, 108);
+            this.label8.Location = new System.Drawing.Point(293, 51);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(57, 24);
             this.label8.TabIndex = 1;
@@ -318,18 +344,27 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(61, 90);
+            this.label9.Location = new System.Drawing.Point(295, 33);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(50, 24);
             this.label9.TabIndex = 1;
             this.label9.Text = "តំណែង";
             // 
+            // txtid
+            // 
+            this.txtid.Font = new System.Drawing.Font("Kh Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtid.Location = new System.Drawing.Point(127, 32);
+            this.txtid.Name = "txtid";
+            this.txtid.Size = new System.Drawing.Size(144, 43);
+            this.txtid.TabIndex = 0;
+            this.txtid.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // txtname
             // 
             this.txtname.Font = new System.Drawing.Font("Kh Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtname.Location = new System.Drawing.Point(128, 30);
+            this.txtname.Location = new System.Drawing.Point(127, 92);
             this.txtname.Name = "txtname";
-            this.txtname.Size = new System.Drawing.Size(296, 43);
+            this.txtname.Size = new System.Drawing.Size(377, 43);
             this.txtname.TabIndex = 0;
             this.txtname.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -519,5 +554,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn upby;
         private System.Windows.Forms.DataGridViewTextBoxColumn update;
         private System.Windows.Forms.DataGridViewImageColumn delete;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtid;
     }
 }

@@ -223,6 +223,12 @@
     <Compile Include="MCReportTrackingResult\QualityControlForm.Designer.cs">
       <DependentUpon>QualityControlForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MstStopInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MstStopInfo.Designer.cs">
+      <DependentUpon>MstStopInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="NG Input\NGCalculateForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1029,6 +1035,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MCReportTrackingResult\QualityControlForm.resx">
       <DependentUpon>QualityControlForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MstStopInfo.resx">
+      <DependentUpon>MstStopInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NG Input\NGCalculateForm.resx">
       <DependentUpon>NGCalculateForm.cs</DependentUpon>
