@@ -154,10 +154,7 @@ namespace MachineDeptApp
                         searchcbng.Items.Add(row["Name"].ToString());
                     }
                 }
-                lbwire.Text = "0";
-                lbplan.Text = "0";
-                lbNG.Text = "0";
-                lbMC.Text = "0";
+               
                 lbttlqty.Text = "0";
                 lbsubprice.Text = "0";
                 lbRMqty.Text = "0";
@@ -253,10 +250,6 @@ namespace MachineDeptApp
                                 worksheetSubpart.Cells[3, 9] = lbRMqty.Text;
                                 worksheetSubpart.Cells[4, 9] = lbsubprice.Text;
                                 worksheetSubpart.Cells[5, 9] = lbcostNG.Text;
-                                worksheetSubpart.Cells[6, 9] = lbwire.Text;
-                                worksheetSubpart.Cells[7, 9] = lbplan.Text;
-                                worksheetSubpart.Cells[8, 9] = lbNG.Text;
-                                worksheetSubpart.Cells[9, 9] = lbMC.Text;
 
                             }
                             catch (Exception ex)
@@ -297,10 +290,6 @@ namespace MachineDeptApp
                                 worksheetRM.Cells[3, 10] = lbRMqty.Text;
                                 worksheetRM.Cells[4, 10] = lbsubprice.Text;
                                 worksheetRM.Cells[5, 10] = lbcostNG.Text;
-                                worksheetRM.Cells[6, 10] = lbwire.Text;
-                                worksheetRM.Cells[7, 10] = lbplan.Text;
-                                worksheetRM.Cells[8, 10] = lbNG.Text;
-                                worksheetRM.Cells[9, 10] = lbMC.Text;
 
                             }
                             catch (Exception ex)
@@ -413,24 +402,6 @@ namespace MachineDeptApp
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["upby"].Value = row["UpdateBy"].ToString();
                     totalqty += Convert.ToDouble(row["Qty"]);
                     totalsubprice += subprice;
-                    if (row["StopInfo"].ToString() == "Change Wire")
-                    {
-                        wire += Convert.ToDouble(row["Qty"]);
-                    }
-                    else if (row["StopInfo"].ToString() == "Change Plan")
-                    {
-                        plan += Convert.ToDouble(row["Qty"]);
-                    }
-                    else if (row["StopInfo"].ToString() == "Machine Broken")
-                    {
-                        MC += Convert.ToDouble(row["Qty"]);
-                    }
-                    else
-                    {
-                        NG += Convert.ToDouble(row["Qty"]);
-                    }
-
-
                 }
                 foreach (DataRow row in dtsearch2.Rows)
                 {
@@ -453,10 +424,6 @@ namespace MachineDeptApp
                     ttlCostNG += costNG;
                     totalrm += ttlqty;
                 }
-                lbwire.Text = wire.ToString("N0");
-                lbplan.Text = plan.ToString("N0");
-                lbMC.Text = MC.ToString("N0");
-                lbNG.Text = NG.ToString("N0");
                 lbttlqty.Text = totalqty.ToString();
                 lbsubprice.Text = totalsubprice.ToString("N4");
                 lbcostNG.Text = ttlCostNG.ToString("N4");

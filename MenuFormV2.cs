@@ -21,6 +21,7 @@ using MachineDeptApp.SemiPress2;
 using MachineDeptApp.SparePartControll;
 using MachineDeptApp.TrackingPOS;
 using MachineDeptApp.TransferData;
+using Microsoft.VisualBasic;
 using PP_Dept_App._4FinalPlan;
 using System;
 using System.Data;
@@ -491,6 +492,30 @@ namespace MachineDeptApp
                     Nif.Show();
                     tabControlOpenForm.TabPages.Add("Master List");
                     dtOpenForm.Rows.Add("RegisterMasterNGType", "Master List");
+                }
+                
+            }
+            if (currentClkNode.Text == "Master Stop Information")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    MstStopInfo Nif = new MstStopInfo();
+                    Nif.MdiParent = MenuFormV2.ActiveForm;
+                    Nif.Show();
+                    tabControlOpenForm.TabPages.Add("Master Stop Information");
+                    dtOpenForm.Rows.Add("MstStopInfo", "Master Stop Information");
                 }
                 
             }
@@ -2607,6 +2632,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "Master RM Uncountable", "UncountableRMMasterForm");
             dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "RM Connector Master", "RMConnectorMasterForm");
             dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "អ្នកទទួលបន្ទុករាប់ស្តុក SD", "SDMstPic");
+            dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "Master Stop Information", "MstStopInfo");
 
             foreach (DataRow row1 in dtChildRoot.Rows) 
             {
@@ -2714,7 +2740,12 @@ namespace MachineDeptApp
                         {
                             treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes[i].Remove();
                         }
+                        if (i == 8)
+                        {
+                            treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes[i].Remove();
+                        }
                     }
+                    treeViewMenu.Nodes[3].Nodes[0].Remove();
                 }
 
                 //Remove Adjust function

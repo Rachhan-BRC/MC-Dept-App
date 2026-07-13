@@ -30,6 +30,49 @@ namespace MachineDeptApp
             this.picsearch.Click += BtnSearchAdd_Click;
             this.dgvData.CellClick += DgvData_CellClick;
             this.tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
+            this.txtid.KeyDown += Txtid_KeyDown;
+        }
+
+        private void Txtid_KeyDown(object sender, KeyEventArgs e)
+        {
+           if (e.KeyCode == Keys.Enter)
+            {
+                Cursor = Cursors.WaitCursor;
+                con.con.Open();
+                if (txtid.Text.Trim() != "")
+                {
+                    DataTable dtname = new DataTable();
+                    string query = "SELECT Staff_No, Khmer_Name, Department FROM [TD_Database].[dbo].Employee_List  WHERE (Staff_No = 'MKH-" + txtid.Text.Trim().ToUpper().Replace("MKH", "")+"' OR Card_ID = '"+txtid.Text.Trim()+"')";
+
+                    Console.WriteLine(query);
+                    SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
+                    sda.Fill(dtname);
+                    if (dtname.Rows.Count > 0)
+                    {
+                        string dept = dtname.Rows[0]["Department"].ToString();
+                        if ( dept == "Machine")
+                        {
+                            txtid.Text = dtname.Rows[0]["Staff_No"].ToString();
+                            txtname.Text = dtname.Rows[0]["Khmer_Name"].ToString();
+                            cbposition.Focus();
+                            cbposition.DroppedDown = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("This ID card is not in this department !", "Please check with GA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtid.Focus();
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("This ID card not found !", "Please check with GA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtid.Focus();
+                    }
+                }
+                con.con.Close();
+                Cursor = Cursors.Default;
+            }
         }
 
         private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -51,7 +94,7 @@ namespace MachineDeptApp
 
         private void DgvData_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.ColumnIndex == 7)
+            if (e.RowIndex >= 0 && dgvData.Columns[e.ColumnIndex].Name == "delete")
             {
                 dgvData.ClearSelection();
                 DialogResult ask =  MessageBox.Show("Are you sure you want to delete this?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -122,7 +165,7 @@ namespace MachineDeptApp
                                 string queryadd = "INSERT INTO tbNGTypeMst (Name, Type, RegDate, RegBy, UpdateDate, UpdateBy, Funct) VALUES (@Name, @Type, @RegDate, @RegBy, @UpdateDate, @UpdateBy, @Funct)";
                                 SqlCommand cmd = new SqlCommand(queryadd, con.con);
                                 cmd.Parameters.AddWithValue("@Name", txttype.Text.Trim());
-                                cmd.Parameters.AddWithValue("@Type", cbfunct.Text.Trim());
+                                cmd.Parameters.AddWithValue("@Type", "NG");
                                 cmd.Parameters.AddWithValue("@RegDate", DateTime.Now);
                                 cmd.Parameters.AddWithValue("@RegBy", MenuFormV2.UserForNextForm);
                                 cmd.Parameters.AddWithValue("@UpdateDate", DateTime.Now);
@@ -141,7 +184,11 @@ namespace MachineDeptApp
                             }
                             con.con.Close();
                             search();
-                            dgvData.Rows[dgvData.Rows.Count - 1].Cells["sysno"].Selected = true;
+                            if (dgvData.Rows.Count > 0)
+                            {
+                                dgvData.Rows[dgvData.Rows.Count - 1].Cells["sysno"].Selected = true;
+                            }
+                            
                             dgvData.ClearSelection();
                         }
                     }
@@ -150,9 +197,9 @@ namespace MachineDeptApp
                         MessageBox.Show("Please fill in all required fields.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
-              else
+                else if (tabControl.SelectedTab == tabPage2)
                 {
-                    if (txtname.Text.Trim() != "" && cbposition.Text.Trim() != "")
+                    if (txtname.Text.Trim() != "" && cbposition.Text.Trim() != "" && txtid.Text.Trim() !="")
                     {
                         DialogResult ask = MessageBox.Show("Are you sure you want to add this?", "Confirm Add", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (ask == DialogResult.Yes)
@@ -161,9 +208,10 @@ namespace MachineDeptApp
                             {
                                 int cb = 3;
                                 con.con.Open();
-                                string queryadd = "INSERT INTO tbNGTypeMst (Name, Type, RegDate, RegBy, UpdateDate, UpdateBy, Funct) VALUES (@Name, @Type, @RegDate, @RegBy, @UpdateDate, @UpdateBy, @Funct)";
+                                string queryadd = "INSERT INTO tbNGTypeMst (Name, ID, Type, RegDate, RegBy, UpdateDate, UpdateBy, Funct) VALUES (@Name, @id, @Type, @RegDate, @RegBy, @UpdateDate, @UpdateBy, @Funct)";
                                 SqlCommand cmd = new SqlCommand(queryadd, con.con);
                                 cmd.Parameters.AddWithValue("@Name", txtname.Text.Trim());
+                                cmd.Parameters.AddWithValue("@id", txtid.Text.Trim());
                                 cmd.Parameters.AddWithValue("@Type", cbposition.Text.Trim());
                                 cmd.Parameters.AddWithValue("@RegDate", DateTime.Now);
                                 cmd.Parameters.AddWithValue("@RegBy", MenuFormV2.UserForNextForm);
@@ -173,6 +221,7 @@ namespace MachineDeptApp
                                 cmd.ExecuteNonQuery();
                                 MessageBox.Show("Row added successfully.", "Add Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 txtname.Text = "";
+                                txtid.Text = "";
                                 cbposition.SelectedIndex = 0;
                                 txtname.Focus();
 
@@ -192,6 +241,7 @@ namespace MachineDeptApp
                         MessageBox.Show("Please fill in all required fields.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
+                
             }
             else
             {
@@ -222,6 +272,10 @@ namespace MachineDeptApp
         private void search()
         {
             dgvData.Rows.Clear();
+            if (dgvData.Columns[2].Name == "id")
+            {
+                dgvData.Columns.RemoveAt(2);
+            }
             con.con.Open();
             string where = "";
             DataTable dtcond = new DataTable();
@@ -249,26 +303,65 @@ namespace MachineDeptApp
             string querysearch = "'";
             if (tabControl.SelectedTab == tabPage2)
             {
-                 querysearch = "SELECT * FROM tbNGTypeMst WHERE Funct = 3" + where;
+                querysearch = "SELECT * FROM tbNGTypeMst WHERE Funct = 3" + where;
+                SqlDataAdapter sda = new SqlDataAdapter(querysearch, con.con);
+                sda.Fill(dtsearch);
+                dgvData.Columns.Insert(2, new DataGridViewTextBoxColumn()
+                {
+                    Name = "id",
+                    HeaderText = "ID",
+                    DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter }
+                });
+                Console.WriteLine(dgvData.Columns[2].Name.ToString());
+                foreach (DataRow row in dtsearch.Rows)
+                {
+                    dgvData.Rows.Add();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["sysno"].Value = row["SysNo"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["type"].Value = row["Name"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["id"].Value = row["ID"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["funct"].Value = row["Type"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["regdate"].Value = row["RegDate"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["regby"].Value = row["RegBy"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["update"].Value = row["UpdateDate"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["upby"].Value = row["UpdateBy"].ToString();
+                }
+            }
+            else if (tabControl.SelectedTab == tabPage1)
+            {
+                querysearch = "SELECT * FROM tbNGTypeMst WHERE Funct = 1 AND Type = 'NG'" + where;
+                SqlDataAdapter sda = new SqlDataAdapter(querysearch, con.con);
+                sda.Fill(dtsearch);
+                foreach (DataRow row in dtsearch.Rows)
+                {
+                    dgvData.Rows.Add();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["sysno"].Value = row["SysNo"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["type"].Value = row["Name"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["funct"].Value = row["Type"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["regdate"].Value = row["RegDate"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["regby"].Value = row["RegBy"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["update"].Value = row["UpdateDate"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["upby"].Value = row["UpdateBy"].ToString();
+                }
             }
             else
             {
-                querysearch = "SELECT * FROM tbNGTypeMst WHERE Funct <> 3" + where;
+                querysearch = "SELECT * FROM tbNGTypeMst WHERE Funct = 4" + where;
+                SqlDataAdapter sda = new SqlDataAdapter(querysearch, con.con);
+                sda.Fill(dtsearch);
+                foreach (DataRow row in dtsearch.Rows)
+                {
+                    dgvData.Rows.Add();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["sysno"].Value = row["SysNo"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["type"].Value = row["Name"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["funct"].Value = row["Type"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["regdate"].Value = row["RegDate"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["regby"].Value = row["RegBy"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["update"].Value = row["UpdateDate"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["upby"].Value = row["UpdateBy"].ToString();
+                }
             }
-            SqlDataAdapter sda = new SqlDataAdapter(querysearch, con.con);
-            sda.Fill(dtsearch);
 
-            foreach (DataRow row in dtsearch.Rows)
-            {
-                dgvData.Rows.Add();
-                dgvData.Rows[dgvData.Rows.Count - 1].Cells["sysno"].Value = row["SysNo"].ToString();
-                dgvData.Rows[dgvData.Rows.Count - 1].Cells["type"].Value = row["Name"].ToString();
-                dgvData.Rows[dgvData.Rows.Count - 1].Cells["funct"].Value = row["Type"].ToString();
-                dgvData.Rows[dgvData.Rows.Count - 1].Cells["regdate"].Value = row["RegDate"].ToString();
-                dgvData.Rows[dgvData.Rows.Count - 1].Cells["regby"].Value = row["RegBy"].ToString();
-                dgvData.Rows[dgvData.Rows.Count - 1].Cells["update"].Value = row["UpdateDate"].ToString();
-                dgvData.Rows[dgvData.Rows.Count - 1].Cells["upby"].Value = row["UpdateBy"].ToString();
-            }
+          
 
             con.con.Close();
             dgvData.ClearSelection();

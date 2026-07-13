@@ -451,3 +451,4 @@ D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.EditDe
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.InsertDefectOutFlow.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.RegisterMasterNGType.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.ReportNGList.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MstStopInfo.resources
