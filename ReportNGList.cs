@@ -273,11 +273,12 @@ namespace MachineDeptApp
                                     worksheetRM.Cells[startrow + i, 1] = dgvCost.Rows[i].Cells["posc2"].Value.ToString();
                                     worksheetRM.Cells[startrow + i, 2] = dgvCost.Rows[i].Cells["itemcode2"].Value.ToString();
                                     worksheetRM.Cells[startrow + i, 3] = dgvCost.Rows[i].Cells["rmcode2"].Value.ToString();
-                                    worksheetRM.Cells[startrow + i, 4] = dgvCost.Rows[i].Cells["type2"].Value.ToString();
-                                    worksheetRM.Cells[startrow + i, 5] = dgvCost.Rows[i].Cells["stopinfo2"].Value.ToString();
-                                    worksheetRM.Cells[startrow + i, 6] = dgvCost.Rows[i].Cells["qty2"].Value.ToString();
-                                    worksheetRM.Cells[startrow + i, 7] = dgvCost.Rows[i].Cells["price2"].Value.ToString();
-                                    worksheetRM.Cells[startrow + i, 8] = dgvCost.Rows[i].Cells["pic2"].Value.ToString();
+                                    worksheetRM.Cells[startrow + i, 4] = dgvCost.Rows[i].Cells["rmname2"].Value.ToString();
+                                    worksheetRM.Cells[startrow + i, 5] = dgvCost.Rows[i].Cells["type2"].Value.ToString();
+                                    worksheetRM.Cells[startrow + i, 6] = dgvCost.Rows[i].Cells["stopinfo2"].Value.ToString();
+                                    worksheetRM.Cells[startrow + i, 7] = dgvCost.Rows[i].Cells["qty2"].Value.ToString();
+                                    worksheetRM.Cells[startrow + i, 8] = dgvCost.Rows[i].Cells["price2"].Value.ToString();
+                                    worksheetRM.Cells[startrow + i, 9] = dgvCost.Rows[i].Cells["pic2"].Value.ToString();
 
                                 }
                                 string date = "Date : All ~ " + DateTime.Now.ToString("dd-MMMM-yyyy");
@@ -285,11 +286,11 @@ namespace MachineDeptApp
                                 {
                                     date = "Date : " + dtpfrom.Value.ToString("dd-MMMM-yyyy") + " ~ " + dtpto.Value.ToString("dd-MMMM-yyyy");
                                 }
-                                worksheetRM.Cells[2, 11] = date;
-                                worksheetRM.Cells[2, 10] = lbttlqty.Text;
-                                worksheetRM.Cells[3, 10] = lbRMqty.Text;
-                                worksheetRM.Cells[4, 10] = lbsubprice.Text;
-                                worksheetRM.Cells[5, 10] = lbcostNG.Text;
+                                worksheetRM.Cells[2, 12] = date;
+                                worksheetRM.Cells[2, 11] = lbttlqty.Text;
+                                worksheetRM.Cells[3, 11] = lbRMqty.Text;
+                                worksheetRM.Cells[4, 11] = lbsubprice.Text;
+                                worksheetRM.Cells[5, 11] = lbcostNG.Text;
 
                             }
                             catch (Exception ex)
@@ -381,18 +382,37 @@ namespace MachineDeptApp
                                                 LEFT JOIN 
                                                 (SELECT UpItemCode, LowItemCode, LowQty FROM MstBOM )tbBom ON tbNG.ItemCode = tbBom.UpItemCode
                                                 LEFT JOIN 
-                                                (SELECT RMCode, UnitPrice FROM [RawMaterialWHDB].[dbo].[tbMstUnitPrice]) tbP ON tbBom.LowItemCode = tbP.RMCode
+                                                (SELECT RMCode, RMName, UnitPrice FROM [RawMaterialWHDB].[dbo].[tbMstUnitPrice]) tbP ON tbBom.LowItemCode = tbP.RMCode
                                                 WHERE tbNG.ItemCode = '" + code + "' ";
                     SqlDataAdapter sda2 = new SqlDataAdapter(query2, con.con);
                     sda2.Fill(dtsearch2);
                     double qty = Convert.ToDouble(row["Qty"]), price = Convert.ToDouble(row["Resv4"]);
                     double subprice = qty * price;
+                    string stopinfo = row["StopInfo"].ToString();
+                    string cellValue = stopinfo;
+                    // split into lines
+                    string[] parts = cellValue.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                    // Khmer (first line)
+                    string khmer = parts.Length > 0 ? parts[0] : string.Empty;
+                    // Name/English (second line)
+                    string name = parts.Length > 1 ? parts[1] : string.Empty;
+                    if (stopinfo != "")
+                    {
+                        stopinfo = name + " ( " + khmer + " )";
+                    }
+                    string type = row["Type"].ToString();
+                    string text = type;
+
+                    string part1 = text.Split(' ')[0];
+
+                    string part2 = string.Join(" ", text.Split(' ').Skip(1));
+                    type = part2 + " ( " + part1 + " )";
                     dgvList.Rows.Add();
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["sysno"].Value = row["SysNo"].ToString();
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["posc"].Value = row["POSC"].ToString();
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["code"].Value = row["ItemCode"].ToString();
-                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["stopinfo"].Value = row["StopInfo"].ToString();
-                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["type"].Value = row["Type"].ToString();
+                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["stopinfo"].Value = stopinfo;
+                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["type"].Value = type;
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["qty"].Value = Convert.ToDouble(row["Qty"]);
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["price"].Value = subprice;
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["pic"].Value = row["PIC"].ToString();
@@ -408,12 +428,32 @@ namespace MachineDeptApp
                     double lowqty = Convert.ToDouble(row["LowQty"]), price = Convert.ToDouble(row["UnitPrice"]), qty = Convert.ToDouble(row["Qty"]);
                     double ttlqty = lowqty * qty;
                     double costNG = ttlqty * price;
+                    string stopinfo = row["StopInfo"].ToString();
+                    string cellValue = stopinfo;
+                    // split into lines
+                    string[] parts = cellValue.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                    // Khmer (first line)
+                    string khmer = parts.Length > 0 ? parts[0] : string.Empty;
+                    // Name/English (second line)
+                    string name = parts.Length > 1 ? parts[1] : string.Empty;
+                    if (stopinfo != "")
+                    {
+                        stopinfo = name + " ( " + khmer + " )";
+                    }
+                    string type = row["Type"].ToString();
+                    string text = type;
+
+                    string part1 = text.Split(' ')[0];
+
+                    string part2 = string.Join(" ", text.Split(' ').Skip(1));
+                    type = part2 + " ( " + part1 + " )";
                     dgvCost.Rows.Add();
                     dgvCost.Rows[dgvCost.Rows.Count - 1].Cells["posc2"].Value = row["POSC"].ToString();
                     dgvCost.Rows[dgvCost.Rows.Count - 1].Cells["itemcode2"].Value = row["ItemCode"].ToString();
                     dgvCost.Rows[dgvCost.Rows.Count - 1].Cells["rmcode2"].Value = row["RMCode"].ToString();
-                    dgvCost.Rows[dgvCost.Rows.Count - 1].Cells["stopinfo2"].Value = row["StopInfo"].ToString();
-                    dgvCost.Rows[dgvCost.Rows.Count - 1].Cells["type2"].Value = row["Type"].ToString();
+                    dgvCost.Rows[dgvCost.Rows.Count - 1].Cells["rmname2"].Value = row["RMName"].ToString();
+                    dgvCost.Rows[dgvCost.Rows.Count - 1].Cells["stopinfo2"].Value = stopinfo;
+                    dgvCost.Rows[dgvCost.Rows.Count - 1].Cells["type2"].Value = type;
                     dgvCost.Rows[dgvCost.Rows.Count - 1].Cells["qty2"].Value = ttlqty;
                     dgvCost.Rows[dgvCost.Rows.Count - 1].Cells["price2"].Value = costNG;
                     dgvCost.Rows[dgvCost.Rows.Count - 1].Cells["pic2"].Value = row["PIC"].ToString();

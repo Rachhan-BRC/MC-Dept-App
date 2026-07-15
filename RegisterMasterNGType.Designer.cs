@@ -38,6 +38,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel2 = new System.Windows.Forms.Panel();
             this.picsearch = new System.Windows.Forms.PictureBox();
             this.btnSearchAdd = new System.Windows.Forms.Button();
@@ -66,7 +67,12 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dgvData = new System.Windows.Forms.DataGridView();
+            this.txtkhmer = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.nfc = new System.Windows.Forms.Label();
             this.sysno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Khmer = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.funct = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.regby = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -168,10 +174,13 @@
             // gp1
             // 
             this.gp1.Controls.Add(this.cbfunct);
+            this.gp1.Controls.Add(this.label12);
             this.gp1.Controls.Add(this.label2);
+            this.gp1.Controls.Add(this.label11);
             this.gp1.Controls.Add(this.label4);
             this.gp1.Controls.Add(this.label5);
             this.gp1.Controls.Add(this.label3);
+            this.gp1.Controls.Add(this.txtkhmer);
             this.gp1.Controls.Add(this.txttype);
             this.gp1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gp1.Location = new System.Drawing.Point(3, 3);
@@ -190,7 +199,7 @@
             "",
             "NG Inprocess",
             "NG OutFlow"});
-            this.cbfunct.Location = new System.Drawing.Point(128, 92);
+            this.cbfunct.Location = new System.Drawing.Point(559, 69);
             this.cbfunct.Name = "cbfunct";
             this.cbfunct.Size = new System.Drawing.Size(142, 42);
             this.cbfunct.TabIndex = 2;
@@ -201,25 +210,25 @@
             this.label2.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(63, 32);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(45, 24);
+            this.label2.Size = new System.Drawing.Size(101, 24);
             this.label2.TabIndex = 1;
-            this.label2.Text = "ប្រភេទ";
+            this.label2.Text = "ប្រភេទ (Khmer)";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Khmer OS Bokor", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(63, 49);
+            this.label4.Location = new System.Drawing.Point(68, 49);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(43, 29);
+            this.label4.Size = new System.Drawing.Size(85, 29);
             this.label4.TabIndex = 1;
-            this.label4.Text = "Type";
+            this.label4.Text = "Type Khmer";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(59, 110);
+            this.label5.Location = new System.Drawing.Point(490, 87);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(63, 24);
             this.label5.TabIndex = 1;
@@ -229,7 +238,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(64, 92);
+            this.label3.Location = new System.Drawing.Point(495, 69);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(45, 24);
             this.label3.TabIndex = 1;
@@ -238,7 +247,7 @@
             // txttype
             // 
             this.txttype.Font = new System.Drawing.Font("Kh Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txttype.Location = new System.Drawing.Point(128, 32);
+            this.txttype.Location = new System.Drawing.Point(184, 87);
             this.txttype.Name = "txttype";
             this.txttype.Size = new System.Drawing.Size(296, 43);
             this.txttype.TabIndex = 0;
@@ -257,6 +266,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.nfc);
             this.groupBox3.Controls.Add(this.cbposition);
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.label6);
@@ -397,6 +407,7 @@
             this.dgvData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.sysno,
+            this.Khmer,
             this.type,
             this.funct,
             this.regby,
@@ -413,6 +424,45 @@
             this.dgvData.Size = new System.Drawing.Size(1060, 381);
             this.dgvData.TabIndex = 19;
             // 
+            // txtkhmer
+            // 
+            this.txtkhmer.Font = new System.Drawing.Font("Kh Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtkhmer.Location = new System.Drawing.Point(184, 32);
+            this.txtkhmer.Name = "txtkhmer";
+            this.txtkhmer.Size = new System.Drawing.Size(296, 43);
+            this.txtkhmer.TabIndex = 0;
+            this.txtkhmer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Khmer OS Bokor", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(67, 103);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(88, 29);
+            this.label11.TabIndex = 1;
+            this.label11.Text = "Type English";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(61, 89);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(107, 24);
+            this.label12.TabIndex = 1;
+            this.label12.Text = "ប្រភេទ (English)";
+            // 
+            // nfc
+            // 
+            this.nfc.AutoSize = true;
+            this.nfc.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nfc.Location = new System.Drawing.Point(529, 62);
+            this.nfc.Name = "nfc";
+            this.nfc.Size = new System.Drawing.Size(0, 24);
+            this.nfc.TabIndex = 3;
+            this.nfc.Visible = false;
+            // 
             // sysno
             // 
             this.sysno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -421,20 +471,31 @@
             this.sysno.ReadOnly = true;
             this.sysno.Visible = false;
             // 
+            // Khmer
+            // 
+            this.Khmer.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Khmer.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Khmer.HeaderText = "Type (Khmer)";
+            this.Khmer.Name = "Khmer";
+            this.Khmer.ReadOnly = true;
+            this.Khmer.Width = 130;
+            // 
             // type
             // 
             this.type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.type.DefaultCellStyle = dataGridViewCellStyle3;
-            this.type.HeaderText = "Type";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.type.DefaultCellStyle = dataGridViewCellStyle4;
+            this.type.HeaderText = "Type (English)";
             this.type.Name = "type";
             this.type.ReadOnly = true;
+            this.type.Width = 130;
             // 
             // funct
             // 
             this.funct.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.funct.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.funct.DefaultCellStyle = dataGridViewCellStyle5;
             this.funct.HeaderText = "Function";
             this.funct.Name = "funct";
             this.funct.ReadOnly = true;
@@ -442,8 +503,8 @@
             // regby
             // 
             this.regby.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.regby.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.regby.DefaultCellStyle = dataGridViewCellStyle6;
             this.regby.HeaderText = "Register By";
             this.regby.Name = "regby";
             this.regby.ReadOnly = true;
@@ -452,9 +513,9 @@
             // regdate
             // 
             this.regdate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.Format = "dd-MM-yyyy hh:mm";
-            this.regdate.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.Format = "dd-MM-yyyy hh:mm";
+            this.regdate.DefaultCellStyle = dataGridViewCellStyle7;
             this.regdate.HeaderText = "Register Date";
             this.regdate.Name = "regdate";
             this.regdate.ReadOnly = true;
@@ -463,8 +524,8 @@
             // upby
             // 
             this.upby.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.upby.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.upby.DefaultCellStyle = dataGridViewCellStyle8;
             this.upby.HeaderText = "Update By";
             this.upby.Name = "upby";
             this.upby.ReadOnly = true;
@@ -473,9 +534,9 @@
             // update
             // 
             this.update.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.Format = "dd-MM-yyyy hh:mm";
-            this.update.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.Format = "dd-MM-yyyy hh:mm";
+            this.update.DefaultCellStyle = dataGridViewCellStyle9;
             this.update.HeaderText = "Update Date";
             this.update.Name = "update";
             this.update.ReadOnly = true;
@@ -546,7 +607,15 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView dgvData;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtid;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txtkhmer;
+        private System.Windows.Forms.Label nfc;
         private System.Windows.Forms.DataGridViewTextBoxColumn sysno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Khmer;
         private System.Windows.Forms.DataGridViewTextBoxColumn type;
         private System.Windows.Forms.DataGridViewTextBoxColumn funct;
         private System.Windows.Forms.DataGridViewTextBoxColumn regby;
@@ -554,8 +623,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn upby;
         private System.Windows.Forms.DataGridViewTextBoxColumn update;
         private System.Windows.Forms.DataGridViewImageColumn delete;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtid;
     }
 }

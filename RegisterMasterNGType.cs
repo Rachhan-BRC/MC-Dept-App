@@ -37,12 +37,13 @@ namespace MachineDeptApp
         {
            if (e.KeyCode == Keys.Enter)
             {
+                nfc.Text = "";
                 Cursor = Cursors.WaitCursor;
                 con.con.Open();
                 if (txtid.Text.Trim() != "")
                 {
                     DataTable dtname = new DataTable();
-                    string query = "SELECT Staff_No, Khmer_Name, Department FROM [TD_Database].[dbo].Employee_List  WHERE (Staff_No = 'MKH-" + txtid.Text.Trim().ToUpper().Replace("MKH", "")+"' OR Card_ID = '"+txtid.Text.Trim()+"')";
+                    string query = "SELECT Staff_No, Khmer_Name, Department, Card_ID FROM [TD_Database].[dbo].Employee_List  WHERE (Staff_No = 'MKH-" + txtid.Text.Trim().ToUpper().Replace("MKH", "")+"' OR Card_ID = '"+txtid.Text.Trim()+"')";
 
                     Console.WriteLine(query);
                     SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
@@ -54,6 +55,8 @@ namespace MachineDeptApp
                         {
                             txtid.Text = dtname.Rows[0]["Staff_No"].ToString();
                             txtname.Text = dtname.Rows[0]["Khmer_Name"].ToString();
+                            txtname.Text = dtname.Rows[0]["Khmer_Name"].ToString();
+                            nfc.Text= dtname.Rows[0]["Card_ID"].ToString();
                             cbposition.Focus();
                             cbposition.DroppedDown = true;
                         }
@@ -86,7 +89,8 @@ namespace MachineDeptApp
 
             else
             {
-                dgvData.Columns["type"].HeaderText = "Type";
+                dgvData.Columns["khmer"].HeaderText = "Type (Khmer)";
+                dgvData.Columns["type"].HeaderText = "Type (English)";
                 dgvData.Columns["funct"].HeaderText = "Function";
                 search();
             }
@@ -162,9 +166,10 @@ namespace MachineDeptApp
                                     cb = 2;
                                 }
                                 con.con.Open();
-                                string queryadd = "INSERT INTO tbNGTypeMst (Name, Type, RegDate, RegBy, UpdateDate, UpdateBy, Funct) VALUES (@Name, @Type, @RegDate, @RegBy, @UpdateDate, @UpdateBy, @Funct)";
+                                string queryadd = "INSERT INTO tbNGTypeMst (Name, Khmer, Type, RegDate, RegBy, UpdateDate, UpdateBy, Funct) VALUES (@Name, @Khmer, @Type, @RegDate, @RegBy, @UpdateDate, @UpdateBy, @Funct)";
                                 SqlCommand cmd = new SqlCommand(queryadd, con.con);
                                 cmd.Parameters.AddWithValue("@Name", txttype.Text.Trim());
+                                cmd.Parameters.AddWithValue("@Khmer", txtkhmer.Text.Trim());
                                 cmd.Parameters.AddWithValue("@Type", "NG");
                                 cmd.Parameters.AddWithValue("@RegDate", DateTime.Now);
                                 cmd.Parameters.AddWithValue("@RegBy", MenuFormV2.UserForNextForm);
@@ -174,6 +179,7 @@ namespace MachineDeptApp
                                 cmd.ExecuteNonQuery();
                                 MessageBox.Show("Row added successfully.", "Add Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 txttype.Text = "";
+                                txtkhmer.Text = "";
                                 cbfunct.SelectedIndex = 0;
                                 txttype.Focus();
 
@@ -206,25 +212,37 @@ namespace MachineDeptApp
                         {
                             try
                             {
-                                int cb = 3;
-                                con.con.Open();
-                                string queryadd = "INSERT INTO tbNGTypeMst (Name, ID, Type, RegDate, RegBy, UpdateDate, UpdateBy, Funct) VALUES (@Name, @id, @Type, @RegDate, @RegBy, @UpdateDate, @UpdateBy, @Funct)";
-                                SqlCommand cmd = new SqlCommand(queryadd, con.con);
-                                cmd.Parameters.AddWithValue("@Name", txtname.Text.Trim());
-                                cmd.Parameters.AddWithValue("@id", txtid.Text.Trim());
-                                cmd.Parameters.AddWithValue("@Type", cbposition.Text.Trim());
-                                cmd.Parameters.AddWithValue("@RegDate", DateTime.Now);
-                                cmd.Parameters.AddWithValue("@RegBy", MenuFormV2.UserForNextForm);
-                                cmd.Parameters.AddWithValue("@UpdateDate", DateTime.Now);
-                                cmd.Parameters.AddWithValue("@UpdateBy", MenuFormV2.UserForNextForm);
-                                cmd.Parameters.AddWithValue("@Funct", cb);
-                                cmd.ExecuteNonQuery();
-                                MessageBox.Show("Row added successfully.", "Add Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                txtname.Text = "";
-                                txtid.Text = "";
-                                cbposition.SelectedIndex = 0;
-                                txtname.Focus();
+                                DataTable dtcompare = new DataTable();
+                                string querycompare = "SELECT ID FROM tbNGTypeMst WHERE ID = '" + txtid.Text.Trim()+ "'";
+                                SqlDataAdapter sda = new SqlDataAdapter(querycompare, con.con);
+                                sda.Fill(dtcompare);
 
+                                if (dtcompare.Rows.Count > 0)
+                                {
+                                    MessageBox.Show("This ID already register ! Please check", "Please Check", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
+                                else
+                                {
+                                    int cb = 3;
+                                    con.con.Open();
+                                    string queryadd = "INSERT INTO tbNGTypeMst (Name, ID, NFC, Type, RegDate, RegBy, UpdateDate, UpdateBy, Funct) VALUES (@Name, @id, @nfc, @Type, @RegDate, @RegBy, @UpdateDate, @UpdateBy, @Funct)";
+                                    SqlCommand cmd = new SqlCommand(queryadd, con.con);
+                                    cmd.Parameters.AddWithValue("@Name", txtname.Text.Trim());
+                                    cmd.Parameters.AddWithValue("@id", txtid.Text.Trim());
+                                    cmd.Parameters.AddWithValue("@nfc", nfc.Text.Trim());
+                                    cmd.Parameters.AddWithValue("@Type", cbposition.Text.Trim());
+                                    cmd.Parameters.AddWithValue("@RegDate", DateTime.Now);
+                                    cmd.Parameters.AddWithValue("@RegBy", MenuFormV2.UserForNextForm);
+                                    cmd.Parameters.AddWithValue("@UpdateDate", DateTime.Now);
+                                    cmd.Parameters.AddWithValue("@UpdateBy", MenuFormV2.UserForNextForm);
+                                    cmd.Parameters.AddWithValue("@Funct", cb);
+                                    cmd.ExecuteNonQuery();
+                                    MessageBox.Show("Row added successfully.", "Add Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    txtname.Text = "";
+                                    txtid.Text = "";
+                                    cbposition.SelectedIndex = 0;
+                                    txtid.Focus();
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -272,10 +290,6 @@ namespace MachineDeptApp
         private void search()
         {
             dgvData.Rows.Clear();
-            if (dgvData.Columns[2].Name == "id")
-            {
-                dgvData.Columns.RemoveAt(2);
-            }
             con.con.Open();
             string where = "";
             DataTable dtcond = new DataTable();
@@ -306,19 +320,12 @@ namespace MachineDeptApp
                 querysearch = "SELECT * FROM tbNGTypeMst WHERE Funct = 3" + where;
                 SqlDataAdapter sda = new SqlDataAdapter(querysearch, con.con);
                 sda.Fill(dtsearch);
-                dgvData.Columns.Insert(2, new DataGridViewTextBoxColumn()
-                {
-                    Name = "id",
-                    HeaderText = "ID",
-                    DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter }
-                });
-                Console.WriteLine(dgvData.Columns[2].Name.ToString());
                 foreach (DataRow row in dtsearch.Rows)
                 {
                     dgvData.Rows.Add();
                     dgvData.Rows[dgvData.Rows.Count - 1].Cells["sysno"].Value = row["SysNo"].ToString();
                     dgvData.Rows[dgvData.Rows.Count - 1].Cells["type"].Value = row["Name"].ToString();
-                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["id"].Value = row["ID"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["khmer"].Value = row["ID"].ToString();
                     dgvData.Rows[dgvData.Rows.Count - 1].Cells["funct"].Value = row["Type"].ToString();
                     dgvData.Rows[dgvData.Rows.Count - 1].Cells["regdate"].Value = row["RegDate"].ToString();
                     dgvData.Rows[dgvData.Rows.Count - 1].Cells["regby"].Value = row["RegBy"].ToString();
@@ -336,6 +343,7 @@ namespace MachineDeptApp
                     dgvData.Rows.Add();
                     dgvData.Rows[dgvData.Rows.Count - 1].Cells["sysno"].Value = row["SysNo"].ToString();
                     dgvData.Rows[dgvData.Rows.Count - 1].Cells["type"].Value = row["Name"].ToString();
+                    dgvData.Rows[dgvData.Rows.Count - 1].Cells["khmer"].Value = row["Khmer"].ToString();
                     dgvData.Rows[dgvData.Rows.Count - 1].Cells["funct"].Value = row["Type"].ToString();
                     dgvData.Rows[dgvData.Rows.Count - 1].Cells["regdate"].Value = row["RegDate"].ToString();
                     dgvData.Rows[dgvData.Rows.Count - 1].Cells["regby"].Value = row["RegBy"].ToString();

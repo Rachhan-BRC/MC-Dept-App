@@ -601,9 +601,9 @@ namespace MachineDeptApp
             try
             {
                 con.con.Open();
-                string query = "SELECT FORMAT(Receive_Date, 'yyyy-MM') AS YearMonth, SUM(UnitPrice*ReceiveQTY) AS TotalAmount " +
-                    "FROM MCSparePartRequest WHERE Dept = '"+dept+"' " +
-                    "GROUP BY FORMAT(Receive_Date, 'yyyy-MM') ORDER BY YearMonth";
+                string query = "SELECT FORMAT(RegDate, 'yyyy-MM') AS YearMonth, SUM(Stock_Amount) AS TotalAmount " +
+                    "FROM SparePartTrans WHERE Dept = '" + dept+"' " +
+                    "GROUP BY FORMAT(RegDate, 'yyyy-MM') ORDER BY YearMonth";
                 Console.WriteLine(query);
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtReceive);
