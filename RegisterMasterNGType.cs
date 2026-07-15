@@ -82,6 +82,7 @@ namespace MachineDeptApp
         {
             if (tabControl.SelectedTab == tabPage2)
             {
+                dgvData.Columns["khmer"].HeaderText = "ID";
                 dgvData.Columns["type"].HeaderText = "Name";
                 dgvData.Columns["funct"].HeaderText = "Position";
                 search();

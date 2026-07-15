@@ -279,7 +279,6 @@ namespace MachineDeptApp
                                     worksheetRM.Cells[startrow + i, 7] = dgvCost.Rows[i].Cells["qty2"].Value.ToString();
                                     worksheetRM.Cells[startrow + i, 8] = dgvCost.Rows[i].Cells["price2"].Value.ToString();
                                     worksheetRM.Cells[startrow + i, 9] = dgvCost.Rows[i].Cells["pic2"].Value.ToString();
-
                                 }
                                 string date = "Date : All ~ " + DateTime.Now.ToString("dd-MMMM-yyyy");
                                 if (chkdate.Checked == true)
