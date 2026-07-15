@@ -84,7 +84,7 @@ namespace MachineDeptApp
         {
             if (btnSearchAdd.Text == "បន្ថែម / Add")
             {
-                if (txttype.Text.Trim() != "" && cbfunct.Text.Trim() != "")
+                if (txttype.Text.Trim() != "" && cbfunct.Text.Trim() != ""&& txtkhmer.Text.Trim() != "")
                 {
                     DialogResult ask = MessageBox.Show("Are you sure you want to add this?", "Confirm Add", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (ask == DialogResult.Yes)
@@ -101,9 +101,10 @@ namespace MachineDeptApp
                                 cb = 2;
                             }
                             con.con.Open();
-                            string queryadd = "INSERT INTO tbNGTypeMst (Name, Type, RegDate, RegBy, UpdateDate, UpdateBy, Funct) VALUES (@Name, @Type, @RegDate, @RegBy, @UpdateDate, @UpdateBy, @Funct)";
+                            string queryadd = "INSERT INTO tbNGTypeMst (Name, Khmer,Type, RegDate, RegBy, UpdateDate, UpdateBy, Funct) VALUES (@Name, @khmer, @Type, @RegDate, @RegBy, @UpdateDate, @UpdateBy, @Funct)";
                             SqlCommand cmd = new SqlCommand(queryadd, con.con);
                             cmd.Parameters.AddWithValue("@Name", txttype.Text.Trim());
+                            cmd.Parameters.AddWithValue("@khmer", txtkhmer.Text.Trim());
                             cmd.Parameters.AddWithValue("@Type", "Stop Info");
                             cmd.Parameters.AddWithValue("@RegDate", DateTime.Now);
                             cmd.Parameters.AddWithValue("@RegBy", MenuFormV2.UserForNextForm);
@@ -113,6 +114,7 @@ namespace MachineDeptApp
                             cmd.ExecuteNonQuery();
                             MessageBox.Show("Row added successfully.", "Add Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             txttype.Text = "";
+                            txtkhmer.Text = "";
                             cbfunct.SelectedIndex = 0;
                             txttype.Focus();
 
@@ -174,6 +176,10 @@ namespace MachineDeptApp
             {
                 dtcond.Rows.Add("Name Like '%" + txttype.Text.Trim() + "%'");
             }
+            if (txtkhmer.Text.Trim() != "")
+            {
+                dtcond.Rows.Add("Khmer Like N'%" + txtkhmer.Text.Trim() + "%'");
+            }
             if (cbfunct.Text.Trim() != "")
             {
                 dtcond.Rows.Add("Type Like '%" + cbfunct.Text.Trim() + "%'");
@@ -198,6 +204,7 @@ namespace MachineDeptApp
                 dgvData.Rows.Add();
                 dgvData.Rows[dgvData.Rows.Count - 1].Cells["sysno"].Value = row["SysNo"].ToString();
                 dgvData.Rows[dgvData.Rows.Count - 1].Cells["type"].Value = row["Name"].ToString();
+                dgvData.Rows[dgvData.Rows.Count - 1].Cells["khmer"].Value = row["Khmer"].ToString();
                 dgvData.Rows[dgvData.Rows.Count - 1].Cells["funct"].Value = row["Type"].ToString();
                 dgvData.Rows[dgvData.Rows.Count - 1].Cells["regdate"].Value = row["RegDate"].ToString();
                 dgvData.Rows[dgvData.Rows.Count - 1].Cells["regby"].Value = row["RegBy"].ToString();

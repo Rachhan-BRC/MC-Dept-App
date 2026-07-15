@@ -451,9 +451,7 @@ D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.EditDe
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MCReportTrackingResult.InsertDefectOutFlow.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.RegisterMasterNGType.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.ReportNGList.resources
-<<<<<<< HEAD
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MstStopInfo.resources
-=======
 G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.RegisterMasterNGType.resources
 G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.ReportNGList.resources
 >>>>>>> 106b10ecc73c8191f40d14587a481b934567f20d
