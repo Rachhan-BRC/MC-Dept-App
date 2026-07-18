@@ -48,13 +48,17 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.gp1 = new System.Windows.Forms.GroupBox();
             this.cbfunct = new System.Windows.Forms.ComboBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.txtkhmer = new System.Windows.Forms.TextBox();
             this.txttype = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.nfc = new System.Windows.Forms.Label();
             this.cbposition = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -67,10 +71,6 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dgvData = new System.Windows.Forms.DataGridView();
-            this.txtkhmer = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.nfc = new System.Windows.Forms.Label();
             this.sysno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Khmer = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.type = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -204,6 +204,16 @@
             this.cbfunct.Size = new System.Drawing.Size(142, 42);
             this.cbfunct.TabIndex = 2;
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(61, 89);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(107, 24);
+            this.label12.TabIndex = 1;
+            this.label12.Text = "ប្រភេទ (English)";
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -213,6 +223,16 @@
             this.label2.Size = new System.Drawing.Size(101, 24);
             this.label2.TabIndex = 1;
             this.label2.Text = "ប្រភេទ (Khmer)";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Khmer OS Bokor", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(67, 103);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(88, 29);
+            this.label11.TabIndex = 1;
+            this.label11.Text = "Type English";
             // 
             // label4
             // 
@@ -243,6 +263,15 @@
             this.label3.Size = new System.Drawing.Size(45, 24);
             this.label3.TabIndex = 1;
             this.label3.Text = "មុខងារ";
+            // 
+            // txtkhmer
+            // 
+            this.txtkhmer.Font = new System.Drawing.Font("Kh Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtkhmer.Location = new System.Drawing.Point(184, 32);
+            this.txtkhmer.Name = "txtkhmer";
+            this.txtkhmer.Size = new System.Drawing.Size(296, 43);
+            this.txtkhmer.TabIndex = 0;
+            this.txtkhmer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txttype
             // 
@@ -283,6 +312,16 @@
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Input Data";
+            // 
+            // nfc
+            // 
+            this.nfc.AutoSize = true;
+            this.nfc.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nfc.Location = new System.Drawing.Point(529, 62);
+            this.nfc.Name = "nfc";
+            this.nfc.Size = new System.Drawing.Size(0, 24);
+            this.nfc.TabIndex = 3;
+            this.nfc.Visible = false;
             // 
             // cbposition
             // 
@@ -394,6 +433,7 @@
             // 
             this.dgvData.AllowUserToAddRows = false;
             this.dgvData.AllowUserToDeleteRows = false;
+            this.dgvData.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.Lavender;
             this.dgvData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -423,45 +463,6 @@
             this.dgvData.RowHeadersVisible = false;
             this.dgvData.Size = new System.Drawing.Size(1060, 381);
             this.dgvData.TabIndex = 19;
-            // 
-            // txtkhmer
-            // 
-            this.txtkhmer.Font = new System.Drawing.Font("Kh Battambang", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtkhmer.Location = new System.Drawing.Point(184, 32);
-            this.txtkhmer.Name = "txtkhmer";
-            this.txtkhmer.Size = new System.Drawing.Size(296, 43);
-            this.txtkhmer.TabIndex = 0;
-            this.txtkhmer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Khmer OS Bokor", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(67, 103);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(88, 29);
-            this.label11.TabIndex = 1;
-            this.label11.Text = "Type English";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(61, 89);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(107, 24);
-            this.label12.TabIndex = 1;
-            this.label12.Text = "ប្រភេទ (English)";
-            // 
-            // nfc
-            // 
-            this.nfc.AutoSize = true;
-            this.nfc.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nfc.Location = new System.Drawing.Point(529, 62);
-            this.nfc.Name = "nfc";
-            this.nfc.Size = new System.Drawing.Size(0, 24);
-            this.nfc.TabIndex = 3;
-            this.nfc.Visible = false;
             // 
             // sysno
             // 

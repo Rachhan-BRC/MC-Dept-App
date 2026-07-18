@@ -55,7 +55,6 @@ namespace MachineDeptApp
                         {
                             txtid.Text = dtname.Rows[0]["Staff_No"].ToString();
                             txtname.Text = dtname.Rows[0]["Khmer_Name"].ToString();
-                            txtname.Text = dtname.Rows[0]["Khmer_Name"].ToString();
                             nfc.Text= dtname.Rows[0]["Card_ID"].ToString();
                             cbposition.Focus();
                             cbposition.DroppedDown = true;
@@ -149,7 +148,7 @@ namespace MachineDeptApp
             {
               if (tabControl.SelectedTab == tabPage1)
                 {
-                    if (txttype.Text.Trim() != "" && cbfunct.Text.Trim() != "")
+                    if (txttype.Text.Trim()!=""&&txtkhmer.Text.Trim() != "" && cbfunct.Text.Trim() != "")
                     {
                         DialogResult ask = MessageBox.Show("Are you sure you want to add this?", "Confirm Add", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (ask == DialogResult.Yes)
@@ -181,7 +180,7 @@ namespace MachineDeptApp
                                 txttype.Text = "";
                                 txtkhmer.Text = "";
                                 cbfunct.SelectedIndex = 0;
-                                txttype.Focus();
+                                txtkhmer.Focus();
 
                             }
                             catch (Exception ex)
@@ -292,31 +291,45 @@ namespace MachineDeptApp
             dgvData.Rows.Clear();
             con.con.Open();
             string where = "";
-            DataTable dtcond = new DataTable();
+           
             DataTable dtsearch = new DataTable();
-            dtcond.Columns.Add("Val");
-            if (txttype.Text.Trim() != "")
-            {
-                dtcond.Rows.Add("Name Like '%"+txttype.Text.Trim()+"%'");
-            }
-            if (cbfunct.Text.Trim() != "")
-            {
-                dtcond.Rows.Add("Type Like '%"+cbfunct.Text.Trim()+"%'");
-            }
-            foreach (DataRow row in dtcond.Rows)
-            {
-                if (where == "")
-                {
-                    where = " AND " +  row["Val"].ToString();
-                }
-                else
-                {
-                    where +=" AND " +  row["Val"].ToString();
-                }
-            }
             string querysearch = "'";
             if (tabControl.SelectedTab == tabPage2)
             {
+                DataTable dtcond = new DataTable();
+                dtcond.Columns.Add("Val");
+                if (txtid.Text.Trim() != "")
+                {
+                    dtcond.Rows.Add("ID Like '%" + txtid.Text.Trim() + "%'");
+                }
+                if (txtname.Text.Trim() != "")
+                {
+                    dtcond.Rows.Add("Name Like '%" + txtname.Text.Trim() + "%'");
+                }
+                if (cbfunct.Text.Trim() != "")
+                {
+                    int cb = 0;
+                    if (cbfunct.SelectedIndex == 1)
+                    {
+                        cb = 1;
+                    }
+                    else if (cbfunct.SelectedIndex == 2)
+                    {
+                        cb = 2;
+                    }
+                    dtcond.Rows.Add("Funct  = '" + cb + "'");
+                }
+                foreach (DataRow row in dtcond.Rows)
+                {
+                    if (where == "")
+                    {
+                        where = " AND " + row["Val"].ToString();
+                    }
+                    else
+                    {
+                        where += " AND " + row["Val"].ToString();
+                    }
+                }
                 querysearch = "SELECT * FROM tbNGTypeMst WHERE Funct = 3" + where;
                 SqlDataAdapter sda = new SqlDataAdapter(querysearch, con.con);
                 sda.Fill(dtsearch);
@@ -335,8 +348,43 @@ namespace MachineDeptApp
             }
             else if (tabControl.SelectedTab == tabPage1)
             {
-                querysearch = "SELECT * FROM tbNGTypeMst WHERE Funct = 1 AND Type = 'NG'" + where;
+                DataTable dtcond = new DataTable();
+                dtcond.Columns.Add("Val");
+                if (txtkhmer.Text.Trim() != "")
+                {
+                    dtcond.Rows.Add("Khmer Like N'%" + txtkhmer.Text.Trim() + "%'");
+                }
+                if (txttype.Text.Trim() != "")
+                {
+                    dtcond.Rows.Add("Name Like '%" + txttype.Text.Trim() + "%'");
+                }
+                if (cbfunct.Text.Trim() != "")
+                {
+                    int cb = 0;
+                    if (cbfunct.SelectedIndex == 1)
+                    {
+                        cb = 1;
+                    }
+                    else if (cbfunct.SelectedIndex == 2)
+                    {
+                        cb = 2;
+                    }
+                    dtcond.Rows.Add("Funct  = '" + cb + "'");
+                }
+                foreach (DataRow row in dtcond.Rows)
+                {
+                    if (where == "")
+                    {
+                        where = " AND " + row["Val"].ToString();
+                    }
+                    else
+                    {
+                        where += " AND " + row["Val"].ToString();
+                    }
+                }
+                querysearch = "SELECT * FROM tbNGTypeMst WHERE Type = 'NG'" + where;
                 SqlDataAdapter sda = new SqlDataAdapter(querysearch, con.con);
+                //Console.WriteLine(querysearch);
                 sda.Fill(dtsearch);
                 foreach (DataRow row in dtsearch.Rows)
                 {

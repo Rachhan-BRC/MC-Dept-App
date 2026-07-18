@@ -84,7 +84,7 @@ namespace MachineDeptApp
         {
             if (btnSearchAdd.Text == "បន្ថែម / Add")
             {
-                if (txttype.Text.Trim() != "" && cbfunct.Text.Trim() != ""&& txtkhmer.Text.Trim() != "")
+                if (txttype.Text.Trim()!="" && cbfunct.Text.Trim() != ""&& txtkhmer.Text.Trim() != "")
                 {
                     DialogResult ask = MessageBox.Show("Are you sure you want to add this?", "Confirm Add", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (ask == DialogResult.Yes)
@@ -182,7 +182,16 @@ namespace MachineDeptApp
             }
             if (cbfunct.Text.Trim() != "")
             {
-                dtcond.Rows.Add("Type Like '%" + cbfunct.Text.Trim() + "%'");
+                int cb = 0;
+                if (cbfunct.SelectedIndex == 1)
+                {
+                    cb = 1;
+                }
+                else if (cbfunct.SelectedIndex == 2)
+                {
+                    cb = 2;
+                }
+                dtcond.Rows.Add("Funct  = '" + cb + "'");
             }
             foreach (DataRow row in dtcond.Rows)
             {
