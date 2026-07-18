@@ -87,7 +87,6 @@ namespace MachineDeptApp
                 dgvData.Columns["funct"].HeaderText = "Position";
                 search();
             }
-
             else
             {
                 dgvData.Columns["khmer"].HeaderText = "Type (Khmer)";

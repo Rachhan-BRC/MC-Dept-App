@@ -151,6 +151,12 @@
     <Compile Include="Inventory\MC_SD\MCSDCountingForm.Designer.cs">
       <DependentUpon>MCSDCountingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="LabelSemiPrint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LabelSemiPrint.Designer.cs">
+      <DependentUpon>LabelSemiPrint.cs</DependentUpon>
+    </Compile>
     <Compile Include="MCReportTrackingResult\AddCustomerClaimForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -999,6 +1005,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\MC_SD\MCSDCountingForm.resx">
       <DependentUpon>MCSDCountingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LabelSemiPrint.resx">
+      <DependentUpon>LabelSemiPrint.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MCReportTrackingResult\AddCustomerClaimForm.resx">
       <DependentUpon>AddCustomerClaimForm.cs</DependentUpon>
