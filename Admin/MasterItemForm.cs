@@ -30,7 +30,30 @@ namespace MachineDeptApp.Admin
             this.dgvMCType.CellClick += DgvMCType_CellClick;
             this.DgvSlot.LostFocus += DgvSlot_LostFocus;
             this.DgvSlot.CellClick += DgvSlot_CellClick;
+            this.dgvStatus.LostFocus += DgvStatus_LostFocus;
+            this.dgvStatus.CellClick += DgvStatus_CellClick;
 
+        }
+
+        private void DgvStatus_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string cell = dgvStatus.Rows[e.RowIndex].Cells[0].Value?.ToString()??"";
+            if (!string.IsNullOrEmpty(cell))
+            {
+                dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[dgvSearchResult.CurrentCell.ColumnIndex].Value = dgvStatus.Rows[e.RowIndex].Cells[0].Value.ToString();
+
+            }
+            else
+            {
+                dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[dgvSearchResult.CurrentCell.ColumnIndex].Value = "";
+            }
+
+            dgvSearchResult.Focus();
+        }
+
+        private void DgvStatus_LostFocus(object sender, EventArgs e)
+        {
+            this.dgvStatus.SendToBack();
         }
 
         private void DgvSlot_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -75,7 +98,7 @@ namespace MachineDeptApp.Admin
             try
             {
                 cnn.con.Open();
-                if (e.ColumnIndex > dgvSearchResult.Columns.Count - 5 && e.ColumnIndex < dgvSearchResult.Columns.Count - 1)
+                if (e.ColumnIndex > dgvSearchResult.Columns.Count - 6 && e.ColumnIndex < dgvSearchResult.Columns.Count - 2)
                 {
                     //Update becuz it already have
                     if (dt.Rows.Count > 0)
@@ -101,7 +124,7 @@ namespace MachineDeptApp.Admin
                     {
                         if (dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
                         {
-                            cmd = new SqlCommand("INSERT INTO tbMasterItemPlan (ItemCode, MC" + (-5 + e.ColumnIndex + 1) + "Type) " +
+                            cmd = new SqlCommand("INSERT INTO tbMasterItemPlan (ItemCode, MC" + (-6 + e.ColumnIndex + 1) + "Type) " +
                                                                             "VALUES (@Ic, @McT)", cnn.con);
                             cmd.Parameters.AddWithValue("@Ic", ItemCode);
                             cmd.Parameters.AddWithValue("@McT", dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
@@ -109,7 +132,35 @@ namespace MachineDeptApp.Admin
                         }
                     }
                 }
-                else
+                else if (e.ColumnIndex == dgvSearchResult.Columns.Count - 1)
+                {
+                    if (dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+                    {
+                        DataTable dtstatus = new DataTable();
+                        string wipcode = dgvSearchResult.Rows[e.RowIndex].Cells[0].Value.ToString();
+                        string query = "SELECT * FROM tbMasterItemStatus WHERE WipCode = '" + wipcode + "'";
+                        SqlDataAdapter sda = new SqlDataAdapter(query, cnn.con);
+                        sda.Fill(dtstatus);
+
+                        if (dtstatus.Rows.Count > 0)
+                        {
+                            string queryupdate = "UPDATE tbMasterItemStatus SET Status = @status WHERE WipCode = @wipcode";
+                            SqlCommand cmd = new SqlCommand(queryupdate, cnn.con);
+                            cmd.Parameters.AddWithValue("@status", dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString()??"");
+                            cmd.Parameters.AddWithValue("@wipcode",wipcode);
+                            cmd.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            string queryinsert = "INSERT INTO tbMasterItemStatus (Status, WipCode) VALUES (@status, @wipcode)";
+                            SqlCommand cmd = new SqlCommand(queryinsert, cnn.con);
+                            cmd.Parameters.AddWithValue("@status", dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                            cmd.Parameters.AddWithValue("@wipcode", wipcode);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+                else if (e.ColumnIndex == dgvStatus.Columns.Count - 2)
                 {
                     //Update becuz it already have
                     if (dt.Rows.Count > 0)
@@ -206,7 +257,7 @@ namespace MachineDeptApp.Admin
                     dgvMCType.BringToFront();
                     dgvMCType.Focus();
                 }
-                if (e.ColumnIndex == dgvSearchResult.Columns.Count - 1)
+                if (e.ColumnIndex == dgvSearchResult.Columns.Count - 2)
                 {
                     DgvSlot.CurrentCell = DgvSlot.Rows[0].Cells[0];
                     DgvSlot.ClearSelection();
@@ -228,6 +279,29 @@ namespace MachineDeptApp.Admin
                     DgvSlot.Location = new Point(X, Y);
                     DgvSlot.BringToFront();
                     DgvSlot.Focus();
+                }
+                if (e.ColumnIndex == dgvSearchResult.Columns.Count - 1)
+                {
+                    dgvStatus.CurrentCell = dgvStatus.Rows[0].Cells[0];
+                    dgvStatus.ClearSelection();
+                    if (dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[e.ColumnIndex].Value != null)
+                    {
+                        foreach (DataGridViewRow dgvRow in dgvStatus.Rows)
+                        {
+                            if (dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[e.ColumnIndex].Value.ToString() == (dgvRow.Cells[0].Value?.ToString() ?? ""))
+                            {
+                                dgvStatus.CurrentCell = dgvRow.Cells[0];
+                                dgvRow.Cells[0].Selected = true;
+                            }
+                        }
+                    }
+
+                    Rectangle oRectangle = dgvSearchResult.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                    int X = oRectangle.X + 1;
+                    int Y = oRectangle.Y + 85;
+                    dgvStatus.Location = new Point(X, Y);
+                    dgvStatus.BringToFront();
+                    dgvStatus.Focus();
                 }
             }
             
@@ -254,8 +328,13 @@ namespace MachineDeptApp.Admin
                 {
                     DgvSlot.Rows.Add(row[0]);
                 }
-
-
+                dgvStatus.Rows.Add();
+                dgvStatus.Rows.Add();
+                dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "EOL";
+                dgvStatus.Rows.Add();
+                dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "ACTIVE";
+                dgvStatus.Rows.Add();
+                dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "EVENT";
 
             }
             catch(Exception ex)
@@ -276,11 +355,15 @@ namespace MachineDeptApp.Admin
             DataTable dtSQLCond = new DataTable();
             dtSQLCond.Columns.Add("Col'");
             dtSQLCond.Columns.Add("Val'");
-
+            string state = "";
             dtSQLCond.Rows.Add("LEN(ItemCode) > ", "4 ");
             if (txtWIPName.Text.Trim() != "")
             {
                 dtSQLCond.Rows.Add("ItemName LIKE '%"+txtWIPName.Text+"%' ");
+            }
+            if (cbstatus.Text.Trim() != "")
+            {
+                state = " WHERE Status = '"+cbstatus.Text+"'";
             }
 
             string SQLCond = "";
@@ -289,7 +372,6 @@ namespace MachineDeptApp.Admin
                 if (SQLCond.Trim() == "")
                 {
                     SQLCond = "WHERE " + row[0] + row[1];
-
                 }
                 else
                 {
@@ -297,20 +379,25 @@ namespace MachineDeptApp.Admin
 
                 }
             }
-
             try
             {
                 cnn.con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT T1.ItemCode, ItemName,Remarks1, Remarks2, Remarks3, COALESCE(MC1Type,'') AS MC1Type, COALESCE(MC2Type,'') AS MC2Type, COALESCE(MC3Type,'') AS MC3Type, COALESCE(Slot,'') AS Slot  FROM " +
-                                                                            "(SELECT ItemCode, ItemName, Remarks1, Remarks2, Remarks3 FROM tbMasterItem "+SQLCond+") T1 "+
-                                                                            "LEFT JOIN "+
+                string query = @"SELECT T1.ItemCode, ItemName,Remarks1, Remarks2, Remarks3, COALESCE(MC1Type,'') AS MC1Type, COALESCE(MC2Type,'') AS MC2Type, COALESCE(MC3Type,'') AS MC3Type, COALESCE(Slot,'') AS Slot, T3.Status  FROM " +
+                                                                            "(SELECT ItemCode, ItemName, Remarks1, Remarks2, Remarks3 FROM tbMasterItem " + SQLCond + ") T1 " +
+                                                                            "LEFT JOIN " +
                                                                             "(SELECT ItemCode, MC1Type, MC2Type, MC3Type, Slot FROM tbMasterItemPlan) T2 " +
-                                                                            "ON T1.ItemCode = T2.ItemCode ORDER BY T1.ItemCode ASC", cnn.con);
+                                                                            "ON T1.ItemCode = T2.ItemCode " +
+                                                                            "LEFT JOIN " +
+                                                                            "(SELECT WipCode, Status FROM tbMasterItemStatus "+state+") T3 " +
+                                                                            "ON T1.ItemCode = T3.WipCode " +
+                                                                            "ORDER BY T1.ItemCode ASC";
+                SqlDataAdapter sda = new SqlDataAdapter(query, cnn.con);
+                Console.WriteLine(query);
                 DataTable dt = new DataTable();
                 sda.Fill(dt);
                 foreach (DataRow row in dt.Rows)
                 {
-                    dgvSearchResult.Rows.Add(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]);
+                    dgvSearchResult.Rows.Add(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]);
                 }
                 dgvSearchResult.ClearSelection();
                 LbStatus.Text = "រកឃើញទិន្នន័យចំនួន " + dgvSearchResult.Rows.Count.ToString("N0") + " !";
