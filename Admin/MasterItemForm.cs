@@ -36,7 +36,6 @@ namespace MachineDeptApp.Admin
             this.cbmctype.TextChanged += Cbmctype_TextChanged;
             this.btnExport.Click += BtnExport_Click;
         }
-
         private void BtnExport_Click(object sender, EventArgs e)
         {
             DialogResult DLS = MessageBox.Show("តើអ្នកចង់ទាញទិន្នន័យចេញមែន ឬទេ?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -390,7 +389,7 @@ namespace MachineDeptApp.Admin
 
                     Rectangle oRectangle = dgvSearchResult.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
                     int X = oRectangle.X + 7;
-                    int Y = oRectangle.Y + 20;
+                    int Y = oRectangle.Y + 65;
                     dgvMCType.Location = new Point(X, Y);
                     dgvMCType.BringToFront();
                     dgvMCType.Focus();
@@ -413,7 +412,7 @@ namespace MachineDeptApp.Admin
 
                     Rectangle oRectangle = dgvSearchResult.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
                     int X = oRectangle.X + 1;
-                    int Y = oRectangle.Y + 21;
+                    int Y = oRectangle.Y + 65;
                     DgvSlot.Location = new Point(X, Y);
                     DgvSlot.BringToFront();
                     DgvSlot.Focus();
@@ -436,7 +435,7 @@ namespace MachineDeptApp.Admin
 
                     Rectangle oRectangle = dgvSearchResult.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
                     int X = oRectangle.X + 1;
-                    int Y = oRectangle.Y + 85;
+                    int Y = oRectangle.Y + 110;
                     dgvStatus.Location = new Point(X, Y);
                     dgvStatus.BringToFront();
                     dgvStatus.Focus();
