@@ -29,13 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MasterItemForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -43,6 +38,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MasterItemForm));
             this.panelFooter = new System.Windows.Forms.Panel();
             this.LbStatus = new System.Windows.Forms.Label();
             this.panelHeader = new System.Windows.Forms.Panel();
@@ -54,6 +55,13 @@
             this.label4 = new System.Windows.Forms.Label();
             this.GroupBoxResult = new System.Windows.Forms.GroupBox();
             this.dgvSearchResult = new System.Windows.Forms.DataGridView();
+            this.dgvMCType = new System.Windows.Forms.DataGridView();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvSlot = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.dgvStatus = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -64,13 +72,13 @@
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgvMCType = new System.Windows.Forms.DataGridView();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DgvSlot = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.dgvStatus = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cbmctype = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.cbmcname = new System.Windows.Forms.ComboBox();
+            this.btnExport = new System.Windows.Forms.Button();
             this.panelFooter.SuspendLayout();
             this.panelHeader.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -86,9 +94,9 @@
             this.panelFooter.BackColor = System.Drawing.SystemColors.ControlLight;
             this.panelFooter.Controls.Add(this.LbStatus);
             this.panelFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelFooter.Location = new System.Drawing.Point(0, 425);
+            this.panelFooter.Location = new System.Drawing.Point(0, 553);
             this.panelFooter.Name = "panelFooter";
-            this.panelFooter.Size = new System.Drawing.Size(800, 25);
+            this.panelFooter.Size = new System.Drawing.Size(1334, 25);
             this.panelFooter.TabIndex = 25;
             // 
             // LbStatus
@@ -96,7 +104,7 @@
             this.LbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LbStatus.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbStatus.Location = new System.Drawing.Point(350, 5);
+            this.LbStatus.Location = new System.Drawing.Point(884, 5);
             this.LbStatus.Name = "LbStatus";
             this.LbStatus.Size = new System.Drawing.Size(445, 15);
             this.LbStatus.TabIndex = 0;
@@ -106,11 +114,12 @@
             // 
             // panelHeader
             // 
+            this.panelHeader.Controls.Add(this.btnExport);
             this.panelHeader.Controls.Add(this.btnSearch);
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelHeader.Location = new System.Drawing.Point(0, 0);
             this.panelHeader.Name = "panelHeader";
-            this.panelHeader.Size = new System.Drawing.Size(800, 58);
+            this.panelHeader.Size = new System.Drawing.Size(1334, 58);
             this.panelHeader.TabIndex = 26;
             // 
             // btnSearch
@@ -127,15 +136,19 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbmcname);
+            this.groupBox1.Controls.Add(this.cbmctype);
             this.groupBox1.Controls.Add(this.cbstatus);
             this.groupBox1.Controls.Add(this.txtWIPName);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(0, 58);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(800, 66);
+            this.groupBox1.Size = new System.Drawing.Size(1334, 113);
             this.groupBox1.TabIndex = 27;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "លក្ខខ័ណ្ឌនៃការស្វែងរក";
@@ -145,7 +158,7 @@
             this.cbstatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbstatus.FormattingEnabled = true;
             this.cbstatus.Items.AddRange(new object[] {
-            "ALL",
+            "All",
             "EOL",
             "ACTIVE",
             "EVENT"});
@@ -187,9 +200,9 @@
             this.GroupBoxResult.Controls.Add(this.dgvSearchResult);
             this.GroupBoxResult.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GroupBoxResult.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GroupBoxResult.Location = new System.Drawing.Point(0, 124);
+            this.GroupBoxResult.Location = new System.Drawing.Point(0, 171);
             this.GroupBoxResult.Name = "GroupBoxResult";
-            this.GroupBoxResult.Size = new System.Drawing.Size(800, 301);
+            this.GroupBoxResult.Size = new System.Drawing.Size(1334, 382);
             this.GroupBoxResult.TabIndex = 28;
             this.GroupBoxResult.TabStop = false;
             this.GroupBoxResult.Text = "លទ្ធផលនៃការស្វែងរក";
@@ -229,23 +242,135 @@
             this.Column5,
             this.Column6,
             this.Column4,
-            this.status});
+            this.status,
+            this.remark});
             this.dgvSearchResult.EnableHeadersVisualStyles = false;
             this.dgvSearchResult.Location = new System.Drawing.Point(5, 34);
             this.dgvSearchResult.MultiSelect = false;
             this.dgvSearchResult.Name = "dgvSearchResult";
-            this.dgvSearchResult.ReadOnly = true;
             this.dgvSearchResult.RowHeadersVisible = false;
             this.dgvSearchResult.RowHeadersWidth = 60;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Khmer OS Battambang", 9F);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvSearchResult.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Khmer OS Battambang", 9F);
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvSearchResult.RowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvSearchResult.RowTemplate.Height = 25;
             this.dgvSearchResult.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvSearchResult.Size = new System.Drawing.Size(788, 261);
+            this.dgvSearchResult.Size = new System.Drawing.Size(1322, 342);
             this.dgvSearchResult.TabIndex = 11;
+            // 
+            // dgvMCType
+            // 
+            this.dgvMCType.AllowUserToAddRows = false;
+            this.dgvMCType.AllowUserToDeleteRows = false;
+            this.dgvMCType.AllowUserToResizeColumns = false;
+            this.dgvMCType.AllowUserToResizeRows = false;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvMCType.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            this.dgvMCType.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMCType.ColumnHeadersVisible = false;
+            this.dgvMCType.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column3});
+            this.dgvMCType.Location = new System.Drawing.Point(430, 8);
+            this.dgvMCType.Name = "dgvMCType";
+            this.dgvMCType.ReadOnly = true;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvMCType.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            this.dgvMCType.RowHeadersVisible = false;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvMCType.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            this.dgvMCType.Size = new System.Drawing.Size(122, 135);
+            this.dgvMCType.TabIndex = 29;
+            // 
+            // Column3
+            // 
+            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Column3.HeaderText = "MCType";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            this.Column3.Width = 102;
+            // 
+            // DgvSlot
+            // 
+            this.DgvSlot.AllowUserToAddRows = false;
+            this.DgvSlot.AllowUserToDeleteRows = false;
+            this.DgvSlot.AllowUserToResizeColumns = false;
+            this.DgvSlot.AllowUserToResizeRows = false;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DgvSlot.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            this.DgvSlot.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DgvSlot.ColumnHeadersVisible = false;
+            this.DgvSlot.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1});
+            this.DgvSlot.Location = new System.Drawing.Point(630, 8);
+            this.DgvSlot.Name = "DgvSlot";
+            this.DgvSlot.ReadOnly = true;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DgvSlot.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
+            this.DgvSlot.RowHeadersVisible = false;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DgvSlot.RowsDefaultCellStyle = dataGridViewCellStyle13;
+            this.DgvSlot.Size = new System.Drawing.Size(122, 135);
+            this.DgvSlot.TabIndex = 30;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dataGridViewTextBoxColumn1.HeaderText = "Slot";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 102;
+            // 
+            // dgvStatus
+            // 
+            this.dgvStatus.AllowUserToAddRows = false;
+            this.dgvStatus.AllowUserToDeleteRows = false;
+            this.dgvStatus.AllowUserToResizeColumns = false;
+            this.dgvStatus.AllowUserToResizeRows = false;
+            this.dgvStatus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvStatus.ColumnHeadersVisible = false;
+            this.dgvStatus.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn2});
+            this.dgvStatus.Location = new System.Drawing.Point(295, 7);
+            this.dgvStatus.Name = "dgvStatus";
+            this.dgvStatus.ReadOnly = true;
+            this.dgvStatus.RowHeadersVisible = false;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvStatus.RowsDefaultCellStyle = dataGridViewCellStyle14;
+            this.dgvStatus.Size = new System.Drawing.Size(105, 92);
+            this.dgvStatus.TabIndex = 31;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn2.HeaderText = "Status";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn12
             // 
@@ -336,117 +461,75 @@
             this.status.Name = "status";
             this.status.ReadOnly = true;
             // 
-            // dgvMCType
+            // remark
             // 
-            this.dgvMCType.AllowUserToAddRows = false;
-            this.dgvMCType.AllowUserToDeleteRows = false;
-            this.dgvMCType.AllowUserToResizeColumns = false;
-            this.dgvMCType.AllowUserToResizeRows = false;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvMCType.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            this.dgvMCType.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMCType.ColumnHeadersVisible = false;
-            this.dgvMCType.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column3});
-            this.dgvMCType.Location = new System.Drawing.Point(430, 8);
-            this.dgvMCType.Name = "dgvMCType";
-            this.dgvMCType.ReadOnly = true;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvMCType.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
-            this.dgvMCType.RowHeadersVisible = false;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvMCType.RowsDefaultCellStyle = dataGridViewCellStyle9;
-            this.dgvMCType.Size = new System.Drawing.Size(122, 135);
-            this.dgvMCType.TabIndex = 29;
+            this.remark.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.remark.DefaultCellStyle = dataGridViewCellStyle6;
+            this.remark.HeaderText = "ចំណាំ";
+            this.remark.Name = "remark";
+            this.remark.Width = 150;
             // 
-            // Column3
+            // label2
             // 
-            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Column3.HeaderText = "MCType";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 102;
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(426, 70);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(80, 24);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "ប្រភេទម៉ាស៊ីន";
             // 
-            // DgvSlot
+            // cbmctype
             // 
-            this.DgvSlot.AllowUserToAddRows = false;
-            this.DgvSlot.AllowUserToDeleteRows = false;
-            this.DgvSlot.AllowUserToResizeColumns = false;
-            this.DgvSlot.AllowUserToResizeRows = false;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DgvSlot.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
-            this.DgvSlot.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DgvSlot.ColumnHeadersVisible = false;
-            this.DgvSlot.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1});
-            this.DgvSlot.Location = new System.Drawing.Point(630, 8);
-            this.DgvSlot.Name = "DgvSlot";
-            this.DgvSlot.ReadOnly = true;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DgvSlot.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
-            this.DgvSlot.RowHeadersVisible = false;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DgvSlot.RowsDefaultCellStyle = dataGridViewCellStyle12;
-            this.DgvSlot.Size = new System.Drawing.Size(122, 135);
-            this.DgvSlot.TabIndex = 30;
+            this.cbmctype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbmctype.FormattingEnabled = true;
+            this.cbmctype.Items.AddRange(new object[] {
+            "All",
+            "1",
+            "2",
+            "3"});
+            this.cbmctype.Location = new System.Drawing.Point(512, 65);
+            this.cbmctype.Name = "cbmctype";
+            this.cbmctype.Size = new System.Drawing.Size(121, 35);
+            this.cbmctype.TabIndex = 28;
             // 
-            // dataGridViewTextBoxColumn1
+            // label3
             // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dataGridViewTextBoxColumn1.HeaderText = "Slot";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 102;
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(32, 72);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(77, 24);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "ឈ្មោះម៉ាស៊ីន";
             // 
-            // dgvStatus
+            // imageList1
             // 
-            this.dgvStatus.AllowUserToAddRows = false;
-            this.dgvStatus.AllowUserToDeleteRows = false;
-            this.dgvStatus.AllowUserToResizeColumns = false;
-            this.dgvStatus.AllowUserToResizeRows = false;
-            this.dgvStatus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvStatus.ColumnHeadersVisible = false;
-            this.dgvStatus.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn2});
-            this.dgvStatus.Location = new System.Drawing.Point(295, 7);
-            this.dgvStatus.Name = "dgvStatus";
-            this.dgvStatus.ReadOnly = true;
-            this.dgvStatus.RowHeadersVisible = false;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvStatus.RowsDefaultCellStyle = dataGridViewCellStyle13;
-            this.dgvStatus.Size = new System.Drawing.Size(105, 92);
-            this.dgvStatus.TabIndex = 31;
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // dataGridViewTextBoxColumn2
+            // cbmcname
             // 
-            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn2.HeaderText = "Status";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.cbmcname.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbmcname.FormattingEnabled = true;
+            this.cbmcname.Location = new System.Drawing.Point(134, 67);
+            this.cbmcname.Name = "cbmcname";
+            this.cbmcname.Size = new System.Drawing.Size(254, 35);
+            this.cbmcname.TabIndex = 28;
+            // 
+            // btnExport
+            // 
+            this.btnExport.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.btnExport.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnExport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnExport.BackgroundImage")));
+            this.btnExport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnExport.Location = new System.Drawing.Point(1277, 5);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(50, 50);
+            this.btnExport.TabIndex = 27;
+            this.btnExport.UseVisualStyleBackColor = false;
             // 
             // MasterItemForm
             // 
@@ -454,7 +537,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1334, 578);
             this.Controls.Add(this.GroupBoxResult);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panelHeader);
@@ -497,6 +580,8 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ComboBox cbstatus;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridView dgvStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn18;
@@ -507,7 +592,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn status;
-        private System.Windows.Forms.DataGridView dgvStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn remark;
+        private System.Windows.Forms.ComboBox cbmctype;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ComboBox cbmcname;
+        private System.Windows.Forms.Button btnExport;
     }
 }

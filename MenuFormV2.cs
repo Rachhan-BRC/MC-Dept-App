@@ -2765,6 +2765,10 @@ namespace MachineDeptApp
                         {
                             treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes[i].Remove();
                         }
+                        if (i == 2)
+                        {
+                            treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes[i].Remove();
+                        }
                         if (i == 8)
                         {
                             treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes[i].Remove();
