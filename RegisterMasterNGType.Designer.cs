@@ -330,10 +330,11 @@
             this.cbposition.FormattingEnabled = true;
             this.cbposition.Items.AddRange(new object[] {
             "",
-            "MT Name",
-            "Sub Leader",
-            "Leader",
-            "MT Leader"});
+            "MT OP",
+            "MT Sub Leader",
+            "MT Leader",
+            "Prod. Sub Leader",
+            "Prod. Leader"});
             this.cbposition.Location = new System.Drawing.Point(362, 33);
             this.cbposition.Name = "cbposition";
             this.cbposition.Size = new System.Drawing.Size(142, 42);
