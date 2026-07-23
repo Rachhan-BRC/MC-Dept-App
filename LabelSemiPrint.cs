@@ -49,59 +49,64 @@ namespace MachineDeptApp
                     Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(
                         Path.Combine(Environment.CurrentDirectory, @"Template\LabelSemiPrintTemplate.xlsx"), Editable: true);
                     Excel.Worksheet worksheet = (Excel.Worksheet)xlWorkBook.Sheets[1];
+                    // Ensure Report folder exists
+                    string reportFolder = Path.Combine(Environment.CurrentDirectory, @"Report\Label Semi Printed");
+                    if (!Directory.Exists(reportFolder))
+                    {
+                        Directory.CreateDirectory(reportFolder);
+                    }
+                    // Create SaveFileDialog
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Filter = "Excel Files (*.xlsx)|*.xlsx";
+                    sfd.DefaultExt = "xlsx";
+
+                    // Build filename
+                    string fileName = "LabelSemiPrint" + DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ".xlsx";
+                    sfd.FileName = Path.Combine(reportFolder, fileName);
+
+                    // Final save path
+                    string SavePath = sfd.FileName;
                     try
                     {
-                        string SavePath = "";
-                        using (SaveFileDialog sfd = new SaveFileDialog())
+                        int startrow = 1;
+                        int range = 16;
+                        for (int k = 0; k < dgvList.Rows.Count; k++)
                         {
-                            sfd.FileName = "LabelSemiPrint" + DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ".xlsx";   // default filename
-                            sfd.Filter = "Excel Files (*.xlsx)|*.xlsx"; // restrict to .xlsx
-                            sfd.DefaultExt = "xlsx";                // auto-append if missing
-
-                            if (sfd.ShowDialog() != DialogResult.Cancel)
+                            bool chk = Convert.ToBoolean(dgvList.Rows[k].Cells["chk"].Value);
+                            if (chk == true)
                             {
-                                SavePath = sfd.FileName;
-                                int startrow = 1;
-                                int range = 16;
-                                for (int k = 0; k < dgvList.Rows.Count; k++)
+                                if (k > 0)
                                 {
-                                    bool chk = Convert.ToBoolean(dgvList.Rows[k].Cells["chk"].Value);
-                                    if (chk == true)
-                                    {
-                                        if (k > 0)
-                                        {
-                                            worksheet.Range["A1:A15"].EntireRow.Copy();
-                                            worksheet.Range["A" + range].EntireRow.PasteSpecial(Excel.XlPasteType.xlPasteAll, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, Type.Missing, Type.Missing);
-                                            range += 15;
-                                            startrow += 15;
+                                    worksheet.Range["A1:A15"].EntireRow.Copy();
+                                    worksheet.Range["A" + range].EntireRow.PasteSpecial(Excel.XlPasteType.xlPasteAll, Excel.XlPasteSpecialOperation.xlPasteSpecialOperationNone, Type.Missing, Type.Missing);
+                                    range += 15;
+                                    startrow += 15;
 
-                                        }
-                                        worksheet.Cells[startrow, 3] = dgvList.Rows[k].Cells["subpartno"].Value?.ToString();
-                                        worksheet.Cells[startrow + 2, 3] = dgvList.Rows[k].Cells["poscno"].Value?.ToString();
-                                        worksheet.Cells[startrow + 3, 3] = dgvList.Rows[k].Cells["posqty"].Value?.ToString();
-                                        worksheet.Cells[startrow + 5, 3] = dgvList.Rows[k].Cells["wirecolor"].Value?.ToString();
-                                        worksheet.Cells[startrow + 6, 3] = dgvList.Rows[k].Cells["length"].Value?.ToString();
-                                        worksheet.Cells[startrow + 7, 3] = dgvList.Rows[k].Cells["batchqty"].Value?.ToString();
-                                        worksheet.Cells[startrow + 12, 3] = dgvList.Rows[k].Cells["deldate"].Value?.ToString();
-                                        worksheet.Cells[startrow + 11, 7] = dgvList.Rows[k].Cells["wipcode"].Value?.ToString();
-                                    }
                                 }
-                                string DateExcel = DateTime.Now.ToString("yyMMdd");
-                                xlWorkBook.SaveAs(SavePath);
-
-                                excelApp.DisplayAlerts = false;
-                                xlWorkBook.Close();
-                                excelApp.Quit();
-                                excelApp.DisplayAlerts = true;
-
-                                // Release COM objects to avoid leaving Excel.exe open
-                                System.Runtime.InteropServices.Marshal.ReleaseComObject(worksheet);
-                                System.Runtime.InteropServices.Marshal.ReleaseComObject(xlWorkBook);
-                                System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
-                                MessageBox.Show("Print Successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                Process.Start(SavePath);
+                                worksheet.Cells[startrow, 3] = dgvList.Rows[k].Cells["subpartno"].Value?.ToString();
+                                worksheet.Cells[startrow + 2, 3] = dgvList.Rows[k].Cells["poscno"].Value?.ToString();
+                                worksheet.Cells[startrow + 3, 3] = dgvList.Rows[k].Cells["posqty"].Value?.ToString();
+                                worksheet.Cells[startrow + 5, 3] = dgvList.Rows[k].Cells["wirecolor"].Value?.ToString();
+                                worksheet.Cells[startrow + 6, 3] = dgvList.Rows[k].Cells["length"].Value?.ToString();
+                                worksheet.Cells[startrow + 7, 3] = dgvList.Rows[k].Cells["batchqty"].Value?.ToString();
+                                worksheet.Cells[startrow + 13, 8] = dgvList.Rows[k].Cells["deldate"].Value?.ToString();
+                                worksheet.Cells[startrow + 9, 11] = dgvList.Rows[k].Cells["wipcode"].Value?.ToString();
                             }
                         }
+                        string DateExcel = DateTime.Now.ToString("yyMMdd");
+                        xlWorkBook.SaveAs(SavePath);
+
+                        excelApp.DisplayAlerts = false;
+                        xlWorkBook.Close();
+                        excelApp.Quit();
+                        excelApp.DisplayAlerts = true;
+
+                        // Release COM objects to avoid leaving Excel.exe open
+                        System.Runtime.InteropServices.Marshal.ReleaseComObject(worksheet);
+                        System.Runtime.InteropServices.Marshal.ReleaseComObject(xlWorkBook);
+                        System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+                        MessageBox.Show("Print Successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Process.Start(SavePath);
                     }
                     catch (Exception ex)
                     {
