@@ -367,7 +367,9 @@ namespace MachineDeptApp
                 dgvCost.Rows.Clear();
                 DataTable dtsearch = new DataTable();
                 string query = "SELECT * FROM tbNGTypeDetails tbNG " +
+                    "LEFT JOIN (SELECT Type AS Position, Name FROM tbNGTypeMst) tbpo ON tbNG.PIC = tbpo.Name " +
                     "LEFT JOIN (SELECT ItemCode, Resv4 FROM [192.168.1.21].[Marunix].[dbo].[mstitem] WHERE ItemType = 1) tbp ON tbNG.ItemCode = tbp.ItemCode" + where + " ORDER BY tbNG.ItemCode";
+                Console.WriteLine(query);
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtsearch);
                 DataTable dtsearch2 = new DataTable();
@@ -406,6 +408,13 @@ namespace MachineDeptApp
 
                     string part2 = string.Join(" ", text.Split(' ').Skip(1));
                     type = part2 + " ( " + part1 + " )";
+                    DateTime now = Convert.ToDateTime(row["RegDate"]);
+                    TimeSpan dayStart = new TimeSpan(7, 30, 0);  // 7:30 AM
+                    TimeSpan dayEnd = new TimeSpan(19, 30, 0); // 7:30 PM
+
+                    TimeSpan current = now.TimeOfDay;
+
+                    string period = (current >= dayStart && current < dayEnd) ? "D" : "N";
                     dgvList.Rows.Add();
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["sysno"].Value = row["SysNo"].ToString();
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["posc"].Value = row["POSC"].ToString();
@@ -415,6 +424,8 @@ namespace MachineDeptApp
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["qty"].Value = Convert.ToDouble(row["Qty"]);
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["price"].Value = subprice;
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["pic"].Value = row["PIC"].ToString();
+                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["position"].Value = row["Position"].ToString();
+                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["shift"].Value = period;
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["regdate"].Value = Convert.ToDateTime(row["RegDate"]);
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["regby"].Value = row["RegBy"].ToString();
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["update"].Value = Convert.ToDateTime(row["UpdateDate"]);
