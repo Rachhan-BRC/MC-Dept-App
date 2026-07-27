@@ -298,14 +298,13 @@ namespace MachineDeptApp.Admin
                             query = "UPDATE tbMasterItemPlan SET " +
                                             "Slot='" + dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() + "' " +
                                             "WHERE ItemCode = '" + ItemCode + "' ;";
-                            MessageBox.Show("Heloo");
+                           
                         }
                         else
                         {
                             query = "UPDATE tbMasterItemPlan SET " +
                                             "Slot=NULL " +
                                             "WHERE ItemCode = '" + ItemCode + "' ;";
-                            MessageBox.Show("Hi");
                         }
 
                         SqlCommand cmd = new SqlCommand(query, cnn.con);
@@ -356,7 +355,7 @@ namespace MachineDeptApp.Admin
 
         private void DgvSearchResult_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.ColumnIndex > dgvSearchResult.Columns.Count - 5)
+            if (e.ColumnIndex > dgvSearchResult.Columns.Count - 7)
             {
                 e.CellStyle.ForeColor = Color.Black;
                 e.CellStyle.Font = new System.Drawing.Font("Khmer OS Battambong", 9, FontStyle.Regular);
