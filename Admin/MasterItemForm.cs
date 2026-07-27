@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 
 namespace MachineDeptApp.Admin
 {
@@ -210,8 +211,22 @@ namespace MachineDeptApp.Admin
             try
             {
                 cnn.con.Open();
-                if (e.ColumnIndex > dgvSearchResult.Columns.Count - 6 && e.ColumnIndex < dgvSearchResult.Columns.Count - 2)
+                if (dgvSearchResult.Columns[e.ColumnIndex].Name == "mc1" || dgvSearchResult.Columns[e.ColumnIndex].Name == "mc2" || dgvSearchResult.Columns[e.ColumnIndex].Name == "mc3")
                 {
+                    int mc = 0;
+                    if (dgvSearchResult.Columns[e.ColumnIndex].Name == "mc1")
+                    {
+                        mc = 1;
+                    }
+                    else if (dgvSearchResult.Columns[e.ColumnIndex].Name == "mc2")
+                    {
+                        mc = 2;
+                    }
+                    else
+                    { 
+                        mc = 3;
+                    }
+
                     //Update becuz it already have
                     if (dt.Rows.Count > 0)
                     {
@@ -219,13 +234,13 @@ namespace MachineDeptApp.Admin
                         if (dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
                         {
                             query = "UPDATE tbMasterItemPlan SET " +
-                                            "MC" + (-7 + e.ColumnIndex + 1) + "Type='" + dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() + "' " +
+                                            "MC" + (mc) + "Type='" + dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() + "' " +
                                             "WHERE ItemCode = '" + ItemCode + "' ;";
                         }
                         else
                         {
                             query = "UPDATE tbMasterItemPlan SET " +
-                                            "MC" + (-7 + e.ColumnIndex + 1) + "Type=NULL " +
+                                            "MC" + (mc) + "Type=NULL " +
                                             "WHERE ItemCode = '" + ItemCode + "' ;";
                         }
                         SqlCommand cmd = new SqlCommand(query, cnn.con);
@@ -244,7 +259,7 @@ namespace MachineDeptApp.Admin
                         }
                     }
                 }
-                else if (e.ColumnIndex == dgvSearchResult.Columns.Count - 2)
+                else if (dgvSearchResult.Columns[e.ColumnIndex].Name =="status")
                 {
                     if (dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
                     {
@@ -272,7 +287,7 @@ namespace MachineDeptApp.Admin
                         }
                     }
                 }
-                else if (e.ColumnIndex == dgvStatus.Columns.Count - 3)
+                else if (dgvSearchResult.Columns[e.ColumnIndex].Name == "slot")
                 {
                     //Update becuz it already have
                     if (dt.Rows.Count > 0)
@@ -283,12 +298,14 @@ namespace MachineDeptApp.Admin
                             query = "UPDATE tbMasterItemPlan SET " +
                                             "Slot='" + dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() + "' " +
                                             "WHERE ItemCode = '" + ItemCode + "' ;";
+                            MessageBox.Show("Heloo");
                         }
                         else
                         {
                             query = "UPDATE tbMasterItemPlan SET " +
                                             "Slot=NULL " +
                                             "WHERE ItemCode = '" + ItemCode + "' ;";
+                            MessageBox.Show("Hi");
                         }
 
                         SqlCommand cmd = new SqlCommand(query, cnn.con);
@@ -297,14 +314,14 @@ namespace MachineDeptApp.Admin
                     //Add becuz it not yet have
                     else
                     {
-                        cmd = new SqlCommand("INSERT INTO tbMasterItemPlan (ItemCode, Slot) " +
+                        SqlCommand cmd = new SqlCommand("INSERT INTO tbMasterItemPlan (ItemCode, Slot) " +
                                                                             "VALUES (@Ic, @Sl)", cnn.con);
                         cmd.Parameters.AddWithValue("@Ic", ItemCode);
                         cmd.Parameters.AddWithValue("@Sl", dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
                         cmd.ExecuteNonQuery();
                     }
                 }
-                else if (e.ColumnIndex == dgvSearchResult.Columns.Count - 1)
+                else if (dgvSearchResult.Columns[e.ColumnIndex].Name == "remark")
                 {
                     DataTable dtstatus = new DataTable();
                     string wipcode = dgvSearchResult.Rows[e.RowIndex].Cells[0].Value.ToString();
