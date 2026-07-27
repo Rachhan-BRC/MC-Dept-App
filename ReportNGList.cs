@@ -366,7 +366,7 @@ namespace MachineDeptApp
                 dgvList.Rows.Clear();
                 dgvCost.Rows.Clear();
                 DataTable dtsearch = new DataTable();
-                string query = "SELECT * FROM tbNGTypeDetails tbNG " +
+                string query = "SELECT * FROM tbNGTypeDetails tbNG " + 
                     "LEFT JOIN (SELECT Type AS Position, Name FROM tbNGTypeMst) tbpo ON tbNG.PIC = tbpo.Name " +
                     "LEFT JOIN (SELECT ItemCode, Resv4 FROM [192.168.1.21].[Marunix].[dbo].[mstitem] WHERE ItemType = 1) tbp ON tbNG.ItemCode = tbp.ItemCode" + where + " ORDER BY tbNG.ItemCode";
                 Console.WriteLine(query);

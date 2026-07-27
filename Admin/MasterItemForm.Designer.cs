@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MasterItemForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -43,14 +44,18 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MasterItemForm));
             this.panelFooter = new System.Windows.Forms.Panel();
             this.LbStatus = new System.Windows.Forms.Label();
             this.panelHeader = new System.Windows.Forms.Panel();
+            this.btnExport = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbmcname = new System.Windows.Forms.ComboBox();
+            this.cbmctype = new System.Windows.Forms.ComboBox();
             this.cbstatus = new System.Windows.Forms.ComboBox();
             this.txtWIPName = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.GroupBoxResult = new System.Windows.Forms.GroupBox();
@@ -62,23 +67,18 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.dgvStatus = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mc1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mc2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mc3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.slot = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label2 = new System.Windows.Forms.Label();
-            this.cbmctype = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.cbmcname = new System.Windows.Forms.ComboBox();
-            this.btnExport = new System.Windows.Forms.Button();
             this.panelFooter.SuspendLayout();
             this.panelHeader.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -122,6 +122,18 @@
             this.panelHeader.Size = new System.Drawing.Size(1334, 58);
             this.panelHeader.TabIndex = 26;
             // 
+            // btnExport
+            // 
+            this.btnExport.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.btnExport.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnExport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnExport.BackgroundImage")));
+            this.btnExport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnExport.Location = new System.Drawing.Point(1277, 5);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(50, 50);
+            this.btnExport.TabIndex = 27;
+            this.btnExport.UseVisualStyleBackColor = false;
+            // 
             // btnSearch
             // 
             this.btnSearch.BackColor = System.Drawing.SystemColors.ButtonHighlight;
@@ -153,6 +165,29 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "លក្ខខ័ណ្ឌនៃការស្វែងរក";
             // 
+            // cbmcname
+            // 
+            this.cbmcname.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbmcname.FormattingEnabled = true;
+            this.cbmcname.Location = new System.Drawing.Point(134, 67);
+            this.cbmcname.Name = "cbmcname";
+            this.cbmcname.Size = new System.Drawing.Size(254, 35);
+            this.cbmcname.TabIndex = 28;
+            // 
+            // cbmctype
+            // 
+            this.cbmctype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbmctype.FormattingEnabled = true;
+            this.cbmctype.Items.AddRange(new object[] {
+            "All",
+            "1",
+            "2",
+            "3"});
+            this.cbmctype.Location = new System.Drawing.Point(512, 65);
+            this.cbmctype.Name = "cbmctype";
+            this.cbmctype.Size = new System.Drawing.Size(121, 35);
+            this.cbmctype.TabIndex = 28;
+            // 
             // cbstatus
             // 
             this.cbstatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -174,6 +209,26 @@
             this.txtWIPName.Name = "txtWIPName";
             this.txtWIPName.Size = new System.Drawing.Size(254, 32);
             this.txtWIPName.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(426, 70);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(80, 24);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "ប្រភេទម៉ាស៊ីន";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(32, 72);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(77, 24);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "ឈ្មោះម៉ាស៊ីន";
             // 
             // label1
             // 
@@ -238,10 +293,10 @@
             this.dataGridViewTextBoxColumn18,
             this.dataGridViewTextBoxColumn20,
             this.Column2,
-            this.dataGridViewTextBoxColumn11,
-            this.Column5,
-            this.Column6,
-            this.Column4,
+            this.mc1,
+            this.mc2,
+            this.mc3,
+            this.slot,
             this.status,
             this.remark});
             this.dgvSearchResult.EnableHeadersVisualStyles = false;
@@ -372,6 +427,12 @@
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
             // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            // 
             // dataGridViewTextBoxColumn12
             // 
             this.dataGridViewTextBoxColumn12.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -414,43 +475,43 @@
             this.Column2.ReadOnly = true;
             this.Column2.Width = 130;
             // 
-            // dataGridViewTextBoxColumn11
+            // mc1
             // 
-            this.dataGridViewTextBoxColumn11.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.mc1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn11.DefaultCellStyle = dataGridViewCellStyle4;
-            this.dataGridViewTextBoxColumn11.FillWeight = 160F;
-            this.dataGridViewTextBoxColumn11.HeaderText = "ប្រភេទម៉ាស៊ីន1";
-            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
-            this.dataGridViewTextBoxColumn11.ReadOnly = true;
-            this.dataGridViewTextBoxColumn11.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn11.Width = 120;
+            this.mc1.DefaultCellStyle = dataGridViewCellStyle4;
+            this.mc1.FillWeight = 160F;
+            this.mc1.HeaderText = "ប្រភេទម៉ាស៊ីន1";
+            this.mc1.Name = "mc1";
+            this.mc1.ReadOnly = true;
+            this.mc1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.mc1.Width = 120;
             // 
-            // Column5
+            // mc2
             // 
-            this.Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Column5.HeaderText = "ប្រភេទម៉ាស៊ីន2";
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
-            this.Column5.Width = 120;
+            this.mc2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.mc2.HeaderText = "ប្រភេទម៉ាស៊ីន2";
+            this.mc2.Name = "mc2";
+            this.mc2.ReadOnly = true;
+            this.mc2.Width = 120;
             // 
-            // Column6
+            // mc3
             // 
-            this.Column6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Column6.HeaderText = "ប្រភេទម៉ាស៊ីន3";
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
-            this.Column6.Width = 120;
+            this.mc3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.mc3.HeaderText = "ប្រភេទម៉ាស៊ីន3";
+            this.mc3.Name = "mc3";
+            this.mc3.ReadOnly = true;
+            this.mc3.Width = 120;
             // 
-            // Column4
+            // slot
             // 
-            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Column4.HeaderText = "Slot";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.Width = 120;
+            this.slot.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.slot.HeaderText = "Slot";
+            this.slot.Name = "slot";
+            this.slot.ReadOnly = true;
+            this.slot.Width = 120;
             // 
             // status
             // 
@@ -469,67 +530,6 @@
             this.remark.HeaderText = "ចំណាំ";
             this.remark.Name = "remark";
             this.remark.Width = 150;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(426, 70);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(80, 24);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "ប្រភេទម៉ាស៊ីន";
-            // 
-            // cbmctype
-            // 
-            this.cbmctype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbmctype.FormattingEnabled = true;
-            this.cbmctype.Items.AddRange(new object[] {
-            "All",
-            "1",
-            "2",
-            "3"});
-            this.cbmctype.Location = new System.Drawing.Point(512, 65);
-            this.cbmctype.Name = "cbmctype";
-            this.cbmctype.Size = new System.Drawing.Size(121, 35);
-            this.cbmctype.TabIndex = 28;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(32, 72);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 24);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "ឈ្មោះម៉ាស៊ីន";
-            // 
-            // imageList1
-            // 
-            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // cbmcname
-            // 
-            this.cbmcname.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbmcname.FormattingEnabled = true;
-            this.cbmcname.Location = new System.Drawing.Point(134, 67);
-            this.cbmcname.Name = "cbmcname";
-            this.cbmcname.Size = new System.Drawing.Size(254, 35);
-            this.cbmcname.TabIndex = 28;
-            // 
-            // btnExport
-            // 
-            this.btnExport.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnExport.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnExport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnExport.BackgroundImage")));
-            this.btnExport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnExport.Location = new System.Drawing.Point(1277, 5);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(50, 50);
-            this.btnExport.TabIndex = 27;
-            this.btnExport.UseVisualStyleBackColor = false;
             // 
             // MasterItemForm
             // 
@@ -582,22 +582,22 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dgvStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn18;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn20;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn status;
-        private System.Windows.Forms.DataGridViewTextBoxColumn remark;
         private System.Windows.Forms.ComboBox cbmctype;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ComboBox cbmcname;
         private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn18;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn20;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mc1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mc2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mc3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn slot;
+        private System.Windows.Forms.DataGridViewTextBoxColumn status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn remark;
     }
 }
