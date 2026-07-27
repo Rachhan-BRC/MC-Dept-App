@@ -360,6 +360,7 @@ namespace MachineDeptApp
                     where += " AND " + row["Val"].ToString();
                 }
             }
+
             con.con.Open();
             try
             {
