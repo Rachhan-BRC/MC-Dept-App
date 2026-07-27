@@ -35,6 +35,32 @@ namespace MachineDeptApp
             this.picadd.Click += BtnSearchExport_Click;
             this.btnExport.Click += BtnExport_Click;
             this.dgvList.CellClick += DgvList_CellClick;
+            this.txtpic.Click += Txtpic_Click;
+            this.dgvpic.CellClick += Dgvpic_CellClick;
+        }
+
+        private void Dgvpic_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >=0)
+            {
+                txtpic.Text = dgvpic.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString()??"";
+                dgvpic.Visible = false;
+                dgvpic.SendToBack();
+            }
+        }
+
+        private void Txtpic_Click(object sender, EventArgs e)
+        {
+            if (dgvpic.Visible == false)
+            {
+                dgvpic.Visible = true;
+                dgvpic.BringToFront();
+            }
+            else
+            {
+                dgvpic.SendToBack();
+                dgvpic.Visible = false;
+            }
         }
 
         private void DgvList_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -147,6 +173,12 @@ namespace MachineDeptApp
                 SqlDataAdapter sda = new SqlDataAdapter(querytype, con.con);
                 sda.Fill(dttype);
 
+                //type
+                DataTable dtpic = new DataTable();
+                string querypic = "SELECT * FROM tbNGTypeMst WHERE Funct = 3";
+                SqlDataAdapter sdapic = new SqlDataAdapter(querypic, con.con);
+                sdapic.Fill(dtpic);
+
                 if (dttype.Rows.Count > 0)
                 {
                     foreach (DataRow row in dttype.Rows)
@@ -159,6 +191,26 @@ namespace MachineDeptApp
                 lbsubprice.Text = "0";
                 lbRMqty.Text = "0";
                 lbcostNG.Text = "0";
+               if (dtpic.Rows.Count > 0)
+                {
+                    dgvpic.Rows.Add();
+                    foreach (DataRow row in dtpic.Rows)
+                    {
+                        if (row["Name"] != DBNull.Value)
+                        {
+                            var picValue = row["Name"].ToString();
+
+                            bool exists = dgvpic.Rows.Cast<DataGridViewRow>()
+                                            .Any(r => r.Cells[0].Value?.ToString() == picValue);
+
+                            if (!exists) // nothave condition
+                            {
+                                dgvpic.Rows.Add(picValue);
+                            }
+                        }
+                    }
+                }
+
 
             }
             catch (Exception ex)
@@ -196,7 +248,9 @@ namespace MachineDeptApp
         {
             if (btnSearchExport.Text == "ស្វែងរក / Search")
             {
+                Cursor = Cursors.WaitCursor;
                 search();
+                Cursor = Cursors.Default;
             }
             else
             {
@@ -332,22 +386,40 @@ namespace MachineDeptApp
             {
                 dtconds.Rows.Add("tbNG.RegDate BETWEEN '" + dtpfrom.Value.ToString("yyyy-MM-dd 00:00:00.000") + "' AND '" + dtpto.Value.ToString("yyyy-MM-dd 23:59:59.000") + "'");
             }
-            if (searchcode.Text != "")
+            if (searchcode.Text.Trim() != "")
             {
-                dtconds.Rows.Add("tbNG.ItemCode LIKE '%" + searchcode.Text + "%'");
+                dtconds.Rows.Add("tbNG.ItemCode LIKE '%" + searchcode.Text.Trim() + "%'");
             }
-            if (searchposc.Text != "")
+            if (searchposc.Text.Trim() != "")
             {
-                dtconds.Rows.Add("tbNG.POSC LIKE '%" + searchposc.Text + "%'");
+                dtconds.Rows.Add("tbNG.POSC LIKE '%" + searchposc.Text.Trim() + "%'");
             }
-            if (searchcbstop.Text != "")
+            if (searchcbstop.Text.Trim() != "")
             {
-                dtconds.Rows.Add("tbNG.StopInfo = '" + searchcbstop.Text + "'");
+                dtconds.Rows.Add("tbNG.StopInfo = '" + searchcbstop.Text.Trim() + "'");
             }
-            if (searchcbng.Text != "")
+            if (searchcbng.Text.Trim() != "")
             {
-                dtconds.Rows.Add("tbNG.Type = '" + searchcbng.Text + "'");
+                dtconds.Rows.Add("tbNG.Type = '" + searchcbng.Text.Trim() + "'");
             }
+            if (txtpic.Text.Trim() != "")
+            {
+                dtconds.Rows.Add("tbpo.Name = '" + txtpic.Text.Trim() + "'");
+            }
+            if (cbshift.Text.Trim() != "")
+            {
+                string shift = cbshift.Text.Trim();
+                if (shift == "D")
+                {
+                    dtconds.Rows.Add("CAST(RegDate AS time) BETWEEN '07:30:00' AND '19:30:00'");
+                }
+                else
+                {
+                    dtconds.Rows.Add("(CAST(RegDate AS time) >= '19:30:00' OR CAST(RegDate AS time) < '07:30:00')");
+                }
+
+            }
+
             string where = "";
             foreach (DataRow row in dtconds.Rows)
             {
@@ -374,7 +446,7 @@ namespace MachineDeptApp
                 sda.Fill(dtsearch);
                 DataTable dtsearch2 = new DataTable();
 
-                double wire = 0, plan = 0, NG = 0, MC = 0, totalqty = 0, ttlCostNG = 0, totalsubprice = 0, totalrm = 0;
+                double totalqty = 0, ttlCostNG = 0, totalsubprice = 0, totalrm = 0;
 
                 foreach (DataRow row in dtsearch.Rows)
                 {
