@@ -198,10 +198,10 @@ namespace MachineDeptApp
                         Cursor = Cursors.WaitCursor;
                         con.con.Open();
                         DataTable dtscan = new DataTable();
-                        string queryselect = "SELECT tbD.PosCNo, tbI.ItemName, tbD.WIPCode, PosCQty AS ChildQty, Remarks2, Remarks3, tbD.PosPDelDate, tbO.BacthSize  FROM tbPOSDetailofMC tbD " +
-                     "INNER JOIN tbMasterItem tbI ON tbD.WIPCode = tbI.ItemCode " +
-                     "LEFT JOIN (SELECT BacthSize, ItemCode FROM [192.168.1.21].[Marunix].[dbo].[mstitem])tbO ON tbD.WIPCode = tbO.ItemCode " +
-                     "WHERE PosCNo= '" + txtScan.Text.Trim() + "'";
+                        string queryselect = "SELECT tbD.PPOSNO AS PosCNo, tbI.ItemName, tbD.ItemCode AS WIPCode, PlanQty AS ChildQty, Remarks2, Remarks3, tbD.POSDeliveryDate AS PosPDelDate, tbO.BacthSize  FROM [192.168.1.21].[Marunix].[dbo].[prgproductionorder] tbD " +
+                     "LEFT JOIN tbMasterItem tbI ON tbD.ItemCode = tbI.ItemCode " +
+                     "LEFT JOIN (SELECT BacthSize, ItemCode FROM [192.168.1.21].[Marunix].[dbo].[mstitem])tbO ON tbD.ItemCode = tbO.ItemCode " +
+                     "WHERE PPOSNO= '" + txtScan.Text.Trim() + "'";
                         SqlDataAdapter sda = new SqlDataAdapter(queryselect, con.con);
                         sda.Fill(dtscan);
 
