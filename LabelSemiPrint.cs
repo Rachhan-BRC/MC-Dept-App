@@ -202,6 +202,7 @@ namespace MachineDeptApp
                      "LEFT JOIN tbMasterItem tbI ON tbD.ItemCode = tbI.ItemCode " +
                      "LEFT JOIN (SELECT BacthSize, ItemCode FROM [192.168.1.21].[Marunix].[dbo].[mstitem])tbO ON tbD.ItemCode = tbO.ItemCode " +
                      "WHERE PPOSNO= '" + txtScan.Text.Trim() + "'";
+                        Console.WriteLine(queryselect);
                         SqlDataAdapter sda = new SqlDataAdapter(queryselect, con.con);
                         sda.Fill(dtscan);
 
