@@ -677,8 +677,8 @@ namespace MachineDeptApp
                 con.con.Close();
             Cursor = Cursors.Default;
             //select budget
-            try
-            {
+            //try
+            //{
                 foreach (DataRow row1 in dtbudget.Rows)
                 {
 
@@ -821,8 +821,9 @@ namespace MachineDeptApp
                         string Yearmonth = $"{now.Year}-{now:MM}";
                         if (Date == Colname)
                         {
-                            double actrec = Convert.ToDouble(row["TotalAmount"]);
-                            dgvBudget.Rows[dgvBudget.Rows.Count - 2].Cells[i].Value = Convert.ToDouble(actrec);
+                        double actrec = row["TotalAmount"] == DBNull.Value? 0.0: Convert.ToDouble(row["TotalAmount"]);
+
+                        dgvBudget.Rows[dgvBudget.Rows.Count - 2].Cells[i].Value = Convert.ToDouble(actrec);
                             break;
 
                         }
@@ -909,11 +910,11 @@ namespace MachineDeptApp
                     row1.Cells["Nov"].ReadOnly = true;
                     row1.Cells["Dec"].ReadOnly = true;
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error while fill data !" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Error while fill data !" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //}
             SetupChart();
             dgvBudget.ClearSelection();
             con.con.Close();
