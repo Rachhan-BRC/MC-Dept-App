@@ -151,10 +151,16 @@
     <Compile Include="Inventory\MC_SD\MCSDCountingForm.Designer.cs">
       <DependentUpon>MCSDCountingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="LabelSemiPrint.cs">
+    <Compile Include="MasterLabeSemiPrint.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LabelSemiPrint.Designer.cs">
+    <Compile Include="MasterLabeSemiPrint.Designer.cs">
+      <DependentUpon>MasterLabeSemiPrint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SemiPress\LabelSemiPrint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SemiPress\LabelSemiPrint.Designer.cs">
       <DependentUpon>LabelSemiPrint.cs</DependentUpon>
     </Compile>
     <Compile Include="MCReportTrackingResult\AddCustomerClaimForm.cs">
@@ -229,10 +235,10 @@
     <Compile Include="MCReportTrackingResult\QualityControlForm.Designer.cs">
       <DependentUpon>QualityControlForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MstStopInfo.cs">
+    <Compile Include="Admin\MstStopInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MstStopInfo.Designer.cs">
+    <Compile Include="Admin\MstStopInfo.Designer.cs">
       <DependentUpon>MstStopInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="NG Input\NGCalculateForm.cs">
@@ -241,10 +247,10 @@
     <Compile Include="NG Input\NGCalculateForm.Designer.cs">
       <DependentUpon>NGCalculateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RegisterMasterNGType.cs">
+    <Compile Include="Admin\RegisterMasterNGType.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RegisterMasterNGType.Designer.cs">
+    <Compile Include="Admin\RegisterMasterNGType.Designer.cs">
       <DependentUpon>RegisterMasterNGType.cs</DependentUpon>
     </Compile>
     <Compile Include="ReportNGList.cs">
@@ -1006,7 +1012,10 @@
     <EmbeddedResource Include="Inventory\MC_SD\MCSDCountingForm.resx">
       <DependentUpon>MCSDCountingForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LabelSemiPrint.resx">
+    <EmbeddedResource Include="MasterLabeSemiPrint.resx">
+      <DependentUpon>MasterLabeSemiPrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SemiPress\LabelSemiPrint.resx">
       <DependentUpon>LabelSemiPrint.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MCReportTrackingResult\AddCustomerClaimForm.resx">
@@ -1045,13 +1054,13 @@
     <EmbeddedResource Include="MCReportTrackingResult\QualityControlForm.resx">
       <DependentUpon>QualityControlForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MstStopInfo.resx">
+    <EmbeddedResource Include="Admin\MstStopInfo.resx">
       <DependentUpon>MstStopInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NG Input\NGCalculateForm.resx">
       <DependentUpon>NGCalculateForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RegisterMasterNGType.resx">
+    <EmbeddedResource Include="Admin\RegisterMasterNGType.resx">
       <DependentUpon>RegisterMasterNGType.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ReportNGList.resx">

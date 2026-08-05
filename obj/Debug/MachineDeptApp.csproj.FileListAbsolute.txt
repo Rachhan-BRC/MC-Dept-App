@@ -457,3 +457,4 @@ G:\Marunix Desktop App\MC-Dept-App\obj\Debug\MachineDeptApp.ReportNGList.resourc
 >>>>>>> 106b10ecc73c8191f40d14587a481b934567f20d
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.LabelSemiPrint.resources
 D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.NewUpdateAvailableForm.resources
+D:\IT-Project\MC-Dept-App\obj\Debug\MachineDeptApp.MasterLabelSemiPrint.resources
