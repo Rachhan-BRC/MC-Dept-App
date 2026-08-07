@@ -48,7 +48,6 @@ namespace MachineDeptApp
                 btnSearch.PerformClick();
             }
         }
-
         private void BtnDelete_Click(object sender, EventArgs e)
         {
             if (dgvMst.SelectedCells.Count > 0)
@@ -74,7 +73,6 @@ namespace MachineDeptApp
                     con.con.Close();
                     btnSearch.PerformClick();
                 }
-
             }
             else
             {
