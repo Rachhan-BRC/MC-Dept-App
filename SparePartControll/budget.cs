@@ -340,9 +340,7 @@ namespace MachineDeptApp
                    
 
                 }
-
                 con.con.Close();
-
                 if (err == 0)
                 {
                     MessageBox.Show("Update successfully !", "Done.", MessageBoxButtons.OK, MessageBoxIcon.Information);

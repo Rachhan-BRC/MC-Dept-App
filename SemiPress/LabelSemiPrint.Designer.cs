@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LabelSemiPrint));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -41,6 +41,9 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
@@ -58,6 +61,9 @@
             this.subpartno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.wipcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.posqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totalpcs = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.qtybox = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.labelno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.wirecolor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.length = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.batchqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -207,18 +213,21 @@
             this.subpartno,
             this.wipcode,
             this.posqty,
+            this.totalpcs,
+            this.qtybox,
+            this.labelno,
             this.wirecolor,
             this.length,
             this.batchqty,
             this.deldate});
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvList.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvList.DefaultCellStyle = dataGridViewCellStyle14;
             this.dgvList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvList.EnableHeadersVisualStyles = false;
             this.dgvList.Location = new System.Drawing.Point(3, 16);
@@ -274,11 +283,38 @@
             this.posqty.Name = "posqty";
             this.posqty.ReadOnly = true;
             // 
+            // totalpcs
+            // 
+            this.totalpcs.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.totalpcs.DefaultCellStyle = dataGridViewCellStyle7;
+            this.totalpcs.HeaderText = "Total Pcs";
+            this.totalpcs.Name = "totalpcs";
+            this.totalpcs.ReadOnly = true;
+            // 
+            // qtybox
+            // 
+            this.qtybox.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.qtybox.DefaultCellStyle = dataGridViewCellStyle8;
+            this.qtybox.HeaderText = "Qty / Box";
+            this.qtybox.Name = "qtybox";
+            this.qtybox.ReadOnly = true;
+            // 
+            // labelno
+            // 
+            this.labelno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.labelno.DefaultCellStyle = dataGridViewCellStyle9;
+            this.labelno.HeaderText = "Label No.";
+            this.labelno.Name = "labelno";
+            this.labelno.ReadOnly = true;
+            // 
             // wirecolor
             // 
             this.wirecolor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.wirecolor.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.wirecolor.DefaultCellStyle = dataGridViewCellStyle10;
             this.wirecolor.HeaderText = "Wire Color";
             this.wirecolor.Name = "wirecolor";
             this.wirecolor.ReadOnly = true;
@@ -287,8 +323,8 @@
             // length
             // 
             this.length.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.length.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.length.DefaultCellStyle = dataGridViewCellStyle11;
             this.length.HeaderText = "Length";
             this.length.Name = "length";
             this.length.ReadOnly = true;
@@ -296,8 +332,8 @@
             // batchqty
             // 
             this.batchqty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.batchqty.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.batchqty.DefaultCellStyle = dataGridViewCellStyle12;
             this.batchqty.HeaderText = "Batch / Qty";
             this.batchqty.Name = "batchqty";
             this.batchqty.ReadOnly = true;
@@ -306,9 +342,9 @@
             // deldate
             // 
             this.deldate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.Format = "dd-MM-yyyy";
-            this.deldate.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle13.Format = "dd-MM-yyyy";
+            this.deldate.DefaultCellStyle = dataGridViewCellStyle13;
             this.deldate.HeaderText = "Delivery Date";
             this.deldate.Name = "deldate";
             this.deldate.ReadOnly = true;
@@ -359,6 +395,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn subpartno;
         private System.Windows.Forms.DataGridViewTextBoxColumn wipcode;
         private System.Windows.Forms.DataGridViewTextBoxColumn posqty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn totalpcs;
+        private System.Windows.Forms.DataGridViewTextBoxColumn qtybox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn labelno;
         private System.Windows.Forms.DataGridViewTextBoxColumn wirecolor;
         private System.Windows.Forms.DataGridViewTextBoxColumn length;
         private System.Windows.Forms.DataGridViewTextBoxColumn batchqty;
