@@ -90,7 +90,7 @@ namespace MachineDeptApp
                                 worksheet.Cells[startrow + 7, 3] = dgvList.Rows[k].Cells["batchqty"].Value?.ToString();
                                 worksheet.Cells[startrow + 8, 3] = dgvList.Rows[k].Cells["totalpcs"].Value?.ToString();
                                 worksheet.Cells[startrow + 8, 6] = dgvList.Rows[k].Cells["qtybox"].Value?.ToString();
-                                worksheet.Cells[startrow + 8, 10] = dgvList.Rows[k].Cells["labelno"].Value?.ToString();
+                                worksheet.Cells[startrow + 8, 10] = "'"+dgvList.Rows[k].Cells["labelno"].Value?.ToString();
                                 worksheet.Cells[startrow + 13, 8] = dgvList.Rows[k].Cells["deldate"].Value?.ToString();
                                 worksheet.Cells[startrow + 9, 11] = dgvList.Rows[k].Cells["wipcode"].Value?.ToString();
                             }

@@ -261,7 +261,6 @@ namespace MachineDeptApp
         private void BtnCancel_Click(object sender, EventArgs e)
         {
             gpaddup.Visible= false;
-          
         }
 
         private void BtnUpdate_Click(object sender, EventArgs e)
