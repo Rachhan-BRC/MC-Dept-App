@@ -88,6 +88,9 @@ namespace MachineDeptApp
                                 worksheet.Cells[startrow + 5, 3] = dgvList.Rows[k].Cells["wirecolor"].Value?.ToString();
                                 worksheet.Cells[startrow + 6, 3] = dgvList.Rows[k].Cells["length"].Value?.ToString();
                                 worksheet.Cells[startrow + 7, 3] = dgvList.Rows[k].Cells["batchqty"].Value?.ToString();
+                                worksheet.Cells[startrow + 8, 3] = dgvList.Rows[k].Cells["totalpcs"].Value?.ToString();
+                                worksheet.Cells[startrow + 8, 6] = dgvList.Rows[k].Cells["qtybox"].Value?.ToString();
+                                worksheet.Cells[startrow + 8, 10] = dgvList.Rows[k].Cells["labelno"].Value?.ToString();
                                 worksheet.Cells[startrow + 13, 8] = dgvList.Rows[k].Cells["deldate"].Value?.ToString();
                                 worksheet.Cells[startrow + 9, 11] = dgvList.Rows[k].Cells["wipcode"].Value?.ToString();
                             }
@@ -164,7 +167,6 @@ namespace MachineDeptApp
                     {
                         count++;
                     }
-                   
                 }
                 if (dgvList.Rows.Count == count)
                     chkall.Checked = true;
@@ -191,15 +193,28 @@ namespace MachineDeptApp
             {
                 if (txtScan.Text.Trim() != "")
                 {
+                    foreach (DataGridViewRow row in dgvList.Rows)
+                    {
+                        if (row.Cells["poscno"].Value?.ToString() == txtScan.Text.Trim())
+                        {
+                            MessageBox.Show("ភីអូសអេស បានស្កេនរួចហើយ ! ", "សូមពិនិត្យ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtScan.Focus();
+                            txtScan.SelectAll();
+                            return;
+                        }
+                    }
+
                     try
                     {
                         Cursor = Cursors.WaitCursor;
                         con.con.Open();
                         DataTable dtscan = new DataTable();
-                        string queryselect = "SELECT tbD.DONo AS PosCNo, tbI.ItemName, tbD.ItemCode AS WIPCode, PlanQty AS ChildQty, Remarks2, Remarks3, tbD.POSDeliveryDate AS PosPDelDate, tbO.BacthSize  FROM [192.168.1.21].[Marunix].[dbo].[prgproductionorder] tbD " +
-                     "LEFT JOIN tbMasterItem tbI ON tbD.ItemCode = tbI.ItemCode " +
-                     "LEFT JOIN (SELECT BacthSize, ItemCode FROM [192.168.1.21].[Marunix].[dbo].[mstitem])tbO ON tbD.ItemCode = tbO.ItemCode " +
-                     "WHERE DONo= '" + txtScan.Text.Trim() + "'";
+                        string queryselect = @"SELECT tbD.DONo AS PosCNo, tbI.ItemName, tbD.ItemCode AS WIPCode, PlanQty AS ChildQty, Remarks2, Remarks3, tbD.POSDeliveryDate AS PosPDelDate, tbO.BacthSize, Pcs, QtyBox, (PlanQty*Pcs) AS TotalPos, (PlanQty*Pcs)/QtyBox AS Label
+                                                            FROM [192.168.1.21].[Marunix].[dbo].[prgproductionorder] tbD 
+                                                            LEFT JOIN tbMasterItem tbI ON tbD.ItemCode = tbI.ItemCode 
+                                                            LEFT JOIN (SELECT BacthSize, ItemCode FROM [192.168.1.21].[Marunix].[dbo].[mstitem])tbO ON tbD.ItemCode = tbO.ItemCode 
+                                                            LEFT JOIN (SELECT Code, Pcs, QtyBox FROM tbMasterSemiPrint) tbL ON tbD.ItemCode = tbL.Code
+                                                            WHERE DONo= '"+txtScan.Text.Trim()+ "' AND LineCode = 'MC1' ";
                         Console.WriteLine(queryselect);
                         SqlDataAdapter sda = new SqlDataAdapter(queryselect, con.con);
                         sda.Fill(dtscan);
@@ -215,19 +230,28 @@ namespace MachineDeptApp
                             .FirstOrDefault(kv => remarks?.Contains(kv.Key) == true).Value ?? remarks;
                             string[] parts = dtscan.Rows[0]["Remarks3"]?.ToString().Split(',');
                             int partcount = parts.Length;
-
+                            int total = Convert.ToInt32(dtscan.Rows[0]["TotalPos"] ?? 0);
+                            int capacity = Convert.ToInt32(dtscan.Rows[0]["QtyBox"] ?? 0);
+                            int boxes = (int)Math.Ceiling((double)total / capacity);
                             for (int i = 1; i <= partcount; i++)
                             {
-                                dgvList.Rows.Add();
-                                dgvList.Rows[dgvList.Rows.Count - 1].Cells["poscno"].Value = dtscan.Rows[0]["PosCNo"]?.ToString();
-                                dgvList.Rows[dgvList.Rows.Count - 1].Cells["subpartno"].Value = dtscan.Rows[0]["ItemName"]?.ToString();
-                                dgvList.Rows[dgvList.Rows.Count - 1].Cells["wipcode"].Value = dtscan.Rows[0]["WIPCode"]?.ToString();
-                                dgvList.Rows[dgvList.Rows.Count - 1].Cells["posqty"].Value = Convert.ToDouble(dtscan.Rows[0]["ChildQty"] ?? 0);
-                                dgvList.Rows[dgvList.Rows.Count - 1].Cells["wirecolor"].Value = color;
-                                dgvList.Rows[dgvList.Rows.Count - 1].Cells["length"].Value = parts[i - 1];
-                                dgvList.Rows[dgvList.Rows.Count - 1].Cells["batchqty"].Value = Convert.ToDouble(dtscan.Rows[0]["BacthSize"] ?? 0);
-                                dgvList.Rows[dgvList.Rows.Count - 1].Cells["deldate"].Value = Convert.ToDateTime(dtscan.Rows[0]["PosPDelDate"].ToString());
-                                dgvList.Rows[dgvList.Rows.Count - 1].Cells["chk"].Value = true;
+                                for (int k = 1; k <= boxes; k++)
+                                {
+                                    int count = Math.Min(capacity, total - (k - 1) * capacity);
+                                    dgvList.Rows.Add();
+                                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["poscno"].Value = dtscan.Rows[0]["PosCNo"]?.ToString();
+                                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["subpartno"].Value = dtscan.Rows[0]["ItemName"]?.ToString();
+                                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["wipcode"].Value = dtscan.Rows[0]["WIPCode"]?.ToString();
+                                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["posqty"].Value = Convert.ToDouble(dtscan.Rows[0]["ChildQty"] ?? 0);
+                                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["totalpcs"].Value =total;
+                                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["qtybox"].Value =count;
+                                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["labelno"].Value =k+"/"+boxes;
+                                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["wirecolor"].Value = color;
+                                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["length"].Value = parts[i - 1];
+                                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["batchqty"].Value = Convert.ToDouble(dtscan.Rows[0]["BacthSize"] ?? 0);
+                                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["deldate"].Value = Convert.ToDateTime(dtscan.Rows[0]["PosPDelDate"].ToString());
+                                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["chk"].Value = true;
+                                }
                             }
                             txtScan.Text = "";
                             txtScan.Focus();
@@ -245,7 +269,10 @@ namespace MachineDeptApp
                     {
                         MessageBox.Show("Something went wrong, Please contact to Phanun !\n" + ex.Message, "Something wrong", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                  
+                    foreach (DataGridViewColumn col in dgvList.Columns)
+                    {
+                        col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                    }
                     con.con.Close();
                     Cursor = Cursors.Default;
                 }

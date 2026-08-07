@@ -151,10 +151,10 @@
     <Compile Include="Inventory\MC_SD\MCSDCountingForm.Designer.cs">
       <DependentUpon>MCSDCountingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MasterLabeSemiPrint.cs">
+    <Compile Include="SemiPress\MasterLabeSemiPrint.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MasterLabeSemiPrint.Designer.cs">
+    <Compile Include="SemiPress\MasterLabeSemiPrint.Designer.cs">
       <DependentUpon>MasterLabeSemiPrint.cs</DependentUpon>
     </Compile>
     <Compile Include="SemiPress\LabelSemiPrint.cs">
@@ -1012,7 +1012,7 @@
     <EmbeddedResource Include="Inventory\MC_SD\MCSDCountingForm.resx">
       <DependentUpon>MCSDCountingForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MasterLabeSemiPrint.resx">
+    <EmbeddedResource Include="SemiPress\MasterLabeSemiPrint.resx">
       <DependentUpon>MasterLabeSemiPrint.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SemiPress\LabelSemiPrint.resx">

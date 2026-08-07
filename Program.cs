@@ -73,7 +73,7 @@ namespace MachineDeptApp
                 Application.SetCompatibleTextRenderingDefault(false);
                 //   Application.Run(new TransactionConnector());                
                 //For Design test
-                Application.Run(new budget());
+                Application.Run(new LoginForm());
 
 
             }

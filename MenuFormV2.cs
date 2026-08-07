@@ -471,6 +471,30 @@ namespace MachineDeptApp
                 }
                 
             }
+            if (currentClkNode.Text == "Master Label Semi Print")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    MasterLabelSemiPrint Spsf = new MasterLabelSemiPrint();
+                    Spsf.MdiParent = MenuFormV2.ActiveForm;
+                    Spsf.Show();
+                    tabControlOpenForm.TabPages.Add("Master Label Semi Print");
+                    dtOpenForm.Rows.Add("MasterLabelSemiPrint", "Master Label Semi Print");
+                }
+                
+            }
             if (currentClkNode.Text == "បញ្ចូល NG")
             {
                 //Check if already open >> Focus on that Form
@@ -2576,6 +2600,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(2, "បញ្ចូលដំណាក់កាល Semi Press", "");
             dtChildRoot.Rows.Add(2, "ឆែកទិន្នន័យ", "SemiPressSearchForm");
             dtChildRoot.Rows.Add(2, "ព្រីន Semi Label", "LabelSemiPrint");
+            dtChildRoot.Rows.Add(2, "Master Label Semi Print", "MasterLabelSemiPrint");
 
             //4
             dtChildRoot.Rows.Add(3, "NG For Production", "");
