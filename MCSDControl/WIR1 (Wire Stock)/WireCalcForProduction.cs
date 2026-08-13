@@ -712,6 +712,12 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
 
                 }
             }
+
+            if (dgvRMUsage.Columns[e.ColumnIndex].Name == "Col_Remove")
+            {
+                e.CellStyle.BackColor = Color.White;
+                e.CellStyle.SelectionBackColor = Color.White;
+            }
         }
         private void DgvRMUsage_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
@@ -775,6 +781,39 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 WireCalcForProductionRegisterForm Wcfprf = new WireCalcForProductionRegisterForm(this);
                 Wcfprf.ShowDialog();
             }
+            if (dgvRMUsage.Columns[e.ColumnIndex].Name == "Col_Remove" && e.RowIndex > -1 && btnSave.Enabled == true)
+            {
+                string SelectedRMCode = dgvRMUsage.Rows[e.RowIndex].Cells["RMCode"].Value?.ToString()??"";
+                if (SelectedRMCode.Trim() != "")
+                {
+                    if (dgvRMUsage.Rows.Count > 1)
+                    {
+                        DialogResult DSL = MessageBox.Show("តើអ្នកពិតជាចង់លុបទិន្នន័យនេះមែនដែរឬទេ?", MenuFormV2.MsgTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                        if (DSL == DialogResult.Yes)
+                        {
+                            for (int i = dtSeletedBobbin.Rows.Count - 1; i >= 0; i--)
+                            {
+
+                                if (SelectedRMCode == dtSeletedBobbin.Rows[i]["RMCode"].ToString())
+                                {
+                                    dtSeletedBobbin.Rows.RemoveAt(i);
+                                    dtSeletedBobbin.AcceptChanges();
+                                }
+                            }
+                            dgvRMUsage.Rows.RemoveAt(e.RowIndex);
+                            foreach (DataGridViewRow row in dgvRMUsage.Rows)
+                                row.HeaderCell.Value = (row.Index + 1).ToString();
+                            dgvRMUsage.Refresh();
+                            dgvRMUsage.ClearSelection();
+                            dgvRMUsage.CurrentCell = null;
+                        }
+                    }
+                    else
+                        MessageBox.Show("មិនអាចលុបទាំងអស់បានទេ!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    
+                }
+            }
+
         }
 
         private void WireCalcForProduction_Load(object sender, EventArgs e)
@@ -788,6 +827,10 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                 }
             }
             ClearDtSeletedBobbin();
+            if (LoginForm.IDValueForNextForm != "3132" && LoginForm.IDValueForNextForm != "1666" && LoginForm.IDValueForNextForm != "1747" && LoginForm.IDValueForNextForm != "2195" && LoginForm.IDValueForNextForm != "3084") 
+                dgvRMUsage.Columns["Col_Remove"].Visible = false;
+
+
         }
 
         //Method
