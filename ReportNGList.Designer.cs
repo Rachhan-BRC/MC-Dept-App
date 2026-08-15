@@ -60,6 +60,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle58 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle59 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle60 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle61 = new System.Windows.Forms.DataGridViewCellStyle();
             this.searchcbstop = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -117,6 +118,7 @@
             this.price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pic = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.position = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.machine = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.shift = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.regby = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.regdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -725,6 +727,7 @@
             this.price,
             this.pic,
             this.position,
+            this.machine,
             this.shift,
             this.regby,
             this.regdate,
@@ -822,7 +825,16 @@
             this.position.HeaderText = "Position";
             this.position.Name = "position";
             this.position.ReadOnly = true;
-            // 
+            //
+            // machine
+            //
+            this.machine.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.machine.DefaultCellStyle = dataGridViewCellStyle48;
+            this.machine.HeaderText = "Machine";
+            this.machine.Name = "machine";
+            this.machine.ReadOnly = true;
+            //
             // shift
             // 
             this.shift.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -938,8 +950,8 @@
             // posc2
             // 
             this.posc2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.posc2.DefaultCellStyle = dataGridViewCellStyle48;
+            dataGridViewCellStyle49.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.posc2.DefaultCellStyle = dataGridViewCellStyle49;
             this.posc2.HeaderText = "POSC";
             this.posc2.Name = "posc2";
             this.posc2.ReadOnly = true;
@@ -947,8 +959,8 @@
             // itemcode2
             // 
             this.itemcode2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle49.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.itemcode2.DefaultCellStyle = dataGridViewCellStyle49;
+            dataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.itemcode2.DefaultCellStyle = dataGridViewCellStyle50;
             this.itemcode2.HeaderText = "Item Code";
             this.itemcode2.Name = "itemcode2";
             this.itemcode2.ReadOnly = true;
@@ -956,8 +968,8 @@
             // rmcode2
             // 
             this.rmcode2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.rmcode2.DefaultCellStyle = dataGridViewCellStyle50;
+            dataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.rmcode2.DefaultCellStyle = dataGridViewCellStyle51;
             this.rmcode2.HeaderText = "RM Code";
             this.rmcode2.Name = "rmcode2";
             this.rmcode2.ReadOnly = true;
@@ -965,8 +977,8 @@
             // rmname2
             // 
             this.rmname2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.rmname2.DefaultCellStyle = dataGridViewCellStyle51;
+            dataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.rmname2.DefaultCellStyle = dataGridViewCellStyle52;
             this.rmname2.HeaderText = "RM Name";
             this.rmname2.Name = "rmname2";
             this.rmname2.ReadOnly = true;
@@ -975,8 +987,8 @@
             // type2
             // 
             this.type2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.type2.DefaultCellStyle = dataGridViewCellStyle52;
+            dataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.type2.DefaultCellStyle = dataGridViewCellStyle53;
             this.type2.HeaderText = "NG Type";
             this.type2.Name = "type2";
             this.type2.ReadOnly = true;
@@ -985,8 +997,8 @@
             // stopinfo2
             // 
             this.stopinfo2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.stopinfo2.DefaultCellStyle = dataGridViewCellStyle53;
+            dataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.stopinfo2.DefaultCellStyle = dataGridViewCellStyle54;
             this.stopinfo2.HeaderText = "Stop Infomation";
             this.stopinfo2.Name = "stopinfo2";
             this.stopinfo2.ReadOnly = true;
@@ -995,8 +1007,8 @@
             // qty2
             // 
             this.qty2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.qty2.DefaultCellStyle = dataGridViewCellStyle54;
+            dataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.qty2.DefaultCellStyle = dataGridViewCellStyle55;
             this.qty2.HeaderText = "RM Quantity";
             this.qty2.Name = "qty2";
             this.qty2.ReadOnly = true;
@@ -1005,9 +1017,9 @@
             // price2
             // 
             this.price2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle55.Format = "N4";
-            this.price2.DefaultCellStyle = dataGridViewCellStyle55;
+            dataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle56.Format = "N4";
+            this.price2.DefaultCellStyle = dataGridViewCellStyle56;
             this.price2.HeaderText = "RM Price";
             this.price2.Name = "price2";
             this.price2.ReadOnly = true;
@@ -1015,8 +1027,8 @@
             // pic2
             // 
             this.pic2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.pic2.DefaultCellStyle = dataGridViewCellStyle56;
+            dataGridViewCellStyle57.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.pic2.DefaultCellStyle = dataGridViewCellStyle57;
             this.pic2.HeaderText = "PIC";
             this.pic2.Name = "pic2";
             this.pic2.ReadOnly = true;
@@ -1024,8 +1036,8 @@
             // regby2
             // 
             this.regby2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle57.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.regby2.DefaultCellStyle = dataGridViewCellStyle57;
+            dataGridViewCellStyle58.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.regby2.DefaultCellStyle = dataGridViewCellStyle58;
             this.regby2.HeaderText = "Register By";
             this.regby2.Name = "regby2";
             this.regby2.ReadOnly = true;
@@ -1034,9 +1046,9 @@
             // regdate2
             // 
             this.regdate2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle58.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle58.Format = "dd-MM-yyyy hh:mm";
-            this.regdate2.DefaultCellStyle = dataGridViewCellStyle58;
+            dataGridViewCellStyle59.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle59.Format = "dd-MM-yyyy hh:mm";
+            this.regdate2.DefaultCellStyle = dataGridViewCellStyle59;
             this.regdate2.HeaderText = "Register Date";
             this.regdate2.Name = "regdate2";
             this.regdate2.ReadOnly = true;
@@ -1045,8 +1057,8 @@
             // updateby2
             // 
             this.updateby2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle59.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.updateby2.DefaultCellStyle = dataGridViewCellStyle59;
+            dataGridViewCellStyle60.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.updateby2.DefaultCellStyle = dataGridViewCellStyle60;
             this.updateby2.HeaderText = "Update By";
             this.updateby2.Name = "updateby2";
             this.updateby2.ReadOnly = true;
@@ -1055,9 +1067,9 @@
             // updatedate2
             // 
             this.updatedate2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle60.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle60.Format = "dd-MM-yyyy hh:mm";
-            this.updatedate2.DefaultCellStyle = dataGridViewCellStyle60;
+            dataGridViewCellStyle61.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle61.Format = "dd-MM-yyyy hh:mm";
+            this.updatedate2.DefaultCellStyle = dataGridViewCellStyle61;
             this.updatedate2.HeaderText = "Update Date";
             this.updatedate2.Name = "updatedate2";
             this.updatedate2.ReadOnly = true;
@@ -1207,6 +1219,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn price;
         private System.Windows.Forms.DataGridViewTextBoxColumn pic;
         private System.Windows.Forms.DataGridViewTextBoxColumn position;
+        private System.Windows.Forms.DataGridViewTextBoxColumn machine;
         private System.Windows.Forms.DataGridViewTextBoxColumn shift;
         private System.Windows.Forms.DataGridViewTextBoxColumn regby;
         private System.Windows.Forms.DataGridViewTextBoxColumn regdate;
