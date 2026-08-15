@@ -382,9 +382,11 @@ namespace MachineDeptApp
         {
             DataTable dtconds = new DataTable();
             dtconds.Columns.Add("Val");
+            string date = "";
             if (chkdate.Checked == true)
             {
                 dtconds.Rows.Add("tbNG.RegDate BETWEEN '" + dtpfrom.Value.ToString("yyyy-MM-dd 00:00:00.000") + "' AND '" + dtpto.Value.ToString("yyyy-MM-dd 23:59:59.000") + "'");
+                date = "AND tbNG.RegDate BETWEEN '" + dtpfrom.Value.ToString("yyyy-MM-dd 00:00:00.000") + "' AND '" + dtpto.Value.ToString("yyyy-MM-dd 23:59:59.000") + "'";
             }
             if (searchcode.Text.Trim() != "")
             {
@@ -456,7 +458,7 @@ namespace MachineDeptApp
                                                 (SELECT UpItemCode, LowItemCode, LowQty FROM MstBOM )tbBom ON tbNG.ItemCode = tbBom.UpItemCode
                                                 LEFT JOIN 
                                                 (SELECT RMCode, RMName, UnitPrice FROM [RawMaterialWHDB].[dbo].[tbMstUnitPrice]) tbP ON tbBom.LowItemCode = tbP.RMCode
-                                                WHERE tbNG.ItemCode = '" + code + "' ";
+                                                WHERE tbNG.ItemCode = '" + code + "' "+date+" ";
                     SqlDataAdapter sda2 = new SqlDataAdapter(query2, con.con);
                     sda2.Fill(dtsearch2);
                     double qty = Convert.ToDouble(row["Qty"]), price = Convert.ToDouble(row["Resv4"]);
@@ -477,7 +479,6 @@ namespace MachineDeptApp
                     string text = type;
 
                     string part1 = text.Split(' ')[0];
-
                     string part2 = string.Join(" ", text.Split(' ').Skip(1));
                     type = part2 + " ( " + part1 + " )";
                     DateTime now = Convert.ToDateTime(row["RegDate"]);
@@ -497,6 +498,7 @@ namespace MachineDeptApp
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["price"].Value = subprice;
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["pic"].Value = row["PIC"].ToString();
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["position"].Value = row["Position"].ToString();
+                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["machine"].Value = row["MC"].ToString();
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["shift"].Value = period;
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["regdate"].Value = Convert.ToDateTime(row["RegDate"]);
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["regby"].Value = row["RegBy"].ToString();
