@@ -62,10 +62,9 @@ namespace MachineDeptApp
                 dgvpic.Visible = false;
             }
         }
-
         private void DgvList_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.ColumnIndex == 12)
+            if (e.RowIndex >= 0 && e.ColumnIndex == dgvList.Columns.Count-1)
             {
                 dgvList.ClearSelection();
                 DialogResult ask = MessageBox.Show("Are you sure you want to delete this ?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -186,7 +185,20 @@ namespace MachineDeptApp
                         searchcbng.Items.Add(row["Name"].ToString());
                     }
                 }
-               
+
+                //machine (grouped distinct values of the same column shown in dgvList's Machine column)
+                DataTable dtmc = new DataTable();
+                string querymc = "SELECT MCName FROM tbNGTypeDetails WHERE MCName IS NOT NULL AND MCName <> '' GROUP BY MCName ORDER BY MCName";
+                SqlDataAdapter sdamc = new SqlDataAdapter(querymc, con.con);
+                sdamc.Fill(dtmc);
+                if (dtmc.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dtmc.Rows)
+                    {
+                        searchcbmachine.Items.Add(row["MCName"].ToString());
+                    }
+                }
+
                 lbttlqty.Text = "0";
                 lbsubprice.Text = "0";
                 lbRMqty.Text = "0";
@@ -404,6 +416,10 @@ namespace MachineDeptApp
             {
                 dtconds.Rows.Add("tbNG.Type = '" + searchcbng.Text.Trim() + "'");
             }
+            if (searchcbmachine.Text.Trim() != "")
+            {
+                dtconds.Rows.Add("tbNG.MCName = '" + searchcbmachine.Text.Trim() + "'");
+            }
             if (txtpic.Text.Trim() != "")
             {
                 dtconds.Rows.Add("tbpo.Name = '" + txtpic.Text.Trim() + "'");
@@ -498,7 +514,7 @@ namespace MachineDeptApp
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["price"].Value = subprice;
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["pic"].Value = row["PIC"].ToString();
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["position"].Value = row["Position"].ToString();
-                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["machine"].Value = row["MC"].ToString();
+                    dgvList.Rows[dgvList.Rows.Count - 1].Cells["machine"].Value = row["MCName"].ToString();
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["shift"].Value = period;
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["regdate"].Value = Convert.ToDateTime(row["RegDate"]);
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["regby"].Value = row["RegBy"].ToString();
