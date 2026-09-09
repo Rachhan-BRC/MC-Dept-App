@@ -261,8 +261,9 @@ namespace MachineDeptApp
                 {
                     cnn.con.Open();
                 }
-                SqlCommand cmd = new SqlCommand(@"SELECT COUNT(MatReqNo) AS FoundQty FROM vw_OBSMatReq WHERE MatReqNo = @MatReqNo", cnn.con);
+                SqlCommand cmd = new SqlCommand(@"SELECT COUNT(MatReqNo) AS FoundQty FROM vw_OBSMatReq WHERE MatReqNo = @MatReqNo AND Remark = @POS", cnn.con);
                 cmd.Parameters.AddWithValue("@MatReqNo", MATNo);
+                cmd.Parameters.AddWithValue("@POS", txtDocNo.Text);
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())

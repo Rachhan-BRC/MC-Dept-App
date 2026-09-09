@@ -164,6 +164,8 @@
     <Compile Include="MCSDControl\SDRec\OBSMatRequestImportForm.Designer.cs">
       <DependentUpon>OBSMatRequestImportForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="OtherClass\ConsoleDatatableClass.cs" />
+    <Compile Include="OtherClass\OBSMatReqPrintClass.cs" />
     <Compile Include="SemiPress\MasterLabeSemiPrint.cs">
       <SubType>Form</SubType>
     </Compile>

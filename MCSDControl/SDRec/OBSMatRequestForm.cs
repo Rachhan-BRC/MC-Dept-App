@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MachineDeptApp
@@ -15,6 +11,7 @@ namespace MachineDeptApp
     {
         SQLConnect cnn = new SQLConnect();
         string ErrorText = "";
+
         public OBSMatRequestForm()
         {
             InitializeComponent();
@@ -27,15 +24,28 @@ namespace MachineDeptApp
 
             this.txtCode.TextChanged += TxtCode_TextChanged;
             this.txtDescription.TextChanged += TxtDescription_TextChanged;
-            this.cboRMType.TextChanged += CboRMType_TextChanged;
-            this.dtpShipDate.ValueChanged += DtpShipDate_ValueChanged;
-            this.cboMCReqStatus.TextChanged += CboMCReqStatus_TextChanged;
             this.txtRemark.TextChanged += TxtRemark_TextChanged;
+
+            this.cboRMType.TextChanged += CboRMType_TextChanged;
+            this.cboMCReqStatus.TextChanged += CboMCReqStatus_TextChanged;
+
+            this.dtpShipDate.ValueChanged += DtpShipDate_ValueChanged;
+
             this.dgvSearch.CellClick += DgvSearch_CellClick;
+            this.dgvSearch.CellPainting += DgvSearch_CellPainting;
             this.chkSelectAll.Click += ChkSelectAll_Click;
 
         }
 
+        private void DgvSearch_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                DataGridViewRow drow = dgvSearch.Rows[e.RowIndex];
+                bool.TryParse(drow.Cells["MCReqStatus"].Value?.ToString() ?? "False", out bool MC);
+                drow.DefaultCellStyle.ForeColor = MC ? Color.Gray : dgvSearch.AlternatingRowsDefaultCellStyle.ForeColor;
+            }
+        }
         private void BtnSearchAPI_Click(object sender, EventArgs e)
         {
             btnSearch.PerformClick();
@@ -53,20 +63,23 @@ namespace MachineDeptApp
         {
             if(dgvSearch.SelectedCells.Count>0 && e.RowIndex >=0 && e.ColumnIndex == dgvSearch.Columns["chkSelect"].Index)
             {
-                bool currentValue = Convert.ToBoolean(dgvSearch.SelectedCells[dgvSearch.Columns["chkSelect"].Index].Value);
-                dgvSearch.SelectedCells[dgvSearch.Columns["chkSelect"].Index].Value = !currentValue;
-                dgvSearch.ClearSelection(); dgvSearch.CurrentCell = null;
-                btnPrint.Enabled = CheckForEnableBtnPrint();
-                int SelectedCount = 0;
-                foreach (DataGridViewRow row in dgvSearch.Rows)
+                if (!Convert.ToBoolean(dgvSearch.CurrentRow.Cells[dgvSearch.Columns["MCReqStatus"].Index].Value))
                 {
-                    if (row.Cells["chkSelect"].Value != null && row.Cells["chkSelect"].Value.ToString() == "True")
-                        SelectedCount++;
+                    bool currentValue = Convert.ToBoolean(dgvSearch.SelectedCells[dgvSearch.Columns["chkSelect"].Index].Value);
+                    dgvSearch.SelectedCells[dgvSearch.Columns["chkSelect"].Index].Value = !currentValue;
+                    btnPrint.Enabled = CheckForEnableBtnPrint();
+                    int SelectedCount = 0;
+                    foreach (DataGridViewRow row in dgvSearch.Rows)
+                    {
+                        if (row.Cells["chkSelect"].Value != null && row.Cells["chkSelect"].Value.ToString() == "True")
+                            SelectedCount++;
+                    }
+                    if (SelectedCount == dgvSearch.Rows.Count)
+                        chkSelectAll.Checked = true;
+                    else
+                        chkSelectAll.Checked = false;
                 }
-                if(SelectedCount == dgvSearch.Rows.Count)
-                    chkSelectAll.Checked = true;
-                else
-                    chkSelectAll.Checked = false;
+                dgvSearch.ClearSelection(); dgvSearch.CurrentCell = null;
             }
         }
         private void TxtRemark_TextChanged(object sender, EventArgs e)
@@ -115,7 +128,197 @@ namespace MachineDeptApp
         }        
         private void BtnPrint_Click(object sender, EventArgs e)
         {
-            
+            DataTable dtSelectedList = new DataTable();
+            dtSelectedList.Columns.Add("ItemCode", typeof(string));
+            dtSelectedList.Columns.Add("ItemName", typeof(string));
+            dtSelectedList.Columns.Add("Maker", typeof(string));
+            dtSelectedList.Columns.Add("RMType", typeof(string));
+            dtSelectedList.Columns.Add("PackSize", typeof(int));
+            dtSelectedList.Columns.Add("PackQty", typeof(int));
+            dtSelectedList.Columns.Add("TTLReqQty", typeof(int));
+            dtSelectedList.Columns.Add("MATReqNo", typeof(string));
+            dtSelectedList.Columns.Add("Remarks", typeof(string));
+            foreach (DataGridViewRow row in dgvSearch.Rows)
+            {
+                if (row.Cells["chkSelect"].Value != null && row.Cells["chkSelect"].Value.ToString() == "True" &&
+                    !Convert.ToBoolean(row.Cells["MCReqStatus"].Value?.ToString() ?? "FALSE"))
+                {
+                    DataRow drow = dtSelectedList.NewRow();
+                    drow["ItemCode"] = row.Cells["CodeNo"].Value.ToString();
+                    drow["ItemName"] = row.Cells["Description"].Value.ToString();
+                    drow["Maker"] = row.Cells["Maker"].Value.ToString();
+                    drow["RMType"] = row.Cells["Type"].Value.ToString();
+                    drow["PackSize"] = Convert.ToInt32(row.Cells["Pack1Qty"].Value);
+                    drow["PackQty"] = Convert.ToInt32(row.Cells["Pack"].Value);
+                    drow["TTLReqQty"] = Convert.ToInt32(row.Cells["TotalQty"].Value);
+                    drow["MATReqNo"] = row.Cells["Barcode"].Value.ToString();
+                    drow["Remarks"] = row.Cells["Remarks"].Value.ToString();
+                    dtSelectedList.Rows.Add(drow);
+                }
+            }
+            if (dtSelectedList.Rows.Count > 0)
+            {
+                int DistinctPOSCount = dtSelectedList.AsEnumerable()
+                    .Select(r => r.Field<string>("Remarks"))
+                    .Distinct()
+                    .Count();
+                if (DistinctPOSCount == 1)
+                {
+                    DialogResult DSL = MessageBox.Show("តើអ្នកចង់ព្រីនមែនដែរឬទេ?", MenuFormV2.MsgTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (DSL == DialogResult.Yes)
+                    {
+                        ErrorText = "";
+                        Cursor = Cursors.WaitCursor;
+                        LbStatus.Text = "កំពុងឆែកទិន្នន័យ . . . ";
+                        LbStatus.Refresh();
+
+                        string Username = MenuFormV2.UserForNextForm;
+                        DateTime PrintDate = DateTime.Now;
+                        string POS = dtSelectedList.Rows[0]["Remarks"].ToString();
+                        DataTable dtFinalList = dtSelectedList.Clone();
+
+                        //Update to DB
+                        try
+                        {
+                            if (cnn.con.State != ConnectionState.Open)
+                                cnn.con.Open();
+                            foreach (DataRow row in dtSelectedList.Rows)
+                            {
+                                string MATReqNo = row["MATReqNo"].ToString();
+                                bool OkToBePrint = CheckAlreadyRequested(POS, MATReqNo);                                
+                                if (OkToBePrint)
+                                {
+                                    SqlCommand cmd = new SqlCommand(@"UPDATE tbOBSMatRequest SET 
+                                    MCReqDate = @PrintD, 
+                                    UpdateDate = @PrintD, 
+                                    UpdateBy = @UpB 
+                                    WHERE Remarks = @Rem AND MatReqNo = @MatNo", cnn.con);
+                                    cmd.Parameters.AddWithValue("@PrintD", PrintDate);
+                                    cmd.Parameters.AddWithValue("@UpB", Username);
+                                    cmd.Parameters.AddWithValue("@Rem", POS);
+                                    cmd.Parameters.AddWithValue("@MatNo", MATReqNo);
+                                    //cmd.ExecuteNonQuery();
+                                    dtFinalList.ImportRow(row);
+                                }
+                                else
+                                {
+                                    SqlCommand cmd = new SqlCommand(@"SELECT Remarks, MatReqNo, ItemCode, 
+                                        ItemName, MCReqDate, UpdateDate, UpdateBy FROM tbOBSMatRequest 
+                                        WHERE Remarks = @Rem AND MatReqNo = @MatNo", cnn.con);
+                                    cmd.Parameters.AddWithValue("@Rem", POS);
+                                    cmd.Parameters.AddWithValue("@MatNo", MATReqNo);
+                                    using (SqlDataReader dr = cmd.ExecuteReader())
+                                    {
+                                        if (dr.Read())
+                                        {
+                                            foreach (DataGridViewRow drow in dgvSearch.Rows)
+                                            {
+                                                if (drow.Cells["Remarks"].Value.ToString() == POS && drow.Cells["Barcode"].Value.ToString() == MATReqNo)
+                                                {
+                                                    drow.Cells["chkSelect"].Value = false;
+                                                    drow.Cells["MCReqStatus"].Value = true;
+                                                    drow.Cells["MCReqDate"].Value = dr["MCReqDate"] == DBNull.Value ? null : (object)Convert.ToDateTime(dr["MCReqDate"]);
+                                                    drow.Cells["UpdateDate"].Value = dr["UpdateDate"] == DBNull.Value ? null : (object)Convert.ToDateTime(dr["UpdateDate"]);
+                                                    drow.Cells["UpdateBy"].Value = dr["UpdateBy"] == DBNull.Value ? "" : dr["UpdateBy"].ToString();
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            dtFinalList.AcceptChanges();
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorText = "Update to DB : \n" + ex.Message;
+                        }
+                        finally
+                        {
+                            if (cnn.con.State != ConnectionState.Closed)
+                                cnn.con.Close();
+                        }
+
+                        //Update Dgv & Print Excel
+                        string PrintedPath = "";
+                        if (ErrorText.Trim() == "")
+                        {
+
+                            if (dtFinalList.Rows.Count > 0)
+                            {
+                                LbStatus.Text = "ព្រីនឯកសារ . . . ";
+                                LbStatus.Refresh();
+
+                                //Print Excel
+                                OtherClass.OBSMatReqPrintClass OBSMatPrint = new OtherClass.OBSMatReqPrintClass();
+                                OBSMatPrint.PrintExcelOut(dtFinalList);
+                                PrintedPath = OtherClass.OBSMatReqPrintClass.SavePath;
+                                ErrorText = OtherClass.OBSMatReqPrintClass.ErrorText;
+
+                                //Update Dgv
+                                foreach (DataRow row in dtFinalList.Rows)
+                                {
+                                    foreach (DataGridViewRow drow in dgvSearch.Rows)
+                                    {
+                                        if (drow.Cells["Remarks"].Value.ToString() == row["Remarks"].ToString() && drow.Cells["Barcode"].Value.ToString() == row["MATReqNo"].ToString())
+                                        {
+                                            drow.Cells["chkSelect"].Value = false;
+                                            drow.Cells["MCReqStatus"].Value = true;
+                                            drow.Cells["MCReqDate"].Value = PrintDate;
+                                            drow.Cells["UpdateDate"].Value = PrintDate;
+                                            drow.Cells["UpdateBy"].Value = Username;
+                                            break;
+                                        }
+                                    }
+                                }
+
+                            }
+                            else
+                                ErrorText = "គ្មានទិន្នន័យដែលត្រូវព្រីនទេ!";
+                        }
+
+                        Cursor = Cursors.Default;
+
+                        if(ErrorText.Trim()== "")
+                        {
+                            LbStatus.Text = "ព្រីនឯកសារបានជោគជ័យ!";
+                            LbStatus.Refresh();
+                            MessageBox.Show("ព្រីនឯកសារបានជោគជ័យ!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (PrintedPath.Trim() == "")
+                                return;
+                        }
+                        else
+                        {
+                            LbStatus.Text = "ព្រីនឯកសារមានបញ្ហា!";
+                            LbStatus.Refresh();
+                            if (PrintedPath.Trim() == "")
+                            {
+                                MessageBox.Show("មានបញ្ហា!\n" + ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                            else
+                            {
+                                MessageBox.Show("ឯកសារត្រូវបានព្រីន ប៉ុន្តែមានបញ្ហាខ្លះ!\n" + ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);                                
+                            }
+                        }
+
+                       //Open Printed Excel
+                        if (PrintedPath.Trim() != "")
+                        {
+                            try
+                            {
+                                System.Diagnostics.Process.Start(PrintedPath);
+                            }
+                            catch { }
+                        }
+
+                    }
+                }
+                else
+                    MessageBox.Show("សូមជ្រើសរើសទិន្នន័យនៃ POS/Remark តែមួយ!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            }
+
         }
         private void BtnSearch_Click(object sender, EventArgs e)
         {
@@ -298,6 +501,27 @@ namespace MachineDeptApp
             }
             return bEnable;
         }
-
+        private bool CheckAlreadyRequested(string POS,  string MATReqNo)
+        {
+            bool bOkToPrint = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand(@"SELECT Remarks, MatReqNo, ItemCode, 
+                    ItemName, MCReqDate, UpdateDate, UpdateBy FROM tbOBSMatRequest 
+                    WHERE Remarks = @Rem AND MatReqNo = @MatNo", cnn.con);
+                cmd.Parameters.AddWithValue("@Rem", POS);
+                cmd.Parameters.AddWithValue("@MatNo", MATReqNo);
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    if (dr.Read())
+                    {
+                        if (dr["MCReqDate"].ToString().Trim() == "")
+                            bOkToPrint = true;
+                    }
+                }
+            }
+            catch { }
+            return bOkToPrint;
+        }
     }
 }
