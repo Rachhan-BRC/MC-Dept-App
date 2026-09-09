@@ -2438,7 +2438,6 @@ namespace MachineDeptApp
                 }
 
             }
-
             if (currentClkNode.Text == "Customer Zero Claim")
             {
                 //Check if already open >> Focus on that Form
@@ -2539,6 +2538,32 @@ namespace MachineDeptApp
                 }
 
             }
+            if (currentClkNode.Text == "ទិន្នន័យស្នើសុំវត្ថុធាតុដើម (OBS)")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+
+                if (FoundOpened == 0)
+                {
+                    OBSMatRequestForm Uf = new OBSMatRequestForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("ទិន្នន័យស្នើសុំវត្ថុធាតុដើម (OBS)");
+                    dtOpenForm.Rows.Add("OBSMatRequestForm", "ទិន្នន័យស្នើសុំវត្ថុធាតុដើម (OBS)");
+                }
+
+            }
+
             int After = dtOpenForm.Rows.Count;
 
             if (Before < After)
@@ -2631,7 +2656,6 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(5, "ប្រៀបធៀបទិន្នន័យ In-Out", "StockInOutComparisonForm");
             dtChildRoot.Rows.Add(5, "ឆែកទិន្នន័យShortage", "RMEstimateShortage");
 
-
             //7
             dtChildRoot.Rows.Add(6, "Import POS", "RMStatusForPlanForm");
             dtChildRoot.Rows.Add(6, "Input MC Type to the Plan", "_1InputMCStatusForm");
@@ -2721,8 +2745,8 @@ namespace MachineDeptApp
             dtChildRootofChild.Rows.Add(5, 0, "ឆែកទិន្នន័យ POS (1 SET)", "MCPOSDetailsBySetForm");
             dtChildRootofChild.Rows.Add(5, 0, "ព្រីនឡាប៊ែល NG", "NGRatePrintLabelForm");
 
-
             //6,2
+            dtChildRootofChild.Rows.Add(5, 1, "ទិន្នន័យស្នើសុំវត្ថុធាតុដើម (OBS)", "OBSMatRequestForm");
             dtChildRootofChild.Rows.Add(5, 1, "បញ្ចូលស្តុក SD MC", "WireStockINForm");
             dtChildRootofChild.Rows.Add(5, 1, "គណនា/វេរស្តុកសម្រាប់គម្រោង", "WireCalcForProduction");
             dtChildRootofChild.Rows.Add(5, 1, "ទទួលស្តុកពី MC Inprocess", "WireStockReturnForm");
