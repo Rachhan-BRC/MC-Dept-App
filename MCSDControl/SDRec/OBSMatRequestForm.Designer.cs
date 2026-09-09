@@ -29,21 +29,21 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OBSMatRequestForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle61 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle62 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle74 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle75 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle63 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle64 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle65 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle66 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle67 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle68 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle69 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle70 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle71 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle72 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle73 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.tStripNew = new System.Windows.Forms.ToolStrip();
             this.btnNew = new System.Windows.Forms.ToolStripButton();
@@ -51,25 +51,13 @@
             this.btnSearch = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnPrint = new System.Windows.Forms.ToolStripButton();
+            this.btnSearchAPI = new System.Windows.Forms.Button();
             this.panelFooter = new System.Windows.Forms.Panel();
             this.LbStatus = new System.Windows.Forms.Label();
             this.panelBody = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.dgvSearch = new System.Windows.Forms.DataGridView();
-            this.grbSearch = new System.Windows.Forms.GroupBox();
-            this.chkRMType = new System.Windows.Forms.CheckBox();
-            this.txtRemark = new System.Windows.Forms.TextBox();
-            this.txtDescription = new System.Windows.Forms.TextBox();
-            this.chkDescription = new System.Windows.Forms.CheckBox();
-            this.txtCode = new System.Windows.Forms.TextBox();
-            this.chkCode = new System.Windows.Forms.CheckBox();
-            this.dtpShipDate = new System.Windows.Forms.DateTimePicker();
-            this.chkShipDate = new System.Windows.Forms.CheckBox();
-            this.chkMCReqStatus = new System.Windows.Forms.CheckBox();
-            this.cboRMType = new System.Windows.Forms.ComboBox();
-            this.cboMCReqStatus = new System.Windows.Forms.ComboBox();
-            this.chkRemark = new System.Windows.Forms.CheckBox();
             this.chkSelectAll = new System.Windows.Forms.CheckBox();
+            this.dgvSearch = new System.Windows.Forms.DataGridView();
             this.chkSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.CodeNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -87,7 +75,20 @@
             this.RegBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UpdateDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UpdateBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnSearchAPI = new System.Windows.Forms.Button();
+            this.grbSearch = new System.Windows.Forms.GroupBox();
+            this.cboMCReqStatus = new System.Windows.Forms.ComboBox();
+            this.cboRMType = new System.Windows.Forms.ComboBox();
+            this.chkRMType = new System.Windows.Forms.CheckBox();
+            this.txtRemark = new System.Windows.Forms.TextBox();
+            this.txtDescription = new System.Windows.Forms.TextBox();
+            this.chkRemark = new System.Windows.Forms.CheckBox();
+            this.chkDescription = new System.Windows.Forms.CheckBox();
+            this.txtCode = new System.Windows.Forms.TextBox();
+            this.chkCode = new System.Windows.Forms.CheckBox();
+            this.dtpShipDate = new System.Windows.Forms.DateTimePicker();
+            this.chkShipDate = new System.Windows.Forms.CheckBox();
+            this.chkMCReqStatus = new System.Windows.Forms.CheckBox();
+            this.btnReprint = new System.Windows.Forms.ToolStripButton();
             this.panelHeader.SuspendLayout();
             this.tStripNew.SuspendLayout();
             this.tStripActionBtn.SuspendLayout();
@@ -145,7 +146,8 @@
             this.tStripActionBtn.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnSearch,
             this.toolStripSeparator2,
-            this.btnPrint});
+            this.btnPrint,
+            this.btnReprint});
             this.tStripActionBtn.Location = new System.Drawing.Point(4, 4);
             this.tStripActionBtn.Name = "tStripActionBtn";
             this.tStripActionBtn.Padding = new System.Windows.Forms.Padding(0, 5, 1, 6);
@@ -179,6 +181,14 @@
             this.btnPrint.Size = new System.Drawing.Size(47, 47);
             this.btnPrint.Text = "toolStripButton3";
             this.btnPrint.ToolTipText = "ព្រីន";
+            // 
+            // btnSearchAPI
+            // 
+            this.btnSearchAPI.Location = new System.Drawing.Point(5, 11);
+            this.btnSearchAPI.Name = "btnSearchAPI";
+            this.btnSearchAPI.Size = new System.Drawing.Size(46, 46);
+            this.btnSearchAPI.TabIndex = 1;
+            this.btnSearchAPI.UseVisualStyleBackColor = true;
             // 
             // panelFooter
             // 
@@ -226,24 +236,34 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "លទ្ធផលនៃការស្វែងរក";
             // 
+            // chkSelectAll
+            // 
+            this.chkSelectAll.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.chkSelectAll.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkSelectAll.Location = new System.Drawing.Point(10, 26);
+            this.chkSelectAll.Name = "chkSelectAll";
+            this.chkSelectAll.Size = new System.Drawing.Size(29, 36);
+            this.chkSelectAll.TabIndex = 1;
+            this.chkSelectAll.UseVisualStyleBackColor = false;
+            // 
             // dgvSearch
             // 
             this.dgvSearch.AllowUserToAddRows = false;
             this.dgvSearch.AllowUserToDeleteRows = false;
             this.dgvSearch.AllowUserToResizeRows = false;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.Blue;
-            this.dgvSearch.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle61.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle61.ForeColor = System.Drawing.Color.Blue;
+            this.dgvSearch.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle61;
             this.dgvSearch.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("Kh Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle17.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSearch.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle62.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle62.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle62.Font = new System.Drawing.Font("Kh Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle62.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle62.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            dataGridViewCellStyle62.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle62.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle62.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSearch.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle62;
             this.dgvSearch.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSearch.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.chkSelect,
@@ -268,21 +288,192 @@
             this.dgvSearch.Location = new System.Drawing.Point(5, 21);
             this.dgvSearch.Name = "dgvSearch";
             this.dgvSearch.ReadOnly = true;
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle29.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle29.Font = new System.Drawing.Font("Kh Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle29.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle29.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle29.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSearch.RowHeadersDefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle74.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle74.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle74.Font = new System.Drawing.Font("Kh Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle74.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle74.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle74.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle74.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSearch.RowHeadersDefaultCellStyle = dataGridViewCellStyle74;
             this.dgvSearch.RowHeadersVisible = false;
             this.dgvSearch.RowHeadersWidth = 65;
-            dataGridViewCellStyle30.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
-            dataGridViewCellStyle30.ForeColor = System.Drawing.Color.Blue;
-            this.dgvSearch.RowsDefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle75.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
+            dataGridViewCellStyle75.ForeColor = System.Drawing.Color.Blue;
+            this.dgvSearch.RowsDefaultCellStyle = dataGridViewCellStyle75;
             this.dgvSearch.Size = new System.Drawing.Size(780, 209);
             this.dgvSearch.TabIndex = 3;
+            // 
+            // chkSelect
+            // 
+            this.chkSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.chkSelect.Frozen = true;
+            this.chkSelect.HeaderText = "";
+            this.chkSelect.Name = "chkSelect";
+            this.chkSelect.ReadOnly = true;
+            this.chkSelect.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.chkSelect.Width = 35;
+            // 
+            // CodeNo
+            // 
+            this.CodeNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle63.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CodeNo.DefaultCellStyle = dataGridViewCellStyle63;
+            this.CodeNo.Frozen = true;
+            this.CodeNo.HeaderText = "CODE NO";
+            this.CodeNo.Name = "CodeNo";
+            this.CodeNo.ReadOnly = true;
+            this.CodeNo.Width = 90;
+            // 
+            // Description
+            // 
+            this.Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Description.FillWeight = 220F;
+            this.Description.Frozen = true;
+            this.Description.HeaderText = "Description";
+            this.Description.Name = "Description";
+            this.Description.ReadOnly = true;
+            this.Description.Width = 235;
+            // 
+            // Maker
+            // 
+            this.Maker.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Maker.FillWeight = 110F;
+            this.Maker.HeaderText = "Maker";
+            this.Maker.Name = "Maker";
+            this.Maker.ReadOnly = true;
+            // 
+            // Type
+            // 
+            this.Type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Type.FillWeight = 110F;
+            this.Type.HeaderText = "Type";
+            this.Type.Name = "Type";
+            this.Type.ReadOnly = true;
+            // 
+            // Pack1Qty
+            // 
+            this.Pack1Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle64.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle64.Format = "N0";
+            dataGridViewCellStyle64.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.Pack1Qty.DefaultCellStyle = dataGridViewCellStyle64;
+            this.Pack1Qty.HeaderText = "1 Pack QTY";
+            this.Pack1Qty.Name = "Pack1Qty";
+            this.Pack1Qty.ReadOnly = true;
+            // 
+            // Pack
+            // 
+            this.Pack.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle65.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Pack.DefaultCellStyle = dataGridViewCellStyle65;
+            this.Pack.HeaderText = "Pack";
+            this.Pack.Name = "Pack";
+            this.Pack.ReadOnly = true;
+            this.Pack.Width = 60;
+            // 
+            // TotalQty
+            // 
+            this.TotalQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle66.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle66.Format = "N0";
+            dataGridViewCellStyle66.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.TotalQty.DefaultCellStyle = dataGridViewCellStyle66;
+            this.TotalQty.HeaderText = "TOTALQTY";
+            this.TotalQty.Name = "TotalQty";
+            this.TotalQty.ReadOnly = true;
+            this.TotalQty.Width = 115;
+            // 
+            // Barcode
+            // 
+            this.Barcode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle67.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Barcode.DefaultCellStyle = dataGridViewCellStyle67;
+            this.Barcode.HeaderText = "Barcode";
+            this.Barcode.Name = "Barcode";
+            this.Barcode.ReadOnly = true;
+            this.Barcode.Width = 120;
+            // 
+            // Remarks
+            // 
+            this.Remarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Remarks.HeaderText = "POS/Remarks";
+            this.Remarks.Name = "Remarks";
+            this.Remarks.ReadOnly = true;
+            this.Remarks.Width = 150;
+            // 
+            // ShipDate
+            // 
+            this.ShipDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle68.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle68.Format = "dd-MM-yyyy";
+            this.ShipDate.DefaultCellStyle = dataGridViewCellStyle68;
+            this.ShipDate.HeaderText = "Ship.Date";
+            this.ShipDate.Name = "ShipDate";
+            this.ShipDate.ReadOnly = true;
+            // 
+            // MCReqStatus
+            // 
+            this.MCReqStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.MCReqStatus.HeaderText = "MC Req|Status";
+            this.MCReqStatus.Name = "MCReqStatus";
+            this.MCReqStatus.ReadOnly = true;
+            this.MCReqStatus.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.MCReqStatus.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.MCReqStatus.Width = 123;
+            // 
+            // MCReqDate
+            // 
+            this.MCReqDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle69.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle69.Format = "dd-MM-yyyy hh:mm:ss tt";
+            this.MCReqDate.DefaultCellStyle = dataGridViewCellStyle69;
+            this.MCReqDate.HeaderText = "MC Req|Date";
+            this.MCReqDate.Name = "MCReqDate";
+            this.MCReqDate.ReadOnly = true;
+            this.MCReqDate.Width = 160;
+            // 
+            // RegDate
+            // 
+            this.RegDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle70.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle70.Format = "dd-MM-yyyy hh:mm:ss tt";
+            this.RegDate.DefaultCellStyle = dataGridViewCellStyle70;
+            this.RegDate.HeaderText = "Register|Date";
+            this.RegDate.Name = "RegDate";
+            this.RegDate.ReadOnly = true;
+            this.RegDate.Width = 160;
+            // 
+            // RegBy
+            // 
+            this.RegBy.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle71.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.RegBy.DefaultCellStyle = dataGridViewCellStyle71;
+            this.RegBy.HeaderText = "Register|By";
+            this.RegBy.Name = "RegBy";
+            this.RegBy.ReadOnly = true;
+            this.RegBy.Width = 90;
+            // 
+            // UpdateDate
+            // 
+            this.UpdateDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle72.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle72.Format = "dd-MM-yyyy hh:mm:ss tt";
+            this.UpdateDate.DefaultCellStyle = dataGridViewCellStyle72;
+            this.UpdateDate.HeaderText = "Update|Date";
+            this.UpdateDate.Name = "UpdateDate";
+            this.UpdateDate.ReadOnly = true;
+            this.UpdateDate.Width = 160;
+            // 
+            // UpdateBy
+            // 
+            this.UpdateBy.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle73.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.UpdateBy.DefaultCellStyle = dataGridViewCellStyle73;
+            this.UpdateBy.HeaderText = "Update|By";
+            this.UpdateBy.Name = "UpdateBy";
+            this.UpdateBy.ReadOnly = true;
+            this.UpdateBy.Width = 90;
             // 
             // grbSearch
             // 
@@ -306,6 +497,32 @@
             this.grbSearch.TabIndex = 0;
             this.grbSearch.TabStop = false;
             this.grbSearch.Text = "លក្ខខណ្ឌស្វែងរក";
+            // 
+            // cboMCReqStatus
+            // 
+            this.cboMCReqStatus.BackColor = System.Drawing.Color.White;
+            this.cboMCReqStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMCReqStatus.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
+            this.cboMCReqStatus.FormattingEnabled = true;
+            this.cboMCReqStatus.Items.AddRange(new object[] {
+            "មិនទាន់ព្រីន",
+            "ព្រីនរួច",
+            "ទាំងអស់"});
+            this.cboMCReqStatus.Location = new System.Drawing.Point(633, 22);
+            this.cboMCReqStatus.Name = "cboMCReqStatus";
+            this.cboMCReqStatus.Size = new System.Drawing.Size(131, 32);
+            this.cboMCReqStatus.TabIndex = 11;
+            // 
+            // cboRMType
+            // 
+            this.cboRMType.BackColor = System.Drawing.Color.White;
+            this.cboRMType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboRMType.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
+            this.cboRMType.FormattingEnabled = true;
+            this.cboRMType.Location = new System.Drawing.Point(633, 61);
+            this.cboRMType.Name = "cboRMType";
+            this.cboRMType.Size = new System.Drawing.Size(131, 32);
+            this.cboRMType.TabIndex = 11;
             // 
             // chkRMType
             // 
@@ -334,6 +551,17 @@
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(180, 32);
             this.txtDescription.TabIndex = 4;
+            // 
+            // chkRemark
+            // 
+            this.chkRemark.AutoSize = true;
+            this.chkRemark.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkRemark.Location = new System.Drawing.Point(11, 25);
+            this.chkRemark.Name = "chkRemark";
+            this.chkRemark.Size = new System.Drawing.Size(101, 28);
+            this.chkRemark.TabIndex = 3;
+            this.chkRemark.Text = "POS/Remark";
+            this.chkRemark.UseVisualStyleBackColor = true;
             // 
             // chkDescription
             // 
@@ -389,6 +617,8 @@
             // chkMCReqStatus
             // 
             this.chkMCReqStatus.AutoSize = true;
+            this.chkMCReqStatus.Checked = true;
+            this.chkMCReqStatus.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkMCReqStatus.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkMCReqStatus.Location = new System.Drawing.Point(519, 24);
             this.chkMCReqStatus.Name = "chkMCReqStatus";
@@ -397,231 +627,17 @@
             this.chkMCReqStatus.Text = "MC Req.Status";
             this.chkMCReqStatus.UseVisualStyleBackColor = true;
             // 
-            // cboRMType
+            // btnReprint
             // 
-            this.cboRMType.BackColor = System.Drawing.Color.White;
-            this.cboRMType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboRMType.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
-            this.cboRMType.FormattingEnabled = true;
-            this.cboRMType.Location = new System.Drawing.Point(633, 61);
-            this.cboRMType.Name = "cboRMType";
-            this.cboRMType.Size = new System.Drawing.Size(131, 32);
-            this.cboRMType.TabIndex = 11;
-            // 
-            // cboMCReqStatus
-            // 
-            this.cboMCReqStatus.BackColor = System.Drawing.Color.White;
-            this.cboMCReqStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboMCReqStatus.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
-            this.cboMCReqStatus.FormattingEnabled = true;
-            this.cboMCReqStatus.Items.AddRange(new object[] {
-            "មិនទាន់ព្រីន",
-            "ព្រីនរួច",
-            "ទាំងអស់"});
-            this.cboMCReqStatus.Location = new System.Drawing.Point(633, 22);
-            this.cboMCReqStatus.Name = "cboMCReqStatus";
-            this.cboMCReqStatus.Size = new System.Drawing.Size(131, 32);
-            this.cboMCReqStatus.TabIndex = 11;
-            // 
-            // chkRemark
-            // 
-            this.chkRemark.AutoSize = true;
-            this.chkRemark.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkRemark.Location = new System.Drawing.Point(11, 25);
-            this.chkRemark.Name = "chkRemark";
-            this.chkRemark.Size = new System.Drawing.Size(101, 28);
-            this.chkRemark.TabIndex = 3;
-            this.chkRemark.Text = "POS/Remark";
-            this.chkRemark.UseVisualStyleBackColor = true;
-            // 
-            // chkSelectAll
-            // 
-            this.chkSelectAll.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.chkSelectAll.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.chkSelectAll.Location = new System.Drawing.Point(10, 26);
-            this.chkSelectAll.Name = "chkSelectAll";
-            this.chkSelectAll.Size = new System.Drawing.Size(29, 36);
-            this.chkSelectAll.TabIndex = 1;
-            this.chkSelectAll.UseVisualStyleBackColor = false;
-            // 
-            // chkSelect
-            // 
-            this.chkSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.chkSelect.Frozen = true;
-            this.chkSelect.HeaderText = "";
-            this.chkSelect.Name = "chkSelect";
-            this.chkSelect.ReadOnly = true;
-            this.chkSelect.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.chkSelect.Width = 35;
-            // 
-            // CodeNo
-            // 
-            this.CodeNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CodeNo.DefaultCellStyle = dataGridViewCellStyle18;
-            this.CodeNo.Frozen = true;
-            this.CodeNo.HeaderText = "CODE NO";
-            this.CodeNo.Name = "CodeNo";
-            this.CodeNo.ReadOnly = true;
-            this.CodeNo.Width = 90;
-            // 
-            // Description
-            // 
-            this.Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Description.FillWeight = 220F;
-            this.Description.Frozen = true;
-            this.Description.HeaderText = "Description";
-            this.Description.Name = "Description";
-            this.Description.ReadOnly = true;
-            this.Description.Width = 235;
-            // 
-            // Maker
-            // 
-            this.Maker.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Maker.FillWeight = 110F;
-            this.Maker.HeaderText = "Maker";
-            this.Maker.Name = "Maker";
-            this.Maker.ReadOnly = true;
-            // 
-            // Type
-            // 
-            this.Type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Type.FillWeight = 110F;
-            this.Type.HeaderText = "Type";
-            this.Type.Name = "Type";
-            this.Type.ReadOnly = true;
-            // 
-            // Pack1Qty
-            // 
-            this.Pack1Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle19.Format = "N0";
-            dataGridViewCellStyle19.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.Pack1Qty.DefaultCellStyle = dataGridViewCellStyle19;
-            this.Pack1Qty.HeaderText = "1 Pack QTY";
-            this.Pack1Qty.Name = "Pack1Qty";
-            this.Pack1Qty.ReadOnly = true;
-            // 
-            // Pack
-            // 
-            this.Pack.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Pack.DefaultCellStyle = dataGridViewCellStyle20;
-            this.Pack.HeaderText = "Pack";
-            this.Pack.Name = "Pack";
-            this.Pack.ReadOnly = true;
-            this.Pack.Width = 60;
-            // 
-            // TotalQty
-            // 
-            this.TotalQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle21.Format = "N0";
-            dataGridViewCellStyle21.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.TotalQty.DefaultCellStyle = dataGridViewCellStyle21;
-            this.TotalQty.HeaderText = "TOTALQTY";
-            this.TotalQty.Name = "TotalQty";
-            this.TotalQty.ReadOnly = true;
-            this.TotalQty.Width = 115;
-            // 
-            // Barcode
-            // 
-            this.Barcode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Barcode.DefaultCellStyle = dataGridViewCellStyle22;
-            this.Barcode.HeaderText = "Barcode";
-            this.Barcode.Name = "Barcode";
-            this.Barcode.ReadOnly = true;
-            this.Barcode.Width = 120;
-            // 
-            // Remarks
-            // 
-            this.Remarks.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Remarks.HeaderText = "POS/Remarks";
-            this.Remarks.Name = "Remarks";
-            this.Remarks.ReadOnly = true;
-            this.Remarks.Width = 150;
-            // 
-            // ShipDate
-            // 
-            this.ShipDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle23.Format = "dd-MM-yyyy";
-            this.ShipDate.DefaultCellStyle = dataGridViewCellStyle23;
-            this.ShipDate.HeaderText = "Ship.Date";
-            this.ShipDate.Name = "ShipDate";
-            this.ShipDate.ReadOnly = true;
-            // 
-            // MCReqStatus
-            // 
-            this.MCReqStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.MCReqStatus.HeaderText = "MC Req|Status";
-            this.MCReqStatus.Name = "MCReqStatus";
-            this.MCReqStatus.ReadOnly = true;
-            this.MCReqStatus.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.MCReqStatus.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.MCReqStatus.Width = 113;
-            // 
-            // MCReqDate
-            // 
-            this.MCReqDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle24.Format = "dd-MM-yyyy hh:mm:ss tt";
-            this.MCReqDate.DefaultCellStyle = dataGridViewCellStyle24;
-            this.MCReqDate.HeaderText = "MC Req|Date";
-            this.MCReqDate.Name = "MCReqDate";
-            this.MCReqDate.ReadOnly = true;
-            this.MCReqDate.Width = 160;
-            // 
-            // RegDate
-            // 
-            this.RegDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle25.Format = "dd-MM-yyyy hh:mm:ss tt";
-            this.RegDate.DefaultCellStyle = dataGridViewCellStyle25;
-            this.RegDate.HeaderText = "Register|Date";
-            this.RegDate.Name = "RegDate";
-            this.RegDate.ReadOnly = true;
-            this.RegDate.Width = 160;
-            // 
-            // RegBy
-            // 
-            this.RegBy.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.RegBy.DefaultCellStyle = dataGridViewCellStyle26;
-            this.RegBy.HeaderText = "Register|By";
-            this.RegBy.Name = "RegBy";
-            this.RegBy.ReadOnly = true;
-            this.RegBy.Width = 90;
-            // 
-            // UpdateDate
-            // 
-            this.UpdateDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle27.Format = "dd-MM-yyyy hh:mm:ss tt";
-            this.UpdateDate.DefaultCellStyle = dataGridViewCellStyle27;
-            this.UpdateDate.HeaderText = "Update|Date";
-            this.UpdateDate.Name = "UpdateDate";
-            this.UpdateDate.ReadOnly = true;
-            this.UpdateDate.Width = 160;
-            // 
-            // UpdateBy
-            // 
-            this.UpdateBy.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.UpdateBy.DefaultCellStyle = dataGridViewCellStyle28;
-            this.UpdateBy.HeaderText = "Update|By";
-            this.UpdateBy.Name = "UpdateBy";
-            this.UpdateBy.ReadOnly = true;
-            this.UpdateBy.Width = 90;
-            // 
-            // btnSearchAPI
-            // 
-            this.btnSearchAPI.Location = new System.Drawing.Point(5, 11);
-            this.btnSearchAPI.Name = "btnSearchAPI";
-            this.btnSearchAPI.Size = new System.Drawing.Size(46, 46);
-            this.btnSearchAPI.TabIndex = 1;
-            this.btnSearchAPI.UseVisualStyleBackColor = true;
+            this.btnReprint.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReprint.Image = global::MachineDeptApp.Properties.Resources.Print;
+            this.btnReprint.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnReprint.Margin = new System.Windows.Forms.Padding(5, 1, 0, 2);
+            this.btnReprint.Name = "btnReprint";
+            this.btnReprint.Size = new System.Drawing.Size(96, 47);
+            this.btnReprint.Text = "Reprint";
+            this.btnReprint.ToolTipText = "ព្រីនម្ដងទៀត";
+            this.btnReprint.Visible = false;
             // 
             // OBSMatRequestForm
             // 
@@ -698,5 +714,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn UpdateDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn UpdateBy;
         private System.Windows.Forms.Button btnSearchAPI;
+        private System.Windows.Forms.ToolStripButton btnReprint;
     }
 }

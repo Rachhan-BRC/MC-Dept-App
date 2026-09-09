@@ -33,10 +33,24 @@ namespace MachineDeptApp
 
             this.dgvSearch.CellClick += DgvSearch_CellClick;
             this.dgvSearch.CellPainting += DgvSearch_CellPainting;
+            this.dgvSearch.CurrentCellChanged += DgvSearch_CurrentCellChanged;
             this.chkSelectAll.Click += ChkSelectAll_Click;
 
         }
 
+        private void DgvSearch_CurrentCellChanged(object sender, EventArgs e)
+        {
+            if(dgvSearch.SelectedCells.Count>0 && dgvSearch.CurrentCell != null && dgvSearch.CurrentCell.RowIndex >= 0)
+            {
+                bool.TryParse(dgvSearch.CurrentRow.Cells["MCReqStatus"].Value?.ToString() ?? "False", out bool MCPrinted);
+                if (MCPrinted)
+                    btnReprint.Visible = true;
+                else 
+                    btnReprint.Visible = false;
+            }
+            else
+                btnReprint.Visible = false;
+        }
         private void DgvSearch_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
@@ -55,7 +69,8 @@ namespace MachineDeptApp
             bool bSelectAll = chkSelectAll.Checked;
             foreach (DataGridViewRow row in dgvSearch.Rows)
             {
-                row.Cells["chkSelect"].Value = bSelectAll;
+                if (!Convert.ToBoolean(row.Cells[dgvSearch.Columns["MCReqStatus"].Index].Value))
+                    row.Cells["chkSelect"].Value = bSelectAll;
             }
             btnPrint.Enabled = CheckForEnableBtnPrint();
         }
@@ -197,7 +212,7 @@ namespace MachineDeptApp
                                     cmd.Parameters.AddWithValue("@UpB", Username);
                                     cmd.Parameters.AddWithValue("@Rem", POS);
                                     cmd.Parameters.AddWithValue("@MatNo", MATReqNo);
-                                    //cmd.ExecuteNonQuery();
+                                    cmd.ExecuteNonQuery();
                                     dtFinalList.ImportRow(row);
                                 }
                                 else
@@ -251,7 +266,7 @@ namespace MachineDeptApp
 
                                 //Print Excel
                                 OtherClass.OBSMatReqPrintClass OBSMatPrint = new OtherClass.OBSMatReqPrintClass();
-                                OBSMatPrint.PrintExcelOut(dtFinalList);
+                                OBSMatPrint.PrintExcelOut(PrintDate, dtFinalList);
                                 PrintedPath = OtherClass.OBSMatReqPrintClass.SavePath;
                                 ErrorText = OtherClass.OBSMatReqPrintClass.ErrorText;
 
@@ -329,6 +344,7 @@ namespace MachineDeptApp
             dgvSearch.Rows.Clear();
             foreach (DataGridViewColumn col in dgvSearch.Columns)
                 col.HeaderCell.SortGlyphDirection = System.Windows.Forms.SortOrder.None;
+            chkSelectAll.Checked = false;
 
             DataTable dtSQLCond = new DataTable();
             dtSQLCond.Columns.Add("Col");
@@ -440,6 +456,7 @@ namespace MachineDeptApp
 
         private void OBSMatRequestForm_Shown(object sender, EventArgs e)
         {
+            cboMCReqStatus.SelectedIndex = 0;
             foreach(DataGridViewColumn col in dgvSearch.Columns)
                 col.HeaderText = col.HeaderText.Replace("|", "\n");
             ErrorText = "";
