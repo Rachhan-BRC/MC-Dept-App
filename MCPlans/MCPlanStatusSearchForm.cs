@@ -94,13 +94,9 @@ namespace MachineDeptApp.MCPlans
                 {
                     ExportMasterPlanAll();
                 }
-                else if (TypeOfExport == "1")
-                {
-                    ExportMasterPlanKIT();
-                }
                 else
                 {
-
+                    ExportMasterPlanKIT();
                 }
             }
         }
@@ -239,7 +235,14 @@ namespace MachineDeptApp.MCPlans
                                 worksheet.Cells[rowIndex, 16] = CQty;
                                 worksheet.Cells[rowIndex, 17] = PassedQty;
                                 worksheet.Cells[rowIndex, 18] = RemainQty;
-                                worksheet.Cells[rowIndex, 19] = Remarks;
+                                try
+                                {
+                                    worksheet.Cells[rowIndex, 19] = Remarks;
+                                }
+                                catch 
+                                {
+                                    worksheet.Cells[rowIndex, 19] = "'" + Remarks;
+                                }
                                 worksheet.Cells[rowIndex, 20] = DocNo;
                                 worksheet.Cells[rowIndex, 21] = KITPromiss;
                                 worksheet.Cells[rowIndex, 22] = ActualKIT;
@@ -503,7 +506,7 @@ namespace MachineDeptApp.MCPlans
 
             cnn.con.Open();
 
-            string SQLQueryText = "SELECT T2.Remarks AS Customer,T2.Remarks2 AS Model, '' AS LineCode , FGCode, T1.PosPNo, T1.PosPQty, T1.PosPDelDate, T1.WIPCode, T3.ItemName AS WIPName, T1.PosCNo, T3.Remarks1 AS PINAssign, T3.Remarks2 AS WireTube, T3.Remarks3 AS Length, T1.SemiQty, T1.PosCQty, T1.PosCResultQty, T1.PosCRemainQty, T1.Remarks, T1.DocNo, T1.KITPromise, '' AS ActualKIT, T5.LastRegDate AS KITSD, T12.KITLastTransfer, LabelStatus, T3.Slot, T1.PlanSeqNo, " +
+            string SQLQueryText = "SELECT DISTINCT T2.Remarks AS Customer,T2.Remarks2 AS Model, '' AS LineCode , FGCode, T1.PosPNo, T1.PosPQty, T1.PosPDelDate, T1.WIPCode, T3.ItemName AS WIPName, T1.PosCNo, T3.Remarks1 AS PINAssign, T3.Remarks2 AS WireTube, T3.Remarks3 AS Length, T1.SemiQty, T1.PosCQty, T1.PosCResultQty, T1.PosCRemainQty, T1.Remarks, T1.DocNo, T1.KITPromise, '' AS ActualKIT, T5.LastRegDate AS KITSD, T12.KITLastTransfer, LabelStatus, T3.Slot, T1.PlanSeqNo, " +
                 "\nCONCAT(T3.MC1Type, '') AS MC1, T1.MC1Name, T1.MC1Status, T1.MC1ETA, " +
                 "\nCONCAT(T3.MC2Type, '') AS MC2, T1.MC2Name, T1.MC2Status, T1.MC2ETA, " +
                 "\nCONCAT(T3.MC3Type, '') AS MC3, T1.MC3Name, T1.MC3Status, T1.MC3ETA, " +
@@ -551,6 +554,7 @@ namespace MachineDeptApp.MCPlans
             if (dt.Rows.Count > 0)
             {
                 //Remove Duplicate
+                /*
                 for (int i = dt.Rows.Count - 1; i >= 0; i--)
                 {
                     int Count = 0;
@@ -573,7 +577,9 @@ namespace MachineDeptApp.MCPlans
                         dt.AcceptChanges();
                     }
                 }
-                
+
+                */
+
                 string minimumPOS = dt.Rows[0][9].ToString();
                 string maximumPOS = dt.Rows[dt.Rows.Count - 1][9].ToString();
 
@@ -811,7 +817,7 @@ namespace MachineDeptApp.MCPlans
                         }
                     }
                     
-                    Console.WriteLine(PosCNo + "\t" + MQCStatus);
+                    //Console.WriteLine(PosCNo + "\t" + MQCStatus);
 
                 }
                 Nullable<DateTime> LastMQCDate = null;
@@ -1297,7 +1303,7 @@ namespace MachineDeptApp.MCPlans
                 worksheet.Cells[dgvRow.Index + 7, 15] = CQty;
                 worksheet.Cells[dgvRow.Index + 7, 16] = PassedQty;
                 worksheet.Cells[dgvRow.Index + 7, 17] = RemainQty;
-                worksheet.Cells[dgvRow.Index + 7, 18] = Remarks;
+                worksheet.Cells[dgvRow.Index + 7, 18] = "'" + Remarks;
                 worksheet.Cells[dgvRow.Index + 7, 19] = DocNo;
                 worksheet.Cells[dgvRow.Index + 7, 20] = KITPromiss;
                 worksheet.Cells[dgvRow.Index + 7, 21] = ActualKIT;
