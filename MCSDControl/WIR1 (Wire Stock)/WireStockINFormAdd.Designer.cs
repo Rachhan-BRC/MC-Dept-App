@@ -32,8 +32,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WireStockINFormAdd));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.btnOKGRAY = new System.Windows.Forms.PictureBox();
             this.btnOK = new System.Windows.Forms.Button();
@@ -49,21 +50,21 @@
             this.txtRMName = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.CboType = new System.Windows.Forms.ComboBox();
-            this.dtpRegTo = new System.Windows.Forms.DateTimePicker();
-            this.dtpRegFrom = new System.Windows.Forms.DateTimePicker();
+            this.dtpRegDate = new System.Windows.Forms.DateTimePicker();
             this.txtRMCode = new System.Windows.Forms.TextBox();
             this.txtDocNo = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.dtpRegTime = new System.Windows.Forms.DateTimePicker();
             this.ChkForPrint = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.RMCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RMName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RegDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnOKGRAY)).BeginInit();
             this.panelFooter.SuspendLayout();
@@ -216,7 +217,8 @@
             this.RMCode,
             this.RMName,
             this.Qty,
-            this.Remark});
+            this.Remark,
+            this.RegDate});
             this.dgvSearchResult.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvSearchResult.EnableHeadersVisualStyles = false;
             this.dgvSearchResult.Location = new System.Drawing.Point(3, 26);
@@ -224,11 +226,11 @@
             this.dgvSearchResult.ReadOnly = true;
             this.dgvSearchResult.RowHeadersVisible = false;
             this.dgvSearchResult.RowHeadersWidth = 60;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvSearchResult.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvSearchResult.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvSearchResult.RowTemplate.Height = 25;
             this.dgvSearchResult.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvSearchResult.Size = new System.Drawing.Size(828, 305);
@@ -236,16 +238,15 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.dtpRegTime);
             this.groupBox1.Controls.Add(this.txtRMName);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.CboType);
-            this.groupBox1.Controls.Add(this.dtpRegTo);
-            this.groupBox1.Controls.Add(this.dtpRegFrom);
+            this.groupBox1.Controls.Add(this.dtpRegDate);
             this.groupBox1.Controls.Add(this.txtRMCode);
             this.groupBox1.Controls.Add(this.txtDocNo);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -290,25 +291,15 @@
             this.CboType.Size = new System.Drawing.Size(108, 27);
             this.CboType.TabIndex = 4;
             // 
-            // dtpRegTo
+            // dtpRegDate
             // 
-            this.dtpRegTo.CustomFormat = "dd-MM-yyyy";
-            this.dtpRegTo.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpRegTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpRegTo.Location = new System.Drawing.Point(690, 22);
-            this.dtpRegTo.Name = "dtpRegTo";
-            this.dtpRegTo.Size = new System.Drawing.Size(98, 28);
-            this.dtpRegTo.TabIndex = 1;
-            // 
-            // dtpRegFrom
-            // 
-            this.dtpRegFrom.CustomFormat = "dd-MM-yyyy";
-            this.dtpRegFrom.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpRegFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpRegFrom.Location = new System.Drawing.Point(575, 22);
-            this.dtpRegFrom.Name = "dtpRegFrom";
-            this.dtpRegFrom.Size = new System.Drawing.Size(99, 28);
-            this.dtpRegFrom.TabIndex = 1;
+            this.dtpRegDate.CustomFormat = "dd-MM-yyyy";
+            this.dtpRegDate.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpRegDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpRegDate.Location = new System.Drawing.Point(590, 22);
+            this.dtpRegDate.Name = "dtpRegDate";
+            this.dtpRegDate.Size = new System.Drawing.Size(99, 28);
+            this.dtpRegDate.TabIndex = 1;
             // 
             // txtRMCode
             // 
@@ -346,25 +337,15 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "លេខកូដ";
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(673, 27);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(19, 19);
-            this.label5.TabIndex = 0;
-            this.label5.Text = " - ";
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(517, 26);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 19);
+            this.label1.Size = new System.Drawing.Size(73, 19);
             this.label1.TabIndex = 0;
-            this.label1.Text = "ថ្ងៃខែឆ្នាំវេរ";
+            this.label1.Text = "ថ្ងៃខែឆ្នាំបញ្ចូល";
             // 
             // label4
             // 
@@ -375,6 +356,20 @@
             this.label4.Size = new System.Drawing.Size(66, 19);
             this.label4.TabIndex = 0;
             this.label4.Text = "លេខឯកសារ";
+            // 
+            // dtpRegTime
+            // 
+            this.dtpRegTime.Checked = false;
+            this.dtpRegTime.CustomFormat = "hh:mm tt";
+            this.dtpRegTime.DropDownAlign = System.Windows.Forms.LeftRightAlignment.Right;
+            this.dtpRegTime.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpRegTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpRegTime.Location = new System.Drawing.Point(695, 22);
+            this.dtpRegTime.Name = "dtpRegTime";
+            this.dtpRegTime.ShowCheckBox = true;
+            this.dtpRegTime.ShowUpDown = true;
+            this.dtpRegTime.Size = new System.Drawing.Size(99, 28);
+            this.dtpRegTime.TabIndex = 1;
             // 
             // ChkForPrint
             // 
@@ -418,6 +413,17 @@
             this.Remark.ReadOnly = true;
             this.Remark.Width = 180;
             // 
+            // RegDate
+            // 
+            this.RegDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.Format = "dd-MM-yyyy hh:mm tt";
+            this.RegDate.DefaultCellStyle = dataGridViewCellStyle4;
+            this.RegDate.HeaderText = "ថ្ងៃខែឆ្នាំបញ្ចូល";
+            this.RegDate.Name = "RegDate";
+            this.RegDate.ReadOnly = true;
+            this.RegDate.Width = 150;
+            // 
             // WireStockINFormAdd
             // 
             this.AcceptButton = this.btnSearch;
@@ -459,22 +465,22 @@
         private System.Windows.Forms.TextBox txtRMName;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox CboType;
-        private System.Windows.Forms.DateTimePicker dtpRegTo;
-        private System.Windows.Forms.DateTimePicker dtpRegFrom;
+        private System.Windows.Forms.DateTimePicker dtpRegDate;
         private System.Windows.Forms.TextBox txtRMCode;
         private System.Windows.Forms.TextBox txtDocNo;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.PictureBox btnOKGRAY;
+        private System.Windows.Forms.DateTimePicker dtpRegTime;
         private System.Windows.Forms.DataGridViewCheckBoxColumn ChkForPrint;
         private System.Windows.Forms.DataGridViewTextBoxColumn RMCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn RMName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
         private System.Windows.Forms.DataGridViewTextBoxColumn Remark;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RegDate;
     }
 }

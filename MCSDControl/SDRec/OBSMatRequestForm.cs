@@ -33,24 +33,10 @@ namespace MachineDeptApp
 
             this.dgvSearch.CellClick += DgvSearch_CellClick;
             this.dgvSearch.CellPainting += DgvSearch_CellPainting;
-            this.dgvSearch.CurrentCellChanged += DgvSearch_CurrentCellChanged;
             this.chkSelectAll.Click += ChkSelectAll_Click;
 
         }
 
-        private void DgvSearch_CurrentCellChanged(object sender, EventArgs e)
-        {
-            if(dgvSearch.SelectedCells.Count>0 && dgvSearch.CurrentCell != null && dgvSearch.CurrentCell.RowIndex >= 0)
-            {
-                bool.TryParse(dgvSearch.CurrentRow.Cells["MCReqStatus"].Value?.ToString() ?? "False", out bool MCPrinted);
-                if (MCPrinted)
-                    btnReprint.Visible = true;
-                else 
-                    btnReprint.Visible = false;
-            }
-            else
-                btnReprint.Visible = false;
-        }
         private void DgvSearch_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
@@ -266,7 +252,7 @@ namespace MachineDeptApp
 
                                 //Print Excel
                                 OtherClass.OBSMatReqPrintClass OBSMatPrint = new OtherClass.OBSMatReqPrintClass();
-                                OBSMatPrint.PrintExcelOut(PrintDate, dtFinalList);
+                                OBSMatPrint.PrintExcelOut(PrintDate, Username, dtFinalList);
                                 PrintedPath = OtherClass.OBSMatReqPrintClass.SavePath;
                                 ErrorText = OtherClass.OBSMatReqPrintClass.ErrorText;
 
@@ -333,7 +319,7 @@ namespace MachineDeptApp
                     MessageBox.Show("សូមជ្រើសរើសទិន្នន័យនៃ POS/Remark តែមួយ!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             }
-
+            btnPrint.Enabled = CheckForEnableBtnPrint();
         }
         private void BtnSearch_Click(object sender, EventArgs e)
         {
@@ -399,6 +385,8 @@ namespace MachineDeptApp
                     " + SQLConds + @" 
                     ORDER BY Remarks, RegDate, RMType, ItemCode", cnn.con);
                 sda.Fill(dtSearch);
+
+
             }
             catch (Exception ex)
             {
@@ -413,6 +401,7 @@ namespace MachineDeptApp
             //Add to Dgv
             if (ErrorText.Trim() == "")
             {
+                DataTable dtMCStock = Get_dtMCStock(), dtWHStock = Get_dtWHStock();
                 foreach (DataRow row in dtSearch.Rows)
                 {
                     DataGridViewRow drow = dgvSearch.Rows[dgvSearch.Rows.Add()];
@@ -432,6 +421,31 @@ namespace MachineDeptApp
                     drow.Cells["RegBy"].Value = row["RegBy"].ToString();
                     drow.Cells["UpdateDate"].Value = row["UpdateDate"] == DBNull.Value ? null : (object)Convert.ToDateTime(row["UpdateDate"]);
                     drow.Cells["UpdateBy"].Value = row["UpdateBy"] == DBNull.Value ? "" : row["UpdateBy"].ToString();
+
+                    //Add MCStock & WHStock
+                    if (!Convert.ToBoolean(drow.Cells["MCReqStatus"].Value?.ToString()?? "False"))
+                    {
+                        string ItemCode = drow.Cells["CodeNo"].Value.ToString();
+                        foreach (DataRow rowMC in dtMCStock.Rows)
+                        {
+                            if(rowMC["Code"].ToString() == ItemCode)
+                            {
+                                drow.Cells["MCStock"].Value = Convert.ToInt32(rowMC["MCStock"]);
+                                break;
+                            }
+                        }
+
+                        foreach (DataRow rowWH in dtWHStock.Rows)
+                        {
+                            if (rowWH["ItemCode"].ToString() == ItemCode)
+                            {
+                                drow.Cells["WHStock"].Value = Convert.ToInt32(rowWH["WHStock"]);
+                                break;
+                            }
+                        }
+
+                    }
+
                 }
             }
 
@@ -457,8 +471,15 @@ namespace MachineDeptApp
         private void OBSMatRequestForm_Shown(object sender, EventArgs e)
         {
             cboMCReqStatus.SelectedIndex = 0;
-            foreach(DataGridViewColumn col in dgvSearch.Columns)
+            foreach (DataGridViewColumn col in dgvSearch.Columns)
+            {
                 col.HeaderText = col.HeaderText.Replace("|", "\n");
+                if (col.Name == "MCStock" || col.Name == "WHStock")
+                {
+                    col.HeaderCell.Style.BackColor = Color.Orange;
+                    col.HeaderCell.Style.SelectionBackColor = Color.Orange;
+                }
+            }
             ErrorText = "";
             Cursor = Cursors.WaitCursor;
 
@@ -540,5 +561,48 @@ namespace MachineDeptApp
             catch { }
             return bOkToPrint;
         }
+        private DataTable Get_dtMCStock()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                if (cnn.con.State == ConnectionState.Closed)
+                    cnn.con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter(@"SELECT Code, SUM(StockValue) AS MCStock FROM tbSDMCAllTransaction 
+                WHERE CancelStatus = 0 AND LocCode <> 'MC1' 
+                GROUP BY Code 
+				HAVING SUM(StockValue) > 0 ", cnn.con);
+                sda.Fill(dt);
+            }
+            catch { }
+            finally
+            {
+                if (cnn.con.State == ConnectionState.Open)
+                    cnn.con.Close();
+            }
+            return dt;
+        }
+        private DataTable Get_dtWHStock()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                if (cnn.con.State == ConnectionState.Closed)
+                    cnn.con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter(@"SELECT ItemCode, SUM(StockValue) AS WHStock FROM [RawMaterialWHDB].[dbo].[tbRMCtrl_LabelTransaction] 
+	                WHERE Status = 'Active' 
+	                GROUP BY ItemCode 
+				    HAVING SUM(StockValue) > 0 ", cnn.con);
+                sda.Fill(dt);
+            }
+            catch { }
+            finally
+            {
+                if (cnn.con.State == ConnectionState.Open)
+                    cnn.con.Close();
+            }
+            return dt;
+        }
+
     }
 }

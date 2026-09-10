@@ -11,7 +11,7 @@ namespace MachineDeptApp.OtherClass
     {
         public static string SavePath { private set; get; }
         public static string ErrorText { private set; get; }
-        public void PrintExcelOut(DateTime PrintedDate, DataTable dtPrintList)
+        public void PrintExcelOut(DateTime PrintedDate, string PrintedBy, DataTable dtPrintList)
         {
             SavePath = ""; ErrorText = "";
 
@@ -41,6 +41,9 @@ namespace MachineDeptApp.OtherClass
                 //Header
                 worksheet.Cells[2, 2] = dtPrintList.Rows[0]["Remarks"].ToString();
                 worksheet.Cells[2, 8] = PrintedDate;
+
+                //Footer
+                worksheet.Cells[7, 3] = PrintedBy;
 
                 //Insert rows for data if there are more than 1 row in the DataTable
                 if (dtPrintList.Rows.Count > 1)
