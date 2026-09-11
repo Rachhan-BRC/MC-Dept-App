@@ -29,23 +29,23 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OBSMatRequestForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.tStripNew = new System.Windows.Forms.ToolStrip();
             this.btnNew = new System.Windows.Forms.ToolStripButton();
@@ -60,19 +60,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.chkSelectAll = new System.Windows.Forms.CheckBox();
             this.dgvSearch = new System.Windows.Forms.DataGridView();
-            this.grbSearch = new System.Windows.Forms.GroupBox();
-            this.cboMCReqStatus = new System.Windows.Forms.ComboBox();
-            this.cboRMType = new System.Windows.Forms.ComboBox();
-            this.chkRMType = new System.Windows.Forms.CheckBox();
-            this.txtRemark = new System.Windows.Forms.TextBox();
-            this.txtDescription = new System.Windows.Forms.TextBox();
-            this.chkRemark = new System.Windows.Forms.CheckBox();
-            this.chkDescription = new System.Windows.Forms.CheckBox();
-            this.txtCode = new System.Windows.Forms.TextBox();
-            this.chkCode = new System.Windows.Forms.CheckBox();
-            this.dtpShipDate = new System.Windows.Forms.DateTimePicker();
-            this.chkShipDate = new System.Windows.Forms.CheckBox();
-            this.chkMCReqStatus = new System.Windows.Forms.CheckBox();
             this.chkSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.CodeNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -92,6 +79,21 @@
             this.RegBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UpdateDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UpdateBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.grbSearch = new System.Windows.Forms.GroupBox();
+            this.cboMCReqStatus = new System.Windows.Forms.ComboBox();
+            this.cboRMType = new System.Windows.Forms.ComboBox();
+            this.chkRMType = new System.Windows.Forms.CheckBox();
+            this.txtRemark = new System.Windows.Forms.TextBox();
+            this.txtDescription = new System.Windows.Forms.TextBox();
+            this.chkRemark = new System.Windows.Forms.CheckBox();
+            this.chkDescription = new System.Windows.Forms.CheckBox();
+            this.txtCode = new System.Windows.Forms.TextBox();
+            this.chkCode = new System.Windows.Forms.CheckBox();
+            this.dtpShipDate = new System.Windows.Forms.DateTimePicker();
+            this.chkShipDate = new System.Windows.Forms.CheckBox();
+            this.chkMCReqStatus = new System.Windows.Forms.CheckBox();
+            this.chkMaker = new System.Windows.Forms.CheckBox();
+            this.txtMaker = new System.Windows.Forms.TextBox();
             this.panelHeader.SuspendLayout();
             this.tStripNew.SuspendLayout();
             this.tStripActionBtn.SuspendLayout();
@@ -110,8 +112,8 @@
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelHeader.Location = new System.Drawing.Point(0, 0);
             this.panelHeader.Name = "panelHeader";
-            this.panelHeader.Size = new System.Drawing.Size(800, 63);
-            this.panelHeader.TabIndex = 8;
+            this.panelHeader.Size = new System.Drawing.Size(934, 63);
+            this.panelHeader.TabIndex = 1;
             // 
             // tStripNew
             // 
@@ -122,7 +124,7 @@
             this.tStripNew.ImageScalingSize = new System.Drawing.Size(43, 43);
             this.tStripNew.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnNew});
-            this.tStripNew.Location = new System.Drawing.Point(749, 4);
+            this.tStripNew.Location = new System.Drawing.Point(883, 4);
             this.tStripNew.Name = "tStripNew";
             this.tStripNew.Padding = new System.Windows.Forms.Padding(0, 5, 1, 6);
             this.tStripNew.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -199,15 +201,15 @@
             this.panelFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelFooter.Location = new System.Drawing.Point(0, 415);
             this.panelFooter.Name = "panelFooter";
-            this.panelFooter.Size = new System.Drawing.Size(800, 35);
-            this.panelFooter.TabIndex = 11;
+            this.panelFooter.Size = new System.Drawing.Size(934, 35);
+            this.panelFooter.TabIndex = 2;
             // 
             // LbStatus
             // 
             this.LbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LbStatus.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbStatus.Location = new System.Drawing.Point(149, 5);
+            this.LbStatus.Location = new System.Drawing.Point(283, 5);
             this.LbStatus.Name = "LbStatus";
             this.LbStatus.Size = new System.Drawing.Size(645, 25);
             this.LbStatus.TabIndex = 0;
@@ -221,8 +223,8 @@
             this.panelBody.Location = new System.Drawing.Point(0, 63);
             this.panelBody.Name = "panelBody";
             this.panelBody.Padding = new System.Windows.Forms.Padding(5);
-            this.panelBody.Size = new System.Drawing.Size(800, 352);
-            this.panelBody.TabIndex = 12;
+            this.panelBody.Size = new System.Drawing.Size(934, 352);
+            this.panelBody.TabIndex = 0;
             // 
             // groupBox2
             // 
@@ -233,7 +235,7 @@
             this.groupBox2.Location = new System.Drawing.Point(5, 111);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(5, 0, 5, 6);
-            this.groupBox2.Size = new System.Drawing.Size(790, 236);
+            this.groupBox2.Size = new System.Drawing.Size(924, 236);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "លទ្ធផលនៃការស្វែងរក";
@@ -253,19 +255,19 @@
             this.dgvSearch.AllowUserToAddRows = false;
             this.dgvSearch.AllowUserToDeleteRows = false;
             this.dgvSearch.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Blue;
-            this.dgvSearch.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.Blue;
+            this.dgvSearch.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle18;
             this.dgvSearch.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Kh Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSearch.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Kh Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle19.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSearch.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle19;
             this.dgvSearch.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSearch.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.chkSelect,
@@ -292,173 +294,21 @@
             this.dgvSearch.Location = new System.Drawing.Point(5, 21);
             this.dgvSearch.Name = "dgvSearch";
             this.dgvSearch.ReadOnly = true;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Kh Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSearch.RowHeadersDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle33.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle33.Font = new System.Drawing.Font("Kh Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle33.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle33.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle33.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle33.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSearch.RowHeadersDefaultCellStyle = dataGridViewCellStyle33;
             this.dgvSearch.RowHeadersVisible = false;
             this.dgvSearch.RowHeadersWidth = 65;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
-            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.Blue;
-            this.dgvSearch.RowsDefaultCellStyle = dataGridViewCellStyle17;
-            this.dgvSearch.Size = new System.Drawing.Size(780, 209);
+            dataGridViewCellStyle34.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
+            dataGridViewCellStyle34.ForeColor = System.Drawing.Color.Blue;
+            this.dgvSearch.RowsDefaultCellStyle = dataGridViewCellStyle34;
+            this.dgvSearch.Size = new System.Drawing.Size(914, 209);
             this.dgvSearch.TabIndex = 3;
-            // 
-            // grbSearch
-            // 
-            this.grbSearch.Controls.Add(this.cboMCReqStatus);
-            this.grbSearch.Controls.Add(this.cboRMType);
-            this.grbSearch.Controls.Add(this.chkRMType);
-            this.grbSearch.Controls.Add(this.txtRemark);
-            this.grbSearch.Controls.Add(this.txtDescription);
-            this.grbSearch.Controls.Add(this.chkRemark);
-            this.grbSearch.Controls.Add(this.chkDescription);
-            this.grbSearch.Controls.Add(this.txtCode);
-            this.grbSearch.Controls.Add(this.chkCode);
-            this.grbSearch.Controls.Add(this.dtpShipDate);
-            this.grbSearch.Controls.Add(this.chkShipDate);
-            this.grbSearch.Controls.Add(this.chkMCReqStatus);
-            this.grbSearch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.grbSearch.Font = new System.Drawing.Font("Kh Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grbSearch.Location = new System.Drawing.Point(5, 5);
-            this.grbSearch.Name = "grbSearch";
-            this.grbSearch.Size = new System.Drawing.Size(790, 106);
-            this.grbSearch.TabIndex = 0;
-            this.grbSearch.TabStop = false;
-            this.grbSearch.Text = "លក្ខខណ្ឌស្វែងរក";
-            // 
-            // cboMCReqStatus
-            // 
-            this.cboMCReqStatus.BackColor = System.Drawing.Color.White;
-            this.cboMCReqStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboMCReqStatus.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
-            this.cboMCReqStatus.FormattingEnabled = true;
-            this.cboMCReqStatus.Items.AddRange(new object[] {
-            "មិនទាន់ព្រីន",
-            "ព្រីនរួច",
-            "ទាំងអស់"});
-            this.cboMCReqStatus.Location = new System.Drawing.Point(633, 22);
-            this.cboMCReqStatus.Name = "cboMCReqStatus";
-            this.cboMCReqStatus.Size = new System.Drawing.Size(131, 32);
-            this.cboMCReqStatus.TabIndex = 11;
-            // 
-            // cboRMType
-            // 
-            this.cboRMType.BackColor = System.Drawing.Color.White;
-            this.cboRMType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboRMType.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
-            this.cboRMType.FormattingEnabled = true;
-            this.cboRMType.Location = new System.Drawing.Point(633, 61);
-            this.cboRMType.Name = "cboRMType";
-            this.cboRMType.Size = new System.Drawing.Size(131, 32);
-            this.cboRMType.TabIndex = 11;
-            // 
-            // chkRMType
-            // 
-            this.chkRMType.AutoSize = true;
-            this.chkRMType.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkRMType.Location = new System.Drawing.Point(519, 63);
-            this.chkRMType.Name = "chkRMType";
-            this.chkRMType.Size = new System.Drawing.Size(57, 28);
-            this.chkRMType.TabIndex = 5;
-            this.chkRMType.Text = "Type";
-            this.chkRMType.UseVisualStyleBackColor = true;
-            // 
-            // txtRemark
-            // 
-            this.txtRemark.BackColor = System.Drawing.Color.White;
-            this.txtRemark.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRemark.Location = new System.Drawing.Point(111, 23);
-            this.txtRemark.Name = "txtRemark";
-            this.txtRemark.Size = new System.Drawing.Size(180, 32);
-            this.txtRemark.TabIndex = 4;
-            // 
-            // txtDescription
-            // 
-            this.txtDescription.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDescription.Location = new System.Drawing.Point(111, 61);
-            this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(180, 32);
-            this.txtDescription.TabIndex = 4;
-            // 
-            // chkRemark
-            // 
-            this.chkRemark.AutoSize = true;
-            this.chkRemark.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkRemark.Location = new System.Drawing.Point(11, 25);
-            this.chkRemark.Name = "chkRemark";
-            this.chkRemark.Size = new System.Drawing.Size(101, 28);
-            this.chkRemark.TabIndex = 3;
-            this.chkRemark.Text = "POS/Remark";
-            this.chkRemark.UseVisualStyleBackColor = true;
-            // 
-            // chkDescription
-            // 
-            this.chkDescription.AutoSize = true;
-            this.chkDescription.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkDescription.Location = new System.Drawing.Point(11, 63);
-            this.chkDescription.Name = "chkDescription";
-            this.chkDescription.Size = new System.Drawing.Size(94, 28);
-            this.chkDescription.TabIndex = 3;
-            this.chkDescription.Text = "Description";
-            this.chkDescription.UseVisualStyleBackColor = true;
-            // 
-            // txtCode
-            // 
-            this.txtCode.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCode.Location = new System.Drawing.Point(389, 61);
-            this.txtCode.Name = "txtCode";
-            this.txtCode.Size = new System.Drawing.Size(103, 32);
-            this.txtCode.TabIndex = 2;
-            // 
-            // chkCode
-            // 
-            this.chkCode.AutoSize = true;
-            this.chkCode.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkCode.Location = new System.Drawing.Point(306, 63);
-            this.chkCode.Name = "chkCode";
-            this.chkCode.Size = new System.Drawing.Size(82, 28);
-            this.chkCode.TabIndex = 1;
-            this.chkCode.Text = "CODE NO";
-            this.chkCode.UseVisualStyleBackColor = true;
-            // 
-            // dtpShipDate
-            // 
-            this.dtpShipDate.CustomFormat = "dd-MM-yyyy";
-            this.dtpShipDate.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpShipDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpShipDate.Location = new System.Drawing.Point(389, 22);
-            this.dtpShipDate.Name = "dtpShipDate";
-            this.dtpShipDate.Size = new System.Drawing.Size(103, 32);
-            this.dtpShipDate.TabIndex = 9;
-            // 
-            // chkShipDate
-            // 
-            this.chkShipDate.AutoSize = true;
-            this.chkShipDate.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkShipDate.Location = new System.Drawing.Point(306, 25);
-            this.chkShipDate.Name = "chkShipDate";
-            this.chkShipDate.Size = new System.Drawing.Size(85, 28);
-            this.chkShipDate.TabIndex = 8;
-            this.chkShipDate.Text = "Ship.Date";
-            this.chkShipDate.UseVisualStyleBackColor = true;
-            // 
-            // chkMCReqStatus
-            // 
-            this.chkMCReqStatus.AutoSize = true;
-            this.chkMCReqStatus.Checked = true;
-            this.chkMCReqStatus.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkMCReqStatus.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkMCReqStatus.Location = new System.Drawing.Point(519, 24);
-            this.chkMCReqStatus.Name = "chkMCReqStatus";
-            this.chkMCReqStatus.Size = new System.Drawing.Size(115, 28);
-            this.chkMCReqStatus.TabIndex = 7;
-            this.chkMCReqStatus.Text = "MC Req.Status";
-            this.chkMCReqStatus.UseVisualStyleBackColor = true;
             // 
             // chkSelect
             // 
@@ -473,8 +323,8 @@
             // CodeNo
             // 
             this.CodeNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CodeNo.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CodeNo.DefaultCellStyle = dataGridViewCellStyle20;
             this.CodeNo.Frozen = true;
             this.CodeNo.HeaderText = "CODE NO";
             this.CodeNo.Name = "CodeNo";
@@ -510,10 +360,10 @@
             // Pack1Qty
             // 
             this.Pack1Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "N0";
-            dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.Pack1Qty.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle21.Format = "N0";
+            dataGridViewCellStyle21.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.Pack1Qty.DefaultCellStyle = dataGridViewCellStyle21;
             this.Pack1Qty.HeaderText = "1 Pack QTY";
             this.Pack1Qty.Name = "Pack1Qty";
             this.Pack1Qty.ReadOnly = true;
@@ -521,8 +371,8 @@
             // Pack
             // 
             this.Pack.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Pack.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Pack.DefaultCellStyle = dataGridViewCellStyle22;
             this.Pack.HeaderText = "Pack";
             this.Pack.Name = "Pack";
             this.Pack.ReadOnly = true;
@@ -531,10 +381,10 @@
             // TotalQty
             // 
             this.TotalQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "N0";
-            dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.TotalQty.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle23.Format = "N0";
+            dataGridViewCellStyle23.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.TotalQty.DefaultCellStyle = dataGridViewCellStyle23;
             this.TotalQty.HeaderText = "TOTALQTY";
             this.TotalQty.Name = "TotalQty";
             this.TotalQty.ReadOnly = true;
@@ -543,10 +393,10 @@
             // MCStock
             // 
             this.MCStock.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle7.Format = "N0";
-            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.MCStock.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle24.Format = "N0";
+            dataGridViewCellStyle24.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.MCStock.DefaultCellStyle = dataGridViewCellStyle24;
             this.MCStock.HeaderText = "MC SD|Stock";
             this.MCStock.Name = "MCStock";
             this.MCStock.ReadOnly = true;
@@ -555,10 +405,10 @@
             // WHStock
             // 
             this.WHStock.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle8.Format = "N0";
-            dataGridViewCellStyle8.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.WHStock.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle25.Format = "N0";
+            dataGridViewCellStyle25.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.WHStock.DefaultCellStyle = dataGridViewCellStyle25;
             this.WHStock.HeaderText = "RM WH|Stock";
             this.WHStock.Name = "WHStock";
             this.WHStock.ReadOnly = true;
@@ -568,8 +418,8 @@
             // Barcode
             // 
             this.Barcode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Barcode.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Barcode.DefaultCellStyle = dataGridViewCellStyle26;
             this.Barcode.HeaderText = "Barcode";
             this.Barcode.Name = "Barcode";
             this.Barcode.ReadOnly = true;
@@ -586,9 +436,9 @@
             // ShipDate
             // 
             this.ShipDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.Format = "dd-MM-yyyy";
-            this.ShipDate.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle27.Format = "dd-MM-yyyy";
+            this.ShipDate.DefaultCellStyle = dataGridViewCellStyle27;
             this.ShipDate.HeaderText = "Ship.Date";
             this.ShipDate.Name = "ShipDate";
             this.ShipDate.ReadOnly = true;
@@ -601,14 +451,14 @@
             this.MCReqStatus.ReadOnly = true;
             this.MCReqStatus.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.MCReqStatus.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.MCReqStatus.Width = 113;
+            this.MCReqStatus.Width = 123;
             // 
             // MCReqDate
             // 
             this.MCReqDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.Format = "dd-MM-yyyy hh:mm:ss tt";
-            this.MCReqDate.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle28.Format = "dd-MM-yyyy hh:mm:ss tt";
+            this.MCReqDate.DefaultCellStyle = dataGridViewCellStyle28;
             this.MCReqDate.HeaderText = "MC Req|Date";
             this.MCReqDate.Name = "MCReqDate";
             this.MCReqDate.ReadOnly = true;
@@ -617,9 +467,9 @@
             // RegDate
             // 
             this.RegDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle12.Format = "dd-MM-yyyy hh:mm:ss tt";
-            this.RegDate.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle29.Format = "dd-MM-yyyy hh:mm:ss tt";
+            this.RegDate.DefaultCellStyle = dataGridViewCellStyle29;
             this.RegDate.HeaderText = "Register|Date";
             this.RegDate.Name = "RegDate";
             this.RegDate.ReadOnly = true;
@@ -628,8 +478,8 @@
             // RegBy
             // 
             this.RegBy.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.RegBy.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.RegBy.DefaultCellStyle = dataGridViewCellStyle30;
             this.RegBy.HeaderText = "Register|By";
             this.RegBy.Name = "RegBy";
             this.RegBy.ReadOnly = true;
@@ -638,9 +488,9 @@
             // UpdateDate
             // 
             this.UpdateDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle14.Format = "dd-MM-yyyy hh:mm:ss tt";
-            this.UpdateDate.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle31.Format = "dd-MM-yyyy hh:mm:ss tt";
+            this.UpdateDate.DefaultCellStyle = dataGridViewCellStyle31;
             this.UpdateDate.HeaderText = "Update|Date";
             this.UpdateDate.Name = "UpdateDate";
             this.UpdateDate.ReadOnly = true;
@@ -649,19 +499,192 @@
             // UpdateBy
             // 
             this.UpdateBy.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.UpdateBy.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.UpdateBy.DefaultCellStyle = dataGridViewCellStyle32;
             this.UpdateBy.HeaderText = "Update|By";
             this.UpdateBy.Name = "UpdateBy";
             this.UpdateBy.ReadOnly = true;
             this.UpdateBy.Width = 90;
+            // 
+            // grbSearch
+            // 
+            this.grbSearch.Controls.Add(this.txtMaker);
+            this.grbSearch.Controls.Add(this.cboMCReqStatus);
+            this.grbSearch.Controls.Add(this.cboRMType);
+            this.grbSearch.Controls.Add(this.chkMaker);
+            this.grbSearch.Controls.Add(this.chkRMType);
+            this.grbSearch.Controls.Add(this.txtRemark);
+            this.grbSearch.Controls.Add(this.txtDescription);
+            this.grbSearch.Controls.Add(this.chkRemark);
+            this.grbSearch.Controls.Add(this.chkDescription);
+            this.grbSearch.Controls.Add(this.txtCode);
+            this.grbSearch.Controls.Add(this.chkCode);
+            this.grbSearch.Controls.Add(this.dtpShipDate);
+            this.grbSearch.Controls.Add(this.chkShipDate);
+            this.grbSearch.Controls.Add(this.chkMCReqStatus);
+            this.grbSearch.Dock = System.Windows.Forms.DockStyle.Top;
+            this.grbSearch.Font = new System.Drawing.Font("Kh Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grbSearch.Location = new System.Drawing.Point(5, 5);
+            this.grbSearch.Name = "grbSearch";
+            this.grbSearch.Size = new System.Drawing.Size(924, 106);
+            this.grbSearch.TabIndex = 0;
+            this.grbSearch.TabStop = false;
+            this.grbSearch.Text = "លក្ខខណ្ឌស្វែងរក";
+            // 
+            // cboMCReqStatus
+            // 
+            this.cboMCReqStatus.BackColor = System.Drawing.Color.White;
+            this.cboMCReqStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMCReqStatus.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
+            this.cboMCReqStatus.FormattingEnabled = true;
+            this.cboMCReqStatus.Items.AddRange(new object[] {
+            "មិនទាន់ព្រីន",
+            "ព្រីនរួច",
+            "ទាំងអស់"});
+            this.cboMCReqStatus.Location = new System.Drawing.Point(610, 22);
+            this.cboMCReqStatus.Name = "cboMCReqStatus";
+            this.cboMCReqStatus.Size = new System.Drawing.Size(131, 32);
+            this.cboMCReqStatus.TabIndex = 5;
+            // 
+            // cboRMType
+            // 
+            this.cboRMType.BackColor = System.Drawing.Color.White;
+            this.cboRMType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboRMType.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
+            this.cboRMType.FormattingEnabled = true;
+            this.cboRMType.Location = new System.Drawing.Point(610, 61);
+            this.cboRMType.Name = "cboRMType";
+            this.cboRMType.Size = new System.Drawing.Size(131, 32);
+            this.cboRMType.TabIndex = 11;
+            // 
+            // chkRMType
+            // 
+            this.chkRMType.AutoSize = true;
+            this.chkRMType.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkRMType.Location = new System.Drawing.Point(496, 63);
+            this.chkRMType.Name = "chkRMType";
+            this.chkRMType.Size = new System.Drawing.Size(57, 28);
+            this.chkRMType.TabIndex = 10;
+            this.chkRMType.Text = "Type";
+            this.chkRMType.UseVisualStyleBackColor = true;
+            // 
+            // txtRemark
+            // 
+            this.txtRemark.BackColor = System.Drawing.Color.White;
+            this.txtRemark.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRemark.Location = new System.Drawing.Point(111, 23);
+            this.txtRemark.Name = "txtRemark";
+            this.txtRemark.Size = new System.Drawing.Size(180, 32);
+            this.txtRemark.TabIndex = 1;
+            // 
+            // txtDescription
+            // 
+            this.txtDescription.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDescription.Location = new System.Drawing.Point(111, 61);
+            this.txtDescription.Name = "txtDescription";
+            this.txtDescription.Size = new System.Drawing.Size(180, 32);
+            this.txtDescription.TabIndex = 7;
+            // 
+            // chkRemark
+            // 
+            this.chkRemark.AutoSize = true;
+            this.chkRemark.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkRemark.Location = new System.Drawing.Point(11, 25);
+            this.chkRemark.Name = "chkRemark";
+            this.chkRemark.Size = new System.Drawing.Size(101, 28);
+            this.chkRemark.TabIndex = 0;
+            this.chkRemark.Text = "POS/Remark";
+            this.chkRemark.UseVisualStyleBackColor = true;
+            // 
+            // chkDescription
+            // 
+            this.chkDescription.AutoSize = true;
+            this.chkDescription.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkDescription.Location = new System.Drawing.Point(11, 63);
+            this.chkDescription.Name = "chkDescription";
+            this.chkDescription.Size = new System.Drawing.Size(94, 28);
+            this.chkDescription.TabIndex = 6;
+            this.chkDescription.Text = "Description";
+            this.chkDescription.UseVisualStyleBackColor = true;
+            // 
+            // txtCode
+            // 
+            this.txtCode.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCode.Location = new System.Drawing.Point(383, 61);
+            this.txtCode.Name = "txtCode";
+            this.txtCode.Size = new System.Drawing.Size(103, 32);
+            this.txtCode.TabIndex = 9;
+            // 
+            // chkCode
+            // 
+            this.chkCode.AutoSize = true;
+            this.chkCode.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkCode.Location = new System.Drawing.Point(300, 63);
+            this.chkCode.Name = "chkCode";
+            this.chkCode.Size = new System.Drawing.Size(82, 28);
+            this.chkCode.TabIndex = 8;
+            this.chkCode.Text = "CODE NO";
+            this.chkCode.UseVisualStyleBackColor = true;
+            // 
+            // dtpShipDate
+            // 
+            this.dtpShipDate.CustomFormat = "dd-MM-yyyy";
+            this.dtpShipDate.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpShipDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpShipDate.Location = new System.Drawing.Point(383, 22);
+            this.dtpShipDate.Name = "dtpShipDate";
+            this.dtpShipDate.Size = new System.Drawing.Size(103, 32);
+            this.dtpShipDate.TabIndex = 3;
+            // 
+            // chkShipDate
+            // 
+            this.chkShipDate.AutoSize = true;
+            this.chkShipDate.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkShipDate.Location = new System.Drawing.Point(300, 25);
+            this.chkShipDate.Name = "chkShipDate";
+            this.chkShipDate.Size = new System.Drawing.Size(85, 28);
+            this.chkShipDate.TabIndex = 2;
+            this.chkShipDate.Text = "Ship.Date";
+            this.chkShipDate.UseVisualStyleBackColor = true;
+            // 
+            // chkMCReqStatus
+            // 
+            this.chkMCReqStatus.AutoSize = true;
+            this.chkMCReqStatus.Checked = true;
+            this.chkMCReqStatus.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkMCReqStatus.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkMCReqStatus.Location = new System.Drawing.Point(496, 24);
+            this.chkMCReqStatus.Name = "chkMCReqStatus";
+            this.chkMCReqStatus.Size = new System.Drawing.Size(115, 28);
+            this.chkMCReqStatus.TabIndex = 4;
+            this.chkMCReqStatus.Text = "MC Req.Status";
+            this.chkMCReqStatus.UseVisualStyleBackColor = true;
+            // 
+            // chkMaker
+            // 
+            this.chkMaker.AutoSize = true;
+            this.chkMaker.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkMaker.Location = new System.Drawing.Point(751, 63);
+            this.chkMaker.Name = "chkMaker";
+            this.chkMaker.Size = new System.Drawing.Size(64, 28);
+            this.chkMaker.TabIndex = 12;
+            this.chkMaker.Text = "Maker";
+            this.chkMaker.UseVisualStyleBackColor = true;
+            // 
+            // txtMaker
+            // 
+            this.txtMaker.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMaker.Location = new System.Drawing.Point(814, 61);
+            this.txtMaker.Name = "txtMaker";
+            this.txtMaker.Size = new System.Drawing.Size(103, 32);
+            this.txtMaker.TabIndex = 13;
             // 
             // OBSMatRequestForm
             // 
             this.AcceptButton = this.btnSearchAPI;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(934, 450);
             this.Controls.Add(this.panelBody);
             this.Controls.Add(this.panelFooter);
             this.Controls.Add(this.panelHeader);
@@ -733,5 +756,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn RegBy;
         private System.Windows.Forms.DataGridViewTextBoxColumn UpdateDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn UpdateBy;
+        private System.Windows.Forms.CheckBox chkMaker;
+        private System.Windows.Forms.TextBox txtMaker;
     }
 }
