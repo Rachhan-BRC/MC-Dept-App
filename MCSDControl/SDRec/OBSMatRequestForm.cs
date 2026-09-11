@@ -25,6 +25,7 @@ namespace MachineDeptApp
             this.txtCode.TextChanged += TxtCode_TextChanged;
             this.txtDescription.TextChanged += TxtDescription_TextChanged;
             this.txtRemark.TextChanged += TxtRemark_TextChanged;
+            this.txtMaker.TextChanged += TxtMaker_TextChanged;
 
             this.cboRMType.TextChanged += CboRMType_TextChanged;
             this.cboMCReqStatus.TextChanged += CboMCReqStatus_TextChanged;
@@ -35,8 +36,16 @@ namespace MachineDeptApp
             this.dgvSearch.CellPainting += DgvSearch_CellPainting;
             this.chkSelectAll.Click += ChkSelectAll_Click;
 
+
         }
 
+        private void TxtMaker_TextChanged(object sender, EventArgs e)
+        {
+            if (txtMaker.Text.Trim() != "")
+                chkMaker.Checked = true;
+            else
+                chkMaker.Checked = false;
+        }
         private void DgvSearch_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
@@ -362,6 +371,10 @@ namespace MachineDeptApp
             if (chkMCReqStatus.Checked && cboMCReqStatus.Text.Trim() != "" && cboMCReqStatus.Text != "ទាំងអស់")
             {
                 dtSQLCond.Rows.Add("MCReqDate", cboMCReqStatus.Text == "ព្រីនរួច" ? " IS NOT NULL " : " IS NULL ");
+            }
+            if (chkMaker.Checked && txtMaker.Text.Trim() != "")
+            {
+                dtSQLCond.Rows.Add("Maker", " LIKE '%" + txtMaker.Text + "%' ");
             }
             string SQLConds = "";
             foreach (DataRow row in dtSQLCond.Rows)
