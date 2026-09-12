@@ -602,7 +602,7 @@ namespace MachineDeptApp
             {
                 if (cnn.con.State == ConnectionState.Closed)
                     cnn.con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter(@"SELECT ItemCode, SUM(StockValue) AS WHStock FROM [RawMaterialWHDB].[dbo].[tbRMCtrl_LabelTransaction] 
+                SqlDataAdapter sda = new SqlDataAdapter(@"SELECT ItemCode, SUM(StockValue) AS WHStock FROM [RawMaterialWHDB].[dbo].[tbRMCtrlAllTransaction] 
 	                WHERE Status = 'Active' 
 	                GROUP BY ItemCode 
 				    HAVING SUM(StockValue) > 0 ", cnn.con);
