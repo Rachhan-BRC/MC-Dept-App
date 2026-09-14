@@ -1,16 +1,12 @@
 ﻿using MachineDeptApp.MCSDControl.WIR1__Wire_Stock_;
 using MachineDeptApp.MsgClass;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using MachineDeptApp.OtherClass;
 
 namespace MachineDeptApp.MCSDControl
 {
@@ -23,20 +19,45 @@ namespace MachineDeptApp.MCSDControl
         DataTable dtRMSchuleHeader = new DataTable();
         DataTable dtRMSchuleDetails = new DataTable();
         string ErrorText;
-
         public RMEstimateShortage()
         {
             InitializeComponent();
             cnn.Connection();
             sobs.Connection();
+            this.Shown += RMEstimateShortage_Shown;
             btnSearch.Click += BtnSearch_Click;
-
             tbItemCode.TextChanged += TbItemCode_TextChanged;
             tbItemName.TextChanged += TbItemName_TextChanged;
             dgvStock.CellDoubleClick += DgvStock_CellDoubleClick;
+            this.btnExport.Click += BtnExport_Click;
 
         }
 
+        private void RMEstimateShortage_Shown(object sender, EventArgs e)
+        {
+            foreach (DataGridViewColumn col in dgvStock.Columns)
+            {
+                col.HeaderText = col.HeaderText.Replace("|", "\n");
+            }
+        }
+        private void BtnExport_Click(object sender, EventArgs e)
+        {
+            ExportAsCSVClass CSV = new ExportAsCSVClass();
+            if (dgvStock.Rows.Count > 0)
+            {
+                CSV.CSVErrorT = "";
+                CSV.ExportAsCSV(this.dgvStock, "MC - RM Estimate Shortage - " + DateTime.Now.ToString("yyyyMMdd HHmm"), 0);
+
+                if (CSV.CSVErrorT.Trim() != "")
+                {
+                    if (CSV.CSVErrorT.Trim() == "OK")
+                        MessageBox.Show("ទាញទិន្នន័យរួចរាល់!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                        MessageBox.Show(CSV.CSVErrorT, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+            }
+        }
         private void DgvStock_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             DateTime PosDeliveryDate = Convert.ToDateTime(dgvStock.Rows[dgvStock.CurrentCell.RowIndex].Cells["PosDeliveryDate"].Value);
@@ -54,22 +75,19 @@ namespace MachineDeptApp.MCSDControl
                 shortageDetail.ShowDialog();
             }
         }
-
         private void TbItemName_TextChanged(object sender, EventArgs e)
         {
             cbItemName.Checked = true;
         }
-
         private void TbItemCode_TextChanged(object sender, EventArgs e)
         {
             cbItemCode.Checked = true;
         }
-
         private void BtnSearch_Click(object sender, EventArgs e)
         {
             ErrorText = "";
             Cursor = Cursors.WaitCursor;
-            labelDataCount.Text = "SearchIng...";
+            labelDataCount.Text = "Searching . . .";
             labelDataCount.Refresh();
 
             DataTable condition = new DataTable();
@@ -229,7 +247,7 @@ ORDER BY
                     " GROUP BY T1.POSDeliveryDate, DONo, T1.ItemCode, T5.ItemName, T1.LineCode, T2.ItemCode, T3.ItemName \r\n " +
                     " ORDER BY T1.POSDeliveryDate ASC, T1.LineCode ASC, T2.ItemCode ASC ", sobs.conOBS);
                 sqlDetail.Fill(dtDeliveryDetail);
-            //Console.WriteLine(dtDeliveryDetail.Rows.Count);
+                //Console.WriteLine(dtDeliveryDetail.Rows.Count);
                 string RMCodeIN = "";
 
                 if (dtStock.Rows.Count > 0) {
@@ -249,14 +267,23 @@ ORDER BY
                 dtRMSchuleHeader = new DataTable();
                 if (RMCodeIN.Trim() != "")
                 {
-                    string SQLQuery = "SELECT * FROM [PPDeptDB].dbo.tbRMSchedule WHERE Date>= CAST(GETDATE() AS date) AND Code IN (" + RMCodeIN + ") ";
+                    string SQLQuery = @"SELECT Code, RMValue AS Qty, CAST(ETA AS date) AS Date, UPPER(LEFT(PlanHeader, CHARINDEX('ETD', PlanHeader) - 1)) AS Header, RegBy, RegDate 
+                            FROM [RawMaterialWHDB].dbo.tbImportAnalyze WHERE Type = 'Plan' AND RMValue > 0 AND CAST(ETA AS date) >= CAST(GETDATE() AS date)
+                            AND Code IN (" + RMCodeIN + @")
+                            ORDER BY ETA, Code";
                     SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnn.con);
                     sda.Fill(dtRMSchuleDetails);
 
-                    SQLQuery = "SELECT Date FROM [PPDeptDB].dbo.tbRMSchedule WHERE Date>= CAST(GETDATE() AS date) AND Code IN (" + RMCodeIN + ") " +
-                        "\nGROUP BY Date ORDER BY Date ASC";
-                    sda = new SqlDataAdapter(SQLQuery, cnn.con);
-                    sda.Fill(dtRMSchuleHeader);
+                    dtRMSchuleHeader.Columns.Add("Date", typeof(DateTime));
+                    dtRMSchuleHeader.Columns.Add("Header", typeof(string));
+                    var dateGroups = dtRMSchuleDetails.AsEnumerable()
+                        .GroupBy(r => r.Field<DateTime>("Date"))
+                        .OrderBy(g => g.Key);
+                    foreach (var dateGroup in dateGroups)
+                    {
+                        string header = dateGroup.First().Field<string>("Header");
+                        dtRMSchuleHeader.Rows.Add(dateGroup.Key, header);
+                    }
                 }
                 if (dtRMSchuleHeader.Rows.Count > 0)
                 {
@@ -266,7 +293,7 @@ ORDER BY
                         dgvStock.Columns.Add(new DataGridViewTextBoxColumn
                         {
                             Name = Date,
-                            HeaderText = Convert.ToDateTime(Date).ToString("dd-MMM"),
+                            HeaderText = row["Header"].ToString().Replace("\n", "") + "\n" + Convert.ToDateTime(Date).ToString("dd-MM-yyyy"),
                             AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
                             DefaultCellStyle = new DataGridViewCellStyle
                             {
@@ -302,10 +329,7 @@ ORDER BY
                     
 
                 }
-        }
-
-            
-
+            }
             catch (Exception ex)
             {
 
@@ -314,11 +338,8 @@ ORDER BY
                 Console.WriteLine(ex.Message);
             }
 
-
-
-    Cursor = Cursors.Default;
+            Cursor = Cursors.Default;
           
-
         }
     }
 }
