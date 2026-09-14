@@ -47,6 +47,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
@@ -151,6 +152,20 @@
     <Compile Include="Inventory\MC_SD\MCSDCountingForm.Designer.cs">
       <DependentUpon>MCSDCountingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MCSDControl\SDRec\OBSMatRequestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\OBSMatRequestForm.Designer.cs">
+      <DependentUpon>OBSMatRequestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\OBSMatRequestImportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\SDRec\OBSMatRequestImportForm.Designer.cs">
+      <DependentUpon>OBSMatRequestImportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OtherClass\ConsoleDatatableClass.cs" />
+    <Compile Include="OtherClass\OBSMatReqPrintClass.cs" />
     <Compile Include="SemiPress\MasterLabeSemiPrint.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1012,6 +1027,12 @@
     <EmbeddedResource Include="Inventory\MC_SD\MCSDCountingForm.resx">
       <DependentUpon>MCSDCountingForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\SDRec\OBSMatRequestForm.resx">
+      <DependentUpon>OBSMatRequestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\SDRec\OBSMatRequestImportForm.resx">
+      <DependentUpon>OBSMatRequestImportForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SemiPress\MasterLabeSemiPrint.resx">
       <DependentUpon>MasterLabeSemiPrint.cs</DependentUpon>
     </EmbeddedResource>
@@ -1359,6 +1380,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="SemiNGReq\SemiNGReqInputForm.resx">
       <DependentUpon>SemiNGReqInputForm.cs</DependentUpon>

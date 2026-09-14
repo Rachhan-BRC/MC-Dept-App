@@ -88,58 +88,58 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             Cursor = Cursors.WaitCursor;
 
             //SQL WHERE Condition
-            DataTable dtSQLConds = new DataTable();
-            dtSQLConds.Columns.Add("Col");
-            dtSQLConds.Columns.Add("Val");
-            dtSQLConds.Rows.Add("T1.CreateDate BETWEEN ","'"+dtpRegFrom.Value.ToString("yyyy-MM-dd")+" 00:00:00' AND '"+dtpRegTo.Value.ToString("yyyy-MM-dd") + " 23:59:59'");
+            List<string> SQLCondList = new List<string>();
+            List<SqlParameter> SQLParams = new List<SqlParameter>();
+
+            SQLCondList.Add("CAST(tbT.CreateDate AS date) = @RegDate");
+            SQLParams.Add(new SqlParameter("@RegDate", dtpRegDate.Value.Date));
+
+            if (dtpRegTime.Checked)
+            {
+                SQLCondList.Add("CAST(tbT.CreateDate AS time) >= @RegTime");
+                SQLParams.Add(new SqlParameter("@RegTime", dtpRegTime.Value.ToString("HH:mm")));
+            }
             if (txtRMCode.Text.Trim() != "")
             {
-                dtSQLConds.Rows.Add("T1.ItemCode LIKE ", "'%"+txtRMCode.Text+"%'");
+                SQLCondList.Add("tbT.ItemCode LIKE @RMCode");
+                SQLParams.Add(new SqlParameter("@RMCode", "%" + txtRMCode.Text.Trim() + "%"));
             }
             if (txtRMName.Text.Trim() != "")
             {
-                dtSQLConds.Rows.Add("ItemName LIKE ", "'%" + txtRMName.Text + "%'");
+                SQLCondList.Add("tbI.ItemName LIKE @RMName");
+                SQLParams.Add(new SqlParameter("@RMName", "%" + txtRMName.Text.Trim() + "%"));
             }
             if (CboType.Text.ToString() != "ទាំងអស់")
             {
-                if (CboType.Text.ToString() == "រាប់មិនបាន")
-                {
-                    dtSQLConds.Rows.Add("T2.MatCalcFlag = ", "1");
-                }
-                else
-                {
-                    dtSQLConds.Rows.Add("T2.MatCalcFlag = ", "0");
-                }
+                SQLCondList.Add("tbI.MatCalcFlag = @MatCalcFlag");
+                SQLParams.Add(new SqlParameter("@MatCalcFlag", CboType.Text.ToString() == "រាប់មិនបាន" ? 1 : 0));
             }
             if (txtDocNo.Text.Trim() != "")
             {
-                dtSQLConds.Rows.Add("T1.Remark LIKE ", "'%" + txtDocNo.Text + "%'");
+                SQLCondList.Add("tbT.Remark LIKE @DocNo");
+                SQLParams.Add(new SqlParameter("@DocNo", "%" + txtDocNo.Text.Trim() + "%"));
             }
-            string SQLConds = "";
-            foreach (DataRow row in dtSQLConds.Rows)
-            {
-                if (SQLConds.Trim() == "")
-                {
-                    SQLConds = "WHERE " + row["Col"] + row["Val"];
-                }
-                else
-                {
-                    SQLConds += " AND " + row["Col"] + row["Val"];
-                }
-            }
+
+            string SQLConds = "WHERE " + string.Join(" AND ", SQLCondList);
 
             //Taking OBS Data
             DataTable dtSearchResult = new DataTable();
             try
             {
                 cnnOBS.conOBS.Open();
-                string SQLQuery = "SELECT T1.ItemCode, ItemName, T1.Remark, SUM(ReceiveQty) AS ReceiveQty FROM " +
-                    "\n(SELECT ItemCode, ReceiveQty, Remark, CreateDate FROM prgalltransaction WHERE TypeCode=1 AND LocCode='MC1' AND GRICode=50) T1 " +
-                    "\nINNER JOIN (SELECT * FROM mstitem WHERE DelFlag=0 AND ItemType=2) T2 " +
-                    "\nON T1.ItemCode=T2.ItemCode \n" + SQLConds +
-                    "\nGROUP BY T1.ItemCode, ItemName, T1.Remark " +
-                    "\nORDER BY T1.Remark ASC, T1.ItemCode ASC";
+                string SQLQuery = @"SELECT tbT.*, tbI.ItemName FROM 
+                    ( 
+	                    SELECT ItemCode, Remark, SUM(ReceiveQty) AS ReceiveQty, 
+		                    DATEADD(MINUTE, DATEDIFF(MINUTE, 0, CreateDate), 0) AS CreateDate 
+	                    FROM prgalltransaction  WHERE TypeCode = 1 AND LocCode = 'MC1' AND GRICode = 50 
+	                    GROUP BY ItemCode, Remark, DATEADD(MINUTE, DATEDIFF(MINUTE, 0, CreateDate), 0) 
+                    ) tbT 
+                    INNER JOIN mstitem tbI ON tbT.ItemCode = tbI.ItemCode AND tbI.DelFlag = 0 AND tbI.ItemType = 2 
+                    "+SQLConds+@" 
+                    ORDER BY tbT.Remark, tbT.CreateDate ASC, tbT.ItemCode ASC ";
+                //Console.WriteLine(SQLQuery);
                 SqlDataAdapter sda = new SqlDataAdapter(SQLQuery,cnnOBS.conOBS);
+                sda.SelectCommand.Parameters.AddRange(SQLParams.ToArray());
                 sda.Fill(dtSearchResult);
             }
             catch (Exception ex)
@@ -151,10 +151,15 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             //Remove Data Already have in DGV
             for (int i = dtSearchResult.Rows.Count - 1; i > -1; i--)
             {
+                DataRow searchRow = dtSearchResult.Rows[i];
+                string ItemCode = searchRow["ItemCode"].ToString();
+                string Remark = searchRow["Remark"].ToString();
+                DateTime RegDate = Convert.ToDateTime(searchRow["CreateDate"].ToString());
                 foreach (DataGridViewRow dgvRow in fgrid.dgvScanned.Rows)
                 {
-                    if (dtSearchResult.Rows[i]["ItemCode"].ToString() == dgvRow.Cells["RMCode"].Value.ToString() &&
-                        dtSearchResult.Rows[i]["Remark"].ToString() == dgvRow.Cells["DocNo"].Value.ToString())
+                    if (ItemCode == dgvRow.Cells["RMCode"].Value.ToString() &&
+                        Remark == dgvRow.Cells["DocNo"].Value.ToString() &&
+                        RegDate == Convert.ToDateTime(dgvRow.Cells["RegDate"].Value))
                     {
                         dtSearchResult.Rows.RemoveAt(i);
                         dtSearchResult.AcceptChanges();
@@ -166,16 +171,18 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
             //Add to DGV
             foreach (DataRow row in dtSearchResult.Rows)
             {
-                dgvSearchResult.Rows.Add();
-                dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["ChkForPrint"].Value = false;
+                DataGridViewRow NewRow = dgvSearchResult.Rows[dgvSearchResult.Rows.Add()];
                 string RMCode = row["ItemCode"].ToString();
-                dgvSearchResult.Rows[dgvSearchResult.Rows.Count-1].Cells["RMCode"].Value = RMCode;
                 string RMName = row["ItemName"].ToString();
-                dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["RMName"].Value = RMName;
                 string Remark = row["Remark"].ToString();
-                dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["Remark"].Value = Remark;
                 double Qty = Convert.ToDouble(row["ReceiveQty"].ToString());
-                dgvSearchResult.Rows[dgvSearchResult.Rows.Count - 1].Cells["Qty"].Value = Qty;
+
+                NewRow.Cells["ChkForPrint"].Value = false;
+                NewRow.Cells["RMCode"].Value = RMCode;
+                NewRow.Cells["RMName"].Value = RMName;
+                NewRow.Cells["Remark"].Value = Remark;
+                NewRow.Cells["Qty"].Value = Qty;
+                NewRow.Cells["RegDate"].Value = Convert.ToDateTime(row["CreateDate"]);
             }
 
             Cursor = Cursors.Default;
@@ -253,8 +260,6 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
 
                 }
             }
-            //Console.WriteLine(DocIN);
-            //Console.WriteLine(RMCodeIN);
 
             //Taking RecQty
             DataTable dtRecQty = new DataTable();
@@ -287,6 +292,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                         string RMName = dgvRow.Cells["RMName"].Value.ToString();
                         string DocNo = dgvRow.Cells["Remark"].Value.ToString();
                         double Qty = Convert.ToDouble(dgvRow.Cells["Qty"].Value.ToString());
+                        DateTime RegDate = Convert.ToDateTime(dgvRow.Cells["RegDate"].Value);
                         double RecQty = 0;
                         foreach (DataRow row in dtRecQty.Rows)
                         {
@@ -296,7 +302,7 @@ namespace MachineDeptApp.MCSDControl.WIR1__Wire_Stock_
                                 break;
                             }
                         }
-                        fgrid.dgvScanned.Rows.Add(RMCode, RMName, Qty, RecQty, DocNo);
+                        fgrid.dgvScanned.Rows.Add(RMCode, RMName, Qty, RecQty, DocNo, RegDate);
                         fgrid.AssignNumber();
                     }
                 }

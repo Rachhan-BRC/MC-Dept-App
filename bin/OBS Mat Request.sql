@@ -1,0 +1,18 @@
+CREATE TABLE tbOBSMatRequest (
+    MatReqNo VARCHAR(50) NOT NULL, 
+    ItemCode VARCHAR(20) NOT NULL,
+    ItemName VARCHAR(150) NOT NULL,
+    Maker VARCHAR(100),
+    RMType VARCHAR(50),
+    PackSize INT NOT NULL, 
+    PackQty INT NOT NULL, 
+    TTLReqQty INT NOT NULL, 
+    Remarks VARCHAR(255) NOT NULL, 
+    ShipDate DATE,
+    MCReqDate DATETIME,
+    RegDate DATETIME NOT NULL,
+    RegBy VARCHAR(50) COLLATE Khmer_100_CI_AI_SC_UTF8 NOT NULL,
+    UpdateDate DATETIME,
+    UpdateBy VARCHAR(50) COLLATE Khmer_100_CI_AI_SC_UTF8,
+    PRIMARY KEY (MatReqNo)
+);
