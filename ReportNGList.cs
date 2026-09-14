@@ -35,6 +35,7 @@ namespace MachineDeptApp
             this.picadd.Click += BtnSearchExport_Click;
             this.btnExport.Click += BtnExport_Click;
             this.dgvList.CellClick += DgvList_CellClick;
+            this.dgvList.CellEndEdit += DgvList_CellEndEdit;
             this.txtpic.Click += Txtpic_Click;
             this.dgvpic.CellClick += Dgvpic_CellClick;
         }
@@ -62,6 +63,36 @@ namespace MachineDeptApp
                 dgvpic.Visible = false;
             }
         }
+        private void DgvList_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            string colName = dgvList.Columns[e.ColumnIndex].Name;
+            if (colName != "staffcomment") return;
+
+            object sysnoValue = dgvList.Rows[e.RowIndex].Cells["sysno"].Value;
+            if (sysnoValue == null || sysnoValue.ToString() == "") return;
+            string sysno = sysnoValue.ToString();
+            string staffComment = dgvList.Rows[e.RowIndex].Cells["staffcomment"].Value?.ToString() ?? "";
+            string staffName = staffComment == "" ? "" : MenuFormV2.UserForNextForm;
+            dgvList.Rows[e.RowIndex].Cells["staffname"].Value = staffName;
+
+            con.con.Open();
+            try
+            {
+                string query = "UPDATE tbNGTypeDetails SET StaffComment = @StaffComment, StaffName = @StaffName WHERE SysNo = @SysNo";
+                SqlCommand cmd = new SqlCommand(query, con.con);
+                cmd.Parameters.AddWithValue("@StaffComment", staffComment);
+                cmd.Parameters.AddWithValue("@StaffName", staffName);
+                cmd.Parameters.AddWithValue("@SysNo", sysno);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Something went wrong! Please contact Phanun \n" + ex.Message, "Something went wrong.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            con.con.Close();
+        }
+
         private void DgvList_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex == dgvList.Columns.Count-1)
@@ -520,6 +551,14 @@ namespace MachineDeptApp
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["regby"].Value = row["RegBy"].ToString();
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["update"].Value = Convert.ToDateTime(row["UpdateDate"]);
                     dgvList.Rows[dgvList.Rows.Count - 1].Cells["upby"].Value = row["UpdateBy"].ToString();
+                    if (dtsearch.Columns.Contains("StaffComment"))
+                    {
+                        dgvList.Rows[dgvList.Rows.Count - 1].Cells["staffcomment"].Value = row["StaffComment"] == DBNull.Value ? "" : row["StaffComment"].ToString();
+                    }
+                    if (dtsearch.Columns.Contains("StaffName"))
+                    {
+                        dgvList.Rows[dgvList.Rows.Count - 1].Cells["staffname"].Value = row["StaffName"] == DBNull.Value ? "" : row["StaffName"].ToString();
+                    }
                     totalqty += Convert.ToDouble(row["Qty"]);
                     totalsubprice += subprice;
                 }

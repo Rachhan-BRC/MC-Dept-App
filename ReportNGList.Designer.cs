@@ -128,6 +128,8 @@
             this.regdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.upby = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.update = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.staffcomment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.staffname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dgvCost = new System.Windows.Forms.DataGridView();
@@ -783,12 +785,13 @@
             this.regdate,
             this.upby,
             this.update,
+            this.staffcomment,
+            this.staffname,
             this.delete});
             this.dgvList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvList.EnableHeadersVisualStyles = false;
             this.dgvList.Location = new System.Drawing.Point(3, 3);
             this.dgvList.Name = "dgvList";
-            this.dgvList.ReadOnly = true;
             this.dgvList.RowHeadersVisible = false;
             this.dgvList.Size = new System.Drawing.Size(1770, 250);
             this.dgvList.TabIndex = 27;
@@ -936,7 +939,23 @@
             this.update.Name = "update";
             this.update.ReadOnly = true;
             this.update.Width = 120;
-            // 
+            //
+            // staffcomment
+            //
+            this.staffcomment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.staffcomment.HeaderText = "Staff\'s Comment";
+            this.staffcomment.Name = "staffcomment";
+            this.staffcomment.ReadOnly = false;
+            this.staffcomment.Width = 200;
+            //
+            // staffname
+            //
+            this.staffname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.staffname.HeaderText = "Staff Name";
+            this.staffname.Name = "staffname";
+            this.staffname.ReadOnly = true;
+            this.staffname.Width = 120;
+            //
             // delete
             // 
             this.delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -1263,6 +1282,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn regdate;
         private System.Windows.Forms.DataGridViewTextBoxColumn upby;
         private System.Windows.Forms.DataGridViewTextBoxColumn update;
+        private System.Windows.Forms.DataGridViewTextBoxColumn staffcomment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn staffname;
         private System.Windows.Forms.DataGridViewImageColumn delete;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label10;
