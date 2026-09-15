@@ -32,7 +32,6 @@ namespace MachineDeptApp.MCSDControl
             this.btnPrint.Click += BtnPrint_Click;
             this.btnPrint.EnabledChanged += BtnPrint_EnabledChanged;
             this.btnExport.Click += BtnExport_Click;
-
         }
 
         private void BtnPrint_EnabledChanged(object sender, EventArgs e)
