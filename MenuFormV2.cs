@@ -2810,6 +2810,7 @@ namespace MachineDeptApp
                     int AdminFuncCount = treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes.Count;
                     for (int i = AdminFuncCount - 1; i > -1; i--)
                     {
+
                         if (i == 0)
                         {
                             treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes[i].Remove();
@@ -2818,12 +2819,16 @@ namespace MachineDeptApp
                         {
                             treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes[i].Remove();
                         }
-                        if (i == 8)
+                        if (LoginForm.IDValueForNextForm != "1889" &&i == 8)
                         {
                             treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes[i].Remove();
                         }
                     }
-                    treeViewMenu.Nodes[3].Nodes[0].Remove();
+                    if (LoginForm.IDValueForNextForm != "1889")
+                    {
+                        treeViewMenu.Nodes[3].Nodes[0].Remove();
+                    }
+                  
                 }
 
                 //Remove Adjust function
