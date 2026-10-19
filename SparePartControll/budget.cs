@@ -602,7 +602,7 @@ namespace MachineDeptApp
                 string query = "SELECT FORMAT(RegDate, 'yyyy-MM') AS YearMonth, SUM(Stock_Amount) AS TotalAmount " +
                     "FROM SparePartTrans WHERE Dept = '" + dept+"' " +
                     "GROUP BY FORMAT(RegDate, 'yyyy-MM') ORDER BY YearMonth";
-                Console.WriteLine(query);
+                Console.WriteLine("Receive: " + query);
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtReceive);
 
