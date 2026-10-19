@@ -124,7 +124,7 @@ namespace MachineDeptApp.SparePartControll
     double.TryParse(txtqty.Text, out double qty))
             {
                 double total = unitPrice * qty;
-                string totalFormatted = total.ToString("N2");
+                string totalFormatted = total.ToString("N4");
                 txtamount.Text = totalFormatted;
             }
             else
@@ -160,7 +160,7 @@ namespace MachineDeptApp.SparePartControll
                             cbsupplier.Text = row["Supplier"].ToString();
                             cbmaker.Text = row["Maker"].ToString();
                             txtleadtime.Text = row["Lead_Time_Week"] != DBNull.Value ? row["Lead_Time_Week"].ToString() : "";
-                            txtunitprice.Text = row["Unit_price"] != DBNull.Value ? Convert.ToDouble(row["Unit_Price"]).ToString("N2") : "";
+                            txtunitprice.Text = row["Unit_price"] != DBNull.Value ? Convert.ToDouble(row["Unit_Price"]).ToString("N4") : "";
                             txtmoq.Text = row["MOQ"] != DBNull.Value ? row["MOQ"].ToString() : "";
                             double un = 0;
                             if (row["Unit_Price"] != DBNull.Value)
