@@ -167,20 +167,15 @@ namespace MachineDeptApp
                 return;
             }
             DataTable dtbudget = new DataTable();
-            DataTable dtremark = new DataTable();
             try
             {
                 int yearnow = dtpyear.Value.Year;
                 con.con.Open();
-                string query = "SELECT * FROM SparePartBudget WHERE Budget_Dept = '" + dept + "' AND Budget_Year = " + yearnow;
+                //Remark row is kept in the same table with Budget_Type = 'Remark'
+                string query = "SELECT * FROM SparePartBudget WHERE Budget_Dept = '" + dept + "' AND Budget_Year = " + yearnow + " AND Budget_Type <> 'Remark'";
 
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtbudget);
-
-                string query2 = "SELECT * FROM tbRemarkBudget WHERE BudgetYear = " + yearnow;
-
-                SqlDataAdapter sda2 = new SqlDataAdapter(query2, con.con);
-                sda2.Fill(dtremark);
 
                 Console.WriteLine(dtbudget.Rows.Count);
             }
@@ -209,6 +204,11 @@ namespace MachineDeptApp
                         {
                             string year = row1.Cells["budgetyear"].Value?.ToString();
                             string type = row1.Cells["budgettype"].Value?.ToString();
+                            if (type == "Remark")
+                            {
+                                //saved by its own branch below
+                                continue;
+                            }
                             decimal jan = SafeDecimal(row1.Cells["Jan"].Value);
                             decimal feb = SafeDecimal(row1.Cells["Feb"].Value);
                             decimal mar = SafeDecimal(row1.Cells["Mar"].Value);
@@ -258,84 +258,62 @@ namespace MachineDeptApp
                 }
                 else
                 {
-                    if (dtremark.Rows.Count > 0)
+                    try
                     {
+                        //Remark row is kept in SparePartBudget with Budget_Type = 'Remark', value of each month must be a number
+                        string[] months = { "Jan","Feb","Mar","Apr","May","Jun",
+                            "Jul","Aug","Sep","Oct","Nov","Dec" };
+                        object[] values = new object[12];
                         foreach (DataGridViewRow row in dgvBudget.Rows)
                         {
-                            string jan = row.Cells["Jan"].Value == null || row.Cells["Jan"].Value == DBNull.Value ? "" : row.Cells["Jan"].Value.ToString();
-                            string feb = row.Cells["Feb"].Value == null || row.Cells["Feb"].Value == DBNull.Value ? "" : row.Cells["Feb"].Value.ToString();
-                            string mar = row.Cells["Mar"].Value == null || row.Cells["Mar"].Value == DBNull.Value ? "" : row.Cells["Mar"].Value.ToString();
-                            string apr = row.Cells["Apr"].Value == null || row.Cells["Apr"].Value == DBNull.Value ? "" : row.Cells["Apr"].Value.ToString();
-                            string may = row.Cells["May"].Value == null || row.Cells["May"].Value == DBNull.Value ? "" : row.Cells["May"].Value.ToString();
-                            string jun = row.Cells["Jun"].Value == null || row.Cells["Jun"].Value == DBNull.Value ? "" : row.Cells["Jun"].Value.ToString();
-                            string jul = row.Cells["Jul"].Value == null || row.Cells["Jul"].Value == DBNull.Value ? "" : row.Cells["Jul"].Value.ToString();
-                            string aug = row.Cells["Aug"].Value == null || row.Cells["Aug"].Value == DBNull.Value ? "" : row.Cells["Aug"].Value.ToString();
-                            string sep = row.Cells["Sep"].Value == null || row.Cells["Sep"].Value == DBNull.Value ? "" : row.Cells["Sep"].Value.ToString();
-                            string oct = row.Cells["Oct"].Value == null || row.Cells["Oct"].Value == DBNull.Value ? "" : row.Cells["Oct"].Value.ToString();
-                            string nov = row.Cells["Nov"].Value == null || row.Cells["Nov"].Value == DBNull.Value ? "" : row.Cells["Nov"].Value.ToString();
-                            string dec = row.Cells["Dec"].Value == null || row.Cells["Dec"].Value == DBNull.Value ? "" : row.Cells["Dec"].Value.ToString();
-
-
-                            string query = "UPDATE tbRemarkBudget SET " +
-                                           " Jan = @Jan, Feb = @Feb, Mar = @Mar, Apr = @Apr, " +
+                            if (row.Cells["budgettype"].Value?.ToString() != "Remark")
+                            {
+                                continue;
+                            }
+                            for (int i = 0; i < 12; i++)
+                            {
+                                string text = row.Cells[i + 2].Value?.ToString().Trim() ?? "";
+                                decimal number;
+                                if (text == "")
+                                {
+                                    values[i] = DBNull.Value;
+                                }
+                                else if (decimal.TryParse(text, out number))
+                                {
+                                    values[i] = number;
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Remark of " + months[i] + " must be a number !", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    err++;
+                                    break;
+                                }
+                            }
+                        }
+                        if (err == 0)
+                        {
+                            string query = "UPDATE SparePartBudget SET " +
+                                           "Jan = @Jan, Feb = @Feb, Mar = @Mar, Apr = @Apr, " +
                                            "May = @May, Jun = @Jun, Jul = @Jul, Aug = @Aug, Sep = @Sep, Oct = @Oct, " +
                                            "Nov = @Nov, Dec = @Dec " +
-                                           "WHERE BudgetYear = @oldyear";
-
-                            SqlCommand cmd = new SqlCommand(query, con.con);
-                            cmd.Parameters.AddWithValue("@oldyear", dtpyear.Value.Year);
-                            cmd.Parameters.AddWithValue("@Dept", dept);
-                            cmd.Parameters.AddWithValue("@Jan", jan);
-                            cmd.Parameters.AddWithValue("@Feb", feb);
-                            cmd.Parameters.AddWithValue("@Mar", mar);
-                            cmd.Parameters.AddWithValue("@Apr", apr);
-                            cmd.Parameters.AddWithValue("@May", may);
-                            cmd.Parameters.AddWithValue("@Jun", jun);
-                            cmd.Parameters.AddWithValue("@Jul", jul);
-                            cmd.Parameters.AddWithValue("@Aug", aug);
-                            cmd.Parameters.AddWithValue("@Sep", sep);
-                            cmd.Parameters.AddWithValue("@Oct", oct);
-                            cmd.Parameters.AddWithValue("@Nov", nov);
-                            cmd.Parameters.AddWithValue("@Dec", dec);
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-                    else
-                    {
-                        foreach (DataGridViewRow row in dgvBudget.Rows)
-                        {
-                            string jan = row.Cells["Jan"].Value == null || row.Cells["Jan"].Value == DBNull.Value ? "" : row.Cells["Jan"].Value.ToString();
-                            string feb = row.Cells["Feb"].Value == null || row.Cells["Feb"].Value == DBNull.Value ? "" : row.Cells["Feb"].Value.ToString();
-                            string mar = row.Cells["Mar"].Value == null || row.Cells["Mar"].Value == DBNull.Value ? "" : row.Cells["Mar"].Value.ToString();
-                            string apr = row.Cells["Apr"].Value == null || row.Cells["Apr"].Value == DBNull.Value ? "" : row.Cells["Apr"].Value.ToString();
-                            string may = row.Cells["May"].Value == null || row.Cells["May"].Value == DBNull.Value ? "" : row.Cells["May"].Value.ToString();
-                            string jun = row.Cells["Jun"].Value == null || row.Cells["Jun"].Value == DBNull.Value ? "" : row.Cells["Jun"].Value.ToString();
-                            string jul = row.Cells["Jul"].Value == null || row.Cells["Jul"].Value == DBNull.Value ? "" : row.Cells["Jul"].Value.ToString();
-                            string aug = row.Cells["Aug"].Value == null || row.Cells["Aug"].Value == DBNull.Value ? "" : row.Cells["Aug"].Value.ToString();
-                            string sep = row.Cells["Sep"].Value == null || row.Cells["Sep"].Value == DBNull.Value ? "" : row.Cells["Sep"].Value.ToString();
-                            string oct = row.Cells["Oct"].Value == null || row.Cells["Oct"].Value == DBNull.Value ? "" : row.Cells["Oct"].Value.ToString();
-                            string nov = row.Cells["Nov"].Value == null || row.Cells["Nov"].Value == DBNull.Value ? "" : row.Cells["Nov"].Value.ToString();
-                            string dec = row.Cells["Dec"].Value == null || row.Cells["Dec"].Value == DBNull.Value ? "" : row.Cells["Dec"].Value.ToString();
-                            string query = "INSERT INTO tbRemarkBudget (BudgetYear, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec ) " +
-                                                                              "VALUES (@Year,@Jan, @Feb, @Mar, @Apr, @May, @Jun, @Jul, @Aug, @Sep, @Oct, @Nov, @Dec)";
+                                           "WHERE Budget_Dept = @Dept AND Budget_Type = 'Remark' AND Budget_Year = @Year " +
+                                           "IF @@ROWCOUNT = 0 " +
+                                           "INSERT INTO SparePartBudget (Budget_Year, Budget_Dept, Budget_Type, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec ) " +
+                                           "VALUES (@Year, @Dept, 'Remark', @Jan, @Feb, @Mar, @Apr, @May, @Jun, @Jul, @Aug, @Sep, @Oct, @Nov, @Dec)";
                             SqlCommand cmd = new SqlCommand(query, con.con);
                             cmd.Parameters.AddWithValue("@Year", dtpyear.Value.Year);
                             cmd.Parameters.AddWithValue("@Dept", dept);
-                            cmd.Parameters.AddWithValue("@Jan", jan);
-                            cmd.Parameters.AddWithValue("@Feb", feb);
-                            cmd.Parameters.AddWithValue("@Mar", mar);
-                            cmd.Parameters.AddWithValue("@Apr", apr);
-                            cmd.Parameters.AddWithValue("@May", may);
-                            cmd.Parameters.AddWithValue("@Jun", jun);
-                            cmd.Parameters.AddWithValue("@Jul", jul);
-                            cmd.Parameters.AddWithValue("@Aug", aug);
-                            cmd.Parameters.AddWithValue("@Sep", sep);
-                            cmd.Parameters.AddWithValue("@Oct", oct);
-                            cmd.Parameters.AddWithValue("@Nov", nov);
-                            cmd.Parameters.AddWithValue("@Dec", dec);
+                            for (int i = 0; i < 12; i++)
+                            {
+                                cmd.Parameters.AddWithValue("@" + months[i], values[i]);
+                            }
                             cmd.ExecuteNonQuery();
                         }
-                          
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error while updating remark! " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        err++;
                     }
                    
 
@@ -584,8 +562,8 @@ namespace MachineDeptApp
             {
                 int yearnow = dtpyear.Value.Year;
                 con.con.Open();
-                string query = "SELECT * FROM SparePartBudget WHERE Budget_Dept = '" + dept + "' AND Budget_Year = " + yearnow;
-      
+                string query = "SELECT * FROM SparePartBudget WHERE Budget_Dept = '" + dept + "' AND Budget_Year = " + yearnow + " AND Budget_Type <> 'Remark'";
+
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtbudget);
                
@@ -617,7 +595,7 @@ namespace MachineDeptApp
             try
             {
                 con.con.Open();
-                string query = "SELECT * FROM tbRemarkBudget WHERE BudgetYear = "+dtpyear.Value.Year+"";
+                string query = "SELECT * FROM SparePartBudget WHERE Budget_Dept = '" + dept + "' AND Budget_Year = " + dtpyear.Value.Year + " AND Budget_Type = 'Remark'";
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtRemark);
 
@@ -627,6 +605,7 @@ namespace MachineDeptApp
             {
                 MessageBox.Show("Error while taking data" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            con.con.Close();
             if (dtbudget.Rows.Count == 0)
             {
                 dgvBudget.Rows.Add();
@@ -862,20 +841,24 @@ namespace MachineDeptApp
                 dgvBudget.Rows.Add();
                 dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgetyear"].Value = dgvBudget.Rows[dgvBudget.Rows.Count - 2].Cells["budgetyear"].Value;
                 dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgettype"].Value = "Remark";
+                string RemarkText(object val)
+                {
+                    return val == DBNull.Value ? "" : Convert.ToDecimal(val).ToString("0.####");
+                }
                 foreach (DataRow row in dtRemark.Rows)
                 {
-                    string jan = row["Jan"] == DBNull.Value ? "" : row["Jan"].ToString();
-                    string feb = row["Feb"] == DBNull.Value ? "" : row["Feb"].ToString();
-                    string mar = row["Mar"] == DBNull.Value ? "" : row["Mar"].ToString();
-                    string apr = row["Apr"] == DBNull.Value ? "" : row["Apr"].ToString();
-                    string may = row["May"] == DBNull.Value ? "" : row["May"].ToString();
-                    string jun = row["Jun"] == DBNull.Value ? "" : row["Jun"].ToString();
-                    string jul = row["Jul"] == DBNull.Value ? "" : row["Jul"].ToString();
-                    string aug = row["Aug"] == DBNull.Value ? "" : row["Aug"].ToString();
-                    string sep = row["Sep"] == DBNull.Value ? "" : row["Sep"].ToString();
-                    string oct = row["Oct"] == DBNull.Value ? "" : row["Oct"].ToString();
-                    string nov = row["Nov"] == DBNull.Value ? "" : row["Nov"].ToString();
-                    string dec = row["Dec"] == DBNull.Value ? "" : row["Dec"].ToString();
+                    string jan = RemarkText(row["Jan"]);
+                    string feb = RemarkText(row["Feb"]);
+                    string mar = RemarkText(row["Mar"]);
+                    string apr = RemarkText(row["Apr"]);
+                    string may = RemarkText(row["May"]);
+                    string jun = RemarkText(row["Jun"]);
+                    string jul = RemarkText(row["Jul"]);
+                    string aug = RemarkText(row["Aug"]);
+                    string sep = RemarkText(row["Sep"]);
+                    string oct = RemarkText(row["Oct"]);
+                    string nov = RemarkText(row["Nov"]);
+                    string dec = RemarkText(row["Dec"]);
 
                     dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Jan"].Value = jan;
                     dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["Feb"].Value = feb;

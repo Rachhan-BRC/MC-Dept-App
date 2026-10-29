@@ -119,12 +119,13 @@ namespace MachineDeptApp.SparePartControll
         private void Txtqty_TextChanged(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(txtunitprice.Text) &&
-    double.TryParse(txtunitprice.Text, out double unitPrice)&&
+    decimal.TryParse(txtunitprice.Text, out decimal unitPrice)&&
     !string.IsNullOrWhiteSpace(txtqty.Text) &&
-    double.TryParse(txtqty.Text, out double qty))
+    decimal.TryParse(txtqty.Text, out decimal qty))
             {
-                double total = unitPrice * qty;
-                string totalFormatted = total.ToString("N4");
+                //amount = qty * unit price, rounded to 2 decimals
+                decimal total = Math.Round(unitPrice * qty, 2, MidpointRounding.AwayFromZero);
+                string totalFormatted = total.ToString("N2");
                 txtamount.Text = totalFormatted;
             }
             else
