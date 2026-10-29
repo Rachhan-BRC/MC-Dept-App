@@ -408,9 +408,13 @@ namespace MachineDeptApp.MCReportTrackingResult
             {
                 interval = 20;
             }
-            else if (max > 200)
+            else if (max >= 200 && max < 500)
             {
-                interval = 40;
+                interval = 50;
+            }
+            else if (max >= 500)
+            {
+                interval = 100;
             }
             area.AxisY.Minimum = 0;
             area.AxisY.Maximum = max + 2;
@@ -521,9 +525,13 @@ namespace MachineDeptApp.MCReportTrackingResult
             {
                 interval = 30;
             }
-            else if (max > 200)
+            else if (max >= 200 && max < 500)
             {
                 interval = 50;
+            }
+            else if (max >= 500)
+            {
+                interval = 100;
             }
             area.AxisY.Minimum = 0;
             area.AxisY.Maximum = max + 10;
@@ -589,6 +597,17 @@ namespace MachineDeptApp.MCReportTrackingResult
                         dgvDefectOutFlow.Rows[5].Cells[col.Name].Value = p2 - a2;
                 }
 
+                // MQC Crimping: rows 6=Plan, 7=Actual, 8=Gap
+                object planVal3 = dgvDefectOutFlow.Rows[6].Cells[col.Name].Value;
+                object actualVal3 = dgvDefectOutFlow.Rows[7].Cells[col.Name].Value;
+                if (planVal3 != null && planVal3.ToString() != "" &&
+                    actualVal3 != null && actualVal3.ToString() != "")
+                {
+                    if (decimal.TryParse(planVal3.ToString(), out decimal p3) &&
+                        decimal.TryParse(actualVal3.ToString(), out decimal a3))
+                        dgvDefectOutFlow.Rows[8].Cells[col.Name].Value = p3 - a3;
+                }
+
                 dgvDefectOutFlow.Rows[0].Cells["colQC"].Style.BackColor = Color.LightGreen;
                 dgvDefectOutFlow.Rows[2].Cells["colQC"].Style.BackColor = Color.Red;
                 dgvDefectOutFlow.Rows[3].Cells["colQC"].Style.BackColor = Color.LightGreen;
@@ -599,7 +618,8 @@ namespace MachineDeptApp.MCReportTrackingResult
                 for (int i = 3; i < dgvDefectOutFlow.ColumnCount - 1; i++)
                 {
                     var typeCell = dgvDefectOutFlow.Rows[2].Cells[i];
-                    var typeCell2 = dgvDefectOutFlow.Rows[4].Cells[i];
+                    var typeCell2 = dgvDefectOutFlow.Rows[5].Cells[i];
+                    var typeCell3 = dgvDefectOutFlow.Rows[8].Cells[i];
                     if (typeCell.Value != null && double.TryParse(typeCell.Value.ToString(), out double d))
                     {
                         if (d < 0)
@@ -611,7 +631,14 @@ namespace MachineDeptApp.MCReportTrackingResult
                     {
                         if (d2 < 0)
                         {
-                            dgvDefectOutFlow.Rows[4].Cells[i].Style.BackColor = Color.Red;
+                            dgvDefectOutFlow.Rows[5].Cells[i].Style.BackColor = Color.Red;
+                        }
+                    }
+                    if (typeCell3.Value != null && double.TryParse(typeCell3.Value.ToString(), out double d3))
+                    {
+                        if (d3 < 0)
+                        {
+                            dgvDefectOutFlow.Rows[8].Cells[i].Style.BackColor = Color.Red;
                         }
                     }
                 }
