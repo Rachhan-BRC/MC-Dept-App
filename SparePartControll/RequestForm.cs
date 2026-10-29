@@ -680,6 +680,9 @@ namespace MachineDeptApp.SparePartControll
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dt);
 
+                //amount = qty * unit price rounded to 2 decimals, total row is the sum of them
+                decimal amounta = 0;
+                decimal receiveamount = 0;
                 foreach (DataRow row in dt.Rows)
                 {
                     string code = row["Code"]?.ToString() ?? string.Empty;    
@@ -693,7 +696,7 @@ namespace MachineDeptApp.SparePartControll
 
                     double orderqty = row["Order_Qty"] == DBNull.Value ? 0 : Convert.ToDouble(row["Order_Qty"]);
                     double unitprice = row["UnitPrice"] == DBNull.Value ? 0 : Convert.ToDouble(row["UnitPrice"]);
-                    double amount = row["Amount"] == DBNull.Value ? 0 : Convert.ToDouble(row["Amount"]);
+                    decimal amount = Math.Round((decimal)orderqty * (decimal)unitprice, 2, MidpointRounding.AwayFromZero);
                     double receiveqty = row["ReceiveQTY"] == DBNull.Value ? 0 : Convert.ToDouble(row["ReceiveQTY"]);
                     double balance = row["Balance"] == DBNull.Value ? 0 : Convert.ToDouble(row["Balance"]);
                     double remainamount = row["RemainAmount"] == DBNull.Value ? 0 : Convert.ToDouble(row["RemainAmount"]);
@@ -703,7 +706,9 @@ namespace MachineDeptApp.SparePartControll
                     string orderstate = row["Order_State"]?.ToString() ?? string.Empty;
                     string remark = row["Remark"]?.ToString() ?? string.Empty;
                     string updatedate = row["UpdateDate"]?.ToString() ?? string.Empty;
-                    double recamount = row["ReceiveAmount"] == DBNull.Value ? 0 : Convert.ToDouble(row["ReceiveAmount"]);
+                    decimal recamount = Math.Round((decimal)unitprice * (decimal)receiveqty, 2, MidpointRounding.AwayFromZero);
+                    amounta += amount;
+                    receiveamount += recamount;
 
                     dgvRequest.Rows.Add();
                     dgvRequest.Rows[dgvRequest.Rows.Count - 1].Cells["code"].Value = code;
@@ -726,18 +731,13 @@ namespace MachineDeptApp.SparePartControll
                     dgvRequest.Columns["code"].Frozen = true;
                 }
                 double ordera = 0;
-                double amounta = 0;
                 double receiveqtya = 0;
                 double balancea = 0;
                 double reamounta = 0;
-                double receiveamount = 0;
                 foreach (DataRow row in dt.Rows)
                 {
                     if (row["Order_Qty"] != null)
                         ordera += Convert.ToDouble(row["Order_Qty"]);
-
-                    if (row["Amount"] != null)
-                        amounta += Convert.ToDouble(row["Amount"]);
 
                     if (row["ReceiveQTY"] != null)
                         receiveqtya += Convert.ToDouble(row["ReceiveQTY"]);
@@ -747,9 +747,6 @@ namespace MachineDeptApp.SparePartControll
 
                     if (row["RemainAmount"] != null) 
                         reamounta += Convert.ToDouble(row["RemainAmount"]);
-
-                    if (row["ReceiveAmount"] != null)
-                        receiveamount += Convert.ToDouble(row["ReceiveAmount"]);
                 }
                 //total
                 dgvRequest.Rows.Add();

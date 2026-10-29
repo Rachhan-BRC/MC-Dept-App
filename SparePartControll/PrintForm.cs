@@ -143,7 +143,7 @@ namespace MachineDeptApp.SparePartControll
                 if (decimal.TryParse(row.Cells["qty"].Value?.ToString(), out decimal qty) &&
                     decimal.TryParse(row.Cells["unitprice"].Value?.ToString(), out decimal unitprice))
                 {
-                    row.Cells["amount"].Value = qty * unitprice;
+                    row.Cells["amount"].Value = Math.Round(qty * unitprice, 2, MidpointRounding.AwayFromZero);
                 }
                 else
                 {
@@ -157,7 +157,7 @@ namespace MachineDeptApp.SparePartControll
                 if (decimal.TryParse(row.Cells["qty"].Value?.ToString(), out decimal qty) &&
                     decimal.TryParse(row.Cells["unitprice"].Value?.ToString(), out decimal unitprice))
                 {
-                    row.Cells["amount"].Value = qty * unitprice;
+                    row.Cells["amount"].Value = Math.Round(qty * unitprice, 2, MidpointRounding.AwayFromZero);
                 }
                 else
                 {
@@ -636,7 +636,7 @@ namespace MachineDeptApp.SparePartControll
                 string date = DateTime.Now.ToString("dd");
                 string month = DateTime.Now.ToString("MMM");
                 string year = DateTime.Now.ToString("yyyy");
-                double totalAmount = 0;
+                decimal totalAmount = 0;
                 for (int i = 0; i < dgvTTL.Rows.Count; i++)
                 {
                     DataGridViewRow row = dgvTTL.Rows[i];
@@ -651,7 +651,9 @@ namespace MachineDeptApp.SparePartControll
                         insertRow.Insert(Excel.XlInsertShiftDirection.xlShiftDown);
                     }
                     worksheet.Cells[startRow + i, 1] = i+1;
-                    totalAmount += Convert.ToDouble(row.Cells["amount"].Value);
+                    //total row = sum of amounts rounded to 2 decimals
+                    decimal rowAmount = Math.Round(Convert.ToDecimal(row.Cells["amount"].Value), 2, MidpointRounding.AwayFromZero);
+                    totalAmount += rowAmount;
                     worksheet.Cells[startRow + i, 2] = row.Cells["Code"].Value?.ToString();
                     worksheet.Cells[startRow + i, 3] = row.Cells["partno"].Value?.ToString();
                     worksheet.Cells[startRow + i, 4] = row.Cells["partname"].Value?.ToString();
@@ -661,7 +663,7 @@ namespace MachineDeptApp.SparePartControll
                     worksheet.Cells[startRow + i, 8] = Convert.ToDateTime(row.Cells["eta"].Value).ToString("01-MMM-yyyy");
                     worksheet.Cells[startRow + i, 9] = row.Cells["qty"].Value?.ToString();
                     worksheet.Cells[startRow + i, 11] = row.Cells["unitprice"].Value?.ToString();
-                    worksheet.Cells[startRow + i, 12] = row.Cells["amount"].Value?.ToString();
+                    worksheet.Cells[startRow + i, 12] = rowAmount.ToString();
                     worksheet.Cells[startRow + i + 1, 12] = totalAmount.ToString();
                 }
                 // Save Excel
@@ -726,7 +728,7 @@ namespace MachineDeptApp.SparePartControll
                 string date = DateTime.Now.ToString("dd");
                 string month = DateTime.Now.ToString("MM");
                 string year = DateTime.Now.ToString("yyyy");
-                double totalAmount = 0;
+                decimal totalAmount = 0;
                 for (int i = 0; i < dgvTTL.Rows.Count; i++)
                 {
                     DataGridViewRow row = dgvTTL.Rows[i];
@@ -740,7 +742,9 @@ namespace MachineDeptApp.SparePartControll
                         Excel.Range insertRow = worksheet.Rows[startRow + i];
                         insertRow.Insert(Excel.XlInsertShiftDirection.xlShiftDown);
                     }
-                    totalAmount += Convert.ToDouble(row.Cells["amount"].Value);
+                    //total row = sum of amounts rounded to 2 decimals
+                    decimal rowAmount = Math.Round(Convert.ToDecimal(row.Cells["amount"].Value), 2, MidpointRounding.AwayFromZero);
+                    totalAmount += rowAmount;
                     worksheet.Cells[startRow + i, 1] = row.Cells["Code"].Value?.ToString();
                     worksheet.Cells[startRow + i, 2] = row.Cells["partno"].Value?.ToString();
                     worksheet.Cells[startRow + i, 3] = row.Cells["partname"].Value?.ToString();
@@ -749,7 +753,7 @@ namespace MachineDeptApp.SparePartControll
                     worksheet.Cells[startRow + i, 6] = row.Cells["maker"].Value?.ToString();
                     worksheet.Cells[startRow + i, 7] = row.Cells["qty"].Value?.ToString();
                     worksheet.Cells[startRow + i, 8] = row.Cells["unitprice"].Value?.ToString();
-                    worksheet.Cells[startRow + i, 9] = row.Cells["amount"].Value?.ToString();
+                    worksheet.Cells[startRow + i, 9] = rowAmount.ToString();
                     worksheet.Cells[startRow + i + 1, 9] = totalAmount.ToString();
 
                 }
@@ -892,7 +896,8 @@ namespace MachineDeptApp.SparePartControll
                 DateTime lead = DateTime.Now.AddMonths(totalmonth);
                 double orderqty = row["OrderQty"] == DBNull.Value ? 0 : Convert.ToDouble(row["OrderQty"]);
                 double unitprice = row["UnitPrice"] == DBNull.Value ? 0 : Convert.ToDouble(row["UnitPrice"]);
-                double amount = row["Amount"] == DBNull.Value ? 0 : Convert.ToDouble(row["Amount"]);
+                //amount = qty * unit price, rounded to 2 decimals
+                decimal amount = Math.Round((decimal)orderqty * (decimal)unitprice, 2, MidpointRounding.AwayFromZero);
                 string status = row["Status"]?.ToString() ?? string.Empty;
                 string maker = row["Maker"]?.ToString() ?? string.Empty;
                 dgvTTL.Rows.Add();
