@@ -47,7 +47,8 @@ namespace MachineDeptApp.MCPlans
                     {
                         cnn.con.Open();
 
-                        //Re-Checking the status
+                        //Re-Checking the
+                        //
                         SqlDataAdapter sda = new SqlDataAdapter("SELECT PosCStatus FROM tbPOSDetailofMC WHERE PosCNo='"+ dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[3].Value.ToString() + "' ", cnn.con);
                         DataTable dt = new DataTable();
                         sda.Fill(dt);

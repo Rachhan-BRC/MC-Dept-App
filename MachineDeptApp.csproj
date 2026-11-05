@@ -62,6 +62,24 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\SubLeaderRegisterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin\SubLeaderRegisterForm.Designer.cs">
+      <DependentUpon>SubLeaderRegisterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\SubLeaderRegisterAddUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin\SubLeaderRegisterAddUpdateForm.Designer.cs">
+      <DependentUpon>SubLeaderRegisterAddUpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCPlans\RestRoomTimeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCPlans\RestRoomTimeForm.Designer.cs">
+      <DependentUpon>RestRoomTimeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Admin\MachineTypeMasterForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -982,6 +1000,15 @@
     <Compile Include="TransferData\TransferDataForm.Designer.cs">
       <DependentUpon>TransferDataForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Admin\SubLeaderRegisterForm.resx">
+      <DependentUpon>SubLeaderRegisterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Admin\SubLeaderRegisterAddUpdateForm.resx">
+      <DependentUpon>SubLeaderRegisterAddUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCPlans\RestRoomTimeForm.resx">
+      <DependentUpon>RestRoomTimeForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Admin\MachineTypeMasterForm.resx">
       <DependentUpon>MachineTypeMasterForm.cs</DependentUpon>
     </EmbeddedResource>

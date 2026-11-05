@@ -543,6 +543,52 @@ namespace MachineDeptApp
                 }
                 
             }
+            if (currentClkNode.Text == "Rest Room Time")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    RestRoomTimeForm Uf = new RestRoomTimeForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("Rest Room Time");
+                    dtOpenForm.Rows.Add("RestRoomTimeForm", "Rest Room Time");
+                }
+            }
+            if (currentClkNode.Text == "Sub Leader Register")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    SubLeaderRegisterForm Uf = new SubLeaderRegisterForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("Sub Leader Register");
+                    dtOpenForm.Rows.Add("SubLeaderRegisterForm", "Sub Leader Register");
+                }
+            }
             if (currentClkNode.Text == "Master Stop Information")
             {
                 //Check if already open >> Focus on that Form
@@ -2662,6 +2708,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(6, "MC Mtr Plan", "MCPlanStatusSearchForm");
             dtChildRoot.Rows.Add(6, "POS Remark", "_3EditPOSMCDetailForm");
             dtChildRoot.Rows.Add(6, "POS Data Check", "POSDataCheckAmountForm");
+            dtChildRoot.Rows.Add(6, "Rest Room Time", "RestRoomTimeForm");
 
             //8
             dtChildRoot.Rows.Add(7, "MC Kitting Inventory", "");
@@ -2707,6 +2754,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "RM Connector Master", "RMConnectorMasterForm");
             dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "អ្នកទទួលបន្ទុករាប់ស្តុក SD", "SDMstPic");
             dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "Master Stop Information", "MstStopInfo");
+            dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "Sub Leader Register", "SubLeaderRegisterForm");
 
             foreach (DataRow row1 in dtChildRoot.Rows) 
             {
