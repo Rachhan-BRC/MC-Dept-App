@@ -49,7 +49,8 @@ namespace MachineDeptApp
             try
             {
                 con.con.Open();
-                string query = "DELETE FROM SparePartBudget WHERE Budget_Year = @year AND Budget_Dept =@dept";
+                string query = "DELETE FROM SparePartBudget WHERE Budget_Year = @year AND Budget_Dept =@dept " +
+                               "DELETE FROM tbRemarkBudget WHERE BudgetYear = @year";
                 SqlCommand cmd = new SqlCommand(query, con.con);
                 cmd.Parameters.AddWithValue("@year", dtpyear.Value.Year);
                 cmd.Parameters.AddWithValue("@dept", dept);
@@ -260,52 +261,29 @@ namespace MachineDeptApp
                 {
                     try
                     {
-                        //Remark row is kept in SparePartBudget with Budget_Type = 'Remark', value of each month must be a number
+                        //Remark can be text or number, so it is kept in tbRemarkBudget (text columns), not in SparePartBudget (number columns)
                         string[] months = { "Jan","Feb","Mar","Apr","May","Jun",
                             "Jul","Aug","Sep","Oct","Nov","Dec" };
-                        object[] values = new object[12];
                         foreach (DataGridViewRow row in dgvBudget.Rows)
                         {
                             if (row.Cells["budgettype"].Value?.ToString() != "Remark")
                             {
                                 continue;
                             }
-                            for (int i = 0; i < 12; i++)
-                            {
-                                string text = row.Cells[i + 2].Value?.ToString().Trim() ?? "";
-                                decimal number;
-                                if (text == "")
-                                {
-                                    values[i] = DBNull.Value;
-                                }
-                                else if (decimal.TryParse(text, out number))
-                                {
-                                    values[i] = number;
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Remark of " + months[i] + " must be a number !", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    err++;
-                                    break;
-                                }
-                            }
-                        }
-                        if (err == 0)
-                        {
-                            string query = "UPDATE SparePartBudget SET " +
+                            string query = "UPDATE tbRemarkBudget SET " +
                                            "Jan = @Jan, Feb = @Feb, Mar = @Mar, Apr = @Apr, " +
                                            "May = @May, Jun = @Jun, Jul = @Jul, Aug = @Aug, Sep = @Sep, Oct = @Oct, " +
                                            "Nov = @Nov, Dec = @Dec " +
-                                           "WHERE Budget_Dept = @Dept AND Budget_Type = 'Remark' AND Budget_Year = @Year " +
+                                           "WHERE BudgetYear = @Year " +
                                            "IF @@ROWCOUNT = 0 " +
-                                           "INSERT INTO SparePartBudget (Budget_Year, Budget_Dept, Budget_Type, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec ) " +
-                                           "VALUES (@Year, @Dept, 'Remark', @Jan, @Feb, @Mar, @Apr, @May, @Jun, @Jul, @Aug, @Sep, @Oct, @Nov, @Dec)";
+                                           "INSERT INTO tbRemarkBudget (BudgetYear, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec) " +
+                                           "VALUES (@Year, @Jan, @Feb, @Mar, @Apr, @May, @Jun, @Jul, @Aug, @Sep, @Oct, @Nov, @Dec)";
                             SqlCommand cmd = new SqlCommand(query, con.con);
                             cmd.Parameters.AddWithValue("@Year", dtpyear.Value.Year);
-                            cmd.Parameters.AddWithValue("@Dept", dept);
                             for (int i = 0; i < 12; i++)
                             {
-                                cmd.Parameters.AddWithValue("@" + months[i], values[i]);
+                                string text = row.Cells[months[i]].Value?.ToString().Trim() ?? "";
+                                cmd.Parameters.AddWithValue("@" + months[i], text);
                             }
                             cmd.ExecuteNonQuery();
                         }
@@ -507,6 +485,12 @@ namespace MachineDeptApp
             }
             else
             {
+                //Remark row accepts text and number, so remove the digit-only filter
+                //(the editing TextBox is reused, it may still have OnlyDigits from a number row)
+                if (e.Control is TextBox tbRemark)
+                {
+                    tbRemark.KeyPress -= OnlyDigits;
+                }
                 btnSave.Enabled = true;
                 btnSave.BringToFront();
             }
@@ -591,15 +575,25 @@ namespace MachineDeptApp
                 MessageBox.Show("Error while taking data" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             con.con.Close();
-            ///remark
+            ///remark (text or number) is kept in tbRemarkBudget
             try
             {
                 con.con.Open();
-                string query = "SELECT * FROM SparePartBudget WHERE Budget_Dept = '" + dept + "' AND Budget_Year = " + dtpyear.Value.Year + " AND Budget_Type = 'Remark'";
+                string query = "SELECT * FROM tbRemarkBudget WHERE BudgetYear = " + dtpyear.Value.Year;
                 SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
                 sda.Fill(dtRemark);
-
-
+                if (dtRemark.Rows.Count == 0)
+                {
+                    //remark that was saved as number in SparePartBudget (Budget_Type = 'Remark') before
+                    DataTable dtRemarkOld = new DataTable();
+                    string queryOld = "SELECT * FROM SparePartBudget WHERE Budget_Dept = '" + dept + "' AND Budget_Year = " + dtpyear.Value.Year + " AND Budget_Type = 'Remark'";
+                    SqlDataAdapter sdaOld = new SqlDataAdapter(queryOld, con.con);
+                    sdaOld.Fill(dtRemarkOld);
+                    if (dtRemarkOld.Rows.Count > 0)
+                    {
+                        dtRemark = dtRemarkOld;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -843,7 +837,9 @@ namespace MachineDeptApp
                 dgvBudget.Rows[dgvBudget.Rows.Count - 1].Cells["budgettype"].Value = "Remark";
                 string RemarkText(object val)
                 {
-                    return val == DBNull.Value ? "" : Convert.ToDecimal(val).ToString("0.####");
+                    if (val == null || val == DBNull.Value) return "";
+                    if (val is decimal number) return number.ToString("0.####");
+                    return val.ToString();
                 }
                 foreach (DataRow row in dtRemark.Rows)
                 {
