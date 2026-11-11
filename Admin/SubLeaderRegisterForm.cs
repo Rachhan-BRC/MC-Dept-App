@@ -430,8 +430,9 @@ namespace MachineDeptApp.Admin
                 try
                 {
                     cnnMC.con.Open();
-                    string SQLQuery = "SELECT *  FROM [TD_Database].[dbo].[Employee_list] WHERE Department =  Machine' AND " + SQLCond;
+                    string SQLQuery = "SELECT *  FROM [TD_Database].[dbo].[Employee_list] WHERE Department =  'Machine' AND " + SQLCond;
                     SqlDataAdapter sda = new SqlDataAdapter(SQLQuery, cnnMC.con);
+                    Console.WriteLine(SQLQuery);
                     sda.Fill(dtEmployee);
                 }
                 catch (Exception ex)
