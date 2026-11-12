@@ -32,6 +32,7 @@ namespace MachineDeptApp
             this.picadd.Click += BtnSearchAdd_Click;
             this.picsearch.Click += BtnSearchAdd_Click;
             this.dgvData.CellClick += DgvData_CellClick;
+
         }
         private void DgvData_CellClick(object sender, DataGridViewCellEventArgs e)
         {

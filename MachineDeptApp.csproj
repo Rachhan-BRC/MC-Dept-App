@@ -80,6 +80,12 @@
     <Compile Include="MCPlans\RestRoomTimeForm.Designer.cs">
       <DependentUpon>RestRoomTimeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MCPlans\PlanMCCompleteQtyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCPlans\PlanMCCompleteQtyForm.Designer.cs">
+      <DependentUpon>PlanMCCompleteQtyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Admin\MachineTypeMasterForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1009,6 +1015,9 @@
     <EmbeddedResource Include="MCPlans\RestRoomTimeForm.resx">
       <DependentUpon>RestRoomTimeForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MCPlans\PlanMCCompleteQtyForm.resx">
+      <DependentUpon>PlanMCCompleteQtyForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Admin\MachineTypeMasterForm.resx">
       <DependentUpon>MachineTypeMasterForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -1147,6 +1156,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CreditForm.resx">
       <DependentUpon>CreditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="InputTransferSemi\InputTransferSemiConfirmForm.resx">
       <DependentUpon>InputTransferSemiConfirmForm.cs</DependentUpon>
@@ -1214,12 +1224,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MCPlans\1InputMCStatusForm.resx">
       <DependentUpon>1InputMCStatusForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MCPlans\2InputMQCStatusForm.resx">
       <DependentUpon>2InputMQCStatusForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MCPlans\3EditPOSMCDetailForm.resx">
       <DependentUpon>3EditPOSMCDetailForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MCPlans\GenerateMCPlansForm.resx">
       <DependentUpon>GenerateMCPlansForm.cs</DependentUpon>
