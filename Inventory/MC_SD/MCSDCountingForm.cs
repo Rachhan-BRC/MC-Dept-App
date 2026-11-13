@@ -368,6 +368,17 @@ namespace MachineDeptApp
                 !string.IsNullOrWhiteSpace(txtremainL2.Text) &&
                 !string.IsNullOrWhiteSpace(txtlabel.Text))
             {
+                //Counted total must not go over the stock card
+                double newQty;
+                if (!double.TryParse(txtremainL2.Text.Trim(), out newQty))
+                {
+                    newQty = 0;
+                }
+                if (!CheckOverStockCard(txtcode.Text.Trim(), newQty))
+                {
+                    Cursor = Cursors.Default;
+                    return;
+                }
                 int success = 0;
                 try
                 {
@@ -608,6 +619,12 @@ namespace MachineDeptApp
                     txtcodeun.Text = code;
 
                     txtscan.Text = "";
+                    //Counted total must not go over the stock card
+                    if (!CheckOverStockCard(code, Convert.ToDouble(txtremainL3.Text.Trim()), txtsysno.Text.Trim()))
+                    {
+                        Cursor = Cursors.Default;
+                        return;
+                    }
                     //Insert data to tbSDMCStockInventory
                     int success = 0;
                     try
@@ -799,6 +816,52 @@ namespace MachineDeptApp
             con.con.Close();
             double stockcount = (dtCount.Rows.Count > 0 && dtCount.Rows[0]["StockCount"] != DBNull.Value) ? Convert.ToDouble(dtCount.Rows[0]["StockCount"]) : 0;
             txtttllenght.Text = stockcount.ToString("N2");
+            return true;
+        }
+
+        //Before saving: counted total of this Code (all PIC, already saved + this one) must not be bigger than the stock card (SD MC = WIR1)
+        //Reads both from the database (other PIC may count the same Code at the same time)
+        //sysNo = scanned label (tab 'ឡាប៊ែល'), "" for tab 'បញ្ចូលកូដ' (no label) >> shown in the message when there is one
+        //Returns false when it cannot be saved (message already shown)
+        private bool CheckOverStockCard(string code, double newQty, string sysNo = "")
+        {
+            double stockCard = 0;
+            double counted = 0;
+            try
+            {
+                con.con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT ISNULL(SUM(StockValue), 0) FROM [MachineDB].[dbo].[tbSDMCAllTransaction] WHERE LocCode = 'WIR1' AND CancelStatus = 0 AND Code = @Code", con.con);
+                cmd.Parameters.AddWithValue("@Code", code);
+                stockCard = Convert.ToDouble(cmd.ExecuteScalar());
+                cmd = new SqlCommand("SELECT ISNULL(SUM(Qty), 0) FROM [MachineDB].[dbo].[tbSDMCStockInventory] WHERE Code = @Code AND Status = 'Active'", con.con);
+                cmd.Parameters.AddWithValue("@Code", code);
+                counted = Convert.ToDouble(cmd.ExecuteScalar());
+            }
+            catch (Exception ex)
+            {
+                con.con.Close();
+                Cursor = Cursors.Default;
+                MessageBox.Show("មានបញ្ហាបច្ចេកទេស សូមទាក់ទងទៅ IT (Phanun) 14 !" + ex.Message, "Error CheckStockCard", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            con.con.Close();
+
+            double total = counted + newQty;
+            if (Math.Round(total, 3) > Math.Round(stockCard, 3))
+            {
+                Cursor = Cursors.Default;
+                labelstatus.Text = "Error";
+                Panelstatus.BackColor = Color.Red;
+                MessageBox.Show("ចំនួនរាប់ស្តុក លើសពីចំនួនស្តុកកាត មិនអាចរក្សាទុកបានទេ !\n\n" +
+                    (sysNo != "" ? "លេខឡាប៊ែល : " + sysNo + "\n" : "") +
+                    "លេខកូដ : " + code + "\n" +
+                    "ចំនួនរាប់រួច : " + counted.ToString("N3") + "\n" +
+                    "ចំនួនរាប់លើកនេះ : " + newQty.ToString("N3") + "\n" +
+                    "ចំនួនរាប់សរុប : " + total.ToString("N3") + "\n" +
+                    "ចំនួនស្តុកកាត : " + stockCard.ToString("N3"),
+                    "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
             return true;
         }
 
