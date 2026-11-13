@@ -18,6 +18,7 @@ namespace MachineDeptApp.MCSDControl
     public partial class RMMovementStatusForm : Form
     {
         SQLConnect cnn = new SQLConnect();
+
         string ErrorText = "";
 
         //Search conditions of the data in the grid (printed on the Excel report)

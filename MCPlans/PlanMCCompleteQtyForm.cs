@@ -12,6 +12,8 @@ namespace MachineDeptApp.MCPlans
 {
     //Search / Update / Delete for tbPlanMCCompleteQty
     //Only Status = 1 rows are active. Delete does not remove the row, it sets Status = 0.
+    //Shift comes from RegDate: D = 07:30 ~ before 19:30, N = other time
+    //Summary Qty (PO / Machine) shows SUM(Qty) in the same grid; Update / Delete only work on the detail view
     public partial class PlanMCCompleteQtyForm : Form
     {
         SQLConnect cnn = new SQLConnect();
@@ -21,6 +23,18 @@ namespace MachineDeptApp.MCPlans
 
         //True while the grid is being filled: adding the first row auto-selects it before its cells have values
         bool IsLoading = false;
+
+        //Values of cboSummary. "" = detail (1 grid row = 1 table row)
+        const string SummaryByPO = "PO";
+        const string SummaryByMachine = "Machine";
+        //Summary Qty used by the last search (the combobox can change after searching)
+        string ViewMode = "";
+
+        //Machine / Remarks columns checked once per app run (same SQL as the tablet app / SQL\tbPlanMCCompleteQty.sql)
+        static bool ColumnsReady = false;
+
+        //Shift of T.RegDate (no RegDate >> "")
+        const string ShiftSql = "CASE WHEN T.RegDate IS NULL THEN '' WHEN CAST(T.RegDate AS TIME) >= '07:30' AND CAST(T.RegDate AS TIME) < '19:30' THEN 'D' ELSE 'N' END";
 
         //tbPlanMCCompleteQty has no primary key, so one row is identified by PO + ItemCode + RegDate.
         //The original RegDate (DateTime or DBNull) is kept in DataGridViewRow.Tag.
@@ -50,6 +64,7 @@ namespace MachineDeptApp.MCPlans
             this.btnDelete.Click += BtnDelete_Click;
             this.btnExport.Click += BtnExport_Click;
             this.DgvSearch.SelectionChanged += DgvSearch_SelectionChanged;
+            this.DgvSearch.CellFormatting += DgvSearch_CellFormatting;
             this.dtpSDate.ValueChanged += DtpDate_ValueChanged;
             this.dtpEDate.ValueChanged += DtpDate_ValueChanged;
             //Enter key = Search, but Enter key inside the edit box = Update
@@ -60,6 +75,32 @@ namespace MachineDeptApp.MCPlans
         private void PlanMCCompleteQtyForm_Shown(object sender, EventArgs e)
         {
             DgvSearch.RowHeadersDefaultCellStyle.Font = new Font(DgvSearch.AlternatingRowsDefaultCellStyle.Font, FontStyle.Regular);
+            LoadMachineList();
+        }
+
+        //cboMachine items = "" + MC names from tbMasterMCType
+        private void LoadMachineList()
+        {
+            cboMachine.Items.Clear();
+            cboMachine.Items.Add("");
+            DataTable dt = new DataTable();
+            string LoadError = "";
+            try
+            {
+                cnn.con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT DISTINCT MCName FROM tbMasterMCType WHERE ISNULL(MCName, '') <> '' ORDER BY MCName", cnn.con);
+                sda.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                LoadError = ex.Message;
+            }
+            cnn.con.Close();
+
+            foreach (DataRow row in dt.Rows)
+                cboMachine.Items.Add(row["MCName"].ToString());
+            if (LoadError != "")
+                MessageBox.Show("មានបញ្ហា! Machine list : \n" + LoadError, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void DtpDate_ValueChanged(object sender, EventArgs e)
@@ -90,6 +131,8 @@ namespace MachineDeptApp.MCPlans
             IsLoading = true;
             DgvSearch.Rows.Clear();
             ClearEditBox();
+            ViewMode = cboSummary.Text;
+            ShowColumnsForView();
             LbStatus.Text = "កំពុងស្វែងរក . . .";
             LbStatus.Refresh();
 
@@ -98,6 +141,7 @@ namespace MachineDeptApp.MCPlans
             try
             {
                 cnn.con.Open();
+                EnsureColumns();
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = cnn.con;
 
@@ -118,11 +162,30 @@ namespace MachineDeptApp.MCPlans
                     SQLConds += "AND T.ItemCode LIKE @ItemCode ";
                     cmd.Parameters.Add("@ItemCode", SqlDbType.NVarChar, 200).Value = ToLikePattern(txtItemCode.Text);
                 }
-                cmd.CommandText = @"SELECT T.PO, T.ItemCode, I.ItemName, T.Qty, T.RegBy, T.RegDate, T.UpdateBy, T.UpdateDate
-                                    FROM tbPlanMCCompleteQty T
+                if (cboShift.Text != "")
+                {
+                    SQLConds += "AND S.Shift = @Shift ";
+                    cmd.Parameters.Add("@Shift", SqlDbType.VarChar, 1).Value = cboShift.Text;
+                }
+                if (cboMachine.Text != "")
+                {
+                    SQLConds += "AND T.Machine = @Machine ";
+                    cmd.Parameters.Add("@Machine", SqlDbType.NVarChar, 50).Value = cboMachine.Text;
+                }
+
+                string FromWhere = @" FROM tbPlanMCCompleteQty T
+                                    CROSS APPLY (SELECT " + ShiftSql + @" AS Shift) S
                                     OUTER APPLY (SELECT TOP 1 ItemName FROM tbMasterItem WHERE ItemCode = T.ItemCode) I
-                                    WHERE T.Status = 1 " + SQLConds + @"
-                                    ORDER BY T.RegDate DESC, T.PO, T.ItemCode";
+                                    WHERE T.Status = 1 " + SQLConds;
+                if (ViewMode == SummaryByPO)
+                    cmd.CommandText = "SELECT T.PO, T.ItemCode, MAX(I.ItemName) AS ItemName, SUM(T.Qty) AS Qty" + FromWhere +
+                                      " GROUP BY T.PO, T.ItemCode ORDER BY T.PO, T.ItemCode";
+                else if (ViewMode == SummaryByMachine)
+                    cmd.CommandText = "SELECT ISNULL(T.Machine, '') AS Machine, SUM(T.Qty) AS Qty" + FromWhere +
+                                      " GROUP BY ISNULL(T.Machine, '') ORDER BY ISNULL(T.Machine, '')";
+                else
+                    cmd.CommandText = "SELECT T.PO, T.ItemCode, I.ItemName, T.Machine, S.Shift, T.Qty, T.Remarks, T.RegBy, T.RegDate, T.UpdateBy, T.UpdateDate" + FromWhere +
+                                      " ORDER BY T.RegDate DESC, T.PO, T.ItemCode";
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 sda.Fill(dtData);
             }
@@ -140,15 +203,27 @@ namespace MachineDeptApp.MCPlans
                     int i = DgvSearch.Rows.Add();
                     DataGridViewRow drow = DgvSearch.Rows[i];
                     drow.HeaderCell.Value = (i + 1).ToString();
-                    drow.Cells[colPO.Index].Value = row["PO"].ToString();
-                    drow.Cells[colItemCode.Index].Value = row["ItemCode"].ToString();
-                    drow.Cells[colItemName.Index].Value = row["ItemName"].ToString();
                     drow.Cells[colQty.Index].Value = Convert.ToDouble(row["Qty"]);
-                    drow.Cells[colRegBy.Index].Value = row["RegBy"].ToString();
-                    drow.Cells[colRegDate.Index].Value = DBNullToNull(row["RegDate"]);
-                    drow.Cells[colUpdateBy.Index].Value = row["UpdateBy"].ToString();
-                    drow.Cells[colUpdateDate.Index].Value = DBNullToNull(row["UpdateDate"]);
-                    drow.Tag = row["RegDate"];
+                    if (ViewMode != SummaryByMachine)
+                    {
+                        drow.Cells[colPO.Index].Value = row["PO"].ToString();
+                        drow.Cells[colItemCode.Index].Value = row["ItemCode"].ToString();
+                        drow.Cells[colItemName.Index].Value = row["ItemName"].ToString();
+                    }
+                    if (ViewMode != SummaryByPO)
+                    {
+                        drow.Cells[colMachine.Index].Value = row["Machine"].ToString();
+                    }
+                    if (ViewMode == "")
+                    {
+                        drow.Cells[colShift.Index].Value = row["Shift"].ToString();
+                        drow.Cells[colRemarks.Index].Value = row["Remarks"].ToString();
+                        drow.Cells[colRegBy.Index].Value = row["RegBy"].ToString();
+                        drow.Cells[colRegDate.Index].Value = DBNullToNull(row["RegDate"]);
+                        drow.Cells[colUpdateBy.Index].Value = row["UpdateBy"].ToString();
+                        drow.Cells[colUpdateDate.Index].Value = DBNullToNull(row["UpdateDate"]);
+                        drow.Tag = row["RegDate"];
+                    }
                 }
                 DgvSearch.ClearSelection();
                 DgvSearch.CurrentCell = null;
@@ -161,7 +236,7 @@ namespace MachineDeptApp.MCPlans
 
             if (ErrorText.Trim() == "")
             {
-                LbStatus.Text = "រកឃើញទិន្នន័យ  " + DgvSearch.Rows.Count.ToString("N0");
+                LbStatus.Text = "រកឃើញទិន្នន័យ  " + DgvSearch.Rows.Count.ToString("N0") + (ViewMode == "" ? "" : "  (Summary Qty : " + ViewMode + ")");
                 LbStatus.Refresh();
             }
             else
@@ -178,7 +253,7 @@ namespace MachineDeptApp.MCPlans
                 return;
 
             CheckButtons();
-            if (DgvSearch.SelectedRows.Count == 1)
+            if (ViewMode == "" && DgvSearch.SelectedRows.Count == 1)
             {
                 DataGridViewRow drow = DgvSearch.SelectedRows[0];
                 txtEditPO.Text = CellText(drow, colPO);
@@ -191,9 +266,19 @@ namespace MachineDeptApp.MCPlans
             }
         }
 
+        //Qty = 0 >> the whole row is red (also after Update, and in the summary views)
+        private void DgvSearch_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+            object Qty = DgvSearch.Rows[e.RowIndex].Cells[colQty.Index].Value;
+            if (Qty is double && (double)Qty == 0)
+                e.CellStyle.ForeColor = Color.Red;
+        }
+
         private void BtnUpdate_Click(object sender, EventArgs e)
         {
-            if (DgvSearch.SelectedRows.Count != 1)
+            if (ViewMode != "" || DgvSearch.SelectedRows.Count != 1)
                 return;
             DataGridViewRow drow = DgvSearch.SelectedRows[0];
 
@@ -266,7 +351,7 @@ namespace MachineDeptApp.MCPlans
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            if (DgvSearch.SelectedRows.Count == 0)
+            if (ViewMode != "" || DgvSearch.SelectedRows.Count == 0)
                 return;
             List<DataGridViewRow> SelRows = DgvSearch.SelectedRows.Cast<DataGridViewRow>().OrderBy(r => r.Index).ToList();
 
@@ -359,6 +444,20 @@ namespace MachineDeptApp.MCPlans
             }
         }
 
+        //Table made before the Machine / Remarks column existed >> add the column (old rows keep NULL)
+        //cnn.con must be open
+        private void EnsureColumns()
+        {
+            if (ColumnsReady)
+                return;
+            SqlCommand cmd = new SqlCommand("IF OBJECT_ID(N'dbo.tbPlanMCCompleteQty', N'U') IS NOT NULL AND COL_LENGTH(N'dbo.tbPlanMCCompleteQty', N'Machine') IS NULL " +
+                                            "ALTER TABLE dbo.tbPlanMCCompleteQty ADD Machine NVARCHAR(50) NULL; " +
+                                            "IF OBJECT_ID(N'dbo.tbPlanMCCompleteQty', N'U') IS NOT NULL AND COL_LENGTH(N'dbo.tbPlanMCCompleteQty', N'Remarks') IS NULL " +
+                                            "ALTER TABLE dbo.tbPlanMCCompleteQty ADD Remarks NVARCHAR(100) NULL;", cnn.con);
+            cmd.ExecuteNonQuery();
+            ColumnsReady = true;
+        }
+
         //Count how many rows in DB match this grid row (should be exactly 1)
         private int CountRow(DataGridViewRow drow, SqlTransaction tran)
         {
@@ -386,12 +485,26 @@ namespace MachineDeptApp.MCPlans
             return "PO : " + drow.Cells[colPO.Index].Value + "\nItem Code : " + drow.Cells[colItemCode.Index].Value;
         }
 
+        //Summary view rows are totals, not table rows >> no Update / Delete
         private void CheckButtons()
         {
-            int SelectedCount = DgvSearch.SelectedRows.Count;
+            int SelectedCount = ViewMode == "" ? DgvSearch.SelectedRows.Count : 0;
             btnUpdate.Enabled = SelectedCount == 1;
             btnDelete.Enabled = SelectedCount > 0;
             grbEdit.Enabled = SelectedCount == 1;
+        }
+
+        //Detail = all columns. Summary by PO = PO, Item Code, Item Name, Qty. Summary by Machine = Machine, Qty
+        private void ShowColumnsForView()
+        {
+            bool Detail = ViewMode == "";
+            bool ByMachine = ViewMode == SummaryByMachine;
+            colPO.Visible = !ByMachine;
+            colItemCode.Visible = !ByMachine;
+            colItemName.Visible = !ByMachine;
+            colMachine.Visible = Detail || ByMachine;
+            foreach (DataGridViewColumn col in new DataGridViewColumn[] { colShift, colRemarks, colRegBy, colRegDate, colUpdateBy, colUpdateDate })
+                col.Visible = Detail;
         }
 
         private void ClearEditBox()

@@ -54,7 +54,10 @@ namespace MachineDeptApp.MCPlans
             this.colPO = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colItemCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMachine = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colShift = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colRemarks = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colRegBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colRegDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colUpdateBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -68,6 +71,12 @@ namespace MachineDeptApp.MCPlans
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.grbSCondition = new System.Windows.Forms.GroupBox();
+            this.cboSummary = new System.Windows.Forms.ComboBox();
+            this.lbSummary = new System.Windows.Forms.Label();
+            this.cboMachine = new System.Windows.Forms.ComboBox();
+            this.lbMachine = new System.Windows.Forms.Label();
+            this.cboShift = new System.Windows.Forms.ComboBox();
+            this.lbShift = new System.Windows.Forms.Label();
             this.txtItemCode = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtPO = new System.Windows.Forms.TextBox();
@@ -187,11 +196,11 @@ namespace MachineDeptApp.MCPlans
             this.groupBox2.Controls.Add(this.DgvSearch);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Font = new System.Drawing.Font("Kh Battambang", 7.8F, System.Drawing.FontStyle.Bold);
-            this.groupBox2.Location = new System.Drawing.Point(3, 71);
+            this.groupBox2.Location = new System.Drawing.Point(3, 105);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(6, 0, 6, 7);
-            this.groupBox2.Size = new System.Drawing.Size(728, 345);
+            this.groupBox2.Size = new System.Drawing.Size(728, 311);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "តារាងទិន្នន័យ";
@@ -217,7 +226,10 @@ namespace MachineDeptApp.MCPlans
             this.colPO,
             this.colItemCode,
             this.colItemName,
+            this.colMachine,
             this.colQty,
+            this.colShift,
+            this.colRemarks,
             this.colRegBy,
             this.colRegDate,
             this.colUpdateBy,
@@ -241,7 +253,7 @@ namespace MachineDeptApp.MCPlans
             this.DgvSearch.RowsDefaultCellStyle = dataGridViewCellStyle11;
             this.DgvSearch.RowTemplate.Height = 25;
             this.DgvSearch.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DgvSearch.Size = new System.Drawing.Size(716, 318);
+            this.DgvSearch.Size = new System.Drawing.Size(716, 284);
             this.DgvSearch.TabIndex = 0;
             //
             // colPO
@@ -253,6 +265,7 @@ namespace MachineDeptApp.MCPlans
             this.colPO.Name = "colPO";
             this.colPO.ReadOnly = true;
             this.colPO.Width = 110;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             //
             // colItemCode
             //
@@ -271,6 +284,14 @@ namespace MachineDeptApp.MCPlans
             this.colItemName.ReadOnly = true;
             this.colItemName.Width = 200;
             //
+            // colMachine
+            //
+            this.colMachine.DefaultCellStyle = dataGridViewCellStyle7;
+            this.colMachine.HeaderText = "Machine";
+            this.colMachine.Name = "colMachine";
+            this.colMachine.ReadOnly = true;
+            this.colMachine.Width = 120;
+            //
             // colQty
             //
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
@@ -282,9 +303,24 @@ namespace MachineDeptApp.MCPlans
             this.colQty.ReadOnly = true;
             this.colQty.Width = 90;
             //
+            // colShift
+            //
+            this.colShift.DefaultCellStyle = dataGridViewCellStyle7;
+            this.colShift.HeaderText = "Shift";
+            this.colShift.Name = "colShift";
+            this.colShift.ReadOnly = true;
+            this.colShift.ToolTipText = "D = 07:30 ~ 19:30, N = 19:30 ~ 07:30";
+            this.colShift.Width = 60;
+            //
+            // colRemarks
+            //
+            this.colRemarks.HeaderText = "Remarks";
+            this.colRemarks.Name = "colRemarks";
+            this.colRemarks.ReadOnly = true;
+            this.colRemarks.Width = 220;
+            //
             // colRegBy
             //
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.colRegBy.DefaultCellStyle = dataGridViewCellStyle7;
             this.colRegBy.HeaderText = "បញ្ចូលដោយ";
             this.colRegBy.Name = "colRegBy";
@@ -329,11 +365,11 @@ namespace MachineDeptApp.MCPlans
             this.grbEdit.Dock = System.Windows.Forms.DockStyle.Right;
             this.grbEdit.Enabled = false;
             this.grbEdit.Font = new System.Drawing.Font("Kh Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grbEdit.Location = new System.Drawing.Point(731, 71);
+            this.grbEdit.Location = new System.Drawing.Point(731, 105);
             this.grbEdit.Margin = new System.Windows.Forms.Padding(2);
             this.grbEdit.Name = "grbEdit";
             this.grbEdit.Padding = new System.Windows.Forms.Padding(2);
-            this.grbEdit.Size = new System.Drawing.Size(250, 345);
+            this.grbEdit.Size = new System.Drawing.Size(250, 311);
             this.grbEdit.TabIndex = 1;
             this.grbEdit.TabStop = false;
             this.grbEdit.Text = "កែប្រែទិន្នន័យ";
@@ -411,6 +447,12 @@ namespace MachineDeptApp.MCPlans
             //
             // grbSCondition
             //
+            this.grbSCondition.Controls.Add(this.cboSummary);
+            this.grbSCondition.Controls.Add(this.lbSummary);
+            this.grbSCondition.Controls.Add(this.cboMachine);
+            this.grbSCondition.Controls.Add(this.lbMachine);
+            this.grbSCondition.Controls.Add(this.cboShift);
+            this.grbSCondition.Controls.Add(this.lbShift);
             this.grbSCondition.Controls.Add(this.txtItemCode);
             this.grbSCondition.Controls.Add(this.label2);
             this.grbSCondition.Controls.Add(this.txtPO);
@@ -425,10 +467,80 @@ namespace MachineDeptApp.MCPlans
             this.grbSCondition.Margin = new System.Windows.Forms.Padding(2);
             this.grbSCondition.Name = "grbSCondition";
             this.grbSCondition.Padding = new System.Windows.Forms.Padding(2);
-            this.grbSCondition.Size = new System.Drawing.Size(978, 71);
+            this.grbSCondition.Size = new System.Drawing.Size(978, 105);
             this.grbSCondition.TabIndex = 0;
             this.grbSCondition.TabStop = false;
             this.grbSCondition.Text = "លក្ខខណ្ឌស្វែងរក";
+            //
+            // lbShift
+            //
+            this.lbShift.AutoSize = true;
+            this.lbShift.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
+            this.lbShift.Location = new System.Drawing.Point(8, 66);
+            this.lbShift.Name = "lbShift";
+            this.lbShift.Size = new System.Drawing.Size(38, 24);
+            this.lbShift.TabIndex = 8;
+            this.lbShift.Text = "Shift";
+            //
+            // cboShift
+            //
+            this.cboShift.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboShift.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
+            this.cboShift.FormattingEnabled = true;
+            this.cboShift.Items.AddRange(new object[] {
+            "",
+            "D",
+            "N"});
+            this.cboShift.Location = new System.Drawing.Point(97, 62);
+            this.cboShift.Name = "cboShift";
+            this.cboShift.Size = new System.Drawing.Size(110, 32);
+            this.cboShift.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.cboShift, "D = 07:30 ~ 19:30, N = 19:30 ~ 07:30");
+            //
+            // lbMachine
+            //
+            this.lbMachine.AutoSize = true;
+            this.lbMachine.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
+            this.lbMachine.Location = new System.Drawing.Point(222, 66);
+            this.lbMachine.Name = "lbMachine";
+            this.lbMachine.Size = new System.Drawing.Size(62, 24);
+            this.lbMachine.TabIndex = 10;
+            this.lbMachine.Text = "Machine";
+            //
+            // cboMachine
+            //
+            this.cboMachine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMachine.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
+            this.cboMachine.FormattingEnabled = true;
+            this.cboMachine.Location = new System.Drawing.Point(292, 62);
+            this.cboMachine.Name = "cboMachine";
+            this.cboMachine.Size = new System.Drawing.Size(238, 32);
+            this.cboMachine.TabIndex = 11;
+            //
+            // lbSummary
+            //
+            this.lbSummary.AutoSize = true;
+            this.lbSummary.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
+            this.lbSummary.Location = new System.Drawing.Point(543, 66);
+            this.lbSummary.Name = "lbSummary";
+            this.lbSummary.Size = new System.Drawing.Size(91, 24);
+            this.lbSummary.TabIndex = 12;
+            this.lbSummary.Text = "Summary Qty";
+            //
+            // cboSummary
+            //
+            this.cboSummary.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboSummary.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
+            this.cboSummary.FormattingEnabled = true;
+            this.cboSummary.Items.AddRange(new object[] {
+            "",
+            "PO",
+            "Machine"});
+            this.cboSummary.Location = new System.Drawing.Point(640, 62);
+            this.cboSummary.Name = "cboSummary";
+            this.cboSummary.Size = new System.Drawing.Size(93, 32);
+            this.cboSummary.TabIndex = 13;
+            this.toolTip1.SetToolTip(this.cboSummary, "សរុប Qty តាម PO ឬ Machine (ទទេ = បង្ហាញលម្អិត)");
             //
             // txtItemCode
             //
@@ -552,7 +664,10 @@ namespace MachineDeptApp.MCPlans
         private System.Windows.Forms.DataGridViewTextBoxColumn colPO;
         private System.Windows.Forms.DataGridViewTextBoxColumn colItemCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn colItemName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMachine;
         private System.Windows.Forms.DataGridViewTextBoxColumn colQty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colShift;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colRemarks;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRegBy;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRegDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn colUpdateBy;
@@ -574,5 +689,11 @@ namespace MachineDeptApp.MCPlans
         private System.Windows.Forms.DateTimePicker dtpEDate;
         private System.Windows.Forms.DateTimePicker dtpSDate;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbShift;
+        private System.Windows.Forms.ComboBox cboShift;
+        private System.Windows.Forms.Label lbMachine;
+        private System.Windows.Forms.ComboBox cboMachine;
+        private System.Windows.Forms.Label lbSummary;
+        private System.Windows.Forms.ComboBox cboSummary;
     }
 }
