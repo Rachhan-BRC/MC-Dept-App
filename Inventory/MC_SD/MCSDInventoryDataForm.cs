@@ -536,7 +536,7 @@ namespace MachineDeptApp.Inventory.MC_SD
             DataTable dtselect = new DataTable();
             try
             {
-                string selectquery = "SELECT * FROM tbSDMCStockInventory " + WHERE;
+                string selectquery = "SELECT * FROM tbSDMCStockInventory " + WHERE + " ORDER BY RegDate, LabelNo";
                 SqlDataAdapter sdaselect = new SqlDataAdapter(selectquery, con.con);
                 sdaselect.Fill(dtselect);
             }
