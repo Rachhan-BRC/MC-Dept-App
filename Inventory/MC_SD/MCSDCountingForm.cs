@@ -253,7 +253,6 @@ namespace MachineDeptApp
                 string input = txtcode.Text.Trim();
                 if (!string.IsNullOrEmpty(input))
                 {
-                    int labelNo = Convert.ToInt32(lbstart.Text.Trim());
                     //Compare Code
                     DataTable dtcompare = new DataTable();
                     Cursor = Cursors.WaitCursor;
@@ -278,45 +277,13 @@ namespace MachineDeptApp
                         Cursor = Cursors.Default;
                         return;
                     }
-                    //Get Max LabelNo
-                    DataTable dtlabel = new DataTable();
-                    DataTable dtlabelnocode = new DataTable();
-                    try
+                    //Label No: same as before for this PIC + Code, or the next one of this PIC
+                    int labelNo = GetLabelNo(txtpic, input);
+                    if (labelNo == 0)
                     {
-                        con.con.Open();
-                        string selectquery = "SELECT Code, MAX(LabelNo) AS LabelNo FROM tbSDMCStockInventory WHERE PIC = '" + txtpic.Trim() + "' AND Code = '" + input.Trim() + "' GROUP BY Code, LabelNo";
-                        Console.WriteLine("Query : " + selectquery);
-                        SqlDataAdapter sdaselect = new SqlDataAdapter(selectquery, con.con);
-                        sdaselect.Fill(dtlabel);
+                        Cursor = Cursors.Default;
+                        return;
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 10 !" + ex.Message, "Error Scantextdown", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    if (dtlabel.Rows.Count > 0)
-                    {
-                        int lb = Convert.ToInt32(dtlabel.Rows[0][1]);
-                        labelNo = lb;
-                    }
-                    else
-                    {
-                        string selectquery = " SELECT Code, MAX(LabelNo) FROM tbSDMCStockInventory WHERE PIC = '" + txtpic.Trim() + "' GROUP BY Code";
-                        Console.WriteLine(selectquery);
-                        SqlDataAdapter sdaselect = new SqlDataAdapter(selectquery, con.con);
-                        sdaselect.Fill(dtlabelnocode);
-                        if (dtlabelnocode.Rows.Count > 0 && dtlabelnocode.Rows[0][0] != DBNull.Value)
-                        {
-                          
-                            int lb = Convert.ToInt32(dtlabelnocode.Rows[0][0]);
-                            labelNo = lb + 1;
-                        }
-                        else
-                        {
-                            
-                            labelNo = Convert.ToInt32(lbstart.Text);
-                        }
-                    }
-                    con.con.Close();
                     //Get Stock from tbSDMCAllTransaction
                     DataTable dtstock = new DataTable();
                     try
@@ -434,13 +401,13 @@ namespace MachineDeptApp
                 if (success > 0)
                 {
                     SelectData();
-                    txtcount.Text = dgvSd.Rows.Count.ToString();
                     labelstatus.Text = "OK";
                     Panelstatus.BackColor = Color.LimeGreen;
                     string soundPath = Path.Combine(Environment.CurrentDirectory, @"Sound\OK.wav");
                     SoundPlayer player = new SoundPlayer(soundPath);
                     player.Play();
-                    if (chkauto.Checked == true)
+                    //Bobbin count of this Code (not the grid row count) + total after this save >> printed on the label
+                    if (RefreshCodeTotals(txtcode.Text.Trim()) && chkauto.Checked == true)
                     {
                         btnPrint.PerformClick();
                     }
@@ -538,7 +505,6 @@ namespace MachineDeptApp
                
                 if (!string.IsNullOrEmpty(input))
                 {
-                    int labelNo = Convert.ToInt32(lbstart.Text.Trim());
                     string txtpic = cbPic.Text.Trim();
                     //Compare SysNo
                     DataTable dtcompare = new DataTable();
@@ -594,47 +560,16 @@ namespace MachineDeptApp
                         Cursor = Cursors.Default;
                         return;
                     }
-                    //Get Max LabelNo
-                    DataTable dtlabel = new DataTable();
-                    DataTable dtlabelnocode = new DataTable();
                     string code = datafill.Rows[0]["RMCode"].ToString();
-                    try
+                    //Label No: same as before for this PIC + Code, or the next one of this PIC
+                    int labelNo = GetLabelNo(txtpic, code);
+                    if (labelNo == 0)
                     {
-                        con.con.Open();
-                        string selectquery = " SELECT Code, MAX(LabelNo) AS LabelNo FROM tbSDMCStockInventory WHERE PIC = '"+txtpic.Trim() +"' AND Code = '"+code.Trim() +"' GROUP BY Code, LabelNo";
-                        SqlDataAdapter sdaselect = new SqlDataAdapter(selectquery, con.con);
-                       sdaselect.Fill(dtlabel);
+                        Cursor = Cursors.Default;
+                        return;
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 5 !" + ex.Message, "Error Scantextdown", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    if (dtlabel.Rows.Count > 0 && dtlabel.Rows[0][1] != DBNull.Value)
-                    {
-                        int lb = Convert.ToInt32(dtlabel.Rows[0][1]);
-                        labelNo = lb;
-                    }
-                    else
-                    {
-                        string selectquery = " SELECT MAX(LabelNo) FROM tbSDMCStockInventory WHERE PIC = '" + txtpic.Trim() + "'";
-                        SqlDataAdapter sdaselect = new SqlDataAdapter(selectquery, con.con);
-                        sdaselect.Fill(dtlabelnocode);
-                        if (dtlabelnocode.Rows.Count > 0 && dtlabelnocode.Rows[0][0] != DBNull.Value)
-                        {
-                            int lb = Convert.ToInt32(dtlabelnocode.Rows[0][0]);
-                            labelNo = lb+1;
-                        }
-                        else
-                        {
-                            labelNo = Convert.ToInt32(lbstart.Text);
-                        }
-                       
-
-                    }
-                    con.con.Close();
                     //Get Stock from tbSDMCAllTransaction
                     DataTable dtstock = new DataTable();
-                   labelNo.ToString("D4");
                     try
                     {
                         con.con.Open();
@@ -672,11 +607,6 @@ namespace MachineDeptApp
                     txtlabel.Text = labelNo.ToString("D4");
                     txtcodeun.Text = code;
 
-                    if (chkauto.Checked == true)
-                    {
-                        btnPrint.PerformClick();
-                    }
-
                     txtscan.Text = "";
                     //Insert data to tbSDMCStockInventory
                     int success = 0;
@@ -711,48 +641,22 @@ namespace MachineDeptApp
                     if (success > 0)
                     {
                         SelectData();
-                        int count = 0;
-                        if (dgvSd.Rows.Count > 0)
-                        {
-                            foreach (DataGridViewRow row in dgvSd.Rows)
-                            {
-                                if (row.Cells["code"].Value.ToString() == txtcodeun.Text.Trim())
-                                {
-                                    count += Convert.ToInt32(row.Cells["bbqty"].Value);
-                                }
-                            }
-                        }
-                        txtcount.Text = count.ToString();
                         labelstatus.Text = "OK";
                         Panelstatus.BackColor = Color.LimeGreen;
                         string soundPath = Path.Combine(Environment.CurrentDirectory, @"Sound\OK.wav");
                         SoundPlayer player = new SoundPlayer(soundPath);
                         player.Play();
 
-                        //StockAlreadyCount 
-                        DataTable dtCount = new DataTable();
-                        try
+                        //Bobbin count + total counted Qty of this Code (printed on the label)
+                        if (!RefreshCodeTotals(code))
                         {
-                            con.con.Open();
-                            string queryCount = " SELECT SUM(Qty) AS StockCount FROM [MachineDB].[dbo].[tbSDMCStockInventory] WHERE Code = '" + code + "' AND Status = 'Active'";
-                            SqlDataAdapter sdacount = new SqlDataAdapter(queryCount, con.con);
-                            sdacount.Fill(dtCount);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 4 !" + ex.Message, "ErrorScantextdown", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             Cursor = Cursors.Default;
                             return;
                         }
-                        con.con.Close();
-                        if (dtCount.Rows.Count <= 0)
+                        //Print only after the scan is saved and the totals are up to date
+                        if (chkauto.Checked == true)
                         {
-                            txtttllenght.Text = "0";
-                        }
-                        else
-                        {
-                            double stoccount = Convert.ToDouble(dtCount.Rows[0]["StockCount"].ToString());
-                            txtttllenght.Text = stoccount.ToString("N2");
+                            btnPrint.PerformClick();
                         }
                     }
                     else
@@ -818,6 +722,86 @@ namespace MachineDeptApp
                dgvSd.Rows[dgvSd.Rows.Count - 1].Cells["pic"].Value = row["PIC"].ToString();
             }
         }
+        //Label No of this PIC + Code: counted before >> the same Label No,
+        //new Code >> last Label No of this PIC + 1 (first label of the PIC = LabelNoStart), must not go over LabelNoEnd
+        //Returns 0 when there is a problem (message already shown)
+        private int GetLabelNo(string pic, string code)
+        {
+            object sameCodeLabel = DBNull.Value;
+            object lastLabel = DBNull.Value;
+            try
+            {
+                con.con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT MAX(LabelNo) FROM tbSDMCStockInventory WHERE PIC = @PIC AND Code = @Code", con.con);
+                cmd.Parameters.AddWithValue("@PIC", pic);
+                cmd.Parameters.AddWithValue("@Code", code);
+                sameCodeLabel = cmd.ExecuteScalar();
+                if (sameCodeLabel == null || sameCodeLabel == DBNull.Value)
+                {
+                    cmd = new SqlCommand("SELECT MAX(LabelNo) FROM tbSDMCStockInventory WHERE PIC = @PIC", con.con);
+                    cmd.Parameters.AddWithValue("@PIC", pic);
+                    lastLabel = cmd.ExecuteScalar();
+                }
+            }
+            catch (Exception ex)
+            {
+                con.con.Close();
+                Cursor = Cursors.Default;
+                MessageBox.Show("មានបញ្ហាបច្ចេកទេស សូមទាក់ទងទៅ IT (Phanun) 5 !" + ex.Message, "Error LabelNo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return 0;
+            }
+            con.con.Close();
+
+            if (sameCodeLabel != null && sameCodeLabel != DBNull.Value)
+                return Convert.ToInt32(sameCodeLabel);
+
+            int labelNo = (lastLabel == null || lastLabel == DBNull.Value) ? Convert.ToInt32(lbstart.Text.Trim()) : Convert.ToInt32(lastLabel) + 1;
+            int labelEnd;
+            if (int.TryParse(lbend.Text.Trim(), out labelEnd) && labelNo > labelEnd)
+            {
+                Cursor = Cursors.Default;
+                labelstatus.Text = "Error";
+                Panelstatus.BackColor = Color.Red;
+                MessageBox.Show("លេខឡាប៊ែល " + labelNo.ToString("D4") + " លើសពីចន្លោះរបស់អ្នករាប់នេះ (" + lbstart.Text.Trim() + " ~ " + lbend.Text.Trim() + ") !", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return 0;
+            }
+            return labelNo;
+        }
+
+        //After saving: bobbin count of this Code (this PIC's grid) + total counted Qty of this Code >> printed on the label
+        //Returns false when the total could not be read (message already shown)
+        private bool RefreshCodeTotals(string code)
+        {
+            int count = 0;
+            foreach (DataGridViewRow row in dgvSd.Rows)
+            {
+                if (row.Cells["code"].Value.ToString() == code)
+                {
+                    count += Convert.ToInt32(row.Cells["bbqty"].Value);
+                }
+            }
+            txtcount.Text = count.ToString();
+
+            DataTable dtCount = new DataTable();
+            try
+            {
+                con.con.Open();
+                SqlDataAdapter sdacount = new SqlDataAdapter("SELECT SUM(Qty) AS StockCount FROM [MachineDB].[dbo].[tbSDMCStockInventory] WHERE Code = @Code AND Status = 'Active'", con.con);
+                sdacount.SelectCommand.Parameters.AddWithValue("@Code", code);
+                sdacount.Fill(dtCount);
+            }
+            catch (Exception ex)
+            {
+                con.con.Close();
+                MessageBox.Show("មានបញ្ហាបច្ចេកទេស សូមទាក់ទងទៅ IT (Phanun) 4 !" + ex.Message, "ErrorScantextdown", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            con.con.Close();
+            double stockcount = (dtCount.Rows.Count > 0 && dtCount.Rows[0]["StockCount"] != DBNull.Value) ? Convert.ToDouble(dtCount.Rows[0]["StockCount"]) : 0;
+            txtttllenght.Text = stockcount.ToString("N2");
+            return true;
+        }
+
         private void ClearFields()
         {
             txtname.Clear();

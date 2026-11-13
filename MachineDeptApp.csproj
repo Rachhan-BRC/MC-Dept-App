@@ -56,6 +56,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -79,6 +80,12 @@
     </Compile>
     <Compile Include="MCPlans\RestRoomTimeForm.Designer.cs">
       <DependentUpon>RestRoomTimeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCPlans\PlanMCCompleteQtyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCPlans\PlanMCCompleteQtyForm.Designer.cs">
+      <DependentUpon>PlanMCCompleteQtyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Admin\MachineTypeMasterForm.cs">
       <SubType>Form</SubType>
@@ -557,6 +564,12 @@
     <Compile Include="MCSDControl\RMEstimateShortage.Designer.cs">
       <DependentUpon>RMEstimateShortage.cs</DependentUpon>
     </Compile>
+    <Compile Include="MCSDControl\RMMovementStatusForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCSDControl\RMMovementStatusForm.Designer.cs">
+      <DependentUpon>RMMovementStatusForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MCSDControl\SDRec\KITStockINForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1009,6 +1022,9 @@
     <EmbeddedResource Include="MCPlans\RestRoomTimeForm.resx">
       <DependentUpon>RestRoomTimeForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MCPlans\PlanMCCompleteQtyForm.resx">
+      <DependentUpon>PlanMCCompleteQtyForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Admin\MachineTypeMasterForm.resx">
       <DependentUpon>MachineTypeMasterForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -1147,6 +1163,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CreditForm.resx">
       <DependentUpon>CreditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="InputTransferSemi\InputTransferSemiConfirmForm.resx">
       <DependentUpon>InputTransferSemiConfirmForm.cs</DependentUpon>
@@ -1214,12 +1231,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MCPlans\1InputMCStatusForm.resx">
       <DependentUpon>1InputMCStatusForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MCPlans\2InputMQCStatusForm.resx">
       <DependentUpon>2InputMQCStatusForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MCPlans\3EditPOSMCDetailForm.resx">
       <DependentUpon>3EditPOSMCDetailForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MCPlans\GenerateMCPlansForm.resx">
       <DependentUpon>GenerateMCPlansForm.cs</DependentUpon>
@@ -1248,6 +1267,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MCSDControl\RMEstimateShortage.resx">
       <DependentUpon>RMEstimateShortage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCSDControl\RMMovementStatusForm.resx">
+      <DependentUpon>RMMovementStatusForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MCSDControl\SDRec\KITStockINForm.resx">
       <DependentUpon>KITStockINForm.cs</DependentUpon>

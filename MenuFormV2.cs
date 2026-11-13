@@ -566,6 +566,29 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("RestRoomTimeForm", "Rest Room Time");
                 }
             }
+            if (currentClkNode.Text == "MC Complete Qty")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    PlanMCCompleteQtyForm Uf = new PlanMCCompleteQtyForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("MC Complete Qty");
+                    dtOpenForm.Rows.Add("PlanMCCompleteQtyForm", "MC Complete Qty");
+                }
+            }
             if (currentClkNode.Text == "Sub Leader Register")
             {
                 //Check if already open >> Focus on that Form
@@ -2124,6 +2147,29 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("RMEstimateShortage", "ឆែកទិន្នន័យShortage");
                 }
             }
+            if (currentClkNode.Text == "RM Movement Status")
+            {
+                // Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    RMMovementStatusForm Uf = new RMMovementStatusForm();
+                    Uf.MdiParent = MenuFormV2.ActiveForm;
+                    Uf.Show();
+                    tabControlOpenForm.TabPages.Add("RM Movement Status");
+                    dtOpenForm.Rows.Add("RMMovementStatusForm", "RM Movement Status");
+                }
+            }
             if (currentClkNode.Text == "ទិន្នន័យDo Summary")
             {
                 // Check if already open >> Focus on that Form
@@ -2701,6 +2747,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(5, "ទិន្នន័យស្តុក MC", "MCStockSearchForm");
             dtChildRoot.Rows.Add(5, "ប្រៀបធៀបទិន្នន័យ In-Out", "StockInOutComparisonForm");
             dtChildRoot.Rows.Add(5, "ឆែកទិន្នន័យShortage", "RMEstimateShortage");
+            dtChildRoot.Rows.Add(5, "RM Movement Status", "RMMovementStatusForm");
 
             //7
             dtChildRoot.Rows.Add(6, "Import POS", "RMStatusForPlanForm");
@@ -2709,6 +2756,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(6, "POS Remark", "_3EditPOSMCDetailForm");
             dtChildRoot.Rows.Add(6, "POS Data Check", "POSDataCheckAmountForm");
             dtChildRoot.Rows.Add(6, "Rest Room Time", "RestRoomTimeForm");
+            dtChildRoot.Rows.Add(6, "MC Complete Qty", "PlanMCCompleteQtyForm");
 
             //8
             dtChildRoot.Rows.Add(7, "MC Kitting Inventory", "");
@@ -2850,9 +2898,10 @@ namespace MachineDeptApp
                 this.treeViewMenu.Enabled = false;
             }
             else
-            {                
+            {     
                 LbLoginID.Text = LoginForm.NameForNextForm;         
                 UserForNextForm = LoginForm.NameForNextForm;
+                string id = LoginForm.IDValueForNextForm;
                 if (LoginForm.RoleForNextForm != "Admin")
                 {
                     int AdminFuncCount = treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes.Count;
@@ -2867,12 +2916,12 @@ namespace MachineDeptApp
                         {
                             treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes[i].Remove();
                         }
-                        if (LoginForm.IDValueForNextForm != "1889" &&i == 8)
+                        if (i == 8 && id != "1889" && id != "1666" && id != "1747")
                         {
                             treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes[i].Remove();
                         }
                     }
-                    if (LoginForm.IDValueForNextForm != "1889")
+                    if (id != "1889" && id != "1666" && id != "1747")
                     {
                         treeViewMenu.Nodes[3].Nodes[0].Remove();
                     }
