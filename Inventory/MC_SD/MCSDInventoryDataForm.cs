@@ -47,6 +47,145 @@ namespace MachineDeptApp.Inventory.MC_SD
             this.cboResult.SelectedIndexChanged += CboResult_SelectedIndexChanged;
             this.cboType.SelectedIndex = 0;
             this.cboType.SelectedIndexChanged += CboType_SelectedIndexChanged;
+            this.btnPrint.Click += BtnPrint_Click;
+            this.dgvSearchResult.SelectionChanged += DgvSearchResult_SelectionChanged;
+        }
+
+        private void DgvSearchResult_SelectionChanged(object sender, EventArgs e)
+        {
+            CheckBtnPrint();
+        }
+
+        //Print button : only on tab 'លម្អិត' with a selected row that is not Deleted
+        private void CheckBtnPrint()
+        {
+            bool canPrint = false;
+            if (tabCtrl.SelectedTab == tabDetail && dgvSearchResult.SelectedCells.Count > 0)
+            {
+                DataGridViewRow drow = dgvSearchResult.Rows[dgvSearchResult.SelectedCells[0].RowIndex];
+                canPrint = drow.Tag is DataRow && Convert.ToString(drow.Cells["status"].Value) != "Deleted";
+            }
+            btnPrint.Enabled = canPrint;
+            btnPrint.BackColor = canPrint ? Color.White : Color.DarkGray;
+        }
+
+        //Re-print the label of the selected row, same as the label printed in 'MCSDCountingForm' when this row was counted :
+        //Total Qty = all PIC of this Code, Bobbin count = this PIC of this Code (both up to this row, Active only)
+        private void BtnPrint_Click(object sender, EventArgs e)
+        {
+            if (tabCtrl.SelectedTab != tabDetail || dgvSearchResult.SelectedCells.Count == 0)
+            {
+                return;
+            }
+            DataRow data = dgvSearchResult.Rows[dgvSearchResult.SelectedCells[0].RowIndex].Tag as DataRow;
+            if (data == null || data["Status"].ToString() == "Deleted")
+            {
+                return;
+            }
+            string itemCode = data["Code"].ToString();
+            string sysNo = data["SysNo"].ToString().Trim();
+            string picName = data["PIC"].ToString().Trim();
+            string labelNo;
+            DateTime regDate;
+            try
+            {
+                labelNo = Convert.ToInt32(data["LabelNo"]).ToString("D4");
+                regDate = Convert.ToDateTime(data["RegDate"]);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ទិន្នន័យឡាប៊ែលនេះមិនត្រឹមត្រូវ!\n" + ex.Message, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            DialogResult DSL = MessageBox.Show("តើអ្នកចង់ព្រីនឡាប៊ែលនេះឡើងវិញមែនឬទេ?\n\n" +
+                "ល.រ.ឡាប៊ែល : " + labelNo + "\n" +
+                (sysNo != "" ? "SysNo : " + sysNo + "\n" : "") +
+                "លេខកូដ : " + itemCode, MenuFormV2.MsgTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (DSL != DialogResult.Yes)
+            {
+                return;
+            }
+
+            string OldStatus = LbStatus.Text;
+            Cursor = Cursors.WaitCursor;
+            LbStatus.Text = "កំពុងព្រីន . . .";
+            LbStatus.Refresh();
+
+            //Totals as they were when this row was counted
+            double totalQty = 0;
+            double bobbinCount = 0;
+            try
+            {
+                con.con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT ISNULL(SUM(Qty), 0) FROM tbSDMCStockInventory WHERE Code = @Code AND Status = 'Active' AND RegDate <= @RegDate", con.con);
+                cmd.Parameters.AddWithValue("@Code", itemCode);
+                cmd.Parameters.Add("@RegDate", SqlDbType.DateTime2).Value = regDate;
+                totalQty = Convert.ToDouble(cmd.ExecuteScalar());
+                cmd = new SqlCommand("SELECT ISNULL(SUM(BobbinQty), 0) FROM tbSDMCStockInventory WHERE Code = @Code AND PIC = @PIC AND Status = 'Active' AND RegDate <= @RegDate", con.con);
+                cmd.Parameters.AddWithValue("@Code", itemCode);
+                cmd.Parameters.AddWithValue("@PIC", picName);
+                cmd.Parameters.Add("@RegDate", SqlDbType.DateTime2).Value = regDate;
+                bobbinCount = Convert.ToDouble(cmd.ExecuteScalar());
+            }
+            catch (Exception ex)
+            {
+                con.con.Close();
+                Cursor = Cursors.Default;
+                LbStatus.Text = OldStatus;
+                MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 3 !" + ex.Message, "Error RePrint", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            con.con.Close();
+
+            string ErrorText = "";
+            Excel.Application excelApp = null;
+            Excel.Workbook xlWorkBook = null;
+            Excel.Worksheet worksheet = null;
+            try
+            {
+                string SavePath = Path.Combine(Environment.CurrentDirectory, @"Report\LabelSDInventory");
+                Directory.CreateDirectory(SavePath);
+                excelApp = new Excel.Application();
+                excelApp.DisplayAlerts = false;
+                xlWorkBook = excelApp.Workbooks.Open(Path.Combine(Environment.CurrentDirectory, @"Template\LabelSDInventory.xlsx"), Editable: false);
+                worksheet = (Excel.Worksheet)xlWorkBook.Sheets[1];
+                //Same cells as 'MCSDCountingForm' >> BtnPrint_Click
+                worksheet.Cells[1, 2] = "Date : " + regDate.ToString("dd-MM-yyyy");
+                worksheet.Cells[2, 3] = labelNo;
+                //Scanned label >> barcode = SysNo, Code typed in (no SysNo) >> barcode = Label No
+                worksheet.Cells[4, 1] = "*" + (sysNo != "" ? sysNo : labelNo) + "*";
+                worksheet.Cells[6, 2] = itemCode;
+                worksheet.Cells[7, 2] = data["RMName"].ToString();
+                worksheet.Cells[8, 2] = totalQty.ToString("N2");
+                worksheet.Cells[9, 2] = bobbinCount.ToString("0.##");
+                //cboPic items in the counting form start with 2 spaces
+                worksheet.Cells[14, 6] = "  " + picName;
+                xlWorkBook.SaveAs(Path.Combine(SavePath, "LabelSDInventory" + DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ".xlsx"));
+                worksheet.PrintOutEx();
+            }
+            catch (Exception ex)
+            {
+                ErrorText = ex.Message;
+            }
+            finally
+            {
+                if (xlWorkBook != null)
+                    xlWorkBook.Close(false);
+                if (excelApp != null)
+                    excelApp.Quit();
+                if (worksheet != null) Marshal.ReleaseComObject(worksheet);
+                if (xlWorkBook != null) Marshal.ReleaseComObject(xlWorkBook);
+                if (excelApp != null) Marshal.ReleaseComObject(excelApp);
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+            Cursor = Cursors.Default;
+            LbStatus.Text = OldStatus;
+            if (ErrorText != "")
+            {
+                MessageBox.Show("មានបញ្ហា!\n" + ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void CboType_SelectedIndexChanged(object sender, EventArgs e)
@@ -77,6 +216,7 @@ namespace MachineDeptApp.Inventory.MC_SD
             txtLabelNo.Enabled = tabCtrl.SelectedTab == tabDetail;
             cboResult.Enabled = tabCtrl.SelectedTab == tabVerify;
             btnSearch.PerformClick();
+            CheckBtnPrint();
         }
 
         private void BtnExport_Click(object sender, EventArgs e)
@@ -210,6 +350,57 @@ namespace MachineDeptApp.Inventory.MC_SD
                 Info += "   •   ឈ្មោះ : " + txtName.Text.Trim();
             }
 
+            //Sheet 'លម្អិត' : every Active label of the Codes in sheet 'ផ្ទៀងផ្ទាត់' (sum of Qty per Code = 'ចំនួនរាប់បាន')
+            HashSet<string> verifyCodes = new HashSet<string>();
+            foreach (DataGridViewRow drow in dgvVerify.Rows)
+            {
+                verifyCodes.Add(CellText(drow, vcode));
+            }
+            DataTable dtDetail = new DataTable();
+            try
+            {
+                string query = "SELECT * FROM tbSDMCStockInventory WHERE Status = 'Active' AND Code LIKE @Code " +
+                    (TypeCondition("Code") == "" ? "" : "AND " + TypeCondition("Code") + " ") +
+                    "ORDER BY Code, LabelNo, RegDate";
+                SqlDataAdapter sda = new SqlDataAdapter(query, con.con);
+                sda.SelectCommand.Parameters.AddWithValue("@Code", "%" + txtCode.Text.Trim() + "%");
+                sda.Fill(dtDetail);
+            }
+            catch (Exception ex)
+            {
+                con.con.Close();
+                MessageBox.Show("មានបញ្ហាបច្ចេកទេស​ សូមទាក់ទងទៅ​ IT ​(Phanun) 4 !" + ex.Message, "Error ExportDetail", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            con.con.Close();
+            List<DataRow> detailRows = dtDetail.Rows.Cast<DataRow>().Where(r => verifyCodes.Contains(r["Code"].ToString())).ToList();
+            int DetailCount = detailRows.Count;
+            int DetailLastRow = XlFirstDataRow + DetailCount - 1;
+            double DetailBobbin = 0;
+            double DetailQty = 0;
+            object[,] DetailHeader = new object[1, 13] { { "ល.រ", lbno.HeaderText, sysno.HeaderText, this.code.HeaderText, this.name.HeaderText, ttlweight.HeaderText, bobinw.HeaderText,
+                bobinQty.HeaderText, Qty.HeaderText, regdate.HeaderText, this.pic.HeaderText, updatedate.HeaderText, regby.HeaderText } };
+            object[,] DetailData = new object[Math.Max(DetailCount, 1), 13];
+            for (int i = 0; i < DetailCount; i++)
+            {
+                DataRow r = detailRows[i];
+                DetailData[i, 0] = i + 1;
+                DetailData[i, 1] = XlNumber(r["LabelNo"]);
+                DetailData[i, 2] = r["SysNo"].ToString();
+                DetailData[i, 3] = r["Code"].ToString();
+                DetailData[i, 4] = r["RMName"].ToString();
+                DetailData[i, 5] = XlNumber(r["TotalWeight"]);
+                DetailData[i, 6] = XlNumber(r["BobinWeight"]);
+                DetailData[i, 7] = XlNumber(r["BobbinQty"]);
+                DetailData[i, 8] = XlNumber(r["Qty"]);
+                DetailData[i, 9] = XlDate(r["RegDate"]);
+                DetailData[i, 10] = r["PIC"].ToString();
+                DetailData[i, 11] = XlDate(r["UpdateDate"]);
+                DetailData[i, 12] = r["UpdateBy"].ToString();
+                DetailBobbin += r["BobbinQty"] == DBNull.Value ? 0 : Convert.ToDouble(r["BobbinQty"]);
+                DetailQty += r["Qty"] == DBNull.Value ? 0 : Convert.ToDouble(r["Qty"]);
+            }
+
             string ErrorText = "";
             string OldStatus = LbStatus.Text;
             Cursor = Cursors.WaitCursor;
@@ -218,6 +409,7 @@ namespace MachineDeptApp.Inventory.MC_SD
             Excel.Application excelApp = null;
             Excel.Workbook xlWorkBook = null;
             Excel.Worksheet worksheet = null;
+            Excel.Worksheet wsDetail = null;
             try
             {
                 excelApp = new Excel.Application();
@@ -290,19 +482,75 @@ namespace MachineDeptApp.Inventory.MC_SD
                 }
                 rngTable.AutoFilter(1);
 
-                //Keep the header visible while scrolling (cosmetic only: export continues if it fails)
-                try
-                {
-                    Excel.Window xlWindow = xlWorkBook.Windows[1];
-                    xlWindow.SplitRow = XlFirstDataRow - 1;
-                    xlWindow.SplitColumn = 0;
-                    xlWindow.FreezePanes = true;
-                }
-                catch (Exception exFreeze)
-                {
-                    Console.WriteLine("FreezePanes : " + exFreeze.Message);
-                }
+                FreezeHeader(xlWorkBook, XlFirstDataRow - 1);
                 worksheet.Range["A1"].Select();
+
+                //Sheet 'លម្អិត' (added after 'ផ្ទៀងផ្ទាត់', it becomes the active sheet)
+                wsDetail = (Excel.Worksheet)xlWorkBook.Worksheets.Add(After: worksheet);
+                wsDetail.Name = "លម្អិត";
+                wsDetail.Cells.Font.Name = "Khmer OS Battambang";
+                wsDetail.Cells.Font.Size = 10;
+                Excel.Range rngDTitle = wsDetail.Range["A1", "M1"];
+                rngDTitle.Merge();
+                rngDTitle.Value2 = "លម្អិតស្តុក MC SD : ឡាប៊ែលដែលបានរាប់";
+                rngDTitle.Font.Size = 14;
+                rngDTitle.Font.Bold = true;
+                rngDTitle.RowHeight = 32;
+                Excel.Range rngDInfo = wsDetail.Range["A2", "M2"];
+                rngDInfo.Merge();
+                rngDInfo.Value2 = Info;
+                rngDInfo.Font.Size = 9;
+                rngDInfo.Font.Italic = true;
+                rngDInfo.Font.Color = ColorTranslator.ToOle(Color.FromArgb(107, 114, 128));
+                rngDInfo.RowHeight = 22;
+                Excel.Range rngDSummary = wsDetail.Range["A3", "M3"];
+                rngDSummary.Merge();
+                rngDSummary.Value2 = "សរុប : " + DetailCount.ToString("N0") + "   •   " + bobinQty.HeaderText + " : " + DetailBobbin.ToString("#,##0.##") +
+                    "   •   " + vcount.HeaderText + " : " + DetailQty.ToString("#,##0.##");
+                rngDSummary.Font.Bold = true;
+                rngDSummary.RowHeight = 24;
+
+                Excel.Range rngDHeader = wsDetail.Range["A" + (XlFirstDataRow - 1), "M" + (XlFirstDataRow - 1)];
+                rngDHeader.Value2 = DetailHeader;
+                rngDHeader.Font.Bold = true;
+                rngDHeader.Interior.Color = ColorTranslator.ToOle(Color.FromArgb(185, 209, 234));
+                rngDHeader.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+                if (DetailCount > 0)
+                {
+                    //SysNo + Code stay as text
+                    wsDetail.Range["C" + XlFirstDataRow, "D" + DetailLastRow].NumberFormat = "@";
+                    wsDetail.Range["A" + XlFirstDataRow, "M" + DetailLastRow].Value2 = DetailData;
+                    //Label No printed with 4 digits (0001) like on the label
+                    wsDetail.Range["B" + XlFirstDataRow, "B" + DetailLastRow].NumberFormat = "0000";
+                    wsDetail.Range["A" + XlFirstDataRow, "D" + DetailLastRow].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                    wsDetail.Range["J" + XlFirstDataRow, "M" + DetailLastRow].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                    Excel.Range rngDNum = wsDetail.Range["F" + XlFirstDataRow, "I" + DetailLastRow];
+                    rngDNum.NumberFormat = "#,##0.##";
+                    rngDNum.HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
+                    wsDetail.Range["F" + XlFirstDataRow].Select();
+                    Excel.FormatCondition fcDWhole = (Excel.FormatCondition)rngDNum.FormatConditions.Add(Excel.XlFormatConditionType.xlExpression, Type.Missing, "=MOD(F" + XlFirstDataRow + ",1)=0");
+                    fcDWhole.NumberFormat = "#,##0";
+                    wsDetail.Range["J" + XlFirstDataRow, "J" + DetailLastRow].NumberFormat = "dd-mm-yyyy hh:mm:ss";
+                    wsDetail.Range["L" + XlFirstDataRow, "L" + DetailLastRow].NumberFormat = "dd-mm-yyyy hh:mm:ss";
+                }
+
+                Excel.Range rngDTable = wsDetail.Range["A" + (XlFirstDataRow - 1), "M" + Math.Max(DetailLastRow, XlFirstDataRow - 1)];
+                rngDTable.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                rngDTable.Borders.Color = ColorTranslator.ToOle(Color.FromArgb(191, 191, 191));
+                rngDTable.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+                rngDTable.Rows.AutoFit();
+                double[] DColWidth = { 6, 12, 16, 14, 40, 12, 12, 12, 14, 20, 14, 20, 14 };
+                for (int c = 0; c < DColWidth.Length; c++)
+                {
+                    ((Excel.Range)wsDetail.Columns[c + 1]).ColumnWidth = DColWidth[c];
+                }
+                rngDTable.AutoFilter(1);
+                FreezeHeader(xlWorkBook, XlFirstDataRow - 1);
+                wsDetail.Range["A1"].Select();
+
+                //Open the file on sheet 'ផ្ទៀងផ្ទាត់'
+                worksheet.Activate();
 
                 xlWorkBook.SaveAs(FullPath, Excel.XlFileFormat.xlOpenXMLWorkbook);
             }
@@ -316,6 +564,7 @@ namespace MachineDeptApp.Inventory.MC_SD
                     xlWorkBook.Close(false);
                 if (excelApp != null)
                     excelApp.Quit();
+                if (wsDetail != null) Marshal.ReleaseComObject(wsDetail);
                 if (worksheet != null) Marshal.ReleaseComObject(worksheet);
                 if (xlWorkBook != null) Marshal.ReleaseComObject(xlWorkBook);
                 if (excelApp != null) Marshal.ReleaseComObject(excelApp);
@@ -325,7 +574,14 @@ namespace MachineDeptApp.Inventory.MC_SD
             }
             if (ErrorText == "")
             {
-                IgnoreNumberAsTextError(FullPath, "B" + XlFirstDataRow + ":B" + LastRow);
+                //Sheets are saved in tab order : sheet1 = 'ផ្ទៀងផ្ទាត់', sheet2 = 'លម្អិត'
+                Dictionary<string, string> TextRanges = new Dictionary<string, string>();
+                TextRanges.Add("xl/worksheets/sheet1.xml", "B" + XlFirstDataRow + ":B" + LastRow);
+                if (DetailCount > 0)
+                {
+                    TextRanges.Add("xl/worksheets/sheet2.xml", "C" + XlFirstDataRow + ":D" + DetailLastRow);
+                }
+                IgnoreNumberAsTextError(FullPath, TextRanges);
             }
             Cursor = Cursors.Default;
 
@@ -344,37 +600,41 @@ namespace MachineDeptApp.Inventory.MC_SD
         //No green "number stored as text" triangle on the Code column (e.g. 01200300).
         //Setting it cell by cell through COM is very slow, so <ignoredErrors> is added to the saved file directly.
         //Only a cosmetic fix: any problem here is ignored.
-        private static void IgnoreNumberAsTextError(string XlsxPath, string Sqref)
+        //SheetSqref : zip entry of the sheet (xl/worksheets/sheet1.xml) -> range (B6:B100)
+        private static void IgnoreNumberAsTextError(string XlsxPath, Dictionary<string, string> SheetSqref)
         {
             try
             {
                 using (FileStream fs = new FileStream(XlsxPath, FileMode.Open, FileAccess.ReadWrite))
                 using (ZipArchive zip = new ZipArchive(fs, ZipArchiveMode.Update))
                 {
-                    ZipArchiveEntry entry = zip.GetEntry("xl/worksheets/sheet1.xml");
-                    if (entry == null)
-                        return;
-                    string xml;
-                    using (StreamReader sr = new StreamReader(entry.Open(), Encoding.UTF8))
-                        xml = sr.ReadToEnd();
-                    if (xml.Contains("<ignoredErrors"))
-                        return;
-
-                    //OOXML element order : <ignoredErrors> comes after <pageMargins>/<pageSetup>/<headerFooter>
-                    //and before the first of these elements (or </worksheet>)
-                    int start = xml.IndexOf("<pageMargins");
-                    if (start < 0)
-                        return;
-                    Match m = new Regex("<(smartTags|drawing|legacyDrawing|legacyDrawingHF|drawingHF|picture|oleObjects|controls|webPublishItems|tableParts|extLst)[\\s/>]|</worksheet>").Match(xml, start);
-                    if (!m.Success)
-                        return;
-                    xml = xml.Insert(m.Index, "<ignoredErrors><ignoredError sqref=\"" + Sqref + "\" numberStoredAsText=\"1\"/></ignoredErrors>");
-
-                    using (Stream s = entry.Open())
+                    foreach (KeyValuePair<string, string> sheet in SheetSqref)
                     {
-                        s.SetLength(0);
-                        byte[] bytes = new UTF8Encoding(false).GetBytes(xml);
-                        s.Write(bytes, 0, bytes.Length);
+                        ZipArchiveEntry entry = zip.GetEntry(sheet.Key);
+                        if (entry == null)
+                            continue;
+                        string xml;
+                        using (StreamReader sr = new StreamReader(entry.Open(), Encoding.UTF8))
+                            xml = sr.ReadToEnd();
+                        if (xml.Contains("<ignoredErrors"))
+                            continue;
+
+                        //OOXML element order : <ignoredErrors> comes after <pageMargins>/<pageSetup>/<headerFooter>
+                        //and before the first of these elements (or </worksheet>)
+                        int start = xml.IndexOf("<pageMargins");
+                        if (start < 0)
+                            continue;
+                        Match m = new Regex("<(smartTags|drawing|legacyDrawing|legacyDrawingHF|drawingHF|picture|oleObjects|controls|webPublishItems|tableParts|extLst)[\\s/>]|</worksheet>").Match(xml, start);
+                        if (!m.Success)
+                            continue;
+                        xml = xml.Insert(m.Index, "<ignoredErrors><ignoredError sqref=\"" + sheet.Value + "\" numberStoredAsText=\"1\"/></ignoredErrors>");
+
+                        using (Stream s = entry.Open())
+                        {
+                            s.SetLength(0);
+                            byte[] bytes = new UTF8Encoding(false).GetBytes(xml);
+                            s.Write(bytes, 0, bytes.Length);
+                        }
                     }
                 }
             }
@@ -382,6 +642,34 @@ namespace MachineDeptApp.Inventory.MC_SD
             {
                 Console.WriteLine("IgnoreNumberAsTextError : " + ex.Message);
             }
+        }
+
+        //Keep the header visible while scrolling, on the active sheet (cosmetic only: export continues if it fails)
+        private static void FreezeHeader(Excel.Workbook xlWorkBook, int HeaderRow)
+        {
+            try
+            {
+                Excel.Window xlWindow = xlWorkBook.Windows[1];
+                xlWindow.FreezePanes = false;
+                xlWindow.SplitRow = HeaderRow;
+                xlWindow.SplitColumn = 0;
+                xlWindow.FreezePanes = true;
+            }
+            catch (Exception exFreeze)
+            {
+                Console.WriteLine("FreezePanes : " + exFreeze.Message);
+            }
+        }
+
+        //DB value -> Excel cell value (empty cell when NULL)
+        private static object XlNumber(object value)
+        {
+            return value == DBNull.Value ? null : (object)Convert.ToDouble(value);
+        }
+
+        private static object XlDate(object value)
+        {
+            return value == DBNull.Value ? null : (object)Convert.ToDateTime(value).ToOADate();
         }
 
         private static string CellText(DataGridViewRow drow, DataGridViewColumn col)
@@ -560,6 +848,8 @@ namespace MachineDeptApp.Inventory.MC_SD
                 dgvSearchResult.Rows[dgvSearchResult.RowCount - 1].Cells["pic"].Value = row["PIC"].ToString();
                 dgvSearchResult.Rows[dgvSearchResult.RowCount - 1].Cells["updatedate"].Value = row["UpdateDate"].ToString();
                 dgvSearchResult.Rows[dgvSearchResult.RowCount - 1].Cells["regby"].Value = row["UpdateBy"].ToString();
+                //Original values (exact RegDate, LabelNo) for re-printing the label
+                dgvSearchResult.Rows[dgvSearchResult.RowCount - 1].Tag = row;
             }
             dgvSearchResult.ClearSelection();
             LbStatus.Text = "រកឃើញទិន្នន័យចំនួន " + dgvSearchResult.Rows.Count.ToString("N0");
