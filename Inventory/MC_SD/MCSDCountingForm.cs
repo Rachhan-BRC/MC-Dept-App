@@ -847,7 +847,9 @@ namespace MachineDeptApp
             con.con.Close();
 
             double total = counted + newQty;
-            if (Math.Round(total, 3) > Math.Round(stockCard, 3))
+            //Compare only the number before "." (1030534.060 vs 1030534.000 >> OK, 1030535.000 vs 1030534.000 >> over)
+            //Round to 3 first so a value like 1030534.9999999 is not cut down to 1030534
+            if (Math.Truncate(Math.Round(total, 3)) > Math.Truncate(Math.Round(stockCard, 3)))
             {
                 Cursor = Cursors.Default;
                 labelstatus.Text = "Error";
