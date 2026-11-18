@@ -46,7 +46,9 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
@@ -62,6 +64,18 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MCPlans\DrawingItemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCPlans\DrawingItemForm.Designer.cs">
+      <DependentUpon>DrawingItemForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCPlans\DrawingItemDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MCPlans\DrawingItemDetailForm.Designer.cs">
+      <DependentUpon>DrawingItemDetailForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Admin\SubLeaderRegisterForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1005,6 +1019,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Admin\SubLeaderRegisterAddUpdateForm.resx">
       <DependentUpon>SubLeaderRegisterAddUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCPlans\DrawingItemDetailForm.resx">
+      <DependentUpon>DrawingItemDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MCPlans\DrawingItemForm.resx">
+      <DependentUpon>DrawingItemForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MCPlans\RestRoomTimeForm.resx">
       <DependentUpon>RestRoomTimeForm.cs</DependentUpon>

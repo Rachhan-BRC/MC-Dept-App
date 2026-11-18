@@ -589,6 +589,29 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("SubLeaderRegisterForm", "Sub Leader Register");
                 }
             }
+            if (currentClkNode.Text == "Drawing Item")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    DrawingItemForm Dif = new DrawingItemForm();
+                    Dif.MdiParent = MenuFormV2.ActiveForm;
+                    Dif.Show();
+                    tabControlOpenForm.TabPages.Add("Drawing Item");
+                    dtOpenForm.Rows.Add("DrawingItemForm", "Drawing Item");
+                }
+            }
             if (currentClkNode.Text == "Master Stop Information")
             {
                 //Check if already open >> Focus on that Form
@@ -2709,6 +2732,7 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(6, "POS Remark", "_3EditPOSMCDetailForm");
             dtChildRoot.Rows.Add(6, "POS Data Check", "POSDataCheckAmountForm");
             dtChildRoot.Rows.Add(6, "Rest Room Time", "RestRoomTimeForm");
+          //  dtChildRoot.Rows.Add(6, "Drawing Item", "DrawingItemForm");
 
             //8
             dtChildRoot.Rows.Add(7, "MC Kitting Inventory", "");
