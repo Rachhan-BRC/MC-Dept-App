@@ -32,8 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MCSDInventoryDataForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -46,24 +46,31 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.btnExport = new System.Windows.Forms.Button();
+            this.btnExportVerify = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
             this.panelFooter = new System.Windows.Forms.Panel();
             this.LbStatus = new System.Windows.Forms.Label();
             this.panelBody = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tabCtrl = new System.Windows.Forms.TabControl();
+            this.tabDetail = new System.Windows.Forms.TabPage();
             this.dgvSearchResult = new System.Windows.Forms.DataGridView();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtLabelNo = new System.Windows.Forms.TextBox();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.txtCode = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.lbno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sysno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.code = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ttlweight = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -75,17 +82,43 @@
             this.pic = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.updatedate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.regby = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabVerify = new System.Windows.Forms.TabPage();
+            this.dgvVerify = new System.Windows.Forms.DataGridView();
+            this.vcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.vname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.vstock = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.vcount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.vbobbin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.vdiff = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.vresult = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtLabelNo = new System.Windows.Forms.TextBox();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.txtCode = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cboResult = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cboType = new System.Windows.Forms.ComboBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panelHeader.SuspendLayout();
             this.panelFooter.SuspendLayout();
             this.panelBody.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.tabCtrl.SuspendLayout();
+            this.tabDetail.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSearchResult)).BeginInit();
+            this.tabVerify.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVerify)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelHeader
             // 
             this.panelHeader.Controls.Add(this.btnExport);
+            this.panelHeader.Controls.Add(this.btnExportVerify);
             this.panelHeader.Controls.Add(this.btnSearch);
             this.panelHeader.Controls.Add(this.btnPrint);
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
@@ -108,6 +141,22 @@
             this.toolTip1.SetToolTip(this.btnExport, "ទាញជាឯកសារ Excel");
             this.btnExport.UseVisualStyleBackColor = false;
             // 
+            // btnExportVerify
+            // 
+            this.btnExportVerify.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExportVerify.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnExportVerify.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExportVerify.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnExportVerify.Location = new System.Drawing.Point(990, 4);
+            this.btnExportVerify.Name = "btnExportVerify";
+            this.btnExportVerify.Size = new System.Drawing.Size(128, 51);
+            this.btnExportVerify.TabIndex = 34;
+            this.btnExportVerify.Text = "ផ្ទៀងផ្ទាត់";
+            this.btnExportVerify.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip1.SetToolTip(this.btnExportVerify, "ទាញទិន្នន័យ \'ផ្ទៀងផ្ទាត់\' ជាឯកសារ Excel");
+            this.btnExportVerify.UseVisualStyleBackColor = false;
+            // 
             // btnSearch
             // 
             this.btnSearch.BackColor = System.Drawing.SystemColors.ButtonHighlight;
@@ -122,7 +171,7 @@
             // 
             // btnPrint
             // 
-            this.btnPrint.BackColor = System.Drawing.Color.DarkGray;
+            this.btnPrint.BackColor = System.Drawing.Color.Transparent;
             this.btnPrint.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnPrint.BackgroundImage")));
             this.btnPrint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnPrint.Enabled = false;
@@ -166,7 +215,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.dgvSearchResult);
+            this.groupBox2.Controls.Add(this.tabCtrl);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(3, 111);
@@ -175,6 +224,28 @@
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "បញ្ចីវត្ថុធាតុដើម";
+            // 
+            // tabCtrl
+            // 
+            this.tabCtrl.Controls.Add(this.tabDetail);
+            this.tabCtrl.Controls.Add(this.tabVerify);
+            this.tabCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabCtrl.Location = new System.Drawing.Point(3, 28);
+            this.tabCtrl.Name = "tabCtrl";
+            this.tabCtrl.SelectedIndex = 0;
+            this.tabCtrl.Size = new System.Drawing.Size(1162, 323);
+            this.tabCtrl.TabIndex = 1;
+            // 
+            // tabDetail
+            // 
+            this.tabDetail.Controls.Add(this.dgvSearchResult);
+            this.tabDetail.Location = new System.Drawing.Point(4, 33);
+            this.tabDetail.Name = "tabDetail";
+            this.tabDetail.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDetail.Size = new System.Drawing.Size(1154, 286);
+            this.tabDetail.TabIndex = 0;
+            this.tabDetail.Text = "លម្អិត";
+            this.tabDetail.UseVisualStyleBackColor = true;
             // 
             // dgvSearchResult
             // 
@@ -198,6 +269,7 @@
             this.dgvSearchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvSearchResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.lbno,
+            this.sysno,
             this.code,
             this.name,
             this.ttlweight,
@@ -211,28 +283,277 @@
             this.regby});
             this.dgvSearchResult.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvSearchResult.EnableHeadersVisualStyles = false;
-            this.dgvSearchResult.Location = new System.Drawing.Point(3, 28);
+            this.dgvSearchResult.Location = new System.Drawing.Point(3, 3);
             this.dgvSearchResult.MultiSelect = false;
             this.dgvSearchResult.Name = "dgvSearchResult";
             this.dgvSearchResult.ReadOnly = true;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSearchResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSearchResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle16;
             this.dgvSearchResult.RowHeadersWidth = 35;
-            dataGridViewCellStyle16.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvSearchResult.RowsDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle17.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvSearchResult.RowsDefaultCellStyle = dataGridViewCellStyle17;
             this.dgvSearchResult.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvSearchResult.Size = new System.Drawing.Size(1162, 323);
+            this.dgvSearchResult.Size = new System.Drawing.Size(1148, 280);
             this.dgvSearchResult.TabIndex = 0;
+            // 
+            // lbno
+            // 
+            this.lbno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.lbno.DefaultCellStyle = dataGridViewCellStyle3;
+            this.lbno.HeaderText = "ល.រ.ឡាប៊ែល";
+            this.lbno.Name = "lbno";
+            this.lbno.ReadOnly = true;
+            // 
+            // sysno
+            // 
+            this.sysno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.sysno.DefaultCellStyle = dataGridViewCellStyle4;
+            this.sysno.HeaderText = "SysNo";
+            this.sysno.Name = "sysno";
+            this.sysno.ReadOnly = true;
+            this.sysno.Width = 120;
+            // 
+            // code
+            // 
+            this.code.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.code.DefaultCellStyle = dataGridViewCellStyle5;
+            this.code.HeaderText = "លេខកូដ";
+            this.code.Name = "code";
+            this.code.ReadOnly = true;
+            this.code.Width = 80;
+            // 
+            // name
+            // 
+            this.name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.name.DefaultCellStyle = dataGridViewCellStyle6;
+            this.name.HeaderText = "ឈ្មោះវត្ថុធាតុដើម";
+            this.name.Name = "name";
+            this.name.ReadOnly = true;
+            this.name.Width = 250;
+            // 
+            // ttlweight
+            // 
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.ttlweight.DefaultCellStyle = dataGridViewCellStyle7;
+            this.ttlweight.HeaderText = "ទម្ងន់សរុប";
+            this.ttlweight.Name = "ttlweight";
+            this.ttlweight.ReadOnly = true;
+            // 
+            // bobinw
+            // 
+            this.bobinw.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.bobinw.DefaultCellStyle = dataGridViewCellStyle8;
+            this.bobinw.HeaderText = "ទំម្ងន់សំបក";
+            this.bobinw.Name = "bobinw";
+            this.bobinw.ReadOnly = true;
+            // 
+            // bobinQty
+            // 
+            this.bobinQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.bobinQty.DefaultCellStyle = dataGridViewCellStyle9;
+            this.bobinQty.HeaderText = "ចំនួនប៊ូប៊ីន";
+            this.bobinQty.Name = "bobinQty";
+            this.bobinQty.ReadOnly = true;
+            // 
+            // Qty
+            // 
+            this.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle10.Format = "N0";
+            this.Qty.DefaultCellStyle = dataGridViewCellStyle10;
+            this.Qty.HeaderText = "ចំនួន";
+            this.Qty.Name = "Qty";
+            this.Qty.ReadOnly = true;
+            // 
+            // status
+            // 
+            this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.status.DefaultCellStyle = dataGridViewCellStyle11;
+            this.status.HeaderText = "ស្ថានភាព";
+            this.status.Name = "status";
+            this.status.ReadOnly = true;
+            // 
+            // regdate
+            // 
+            this.regdate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle12.Format = "dd-MM-yy hh:mm:ss tt";
+            this.regdate.DefaultCellStyle = dataGridViewCellStyle12;
+            this.regdate.HeaderText = "ថ្ងៃខែឆ្នាំបញ្ចូល";
+            this.regdate.Name = "regdate";
+            this.regdate.ReadOnly = true;
+            this.regdate.Width = 150;
+            // 
+            // pic
+            // 
+            this.pic.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.pic.DefaultCellStyle = dataGridViewCellStyle13;
+            this.pic.HeaderText = "បញ្ចូលដោយ";
+            this.pic.Name = "pic";
+            this.pic.ReadOnly = true;
+            // 
+            // updatedate
+            // 
+            this.updatedate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle14.Format = "dd-MM-yy hh:mm:ss tt";
+            this.updatedate.DefaultCellStyle = dataGridViewCellStyle14;
+            this.updatedate.HeaderText = "ថ្ងៃខែឆ្នាំអាប់ដេត";
+            this.updatedate.Name = "updatedate";
+            this.updatedate.ReadOnly = true;
+            this.updatedate.Width = 150;
+            // 
+            // regby
+            // 
+            this.regby.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.regby.DefaultCellStyle = dataGridViewCellStyle15;
+            this.regby.HeaderText = "អាប់ដេតដោយ";
+            this.regby.Name = "regby";
+            this.regby.ReadOnly = true;
+            // 
+            // tabVerify
+            // 
+            this.tabVerify.Controls.Add(this.dgvVerify);
+            this.tabVerify.Location = new System.Drawing.Point(4, 33);
+            this.tabVerify.Name = "tabVerify";
+            this.tabVerify.Padding = new System.Windows.Forms.Padding(3);
+            this.tabVerify.Size = new System.Drawing.Size(1154, 286);
+            this.tabVerify.TabIndex = 1;
+            this.tabVerify.Text = "ផ្ទៀងផ្ទាត់";
+            this.tabVerify.UseVisualStyleBackColor = true;
+            // 
+            // dgvVerify
+            // 
+            this.dgvVerify.AllowUserToAddRows = false;
+            this.dgvVerify.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle18.BackColor = System.Drawing.Color.Lavender;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvVerify.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVerify.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle19;
+            this.dgvVerify.ColumnHeadersHeight = 26;
+            this.dgvVerify.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dgvVerify.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.vcode,
+            this.vname,
+            this.vstock,
+            this.vcount,
+            this.vbobbin,
+            this.vdiff,
+            this.vresult});
+            this.dgvVerify.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvVerify.EnableHeadersVisualStyles = false;
+            this.dgvVerify.Location = new System.Drawing.Point(3, 3);
+            this.dgvVerify.MultiSelect = false;
+            this.dgvVerify.Name = "dgvVerify";
+            this.dgvVerify.ReadOnly = true;
+            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle26.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle26.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle26.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle26.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle26.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle26.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvVerify.RowHeadersDefaultCellStyle = dataGridViewCellStyle26;
+            this.dgvVerify.RowHeadersWidth = 35;
+            dataGridViewCellStyle27.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle27.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle27.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle27.SelectionBackColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle27.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvVerify.RowsDefaultCellStyle = dataGridViewCellStyle27;
+            this.dgvVerify.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgvVerify.Size = new System.Drawing.Size(1148, 280);
+            this.dgvVerify.TabIndex = 0;
+            // 
+            // vcode
+            // 
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.vcode.DefaultCellStyle = dataGridViewCellStyle20;
+            this.vcode.HeaderText = "លេខកូដ";
+            this.vcode.Name = "vcode";
+            this.vcode.ReadOnly = true;
+            this.vcode.Width = 80;
+            // 
+            // vname
+            // 
+            this.vname.HeaderText = "ឈ្មោះវត្ថុធាតុដើម";
+            this.vname.Name = "vname";
+            this.vname.ReadOnly = true;
+            this.vname.Width = 250;
+            // 
+            // vstock
+            // 
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle21.Format = "#,##0.##";
+            this.vstock.DefaultCellStyle = dataGridViewCellStyle21;
+            this.vstock.HeaderText = "ស្តុកក្នុងប្រព័ន្ធ";
+            this.vstock.Name = "vstock";
+            this.vstock.ReadOnly = true;
+            this.vstock.Width = 130;
+            // 
+            // vcount
+            // 
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle22.Format = "#,##0.##";
+            this.vcount.DefaultCellStyle = dataGridViewCellStyle22;
+            this.vcount.HeaderText = "ចំនួនរាប់បាន";
+            this.vcount.Name = "vcount";
+            this.vcount.ReadOnly = true;
+            this.vcount.Width = 130;
+            // 
+            // vbobbin
+            // 
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle23.Format = "N0";
+            this.vbobbin.DefaultCellStyle = dataGridViewCellStyle23;
+            this.vbobbin.HeaderText = "ចំនួនប៊ូប៊ីន";
+            this.vbobbin.Name = "vbobbin";
+            this.vbobbin.ReadOnly = true;
+            // 
+            // vdiff
+            // 
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle24.Format = "#,##0.##";
+            this.vdiff.DefaultCellStyle = dataGridViewCellStyle24;
+            this.vdiff.HeaderText = "ខុសគ្នា";
+            this.vdiff.Name = "vdiff";
+            this.vdiff.ReadOnly = true;
+            this.vdiff.Width = 130;
+            // 
+            // vresult
+            // 
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.vresult.DefaultCellStyle = dataGridViewCellStyle25;
+            this.vresult.HeaderText = "លទ្ធផល";
+            this.vresult.Name = "vresult";
+            this.vresult.ReadOnly = true;
             // 
             // groupBox1
             // 
@@ -242,6 +563,10 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.cboResult);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.cboType);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(3, 0);
@@ -305,117 +630,56 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "កូដវត្ថុធាតុដើម";
             // 
-            // lbno
+            // label4
             // 
-            this.lbno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.lbno.DefaultCellStyle = dataGridViewCellStyle3;
-            this.lbno.HeaderText = "ល.រ.ឡាប៊ែល";
-            this.lbno.Name = "lbno";
-            this.lbno.ReadOnly = true;
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(600, 46);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(56, 24);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "លទ្ធផល";
             // 
-            // code
+            // cboResult
             // 
-            this.code.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.code.DefaultCellStyle = dataGridViewCellStyle4;
-            this.code.HeaderText = "លេខកូដ";
-            this.code.Name = "code";
-            this.code.ReadOnly = true;
-            this.code.Width = 80;
+            this.cboResult.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboResult.Enabled = false;
+            this.cboResult.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboResult.FormattingEnabled = true;
+            this.cboResult.Items.AddRange(new object[] {
+            "ទាំងអស់",
+            "ត្រឹមត្រូវ",
+            "ខុស"});
+            this.cboResult.Location = new System.Drawing.Point(660, 42);
+            this.cboResult.Name = "cboResult";
+            this.cboResult.Size = new System.Drawing.Size(120, 32);
+            this.cboResult.TabIndex = 2;
             // 
-            // name
+            // label5
             // 
-            this.name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.name.DefaultCellStyle = dataGridViewCellStyle5;
-            this.name.HeaderText = "ឈ្មោះវត្ថុធាតុដើម";
-            this.name.Name = "name";
-            this.name.ReadOnly = true;
-            this.name.Width = 250;
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(815, 46);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(45, 24);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "ប្រភេទ";
             // 
-            // ttlweight
+            // cboType
             // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.ttlweight.DefaultCellStyle = dataGridViewCellStyle6;
-            this.ttlweight.HeaderText = "ទម្ងន់សរុប";
-            this.ttlweight.Name = "ttlweight";
-            this.ttlweight.ReadOnly = true;
-            // 
-            // bobinw
-            // 
-            this.bobinw.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.bobinw.DefaultCellStyle = dataGridViewCellStyle7;
-            this.bobinw.HeaderText = "ទំម្ងន់សំបក";
-            this.bobinw.Name = "bobinw";
-            this.bobinw.ReadOnly = true;
-            // 
-            // bobinQty
-            // 
-            this.bobinQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.bobinQty.DefaultCellStyle = dataGridViewCellStyle8;
-            this.bobinQty.HeaderText = "ចំនួនប៊ូប៊ីន";
-            this.bobinQty.Name = "bobinQty";
-            this.bobinQty.ReadOnly = true;
-            // 
-            // Qty
-            // 
-            this.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle9.Format = "N0";
-            this.Qty.DefaultCellStyle = dataGridViewCellStyle9;
-            this.Qty.HeaderText = "ចំនួន";
-            this.Qty.Name = "Qty";
-            this.Qty.ReadOnly = true;
-            // 
-            // status
-            // 
-            this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.status.DefaultCellStyle = dataGridViewCellStyle10;
-            this.status.HeaderText = "ស្ថានភាព";
-            this.status.Name = "status";
-            this.status.ReadOnly = true;
-            // 
-            // regdate
-            // 
-            this.regdate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle11.Format = "dd-MM-yy hh:mm:ss tt";
-            this.regdate.DefaultCellStyle = dataGridViewCellStyle11;
-            this.regdate.HeaderText = "ថ្ងៃខែឆ្នាំបញ្ចូល";
-            this.regdate.Name = "regdate";
-            this.regdate.ReadOnly = true;
-            this.regdate.Width = 150;
-            // 
-            // pic
-            // 
-            this.pic.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.pic.DefaultCellStyle = dataGridViewCellStyle12;
-            this.pic.HeaderText = "បញ្ចូលដោយ";
-            this.pic.Name = "pic";
-            this.pic.ReadOnly = true;
-            // 
-            // updatedate
-            // 
-            this.updatedate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle13.Format = "dd-MM-yy hh:mm:ss tt";
-            this.updatedate.DefaultCellStyle = dataGridViewCellStyle13;
-            this.updatedate.HeaderText = "ថ្ងៃខែឆ្នាំអាប់ដេត";
-            this.updatedate.Name = "updatedate";
-            this.updatedate.ReadOnly = true;
-            this.updatedate.Width = 150;
-            // 
-            // regby
-            // 
-            this.regby.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.regby.DefaultCellStyle = dataGridViewCellStyle14;
-            this.regby.HeaderText = "អាប់ដេតដោយ";
-            this.regby.Name = "regby";
-            this.regby.ReadOnly = true;
+            this.cboType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboType.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboType.FormattingEnabled = true;
+            this.cboType.Items.AddRange(new object[] {
+            "ទាំងអស់",
+            "Connector",
+            "Terminal",
+            "Wire",
+            "Other"});
+            this.cboType.Location = new System.Drawing.Point(870, 42);
+            this.cboType.Name = "cboType";
+            this.cboType.Size = new System.Drawing.Size(140, 32);
+            this.cboType.TabIndex = 3;
             // 
             // MCSDInventoryDataForm
             // 
@@ -435,7 +699,11 @@
             this.panelFooter.ResumeLayout(false);
             this.panelBody.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.tabCtrl.ResumeLayout(false);
+            this.tabDetail.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSearchResult)).EndInit();
+            this.tabVerify.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVerify)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -459,9 +727,15 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cboResult;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cboType;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.Button btnExportVerify;
         private System.Windows.Forms.DataGridViewTextBoxColumn lbno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sysno;
         private System.Windows.Forms.DataGridViewTextBoxColumn code;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn ttlweight;
@@ -473,5 +747,16 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn pic;
         private System.Windows.Forms.DataGridViewTextBoxColumn updatedate;
         private System.Windows.Forms.DataGridViewTextBoxColumn regby;
+        private System.Windows.Forms.TabControl tabCtrl;
+        private System.Windows.Forms.TabPage tabDetail;
+        private System.Windows.Forms.TabPage tabVerify;
+        private System.Windows.Forms.DataGridView dgvVerify;
+        private System.Windows.Forms.DataGridViewTextBoxColumn vcode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn vname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn vstock;
+        private System.Windows.Forms.DataGridViewTextBoxColumn vcount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn vbobbin;
+        private System.Windows.Forms.DataGridViewTextBoxColumn vdiff;
+        private System.Windows.Forms.DataGridViewTextBoxColumn vresult;
     }
 }
