@@ -11,13 +11,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 
 namespace MachineDeptApp.Admin
 {
     public partial class MasterItemForm : Form
     {
         SQLConnect cnn = new SQLConnect();
-        SqlCommand cmd;
+
+        DataTable dtMstMCType, dtMstMCName, dtMstSlot;
+        string ErrorText = "", BeforeEdit = "";
+
 
         public MasterItemForm()
         {
@@ -25,17 +29,87 @@ namespace MachineDeptApp.Admin
             this.cnn.Connection();
             this.btnSearch.Click += BtnSearch_Click;
             this.Load += MasterItemForm_Load;
+            this.Shown += MasterItemForm_Shown;
             this.dgvSearchResult.CellClick += DgvSearchResult_CellClick;
             this.dgvSearchResult.CellFormatting += DgvSearchResult_CellFormatting;
-            this.dgvSearchResult.CellValueChanged += DgvSearchResult_CellValueChanged;
+            this.dgvSearchResult.Scroll += DgvSearchResult_Scroll;
+            this.dgvSearchResult.CellBeginEdit += DgvSearchResult_CellBeginEdit;
+            this.dgvSearchResult.CellEndEdit += DgvSearchResult_CellEndEdit;
+
             this.dgvMCType.LostFocus += DgvMCType_LostFocus;
             this.dgvMCType.CellClick += DgvMCType_CellClick;
-            this.DgvSlot.LostFocus += DgvSlot_LostFocus;
-            this.DgvSlot.CellClick += DgvSlot_CellClick;
+
+            this.dgvMCName.LostFocus += DgvMCName_LostFocus;
+            this.dgvMCName.CellClick += DgvMCName_CellClick;
+
+            this.dgvSlot.LostFocus += DgvSlot_LostFocus;
+            this.dgvSlot.CellClick += DgvSlot_CellClick;
+
             this.dgvStatus.LostFocus += DgvStatus_LostFocus;
             this.dgvStatus.CellClick += DgvStatus_CellClick;
-            this.cbmctype.TextChanged += Cbmctype_TextChanged;
+
+            this.cboMCType.TextChanged += Cbmctype_TextChanged;
+
             this.btnExport.Click += BtnExport_Click;
+        }
+
+        private void DgvSearchResult_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                if (dgvSearchResult.Columns[e.ColumnIndex].Name == "ColRemark")
+                {
+                    string NewValue = dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString() ?? "";
+                    if (BeforeEdit != NewValue)
+                    {
+                        if (dgvSearchResult.SelectedCells.Count > 0 && dgvSearchResult.CurrentCell != null &&
+                        dgvSearchResult.CurrentRow.Index >= 0 && dgvSearchResult.CurrentCell.ColumnIndex >= 0)
+                        {
+                            string WIPCode = dgvSearchResult.CurrentRow.Cells["ColCode"].Value.ToString();
+                            SaveStatusOrRemark(WIPCode, "Remarks", NewValue);
+                        }
+                    }
+
+                }
+            }
+
+        }
+        private void DgvSearchResult_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                if (dgvSearchResult.Columns[e.ColumnIndex].Name == "ColRemark")
+                    BeforeEdit = dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString() ?? "";
+            }
+        }
+        private void DgvSearchResult_Scroll(object sender, ScrollEventArgs e)
+        {
+            dgvMCType.SendToBack();
+            dgvMCName.SendToBack();
+            dgvSlot.SendToBack();
+            dgvStatus.SendToBack();
+        }
+        private void DgvMCName_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvSearchResult.SelectedCells.Count > 0 && dgvSearchResult.CurrentCell != null && 
+                dgvSearchResult.CurrentRow.Index >= 0 && dgvSearchResult.CurrentCell.ColumnIndex >= 0 && 
+                dgvMCName.SelectedCells.Count > 0 && dgvMCName.CurrentCell != null)
+            {
+                string WIPCode = dgvSearchResult.CurrentRow.Cells["ColCode"].Value.ToString(), 
+                    ColName = dgvSearchResult.Columns[dgvSearchResult.CurrentCell.ColumnIndex].Name,
+                    SelectedValue = dgvMCName.CurrentRow.Cells[0].Value?.ToString() ?? "";
+
+                if (ColName.Contains("MCName"))
+                {
+                    ColName = ColName.Replace("ColMCName", "");
+                    SaveMCName(WIPCode, ColName, SelectedValue);
+                }
+
+            }
+        }
+        private void DgvMCName_LostFocus(object sender, EventArgs e)
+        {
+            dgvMCName.SendToBack();
         }
         private void BtnExport_Click(object sender, EventArgs e)
         {
@@ -106,91 +180,50 @@ namespace MachineDeptApp.Admin
                 }
             }
         }
-
         private void Cbmctype_TextChanged(object sender, EventArgs e)
         {
-            cbmcname.Items.Clear();
-            if (cbmctype.Text.Trim() != "All")
-            {
-                string type ="";
-                if (cbmctype.SelectedIndex == 1)
-                {
-                    type = "MC1Type";
-                }
-                else if (cbmctype.SelectedIndex == 2)
-                {
-                    type = "MC2Type";
-                }
-                else if (cbmctype.SelectedIndex == 3)
-                {
-                    type = "MC3Type";
-                }
-                string query = "SELECT "+type+" FROM tbMasterItemPlan GROUP BY "+type+"";
-                DataTable dt = new DataTable();
-                SqlDataAdapter sda = new SqlDataAdapter(query,cnn.con);
-                cbmcname.Items.Add("");
-                sda.Fill(dt);
-
-                foreach (DataRow dr in dt.Rows)
-                {
-                    string name = dr[0] == DBNull.Value ? null : dr[0].ToString();
-                    if (name != null && name!="")
-                    {
-                        cbmcname.Items.Add(dr[0]);
-                    }
-                   
-                }
-            }
+            if (cboMCType.Text.Trim() != "")
+                chkMCType.Checked = true;
+            else
+                chkMCType.Checked = false;
         }
-
-        private void Cbmctype_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private void DgvStatus_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            string cell = dgvStatus.Rows[e.RowIndex].Cells[0].Value?.ToString()??"";
-            if (!string.IsNullOrEmpty(cell))
+            if (dgvSearchResult.SelectedCells.Count > 0 && dgvSearchResult.CurrentCell != null &&
+                dgvSearchResult.CurrentRow.Index >= 0 && dgvSearchResult.CurrentCell.ColumnIndex >= 0 &&
+                dgvStatus.SelectedCells.Count > 0 && dgvStatus.CurrentCell != null)
             {
-                dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[dgvSearchResult.CurrentCell.ColumnIndex].Value = dgvStatus.Rows[e.RowIndex].Cells[0].Value.ToString();
+                string WIPCode = dgvSearchResult.CurrentRow.Cells["ColCode"].Value.ToString(),
+                    SelectedValue = dgvStatus.CurrentRow.Cells[0].Value?.ToString() ?? "";
+
+                SaveStatusOrRemark(WIPCode, "Status", SelectedValue);
 
             }
-            else
-            {
-                dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[dgvSearchResult.CurrentCell.ColumnIndex].Value = "";
-            }
-
-            dgvSearchResult.Focus();
         }
-
         private void DgvStatus_LostFocus(object sender, EventArgs e)
         {
             this.dgvStatus.SendToBack();
         }
-
         private void DgvSlot_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (DgvSlot.Rows[e.RowIndex].Cells[0].Value.ToString().Trim() != "")
+            if (dgvSearchResult.SelectedCells.Count > 0 && dgvSearchResult.CurrentCell != null &&
+                dgvSearchResult.CurrentRow.Index >= 0 && dgvSearchResult.CurrentCell.ColumnIndex >= 0 &&
+                dgvSlot.SelectedCells.Count > 0 && dgvSlot.CurrentCell != null)
             {
-                dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[dgvSearchResult.CurrentCell.ColumnIndex].Value = DgvSlot.Rows[e.RowIndex].Cells[0].Value.ToString();
+                string WIPCode = dgvSearchResult.CurrentRow.Cells["ColCode"].Value.ToString(),
+                    SelectedValue = dgvSlot.CurrentRow.Cells[0].Value?.ToString() ?? "";
+
+                SaveSlot(WIPCode, SelectedValue);
 
             }
-            else
-            {
-                dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[dgvSearchResult.CurrentCell.ColumnIndex].Value = null;
-            }
-
-            dgvSearchResult.Focus();
         }
-
         private void DgvSlot_LostFocus(object sender, EventArgs e)
         {
-            this.DgvSlot.SendToBack();
+            this.dgvSlot.SendToBack();
         }
-
         private void DgvSearchResult_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            /*
             string ItemCode = "";
             ItemCode = dgvSearchResult.Rows[e.RowIndex].Cells[0].Value.ToString();
             DataTable dt = new DataTable();
@@ -211,14 +244,14 @@ namespace MachineDeptApp.Admin
             try
             {
                 cnn.con.Open();
-                if (dgvSearchResult.Columns[e.ColumnIndex].Name == "mc1" || dgvSearchResult.Columns[e.ColumnIndex].Name == "mc2" || dgvSearchResult.Columns[e.ColumnIndex].Name == "mc3")
+                if (dgvSearchResult.Columns[e.ColumnIndex].Name == "ColMCType1" || dgvSearchResult.Columns[e.ColumnIndex].Name == "ColMCType2" || dgvSearchResult.Columns[e.ColumnIndex].Name == "ColMCType3")
                 {
                     int mc = 0;
-                    if (dgvSearchResult.Columns[e.ColumnIndex].Name == "mc1")
+                    if (dgvSearchResult.Columns[e.ColumnIndex].Name == "ColMCType1")
                     {
                         mc = 1;
                     }
-                    else if (dgvSearchResult.Columns[e.ColumnIndex].Name == "mc2")
+                    else if (dgvSearchResult.Columns[e.ColumnIndex].Name == "ColMCType2")
                     {
                         mc = 2;
                     }
@@ -259,7 +292,7 @@ namespace MachineDeptApp.Admin
                         }
                     }
                 }
-                else if (dgvSearchResult.Columns[e.ColumnIndex].Name =="status")
+                else if (dgvSearchResult.Columns[e.ColumnIndex].Name =="ColStatus")
                 {
                     if (dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
                     {
@@ -287,7 +320,7 @@ namespace MachineDeptApp.Admin
                         }
                     }
                 }
-                else if (dgvSearchResult.Columns[e.ColumnIndex].Name == "slot")
+                else if (dgvSearchResult.Columns[e.ColumnIndex].Name == "ColSlot")
                 {
                     //Update becuz it already have
                     if (dt.Rows.Count > 0)
@@ -320,7 +353,7 @@ namespace MachineDeptApp.Admin
                         cmd.ExecuteNonQuery();
                     }
                 }
-                else if (dgvSearchResult.Columns[e.ColumnIndex].Name == "remark")
+                else if (dgvSearchResult.Columns[e.ColumnIndex].Name == "ColRemark")
                 {
                     DataTable dtstatus = new DataTable();
                     string wipcode = dgvSearchResult.Rows[e.RowIndex].Cells[0].Value.ToString();
@@ -351,220 +384,530 @@ namespace MachineDeptApp.Admin
                 MessageBox.Show("មានបញ្ហា!\n"+ex.Message,"Rachhan System",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
             cnn.con.Close();
-        }
 
+            */
+
+        }
         private void DgvSearchResult_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.ColumnIndex > dgvSearchResult.Columns.Count - 7)
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                e.CellStyle.ForeColor = Color.Black;
-                e.CellStyle.Font = new System.Drawing.Font("Khmer OS Battambong", 9, FontStyle.Regular);
+                if (dgvSearchResult.Columns[e.ColumnIndex].Name.Contains("MCType") || dgvSearchResult.Columns[e.ColumnIndex].Name.Contains("MCName") ||
+                    dgvSearchResult.Columns[e.ColumnIndex].Name.Contains("Slot") || dgvSearchResult.Columns[e.ColumnIndex].Name.Contains("Remark"))
+                {
+                    e.CellStyle.ForeColor = Color.Black;
+                }
             }
         }
-
         private void DgvMCType_CellClick(object sender, DataGridViewCellEventArgs e)
-        {  
-            if (dgvMCType.Rows[e.RowIndex].Cells[0].Value.ToString().Trim() != "")
+        {
+            if (dgvSearchResult.SelectedCells.Count > 0 && dgvSearchResult.CurrentCell != null &&
+                dgvSearchResult.CurrentRow.Index >= 0 && dgvSearchResult.CurrentCell.ColumnIndex >= 0 &&
+                dgvMCType.SelectedCells.Count > 0 && dgvMCType.CurrentCell != null)
             {
-                dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[dgvSearchResult.CurrentCell.ColumnIndex].Value = dgvMCType.Rows[e.RowIndex].Cells[0].Value.ToString();
+                string WIPCode = dgvSearchResult.CurrentRow.Cells["ColCode"].Value.ToString(),
+                    ColName = dgvSearchResult.Columns[dgvSearchResult.CurrentCell.ColumnIndex].Name,
+                    SelectedValue = dgvMCType.CurrentRow.Cells[0].Value?.ToString() ?? "";
 
+                if (ColName.Contains("MCType"))
+                {
+                    ColName = ColName.Replace("ColMCType", "");
+                    SaveMCType(WIPCode, ColName, SelectedValue);
+                }
             }
-            else
-            {
-                dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[dgvSearchResult.CurrentCell.ColumnIndex].Value = null;
-            }
-
-            dgvSearchResult.Focus();
-            
         }
-
         private void DgvMCType_LostFocus(object sender, EventArgs e)
         {
             dgvMCType.SendToBack();
         }
-
         private void DgvSearchResult_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex > -1)
+            if (dgvSearchResult.SelectedCells.Count > 0 && dgvSearchResult.CurrentCell != null && e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                if (e.ColumnIndex > dgvSearchResult.Columns.Count - 7 && e.ColumnIndex < dgvSearchResult.Columns.Count - 2)
+                string SelColName = dgvSearchResult.Columns[e.ColumnIndex].Name;
+                DataGridView dgvToBeShow = null;
+                if (SelColName.Contains("MCType"))
                 {
-                    dgvMCType.CurrentCell = dgvMCType.Rows[0].Cells[0];
-                    dgvMCType.ClearSelection();
-                    if (dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[e.ColumnIndex].Value != null)
+                    dgvToBeShow = dgvMCType;
+                    dgvToBeShow.Rows.Clear();
+                    dgvToBeShow.Rows.Add();
+                    foreach(DataRow row in dtMstMCType.Rows)
+                        dgvToBeShow.Rows.Add(row["MCType"].ToString());
+                    string CurrentValue = dgvSearchResult.CurrentRow.Cells[e.ColumnIndex].Value?.ToString() ?? "";
+                    if (CurrentValue.Trim() != "")
                     {
-                        foreach (DataGridViewRow dgvRow in dgvMCType.Rows)
+                        foreach (DataGridViewRow​ drow in dgvToBeShow.Rows)
                         {
-                            if (dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[e.ColumnIndex].Value.ToString() == dgvRow.Cells[0].Value.ToString())
-                            {
-                                dgvMCType.CurrentCell = dgvRow.Cells[0];
-                                dgvRow.Cells[0].Selected = true;
-                            }
+                            if ((drow.Cells[0].Value?.ToString() ?? "") == CurrentValue)
+                                dgvToBeShow.CurrentCell = drow.Cells[0];
                         }
                     }
-
-                    Rectangle oRectangle = dgvSearchResult.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
-                    int X = oRectangle.X + 7;
-                    int Y = oRectangle.Y + 65;
-                    dgvMCType.Location = new Point(X, Y);
-                    dgvMCType.BringToFront();
-                    dgvMCType.Focus();
+                    else
+                    {
+                        dgvToBeShow.ClearSelection();
+                        dgvToBeShow.CurrentCell = null;
+                    }
                 }
-                if (e.ColumnIndex == dgvSearchResult.Columns.Count - 3)
+                if (SelColName.Contains("MCName"))
                 {
-                    DgvSlot.CurrentCell = DgvSlot.Rows[0].Cells[0];
-                    DgvSlot.ClearSelection();
-                    if (dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[e.ColumnIndex].Value != null)
+                    dgvToBeShow = dgvMCName;
+                    dgvToBeShow.Rows.Clear();
+                    dgvToBeShow.Rows.Add();
+                    string MCNoSelected = dgvSearchResult.Columns[e.ColumnIndex].Name.Replace("ColMCName",""),
+                        MCTypeText = dgvSearchResult.CurrentRow.Cells["ColMCType" + MCNoSelected].Value?.ToString() ?? "";
+                    foreach (DataRow row in dtMstMCName.Rows)
                     {
-                        foreach (DataGridViewRow dgvRow in DgvSlot.Rows)
+                        bool OkayToAdd = false;
+                        if (MCTypeText.Trim() != "")
                         {
-                            if (dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[e.ColumnIndex].Value.ToString() == dgvRow.Cells[0].Value.ToString())
+                            if (row["MCType"].ToString() == MCTypeText)
+                                OkayToAdd = true;
+                        }
+                        else
+                            OkayToAdd = true;
+                        if (OkayToAdd)
+                        {
+                            string Value = row["MCName"].ToString();
+                            bool Found = false;
+                            foreach (DataGridViewRow drow in dgvToBeShow.Rows)
                             {
-                                DgvSlot.CurrentCell = dgvRow.Cells[0];
-                                dgvRow.Cells[0].Selected = true;
+                                if ((drow.Cells[0].Value?.ToString() ?? "") == Value)
+                                {
+                                    Found = true;
+                                    break;
+                                }
                             }
+                            if (!Found)
+                                dgvToBeShow.Rows.Add(Value);
                         }
                     }
+                    string CurrentValue = dgvSearchResult.CurrentRow.Cells[e.ColumnIndex].Value?.ToString() ?? "";
+                    if (CurrentValue.Trim() != "")
+                    {
+                        foreach (DataGridViewRow​ drow in dgvToBeShow.Rows)
+                        {
+                            if ((drow.Cells[0].Value?.ToString() ?? "") == CurrentValue)
+                                dgvToBeShow.CurrentCell = drow.Cells[0];
+                        }
+                    }
+                    else
+                    {
+                        dgvToBeShow.ClearSelection();
+                        dgvToBeShow.CurrentCell = null;
+                    }
 
-                    Rectangle oRectangle = dgvSearchResult.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
-                    int X = oRectangle.X + 1;
-                    int Y = oRectangle.Y + 65;
-                    DgvSlot.Location = new Point(X, Y);
-                    DgvSlot.BringToFront();
-                    DgvSlot.Focus();
                 }
-                if (e.ColumnIndex == dgvSearchResult.Columns.Count - 2)
+                if (SelColName.Contains("Slot"))
                 {
-                    dgvStatus.CurrentCell = dgvStatus.Rows[0].Cells[0];
-                    dgvStatus.ClearSelection();
-                    if (dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[e.ColumnIndex].Value != null)
-                    {
-                        foreach (DataGridViewRow dgvRow in dgvStatus.Rows)
-                        {
-                            if (dgvSearchResult.Rows[dgvSearchResult.CurrentCell.RowIndex].Cells[e.ColumnIndex].Value.ToString() == (dgvRow.Cells[0].Value?.ToString() ?? ""))
-                            {
-                                dgvStatus.CurrentCell = dgvRow.Cells[0];
-                                dgvRow.Cells[0].Selected = true;
-                            }
-                        }
-                    }
+                    dgvToBeShow = dgvSlot;
+                    dgvToBeShow.Rows.Clear();
+                    dgvToBeShow.Rows.Add();
+                    foreach (DataRow row in dtMstSlot.Rows)
+                        dgvToBeShow.Rows.Add(row["SLOTName"].ToString());
+                }
+                if (SelColName.Contains("Status"))
+                    dgvToBeShow = dgvStatus;
 
-                    Rectangle oRectangle = dgvSearchResult.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
-                    int X = oRectangle.X + 1;
-                    int Y = oRectangle.Y + 110;
-                    dgvStatus.Location = new Point(X, Y);
-                    dgvStatus.BringToFront();
-                    dgvStatus.Focus();
+                if (dgvToBeShow != null)
+                {
+                    //Match the popup's width to the clicked column (its inner column is set to Fill)
+                    dgvToBeShow.Width = dgvSearchResult.Columns[e.ColumnIndex].Width;
+
+                    //Shrink the popup's height to fit its rows, but never taller than its Designer height
+                    if (dgvToBeShow.Tag == null)
+                        dgvToBeShow.Tag = dgvToBeShow.Height;
+                    int maxHeight = (int)dgvToBeShow.Tag;
+                    //DataGridView draws its border inside the client area, so add it manually (top + bottom)
+                    int borderHeight = dgvToBeShow.BorderStyle == BorderStyle.Fixed3D ? 5 : dgvToBeShow.BorderStyle == BorderStyle.FixedSingle ? 3 : 0;
+                    int rowsHeight = dgvToBeShow.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+                    dgvToBeShow.Height = Math.Min(maxHeight, rowsHeight + borderHeight);
+
+                    //Position the popup just below the clicked cell, relative to the popup's own parent
+                    Rectangle cellRect = dgvSearchResult.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+                    Point cellBottomLeft = new Point(cellRect.Left, cellRect.Bottom);
+                    Point popupLocation = dgvToBeShow.Parent.PointToClient(dgvSearchResult.PointToScreen(cellBottomLeft));
+
+                    //Keep the popup inside its parent so it is never cut off
+                    Size parentSize = dgvToBeShow.Parent.ClientSize;
+                    if (popupLocation.Y + dgvToBeShow.Height > parentSize.Height)
+                        popupLocation.Y = popupLocation.Y - cellRect.Height - dgvToBeShow.Height;
+                    popupLocation.X = Math.Max(0, Math.Min(popupLocation.X, parentSize.Width - dgvToBeShow.Width));
+                    popupLocation.Y = Math.Max(0, popupLocation.Y);
+
+                    dgvToBeShow.Location = popupLocation;
+                    dgvToBeShow.BringToFront();
+                    dgvToBeShow.Focus();
                 }
             }
+        }
+        private void BtnSearch_Click(object sender, EventArgs e)
+        {
+            LbStatus.Text = "កំពុងស្វែងរក . . .";
+            LbStatus.Refresh();
+            Cursor = Cursors.WaitCursor;
+            dgvSearchResult.Rows.Clear();
+            TakingMstMC();
+            ErrorText = "";
+
+            string SQLCond = "";
+            if (chkWIPCode.Checked && txtWIPCode.Text.Trim() != "")
+                SQLCond += "AND tbM.ItemCode LIKE '%" + txtWIPCode.Text + "%' ";
+
+            if (chkWIPName.Checked && txtWIPName.Text.Trim() != "")
+                SQLCond += "AND tbM.ItemName LIKE '%" + txtWIPName.Text + "%' ";
+
+            if (chkModel.Checked && txtModel.Text.Trim() != "")
+                SQLCond += "AND tbFG.Remarks2 LIKE '%" + txtModel.Text + "%' ";
+
+            if (chkMCType.Checked && cboMCType.Text.Trim() != "")
+                SQLCond += "AND (MC1Type = '" + cboMCType.Text + "' OR MC2Type = '" + cboMCType.Text + "' OR MC3Type = '" + cboMCType.Text + "') ";
             
+            if (chkMCName.Checked && txtMCName.Text.Trim() != "")
+                SQLCond += "AND (MC1Name LIKE '%" + txtMCName.Text + "%' OR MC2Name LIKE '%" + txtMCName.Text + "%' OR MC3Name LIKE '%" + txtMCName.Text + "%') ";
+            
+            if (cbstatus.Text.Trim() != "")
+            {
+                if (cbstatus.Text.Trim() != "All")
+                {
+                    SQLCond += "AND tbS.Status = '" + cbstatus.Text + "' ";
+                }
+            }
+
+            if(chkOnlyPlanItems.Checked)
+                SQLCond += "AND tbPlan.WIPCode IS NOT NULL ";
+
+            //Searching Data
+            DataTable dt = new DataTable();
+            try
+            {
+                cnn.con.Open();
+                string query = @"SELECT tbM.ItemCode, tbM.ItemName, tbFG.Remarks2 AS Model, 
+	                    tbM.Remarks1 AS PinAssign, 
+	                    tbM.Remarks2 AS WireTube, 
+	                    tbM.Remarks3 AS Length, 
+	                    COALESCE(MC1Type,'') AS MC1Type, MC1Name, 
+	                    COALESCE(MC2Type,'') AS MC2Type, MC2Name, 
+	                    COALESCE(MC3Type,'') AS MC3Type, MC3Name, 
+	                    COALESCE(Slot,'') AS Slot, tbS.Status, tbS.Remarks 
+                    FROM tbMasterItem tbM 
+                    LEFT JOIN tbMasterItemPlan tbP ON tbP.ItemCode = tbM.ItemCode 
+                    LEFT JOIN tbMasterItemStatus tbS ON tbM.ItemCode = tbS.WipCode 
+                    LEFT JOIN tbMasterItem tbFG ON LEFT(tbM.ItemCode, LEN(tbM.ItemCode)-2) = tbFG.ItemCode AND tbFG.ItemType = 'Product' 
+                    LEFT JOIN (SELECT DISTINCT WIPCode FROM tbPOSDetailofMC WHERE PosCStatus <> 2) tbPlan ON tbM.ItemCode = tbPlan.WIPCode 
+                    WHERE tbM.ItemType = 'Work In Process' " + SQLCond + @" 
+                    ORDER BY tbM.ItemCode ASC";
+                SqlDataAdapter sda = new SqlDataAdapter(query, cnn.con);
+                sda.SelectCommand.CommandTimeout = 5000;
+                //Console.WriteLine(query);
+                sda.Fill(dt);
+                
+            }
+            catch (Exception ex)
+            {
+                ErrorText = "Searching Data : \n" + ex.Message;
+            }
+            cnn.con.Close();
+
+            //Add to DGV
+            if (ErrorText.Trim() == "" && dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataGridViewRow dgvRow = dgvSearchResult.Rows[dgvSearchResult.Rows.Add()];
+                    dgvRow.Cells[ColCode.Name].Value = row["ItemCode"];
+                    dgvRow.Cells[ColItemName.Name].Value = row["ItemName"];
+                    dgvRow.Cells[ColModel.Name].Value = row["Model"];
+                    dgvRow.Cells[ColPin.Name].Value = row["PinAssign"];
+                    dgvRow.Cells[ColWireTubeColor.Name].Value = row["WireTube"];
+                    dgvRow.Cells[ColLength.Name].Value = row["Length"];
+                    dgvRow.Cells[ColMCType1.Name].Value = row["MC1Type"];
+                    dgvRow.Cells[ColMCName1.Name].Value = row["MC1Name"];
+                    dgvRow.Cells[ColMCType2.Name].Value = row["MC2Type"];
+                    dgvRow.Cells[ColMCName2.Name].Value = row["MC2Name"];
+                    dgvRow.Cells[ColMCType3.Name].Value = row["MC3Type"];
+                    dgvRow.Cells[ColMCName3.Name].Value = row["MC3Name"];
+                    dgvRow.Cells[ColSlot.Name].Value = row["Slot"];
+                    dgvRow.Cells[ColStatus.Name].Value = row["Status"];
+                    dgvRow.Cells[ColRemark.Name].Value = row["Remarks"];
+                }
+                dgvSearchResult.ClearSelection();
+            }
+
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim() == "")
+            {
+                if(dgvSearchResult.Rows.Count == 0)
+                    LbStatus.Text = "រកមិនឃើញទិន្នន័យទេ!";
+                else
+                    LbStatus.Text = "រកឃើញទិន្នន័យចំនួន " + dgvSearchResult.Rows.Count.ToString("N0") + " ";
+            }
+            else
+                MessageBox.Show("មានបញ្ហា! " + ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
         }
 
         private void MasterItemForm_Load(object sender, EventArgs e)
         {
-            try
+            dgvStatus.Rows.Add();
+            dgvStatus.Rows.Add();
+            dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "EOL";
+            dgvStatus.Rows.Add();
+            dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "ACTIVE";
+            dgvStatus.Rows.Add();
+            dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "EVENT";
+
+            foreach (DataGridViewColumn col in dgvSearchResult.Columns)
             {
-                cnn.con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM tbMasterItemPlan2", cnn.con);
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-                dgvMCType.Rows.Add("");
-                foreach (DataRow row in dt.Rows)
+                if (!col.Name.Contains("Remark"))
+                    col.ReadOnly = true;
+
+                if (col.Name.Contains("1"))
                 {
-                    dgvMCType.Rows.Add(row[0]);
+                    col.HeaderCell.Style.BackColor = Color.Green;
+                    col.HeaderCell.Style.SelectionBackColor = Color.Green;
+                    col.HeaderCell.Style.ForeColor = Color.White;
+                    col.HeaderCell.Style.SelectionForeColor = Color.White;
                 }
-                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT SLOTName FROM tbMasterSLOT ORDER BY SLOTName ASC", cnn.con);
-                DataTable dtSlot = new DataTable();
-                sda1.Fill(dtSlot);
-                DgvSlot.Rows.Add("");
-                foreach (DataRow row in dtSlot.Rows)
+                if (col.Name.Contains("2"))
                 {
-                    DgvSlot.Rows.Add(row[0]);
+                    col.HeaderCell.Style.BackColor = Color.Orange;
+                    col.HeaderCell.Style.SelectionBackColor = Color.Orange;
+                    col.HeaderCell.Style.ForeColor = Color.White;
+                    col.HeaderCell.Style.SelectionForeColor = Color.White;
                 }
-                dgvStatus.Rows.Add();
-                dgvStatus.Rows.Add();
-                dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "EOL";
-                dgvStatus.Rows.Add();
-                dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "ACTIVE";
-                dgvStatus.Rows.Add();
-                dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "EVENT";
+                if (col.Name.Contains("3"))
+                {
+                    col.HeaderCell.Style.BackColor = Color.Blue;
+                    col.HeaderCell.Style.SelectionBackColor = Color.Blue;
+                    col.HeaderCell.Style.ForeColor = Color.White;
+                    col.HeaderCell.Style.SelectionForeColor = Color.White;
+                }
 
             }
-            catch(Exception ex)
+
+        }
+        private void MasterItemForm_Shown(object sender, EventArgs e)
+        {
+            ErrorText = "";
+            Cursor = Cursors.WaitCursor;
+
+            TakingMstMC();
+
+            if (dtMstMCType.Rows.Count > 0)
             {
-                MessageBox.Show("មានបញ្ហា!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                try
+                {
+                    foreach (DataRow row in dtMstMCType.Rows)
+                        cboMCType.Items.Add(row["MCType"]);
+
+                }
+                catch { }
             }
-            cnn.con.Close();
-            
+
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim() != "")
+                MessageBox.Show("មានបញ្ហា! " + ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
         }
 
-        private void BtnSearch_Click(object sender, EventArgs e)
+        //Method
+        private void TakingMstMC()
         {
-            Cursor = Cursors.WaitCursor;
-            LbStatus.Text = "កំពុងស្វែងរក . . .";
-            LbStatus.Visible = true;
-            LbStatus.Refresh();
-            dgvSearchResult.Rows.Clear();
-            DataTable dtSQLCond = new DataTable();
-            dtSQLCond.Columns.Add("Col'");
-            dtSQLCond.Columns.Add("Val'");
-            string state = "";
-            if (txtWIPName.Text.Trim() != "")
-            {
-                dtSQLCond.Rows.Add("ItemName LIKE '%"+txtWIPName.Text+"%' ");
-            }
-            if (cbstatus.Text.Trim() != "")
-            {
-               if (cbstatus.Text.Trim() != "All")
-                {
-                    dtSQLCond.Rows.Add("tbS.Status = '" + cbstatus.Text.Trim() + "'");
-                }
-            }
-            if ( cbmcname.Text.Trim() != "")
-            {
-                dtSQLCond.Rows.Add("tbP.MC"+cbmctype.Text.Trim()+"Type= '"+cbmcname.Text.Trim()+"'");
-            }
-
-            string SQLCond = "";
-            foreach (DataRow row in dtSQLCond.Rows)
-            {
-                if (SQLCond.Trim() == "")
-                {
-                    SQLCond = " AND " + row[0] + row[1];
-                }
-                else
-                {
-                    SQLCond  += "AND " + row[0] + row[1];
-
-                }
-            }
+            //Taking Mst Data
             try
             {
                 cnn.con.Open();
-                string query = @"SELECT tbM.ItemCode, ItemName,Remarks1, Remarks2, Remarks3, COALESCE(MC1Type,'') AS MC1Type, COALESCE(MC2Type,'') AS MC2Type, COALESCE(MC3Type,'') AS MC3Type, COALESCE(Slot,'') AS Slot, tbS.Status, tbS.Remarks
-                                        FROM tbMasterItem tbM
-                                        LEFT JOIN (SELECT ItemCode, MC1Type, MC2Type, MC3Type, Slot FROM tbMasterItemPlan) tbP ON tbP.ItemCode = tbM.ItemCode
-                                        LEFT JOIN (SELECT WipCode, Status, Remarks FROM tbMasterItemStatus) tbS ON tbM.ItemCode = tbS.WipCode
-                                        where tbM.ItemType = 'Work In Process' "+SQLCond+" ORDER BY tbM.ItemCode ASC";
-                SqlDataAdapter sda = new SqlDataAdapter(query, cnn.con);
-                sda.SelectCommand.CommandTimeout = 5000;
-                Console.WriteLine(query);
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-                foreach (DataRow row in dt.Rows)
-                {
-                    dgvSearchResult.Rows.Add(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10]);
-                }
-                dgvSearchResult.ClearSelection();
-                LbStatus.Text = "រកឃើញទិន្នន័យចំនួន " + dgvSearchResult.Rows.Count.ToString("N0") + " !";
-                Cursor = Cursors.Default;
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT DISTINCT MCType FROM tbMasterMCType ORDER BY MCType", cnn.con);
+                dtMstMCType = new DataTable();
+                sda.Fill(dtMstMCType);
+                sda = new SqlDataAdapter("SELECT MCType, MCName FROM tbMasterMCType ORDER BY MCName", cnn.con);
+                dtMstMCName = new DataTable();
+                sda.Fill(dtMstMCName);
+                sda = new SqlDataAdapter("SELECT SLOTName FROM tbMasterSLOT ORDER BY SLOTName ASC", cnn.con);
+                dtMstSlot = new DataTable();
+                sda.Fill(dtMstSlot);
             }
             catch (Exception ex)
             {
-                Cursor = Cursors.Default;
-                MessageBox.Show("មានបញ្ហាអ្វីមួយ ! សូមពិនិត្យមលើការភ្ជាប់បណ្ដាញ \nឬ​ក៏សួរទៅកាន់រ៉ាឆាន់!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorText = "Taking Mst Data:\n" + ex.Message;
+                //MessageBox.Show("មានបញ្ហា!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             cnn.con.Close();
+
+        }
+        private void SaveMCType(string WIPCode, string MCNo, string MCType)
+        {
+            ErrorText = "";
+            Cursor = Cursors.WaitCursor;
+
+            //Save MCType
+            try
+            {
+                cnn.con.Open();
+                SqlCommand cmd = new SqlCommand(@"IF EXISTS (SELECT 1 FROM tbMasterItemPlan WHERE ItemCode = @code)
+                        BEGIN
+                            UPDATE tbMasterItemPlan SET MC" + MCNo + @"Type = @type WHERE ItemCode = @code; 
+                        END
+                    ELSE 
+                        BEGIN 
+                            INSERT INTO tbMasterItemPlan (ItemCode, MC" + MCNo + @"Type) VALUES (@code, @type); 
+                        END", cnn.con);
+                if(MCType.Trim()!="")
+                    cmd.Parameters.AddWithValue("@type", MCType);
+                else
+                    cmd.Parameters.AddWithValue("@type", DBNull.Value);
+                cmd.Parameters.AddWithValue("@code", WIPCode);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                ErrorText = "Save MCType : \n" + ex.Message;
+            }
+            finally
+            {
+                cnn.con.Close();
+            }
+
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim() == "")
+                dgvSearchResult.CurrentRow.Cells[dgvSearchResult.CurrentCell.ColumnIndex].Value = MCType;
+            else
+                MessageBox.Show("Something went wrong! "+ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            dgvSearchResult.Focus();
+
+        }
+        private void SaveMCName(string WIPCode, string MCNo, string MCName)
+        {
+            ErrorText = "";
+            Cursor = Cursors.WaitCursor;
+
+            //Save MCName
+            try
+            {
+                cnn.con.Open();
+                SqlCommand cmd = new SqlCommand(@"IF EXISTS (SELECT 1 FROM tbMasterItemPlan WHERE ItemCode = @code)
+                        BEGIN
+                            UPDATE tbMasterItemPlan SET MC" + MCNo + @"Name = @name WHERE ItemCode = @code; 
+                        END
+                    ELSE 
+                        BEGIN 
+                            INSERT INTO tbMasterItemPlan (ItemCode, MC" + MCNo + @"Name) VALUES (@code, @name); 
+                        END", cnn.con);
+                if(MCName.Trim()!="")
+                    cmd.Parameters.AddWithValue("@name", MCName);
+                else
+                    cmd.Parameters.AddWithValue("@name", DBNull.Value);
+                cmd.Parameters.AddWithValue("@code", WIPCode);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                ErrorText = "Save MCName : \n" + ex.Message;
+            }
+            finally
+            {
+                cnn.con.Close();
+            }
+
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim() == "")
+                dgvSearchResult.CurrentRow.Cells[dgvSearchResult.CurrentCell.ColumnIndex].Value = MCName;
+            else
+                MessageBox.Show("Something went wrong! " + ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            dgvSearchResult.Focus();
+
+        }
+        private void SaveSlot(string WIPCode, string Slot)
+        {
+            ErrorText = "";
+            Cursor = Cursors.WaitCursor;
+
+            //Save Slot
+            try
+            {
+                cnn.con.Open();
+                SqlCommand cmd = new SqlCommand(@"IF EXISTS (SELECT 1 FROM tbMasterItemPlan WHERE ItemCode = @code)
+                        BEGIN
+                            UPDATE tbMasterItemPlan SET Slot = @slot WHERE ItemCode = @code; 
+                        END
+                    ELSE 
+                        BEGIN 
+                            INSERT INTO tbMasterItemPlan (ItemCode, Slot) VALUES (@code, @slot); 
+                        END", cnn.con);
+                if (Slot.Trim() != "")
+                    cmd.Parameters.AddWithValue("@slot", Slot);
+                else
+                    cmd.Parameters.AddWithValue("@slot", DBNull.Value);
+                cmd.Parameters.AddWithValue("@code", WIPCode);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                ErrorText = "Save Slot : \n" + ex.Message;
+            }
+            finally
+            {
+                cnn.con.Close();
+            }
+
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim() == "")
+                dgvSearchResult.CurrentRow.Cells[dgvSearchResult.CurrentCell.ColumnIndex].Value = Slot;
+            else
+                MessageBox.Show("Something went wrong! " + ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            dgvSearchResult.Focus();
+
+        }
+        private void SaveStatusOrRemark(string WIPCode, string StatusOrRemark, string Value)
+        {
+            ErrorText = "";
+            Cursor = Cursors.WaitCursor;
+
+            //Save StatusOrRemark
+            try
+            {
+                cnn.con.Open();
+                SqlCommand cmd = new SqlCommand(@"IF EXISTS (SELECT 1 FROM tbMasterItemStatus WHERE WipCode = @code)
+                        BEGIN
+                            UPDATE tbMasterItemStatus SET " + StatusOrRemark + @" = @value WHERE WipCode = @code; 
+                        END
+                    ELSE 
+                        BEGIN 
+                            INSERT INTO tbMasterItemStatus (WipCode, " + StatusOrRemark + @") VALUES (@code, @value); 
+                        END", cnn.con);
+                if (Value.Trim() != "")
+                    cmd.Parameters.AddWithValue("@value", Value);
+                else
+                    cmd.Parameters.AddWithValue("@value", DBNull.Value);
+                cmd.Parameters.AddWithValue("@code", WIPCode);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                ErrorText = "Save StatusOrRemark : \n" + ex.Message;
+            }
+            finally
+            {
+                cnn.con.Close();
+            }
+
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim() == "")
+                dgvSearchResult.CurrentRow.Cells[dgvSearchResult.CurrentCell.ColumnIndex].Value = Value;
+            else
+                MessageBox.Show("Something went wrong! " + ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            dgvSearchResult.Focus();
+
         }
 
     }

@@ -1,9 +1,8 @@
 .vs/
-
-# Build output
 obj/
-bin/*
-!bin/Debug/
-bin/Debug/*
-# Excel templates the app loads at runtime from Template\ — keep tracked
-!bin/Debug/Template/
+
+# Local settings files in bin/Debug
+bin/Debug/*.ini
+
+# Generated reports
+bin/Debug/Report/
