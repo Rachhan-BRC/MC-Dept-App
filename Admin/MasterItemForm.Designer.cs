@@ -32,34 +32,51 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MasterItemForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelFooter = new System.Windows.Forms.Panel();
             this.LbStatus = new System.Windows.Forms.Label();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.btnExport = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
-            this.dgvMCType = new System.Windows.Forms.DataGridView();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DgvSlot = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.dgvStatus = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panelBody = new System.Windows.Forms.Panel();
             this.GroupBoxResult = new System.Windows.Forms.GroupBox();
             this.dgvSearchResult = new System.Windows.Forms.DataGridView();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkModel = new System.Windows.Forms.CheckBox();
+            this.chkWIPCode = new System.Windows.Forms.CheckBox();
+            this.chkOnlyPlanItems = new System.Windows.Forms.CheckBox();
+            this.cboMCType = new System.Windows.Forms.ComboBox();
+            this.cbstatus = new System.Windows.Forms.ComboBox();
+            this.txtWIPCode = new System.Windows.Forms.TextBox();
+            this.txtMCName = new System.Windows.Forms.TextBox();
+            this.txtModel = new System.Windows.Forms.TextBox();
+            this.txtWIPName = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.chkMCType = new System.Windows.Forms.CheckBox();
+            this.chkWIPName = new System.Windows.Forms.CheckBox();
+            this.chkMCName = new System.Windows.Forms.CheckBox();
+            this.dgvStatus = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvSlot = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvMCType = new System.Windows.Forms.DataGridView();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvMCName = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -75,29 +92,16 @@
             this.ColSlot = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColRemark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cboMCType = new System.Windows.Forms.ComboBox();
-            this.cbstatus = new System.Windows.Forms.ComboBox();
-            this.txtWIPName = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtWIPCode = new System.Windows.Forms.TextBox();
-            this.txtModel = new System.Windows.Forms.TextBox();
-            this.chkOnlyPlanItems = new System.Windows.Forms.CheckBox();
-            this.chkWIPCode = new System.Windows.Forms.CheckBox();
-            this.chkWIPName = new System.Windows.Forms.CheckBox();
-            this.chkModel = new System.Windows.Forms.CheckBox();
-            this.chkMCName = new System.Windows.Forms.CheckBox();
-            this.chkMCType = new System.Windows.Forms.CheckBox();
-            this.txtMCName = new System.Windows.Forms.TextBox();
             this.panelFooter.SuspendLayout();
             this.panelHeader.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMCType)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DgvSlot)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStatus)).BeginInit();
             this.panelBody.SuspendLayout();
             this.GroupBoxResult.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSearchResult)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvStatus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSlot)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMCType)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMCName)).BeginInit();
             this.SuspendLayout();
             // 
             // panelFooter
@@ -105,9 +109,9 @@
             this.panelFooter.BackColor = System.Drawing.SystemColors.ControlLight;
             this.panelFooter.Controls.Add(this.LbStatus);
             this.panelFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelFooter.Location = new System.Drawing.Point(0, 536);
+            this.panelFooter.Location = new System.Drawing.Point(0, 533);
             this.panelFooter.Name = "panelFooter";
-            this.panelFooter.Size = new System.Drawing.Size(1084, 25);
+            this.panelFooter.Size = new System.Drawing.Size(1084, 28);
             this.panelFooter.TabIndex = 25;
             // 
             // LbStatus
@@ -117,7 +121,7 @@
             this.LbStatus.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LbStatus.Location = new System.Drawing.Point(589, 5);
             this.LbStatus.Name = "LbStatus";
-            this.LbStatus.Size = new System.Drawing.Size(490, 15);
+            this.LbStatus.Size = new System.Drawing.Size(490, 18);
             this.LbStatus.TabIndex = 0;
             this.LbStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -155,118 +159,6 @@
             this.toolTip1.SetToolTip(this.btnSearch, "ស្វែងរក");
             this.btnSearch.UseVisualStyleBackColor = false;
             // 
-            // dgvMCType
-            // 
-            this.dgvMCType.AllowUserToAddRows = false;
-            this.dgvMCType.AllowUserToDeleteRows = false;
-            this.dgvMCType.AllowUserToResizeColumns = false;
-            this.dgvMCType.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvMCType.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvMCType.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMCType.ColumnHeadersVisible = false;
-            this.dgvMCType.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column3});
-            this.dgvMCType.Location = new System.Drawing.Point(430, 8);
-            this.dgvMCType.Name = "dgvMCType";
-            this.dgvMCType.ReadOnly = true;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvMCType.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvMCType.RowHeadersVisible = false;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvMCType.RowsDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvMCType.Size = new System.Drawing.Size(122, 135);
-            this.dgvMCType.TabIndex = 29;
-            // 
-            // Column3
-            // 
-            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Column3.HeaderText = "MCType";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 102;
-            // 
-            // DgvSlot
-            // 
-            this.DgvSlot.AllowUserToAddRows = false;
-            this.DgvSlot.AllowUserToDeleteRows = false;
-            this.DgvSlot.AllowUserToResizeColumns = false;
-            this.DgvSlot.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DgvSlot.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.DgvSlot.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DgvSlot.ColumnHeadersVisible = false;
-            this.DgvSlot.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1});
-            this.DgvSlot.Location = new System.Drawing.Point(630, 8);
-            this.DgvSlot.Name = "DgvSlot";
-            this.DgvSlot.ReadOnly = true;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DgvSlot.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
-            this.DgvSlot.RowHeadersVisible = false;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DgvSlot.RowsDefaultCellStyle = dataGridViewCellStyle6;
-            this.DgvSlot.Size = new System.Drawing.Size(122, 135);
-            this.DgvSlot.TabIndex = 30;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dataGridViewTextBoxColumn1.HeaderText = "Slot";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 102;
-            // 
-            // dgvStatus
-            // 
-            this.dgvStatus.AllowUserToAddRows = false;
-            this.dgvStatus.AllowUserToDeleteRows = false;
-            this.dgvStatus.AllowUserToResizeColumns = false;
-            this.dgvStatus.AllowUserToResizeRows = false;
-            this.dgvStatus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvStatus.ColumnHeadersVisible = false;
-            this.dgvStatus.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn2});
-            this.dgvStatus.Location = new System.Drawing.Point(295, 7);
-            this.dgvStatus.Name = "dgvStatus";
-            this.dgvStatus.ReadOnly = true;
-            this.dgvStatus.RowHeadersVisible = false;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Khmer OS Battambang", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvStatus.RowsDefaultCellStyle = dataGridViewCellStyle7;
-            this.dgvStatus.Size = new System.Drawing.Size(105, 92);
-            this.dgvStatus.TabIndex = 31;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn2.HeaderText = "Status";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
             // imageList1
             // 
             this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
@@ -282,7 +174,7 @@
             this.panelBody.Location = new System.Drawing.Point(0, 58);
             this.panelBody.Name = "panelBody";
             this.panelBody.Padding = new System.Windows.Forms.Padding(3, 1, 3, 3);
-            this.panelBody.Size = new System.Drawing.Size(1084, 478);
+            this.panelBody.Size = new System.Drawing.Size(1084, 475);
             this.panelBody.TabIndex = 32;
             // 
             // GroupBoxResult
@@ -293,7 +185,7 @@
             this.GroupBoxResult.Location = new System.Drawing.Point(3, 100);
             this.GroupBoxResult.Name = "GroupBoxResult";
             this.GroupBoxResult.Padding = new System.Windows.Forms.Padding(4, 0, 4, 5);
-            this.GroupBoxResult.Size = new System.Drawing.Size(1078, 375);
+            this.GroupBoxResult.Size = new System.Drawing.Size(1078, 372);
             this.GroupBoxResult.TabIndex = 30;
             this.GroupBoxResult.TabStop = false;
             this.GroupBoxResult.Text = "លទ្ធផលនៃការស្វែងរក";
@@ -303,22 +195,22 @@
             this.dgvSearchResult.AllowUserToAddRows = false;
             this.dgvSearchResult.AllowUserToDeleteRows = false;
             this.dgvSearchResult.AllowUserToResizeRows = false;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.Lavender;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Khmer OS Battambang", 9F);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvSearchResult.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Lavender;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Khmer OS Battambang", 9F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvSearchResult.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvSearchResult.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvSearchResult.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Kh Battambang", 8.25F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSearchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Kh Battambang", 8.25F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSearchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvSearchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSearchResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColCode,
@@ -343,143 +235,15 @@
             this.dgvSearchResult.Name = "dgvSearchResult";
             this.dgvSearchResult.RowHeadersVisible = false;
             this.dgvSearchResult.RowHeadersWidth = 60;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Khmer OS Battambang", 9F);
-            dataGridViewCellStyle14.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.Color.RoyalBlue;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvSearchResult.RowsDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Khmer OS Battambang", 9F);
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvSearchResult.RowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvSearchResult.RowTemplate.Height = 25;
             this.dgvSearchResult.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvSearchResult.Size = new System.Drawing.Size(1070, 349);
+            this.dgvSearchResult.Size = new System.Drawing.Size(1070, 346);
             this.dgvSearchResult.TabIndex = 11;
-            // 
-            // ColCode
-            // 
-            this.ColCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColCode.DefaultCellStyle = dataGridViewCellStyle10;
-            this.ColCode.Frozen = true;
-            this.ColCode.HeaderText = "លេខកូដ";
-            this.ColCode.Name = "ColCode";
-            this.ColCode.ReadOnly = true;
-            // 
-            // ColItemName
-            // 
-            this.ColItemName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColItemName.Frozen = true;
-            this.ColItemName.HeaderText = "ឈ្មោះផលិតផល";
-            this.ColItemName.Name = "ColItemName";
-            this.ColItemName.ReadOnly = true;
-            this.ColItemName.Width = 200;
-            // 
-            // ColModel
-            // 
-            this.ColModel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColModel.Frozen = true;
-            this.ColModel.HeaderText = "ម៉ូឌែល";
-            this.ColModel.Name = "ColModel";
-            this.ColModel.Width = 150;
-            // 
-            // ColPin
-            // 
-            this.ColPin.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColPin.HeaderText = "ភីន";
-            this.ColPin.Name = "ColPin";
-            this.ColPin.ReadOnly = true;
-            this.ColPin.Width = 180;
-            // 
-            // ColWireTubeColor
-            // 
-            this.ColWireTubeColor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColWireTubeColor.HeaderText = "ពណ៌ខ្សែភ្លើង/ធ្យូប";
-            this.ColWireTubeColor.Name = "ColWireTubeColor";
-            this.ColWireTubeColor.ReadOnly = true;
-            this.ColWireTubeColor.Width = 180;
-            // 
-            // ColLength
-            // 
-            this.ColLength.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColLength.HeaderText = "ប្រវែង";
-            this.ColLength.Name = "ColLength";
-            this.ColLength.ReadOnly = true;
-            this.ColLength.Width = 130;
-            // 
-            // ColMCType1
-            // 
-            this.ColMCType1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColMCType1.DefaultCellStyle = dataGridViewCellStyle11;
-            this.ColMCType1.FillWeight = 160F;
-            this.ColMCType1.HeaderText = "ប្រភេទម៉ាស៊ីន1";
-            this.ColMCType1.Name = "ColMCType1";
-            this.ColMCType1.ReadOnly = true;
-            this.ColMCType1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.ColMCType1.Width = 120;
-            // 
-            // ColMCName1
-            // 
-            this.ColMCName1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColMCName1.HeaderText = "ឈ្មោះម៉ាស៊ីន1";
-            this.ColMCName1.Name = "ColMCName1";
-            this.ColMCName1.Width = 120;
-            // 
-            // ColMCType2
-            // 
-            this.ColMCType2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColMCType2.HeaderText = "ប្រភេទម៉ាស៊ីន2";
-            this.ColMCType2.Name = "ColMCType2";
-            this.ColMCType2.ReadOnly = true;
-            this.ColMCType2.Width = 120;
-            // 
-            // ColMCName2
-            // 
-            this.ColMCName2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColMCName2.HeaderText = "ឈ្មោះម៉ាស៊ីន2";
-            this.ColMCName2.Name = "ColMCName2";
-            this.ColMCName2.Width = 120;
-            // 
-            // ColMCType3
-            // 
-            this.ColMCType3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColMCType3.HeaderText = "ប្រភេទម៉ាស៊ីន3";
-            this.ColMCType3.Name = "ColMCType3";
-            this.ColMCType3.ReadOnly = true;
-            this.ColMCType3.Width = 120;
-            // 
-            // ColMCName3
-            // 
-            this.ColMCName3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColMCName3.HeaderText = "ឈ្មោះម៉ាស៊ីន3";
-            this.ColMCName3.Name = "ColMCName3";
-            this.ColMCName3.Width = 120;
-            // 
-            // ColSlot
-            // 
-            this.ColSlot.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColSlot.HeaderText = "Slot";
-            this.ColSlot.Name = "ColSlot";
-            this.ColSlot.ReadOnly = true;
-            this.ColSlot.Width = 120;
-            // 
-            // ColStatus
-            // 
-            this.ColStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ColStatus.DefaultCellStyle = dataGridViewCellStyle12;
-            this.ColStatus.HeaderText = "ស្ថានភាព";
-            this.ColStatus.Name = "ColStatus";
-            this.ColStatus.ReadOnly = true;
-            // 
-            // ColRemark
-            // 
-            this.ColRemark.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ColRemark.DefaultCellStyle = dataGridViewCellStyle13;
-            this.ColRemark.HeaderText = "ចំណាំ";
-            this.ColRemark.Name = "ColRemark";
-            this.ColRemark.Width = 150;
             // 
             // groupBox1
             // 
@@ -505,16 +269,48 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "លក្ខខណ្ឌនៃការស្វែងរក";
             // 
+            // chkModel
+            // 
+            this.chkModel.AutoSize = true;
+            this.chkModel.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
+            this.chkModel.Location = new System.Drawing.Point(195, 58);
+            this.chkModel.Name = "chkModel";
+            this.chkModel.Size = new System.Drawing.Size(64, 28);
+            this.chkModel.TabIndex = 29;
+            this.chkModel.Text = "ម៉ូឌែល";
+            this.chkModel.UseVisualStyleBackColor = true;
+            // 
+            // chkWIPCode
+            // 
+            this.chkWIPCode.AutoSize = true;
+            this.chkWIPCode.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
+            this.chkWIPCode.Location = new System.Drawing.Point(13, 23);
+            this.chkWIPCode.Name = "chkWIPCode";
+            this.chkWIPCode.Size = new System.Drawing.Size(73, 28);
+            this.chkWIPCode.TabIndex = 29;
+            this.chkWIPCode.Text = "លេខកូដ";
+            this.chkWIPCode.UseVisualStyleBackColor = true;
+            // 
+            // chkOnlyPlanItems
+            // 
+            this.chkOnlyPlanItems.AutoSize = true;
+            this.chkOnlyPlanItems.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
+            this.chkOnlyPlanItems.Location = new System.Drawing.Point(853, 21);
+            this.chkOnlyPlanItems.Name = "chkOnlyPlanItems";
+            this.chkOnlyPlanItems.Size = new System.Drawing.Size(204, 28);
+            this.chkOnlyPlanItems.TabIndex = 29;
+            this.chkOnlyPlanItems.Text = "យកតែផលិតផលដែលមានគម្រោង";
+            this.chkOnlyPlanItems.UseVisualStyleBackColor = true;
+            // 
             // cboMCType
             // 
+            this.cboMCType.DropDownHeight = 200;
             this.cboMCType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboMCType.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboMCType.FormattingEnabled = true;
+            this.cboMCType.IntegralHeight = false;
             this.cboMCType.Items.AddRange(new object[] {
-            "All",
-            "1",
-            "2",
-            "3"});
+            ""});
             this.cboMCType.Location = new System.Drawing.Point(663, 19);
             this.cboMCType.Name = "cboMCType";
             this.cboMCType.Size = new System.Drawing.Size(184, 32);
@@ -535,6 +331,30 @@
             this.cbstatus.Size = new System.Drawing.Size(98, 32);
             this.cbstatus.TabIndex = 28;
             // 
+            // txtWIPCode
+            // 
+            this.txtWIPCode.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtWIPCode.Location = new System.Drawing.Point(91, 21);
+            this.txtWIPCode.Name = "txtWIPCode";
+            this.txtWIPCode.Size = new System.Drawing.Size(98, 32);
+            this.txtWIPCode.TabIndex = 4;
+            // 
+            // txtMCName
+            // 
+            this.txtMCName.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMCName.Location = new System.Drawing.Point(663, 54);
+            this.txtMCName.Name = "txtMCName";
+            this.txtMCName.Size = new System.Drawing.Size(184, 32);
+            this.txtMCName.TabIndex = 4;
+            // 
+            // txtModel
+            // 
+            this.txtModel.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtModel.Location = new System.Drawing.Point(307, 54);
+            this.txtModel.Name = "txtModel";
+            this.txtModel.Size = new System.Drawing.Size(254, 32);
+            this.txtModel.TabIndex = 4;
+            // 
             // txtWIPName
             // 
             this.txtWIPName.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -553,43 +373,16 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "ស្ថានភាព";
             // 
-            // txtWIPCode
+            // chkMCType
             // 
-            this.txtWIPCode.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtWIPCode.Location = new System.Drawing.Point(91, 21);
-            this.txtWIPCode.Name = "txtWIPCode";
-            this.txtWIPCode.Size = new System.Drawing.Size(98, 32);
-            this.txtWIPCode.TabIndex = 4;
-            // 
-            // txtModel
-            // 
-            this.txtModel.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtModel.Location = new System.Drawing.Point(307, 54);
-            this.txtModel.Name = "txtModel";
-            this.txtModel.Size = new System.Drawing.Size(254, 32);
-            this.txtModel.TabIndex = 4;
-            // 
-            // chkOnlyPlanItems
-            // 
-            this.chkOnlyPlanItems.AutoSize = true;
-            this.chkOnlyPlanItems.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
-            this.chkOnlyPlanItems.Location = new System.Drawing.Point(853, 21);
-            this.chkOnlyPlanItems.Name = "chkOnlyPlanItems";
-            this.chkOnlyPlanItems.Size = new System.Drawing.Size(204, 28);
-            this.chkOnlyPlanItems.TabIndex = 29;
-            this.chkOnlyPlanItems.Text = "យកតែផលិតផលដែលមានគម្រោង";
-            this.chkOnlyPlanItems.UseVisualStyleBackColor = true;
-            // 
-            // chkWIPCode
-            // 
-            this.chkWIPCode.AutoSize = true;
-            this.chkWIPCode.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
-            this.chkWIPCode.Location = new System.Drawing.Point(13, 23);
-            this.chkWIPCode.Name = "chkWIPCode";
-            this.chkWIPCode.Size = new System.Drawing.Size(73, 28);
-            this.chkWIPCode.TabIndex = 29;
-            this.chkWIPCode.Text = "លេខកូដ";
-            this.chkWIPCode.UseVisualStyleBackColor = true;
+            this.chkMCType.AutoSize = true;
+            this.chkMCType.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
+            this.chkMCType.Location = new System.Drawing.Point(567, 21);
+            this.chkMCType.Name = "chkMCType";
+            this.chkMCType.Size = new System.Drawing.Size(99, 28);
+            this.chkMCType.TabIndex = 29;
+            this.chkMCType.Text = "ប្រភេទម៉ាស៊ីន";
+            this.chkMCType.UseVisualStyleBackColor = true;
             // 
             // chkWIPName
             // 
@@ -602,17 +395,6 @@
             this.chkWIPName.Text = "ឈ្មោះផលិតផល";
             this.chkWIPName.UseVisualStyleBackColor = true;
             // 
-            // chkModel
-            // 
-            this.chkModel.AutoSize = true;
-            this.chkModel.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
-            this.chkModel.Location = new System.Drawing.Point(195, 58);
-            this.chkModel.Name = "chkModel";
-            this.chkModel.Size = new System.Drawing.Size(64, 28);
-            this.chkModel.TabIndex = 29;
-            this.chkModel.Text = "ម៉ូឌែល";
-            this.chkModel.UseVisualStyleBackColor = true;
-            // 
             // chkMCName
             // 
             this.chkMCName.AutoSize = true;
@@ -624,24 +406,262 @@
             this.chkMCName.Text = "ឈ្មោះម៉ាស៊ីន";
             this.chkMCName.UseVisualStyleBackColor = true;
             // 
-            // chkMCType
+            // dgvStatus
             // 
-            this.chkMCType.AutoSize = true;
-            this.chkMCType.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
-            this.chkMCType.Location = new System.Drawing.Point(567, 21);
-            this.chkMCType.Name = "chkMCType";
-            this.chkMCType.Size = new System.Drawing.Size(99, 28);
-            this.chkMCType.TabIndex = 29;
-            this.chkMCType.Text = "ប្រភេទម៉ាស៊ីន";
-            this.chkMCType.UseVisualStyleBackColor = true;
+            this.dgvStatus.AllowUserToAddRows = false;
+            this.dgvStatus.AllowUserToDeleteRows = false;
+            this.dgvStatus.AllowUserToResizeColumns = false;
+            this.dgvStatus.AllowUserToResizeRows = false;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Kh Battambang", 9F);
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.Blue;
+            this.dgvStatus.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle8;
+            this.dgvStatus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvStatus.ColumnHeadersVisible = false;
+            this.dgvStatus.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn2});
+            this.dgvStatus.Location = new System.Drawing.Point(490, 234);
+            this.dgvStatus.Name = "dgvStatus";
+            this.dgvStatus.ReadOnly = true;
+            this.dgvStatus.RowHeadersVisible = false;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Kh Battambang", 9F);
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Blue;
+            this.dgvStatus.RowsDefaultCellStyle = dataGridViewCellStyle9;
+            this.dgvStatus.Size = new System.Drawing.Size(105, 92);
+            this.dgvStatus.TabIndex = 35;
             // 
-            // txtMCName
+            // dataGridViewTextBoxColumn2
             // 
-            this.txtMCName.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMCName.Location = new System.Drawing.Point(663, 54);
-            this.txtMCName.Name = "txtMCName";
-            this.txtMCName.Size = new System.Drawing.Size(184, 32);
-            this.txtMCName.TabIndex = 4;
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn2.HeaderText = "Status";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dgvSlot
+            // 
+            this.dgvSlot.AllowUserToAddRows = false;
+            this.dgvSlot.AllowUserToDeleteRows = false;
+            this.dgvSlot.AllowUserToResizeColumns = false;
+            this.dgvSlot.AllowUserToResizeRows = false;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Kh Battambang", 9F);
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Blue;
+            this.dgvSlot.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
+            this.dgvSlot.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSlot.ColumnHeadersVisible = false;
+            this.dgvSlot.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1});
+            this.dgvSlot.Location = new System.Drawing.Point(481, 213);
+            this.dgvSlot.Name = "dgvSlot";
+            this.dgvSlot.ReadOnly = true;
+            this.dgvSlot.RowHeadersVisible = false;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Kh Battambang", 9F);
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Blue;
+            this.dgvSlot.RowsDefaultCellStyle = dataGridViewCellStyle11;
+            this.dgvSlot.Size = new System.Drawing.Size(122, 135);
+            this.dgvSlot.TabIndex = 36;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn1.HeaderText = "Slot";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // dgvMCType
+            // 
+            this.dgvMCType.AllowUserToAddRows = false;
+            this.dgvMCType.AllowUserToDeleteRows = false;
+            this.dgvMCType.AllowUserToResizeColumns = false;
+            this.dgvMCType.AllowUserToResizeRows = false;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Kh Battambang", 9F);
+            dataGridViewCellStyle12.ForeColor = System.Drawing.Color.Blue;
+            this.dgvMCType.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle12;
+            this.dgvMCType.BackgroundColor = System.Drawing.Color.White;
+            this.dgvMCType.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMCType.ColumnHeadersVisible = false;
+            this.dgvMCType.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column3});
+            this.dgvMCType.Location = new System.Drawing.Point(489, 221);
+            this.dgvMCType.Name = "dgvMCType";
+            this.dgvMCType.ReadOnly = true;
+            this.dgvMCType.RowHeadersVisible = false;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Kh Battambang", 9F);
+            dataGridViewCellStyle13.ForeColor = System.Drawing.Color.Blue;
+            this.dgvMCType.RowsDefaultCellStyle = dataGridViewCellStyle13;
+            this.dgvMCType.Size = new System.Drawing.Size(122, 135);
+            this.dgvMCType.TabIndex = 37;
+            // 
+            // Column3
+            // 
+            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column3.HeaderText = "MCType";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            // 
+            // dgvMCName
+            // 
+            this.dgvMCName.AllowUserToAddRows = false;
+            this.dgvMCName.AllowUserToDeleteRows = false;
+            this.dgvMCName.AllowUserToResizeColumns = false;
+            this.dgvMCName.AllowUserToResizeRows = false;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Kh Battambang", 9F);
+            dataGridViewCellStyle14.ForeColor = System.Drawing.Color.Blue;
+            this.dgvMCName.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle14;
+            this.dgvMCName.BackgroundColor = System.Drawing.Color.White;
+            this.dgvMCName.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMCName.ColumnHeadersVisible = false;
+            this.dgvMCName.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn3});
+            this.dgvMCName.Location = new System.Drawing.Point(497, 229);
+            this.dgvMCName.Name = "dgvMCName";
+            this.dgvMCName.ReadOnly = true;
+            this.dgvMCName.RowHeadersVisible = false;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Kh Battambang", 9F);
+            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.Blue;
+            this.dgvMCName.RowsDefaultCellStyle = dataGridViewCellStyle15;
+            this.dgvMCName.Size = new System.Drawing.Size(122, 135);
+            this.dgvMCName.TabIndex = 38;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn3.HeaderText = "MCType";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // ColCode
+            // 
+            this.ColCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColCode.DefaultCellStyle = dataGridViewCellStyle3;
+            this.ColCode.Frozen = true;
+            this.ColCode.HeaderText = "លេខកូដ";
+            this.ColCode.Name = "ColCode";
+            this.ColCode.ReadOnly = true;
+            this.ColCode.Width = 80;
+            // 
+            // ColItemName
+            // 
+            this.ColItemName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColItemName.Frozen = true;
+            this.ColItemName.HeaderText = "ឈ្មោះផលិតផល";
+            this.ColItemName.Name = "ColItemName";
+            this.ColItemName.ReadOnly = true;
+            this.ColItemName.Width = 200;
+            // 
+            // ColModel
+            // 
+            this.ColModel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColModel.HeaderText = "ម៉ូឌែល";
+            this.ColModel.Name = "ColModel";
+            this.ColModel.Width = 120;
+            // 
+            // ColPin
+            // 
+            this.ColPin.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColPin.HeaderText = "ភីន";
+            this.ColPin.Name = "ColPin";
+            this.ColPin.ReadOnly = true;
+            this.ColPin.Width = 150;
+            // 
+            // ColWireTubeColor
+            // 
+            this.ColWireTubeColor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColWireTubeColor.HeaderText = "ពណ៌ខ្សែភ្លើង/ធ្យូប";
+            this.ColWireTubeColor.Name = "ColWireTubeColor";
+            this.ColWireTubeColor.ReadOnly = true;
+            this.ColWireTubeColor.Width = 210;
+            // 
+            // ColLength
+            // 
+            this.ColLength.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColLength.HeaderText = "ប្រវែង";
+            this.ColLength.Name = "ColLength";
+            this.ColLength.ReadOnly = true;
+            this.ColLength.Width = 130;
+            // 
+            // ColMCType1
+            // 
+            this.ColMCType1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Khmer OS Battambang", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColMCType1.DefaultCellStyle = dataGridViewCellStyle4;
+            this.ColMCType1.FillWeight = 160F;
+            this.ColMCType1.HeaderText = "ប្រភេទម៉ាស៊ីន1";
+            this.ColMCType1.MinimumWidth = 100;
+            this.ColMCType1.Name = "ColMCType1";
+            this.ColMCType1.ReadOnly = true;
+            this.ColMCType1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.ColMCType1.Width = 120;
+            // 
+            // ColMCName1
+            // 
+            this.ColMCName1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColMCName1.HeaderText = "ឈ្មោះម៉ាស៊ីន1";
+            this.ColMCName1.MinimumWidth = 100;
+            this.ColMCName1.Name = "ColMCName1";
+            this.ColMCName1.Width = 120;
+            // 
+            // ColMCType2
+            // 
+            this.ColMCType2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColMCType2.HeaderText = "ប្រភេទម៉ាស៊ីន2";
+            this.ColMCType2.MinimumWidth = 100;
+            this.ColMCType2.Name = "ColMCType2";
+            this.ColMCType2.ReadOnly = true;
+            this.ColMCType2.Width = 120;
+            // 
+            // ColMCName2
+            // 
+            this.ColMCName2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColMCName2.HeaderText = "ឈ្មោះម៉ាស៊ីន2";
+            this.ColMCName2.MinimumWidth = 100;
+            this.ColMCName2.Name = "ColMCName2";
+            this.ColMCName2.Width = 120;
+            // 
+            // ColMCType3
+            // 
+            this.ColMCType3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColMCType3.HeaderText = "ប្រភេទម៉ាស៊ីន3";
+            this.ColMCType3.MinimumWidth = 100;
+            this.ColMCType3.Name = "ColMCType3";
+            this.ColMCType3.ReadOnly = true;
+            this.ColMCType3.Width = 120;
+            // 
+            // ColMCName3
+            // 
+            this.ColMCName3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColMCName3.HeaderText = "ឈ្មោះម៉ាស៊ីន3";
+            this.ColMCName3.MinimumWidth = 100;
+            this.ColMCName3.Name = "ColMCName3";
+            this.ColMCName3.Width = 120;
+            // 
+            // ColSlot
+            // 
+            this.ColSlot.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColSlot.HeaderText = "Slot";
+            this.ColSlot.Name = "ColSlot";
+            this.ColSlot.ReadOnly = true;
+            this.ColSlot.Width = 120;
+            // 
+            // ColStatus
+            // 
+            this.ColStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ColStatus.DefaultCellStyle = dataGridViewCellStyle5;
+            this.ColStatus.HeaderText = "ស្ថានភាព";
+            this.ColStatus.Name = "ColStatus";
+            this.ColStatus.ReadOnly = true;
+            // 
+            // ColRemark
+            // 
+            this.ColRemark.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ColRemark.DefaultCellStyle = dataGridViewCellStyle6;
+            this.ColRemark.HeaderText = "ចំណាំ";
+            this.ColRemark.Name = "ColRemark";
+            this.ColRemark.Width = 150;
             // 
             // MasterItemForm
             // 
@@ -653,8 +673,9 @@
             this.Controls.Add(this.panelBody);
             this.Controls.Add(this.panelHeader);
             this.Controls.Add(this.panelFooter);
+            this.Controls.Add(this.dgvMCName);
             this.Controls.Add(this.dgvMCType);
-            this.Controls.Add(this.DgvSlot);
+            this.Controls.Add(this.dgvSlot);
             this.Controls.Add(this.dgvStatus);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MasterItemForm";
@@ -662,14 +683,15 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panelFooter.ResumeLayout(false);
             this.panelHeader.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMCType)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DgvSlot)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStatus)).EndInit();
             this.panelBody.ResumeLayout(false);
             this.GroupBoxResult.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSearchResult)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvStatus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSlot)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMCType)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMCName)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -680,13 +702,7 @@
         private System.Windows.Forms.Label LbStatus;
         private System.Windows.Forms.Panel panelHeader;
         private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.DataGridView dgvMCType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridView DgvSlot;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.DataGridView dgvStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Panel panelBody;
@@ -697,6 +713,23 @@
         private System.Windows.Forms.ComboBox cbstatus;
         private System.Windows.Forms.TextBox txtWIPName;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtWIPCode;
+        private System.Windows.Forms.TextBox txtModel;
+        private System.Windows.Forms.CheckBox chkOnlyPlanItems;
+        private System.Windows.Forms.CheckBox chkWIPCode;
+        private System.Windows.Forms.CheckBox chkModel;
+        private System.Windows.Forms.CheckBox chkWIPName;
+        private System.Windows.Forms.CheckBox chkMCName;
+        private System.Windows.Forms.CheckBox chkMCType;
+        private System.Windows.Forms.TextBox txtMCName;
+        private System.Windows.Forms.DataGridView dgvStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridView dgvSlot;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridView dgvMCType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridView dgvMCName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColItemName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColModel;
@@ -712,14 +745,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColSlot;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColRemark;
-        private System.Windows.Forms.TextBox txtWIPCode;
-        private System.Windows.Forms.TextBox txtModel;
-        private System.Windows.Forms.CheckBox chkOnlyPlanItems;
-        private System.Windows.Forms.CheckBox chkWIPCode;
-        private System.Windows.Forms.CheckBox chkModel;
-        private System.Windows.Forms.CheckBox chkWIPName;
-        private System.Windows.Forms.CheckBox chkMCName;
-        private System.Windows.Forms.CheckBox chkMCType;
-        private System.Windows.Forms.TextBox txtMCName;
     }
 }

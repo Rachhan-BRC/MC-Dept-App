@@ -3,3 +3,6 @@ obj/
 
 # Local settings files in bin/Debug
 bin/Debug/*.ini
+
+# Generated reports
+bin/Debug/Report/
