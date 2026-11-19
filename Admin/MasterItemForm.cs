@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 
 namespace MachineDeptApp.Admin
 {
@@ -19,12 +20,17 @@ namespace MachineDeptApp.Admin
         SQLConnect cnn = new SQLConnect();
         SqlCommand cmd;
 
+        DataTable dtMstMCType, dtMstMCName, dtMstSlot;
+        string ErrorText = "";
+
+
         public MasterItemForm()
         {
             InitializeComponent();
             this.cnn.Connection();
             this.btnSearch.Click += BtnSearch_Click;
             this.Load += MasterItemForm_Load;
+            this.Shown += MasterItemForm_Shown;
             this.dgvSearchResult.CellClick += DgvSearchResult_CellClick;
             this.dgvSearchResult.CellFormatting += DgvSearchResult_CellFormatting;
             this.dgvSearchResult.CellValueChanged += DgvSearchResult_CellValueChanged;
@@ -34,9 +40,11 @@ namespace MachineDeptApp.Admin
             this.DgvSlot.CellClick += DgvSlot_CellClick;
             this.dgvStatus.LostFocus += DgvStatus_LostFocus;
             this.dgvStatus.CellClick += DgvStatus_CellClick;
-            this.cbmctype.TextChanged += Cbmctype_TextChanged;
+            this.cboMCType.TextChanged += Cbmctype_TextChanged;
             this.btnExport.Click += BtnExport_Click;
         }
+
+
         private void BtnExport_Click(object sender, EventArgs e)
         {
             DialogResult DLS = MessageBox.Show("តើអ្នកចង់ទាញទិន្នន័យចេញមែន ឬទេ?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -106,29 +114,28 @@ namespace MachineDeptApp.Admin
                 }
             }
         }
-
         private void Cbmctype_TextChanged(object sender, EventArgs e)
         {
-            cbmcname.Items.Clear();
-            if (cbmctype.Text.Trim() != "All")
+            cboMCName.Items.Clear();
+            if (cboMCType.Text.Trim() != "All")
             {
                 string type ="";
-                if (cbmctype.SelectedIndex == 1)
+                if (cboMCType.SelectedIndex == 1)
                 {
                     type = "MC1Type";
                 }
-                else if (cbmctype.SelectedIndex == 2)
+                else if (cboMCType.SelectedIndex == 2)
                 {
                     type = "MC2Type";
                 }
-                else if (cbmctype.SelectedIndex == 3)
+                else if (cboMCType.SelectedIndex == 3)
                 {
                     type = "MC3Type";
                 }
                 string query = "SELECT "+type+" FROM tbMasterItemPlan GROUP BY "+type+"";
                 DataTable dt = new DataTable();
                 SqlDataAdapter sda = new SqlDataAdapter(query,cnn.con);
-                cbmcname.Items.Add("");
+                cboMCName.Items.Add("");
                 sda.Fill(dt);
 
                 foreach (DataRow dr in dt.Rows)
@@ -136,18 +143,12 @@ namespace MachineDeptApp.Admin
                     string name = dr[0] == DBNull.Value ? null : dr[0].ToString();
                     if (name != null && name!="")
                     {
-                        cbmcname.Items.Add(dr[0]);
+                        cboMCName.Items.Add(dr[0]);
                     }
                    
                 }
             }
         }
-
-        private void Cbmctype_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private void DgvStatus_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             string cell = dgvStatus.Rows[e.RowIndex].Cells[0].Value?.ToString()??"";
@@ -163,12 +164,10 @@ namespace MachineDeptApp.Admin
 
             dgvSearchResult.Focus();
         }
-
         private void DgvStatus_LostFocus(object sender, EventArgs e)
         {
             this.dgvStatus.SendToBack();
         }
-
         private void DgvSlot_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (DgvSlot.Rows[e.RowIndex].Cells[0].Value.ToString().Trim() != "")
@@ -183,12 +182,10 @@ namespace MachineDeptApp.Admin
 
             dgvSearchResult.Focus();
         }
-
         private void DgvSlot_LostFocus(object sender, EventArgs e)
         {
             this.DgvSlot.SendToBack();
         }
-
         private void DgvSearchResult_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             string ItemCode = "";
@@ -211,14 +208,14 @@ namespace MachineDeptApp.Admin
             try
             {
                 cnn.con.Open();
-                if (dgvSearchResult.Columns[e.ColumnIndex].Name == "mc1" || dgvSearchResult.Columns[e.ColumnIndex].Name == "mc2" || dgvSearchResult.Columns[e.ColumnIndex].Name == "mc3")
+                if (dgvSearchResult.Columns[e.ColumnIndex].Name == "ColMCType1" || dgvSearchResult.Columns[e.ColumnIndex].Name == "ColMCType2" || dgvSearchResult.Columns[e.ColumnIndex].Name == "ColMCType3")
                 {
                     int mc = 0;
-                    if (dgvSearchResult.Columns[e.ColumnIndex].Name == "mc1")
+                    if (dgvSearchResult.Columns[e.ColumnIndex].Name == "ColMCType1")
                     {
                         mc = 1;
                     }
-                    else if (dgvSearchResult.Columns[e.ColumnIndex].Name == "mc2")
+                    else if (dgvSearchResult.Columns[e.ColumnIndex].Name == "ColMCType2")
                     {
                         mc = 2;
                     }
@@ -259,7 +256,7 @@ namespace MachineDeptApp.Admin
                         }
                     }
                 }
-                else if (dgvSearchResult.Columns[e.ColumnIndex].Name =="status")
+                else if (dgvSearchResult.Columns[e.ColumnIndex].Name =="ColStatus")
                 {
                     if (dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
                     {
@@ -287,7 +284,7 @@ namespace MachineDeptApp.Admin
                         }
                     }
                 }
-                else if (dgvSearchResult.Columns[e.ColumnIndex].Name == "slot")
+                else if (dgvSearchResult.Columns[e.ColumnIndex].Name == "ColSlot")
                 {
                     //Update becuz it already have
                     if (dt.Rows.Count > 0)
@@ -320,7 +317,7 @@ namespace MachineDeptApp.Admin
                         cmd.ExecuteNonQuery();
                     }
                 }
-                else if (dgvSearchResult.Columns[e.ColumnIndex].Name == "remark")
+                else if (dgvSearchResult.Columns[e.ColumnIndex].Name == "ColRemark")
                 {
                     DataTable dtstatus = new DataTable();
                     string wipcode = dgvSearchResult.Rows[e.RowIndex].Cells[0].Value.ToString();
@@ -352,7 +349,6 @@ namespace MachineDeptApp.Admin
             }
             cnn.con.Close();
         }
-
         private void DgvSearchResult_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.ColumnIndex > dgvSearchResult.Columns.Count - 7)
@@ -361,7 +357,6 @@ namespace MachineDeptApp.Admin
                 e.CellStyle.Font = new System.Drawing.Font("Khmer OS Battambong", 9, FontStyle.Regular);
             }
         }
-
         private void DgvMCType_CellClick(object sender, DataGridViewCellEventArgs e)
         {  
             if (dgvMCType.Rows[e.RowIndex].Cells[0].Value.ToString().Trim() != "")
@@ -377,12 +372,10 @@ namespace MachineDeptApp.Admin
             dgvSearchResult.Focus();
             
         }
-
         private void DgvMCType_LostFocus(object sender, EventArgs e)
         {
             dgvMCType.SendToBack();
         }
-
         private void DgvSearchResult_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex > -1)
@@ -457,114 +450,163 @@ namespace MachineDeptApp.Admin
                     dgvStatus.Focus();
                 }
             }
+
+        }
+        private void BtnSearch_Click(object sender, EventArgs e)
+        {
+            ErrorText = "";
+            LbStatus.Text = "កំពុងស្វែងរក . . .";
+            LbStatus.Refresh();
+            Cursor = Cursors.WaitCursor;
+            dgvSearchResult.Rows.Clear();
+
+            string SQLCond = "";
+            if (chkWIPCode.Checked && txtWIPCode.Text.Trim() != "")
+                SQLCond += "AND tbM.ItemCode LIKE '%" + txtWIPCode.Text + "%' ";
+
+            if (chkWIPName.Checked && txtWIPName.Text.Trim() != "")
+                SQLCond += "AND tbM.ItemName LIKE '%" + txtWIPName.Text + "%' ";
+
+            if (chkModel.Checked && cboModel.Text.Trim() != "")
+                SQLCond += "AND tbFG.Remarks2 LIKE '%" + cboModel.Text + "%' ";
+
+            if (chkMCType.Checked && cboMCType.Text.Trim() != "")
+                SQLCond += "AND (MC1Type = '" + cboMCType.Text + "' OR MC2Type = '" + cboMCType.Text + "' OR MC3Type = '" + cboMCType.Text + "') ";
             
+            if (chkMCName.Checked && txtMCName.Text.Trim() != "")
+                SQLCond += "AND (MC1Name LIKE '%" + txtMCName.Text + "%' OR MC2Name LIKE '%" + txtMCName.Text + "%' OR MC3Name LIKE '%" + txtMCName.Text + "%') ";
+            
+            if (cbstatus.Text.Trim() != "")
+            {
+                if (cbstatus.Text.Trim() != "All")
+                {
+                    SQLCond += "AND tbS.Status = '" + cbstatus.Text + "' ";
+                }
+            }
+
+            if(chkOnlyPlanItems.Checked)
+                SQLCond += "AND tbPlan.WIPCode IS NOT NULL ";
+
+            //Searching Data
+            DataTable dt = new DataTable();
+            try
+            {
+                cnn.con.Open();
+                string query = @"SELECT tbM.ItemCode, tbM.ItemName, tbFG.Remarks2 AS Model, 
+	                    tbM.Remarks1 AS PinAssign, 
+	                    tbM.Remarks2 AS WireTube, 
+	                    tbM.Remarks3 AS Length, 
+	                    COALESCE(MC1Type,'') AS MC1Type, MC1Name, 
+	                    COALESCE(MC2Type,'') AS MC2Type, MC2Name, 
+	                    COALESCE(MC3Type,'') AS MC3Type, MC3Name, 
+	                    COALESCE(Slot,'') AS Slot, tbS.Status, tbS.Remarks 
+                    FROM tbMasterItem tbM 
+                    LEFT JOIN tbMasterItemPlan tbP ON tbP.ItemCode = tbM.ItemCode 
+                    LEFT JOIN tbMasterItemStatus tbS ON tbM.ItemCode = tbS.WipCode 
+                    LEFT JOIN tbMasterItem tbFG ON LEFT(tbM.ItemCode, LEN(tbM.ItemCode)-2) = tbFG.ItemCode AND tbFG.ItemType = 'Product' 
+                    LEFT JOIN (SELECT DISTINCT WIPCode FROM tbPOSDetailofMC WHERE PosCStatus <> 2) tbPlan ON tbM.ItemCode = tbPlan.WIPCode 
+                    WHERE tbM.ItemType = 'Work In Process' " + SQLCond + @" 
+                    ORDER BY tbM.ItemCode ASC";
+                SqlDataAdapter sda = new SqlDataAdapter(query, cnn.con);
+                sda.SelectCommand.CommandTimeout = 5000;
+                //Console.WriteLine(query);
+                sda.Fill(dt);
+                
+            }
+            catch (Exception ex)
+            {
+                ErrorText = "Searching Data : \n" + ex.Message;
+            }
+            cnn.con.Close();
+
+            //Add to DGV
+            if (ErrorText.Trim() == "" && dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataGridViewRow dgvRow = dgvSearchResult.Rows[dgvSearchResult.Rows.Add()];
+                    dgvRow.Cells[ColCode.Name].Value = row["ItemCode"];
+                    dgvRow.Cells[ColItemName.Name].Value = row["ItemName"];
+                    dgvRow.Cells[ColModel.Name].Value = row["Model"];
+                    dgvRow.Cells[ColPin.Name].Value = row["PinAssign"];
+                    dgvRow.Cells[ColWireTubeColor.Name].Value = row["WireTube"];
+                    dgvRow.Cells[ColLength.Name].Value = row["Length"];
+                    dgvRow.Cells[ColMCType1.Name].Value = row["MC1Type"];
+                    dgvRow.Cells[ColMCName1.Name].Value = row["MC1Name"];
+                    dgvRow.Cells[ColMCType2.Name].Value = row["MC2Type"];
+                    dgvRow.Cells[ColMCName2.Name].Value = row["MC2Name"];
+                    dgvRow.Cells[ColMCType3.Name].Value = row["MC3Type"];
+                    dgvRow.Cells[ColMCName3.Name].Value = row["MC3Name"];
+                    dgvRow.Cells[ColSlot.Name].Value = row["Slot"];
+                    dgvRow.Cells[ColStatus.Name].Value = row["Status"];
+                    dgvRow.Cells[ColRemark.Name].Value = row["Remarks"];
+                }
+                dgvSearchResult.ClearSelection();
+            }
+
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim() == "")
+            {
+                if(dgvSearchResult.Rows.Count == 0)
+                    LbStatus.Text = "រកមិនឃើញទិន្នន័យទេ!";
+                else
+                    LbStatus.Text = "រកឃើញទិន្នន័យចំនួន " + dgvSearchResult.Rows.Count.ToString("N0") + " ";
+            }
+            else
+                MessageBox.Show("មានបញ្ហា! " + ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
         }
 
         private void MasterItemForm_Load(object sender, EventArgs e)
         {
+            dgvStatus.Rows.Add();
+            dgvStatus.Rows.Add();
+            dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "EOL";
+            dgvStatus.Rows.Add();
+            dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "ACTIVE";
+            dgvStatus.Rows.Add();
+            dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "EVENT";
+
+        }
+        private void MasterItemForm_Shown(object sender, EventArgs e)
+        {
+            ErrorText = "";
+            Cursor = Cursors.WaitCursor;
+
+            TakingMstMC();
+
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim() != "")
+                MessageBox.Show("មានបញ្ហា! " + ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+        }
+
+        //Method
+        private void TakingMstMC()
+        {
+            //Taking Mst Data
             try
             {
                 cnn.con.Open();
                 SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM tbMasterItemPlan2", cnn.con);
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-                dgvMCType.Rows.Add("");
-                foreach (DataRow row in dt.Rows)
-                {
-                    dgvMCType.Rows.Add(row[0]);
-                }
-                SqlDataAdapter sda1 = new SqlDataAdapter("SELECT SLOTName FROM tbMasterSLOT ORDER BY SLOTName ASC", cnn.con);
-                DataTable dtSlot = new DataTable();
-                sda1.Fill(dtSlot);
-                DgvSlot.Rows.Add("");
-                foreach (DataRow row in dtSlot.Rows)
-                {
-                    DgvSlot.Rows.Add(row[0]);
-                }
-                dgvStatus.Rows.Add();
-                dgvStatus.Rows.Add();
-                dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "EOL";
-                dgvStatus.Rows.Add();
-                dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "ACTIVE";
-                dgvStatus.Rows.Add();
-                dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "EVENT";
-
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show("មានបញ្ហា!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            cnn.con.Close();
-            
-        }
-
-        private void BtnSearch_Click(object sender, EventArgs e)
-        {
-            Cursor = Cursors.WaitCursor;
-            LbStatus.Text = "កំពុងស្វែងរក . . .";
-            LbStatus.Visible = true;
-            LbStatus.Refresh();
-            dgvSearchResult.Rows.Clear();
-            DataTable dtSQLCond = new DataTable();
-            dtSQLCond.Columns.Add("Col'");
-            dtSQLCond.Columns.Add("Val'");
-            string state = "";
-            if (txtWIPName.Text.Trim() != "")
-            {
-                dtSQLCond.Rows.Add("ItemName LIKE '%"+txtWIPName.Text+"%' ");
-            }
-            if (cbstatus.Text.Trim() != "")
-            {
-               if (cbstatus.Text.Trim() != "All")
-                {
-                    dtSQLCond.Rows.Add("tbS.Status = '" + cbstatus.Text.Trim() + "'");
-                }
-            }
-            if ( cbmcname.Text.Trim() != "")
-            {
-                dtSQLCond.Rows.Add("tbP.MC"+cbmctype.Text.Trim()+"Type= '"+cbmcname.Text.Trim()+"'");
-            }
-
-            string SQLCond = "";
-            foreach (DataRow row in dtSQLCond.Rows)
-            {
-                if (SQLCond.Trim() == "")
-                {
-                    SQLCond = " AND " + row[0] + row[1];
-                }
-                else
-                {
-                    SQLCond  += "AND " + row[0] + row[1];
-
-                }
-            }
-            try
-            {
-                cnn.con.Open();
-                string query = @"SELECT tbM.ItemCode, ItemName,Remarks1, Remarks2, Remarks3, COALESCE(MC1Type,'') AS MC1Type, COALESCE(MC2Type,'') AS MC2Type, COALESCE(MC3Type,'') AS MC3Type, COALESCE(Slot,'') AS Slot, tbS.Status, tbS.Remarks
-                                        FROM tbMasterItem tbM
-                                        LEFT JOIN (SELECT ItemCode, MC1Type, MC2Type, MC3Type, Slot FROM tbMasterItemPlan) tbP ON tbP.ItemCode = tbM.ItemCode
-                                        LEFT JOIN (SELECT WipCode, Status, Remarks FROM tbMasterItemStatus) tbS ON tbM.ItemCode = tbS.WipCode
-                                        where tbM.ItemType = 'Work In Process' "+SQLCond+" ORDER BY tbM.ItemCode ASC";
-                SqlDataAdapter sda = new SqlDataAdapter(query, cnn.con);
-                sda.SelectCommand.CommandTimeout = 5000;
-                Console.WriteLine(query);
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-                foreach (DataRow row in dt.Rows)
-                {
-                    dgvSearchResult.Rows.Add(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10]);
-                }
-                dgvSearchResult.ClearSelection();
-                LbStatus.Text = "រកឃើញទិន្នន័យចំនួន " + dgvSearchResult.Rows.Count.ToString("N0") + " !";
-                Cursor = Cursors.Default;
+                dtMstMCType = new DataTable();
+                sda.Fill(dtMstMCType);
+                sda = new SqlDataAdapter("SELECT DISTINCT MCName FROM tbMasterMCType ORDER BY MCName", cnn.con);
+                dtMstMCName = new DataTable();
+                sda.Fill(dtMstMCName);
+                sda = new SqlDataAdapter("SELECT SLOTName FROM tbMasterSLOT ORDER BY SLOTName ASC", cnn.con);
+                dtMstSlot = new DataTable();
+                sda.Fill(dtMstSlot);
             }
             catch (Exception ex)
             {
-                Cursor = Cursors.Default;
-                MessageBox.Show("មានបញ្ហាអ្វីមួយ ! សូមពិនិត្យមលើការភ្ជាប់បណ្ដាញ \nឬ​ក៏សួរទៅកាន់រ៉ាឆាន់!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorText = "Taking Mst Data:\n" + ex.Message;
+                //MessageBox.Show("មានបញ្ហា!\n" + ex.Message, "Rachhan System", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             cnn.con.Close();
+
         }
 
     }
