@@ -96,7 +96,6 @@ namespace MachineDeptApp
                                         }
                                     }
                                 }
-
                                 File.WriteAllLines(saveDialog.FileName, outputCsv, Encoding.UTF8);
                                 Cursor = Cursors.Default;
                                 MessageBox.Show("Export successfully !", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -218,7 +217,7 @@ namespace MachineDeptApp
                         string RMCodeIN = "";
                         foreach (DataGridViewRow row in dgvResult.Rows)
                         {
-                            if (RMCodeIN.Contains(row.Cells["rmcode3"].Value.ToString()) == false)
+                            if (RMCodeIN.Contains("'" + row.Cells["rmcode3"].Value.ToString() + "'") == false)
                             {
                                 if (RMCodeIN.Trim() == "")
                                 {
@@ -231,13 +230,11 @@ namespace MachineDeptApp
                             }
                         }
                         OBS.conOBS.Open();
-                        string query = "SELECT T1.ItemCode, MatCalcFlag, MatTypeName FROM " +
-                            "(SELECT ItemCode, MatCalcFlag, MatTypeCode FROM mstitem WHERE DelFlag=0 AND ItemType=2) T1 " +
-                            "LEFT JOIN (SELECT ItemCode, EffDate FROM mstpurchaseprice WHERE DelFlag=0) T2 " +
-                            "ON T1.ItemCode=T2.ItemCode \r\nINNER JOIN (SELECT ItemCode, MAX(EffDate) AS EffDate FROM mstpurchaseprice WHERE DelFlag=0 GROUP BY ItemCode) T3 " +
-                            "ON T2.ItemCode=T3.ItemCode AND T2.EffDate=T3.EffDate " +
-                            "LEFT JOIN (SELECT * FROM MstMatType WHERE DelFlag = 0) T4 ON T1.MatTypeCode=T4.MatTypeCode " +
-                            "WHERE T1.ItemCode IN (" + RMCodeIN + ") ORDER BY ItemCode ASC ";
+                        //Only MatCalcFlag is needed here (U/P comes from the grid), so no mstpurchaseprice join:
+                        //it silently dropped items without an active (DelFlag=0) price row.
+                        //Trim ItemCode: SQL "IN" ignores trailing spaces but the C# "==" match below does not.
+                        string query = "SELECT LTRIM(RTRIM(ItemCode)) AS ItemCode, MatCalcFlag FROM mstitem " +
+                            "WHERE DelFlag=0 AND ItemType=2 AND ItemCode IN (" + RMCodeIN + ") ORDER BY ItemCode ASC ";
                         SqlDataAdapter sda = new SqlDataAdapter(query, OBS.conOBS);
                         sda.Fill(dtOBS);
                         OBS.conOBS.Close();
@@ -251,7 +248,7 @@ namespace MachineDeptApp
                     //combine
                     foreach (DataGridViewRow row1 in dgvResult.Rows)
                     {
-                        string code1 = row1.Cells["rmcode3"].Value.ToString();
+                        string code1 = row1.Cells["rmcode3"].Value.ToString().Trim();
                         double qty3 = Convert.ToDouble(row1.Cells["qty3"].Value);
                         string rmdes = row1.Cells["rmdes3"].Value.ToString();
                         string maker = row1.Cells["maker3"].Value.ToString();
@@ -262,7 +259,7 @@ namespace MachineDeptApp
                         {
                             foreach (DataRow row2 in dtOBS.Rows)
                             {
-                                string code2 = row2["ItemCode"].ToString();
+                                string code2 = row2["ItemCode"].ToString().Trim();
                                 string matflag = row2["MatCalcFlag"].ToString();
                                 if (code1 == code2)
                                 {
@@ -274,6 +271,21 @@ namespace MachineDeptApp
 
                     }
 
+                    //Warn instead of silently leaving codes out of the print
+                    string notFoundOBS = "";
+                    foreach (DataGridViewRow r in dgvResult.Rows)
+                    {
+                        string c = r.Cells["rmcode3"].Value.ToString().Trim();
+                        if (Convert.ToDouble(r.Cells["qty3"].Value) > 0 && dtPtrint.Select("RMCode = '" + c.Replace("'", "''") + "'").Length == 0)
+                        {
+                            notFoundOBS += (notFoundOBS == "" ? "" : ", ") + c;
+                        }
+                    }
+                    if (notFoundOBS != "")
+                    {
+                        MessageBox.Show("RM Code រកមិនឃើញក្នុង OBS (មិនបានព្រីន) :\n" + notFoundOBS, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+
                     //print to excel count
                     try
                     {
@@ -282,7 +294,7 @@ namespace MachineDeptApp
                         Excel.Workbook xlWorkBook = excelApp.Workbooks.Open(
                             Path.Combine(Environment.CurrentDirectory, @"Template\ReciveIssueImport.xlsx"), Editable: true);
 
-                         SavePath1= Path.Combine(Environment.CurrentDirectory, @"Report\NGCalculate");
+                         SavePath1=Path.Combine(Environment.CurrentDirectory, @"Report\NGCalculate");
                         if (!Directory.Exists(SavePath1))
                         {
                             Directory.CreateDirectory(SavePath1);
@@ -363,7 +375,7 @@ namespace MachineDeptApp
                         string RMCodeIN = "";
                         foreach (DataGridViewRow row in dgvResult.Rows)
                         {
-                            if (RMCodeIN.Contains(row.Cells["rmcode3"].Value.ToString()) == false)
+                            if (RMCodeIN.Contains("'" + row.Cells["rmcode3"].Value.ToString() + "'") == false)
                             {
                                 if (RMCodeIN.Trim() == "")
                                 {
@@ -376,13 +388,11 @@ namespace MachineDeptApp
                             }
                         }
                         OBS.conOBS.Open();
-                        string query = "SELECT T1.ItemCode, MatCalcFlag, MatTypeName FROM " +
-                            "(SELECT ItemCode, MatCalcFlag, MatTypeCode FROM mstitem WHERE DelFlag=0 AND ItemType=2) T1 " +
-                            "LEFT JOIN (SELECT ItemCode, EffDate FROM mstpurchaseprice WHERE DelFlag=0) T2 " +
-                            "ON T1.ItemCode=T2.ItemCode \r\nINNER JOIN (SELECT ItemCode, MAX(EffDate) AS EffDate FROM mstpurchaseprice WHERE DelFlag=0 GROUP BY ItemCode) T3 " +
-                            "ON T2.ItemCode=T3.ItemCode AND T2.EffDate=T3.EffDate " +
-                            "LEFT JOIN (SELECT * FROM MstMatType WHERE DelFlag = 0) T4 ON T1.MatTypeCode=T4.MatTypeCode " +
-                            "WHERE T1.ItemCode IN (" + RMCodeIN + ") ORDER BY ItemCode ASC ";
+                        //Only MatCalcFlag is needed here (U/P comes from the grid), so no mstpurchaseprice join:
+                        //it silently dropped items without an active (DelFlag=0) price row.
+                        //Trim ItemCode: SQL "IN" ignores trailing spaces but the C# "==" match below does not.
+                        string query = "SELECT LTRIM(RTRIM(ItemCode)) AS ItemCode, MatCalcFlag FROM mstitem " +
+                            "WHERE DelFlag=0 AND ItemType=2 AND ItemCode IN (" + RMCodeIN + ") ORDER BY ItemCode ASC ";
                         SqlDataAdapter sda = new SqlDataAdapter(query, OBS.conOBS);
                         sda.Fill(dtOBS);
                         OBS.conOBS.Close();
@@ -396,7 +406,7 @@ namespace MachineDeptApp
                     //combine
                     foreach (DataGridViewRow row1 in dgvResult.Rows)
                     {
-                        string code1 = row1.Cells["rmcode3"].Value.ToString();
+                        string code1 = row1.Cells["rmcode3"].Value.ToString().Trim();
                         double qty3 = Convert.ToDouble(row1.Cells["qty3"].Value);
                         string rmdes = row1.Cells["rmdes3"].Value.ToString();
                         string maker = row1.Cells["maker3"].Value.ToString();
@@ -407,7 +417,7 @@ namespace MachineDeptApp
                         {
                             foreach (DataRow row2 in dtOBS.Rows)
                             {
-                                string code2 = row2["ItemCode"].ToString();
+                                string code2 = row2["ItemCode"].ToString().Trim();
                                 string matflag = row2["MatCalcFlag"].ToString();
                                 if (code1 == code2)
                                 {
@@ -509,7 +519,7 @@ namespace MachineDeptApp
                         string RMCodeIN = "";
                         foreach (DataGridViewRow row in dgvResult.Rows)
                         {
-                            if (RMCodeIN.Contains(row.Cells["rmcode3"].Value.ToString()) == false)
+                            if (RMCodeIN.Contains("'" + row.Cells["rmcode3"].Value.ToString() + "'") == false)
                             {
                                 if (RMCodeIN.Trim() == "")
                                 {
@@ -522,13 +532,11 @@ namespace MachineDeptApp
                             }
                         }
                         OBS.conOBS.Open();
-                        string query = "SELECT T1.ItemCode, MatCalcFlag, MatTypeName FROM " +
-                            "(SELECT ItemCode, MatCalcFlag, MatTypeCode FROM mstitem WHERE DelFlag=0 AND ItemType=2) T1 " +
-                            "LEFT JOIN (SELECT ItemCode, EffDate FROM mstpurchaseprice WHERE DelFlag=0) T2 " +
-                            "ON T1.ItemCode=T2.ItemCode \r\nINNER JOIN (SELECT ItemCode, MAX(EffDate) AS EffDate FROM mstpurchaseprice WHERE DelFlag=0 GROUP BY ItemCode) T3 " +
-                            "ON T2.ItemCode=T3.ItemCode AND T2.EffDate=T3.EffDate " +
-                            "LEFT JOIN (SELECT * FROM MstMatType WHERE DelFlag = 0) T4 ON T1.MatTypeCode=T4.MatTypeCode " +
-                            "WHERE T1.ItemCode IN (" + RMCodeIN + ") ORDER BY ItemCode ASC ";
+                        //Only MatCalcFlag is needed here (U/P comes from the grid), so no mstpurchaseprice join:
+                        //it silently dropped items without an active (DelFlag=0) price row.
+                        //Trim ItemCode: SQL "IN" ignores trailing spaces but the C# "==" match below does not.
+                        string query = "SELECT LTRIM(RTRIM(ItemCode)) AS ItemCode, MatCalcFlag FROM mstitem " +
+                            "WHERE DelFlag=0 AND ItemType=2 AND ItemCode IN (" + RMCodeIN + ") ORDER BY ItemCode ASC ";
                         SqlDataAdapter sda = new SqlDataAdapter(query, OBS.conOBS);
                         sda.Fill(dtOBS);
                         OBS.conOBS.Close();
@@ -542,7 +550,7 @@ namespace MachineDeptApp
                     //combine
                     foreach (DataGridViewRow row1 in dgvResult.Rows)
                     {
-                        string code1 = row1.Cells["rmcode3"].Value.ToString();
+                        string code1 = row1.Cells["rmcode3"].Value.ToString().Trim();
                         double qty3 = Convert.ToDouble(row1.Cells["qty3"].Value);
                         string rmdes = row1.Cells["rmdes3"].Value.ToString();
                         string maker = row1.Cells["maker3"].Value.ToString();
@@ -553,7 +561,7 @@ namespace MachineDeptApp
                         {
                             foreach (DataRow row2 in dtOBS.Rows)
                             {
-                                string code2 = row2["ItemCode"].ToString();
+                                string code2 = row2["ItemCode"].ToString().Trim();
                                 string matflag = row2["MatCalcFlag"].ToString();
                                 if (code1 == code2)
                                 {
