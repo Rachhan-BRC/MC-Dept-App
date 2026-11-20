@@ -571,7 +571,8 @@ namespace MachineDeptApp.InputTransferSemi
                             }
                         }
 
-                        if (ErrorText.Trim() == "" && dtCuttingStock.Rows.Count > 0)
+                        //if (ErrorText.Trim() == "" && dtCuttingStock.Rows.Count > 0)
+                        if (ErrorText.Trim() == "" )
                         {
                             //Console Show dtCuttingStock
                             /*
