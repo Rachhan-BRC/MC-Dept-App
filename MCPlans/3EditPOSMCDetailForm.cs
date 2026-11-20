@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MachineDeptApp.MCPlans
@@ -248,35 +241,29 @@ namespace MachineDeptApp.MCPlans
             try
             {
                 cnn.con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT PosPNo, WIPCode, ItemName, PosCNo, Remarks1, Remarks2, Remarks3, PosCQty, PosCRemainQty, "+
-                                                                                    "  CASE " +
-                                                                                    "    WHEN PosCStatus = 0 THEN 'Not Yet' " +
-                                                                                    "    WHEN PosCStatus = 1 THEN 'Producing' " +
-                                                                                    "    ELSE 'Completed' " +
-                                                                                    "  END AS PosCStatus, Remarks,  " +
-                                                                                    "  CASE "+
-                                                                                    "    WHEN MC1Name IS NULL THEN T4.MC1Type "+
-                                                                                    "    WHEN MC1Name = '' THEN T4.MC1Type "+
-                                                                                    "    ELSE T2.MCType "+
-                                                                                    "  END AS MC1, CONCAT(MC1Name, '') AS MC1Name, " +
-                                                                                    "  CASE "+
-                                                                                    "    WHEN MC1Status IS NULL THEN '' "+
-                                                                                    "    WHEN MC1Status = 0 THEN 'STOP' "+
-                                                                                    "    WHEN MC1Status = 1 THEN 'RUN' "+
-                                                                                    "    ELSE 'FINISH' "+
-                                                                                    "  END AS MC1Status, CONCAT(MC1ETA, '') AS MC1ETA, PrintStatus, T1.RegDate, T1.RegBy, T1.UpdateDate, T1.UpdateBy FROM " +
-                                                                                    "(SELECT * FROM tbPOSDetailofMC) T1 "+
-                                                                                    "LEFT JOIN "+
-                                                                                    "(SELECT * FROM tbMasterMCType) T2 "+
-                                                                                    "ON T1.MC1Name = T2.MCName "+
-                                                                                    "LEFT JOIN "+
-                                                                                    "(SELECT ItemCode, ItemName, Remarks1, Remarks2, Remarks3 FROM tbMasterItem WHERE LEN(ItemCode) > 4) T3 "+
-                                                                                    "ON T1.WIPCode = T3.ItemCode "+
-                                                                                    "LEFT JOIN "+
-                                                                                    "(SELECT * FROM tbMasterItemPlan) T4 "+
-                                                                                    "ON T1.WIPCode = T4.ItemCode "+SQLConds+
-                                                                                    "ORDER BY T1.PosCNo ASC", cnn.con);
-
+                SqlDataAdapter sda = new SqlDataAdapter(@"SELECT  PosPNo, WIPCode, ItemName, PosCNo, Remarks1, Remarks2, Remarks3, PosCQty, PosCRemainQty, 
+                    CASE 
+	                    WHEN PosCStatus = 0 THEN 'Not Yet' 
+	                    WHEN PosCStatus = 1 THEN 'Producing' 
+	                    ELSE 'Completed' 
+                    END AS PosCStatus, Remarks,  
+                    CASE 
+	                    WHEN T1.MC1Name IS NULL THEN T4.MC1Type 
+	                    WHEN T1.MC1Name = '' THEN T4.MC1Type 
+	                    ELSE T2.MCType 
+                    END AS MC1, CONCAT(T1.MC1Name, '') AS MC1Name, 
+                    CASE 
+	                    WHEN MC1Status IS NULL THEN '' 
+	                    WHEN MC1Status = 0 THEN 'STOP' 
+	                    WHEN MC1Status = 1 THEN 'RUN' 
+                    ELSE 'FINISH' 
+                    END AS MC1Status, CONCAT(MC1ETA, '') AS MC1ETA, PrintStatus, T1.RegDate, T1.RegBy, T1.UpdateDate, T1.UpdateBy FROM 
+                    (SELECT * FROM tbPOSDetailofMC) T1 
+                    LEFT JOIN (SELECT * FROM tbMasterMCType) T2 ON T1.MC1Name = T2.MCName 
+                    LEFT JOIN (SELECT ItemCode, ItemName, Remarks1, Remarks2, Remarks3 FROM tbMasterItem WHERE LEN(ItemCode) > 4) T3 ON T1.WIPCode = T3.ItemCode 
+                    LEFT JOIN (SELECT * FROM tbMasterItemPlan) T4 ON T1.WIPCode = T4.ItemCode 
+                    "+SQLConds+@" 
+                    ORDER BY T1.PosCNo ASC", cnn.con);
                 DataTable dt = new DataTable();
                 sda.Fill(dt);
 

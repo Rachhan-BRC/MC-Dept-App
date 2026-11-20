@@ -1,21 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using Excel = Microsoft.Office.Interop.Excel;
-using System.Runtime.InteropServices;
-using Microsoft.Office.Interop.Excel;
 using DataTable = System.Data.DataTable;
 using System.Diagnostics;
-using System.Reflection.Emit;
-using System.Reflection;
 using MachineDeptApp.MsgClass;
 using System.IO;
 
@@ -36,9 +27,10 @@ namespace MachineDeptApp.TrackingPOS
         public POSTrackingSearchForm()
         {
             InitializeComponent();
-            cnn.Connection();
+            this.cnn.Connection();
             this.DtInput.ValueChanged += DtInput_ValueChanged;
             this.DtEndInput.ValueChanged += DtEndInput_ValueChanged;
+            this.dgvPOSData.CellFormatting += dgvPOSData_CellFormatting;
         }
 
         private void DtEndInput_ValueChanged(object sender, EventArgs e)
@@ -51,20 +43,22 @@ namespace MachineDeptApp.TrackingPOS
         }
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            dgvPOSData.Rows.Clear();
+            ErrorText = "";
+            Cursor = Cursors.WaitCursor;
+            dgvPOSData.Rows.Clear(); 
+            dtPosDetails = new DataTable();
+            dtPosPQty = new DataTable();
 
             DataTable dtSQLCond = new DataTable();
             dtSQLCond.Columns.Add("Col");
             dtSQLCond.Columns.Add("Value");
 
             if (txtWipCode.Text.Trim() != "")
-            {
                 dtSQLCond.Rows.Add("T1.WIPCode LIKE ", "'" + txtWipCode.Text + "%' ");
-            }
             if (txtName.Text.Trim() != "")
-            {
                 dtSQLCond.Rows.Add("T2.ItemName LIKE ", "'%" + txtName.Text + "%' ");
-            }
+            if (txtPOSNo.Text.Trim() != "")
+                dtSQLCond.Rows.Add("T1.PosCNo LIKE ", "'%" + txtPOSNo.Text + "%' ");
             if (chkDate.Checked == true)
             {
                 string POSFrom = DtInput.Value.ToString("yy-MM") + "00001";
@@ -85,34 +79,66 @@ namespace MachineDeptApp.TrackingPOS
                 }
             }
 
-            SqlDataAdapter sda = new SqlDataAdapter("SELECT WIPCode, ItemName, PosCNo, PosCQty, PosCResultQty, PosCRemainQty, " +
-                                                                                "  CASE " +
-                                                                                "    WHEN PosCStatus=0 THEN N'មិនទាន់ផលិត' " +
-                                                                                "    WHEN PosCStatus=1 THEN N'នៅសល់' " +
-                                                                                "    ELSE N'រួចរាល់' " +
-                                                                                "  END AS POSStatus FROM " +
-                                                                                "  (SELECT WIPCode, PosCNo, PosCQty, PosCResultQty, PosCRemainQty, PosCStatus FROM tbPOSDetailofMC) T1 " +
-                                                                                "  LEFT JOIN (SELECT ItemCode, ItemName FROM tbMasterItem) T2 ON T1.WIPCode=T2.ItemCode " + SQLConds + "ORDER BY T1.PosCNo ASC", cnn.con);
-            dtPosDetails = new DataTable();
-            sda.Fill(dtPosDetails);
-
-            SqlDataAdapter sda1 = new SqlDataAdapter("SELECT PosPNo FROM "+
-                                                                                "(SELECT PosPNo, WIPCode, PosCNo FROM tbPOSDetailofMC) T1 "+
-                                                                                "LEFT JOIN(SELECT ItemCode, ItemName FROM tbMasterItem) T2 ON T1.WIPCode = T2.ItemCode "+ SQLConds +
-                                                                                "GROUP BY  T1.PosPNo "+
-                                                                                "ORDER BY T1.PosPNo ASC", cnn.con);
-            dtPosPQty = new DataTable();
-            sda1.Fill(dtPosPQty);
-
-
-            foreach (DataRow row in dtPosDetails.Rows)
+            //Taking Data
+            try
             {
-                dgvPOSData.Rows.Add(row[0], row[1], row[2], Convert.ToDouble(row[3]), Convert.ToDouble(row[4]), Convert.ToDouble(row[5]), row[6]);
+                cnn.con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter(@"SELECT WIPCode, ItemName, PosCNo, PosCQty, PosCResultQty, PosCRemainQty, 
+                    CASE 
+	                    WHEN PosCStatus=0 THEN N'មិនទាន់ផលិត' 
+	                    WHEN PosCStatus=1 THEN N'នៅសល់' 
+	                    ELSE N'រួចរាល់' 
+                    END AS POSStatus FROM 
+                    (SELECT WIPCode, PosCNo, PosCQty, PosCResultQty, PosCRemainQty, PosCStatus FROM tbPOSDetailofMC) T1 
+                    LEFT JOIN (SELECT ItemCode, ItemName FROM tbMasterItem) T2 ON T1.WIPCode=T2.ItemCode 
+                    " + SQLConds + @" 
+                    ORDER BY T1.PosCNo ASC", cnn.con);
+                sda.Fill(dtPosDetails);
+
+                sda = new SqlDataAdapter(@"SELECT PosPNo FROM 
+                    (SELECT PosPNo, WIPCode, PosCNo FROM tbPOSDetailofMC) T1 
+                    LEFT JOIN(SELECT ItemCode, ItemName FROM tbMasterItem) T2 ON T1.WIPCode = T2.ItemCode 
+                    " + SQLConds + @"GROUP BY  T1.PosPNo 
+                    ORDER BY T1.PosPNo ASC", cnn.con);
+                sda.Fill(dtPosPQty);
             }
-            dgvPOSData.ClearSelection();
+            catch (Exception ex)
+            {
+                ErrorText = "Taking Data : \n" + ex.Message;
+            }
+            finally
+            {
+                cnn.con.Close();
+            }
+
+            //Add to Dgv
+            if (ErrorText.Trim() == "")
+            {
+                foreach (DataRow row in dtPosDetails.Rows)
+                {
+                    int rowIndex = dgvPOSData.Rows.Add();
+                    DataGridViewRow dgvRow = dgvPOSData.Rows[rowIndex];
+                    dgvRow.Cells["ColCode"].Value = row["WIPCode"];                                 // WIP Code
+                    dgvRow.Cells["ColItemName"].Value = row["ItemName"];                               // Item Name
+                    dgvRow.Cells["ColPOSNo"].Value = row["PosCNo"];                                  // POS No
+                    dgvRow.Cells["ColQty"].Value = Convert.ToDouble(row["PosCQty"]);               // POS Qty
+                    dgvRow.Cells["ColTransferQty"].Value = Convert.ToDouble(row["PosCResultQty"]);         // Result Qty
+                    dgvRow.Cells["ColRemainQty"].Value = Convert.ToDouble(row["PosCRemainQty"]);         // Remain Qty
+                    dgvRow.Cells["ColStatus"].Value = row["POSStatus"];                               // Status
+                }
+                dgvPOSData.ClearSelection();
+                dgvPOSData.CurrentCell = null;
+            }
+
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim() != "")
+                MessageBox.Show("មានបញ្ហា! " + ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
         }
         private void POSTrackingSearchForm_Load(object sender, EventArgs e)
         {
+            this.DtInput.Value = DateTime.Now.AddMonths(-2);
             ToolTip toolTip1 = new ToolTip();
             // Set up the delays for the ToolTip.
             toolTip1.AutoPopDelay = 5000;
@@ -127,29 +153,35 @@ namespace MachineDeptApp.TrackingPOS
         }
         private void dgvPOSData_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.ColumnIndex == 6 && e.Value.ToString() == "មិនទាន់ផលិត")
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                e.CellStyle.BackColor = Color.Yellow;
-                e.CellStyle.ForeColor = Color.Black;
-                e.CellStyle.Font = new System.Drawing.Font("Khmer OS Battambang", 11, FontStyle.Bold);
-            }
-            else if (e.ColumnIndex == 6 && e.Value.ToString() == "នៅសល់")
-            {
-                e.CellStyle.BackColor = Color.Orange;
-                e.CellStyle.ForeColor = Color.Black;
-                e.CellStyle.Font = new System.Drawing.Font("Khmer OS Battambang", 11, FontStyle.Bold);
-            }
-            else if (e.ColumnIndex == 6 && e.Value.ToString() == "រួចរាល់")
-            {
-                e.CellStyle.BackColor = Color.Green;
-                e.CellStyle.ForeColor = Color.Black;
-                e.CellStyle.Font = new System.Drawing.Font("Khmer OS Battambang", 11, FontStyle.Bold);
-            }
-            else if (e.ColumnIndex == 6 && e.Value.ToString() != "រួចរាល់" && e.Value.ToString() != "នៅសល់" && e.Value.ToString() != "មិនទាន់ផលិត")
-            {
-                e.CellStyle.BackColor = Color.Red;
-                e.CellStyle.ForeColor = Color.White;
-                e.CellStyle.Font = new System.Drawing.Font("Khmer OS Battambang", 11, FontStyle.Bold);
+                if (dgvPOSData.Columns[e.ColumnIndex].Name == "ColStatus")
+                {
+                    if (e.Value.ToString() == "មិនទាន់ផលិត")
+                    {
+                        e.CellStyle.BackColor = Color.Yellow;
+                        e.CellStyle.ForeColor = Color.Black;
+                        e.CellStyle.Font = new System.Drawing.Font("Kh Battambang", 11, FontStyle.Bold);
+                    }
+                    else if (e.Value.ToString() == "នៅសល់")
+                    {
+                        e.CellStyle.BackColor = Color.Orange;
+                        e.CellStyle.ForeColor = Color.Black;
+                        e.CellStyle.Font = new System.Drawing.Font("Kh Battambang", 11, FontStyle.Bold);
+                    }
+                    else if (e.Value.ToString() == "រួចរាល់")
+                    {
+                        e.CellStyle.BackColor = Color.Green;
+                        e.CellStyle.ForeColor = Color.Black;
+                        e.CellStyle.Font = new System.Drawing.Font("Kh Battambang", 11, FontStyle.Bold);
+                    }
+                    else if (e.Value.ToString() != "រួចរាល់" && e.Value.ToString() != "នៅសល់" && e.Value.ToString() != "មិនទាន់ផលិត")
+                    {
+                        e.CellStyle.BackColor = Color.Red;
+                        e.CellStyle.ForeColor = Color.White;
+                        e.CellStyle.Font = new System.Drawing.Font("Kh Battambang", 11, FontStyle.Bold);
+                    }
+                }
             }
         }
 
