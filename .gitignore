@@ -6,3 +6,8 @@ bin/Debug/*.ini
 
 # Generated reports
 bin/Debug/Report/
+
+# Build output
+bin/Debug/MC Dept App.exe
+bin/Debug/MC Dept App.exe.config
+bin/Debug/MC Dept App.pdb

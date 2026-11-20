@@ -1,35 +1,27 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 
 namespace MachineDeptApp.Admin
 {
     public partial class MasterItemForm : Form
     {
         SQLConnect cnn = new SQLConnect();
-
         DataTable dtMstMCType, dtMstMCName, dtMstSlot;
         string ErrorText = "", BeforeEdit = "";
-
 
         public MasterItemForm()
         {
             InitializeComponent();
             this.cnn.Connection();
-            this.btnSearch.Click += BtnSearch_Click;
             this.Load += MasterItemForm_Load;
             this.Shown += MasterItemForm_Shown;
+            this.btnSearch.Click += BtnSearch_Click;
+            this.btnExport.Click += BtnExport_Click;
             this.dgvSearchResult.CellClick += DgvSearchResult_CellClick;
             this.dgvSearchResult.CellFormatting += DgvSearchResult_CellFormatting;
             this.dgvSearchResult.Scroll += DgvSearchResult_Scroll;
@@ -49,10 +41,41 @@ namespace MachineDeptApp.Admin
             this.dgvStatus.CellClick += DgvStatus_CellClick;
 
             this.cboMCType.TextChanged += Cbmctype_TextChanged;
+            this.txtWIPCode.TextChanged += TxtWIPCode_TextChanged;
+            this.txtWIPName.TextChanged += TxtWIPName_TextChanged;
+            this.txtModel.TextChanged += TxtModel_TextChanged;
+            this.txtMCName.TextChanged += TxtMCName_TextChanged;
 
-            this.btnExport.Click += BtnExport_Click;
         }
 
+        private void TxtMCName_TextChanged(object sender, EventArgs e)
+        {
+            if (txtMCName.Text.Trim() != "")
+                chkMCName.Checked = true;
+            else
+                chkMCName.Checked = false;
+        }
+        private void TxtModel_TextChanged(object sender, EventArgs e)
+        {
+            if (txtModel.Text.Trim() != "")
+                chkModel.Checked = true;
+            else
+                chkModel.Checked = false;
+        }
+        private void TxtWIPName_TextChanged(object sender, EventArgs e)
+        {
+            if (txtWIPName.Text.Trim() != "")
+                chkWIPName.Checked = true;
+            else
+                chkWIPName.Checked = false;
+        }
+        private void TxtWIPCode_TextChanged(object sender, EventArgs e)
+        {
+            if(txtWIPCode.Text.Trim() != "")
+                chkWIPCode.Checked = true;
+            else
+                chkWIPCode.Checked = false; 
+        }
         private void DgvSearchResult_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
@@ -656,6 +679,7 @@ namespace MachineDeptApp.Admin
             dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "ACTIVE";
             dgvStatus.Rows.Add();
             dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "EVENT";
+            cbstatus.SelectedIndex = 0;
 
             foreach (DataGridViewColumn col in dgvSearchResult.Columns)
             {
