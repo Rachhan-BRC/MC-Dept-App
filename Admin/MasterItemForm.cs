@@ -637,21 +637,21 @@ namespace MachineDeptApp.Admin
                 foreach (DataRow row in dt.Rows)
                 {
                     DataGridViewRow dgvRow = dgvSearchResult.Rows[dgvSearchResult.Rows.Add()];
-                    dgvRow.Cells[ColCode.Name].Value = row["ItemCode"];
-                    dgvRow.Cells[ColItemName.Name].Value = row["ItemName"];
-                    dgvRow.Cells[ColModel.Name].Value = row["Model"];
-                    dgvRow.Cells[ColPin.Name].Value = row["PinAssign"];
-                    dgvRow.Cells[ColWireTubeColor.Name].Value = row["WireTube"];
-                    dgvRow.Cells[ColLength.Name].Value = row["Length"];
-                    dgvRow.Cells[ColMCType1.Name].Value = row["MC1Type"];
-                    dgvRow.Cells[ColMCName1.Name].Value = row["MC1Name"];
-                    dgvRow.Cells[ColMCType2.Name].Value = row["MC2Type"];
-                    dgvRow.Cells[ColMCName2.Name].Value = row["MC2Name"];
-                    dgvRow.Cells[ColMCType3.Name].Value = row["MC3Type"];
-                    dgvRow.Cells[ColMCName3.Name].Value = row["MC3Name"];
-                    dgvRow.Cells[ColSlot.Name].Value = row["Slot"];
-                    dgvRow.Cells[ColStatus.Name].Value = row["Status"];
-                    dgvRow.Cells[ColRemark.Name].Value = row["Remarks"];
+                    dgvRow.Cells[ColCode.Name].Value = row["ItemCode"].ToString();
+                    dgvRow.Cells[ColItemName.Name].Value = row["ItemName"].ToString();
+                    dgvRow.Cells[ColModel.Name].Value = row["Model"].ToString();
+                    dgvRow.Cells[ColPin.Name].Value = row["PinAssign"].ToString();
+                    dgvRow.Cells[ColWireTubeColor.Name].Value = row["WireTube"].ToString();
+                    dgvRow.Cells[ColLength.Name].Value = row["Length"].ToString();
+                    dgvRow.Cells[ColMCType1.Name].Value = row["MC1Type"].ToString();
+                    dgvRow.Cells[ColMCName1.Name].Value = row["MC1Name"].ToString();
+                    dgvRow.Cells[ColMCType2.Name].Value = row["MC2Type"].ToString();
+                    dgvRow.Cells[ColMCName2.Name].Value = row["MC2Name"].ToString();
+                    dgvRow.Cells[ColMCType3.Name].Value = row["MC3Type"].ToString();
+                    dgvRow.Cells[ColMCName3.Name].Value = row["MC3Name"].ToString();
+                    dgvRow.Cells[ColSlot.Name].Value = row["Slot"].ToString();
+                    dgvRow.Cells[ColStatus.Name].Value = row["Status"].ToString();
+                    dgvRow.Cells[ColRemark.Name].Value = row["Remarks"].ToString();
                 }
                 dgvSearchResult.ClearSelection();
             }
