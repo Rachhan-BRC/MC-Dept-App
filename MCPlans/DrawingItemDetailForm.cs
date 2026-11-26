@@ -23,7 +23,7 @@ namespace MachineDeptApp.MCPlans
         }
 
         SQLConnect cnn = new SQLConnect();
-        readonly FormMode mode;
+        FormMode mode;
         readonly int drawingID;
         HeaderGroup[] headerGroups;
         // Data columns in save order; bit i of a row's SameMask = column i is "same as above" (arrow)
@@ -67,6 +67,11 @@ namespace MachineDeptApp.MCPlans
             this.dgvDetail.CellMouseDown += DgvDetail_CellMouseDown;
             this.btnSameArrow.Click += (s, e) => ToggleSameArrow();
             this.txtItemPart.TextChanged += TxtItemPart_TextChanged;
+            this.txtDrawingNo.TextChanged += TxtDrawingNo_TextChanged;
+            // a P/N value that is not in the dropdown list must not crash the grid
+            this.dgvDetail.DataError += (s, e) => { e.ThrowException = false; };
+            this.dgvDetail.EditingControlShowing += DgvDetail_EditingControlShowing;
+            this.dgvDetail.CellValidating += DgvDetail_CellValidating;
             BuildGridContextMenu();
         }
 
@@ -109,6 +114,7 @@ namespace MachineDeptApp.MCPlans
                         }
                     }
                 }
+                connectorPNs = QueryConnectorPNs(code);
             }
             catch (Exception ex)
             {
@@ -122,6 +128,8 @@ namespace MachineDeptApp.MCPlans
                 Cursor = Cursors.Default;
             }
 
+            ApplyPNItems(null);
+
             if (wipName == null)
             {
                 MessageBox.Show("Wip Code \"" + code + "\" was not found!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -132,6 +140,61 @@ namespace MachineDeptApp.MCPlans
             txtDrawingNo.Text = code.Substring(0, 4);
             FillWires(SplitWires(wireTube));
         }
+
+        #region Drawing No lookup (OBS mstitem)
+
+        SQLConnectOBS cnnOBS;
+        string lastDrawingLookup = "";
+
+        // Drawing No = mstitem.ItemCode -> Customer = Remark, Document No. = ItemName
+        private void TxtDrawingNo_TextChanged(object sender, EventArgs e)
+        {
+            if (loadingData || mode == FormMode.View) return;
+            string code = txtDrawingNo.Text.Trim();
+            if (code == "" || code == lastDrawingLookup) return;
+            lastDrawingLookup = code;
+
+            string itemName = null, remark = null;
+            try
+            {
+                if (cnnOBS == null)
+                {
+                    cnnOBS = new SQLConnectOBS();
+                    cnnOBS.Connection();
+                }
+                cnnOBS.conOBS.Open();
+                using (SqlCommand cmd = new SqlCommand("SELECT TOP 1 ItemName, Remark FROM mstitem " +
+                    "WHERE ItemType <> '2' AND ComLoc = 'Assy1' AND ItemCode = @Code", cnnOBS.conOBS))
+                {
+                    cmd.Parameters.AddWithValue("@Code", code);
+                    using (SqlDataReader rd = cmd.ExecuteReader())
+                    {
+                        if (rd.Read())
+                        {
+                            itemName = rd["ItemName"] == DBNull.Value ? "" : rd["ItemName"].ToString().Trim();
+                            remark = rd["Remark"] == DBNull.Value ? "" : rd["Remark"].ToString().Trim();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                lastDrawingLookup = "";
+                MessageBox.Show("Cannot read the item master (OBS).\n" + ex.Message, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            finally
+            {
+                if (cnnOBS != null && cnnOBS.conOBS != null && cnnOBS.conOBS.State == ConnectionState.Open) cnnOBS.conOBS.Close();
+            }
+
+            // not found (e.g. still typing): leave the fields as they are
+            if (itemName == null) return;
+            txtCustomer.Text = remark;
+            txtDocumentNo.Text = itemName;
+        }
+
+        #endregion
 
         // WireTube may hold several wires; accept line breaks, ',', ';' or '|' as separators
         private static string[] SplitWires(string wireTube)
@@ -175,6 +238,97 @@ namespace MachineDeptApp.MCPlans
 
         #endregion
 
+        #region Connector P/N dropdown (PEDeptDB.tbWipData + PEDeptDB.tbRawMaterial)
+
+        string[] connectorPNs = new string[0];
+
+        // Connector descriptions (non-wire raw materials) used by the Wip Code; the connection must already be open
+        private string[] QueryConnectorPNs(string code)
+        {
+            var list = new System.Collections.Generic.List<string>();
+            if (string.IsNullOrWhiteSpace(code)) return list.ToArray();
+            using (SqlCommand cmd = new SqlCommand(
+                "SELECT DISTINCT LTRIM(RTRIM(r.Description)) AS Description " +
+                "FROM [PEDeptDB].[dbo].[tbWipData] d " +
+                "INNER JOIN [PEDeptDB].[dbo].[tbRawMaterial] r ON r.Code = d.RMCode " +
+                "WHERE d.WipCode = @Code AND r.Type <> 'Wire' AND ISNULL(r.Description, '') <> '' " +
+                "ORDER BY Description", cnn.con))
+            {
+                cmd.Parameters.AddWithValue("@Code", code.Trim());
+                using (SqlDataReader rd = cmd.ExecuteReader())
+                {
+                    while (rd.Read()) list.Add(rd["Description"].ToString());
+                }
+            }
+            return list.ToArray();
+        }
+
+        private bool IsPNColumn(int columnIndex)
+        {
+            return columnIndex == ColCNAPN.Index || columnIndex == ColCNBPN.Index;
+        }
+
+        // P/N cells: pick from the list or type a new value
+        private void DgvDetail_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            ComboBox cb = e.Control as ComboBox;
+            if (cb == null) return;
+            if (IsPNColumn(dgvDetail.CurrentCell.ColumnIndex))
+            {
+                cb.DropDownStyle = ComboBoxStyle.DropDown;
+                cb.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                cb.AutoCompleteSource = AutoCompleteSource.ListItems;
+            }
+            else
+            {
+                cb.DropDownStyle = ComboBoxStyle.DropDownList;
+            }
+        }
+
+        // a typed P/N that is not in the list is added to both P/N dropdowns so the cell accepts it
+        private void DgvDetail_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (e.RowIndex < 0 || !IsPNColumn(e.ColumnIndex) || !dgvDetail.IsCurrentCellInEditMode) return;
+            string text = Convert.ToString(e.FormattedValue); // not trimmed: must equal what the editor commits
+            foreach (DataGridViewComboBoxColumn col in new[] { ColCNAPN, ColCNBPN })
+            {
+                if (!col.Items.Contains(text)) col.Items.Add(text);
+            }
+            dgvDetail.CurrentCell.Value = text;
+        }
+
+        // Fill both P/N dropdowns; values already in the grid (or in 'extra') are kept so old data still shows
+        private void ApplyPNItems(System.Collections.Generic.IEnumerable<string> extra)
+        {
+            dgvDetail.EndEdit();
+            foreach (DataGridViewComboBoxColumn col in new[] { ColCNAPN, ColCNBPN })
+            {
+                var items = new System.Collections.Generic.List<string> { "" }; // blank entry = clear the cell
+                foreach (string pn in connectorPNs)
+                {
+                    if (!items.Contains(pn)) items.Add(pn);
+                }
+                foreach (DataGridViewRow row in dgvDetail.Rows)
+                {
+                    if (row.IsNewRow) continue;
+                    string v = CellText(row, col);
+                    if (!items.Contains(v)) items.Add(v);
+                }
+                if (extra != null)
+                {
+                    foreach (string v in extra)
+                    {
+                        string t = (v ?? "").Trim();
+                        if (!items.Contains(t)) items.Add(t);
+                    }
+                }
+                col.Items.Clear();
+                col.Items.AddRange(items.ToArray());
+            }
+        }
+
+        #endregion
+
         private void DrawingItemDetailForm_Load(object sender, EventArgs e)
         {
             switch (mode)
@@ -185,10 +339,26 @@ namespace MachineDeptApp.MCPlans
                     txtRef.Text = DefaultRefText;
                     dtpEffectiveDate.Value = DateTime.Today;
                     dtpEffectiveDate.Checked = false;
+                    // sign-off fields are not filled in when the drawing is created
+                    foreach (TextBox txt in new[] { txtPE, txtQA, txtApproval, txtRevNo })
+                    {
+                        txt.ReadOnly = true;
+                        txt.TabStop = false;
+                        txt.BackColor = Color.White;
+                    }
+                    dtpEffectiveDate.Enabled = false;
                     break;
                 case FormMode.Update:
                     this.Text = "Drawing Item - Update";
                     LoadData();
+                    if (txtPE.Text.Trim() != "")
+                    {
+                        // already accepted by PE -> locked, open as view only
+                        mode = FormMode.View;
+                        this.Text = "Drawing Item - View (PE Accepted)";
+                        SetReadOnly();
+                        MessageBox.Show("This drawing item has already been accepted by PE and cannot be updated!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                     break;
                 case FormMode.View:
                     this.Text = "Drawing Item - View";
@@ -335,7 +505,10 @@ namespace MachineDeptApp.MCPlans
                 txtRef.Text = refText.Trim() == "" ? DefaultRefText : refText;
                 txtCustomer.Text = h["Customer"].ToString();
                 txtDocumentNo.Text = h["DocumentNo"].ToString();
+                loadingData = true; // keep the saved Customer / Document No.
                 txtDrawingNo.Text = h["DrawingNo"].ToString();
+                loadingData = false;
+                lastDrawingLookup = txtDrawingNo.Text.Trim();
                 txtItemName.Text = h["ItemName"].ToString();
                 loadingData = true;
                 txtItemPart.Text = h["ItemPart"].ToString();
@@ -362,13 +535,23 @@ namespace MachineDeptApp.MCPlans
                     sda.SelectCommand.Parameters.AddWithValue("@ID", drawingID);
                     sda.Fill(dtDetail);
                 }
+                // P/N dropdown: descriptions of this Wip Code + every P/N already saved
+                connectorPNs = QueryConnectorPNs(txtItemPart.Text);
+                var savedPNs = new System.Collections.Generic.List<string>();
+                foreach (DataRow d in dtDetail.Rows)
+                {
+                    savedPNs.Add(d["CNA_PN"].ToString());
+                    savedPNs.Add(d["CNB_PN"].ToString());
+                }
                 dgvDetail.Rows.Clear();
+                ApplyPNItems(savedPNs);
+
                 bool hasMask = dtDetail.Columns.Contains("SameMask");
                 foreach (DataRow d in dtDetail.Rows)
                 {
                     int idx = dgvDetail.Rows.Add(null, d["WireCable"], d["WireColor"], d["WireLength"],
-                        d["CNA_Pin"], d["CNA_Strip"], d["CNA_PN"],
-                        d["CNB_Strip"], d["CNB_PN"], d["CNB_Pin"]);
+                        d["CNA_Pin"], d["CNA_Strip"], d["CNA_PN"].ToString().Trim(),
+                        d["CNB_Strip"], d["CNB_PN"].ToString().Trim(), d["CNB_Pin"]);
                     if (hasMask && d["SameMask"] != DBNull.Value)
                     {
                         dgvDetail.Rows[idx].Tag = Convert.ToInt32(d["SameMask"]);
@@ -410,6 +593,44 @@ namespace MachineDeptApp.MCPlans
                 string user = MenuFormV2.UserForNextForm ?? "";
                 DateTime now = DateTime.Now;
                 int id = drawingID;
+
+                // PE may have accepted while this form was open -> block the update
+                if (mode != FormMode.Create)
+                {
+                    SqlCommand chk = new SqlCommand("SELECT ISNULL(PEChecker, '') FROM tbDrawingItem WITH (UPDLOCK, HOLDLOCK) WHERE DrawingID = @ID", cnn.con, tran);
+                    chk.Parameters.AddWithValue("@ID", id);
+                    object pe = chk.ExecuteScalar();
+                    if (pe != null && pe.ToString().Trim() != "")
+                    {
+                        tran.Rollback();
+                        cnn.con.Close();
+                        Cursor = Cursors.Default;
+                        MessageBox.Show("This drawing item has already been accepted by PE and cannot be updated!",
+                            MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+
+                // One active drawing item per Wip Code
+                string wipCode = txtItemPart.Text.Trim();
+                if (wipCode != "")
+                {
+                    SqlCommand dup = new SqlCommand("SELECT TOP 1 ItemName FROM tbDrawingItem WITH (UPDLOCK, HOLDLOCK) " +
+                        "WHERE ItemPart = @Code AND Status = 'Active' AND DrawingID <> @ID", cnn.con, tran);
+                    dup.Parameters.AddWithValue("@Code", wipCode);
+                    dup.Parameters.AddWithValue("@ID", mode == FormMode.Create ? 0 : id);
+                    object existing = dup.ExecuteScalar();
+                    if (existing != null)
+                    {
+                        tran.Rollback();
+                        cnn.con.Close();
+                        Cursor = Cursors.Default;
+                        MessageBox.Show("Wip Code \"" + wipCode + "\" already exists (" + existing + ")!\nCannot create a duplicate Wip Code.",
+                            MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtItemPart.Focus();
+                        return;
+                    }
+                }
 
                 SqlCommand cmd;
                 if (mode == FormMode.Create)
@@ -563,11 +784,42 @@ namespace MachineDeptApp.MCPlans
             dgvDetail.Invalidate();
         }
 
+        // Wire text code -> Color (checked in this order; matched as a whole word, case-insensitive)
+        private static readonly string[,] WireColorMap =
+        {
+            { "RED", "Red (ក្រហម)" }, { "BLK", "Black (ខ្មៅ)" }, { "PINK", "Pink (ពណ៌ផ្កាឈូក)" }, { "YEL", "Yellow (លឿន)" },
+            { "BLU", "Blue (ខៀវ)" }, { "BRN", "Brown (ពណ៌ត្នោត)" }, { "G/Y", "GreenYellow (ពណ៌ត្រួយចេក)" }, { "GRN", "Green (បៃតង)" },
+            { "GRY", "Gray (ពណ៌ប្រផេះ)" }, { "ORG", "Orange (ពណ៌ទឹកក្រូច)" }, { "PNK", "Pink (ពណ៌ផ្កាឈូក)" }, { "SKY", "SkyBlue (​ពណ៌ផ្ទៃមេឃ)" },
+            { "VLT", "Purple (ពណ៌ស្វាយ)" }, { "WHT", "White (ពណ៌ស)" }
+        };
+
+        private static string ColorFromWire(string wire)
+        {
+            if (string.IsNullOrWhiteSpace(wire)) return null;
+            for (int i = 0; i < WireColorMap.GetLength(0); i++)
+            {
+                string pattern = @"(?<![A-Za-z0-9])" + System.Text.RegularExpressions.Regex.Escape(WireColorMap[i, 0]) + @"(?![A-Za-z0-9])";
+                if (System.Text.RegularExpressions.Regex.IsMatch(wire, pattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                    return WireColorMap[i, 1];
+            }
+            return null;
+        }
+
         private void DgvDetail_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (syncingSame || e.RowIndex < 0 || DataColumnBit(e.ColumnIndex) < 0) return;
             DataGridViewRow row = dgvDetail.Rows[e.RowIndex];
             object value = row.Cells[e.ColumnIndex].Value;
+
+            // a wire that names a color fills the Color cell automatically
+            if (e.ColumnIndex == ColWire.Index && !loadingData && mode != FormMode.View)
+            {
+                string color = ColorFromWire(Convert.ToString(value));
+                if (color != null && Convert.ToString(row.Cells[ColColor.Index].Value) != color)
+                {
+                    row.Cells[ColColor.Index].Value = color;
+                }
+            }
 
             // typing a different value into an arrow cell removes its arrow
             if (IsSame(e.RowIndex, e.ColumnIndex))

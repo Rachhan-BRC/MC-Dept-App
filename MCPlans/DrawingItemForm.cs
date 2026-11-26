@@ -73,6 +73,11 @@ namespace MachineDeptApp.MCPlans
 
         private void BtnUpdate_Click(object sender, EventArgs e)
         {
+            if (IsSelectedPEAccepted())
+            {
+                MessageBox.Show("This drawing item has already been accepted by PE and cannot be updated!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             OpenDetail(DrawingItemDetailForm.FormMode.Update);
         }
 
@@ -85,6 +90,11 @@ namespace MachineDeptApp.MCPlans
         {
             int id = GetSelectedID();
             if (id <= 0) return;
+            if (IsSelectedPEAccepted())
+            {
+                MessageBox.Show("This drawing item has already been accepted by PE and cannot be deleted!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             string itemName = dgvItem.CurrentRow.Cells[ColItemName.Name].Value?.ToString();
             DialogResult dlr = MessageBox.Show("Are you sure you want to delete \"" + itemName + "\"?", MenuFormV2.MsgTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -93,14 +103,22 @@ namespace MachineDeptApp.MCPlans
             try
             {
                 cnn.con.Open();
-                using (SqlCommand cmd = new SqlCommand("UPDATE tbDrawingItem SET Status = 'Deleted', UpdateDate = @UpD, UpdateBy = @UpB WHERE DrawingID = @ID", cnn.con))
+                int affected;
+                using (SqlCommand cmd = new SqlCommand("UPDATE tbDrawingItem SET Status = 'Deleted', UpdateDate = @UpD, UpdateBy = @UpB " +
+                    "WHERE DrawingID = @ID AND ISNULL(PEChecker, '') = ''", cnn.con))
                 {
                     cmd.Parameters.AddWithValue("@UpD", DateTime.Now);
                     cmd.Parameters.AddWithValue("@UpB", MenuFormV2.UserForNextForm ?? "");
                     cmd.Parameters.AddWithValue("@ID", id);
-                    cmd.ExecuteNonQuery();
+                    affected = cmd.ExecuteNonQuery();
                 }
                 cnn.con.Close();
+                if (affected == 0)
+                {
+                    MessageBox.Show("This drawing item has already been accepted by PE and cannot be deleted!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    LoadData();
+                    return;
+                }
                 MessageBox.Show("Deleted successfully!", MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadData();
             }
@@ -192,10 +210,18 @@ namespace MachineDeptApp.MCPlans
         private void CheckButtons()
         {
             bool hasSel = dgvItem.SelectedRows.Count > 0;
-            foreach (Button btn in new[] { btnUpdate, btnDelete, btnView })
-            {
-                btn.Enabled = hasSel;
-            }
+            bool editable = hasSel && !IsSelectedPEAccepted();
+            btnView.Enabled = hasSel;
+            // once PE has accepted (PE Checker signed), the drawing item is locked
+            btnUpdate.Enabled = editable;
+            btnDelete.Enabled = editable;
+        }
+
+        private bool IsSelectedPEAccepted()
+        {
+            if (dgvItem.CurrentRow == null) return false;
+            object pe = dgvItem.CurrentRow.Cells[ColPEChecker.Name].Value;
+            return pe != null && pe.ToString().Trim() != "";
         }
 
         #region Header styling (gradient, rounded search box, icon buttons)

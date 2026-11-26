@@ -2780,10 +2780,10 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(6, "POS Data Check", "POSDataCheckAmountForm");
             dtChildRoot.Rows.Add(6, "Rest Room Time", "RestRoomTimeForm");
 
-          //  dtChildRoot.Rows.Add(6, "Drawing Item", "DrawingItemForm");
+         
 
             dtChildRoot.Rows.Add(6, "MC Complete Qty", "PlanMCCompleteQtyForm");
-
+            dtChildRoot.Rows.Add(6, "Drawing Item", "DrawingItemForm");
 
             //8
             dtChildRoot.Rows.Add(7, "MC Kitting Inventory", "");
