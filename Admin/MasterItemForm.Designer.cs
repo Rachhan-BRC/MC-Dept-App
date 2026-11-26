@@ -69,6 +69,8 @@
             this.chkMCType = new System.Windows.Forms.CheckBox();
             this.chkWIPName = new System.Windows.Forms.CheckBox();
             this.chkMCName = new System.Windows.Forms.CheckBox();
+            this.chkSlot = new System.Windows.Forms.CheckBox();
+            this.cboSlot = new System.Windows.Forms.ComboBox();
             this.dgvStatus = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvSlot = new System.Windows.Forms.DataGridView();
@@ -90,6 +92,11 @@
             this.ColMCType3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColMCName3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColSlot = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColApplicator1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColApplicator2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColApplicator3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColApplicator4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColApplicator5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColRemark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelFooter.SuspendLayout();
@@ -226,6 +233,11 @@
             this.ColMCType3,
             this.ColMCName3,
             this.ColSlot,
+            this.ColApplicator1,
+            this.ColApplicator2,
+            this.ColApplicator3,
+            this.ColApplicator4,
+            this.ColApplicator5,
             this.ColStatus,
             this.ColRemark});
             this.dgvSearchResult.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -260,6 +272,8 @@
             this.groupBox1.Controls.Add(this.chkMCType);
             this.groupBox1.Controls.Add(this.chkWIPName);
             this.groupBox1.Controls.Add(this.chkMCName);
+            this.groupBox1.Controls.Add(this.chkSlot);
+            this.groupBox1.Controls.Add(this.cboSlot);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Font = new System.Drawing.Font("Kh Battambang", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(3, 1);
@@ -405,6 +419,31 @@
             this.chkMCName.TabIndex = 29;
             this.chkMCName.Text = "ឈ្មោះម៉ាស៊ីន";
             this.chkMCName.UseVisualStyleBackColor = true;
+            //
+            // chkSlot
+            //
+            this.chkSlot.AutoSize = true;
+            this.chkSlot.Font = new System.Drawing.Font("Kh Battambang", 9.75F);
+            this.chkSlot.Location = new System.Drawing.Point(853, 58);
+            this.chkSlot.Name = "chkSlot";
+            this.chkSlot.Size = new System.Drawing.Size(58, 28);
+            this.chkSlot.TabIndex = 29;
+            this.chkSlot.Text = "SLOT";
+            this.chkSlot.UseVisualStyleBackColor = true;
+            //
+            // cboSlot
+            //
+            this.cboSlot.DropDownHeight = 200;
+            this.cboSlot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboSlot.Font = new System.Drawing.Font("Kh Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboSlot.FormattingEnabled = true;
+            this.cboSlot.IntegralHeight = false;
+            this.cboSlot.Items.AddRange(new object[] {
+            ""});
+            this.cboSlot.Location = new System.Drawing.Point(915, 54);
+            this.cboSlot.Name = "cboSlot";
+            this.cboSlot.Size = new System.Drawing.Size(145, 32);
+            this.cboSlot.TabIndex = 28;
             // 
             // dgvStatus
             // 
@@ -644,6 +683,41 @@
             this.ColSlot.Name = "ColSlot";
             this.ColSlot.ReadOnly = true;
             this.ColSlot.Width = 120;
+            //
+            // ColApplicator1
+            //
+            this.ColApplicator1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColApplicator1.HeaderText = "Applicator1";
+            this.ColApplicator1.Name = "ColApplicator1";
+            this.ColApplicator1.Width = 110;
+            //
+            // ColApplicator2
+            //
+            this.ColApplicator2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColApplicator2.HeaderText = "Applicator2";
+            this.ColApplicator2.Name = "ColApplicator2";
+            this.ColApplicator2.Width = 110;
+            //
+            // ColApplicator3
+            //
+            this.ColApplicator3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColApplicator3.HeaderText = "Applicator3";
+            this.ColApplicator3.Name = "ColApplicator3";
+            this.ColApplicator3.Width = 110;
+            //
+            // ColApplicator4
+            //
+            this.ColApplicator4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColApplicator4.HeaderText = "Applicator4";
+            this.ColApplicator4.Name = "ColApplicator4";
+            this.ColApplicator4.Width = 110;
+            //
+            // ColApplicator5
+            //
+            this.ColApplicator5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColApplicator5.HeaderText = "Applicator5";
+            this.ColApplicator5.Name = "ColApplicator5";
+            this.ColApplicator5.Width = 110;
             // 
             // ColStatus
             // 
@@ -722,6 +796,8 @@
         private System.Windows.Forms.CheckBox chkMCName;
         private System.Windows.Forms.CheckBox chkMCType;
         private System.Windows.Forms.TextBox txtMCName;
+        private System.Windows.Forms.CheckBox chkSlot;
+        private System.Windows.Forms.ComboBox cboSlot;
         private System.Windows.Forms.DataGridView dgvStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridView dgvSlot;
@@ -743,6 +819,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColMCType3;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColMCName3;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColSlot;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColApplicator1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColApplicator2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColApplicator3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColApplicator4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColApplicator5;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColRemark;
     }
