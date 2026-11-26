@@ -45,7 +45,16 @@ namespace MachineDeptApp.Admin
             this.txtWIPName.TextChanged += TxtWIPName_TextChanged;
             this.txtModel.TextChanged += TxtModel_TextChanged;
             this.txtMCName.TextChanged += TxtMCName_TextChanged;
+            this.cboSlot.TextChanged += CboSlot_TextChanged;
 
+        }
+
+        private void CboSlot_TextChanged(object sender, EventArgs e)
+        {
+            if (cboSlot.Text.Trim() != "")
+                chkSlot.Checked = true;
+            else
+                chkSlot.Checked = false;
         }
 
         private void TxtMCName_TextChanged(object sender, EventArgs e)
@@ -94,6 +103,15 @@ namespace MachineDeptApp.Admin
                     }
 
                 }
+                else if (dgvSearchResult.Columns[e.ColumnIndex].Name.StartsWith("ColApplicator"))
+                {
+                    string NewValue = (dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString() ?? "").Trim();
+                    if (BeforeEdit != NewValue)
+                    {
+                        string ApplicatorNo = dgvSearchResult.Columns[e.ColumnIndex].Name.Replace("ColApplicator", "");
+                        SaveApplicator(e.RowIndex, e.ColumnIndex, ApplicatorNo, NewValue);
+                    }
+                }
             }
 
         }
@@ -101,7 +119,7 @@ namespace MachineDeptApp.Admin
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                if (dgvSearchResult.Columns[e.ColumnIndex].Name == "ColRemark")
+                if (dgvSearchResult.Columns[e.ColumnIndex].Name == "ColRemark" || dgvSearchResult.Columns[e.ColumnIndex].Name.StartsWith("ColApplicator"))
                     BeforeEdit = dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString() ?? "";
             }
         }
@@ -416,7 +434,8 @@ namespace MachineDeptApp.Admin
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
                 if (dgvSearchResult.Columns[e.ColumnIndex].Name.Contains("MCType") || dgvSearchResult.Columns[e.ColumnIndex].Name.Contains("MCName") ||
-                    dgvSearchResult.Columns[e.ColumnIndex].Name.Contains("Slot") || dgvSearchResult.Columns[e.ColumnIndex].Name.Contains("Remark"))
+                    dgvSearchResult.Columns[e.ColumnIndex].Name.Contains("Slot") || dgvSearchResult.Columns[e.ColumnIndex].Name.Contains("Remark") ||
+                    dgvSearchResult.Columns[e.ColumnIndex].Name.Contains("Applicator"))
                 {
                     e.CellStyle.ForeColor = Color.Black;
                 }
@@ -587,7 +606,10 @@ namespace MachineDeptApp.Admin
             
             if (chkMCName.Checked && txtMCName.Text.Trim() != "")
                 SQLCond += "AND (MC1Name LIKE '%" + txtMCName.Text + "%' OR MC2Name LIKE '%" + txtMCName.Text + "%' OR MC3Name LIKE '%" + txtMCName.Text + "%') ";
-            
+
+            if (chkSlot.Checked && cboSlot.Text.Trim() != "")
+                SQLCond += "AND tbP.Slot = '" + cboSlot.Text.Replace("'", "''") + "' ";
+
             if (cbstatus.Text.Trim() != "")
             {
                 if (cbstatus.Text.Trim() != "All")
@@ -611,7 +633,13 @@ namespace MachineDeptApp.Admin
 	                    COALESCE(MC1Type,'') AS MC1Type, MC1Name, 
 	                    COALESCE(MC2Type,'') AS MC2Type, MC2Name, 
 	                    COALESCE(MC3Type,'') AS MC3Type, MC3Name, 
-	                    COALESCE(Slot,'') AS Slot, tbS.Status, tbS.Remarks 
+	                    COALESCE(Slot,'') AS Slot,
+	                    COALESCE(tbP.Applicator1,'') AS Applicator1,
+	                    COALESCE(tbP.Applicator2,'') AS Applicator2,
+	                    COALESCE(tbP.Applicator3,'') AS Applicator3,
+	                    COALESCE(tbP.Applicator4,'') AS Applicator4,
+	                    COALESCE(tbP.Applicator5,'') AS Applicator5,
+	                    tbS.Status, tbS.Remarks
                     FROM tbMasterItem tbM 
                     LEFT JOIN tbMasterItemPlan tbP ON tbP.ItemCode = tbM.ItemCode 
                     LEFT JOIN tbMasterItemStatus tbS ON tbM.ItemCode = tbS.WipCode 
@@ -650,6 +678,11 @@ namespace MachineDeptApp.Admin
                     dgvRow.Cells[ColMCType3.Name].Value = row["MC3Type"].ToString();
                     dgvRow.Cells[ColMCName3.Name].Value = row["MC3Name"].ToString();
                     dgvRow.Cells[ColSlot.Name].Value = row["Slot"].ToString();
+                    dgvRow.Cells[ColApplicator1.Name].Value = row["Applicator1"].ToString();
+                    dgvRow.Cells[ColApplicator2.Name].Value = row["Applicator2"].ToString();
+                    dgvRow.Cells[ColApplicator3.Name].Value = row["Applicator3"].ToString();
+                    dgvRow.Cells[ColApplicator4.Name].Value = row["Applicator4"].ToString();
+                    dgvRow.Cells[ColApplicator5.Name].Value = row["Applicator5"].ToString();
                     dgvRow.Cells[ColStatus.Name].Value = row["Status"].ToString();
                     dgvRow.Cells[ColRemark.Name].Value = row["Remarks"].ToString();
                 }
@@ -683,8 +716,12 @@ namespace MachineDeptApp.Admin
 
             foreach (DataGridViewColumn col in dgvSearchResult.Columns)
             {
-                if (!col.Name.Contains("Remark"))
+                if (!col.Name.Contains("Remark") && !col.Name.Contains("Applicator"))
                     col.ReadOnly = true;
+
+                //Applicator1~5 are not MC1~3, skip the MC header colors
+                if (col.Name.Contains("Applicator"))
+                    continue;
 
                 if (col.Name.Contains("1"))
                 {
@@ -727,6 +764,13 @@ namespace MachineDeptApp.Admin
 
                 }
                 catch { }
+            }
+
+            //SLOT list from SLOT Master (tbMasterSLOT)
+            if (dtMstSlot != null && dtMstSlot.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtMstSlot.Rows)
+                    cboSlot.Items.Add(row["SLOTName"].ToString());
             }
 
             Cursor = Cursors.Default;
@@ -888,6 +932,52 @@ namespace MachineDeptApp.Admin
                 MessageBox.Show("Something went wrong! " + ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             dgvSearchResult.Focus();
+
+        }
+        private void SaveApplicator(int RowIndex, int ColIndex, string ApplicatorNo, string Value)
+        {
+            ErrorText = "";
+            Cursor = Cursors.WaitCursor;
+            string WIPCode = dgvSearchResult.Rows[RowIndex].Cells["ColCode"].Value.ToString();
+
+            //Save Applicator1~5
+            try
+            {
+                cnn.con.Open();
+                SqlCommand cmd = new SqlCommand(@"IF EXISTS (SELECT 1 FROM tbMasterItemPlan WHERE ItemCode = @code)
+                        BEGIN
+                            UPDATE tbMasterItemPlan SET Applicator" + ApplicatorNo + @" = @value WHERE ItemCode = @code;
+                        END
+                    ELSE
+                        BEGIN
+                            INSERT INTO tbMasterItemPlan (ItemCode, Applicator" + ApplicatorNo + @") VALUES (@code, @value);
+                        END", cnn.con);
+                if (Value != "")
+                    cmd.Parameters.AddWithValue("@value", Value);
+                else
+                    cmd.Parameters.AddWithValue("@value", DBNull.Value);
+                cmd.Parameters.AddWithValue("@code", WIPCode);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                ErrorText = "Save Applicator" + ApplicatorNo + " : \n" + ex.Message;
+            }
+            finally
+            {
+                cnn.con.Close();
+            }
+
+            Cursor = Cursors.Default;
+
+            if (ErrorText.Trim() == "")
+                dgvSearchResult.Rows[RowIndex].Cells[ColIndex].Value = Value;
+            else
+            {
+                //Save failed, put back the old value
+                dgvSearchResult.Rows[RowIndex].Cells[ColIndex].Value = BeforeEdit;
+                MessageBox.Show("Something went wrong! " + ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
         private void SaveStatusOrRemark(string WIPCode, string StatusOrRemark, string Value)
