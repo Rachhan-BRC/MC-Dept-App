@@ -1,4 +1,4 @@
-﻿namespace MachineDeptApp.MCPlans
+﻿namespace MachineDeptApp.Drawing
 {
     partial class DrawingItemDetailForm
     {

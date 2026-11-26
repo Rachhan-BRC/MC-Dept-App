@@ -65,16 +65,16 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MCPlans\DrawingItemForm.cs">
+    <Compile Include="Drawing\DrawingItemForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MCPlans\DrawingItemForm.Designer.cs">
+    <Compile Include="Drawing\DrawingItemForm.Designer.cs">
       <DependentUpon>DrawingItemForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MCPlans\DrawingItemDetailForm.cs">
+    <Compile Include="Drawing\DrawingItemDetailForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MCPlans\DrawingItemDetailForm.Designer.cs">
+    <Compile Include="Drawing\DrawingItemDetailForm.Designer.cs">
       <DependentUpon>DrawingItemDetailForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Admin\SubLeaderRegisterForm.cs">
@@ -1033,10 +1033,10 @@
     <EmbeddedResource Include="Admin\SubLeaderRegisterAddUpdateForm.resx">
       <DependentUpon>SubLeaderRegisterAddUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MCPlans\DrawingItemDetailForm.resx">
+    <EmbeddedResource Include="Drawing\DrawingItemDetailForm.resx">
       <DependentUpon>DrawingItemDetailForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MCPlans\DrawingItemForm.resx">
+    <EmbeddedResource Include="Drawing\DrawingItemForm.resx">
       <DependentUpon>DrawingItemForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MCPlans\RestRoomTimeForm.resx">

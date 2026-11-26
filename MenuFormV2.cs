@@ -1,5 +1,6 @@
 ﻿using MachineDeptApp.Admin;
 using MachineDeptApp.AllSection;
+using MachineDeptApp.Drawing;
 using MachineDeptApp.InputTransferSemi;
 using MachineDeptApp.Inventory;
 using MachineDeptApp.Inventory.Inprocess;
@@ -2714,6 +2715,7 @@ namespace MachineDeptApp
             dtRoot.Rows.Add("PP Data");
             dtRoot.Rows.Add("RM over SPQ");
             dtRoot.Rows.Add("MC Monthly Report");
+            dtRoot.Rows.Add("Drawing");
             dtRoot.Rows.Add("Admin");
             foreach (DataRow row in dtRoot.Rows)
             {
@@ -2783,7 +2785,6 @@ namespace MachineDeptApp
          
 
             dtChildRoot.Rows.Add(6, "MC Complete Qty", "PlanMCCompleteQtyForm");
-            dtChildRoot.Rows.Add(6, "Drawing Item", "DrawingItemForm");
 
             //8
             dtChildRoot.Rows.Add(7, "MC Kitting Inventory", "");
@@ -2819,6 +2820,8 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(11, "Quality Control", "QualityControlForm");
             dtChildRoot.Rows.Add(11, "Monthly Customer Claim", "MonthlyCustomerClaimFrom");
             dtChildRoot.Rows.Add(11, "Defect Out Flow", "DefectOutFlow");
+            // 12 Drawing
+            dtChildRoot.Rows.Add(12, "Drawing Item", "DrawingItemForm");
             //The last one
             dtChildRoot.Rows.Add(dtRoot.Rows.Count -1 , "User Account", "UserForm");
             dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "MC List", "MachineTypeMasterForm");
