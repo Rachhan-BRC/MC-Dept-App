@@ -73,9 +73,9 @@
             this.ColLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColCNAPin = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColCNAStrip = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColCNAPN = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColCNAPN = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.ColCNBStrip = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColCNBPN = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColCNBPN = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.ColCNBPin = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelTop.SuspendLayout();
             this.tlpHeader.SuspendLayout();
@@ -603,6 +603,8 @@
             // 
             // ColCNAPN
             // 
+            this.ColCNAPN.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.ColCNAPN.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ColCNAPN.FillWeight = 13F;
             this.ColCNAPN.HeaderText = "P/N";
             this.ColCNAPN.Name = "ColCNAPN";
@@ -617,6 +619,8 @@
             // 
             // ColCNBPN
             // 
+            this.ColCNBPN.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.ColCNBPN.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ColCNBPN.FillWeight = 13F;
             this.ColCNBPN.HeaderText = "P/N";
             this.ColCNBPN.Name = "ColCNBPN";
@@ -704,9 +708,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColLength;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColCNAPin;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColCNAStrip;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColCNAPN;
+        private System.Windows.Forms.DataGridViewComboBoxColumn ColCNAPN;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColCNBStrip;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColCNBPN;
+        private System.Windows.Forms.DataGridViewComboBoxColumn ColCNBPN;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColCNBPin;
     }
 }
