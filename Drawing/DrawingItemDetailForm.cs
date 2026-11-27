@@ -68,6 +68,7 @@ namespace MachineDeptApp.Drawing
             this.btnSameArrow.Click += (s, e) => ToggleSameArrow();
             this.txtItemPart.TextChanged += TxtItemPart_TextChanged;
             this.txtDrawingNo.TextChanged += TxtDrawingNo_TextChanged;
+            this.txtDrawingNo.TextChanged += TxtDrawingNo_LoadNote;
             // a P/N value that is not in the dropdown list must not crash the grid
             this.dgvDetail.DataError += (s, e) => { e.ThrowException = false; };
             this.dgvDetail.EditingControlShowing += DgvDetail_EditingControlShowing;
@@ -192,6 +193,65 @@ namespace MachineDeptApp.Drawing
             if (itemName == null) return;
             txtCustomer.Text = remark;
             txtDocumentNo.Text = itemName;
+        }
+
+        #endregion
+
+        #region Note (one shared note per Drawing No., tbDrawingNote)
+
+        // note text as last read from the DB, so a loaded note is replaced (not kept) when the Drawing No. changes
+        string loadedNote = "";
+        string lastNoteLookup = "";
+
+        // connection must already be open; returns null when this Drawing No. has no note yet
+        private string QueryNote(string drawingNo, SqlTransaction tran = null)
+        {
+            using (SqlCommand cmd = new SqlCommand("SELECT Note FROM tbDrawingNote WHERE DrawingNo = @No", cnn.con, tran))
+            {
+                cmd.Parameters.AddWithValue("@No", drawingNo);
+                object v = cmd.ExecuteScalar();
+                return v == null || v == DBNull.Value ? null : v.ToString();
+            }
+        }
+
+        private void TxtDrawingNo_LoadNote(object sender, EventArgs e)
+        {
+            if (loadingData || mode == FormMode.View) return;
+            string code = txtDrawingNo.Text.Trim();
+            if (code == lastNoteLookup) return;
+            lastNoteLookup = code;
+
+            string note = null;
+            if (code != "")
+            {
+                try
+                {
+                    cnn.con.Open();
+                    note = QueryNote(code);
+                }
+                catch (Exception ex)
+                {
+                    lastNoteLookup = "";
+                    MessageBox.Show("Cannot read the note of this Drawing No.\n" + ex.Message, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                finally
+                {
+                    if (cnn.con.State == ConnectionState.Open) cnn.con.Close();
+                }
+            }
+
+            if (note != null)
+            {
+                txtNote.Text = note;
+                loadedNote = note;
+            }
+            else
+            {
+                // no note for this Drawing No.: drop a note that came from another Drawing No., keep what the user typed
+                if (txtNote.Text == loadedNote) txtNote.Text = "";
+                loadedNote = "";
+            }
         }
 
         #endregion
@@ -466,7 +526,7 @@ namespace MachineDeptApp.Drawing
         private void SetReadOnly()
         {
             foreach (TextBox txt in new[] { txtRef, txtCustomer, txtDocumentNo, txtDrawingNo, txtItemName, txtItemPart,
-                                            txtPrepareBy, txtPE, txtQA, txtApproval, txtRevNo })
+                                            txtPrepareBy, txtPE, txtQA, txtApproval, txtRevNo, txtNote })
             {
                 txt.ReadOnly = true;
                 txt.BackColor = Color.White;
@@ -509,6 +569,9 @@ namespace MachineDeptApp.Drawing
                 txtDrawingNo.Text = h["DrawingNo"].ToString();
                 loadingData = false;
                 lastDrawingLookup = txtDrawingNo.Text.Trim();
+                lastNoteLookup = lastDrawingLookup;
+                loadedNote = lastNoteLookup == "" ? "" : (QueryNote(lastNoteLookup) ?? "");
+                txtNote.Text = loadedNote;
                 txtItemName.Text = h["ItemName"].ToString();
                 loadingData = true;
                 txtItemPart.Text = h["ItemPart"].ToString();
@@ -697,6 +760,23 @@ namespace MachineDeptApp.Drawing
                     ins.Parameters.AddWithValue("@CNB_Pin", CellText(row, ColCNBPin));
                     ins.Parameters.AddWithValue("@SameMask", rowNo == 2 ? 0 : GetMask(row)); // first saved row can't point above
                     ins.ExecuteNonQuery();
+                }
+
+                // the note belongs to the Drawing No.: every item with this Drawing No. shows the same note
+                string drawingNo = txtDrawingNo.Text.Trim();
+                if (drawingNo != "")
+                {
+                    string note = txtNote.Text.Trim();
+                    SqlCommand noteCmd = new SqlCommand(note == ""
+                        ? "DELETE FROM tbDrawingNote WHERE DrawingNo = @No"
+                        : "UPDATE tbDrawingNote WITH (UPDLOCK, HOLDLOCK) SET Note = @Note, UpdateDate = @Now, UpdateBy = @User WHERE DrawingNo = @No; " +
+                          "IF @@ROWCOUNT = 0 INSERT INTO tbDrawingNote (DrawingNo, Note, UpdateDate, UpdateBy) VALUES (@No, @Note, @Now, @User);",
+                        cnn.con, tran);
+                    noteCmd.Parameters.AddWithValue("@No", drawingNo);
+                    noteCmd.Parameters.AddWithValue("@Note", note);
+                    noteCmd.Parameters.AddWithValue("@Now", now);
+                    noteCmd.Parameters.AddWithValue("@User", user);
+                    noteCmd.ExecuteNonQuery();
                 }
 
                 tran.Commit();
