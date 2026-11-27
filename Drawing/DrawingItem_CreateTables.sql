@@ -51,3 +51,13 @@ GO
 IF COL_LENGTH('tbDrawingItemDetail', 'SameMask') IS NULL
     ALTER TABLE tbDrawingItemDetail ADD SameMask INT NULL;
 GO
+
+-- One shared note per Drawing No. (every drawing item with the same Drawing No. shows the same note)
+IF OBJECT_ID('tbDrawingNote', 'U') IS NULL
+    CREATE TABLE tbDrawingNote (
+        DrawingNo   NVARCHAR(100) NOT NULL PRIMARY KEY,
+        Note        NVARCHAR(MAX) NULL,
+        UpdateDate  DATETIME      NULL,
+        UpdateBy    NVARCHAR(100) NULL
+    );
+GO

@@ -60,6 +60,11 @@
             this.txtApproval = new System.Windows.Forms.TextBox();
             this.dtpEffectiveDate = new System.Windows.Forms.DateTimePicker();
             this.txtRevNo = new System.Windows.Forms.TextBox();
+            this.panelNote = new System.Windows.Forms.Panel();
+            this.tlpNote = new System.Windows.Forms.TableLayoutPanel();
+            this.lblNote = new System.Windows.Forms.Label();
+            this.txtNote = new System.Windows.Forms.TextBox();
+            this.splitNoteFooter = new System.Windows.Forms.SplitContainer();
             this.panelButtons = new System.Windows.Forms.Panel();
             this.btnAddRow = new System.Windows.Forms.Button();
             this.btnDeleteRow = new System.Windows.Forms.Button();
@@ -79,8 +84,14 @@
             this.ColCNBPin = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelTop.SuspendLayout();
             this.tlpHeader.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitNoteFooter)).BeginInit();
+            this.splitNoteFooter.Panel1.SuspendLayout();
+            this.splitNoteFooter.Panel2.SuspendLayout();
+            this.splitNoteFooter.SuspendLayout();
             this.panelFooter.SuspendLayout();
             this.tlpFooter.SuspendLayout();
+            this.panelNote.SuspendLayout();
+            this.tlpNote.SuspendLayout();
             this.panelButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetail)).BeginInit();
             this.SuspendLayout();
@@ -258,12 +269,12 @@
             // panelFooter
             // 
             this.panelFooter.Controls.Add(this.tlpFooter);
-            this.panelFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelFooter.Location = new System.Drawing.Point(10, 543);
+            this.panelFooter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelFooter.Location = new System.Drawing.Point(0, 0);
             this.panelFooter.Name = "panelFooter";
             this.panelFooter.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
-            this.panelFooter.Size = new System.Drawing.Size(1080, 100);
-            this.panelFooter.TabIndex = 2;
+            this.panelFooter.Size = new System.Drawing.Size(1080, 130);
+            this.panelFooter.TabIndex = 0;
             // 
             // tlpFooter
             // 
@@ -295,7 +306,7 @@
             this.tlpFooter.RowCount = 2;
             this.tlpFooter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpFooter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpFooter.Size = new System.Drawing.Size(1080, 90);
+            this.tlpFooter.Size = new System.Drawing.Size(1080, 120);
             this.tlpFooter.TabIndex = 0;
             // 
             // lblCompany
@@ -438,6 +449,81 @@
             this.txtRevNo.TabIndex = 12;
             this.txtRevNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // panelNote
+            // 
+            this.panelNote.Controls.Add(this.tlpNote);
+            this.panelNote.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelNote.Location = new System.Drawing.Point(0, 0);
+            this.panelNote.Name = "panelNote";
+            this.panelNote.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.panelNote.Size = new System.Drawing.Size(1080, 86);
+            this.panelNote.TabIndex = 0;
+            // 
+            // tlpNote
+            // 
+            this.tlpNote.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tlpNote.ColumnCount = 2;
+            this.tlpNote.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tlpNote.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpNote.Controls.Add(this.lblNote, 0, 0);
+            this.tlpNote.Controls.Add(this.txtNote, 1, 0);
+            this.tlpNote.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpNote.Location = new System.Drawing.Point(0, 6);
+            this.tlpNote.Name = "tlpNote";
+            this.tlpNote.RowCount = 1;
+            this.tlpNote.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpNote.Size = new System.Drawing.Size(1080, 80);
+            this.tlpNote.TabIndex = 0;
+            // 
+            // lblNote
+            // 
+            this.lblNote.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblNote.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            this.lblNote.Location = new System.Drawing.Point(4, 1);
+            this.lblNote.Name = "lblNote";
+            this.lblNote.Size = new System.Drawing.Size(74, 78);
+            this.lblNote.TabIndex = 0;
+            this.lblNote.Text = "Note";
+            this.lblNote.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtNote
+            // 
+            this.txtNote.AcceptsReturn = true;
+            this.txtNote.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtNote.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtNote.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F);
+            this.txtNote.Location = new System.Drawing.Point(85, 4);
+            this.txtNote.Multiline = true;
+            this.txtNote.Name = "txtNote";
+            this.txtNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtNote.Size = new System.Drawing.Size(991, 72);
+            this.txtNote.TabIndex = 1;
+            // 
+            // splitNoteFooter
+            // 
+            this.splitNoteFooter.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.splitNoteFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.splitNoteFooter.Location = new System.Drawing.Point(10, 543);
+            this.splitNoteFooter.Name = "splitNoteFooter";
+            this.splitNoteFooter.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitNoteFooter.Panel1 (Note)
+            // 
+            this.splitNoteFooter.Panel1.BackColor = System.Drawing.Color.White;
+            this.splitNoteFooter.Panel1.Controls.Add(this.panelNote);
+            this.splitNoteFooter.Panel1MinSize = 40;
+            // 
+            // splitNoteFooter.Panel2 (Footer)
+            // 
+            this.splitNoteFooter.Panel2.BackColor = System.Drawing.Color.White;
+            this.splitNoteFooter.Panel2.Controls.Add(this.panelFooter);
+            this.splitNoteFooter.Panel2MinSize = 75;
+            this.splitNoteFooter.Size = new System.Drawing.Size(1080, 221);
+            this.splitNoteFooter.SplitterDistance = 86;
+            this.splitNoteFooter.SplitterWidth = 5;
+            this.splitNoteFooter.TabIndex = 2;
+            this.splitNoteFooter.TabStop = false;
+            // 
             // panelButtons
             // 
             this.panelButtons.Controls.Add(this.btnAddRow);
@@ -446,7 +532,7 @@
             this.panelButtons.Controls.Add(this.btnSave);
             this.panelButtons.Controls.Add(this.btnClose);
             this.panelButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelButtons.Location = new System.Drawing.Point(10, 643);
+            this.panelButtons.Location = new System.Drawing.Point(10, 764);
             this.panelButtons.Name = "panelButtons";
             this.panelButtons.Size = new System.Drawing.Size(1080, 50);
             this.panelButtons.TabIndex = 3;
@@ -638,13 +724,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1100, 703);
+            this.ClientSize = new System.Drawing.Size(1100, 824);
             this.Controls.Add(this.dgvDetail);
-            this.Controls.Add(this.panelFooter);
+            this.Controls.Add(this.splitNoteFooter);
             this.Controls.Add(this.panelButtons);
             this.Controls.Add(this.panelTop);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(900, 550);
+            this.MinimumSize = new System.Drawing.Size(900, 671);
             this.Name = "DrawingItemDetailForm";
             this.Padding = new System.Windows.Forms.Padding(10);
             this.ShowIcon = false;
@@ -655,9 +741,16 @@
             this.panelTop.PerformLayout();
             this.tlpHeader.ResumeLayout(false);
             this.tlpHeader.PerformLayout();
+            this.splitNoteFooter.Panel1.ResumeLayout(false);
+            this.splitNoteFooter.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitNoteFooter)).EndInit();
+            this.splitNoteFooter.ResumeLayout(false);
             this.panelFooter.ResumeLayout(false);
             this.tlpFooter.ResumeLayout(false);
             this.tlpFooter.PerformLayout();
+            this.panelNote.ResumeLayout(false);
+            this.tlpNote.ResumeLayout(false);
+            this.tlpNote.PerformLayout();
             this.panelButtons.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetail)).EndInit();
             this.ResumeLayout(false);
@@ -695,6 +788,11 @@
         private System.Windows.Forms.TextBox txtApproval;
         private System.Windows.Forms.DateTimePicker dtpEffectiveDate;
         private System.Windows.Forms.TextBox txtRevNo;
+        private System.Windows.Forms.Panel panelNote;
+        private System.Windows.Forms.TableLayoutPanel tlpNote;
+        private System.Windows.Forms.Label lblNote;
+        private System.Windows.Forms.TextBox txtNote;
+        private System.Windows.Forms.SplitContainer splitNoteFooter;
         private System.Windows.Forms.Panel panelButtons;
         private System.Windows.Forms.Button btnAddRow;
         private System.Windows.Forms.Button btnDeleteRow;
