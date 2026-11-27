@@ -307,6 +307,12 @@
     <Compile Include="Admin\RegisterMasterNGType.Designer.cs">
       <DependentUpon>RegisterMasterNGType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Admin\RegisterApplicatorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin\RegisterApplicatorForm.Designer.cs">
+      <DependentUpon>RegisterApplicatorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReportNGList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1146,6 +1152,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Admin\RegisterMasterNGType.resx">
       <DependentUpon>RegisterMasterNGType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Admin\RegisterApplicatorForm.resx">
+      <DependentUpon>RegisterApplicatorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ReportNGList.resx">
       <DependentUpon>ReportNGList.cs</DependentUpon>

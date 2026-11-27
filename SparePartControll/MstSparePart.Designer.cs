@@ -55,6 +55,7 @@
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtPno = new System.Windows.Forms.TextBox();
             this.chkPno = new System.Windows.Forms.CheckBox();
@@ -98,6 +99,7 @@
             // panelHeader
             // 
             this.panelHeader.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panelHeader.Controls.Add(this.btnExport);
             this.panelHeader.Controls.Add(this.btnDeleteGray);
             this.panelHeader.Controls.Add(this.btnDelete);
             this.panelHeader.Controls.Add(this.btnUpdateGrey);
@@ -185,7 +187,20 @@
             this.btnSearch.TabIndex = 29;
             this.toolTip1.SetToolTip(this.btnSearch, "Search");
             this.btnSearch.UseVisualStyleBackColor = false;
-            // 
+            //
+            // btnExport
+            //
+            this.btnExport.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnExport.BackColor = System.Drawing.Color.Transparent;
+            this.btnExport.BackgroundImage = global::MachineDeptApp.Properties.Resources.Export;
+            this.btnExport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnExport.Location = new System.Drawing.Point(251, 6);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(57, 56);
+            this.btnExport.TabIndex = 32;
+            this.toolTip1.SetToolTip(this.btnExport, "Export");
+            this.btnExport.UseVisualStyleBackColor = false;
+            //
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
@@ -606,6 +621,7 @@
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.PictureBox btnDeleteGray;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.DataGridViewTextBoxColumn code;
         private System.Windows.Forms.DataGridViewTextBoxColumn Pno;
         private System.Windows.Forms.DataGridViewTextBoxColumn Pname;

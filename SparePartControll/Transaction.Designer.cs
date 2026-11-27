@@ -85,6 +85,7 @@
             this.panelHeader = new System.Windows.Forms.Panel();
             this.btnDeleteGray = new System.Windows.Forms.PictureBox();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTTL)).BeginInit();
             this.panel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -537,6 +538,7 @@
             // panelHeader
             // 
             this.panelHeader.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panelHeader.Controls.Add(this.btnExport);
             this.panelHeader.Controls.Add(this.btnDeleteGray);
             this.panelHeader.Controls.Add(this.btnDelete);
             this.panelHeader.Controls.Add(this.btnSearch);
@@ -567,7 +569,19 @@
             this.btnDelete.Size = new System.Drawing.Size(46, 56);
             this.btnDelete.TabIndex = 32;
             this.btnDelete.UseVisualStyleBackColor = true;
-            // 
+            //
+            // btnExport
+            //
+            this.btnExport.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnExport.BackColor = System.Drawing.Color.Transparent;
+            this.btnExport.BackgroundImage = global::MachineDeptApp.Properties.Resources.Export;
+            this.btnExport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnExport.Location = new System.Drawing.Point(129, 6);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(57, 56);
+            this.btnExport.TabIndex = 34;
+            this.btnExport.UseVisualStyleBackColor = false;
+            //
             // transaction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -604,6 +618,7 @@
         private System.Windows.Forms.Panel panelHeader;
         private System.Windows.Forms.PictureBox btnDeleteGray;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.TextBox txtPno;
         private System.Windows.Forms.CheckBox chkPno;
         private System.Windows.Forms.TextBox txtPname;

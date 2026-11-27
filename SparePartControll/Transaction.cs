@@ -10,12 +10,14 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
+using MachineDeptApp.OtherClass;
 
 namespace MachineDeptApp
 {
     public partial class transaction : Form
     {
         SQLConnect con = new SQLConnect();
+        ExportAsCSVClass CSV = new ExportAsCSVClass();
         string dept = "MC";
         public transaction()
         {
@@ -27,6 +29,25 @@ namespace MachineDeptApp
             this.btnSearch.Click += BtnSearch_Click;
             this.dgvTTL.CellClick += DgvTTL_CellClick;
             this.btnDelete.Click += BtnDelete_Click;
+            this.btnExport.Click += BtnExport_Click;
+        }
+
+        private void BtnExport_Click(object sender, EventArgs e)
+        {
+            if (dgvTTL.Rows.Count == 0)
+            {
+                MessageBox.Show("No data to export !", "Export", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            CSV.CSVErrorT = "";
+            CSV.ExportAsCSV(this.dgvTTL, "SparePart_Transaction", 0);
+            if (CSV.CSVErrorT.Trim() != "")
+            {
+                if (CSV.CSVErrorT.Trim() == "OK")
+                    MessageBox.Show("Export successfully !", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("Something went wrong !\n" + CSV.CSVErrorT, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)

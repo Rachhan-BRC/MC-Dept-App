@@ -8,14 +8,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MachineDeptApp.OtherClass;
 
 namespace MachineDeptApp
 {
     public partial class MstSparePart : Form
     {
         SQLConnect con = new SQLConnect();
+        ExportAsCSVClass CSV = new ExportAsCSVClass();
         string dept = "MC";
-        
+
         public MstSparePart()
         {
             con.Connection();
@@ -26,12 +28,31 @@ namespace MachineDeptApp
             this.btnUpdate.Click += BtnUpdate_Click;
             this.dgvMst.CurrentCellChanged += DgvMst_CurrentCellChanged;
             this.btnDelete.Click += BtnDelete_Click;
+            this.btnExport.Click += BtnExport_Click;
             //txt
             this.txtcode.TextChanged += Txtcode_TextChanged;
             this.txtPname.TextChanged += TxtPname_TextChanged;
             this.txtPno.TextChanged += TxtPno_TextChanged;
             this.txtLoc.TextChanged += TxtLoc_TextChanged;
             this.txtusefor.TextChanged += Txtusefor_TextChanged;
+        }
+
+        private void BtnExport_Click(object sender, EventArgs e)
+        {
+            if (dgvMst.Rows.Count == 0)
+            {
+                MessageBox.Show("No data to export !", "Export", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            CSV.CSVErrorT = "";
+            CSV.ExportAsCSV(this.dgvMst, "Master_SparePart", 0);
+            if (CSV.CSVErrorT.Trim() != "")
+            {
+                if (CSV.CSVErrorT.Trim() == "OK")
+                    MessageBox.Show("Export successfully !", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("Something went wrong !\n" + CSV.CSVErrorT, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void Txtusefor_TextChanged(object sender, EventArgs e)

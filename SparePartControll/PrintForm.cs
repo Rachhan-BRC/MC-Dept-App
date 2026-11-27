@@ -27,6 +27,7 @@ namespace MachineDeptApp.SparePartControll
         
         public PrintForm(DataTable dtupdate)
         {
+
             dtup = dtupdate;
             con.Connection();
             InitializeComponent();
