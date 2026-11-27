@@ -11,9 +11,11 @@ namespace MachineDeptApp.Admin
     public partial class MasterItemForm : Form
     {
         SQLConnect cnn = new SQLConnect();
-        DataTable dtMstMCType, dtMstMCName, dtMstSlot;
+        DataTable dtMstMCType, dtMstMCName, dtMstSlot, dtMstApplicator;
         string ErrorText = "", BeforeEdit = "";
 
+        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Unicode)]
+        private static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, string lParam);
         public MasterItemForm()
         {
             InitializeComponent();
@@ -36,6 +38,13 @@ namespace MachineDeptApp.Admin
 
             this.dgvSlot.LostFocus += DgvSlot_LostFocus;
             this.dgvSlot.CellClick += DgvSlot_CellClick;
+
+            //Applicator popup = search box + list (closes when focus leaves it)
+            this.panelApplicator.Leave += PanelApplicator_Leave;
+            this.txtApplicatorSearch.TextChanged += TxtApplicatorSearch_TextChanged;
+            this.txtApplicatorSearch.KeyDown += TxtApplicatorSearch_KeyDown;
+            this.dgvApplicator.CellClick += DgvApplicator_CellClick;
+            this.dgvApplicator.KeyDown += DgvApplicator_KeyDown;
 
             this.dgvStatus.LostFocus += DgvStatus_LostFocus;
             this.dgvStatus.CellClick += DgvStatus_CellClick;
@@ -103,15 +112,6 @@ namespace MachineDeptApp.Admin
                     }
 
                 }
-                else if (dgvSearchResult.Columns[e.ColumnIndex].Name.StartsWith("ColApplicator"))
-                {
-                    string NewValue = (dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString() ?? "").Trim();
-                    if (BeforeEdit != NewValue)
-                    {
-                        string ApplicatorNo = dgvSearchResult.Columns[e.ColumnIndex].Name.Replace("ColApplicator", "");
-                        SaveApplicator(e.RowIndex, e.ColumnIndex, ApplicatorNo, NewValue);
-                    }
-                }
             }
 
         }
@@ -119,7 +119,7 @@ namespace MachineDeptApp.Admin
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                if (dgvSearchResult.Columns[e.ColumnIndex].Name == "ColRemark" || dgvSearchResult.Columns[e.ColumnIndex].Name.StartsWith("ColApplicator"))
+                if (dgvSearchResult.Columns[e.ColumnIndex].Name == "ColRemark")
                     BeforeEdit = dgvSearchResult.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString() ?? "";
             }
         }
@@ -128,6 +128,7 @@ namespace MachineDeptApp.Admin
             dgvMCType.SendToBack();
             dgvMCName.SendToBack();
             dgvSlot.SendToBack();
+            panelApplicator.SendToBack();
             dgvStatus.SendToBack();
         }
         private void DgvMCName_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -261,6 +262,55 @@ namespace MachineDeptApp.Admin
         private void DgvSlot_LostFocus(object sender, EventArgs e)
         {
             this.dgvSlot.SendToBack();
+        }
+        private void DgvApplicator_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+                PickApplicator(dgvApplicator.Rows[e.RowIndex]);
+        }
+        private void DgvApplicator_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                PickApplicator(dgvApplicator.CurrentRow);
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                e.SuppressKeyPress = true;
+                CloseApplicatorPopup();
+            }
+        }
+        private void TxtApplicatorSearch_TextChanged(object sender, EventArgs e)
+        {
+            FillApplicatorList(txtApplicatorSearch.Text, "");
+        }
+        private void TxtApplicatorSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            //Enter = pick the highlighted one, Up/Down = move the highlight, Esc = close
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                PickApplicator(dgvApplicator.CurrentRow);
+            }
+            else if (e.KeyCode == Keys.Down || e.KeyCode == Keys.Up)
+            {
+                e.Handled = true;
+                if (dgvApplicator.Rows.Count == 0)
+                    return;
+                int i = dgvApplicator.CurrentRow?.Index ?? -1;
+                i = e.KeyCode == Keys.Down ? Math.Min(i + 1, dgvApplicator.Rows.Count - 1) : Math.Max(i - 1, 0);
+                dgvApplicator.CurrentCell = dgvApplicator.Rows[i].Cells[0];
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                e.SuppressKeyPress = true;
+                CloseApplicatorPopup();
+            }
+        }
+        private void PanelApplicator_Leave(object sender, EventArgs e)
+        {
+            panelApplicator.SendToBack();
         }
         private void DgvSearchResult_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
@@ -547,6 +597,12 @@ namespace MachineDeptApp.Admin
                     foreach (DataRow row in dtMstSlot.Rows)
                         dgvToBeShow.Rows.Add(row["SLOTName"].ToString());
                 }
+                if (SelColName.StartsWith("ColApplicator"))
+                {
+                    //Applicator has its own popup with a search box (the list can be long)
+                    ShowApplicatorPopup(e.ColumnIndex, e.RowIndex);
+                    return;
+                }
                 if (SelColName.Contains("Status"))
                     dgvToBeShow = dgvStatus;
 
@@ -564,23 +620,121 @@ namespace MachineDeptApp.Admin
                     int rowsHeight = dgvToBeShow.Rows.GetRowsHeight(DataGridViewElementStates.Visible);
                     dgvToBeShow.Height = Math.Min(maxHeight, rowsHeight + borderHeight);
 
-                    //Position the popup just below the clicked cell, relative to the popup's own parent
-                    Rectangle cellRect = dgvSearchResult.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
-                    Point cellBottomLeft = new Point(cellRect.Left, cellRect.Bottom);
-                    Point popupLocation = dgvToBeShow.Parent.PointToClient(dgvSearchResult.PointToScreen(cellBottomLeft));
-
-                    //Keep the popup inside its parent so it is never cut off
-                    Size parentSize = dgvToBeShow.Parent.ClientSize;
-                    if (popupLocation.Y + dgvToBeShow.Height > parentSize.Height)
-                        popupLocation.Y = popupLocation.Y - cellRect.Height - dgvToBeShow.Height;
-                    popupLocation.X = Math.Max(0, Math.Min(popupLocation.X, parentSize.Width - dgvToBeShow.Width));
-                    popupLocation.Y = Math.Max(0, popupLocation.Y);
-
-                    dgvToBeShow.Location = popupLocation;
-                    dgvToBeShow.BringToFront();
+                    PlacePopupUnderCell(dgvToBeShow, e.ColumnIndex, e.RowIndex);
                     dgvToBeShow.Focus();
                 }
             }
+        }
+        private void PlacePopupUnderCell(Control Popup, int ColIndex, int RowIndex)
+        {
+            //Position the popup just below the clicked cell, relative to the popup's own parent
+            Rectangle cellRect = dgvSearchResult.GetCellDisplayRectangle(ColIndex, RowIndex, false);
+            Point cellBottomLeft = new Point(cellRect.Left, cellRect.Bottom);
+            Point popupLocation = Popup.Parent.PointToClient(dgvSearchResult.PointToScreen(cellBottomLeft));
+
+            //Keep the popup inside its parent so it is never cut off
+            Size parentSize = Popup.Parent.ClientSize;
+            if (popupLocation.Y + Popup.Height > parentSize.Height)
+                popupLocation.Y = popupLocation.Y - cellRect.Height - Popup.Height;
+            popupLocation.X = Math.Max(0, Math.Min(popupLocation.X, parentSize.Width - Popup.Width));
+            popupLocation.Y = Math.Max(0, popupLocation.Y);
+
+            Popup.Location = popupLocation;
+            Popup.BringToFront();
+        }
+        private void ShowApplicatorPopup(int ColIndex, int RowIndex)
+        {
+            string CurrentValue = dgvSearchResult.Rows[RowIndex].Cells[ColIndex].Value?.ToString() ?? "";
+
+            //Start with an empty search and the full list, the applicator already in the cell highlighted
+            txtApplicatorSearch.TextChanged -= TxtApplicatorSearch_TextChanged;
+            txtApplicatorSearch.Text = "";
+            txtApplicatorSearch.TextChanged += TxtApplicatorSearch_TextChanged;
+            FillApplicatorList("", CurrentValue);
+
+            //At least as wide as the column (wide enough to type in), tall enough for up to 10 rows
+            panelApplicator.Width = Math.Max(dgvSearchResult.Columns[ColIndex].Width, 160);
+            int RowHeight = dgvApplicator.Rows.Count > 0 ? dgvApplicator.Rows[0].Height : dgvApplicator.RowTemplate.Height;
+            int ListHeight = Math.Min(RowHeight * 10, Math.Max(RowHeight, dgvApplicator.Rows.GetRowsHeight(DataGridViewElementStates.Visible)));
+            panelApplicator.Height = ListHeight + txtApplicatorSearch.Height + panelApplicator.Padding.Vertical + 2;
+
+            PlacePopupUnderCell(panelApplicator, ColIndex, RowIndex);
+            txtApplicatorSearch.Focus();
+        }
+        private void FillApplicatorList(string Key, string Highlight)
+        {
+            Key = Key.Trim();
+            dgvApplicator.Rows.Clear();
+
+            //"(Clear)" empties the cell, only shown when not searching
+            if (Key == "")
+            {
+                int i = dgvApplicator.Rows.Add("(Clear)");
+                dgvApplicator.Rows[i].Tag = "";
+                dgvApplicator.Rows[i].DefaultCellStyle.ForeColor = Color.Gray;
+            }
+            if (dtMstApplicator != null)
+            {
+                foreach (DataRow row in dtMstApplicator.Rows)
+                {
+                    string Value = row["Applicator"].ToString();
+                    if (Key == "" || Value.IndexOf(Key, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        int i = dgvApplicator.Rows.Add(Value);
+                        dgvApplicator.Rows[i].Tag = Value;
+                    }
+                }
+            }
+            if (Key != "" && dgvApplicator.Rows.Count == 0)
+            {
+                //Nothing to pick (Tag stays null)
+                int i = dgvApplicator.Rows.Add("Not found");
+                dgvApplicator.Rows[i].DefaultCellStyle.ForeColor = Color.Gray;
+                dgvApplicator.Rows[i].DefaultCellStyle.SelectionForeColor = Color.Gray;
+                dgvApplicator.Rows[i].DefaultCellStyle.SelectionBackColor = Color.White;
+            }
+
+            //Highlight the current applicator when the list opens, or the first match while searching (Enter picks it)
+            dgvApplicator.ClearSelection();
+            dgvApplicator.CurrentCell = null;
+            foreach (DataGridViewRow drow in dgvApplicator.Rows)
+            {
+                string Value = drow.Tag as string;
+                if (Value != null && (Key != "" || (Highlight != "" && Value == Highlight)))
+                {
+                    dgvApplicator.CurrentCell = drow.Cells[0];
+                    break;
+                }
+            }
+        }
+        private void PickApplicator(DataGridViewRow PickedRow)
+        {
+            //Rows without a Tag ("Not found") can't be picked
+            if (PickedRow == null || PickedRow.Tag == null)
+                return;
+            if (dgvSearchResult.CurrentCell == null || dgvSearchResult.CurrentRow == null)
+                return;
+            string ColName = dgvSearchResult.Columns[dgvSearchResult.CurrentCell.ColumnIndex].Name;
+            if (!ColName.StartsWith("ColApplicator"))
+                return;
+
+            string WIPCode = dgvSearchResult.CurrentRow.Cells["ColCode"].Value.ToString(),
+                NewValue = PickedRow.Tag.ToString(),
+                OldValue = dgvSearchResult.CurrentCell.Value?.ToString() ?? "";
+
+            //Same as before: nothing to save
+            if (NewValue == OldValue)
+            {
+                CloseApplicatorPopup();
+                return;
+            }
+            panelApplicator.SendToBack();
+            SaveApplicator(WIPCode, ColName.Replace("ColApplicator", ""), NewValue);
+        }
+        private void CloseApplicatorPopup()
+        {
+            panelApplicator.SendToBack();
+            dgvSearchResult.Focus();
         }
         private void BtnSearch_Click(object sender, EventArgs e)
         {
@@ -714,9 +868,13 @@ namespace MachineDeptApp.Admin
             dgvStatus.Rows[dgvStatus.Rows.Count - 1].Cells[0].Value = "EVENT";
             cbstatus.SelectedIndex = 0;
 
+            //Grey hint inside the Applicator search box (EM_SETCUEBANNER, shown while focused too)
+            SendMessage(txtApplicatorSearch.Handle, 0x1501, (IntPtr)1, "Search applicator...");
+
             foreach (DataGridViewColumn col in dgvSearchResult.Columns)
             {
-                if (!col.Name.Contains("Remark") && !col.Name.Contains("Applicator"))
+                //Only Remark is typed; MC, SLOT, Applicator and Status are picked from a list
+                if (!col.Name.Contains("Remark"))
                     col.ReadOnly = true;
 
                 //Applicator1~5 are not MC1~3, skip the MC header colors
@@ -796,6 +954,9 @@ namespace MachineDeptApp.Admin
                 sda = new SqlDataAdapter("SELECT SLOTName FROM tbMasterSLOT ORDER BY SLOTName ASC", cnn.con);
                 dtMstSlot = new DataTable();
                 sda.Fill(dtMstSlot);
+                sda = new SqlDataAdapter("SELECT Applicator FROM tbMasterApplicator ORDER BY Applicator ASC", cnn.con);
+                dtMstApplicator = new DataTable();
+                sda.Fill(dtMstApplicator);
             }
             catch (Exception ex)
             {
@@ -934,11 +1095,10 @@ namespace MachineDeptApp.Admin
             dgvSearchResult.Focus();
 
         }
-        private void SaveApplicator(int RowIndex, int ColIndex, string ApplicatorNo, string Value)
+        private void SaveApplicator(string WIPCode, string ApplicatorNo, string Value)
         {
             ErrorText = "";
             Cursor = Cursors.WaitCursor;
-            string WIPCode = dgvSearchResult.Rows[RowIndex].Cells["ColCode"].Value.ToString();
 
             //Save Applicator1~5
             try
@@ -952,7 +1112,7 @@ namespace MachineDeptApp.Admin
                         BEGIN
                             INSERT INTO tbMasterItemPlan (ItemCode, Applicator" + ApplicatorNo + @") VALUES (@code, @value);
                         END", cnn.con);
-                if (Value != "")
+                if (Value.Trim() != "")
                     cmd.Parameters.AddWithValue("@value", Value);
                 else
                     cmd.Parameters.AddWithValue("@value", DBNull.Value);
@@ -971,13 +1131,11 @@ namespace MachineDeptApp.Admin
             Cursor = Cursors.Default;
 
             if (ErrorText.Trim() == "")
-                dgvSearchResult.Rows[RowIndex].Cells[ColIndex].Value = Value;
+                dgvSearchResult.CurrentRow.Cells[dgvSearchResult.CurrentCell.ColumnIndex].Value = Value;
             else
-            {
-                //Save failed, put back the old value
-                dgvSearchResult.Rows[RowIndex].Cells[ColIndex].Value = BeforeEdit;
                 MessageBox.Show("Something went wrong! " + ErrorText, MenuFormV2.MsgTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+
+            dgvSearchResult.Focus();
 
         }
         private void SaveStatusOrRemark(string WIPCode, string StatusOrRemark, string Value)
@@ -1023,6 +1181,5 @@ namespace MachineDeptApp.Admin
             dgvSearchResult.Focus();
 
         }
-
     }
 }

@@ -1270,6 +1270,29 @@ namespace MachineDeptApp
                     dtOpenForm.Rows.Add("SLOTMasterForm", "SLOT List");
                 }
             }
+            if (currentClkNode.Text == "Register Applicator")
+            {
+                //Check if already open >> Focus on that Form
+                int FoundOpened = 0;
+                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
+                {
+                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
+                    {
+                        tabControlOpenForm.SelectedIndex = i;
+                        FoundOpened++;
+                        break;
+                    }
+                }
+
+                if (FoundOpened == 0)
+                {
+                    RegisterApplicatorForm Raf = new RegisterApplicatorForm();
+                    Raf.MdiParent = MenuFormV2.ActiveForm;
+                    Raf.Show();
+                    tabControlOpenForm.TabPages.Add("Register Applicator");
+                    dtOpenForm.Rows.Add("RegisterApplicatorForm", "Register Applicator");
+                }
+            }
             if (currentClkNode.Text == "Master Check (MC vs Item)")
             {
                 //Check if already open >> Focus on that Form
@@ -2822,6 +2845,7 @@ namespace MachineDeptApp
             //The last one
             dtChildRoot.Rows.Add(dtRoot.Rows.Count -1 , "User Account", "UserForm");
             dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "MC List", "MachineTypeMasterForm");
+            dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "Register Applicator", "RegisterApplicatorForm");
             dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "MC Type vs Item", "MasterItemForm");
             dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "SLOT List", "SLOTMasterForm");
             dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "Master Check (MC vs Item)", "MasterItemCheckForm");
@@ -2931,21 +2955,18 @@ namespace MachineDeptApp
                 string id = LoginForm.IDValueForNextForm;
                 if (LoginForm.RoleForNextForm != "Admin")
                 {
-                    int AdminFuncCount = treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes.Count;
-                    for (int i = AdminFuncCount - 1; i > -1; i--)
+                    //Hide Admin-only items by name (not by position, so adding a menu item doesn't hide the wrong one)
+                    TreeNode AdminRoot = treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1];
+                    for (int i = AdminRoot.Nodes.Count - 1; i > -1; i--)
                     {
-
-                        if (i == 0)
+                        string NodeName = AdminRoot.Nodes[i].Text;
+                        if (NodeName == "User Account" || NodeName == "MC Type vs Item")
                         {
-                            treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes[i].Remove();
+                            AdminRoot.Nodes[i].Remove();
                         }
-                        if (i == 2)
+                        else if (NodeName == "Master Stop Information" && id != "1889" && id != "1666" && id != "1747")
                         {
-                            treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes[i].Remove();
-                        }
-                        if (i == 8 && id != "1889" && id != "1666" && id != "1747")
-                        {
-                            treeViewMenu.Nodes[treeViewMenu.Nodes.Count - 1].Nodes[i].Remove();
+                            AdminRoot.Nodes[i].Remove();
                         }
                     }
                     if (id != "1889" && id != "1666" && id != "1747")

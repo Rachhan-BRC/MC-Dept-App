@@ -39,6 +39,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label4 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.txtTargetEdit = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
@@ -58,9 +60,6 @@
             this.panelBody = new System.Windows.Forms.Panel();
             this.GroupBoxResult = new System.Windows.Forms.GroupBox();
             this.dgvSearchResult = new System.Windows.Forms.DataGridView();
-            this.panelFooter = new System.Windows.Forms.Panel();
-            this.LbStatus = new System.Windows.Forms.Label();
-            this.panelHeader = new System.Windows.Forms.Panel();
             this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Target = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -68,8 +67,9 @@
             this.dataGridViewTextBoxColumn18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtTargetEdit = new System.Windows.Forms.TextBox();
+            this.panelFooter = new System.Windows.Forms.Panel();
+            this.LbStatus = new System.Windows.Forms.Label();
+            this.panelHeader = new System.Windows.Forms.Panel();
             this.tabPage4.SuspendLayout();
             this.panel6.SuspendLayout();
             this.tabContrlEdit.SuspendLayout();
@@ -107,6 +107,25 @@
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "អាប់ដេតគណនី";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // txtTargetEdit
+            // 
+            this.txtTargetEdit.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTargetEdit.Location = new System.Drawing.Point(434, 12);
+            this.txtTargetEdit.MaxLength = 150;
+            this.txtTargetEdit.Name = "txtTargetEdit";
+            this.txtTargetEdit.Size = new System.Drawing.Size(224, 32);
+            this.txtTargetEdit.TabIndex = 40;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(348, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(58, 24);
+            this.label1.TabIndex = 39;
+            this.label1.Text = "គោលដៅ";
             // 
             // panel6
             // 
@@ -230,7 +249,7 @@
             // 
             // btnUpdate
             // 
-            this.btnUpdate.BackColor = System.Drawing.Color.DarkGray;
+            this.btnUpdate.BackColor = System.Drawing.Color.Transparent;
             this.btnUpdate.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnUpdate.BackgroundImage")));
             this.btnUpdate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnUpdate.Enabled = false;
@@ -255,7 +274,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.BackColor = System.Drawing.Color.DarkGray;
+            this.btnDelete.BackColor = System.Drawing.Color.Transparent;
             this.btnDelete.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDelete.BackgroundImage")));
             this.btnDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnDelete.Enabled = false;
@@ -354,42 +373,6 @@
             this.dgvSearchResult.Size = new System.Drawing.Size(778, 119);
             this.dgvSearchResult.TabIndex = 11;
             // 
-            // panelFooter
-            // 
-            this.panelFooter.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.panelFooter.Controls.Add(this.LbStatus);
-            this.panelFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelFooter.Location = new System.Drawing.Point(0, 425);
-            this.panelFooter.Name = "panelFooter";
-            this.panelFooter.Size = new System.Drawing.Size(800, 25);
-            this.panelFooter.TabIndex = 24;
-            // 
-            // LbStatus
-            // 
-            this.LbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LbStatus.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LbStatus.Location = new System.Drawing.Point(350, 5);
-            this.LbStatus.Name = "LbStatus";
-            this.LbStatus.Size = new System.Drawing.Size(445, 15);
-            this.LbStatus.TabIndex = 0;
-            this.LbStatus.Text = "A";
-            this.LbStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.LbStatus.Visible = false;
-            // 
-            // panelHeader
-            // 
-            this.panelHeader.Controls.Add(this.btnExport);
-            this.panelHeader.Controls.Add(this.btnNew);
-            this.panelHeader.Controls.Add(this.btnUpdate);
-            this.panelHeader.Controls.Add(this.btnSearch);
-            this.panelHeader.Controls.Add(this.btnDelete);
-            this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelHeader.Location = new System.Drawing.Point(0, 0);
-            this.panelHeader.Name = "panelHeader";
-            this.panelHeader.Size = new System.Drawing.Size(800, 58);
-            this.panelHeader.TabIndex = 23;
-            // 
             // dataGridViewTextBoxColumn11
             // 
             this.dataGridViewTextBoxColumn11.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -458,24 +441,41 @@
             this.dataGridViewTextBoxColumn20.Name = "dataGridViewTextBoxColumn20";
             this.dataGridViewTextBoxColumn20.ReadOnly = true;
             // 
-            // label1
+            // panelFooter
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(348, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(58, 24);
-            this.label1.TabIndex = 39;
-            this.label1.Text = "គោលដៅ";
+            this.panelFooter.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panelFooter.Controls.Add(this.LbStatus);
+            this.panelFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelFooter.Location = new System.Drawing.Point(0, 425);
+            this.panelFooter.Name = "panelFooter";
+            this.panelFooter.Size = new System.Drawing.Size(800, 25);
+            this.panelFooter.TabIndex = 24;
             // 
-            // txtTargetEdit
+            // LbStatus
             // 
-            this.txtTargetEdit.Font = new System.Drawing.Font("Khmer OS Battambang", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTargetEdit.Location = new System.Drawing.Point(434, 12);
-            this.txtTargetEdit.MaxLength = 150;
-            this.txtTargetEdit.Name = "txtTargetEdit";
-            this.txtTargetEdit.Size = new System.Drawing.Size(224, 32);
-            this.txtTargetEdit.TabIndex = 40;
+            this.LbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.LbStatus.Font = new System.Drawing.Font("Khmer OS Battambang", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbStatus.Location = new System.Drawing.Point(350, 5);
+            this.LbStatus.Name = "LbStatus";
+            this.LbStatus.Size = new System.Drawing.Size(445, 15);
+            this.LbStatus.TabIndex = 0;
+            this.LbStatus.Text = "A";
+            this.LbStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.LbStatus.Visible = false;
+            // 
+            // panelHeader
+            // 
+            this.panelHeader.Controls.Add(this.btnExport);
+            this.panelHeader.Controls.Add(this.btnNew);
+            this.panelHeader.Controls.Add(this.btnUpdate);
+            this.panelHeader.Controls.Add(this.btnSearch);
+            this.panelHeader.Controls.Add(this.btnDelete);
+            this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelHeader.Location = new System.Drawing.Point(0, 0);
+            this.panelHeader.Name = "panelHeader";
+            this.panelHeader.Size = new System.Drawing.Size(800, 58);
+            this.panelHeader.TabIndex = 23;
             // 
             // MachineTypeMasterForm
             // 

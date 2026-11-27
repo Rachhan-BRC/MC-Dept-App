@@ -37,6 +37,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -75,6 +77,10 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvSlot = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panelApplicator = new System.Windows.Forms.Panel();
+            this.dgvApplicator = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumnApplicator = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtApplicatorSearch = new System.Windows.Forms.TextBox();
             this.dgvMCType = new System.Windows.Forms.DataGridView();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvMCName = new System.Windows.Forms.DataGridView();
@@ -107,6 +113,8 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSlot)).BeginInit();
+            this.panelApplicator.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvApplicator)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMCType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMCName)).BeginInit();
             this.SuspendLayout();
@@ -504,6 +512,63 @@
             this.dataGridViewTextBoxColumn1.HeaderText = "Slot";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            //
+            // panelApplicator
+            //
+            this.panelApplicator.BackColor = System.Drawing.Color.White;
+            this.panelApplicator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelApplicator.Controls.Add(this.dgvApplicator);
+            this.panelApplicator.Controls.Add(this.txtApplicatorSearch);
+            this.panelApplicator.Location = new System.Drawing.Point(620, 213);
+            this.panelApplicator.Name = "panelApplicator";
+            this.panelApplicator.Padding = new System.Windows.Forms.Padding(3);
+            this.panelApplicator.Size = new System.Drawing.Size(160, 240);
+            this.panelApplicator.TabIndex = 37;
+            //
+            // txtApplicatorSearch
+            //
+            this.txtApplicatorSearch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtApplicatorSearch.Dock = System.Windows.Forms.DockStyle.Top;
+            this.txtApplicatorSearch.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtApplicatorSearch.Location = new System.Drawing.Point(3, 3);
+            this.txtApplicatorSearch.Name = "txtApplicatorSearch";
+            this.txtApplicatorSearch.Size = new System.Drawing.Size(152, 25);
+            this.txtApplicatorSearch.TabIndex = 0;
+            //
+            // dgvApplicator
+            //
+            this.dgvApplicator.AllowUserToAddRows = false;
+            this.dgvApplicator.AllowUserToDeleteRows = false;
+            this.dgvApplicator.AllowUserToResizeColumns = false;
+            this.dgvApplicator.AllowUserToResizeRows = false;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Kh Battambang", 9F);
+            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.Blue;
+            this.dgvApplicator.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
+            this.dgvApplicator.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvApplicator.ColumnHeadersVisible = false;
+            this.dgvApplicator.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumnApplicator});
+            this.dgvApplicator.BackgroundColor = System.Drawing.Color.White;
+            this.dgvApplicator.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgvApplicator.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvApplicator.Location = new System.Drawing.Point(3, 28);
+            this.dgvApplicator.MultiSelect = false;
+            this.dgvApplicator.Name = "dgvApplicator";
+            this.dgvApplicator.ReadOnly = true;
+            this.dgvApplicator.RowHeadersVisible = false;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Kh Battambang", 9F);
+            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.Blue;
+            this.dgvApplicator.RowsDefaultCellStyle = dataGridViewCellStyle17;
+            this.dgvApplicator.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvApplicator.Size = new System.Drawing.Size(152, 207);
+            this.dgvApplicator.TabIndex = 1;
+            //
+            // dataGridViewTextBoxColumnApplicator
+            //
+            this.dataGridViewTextBoxColumnApplicator.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumnApplicator.HeaderText = "Applicator";
+            this.dataGridViewTextBoxColumnApplicator.Name = "dataGridViewTextBoxColumnApplicator";
+            this.dataGridViewTextBoxColumnApplicator.ReadOnly = true;
             // 
             // dgvMCType
             // 
@@ -750,6 +815,7 @@
             this.Controls.Add(this.dgvMCName);
             this.Controls.Add(this.dgvMCType);
             this.Controls.Add(this.dgvSlot);
+            this.Controls.Add(this.panelApplicator);
             this.Controls.Add(this.dgvStatus);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MasterItemForm";
@@ -764,6 +830,9 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStatus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSlot)).EndInit();
+            this.panelApplicator.ResumeLayout(false);
+            this.panelApplicator.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvApplicator)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMCType)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMCName)).EndInit();
             this.ResumeLayout(false);
@@ -802,6 +871,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridView dgvSlot;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.Panel panelApplicator;
+        private System.Windows.Forms.TextBox txtApplicatorSearch;
+        private System.Windows.Forms.DataGridView dgvApplicator;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumnApplicator;
         private System.Windows.Forms.DataGridView dgvMCType;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridView dgvMCName;
