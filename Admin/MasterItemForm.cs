@@ -16,6 +16,7 @@ namespace MachineDeptApp.Admin
 
         [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Unicode)]
         private static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, string lParam);
+
         public MasterItemForm()
         {
             InitializeComponent();
@@ -793,6 +794,7 @@ namespace MachineDeptApp.Admin
 	                    COALESCE(tbP.Applicator3,'') AS Applicator3,
 	                    COALESCE(tbP.Applicator4,'') AS Applicator4,
 	                    COALESCE(tbP.Applicator5,'') AS Applicator5,
+	                    COALESCE(tbP.Applicator6,'') AS Applicator6,
 	                    tbS.Status, tbS.Remarks
                     FROM tbMasterItem tbM 
                     LEFT JOIN tbMasterItemPlan tbP ON tbP.ItemCode = tbM.ItemCode 
@@ -837,6 +839,7 @@ namespace MachineDeptApp.Admin
                     dgvRow.Cells[ColApplicator3.Name].Value = row["Applicator3"].ToString();
                     dgvRow.Cells[ColApplicator4.Name].Value = row["Applicator4"].ToString();
                     dgvRow.Cells[ColApplicator5.Name].Value = row["Applicator5"].ToString();
+                    dgvRow.Cells[ColApplicator6.Name].Value = row["Applicator6"].ToString();
                     dgvRow.Cells[ColStatus.Name].Value = row["Status"].ToString();
                     dgvRow.Cells[ColRemark.Name].Value = row["Remarks"].ToString();
                 }
@@ -877,7 +880,7 @@ namespace MachineDeptApp.Admin
                 if (!col.Name.Contains("Remark"))
                     col.ReadOnly = true;
 
-                //Applicator1~5 are not MC1~3, skip the MC header colors
+                //Applicator1~6 are not MC1~3, skip the MC header colors
                 if (col.Name.Contains("Applicator"))
                     continue;
 
@@ -1100,7 +1103,7 @@ namespace MachineDeptApp.Admin
             ErrorText = "";
             Cursor = Cursors.WaitCursor;
 
-            //Save Applicator1~5
+            //Save Applicator1~6
             try
             {
                 cnn.con.Open();
