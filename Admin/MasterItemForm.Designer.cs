@@ -103,6 +103,7 @@
             this.ColApplicator3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColApplicator4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColApplicator5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColApplicator6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColRemark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelFooter.SuspendLayout();
@@ -246,6 +247,7 @@
             this.ColApplicator3,
             this.ColApplicator4,
             this.ColApplicator5,
+            this.ColApplicator6,
             this.ColStatus,
             this.ColRemark});
             this.dgvSearchResult.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -783,6 +785,13 @@
             this.ColApplicator5.HeaderText = "Applicator5";
             this.ColApplicator5.Name = "ColApplicator5";
             this.ColApplicator5.Width = 110;
+            //
+            // ColApplicator6
+            //
+            this.ColApplicator6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColApplicator6.HeaderText = "Applicator6";
+            this.ColApplicator6.Name = "ColApplicator6";
+            this.ColApplicator6.Width = 110;
             // 
             // ColStatus
             // 
@@ -897,6 +906,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColApplicator3;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColApplicator4;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColApplicator5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColApplicator6;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColRemark;
     }
