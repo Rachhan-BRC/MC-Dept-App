@@ -1,6 +1,5 @@
 ﻿using MachineDeptApp.Admin;
 using MachineDeptApp.AllSection;
-using MachineDeptApp.Drawing;
 using MachineDeptApp.InputTransferSemi;
 using MachineDeptApp.Inventory;
 using MachineDeptApp.Inventory.Inprocess;
@@ -611,29 +610,6 @@ namespace MachineDeptApp
                     Uf.Show();
                     tabControlOpenForm.TabPages.Add("Sub Leader Register");
                     dtOpenForm.Rows.Add("SubLeaderRegisterForm", "Sub Leader Register");
-                }
-            }
-            if (currentClkNode.Text == "Drawing Item")
-            {
-                //Check if already open >> Focus on that Form
-                int FoundOpened = 0;
-                for (int i = 0; i < dtOpenForm.Rows.Count; i++)
-                {
-                    if (treeViewMenu.SelectedNode.Text.ToString() == dtOpenForm.Rows[i][1].ToString())
-                    {
-                        tabControlOpenForm.SelectedIndex = i;
-                        FoundOpened++;
-                        break;
-                    }
-                }
-
-                if (FoundOpened == 0)
-                {
-                    DrawingItemForm Dif = new DrawingItemForm();
-                    Dif.MdiParent = MenuFormV2.ActiveForm;
-                    Dif.Show();
-                    tabControlOpenForm.TabPages.Add("Drawing Item");
-                    dtOpenForm.Rows.Add("DrawingItemForm", "Drawing Item");
                 }
             }
             if (currentClkNode.Text == "Master Stop Information")
@@ -2738,7 +2714,6 @@ namespace MachineDeptApp
             dtRoot.Rows.Add("PP Data");
             dtRoot.Rows.Add("RM over SPQ");
             dtRoot.Rows.Add("MC Monthly Report");
-            dtRoot.Rows.Add("Drawing");
             dtRoot.Rows.Add("Admin");
             foreach (DataRow row in dtRoot.Rows)
             {
@@ -2843,8 +2818,6 @@ namespace MachineDeptApp
             dtChildRoot.Rows.Add(11, "Quality Control", "QualityControlForm");
             dtChildRoot.Rows.Add(11, "Monthly Customer Claim", "MonthlyCustomerClaimFrom");
             dtChildRoot.Rows.Add(11, "Defect Out Flow", "DefectOutFlow");
-            // 12 Drawing
-            dtChildRoot.Rows.Add(12, "Drawing Item", "DrawingItemForm");
             //The last one
             dtChildRoot.Rows.Add(dtRoot.Rows.Count -1 , "User Account", "UserForm");
             dtChildRoot.Rows.Add(dtRoot.Rows.Count - 1, "MC List", "MachineTypeMasterForm");

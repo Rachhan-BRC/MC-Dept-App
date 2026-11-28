@@ -65,18 +65,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Drawing\DrawingItemForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Drawing\DrawingItemForm.Designer.cs">
-      <DependentUpon>DrawingItemForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Drawing\DrawingItemDetailForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Drawing\DrawingItemDetailForm.Designer.cs">
-      <DependentUpon>DrawingItemDetailForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Admin\SubLeaderRegisterForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1038,12 +1026,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Admin\SubLeaderRegisterAddUpdateForm.resx">
       <DependentUpon>SubLeaderRegisterAddUpdateForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Drawing\DrawingItemDetailForm.resx">
-      <DependentUpon>DrawingItemDetailForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Drawing\DrawingItemForm.resx">
-      <DependentUpon>DrawingItemForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MCPlans\RestRoomTimeForm.resx">
       <DependentUpon>RestRoomTimeForm.cs</DependentUpon>
